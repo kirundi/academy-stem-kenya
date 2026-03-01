@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   signInWithPopup,
+  signInAnonymously,
   GoogleAuthProvider,
   updateProfile,
 } from "firebase/auth";
@@ -154,31 +155,55 @@ export function useAuth() {
     const snap = await getDocs(q);
 
     if (snap.empty) {
-      return null;
+      throw new Error("Classroom not found. Check the code with your teacher.");
     }
 
     const classroomDoc = snap.docs[0];
-    const classroom = { id: classroomDoc.id, ...classroomDoc.data() };
+    const classroomData = classroomDoc.data();
+    const classroom = { id: classroomDoc.id, ...classroomData };
 
-    // If user is already logged in, create enrollments atomically
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      const courseIds = classroomDoc.data().courseIds || [];
-      if (courseIds.length > 0) {
-        const batch = writeBatch(db);
-        for (const courseId of courseIds) {
-          const enrollmentRef = doc(collection(db, "enrollments"));
-          batch.set(enrollmentRef, {
-            studentId: currentUser.uid,
-            classroomId: classroomDoc.id,
-            courseId,
-            progress: 0,
-            completedLessons: 0,
-            startedAt: serverTimestamp(),
-          });
-        }
-        await batch.commit();
+    // Create anonymous student account if not logged in
+    let currentUser = auth.currentUser;
+    if (!currentUser) {
+      const cred = await signInAnonymously(auth);
+      currentUser = cred.user;
+
+      const studentName = `Student ${code.slice(0, 3)}`;
+      await updateProfile(currentUser, { displayName: studentName });
+
+      // Create user document for the student
+      await setDoc(doc(db, "users", currentUser.uid), {
+        email: null,
+        displayName: studentName,
+        role: "student" as UserRole,
+        schoolId: classroomData.schoolId || null,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        xp: 0,
+        level: 1,
+        badges: [],
+      });
+
+      const idToken = await currentUser.getIdToken();
+      await setSessionCookie(idToken);
+    }
+
+    // Create enrollments for all courses in the classroom
+    const courseIds = classroomData.courseIds || [];
+    if (courseIds.length > 0) {
+      const batch = writeBatch(db);
+      for (const courseId of courseIds) {
+        const enrollmentRef = doc(collection(db, "enrollments"));
+        batch.set(enrollmentRef, {
+          studentId: currentUser.uid,
+          classroomId: classroomDoc.id,
+          courseId,
+          progress: 0,
+          completedLessons: 0,
+          startedAt: serverTimestamp(),
+        });
       }
+      await batch.commit();
     }
 
     return classroom;

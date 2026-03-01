@@ -8,7 +8,37 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { RoleDashboardMap } from "@/lib/constants";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
 import { db, auth } from "@/lib/firebase";
+
+function friendlyFirebaseError(err: unknown): string {
+  if (err instanceof FirebaseError) {
+    switch (err.code) {
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+      case "auth/user-disabled":
+        return "This account has been disabled. Contact your administrator.";
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+      case "auth/invalid-credential":
+        return "Incorrect email or password. Please try again.";
+      case "auth/too-many-requests":
+        return "Too many failed attempts. Please wait a moment and try again.";
+      case "auth/network-request-failed":
+        return "Network error. Check your internet connection and try again.";
+      case "auth/popup-closed-by-user":
+        return "Sign-in was cancelled. Please try again.";
+      case "auth/popup-blocked":
+        return "Pop-up blocked by your browser. Please allow pop-ups and try again.";
+      case "auth/account-exists-with-different-credential":
+        return "An account already exists with this email using a different sign-in method.";
+      default:
+        return "Something went wrong. Please try again.";
+    }
+  }
+  if (err instanceof Error) return err.message;
+  return "Something went wrong. Please try again.";
+}
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,6 +68,7 @@ export default function LoginPage() {
     students: number;
   } | null>(null);
   const [classSearched, setClassSearched] = useState(false);
+  const [codeLooking, setCodeLooking] = useState(false);
 
   const codeStr = classCode.join("");
   const codeComplete = codeStr.length === 6;
@@ -55,6 +86,7 @@ export default function LoginPage() {
     const newCode = next.join("");
     if (newCode.length === 6) {
       setClassSearched(false);
+      setCodeLooking(true);
       try {
         const q = query(
           collection(db, "classrooms"),
@@ -76,6 +108,7 @@ export default function LoginPage() {
       } catch {
         setClassFound(null);
       }
+      setCodeLooking(false);
       setClassSearched(true);
     } else {
       setClassSearched(false);
@@ -86,6 +119,46 @@ export default function LoginPage() {
   const handleCodeKeyDown = (index: number, e: React.KeyboardEvent) => {
     if (e.key === "Backspace" && !classCode[index] && index > 0) {
       document.getElementById(`code-${index - 1}`)?.focus();
+    }
+  };
+
+  const handleCodePaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 6);
+    if (!pasted) return;
+    const next = ["", "", "", "", "", ""];
+    for (let i = 0; i < pasted.length && i < 6; i++) {
+      next[i] = pasted[i];
+    }
+    setClassCode(next);
+    // Focus last filled input or next empty one
+    const focusIdx = Math.min(pasted.length, 5);
+    document.getElementById(`code-${focusIdx}`)?.focus();
+    // Trigger lookup if full code pasted
+    if (pasted.length === 6) {
+      setClassSearched(false);
+      setCodeLooking(true);
+      const q = query(collection(db, "classrooms"), where("joinCode", "==", pasted));
+      getDocs(q).then((snap) => {
+        if (!snap.empty) {
+          const data = snap.docs[0].data();
+          setClassFound({
+            id: snap.docs[0].id,
+            title: data.name || data.title,
+            teacher: data.teacherName || "Teacher",
+            school: data.schoolName || "School",
+            students: data.enrolled || 0,
+          });
+        } else {
+          setClassFound(null);
+        }
+        setCodeLooking(false);
+        setClassSearched(true);
+      }).catch(() => {
+        setClassFound(null);
+        setCodeLooking(false);
+        setClassSearched(true);
+      });
     }
   };
 
@@ -125,8 +198,7 @@ export default function LoginPage() {
         router.push(dest);
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Invalid email or password";
-      setError(message);
+      setError(friendlyFirebaseError(err));
     } finally {
       setLoading(false);
     }
@@ -138,10 +210,17 @@ export default function LoginPage() {
     try {
       await signInWithGoogle();
       await refreshUser();
-      router.push("/school/teacher/dashboard");
+
+      const user = auth.currentUser;
+      if (user) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const role = userDoc.exists() ? userDoc.data().role : "teacher";
+        const dest = RoleDashboardMap[role as keyof typeof RoleDashboardMap]
+          ?? RoleDashboardMap.teacher;
+        router.push(dest);
+      }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Google sign-in failed";
-      setError(message);
+      setError(friendlyFirebaseError(err));
     } finally {
       setLoading(false);
     }
@@ -191,12 +270,18 @@ export default function LoginPage() {
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.15)] rounded-full px-4 py-1.5 mb-4">
               <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-              <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">Student Portal</span>
+              <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
+                {emailMode ? "Staff Login" : "Student Portal"}
+              </span>
             </div>
             <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">
-              Welcome to STEM Learning
+              {emailMode ? "Sign In to Your Account" : "Welcome to STEM Learning"}
             </h1>
-            <p className="text-slate-400 text-base">Ready to build the future? Enter your code below.</p>
+            <p className="text-slate-400 text-base">
+              {emailMode
+                ? "Enter your credentials to access the platform."
+                : "Ready to build the future? Enter your code below."}
+            </p>
           </div>
 
           {/* Error display */}
@@ -227,6 +312,7 @@ export default function LoginPage() {
                         value={val}
                         onChange={(e) => handleCodeInput(i, e.target.value)}
                         onKeyDown={(e) => handleCodeKeyDown(i, e)}
+                        onPaste={handleCodePaste}
                         placeholder="·"
                         className={`w-12 md:w-14 h-16 text-center bg-[rgba(255,255,255,0.06)] border-2 text-2xl font-bold text-white rounded-xl transition-all outline-none placeholder-slate-600 ${
                           val
@@ -238,8 +324,16 @@ export default function LoginPage() {
                   ))}
                 </div>
 
+                {/* Loading indicator during class code lookup */}
+                {codeLooking && (
+                  <div className="flex items-center justify-center gap-2 mb-5 py-3">
+                    <span className="material-symbols-outlined animate-spin text-[#13eca4] text-lg">progress_activity</span>
+                    <span className="text-slate-400 text-sm">Looking up classroom...</span>
+                  </div>
+                )}
+
                 {/* Class Found Preview Card */}
-                {codeComplete && classSearched && (
+                {codeComplete && classSearched && !codeLooking && (
                   <div className={`rounded-xl p-4 mb-5 border transition-all ${
                     classFound
                       ? "bg-[rgba(19,236,164,0.05)] border-[rgba(19,236,164,0.2)]"
