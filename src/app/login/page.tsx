@@ -15,20 +15,21 @@ export default function LoginPage() {
   const { signIn, joinClassroom, signInWithGoogle } = useAuth();
   const { appUser, loading: authLoading, refreshUser } = useAuthContext();
 
-  // Redirect already-authenticated users to their dashboard
-  useEffect(() => {
-    if (!authLoading && appUser?.role) {
-      const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
-      if (dest) router.replace(dest);
-    }
-  }, [appUser, authLoading, router]);
-
   const [classCode, setClassCode] = useState(["", "", "", "", "", ""]);
   const [emailMode, setEmailMode] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Redirect already-authenticated users to their dashboard
+  // Skip while a login is in progress (loading) to avoid fighting the form redirect
+  useEffect(() => {
+    if (!authLoading && !loading && appUser?.role) {
+      const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
+      if (dest) router.replace(dest);
+    }
+  }, [appUser, authLoading, loading, router]);
   const [classFound, setClassFound] = useState<{
     id: string;
     title: string;
