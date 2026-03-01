@@ -3,7 +3,7 @@ import { adminAuth, adminDb } from "@/lib/firebase-admin";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { code, confirm } = body;
+  const { code, confirm, firstName } = body;
 
   if (!code || typeof code !== "string" || code.length !== 6) {
     return NextResponse.json(
@@ -44,19 +44,35 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Step 1: preview only (no auth token)
+  // Step 1: preview only — return school & grade but NOT the student's name
   if (!confirm) {
     return NextResponse.json({
       found: true,
       student: {
-        displayName: studentData.displayName,
         grade: studentData.grade || null,
         schoolName,
       },
     });
   }
 
-  // Step 2: generate custom token for authentication
+  // Step 2: verify first name and generate custom token
+  if (!firstName || typeof firstName !== "string" || !firstName.trim()) {
+    return NextResponse.json(
+      { error: "First name is required to log in." },
+      { status: 400 },
+    );
+  }
+
+  const storedFirstName = (studentData.displayName || "").split(" ")[0].toLowerCase();
+  const providedFirstName = firstName.trim().toLowerCase();
+
+  if (storedFirstName !== providedFirstName) {
+    return NextResponse.json(
+      { error: "That name doesn't match this code. Try again or ask your teacher." },
+      { status: 403 },
+    );
+  }
+
   try {
     const customToken = await adminAuth.createCustomToken(uid);
 

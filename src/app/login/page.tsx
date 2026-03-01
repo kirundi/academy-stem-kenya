@@ -61,12 +61,12 @@ export default function LoginPage() {
     }
   }, [appUser, authLoading, loading, router]);
   const [studentFound, setStudentFound] = useState<{
-    displayName: string;
     grade: string | null;
     schoolName: string;
   } | null>(null);
   const [studentSearched, setStudentSearched] = useState(false);
   const [codeLooking, setCodeLooking] = useState(false);
+  const [firstName, setFirstName] = useState("");
 
   const codeStr = classCode.join("");
   const codeComplete = codeStr.length === 6;
@@ -131,11 +131,11 @@ export default function LoginPage() {
   };
 
   const handleStudentLogin = async () => {
-    if (!studentFound) return;
+    if (!studentFound || !firstName.trim()) return;
     setLoading(true);
     setError("");
     try {
-      await studentLogin(codeStr);
+      await studentLogin(codeStr, firstName.trim());
       router.push("/school/student/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to log in";
@@ -278,48 +278,63 @@ export default function LoginPage() {
                   </div>
                 )}
 
-                {/* Student Found Preview Card */}
+                {/* Student Found — show school/grade and ask for first name */}
                 {codeComplete && studentSearched && !codeLooking && (
-                  <div className={`rounded-xl p-4 mb-5 border transition-all ${
-                    studentFound
-                      ? "bg-[rgba(19,236,164,0.05)] border-[rgba(19,236,164,0.2)]"
-                      : "bg-[rgba(255,77,77,0.05)] border-[rgba(255,77,77,0.2)]"
-                  }`}>
+                  <>
                     {studentFound ? (
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
-                          <span className="text-[#13eca4] text-sm font-bold">
-                            {studentFound.displayName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
-                          </span>
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">Welcome back!</p>
-                          <p className="text-white font-bold text-lg">{studentFound.displayName}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            {studentFound.grade && (
-                              <>
-                                <span className="text-slate-400 text-xs">{studentFound.grade}</span>
-                                <span className="text-slate-600 text-xs">·</span>
-                              </>
-                            )}
-                            <span className="text-slate-500 text-xs">{studentFound.schoolName}</span>
+                      <>
+                        <div className="rounded-xl p-4 mb-5 border bg-[rgba(19,236,164,0.05)] border-[rgba(19,236,164,0.2)]">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
+                              <span className="material-symbols-outlined text-[#13eca4] text-xl">check_circle</span>
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">Code found!</p>
+                              <div className="flex items-center gap-2">
+                                {studentFound.grade && (
+                                  <>
+                                    <span className="text-slate-300 text-sm font-medium">{studentFound.grade}</span>
+                                    <span className="text-slate-600 text-xs">·</span>
+                                  </>
+                                )}
+                                <span className="text-slate-400 text-sm">{studentFound.schoolName}</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+
+                        {/* First Name Input */}
+                        <div className="mb-5">
+                          <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-2">
+                            What&apos;s your first name?
+                          </label>
+                          <input
+                            type="text"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && firstName.trim() && handleStudentLogin()}
+                            placeholder="Enter your first name"
+                            autoComplete="given-name"
+                            className="w-full h-14 bg-[rgba(255,255,255,0.06)] border-2 border-[rgba(255,255,255,0.1)] rounded-xl px-4 text-lg font-medium text-white placeholder-slate-600 outline-none focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)] transition-all"
+                          />
+                        </div>
+                      </>
                     ) : (
-                      <div className="flex items-center gap-3">
-                        <span className="material-symbols-outlined text-[18px] text-[#ff4d4d]">error</span>
-                        <p className="text-[#ff4d4d] text-sm font-semibold">Code not found. Check with your teacher.</p>
+                      <div className="rounded-xl p-4 mb-5 border bg-[rgba(255,77,77,0.05)] border-[rgba(255,77,77,0.2)]">
+                        <div className="flex items-center gap-3">
+                          <span className="material-symbols-outlined text-[18px] text-[#ff4d4d]">error</span>
+                          <p className="text-[#ff4d4d] text-sm font-semibold">Code not found. Check with your teacher.</p>
+                        </div>
                       </div>
                     )}
-                  </div>
+                  </>
                 )}
 
                 <button
                   onClick={handleStudentLogin}
-                  disabled={loading || !studentFound}
+                  disabled={loading || !studentFound || !firstName.trim()}
                   className={`w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
-                    codeComplete && studentFound
+                    codeComplete && studentFound && firstName.trim()
                       ? "bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)]"
                       : "bg-[#13eca4]/30 text-[#10221c]/50 cursor-not-allowed"
                   }`}
@@ -329,7 +344,7 @@ export default function LoginPage() {
                   ) : (
                     <>
                       <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
-                      {studentFound ? "Start Learning" : "Enter Your Code"}
+                      {studentFound && firstName.trim() ? "Start Learning" : "Enter Your Code & Name"}
                     </>
                   )}
                 </button>

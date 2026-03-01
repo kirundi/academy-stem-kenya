@@ -154,17 +154,16 @@ export function useAuth() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Student not found");
     return data.student as {
-      displayName: string;
       grade: string | null;
       schoolName: string;
     };
   }
 
-  async function studentLogin(code: string) {
+  async function studentLogin(code: string, firstName: string) {
     const res = await fetch("/api/auth/student-login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: code.toUpperCase(), confirm: true }),
+      body: JSON.stringify({ code: code.toUpperCase(), confirm: true, firstName }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Login failed");
