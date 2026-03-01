@@ -8,10 +8,10 @@ import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
 
 const navItems = [
-  { label: "My Courses", href: "/student/dashboard", icon: "school" },
-  { label: "My Portfolio", href: "/student/portfolio", icon: "grid_view" },
-  { label: "Badges & Awards", href: "/student/badges", icon: "military_tech" },
-  { label: "My Progress", href: "/student/progress", icon: "insights" },
+  { label: "My Courses", href: "/school/student/dashboard", icon: "school" },
+  { label: "My Portfolio", href: "/school/student/portfolio", icon: "grid_view" },
+  { label: "Badges & Awards", href: "/school/student/badges", icon: "military_tech" },
+  { label: "My Progress", href: "/school/student/progress", icon: "insights" },
 ];
 
 function getInitials(name: string): string {

@@ -10,12 +10,12 @@ import type { School } from "@/lib/types";
 import NotificationBell from "./NotificationBell";
 
 const navItems = [
-  { label: "Overview", href: "/admin/school", icon: "dashboard", exact: true },
-  { label: "Teachers", href: "/admin/school/teachers", icon: "person_outline" },
-  { label: "Students", href: "/admin/school/students", icon: "groups" },
-  { label: "Classrooms", href: "/admin/school/classrooms", icon: "school" },
-  { label: "Analytics", href: "/admin/school/analytics", icon: "analytics" },
-  { label: "Course Library", href: "/admin/school/library", icon: "library_books" },
+  { label: "Overview", href: "/school/admin", icon: "dashboard", exact: true },
+  { label: "Teachers", href: "/school/admin/teachers", icon: "person_outline" },
+  { label: "Students", href: "/school/admin/students", icon: "groups" },
+  { label: "Classrooms", href: "/school/admin/classrooms", icon: "school" },
+  { label: "Analytics", href: "/school/admin/analytics", icon: "analytics" },
+  { label: "Course Library", href: "/school/admin/library", icon: "library_books" },
 ];
 
 const bottomItems = [

@@ -8,18 +8,18 @@ import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
 
 const navItems = [
-  { label: "Dashboard", href: "/teacher/dashboard", icon: "dashboard" },
-  { label: "Classrooms", href: "/teacher/classroom", icon: "groups" },
-  { label: "Courses", href: "/teacher/courses", icon: "menu_book" },
-  { label: "Grading", href: "/teacher/grading", icon: "grading" },
-  { label: "Class Review", href: "/teacher/class-review", icon: "rate_review" },
-  { label: "Groups", href: "/teacher/groups", icon: "workspaces" },
-  { label: "Analytics", href: "/teacher/analytics", icon: "bar_chart" },
-  { label: "Enrollment", href: "/teacher/enrollment", icon: "manage_accounts" },
+  { label: "Dashboard", href: "/school/teacher/dashboard", icon: "dashboard" },
+  { label: "Classrooms", href: "/school/teacher/classroom", icon: "groups" },
+  { label: "Courses", href: "/school/teacher/courses", icon: "menu_book" },
+  { label: "Grading", href: "/school/teacher/grading", icon: "grading" },
+  { label: "Class Review", href: "/school/teacher/class-review", icon: "rate_review" },
+  { label: "Groups", href: "/school/teacher/groups", icon: "workspaces" },
+  { label: "Analytics", href: "/school/teacher/analytics", icon: "bar_chart" },
+  { label: "Enrollment", href: "/school/teacher/enrollment", icon: "manage_accounts" },
 ];
 
 const bottomItems = [
-  { label: "Courses", href: "/teacher/courses", icon: "library_books" },
+  { label: "Courses", href: "/school/teacher/courses", icon: "library_books" },
 ];
 
 export default function TeacherSidebar() {

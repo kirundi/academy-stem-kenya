@@ -48,7 +48,7 @@ export default function TeacherRegisterPage() {
         role: formData.role,
         subjects: formData.subjects,
       });
-      router.push("/teacher/dashboard");
+      router.push("/school/teacher/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Registration failed. Please try again.";
       setError(message);

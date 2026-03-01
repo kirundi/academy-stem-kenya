@@ -8,12 +8,12 @@ import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
 
 const baseNavItems = [
-  { href: "/admin/global", icon: "dashboard", label: "Overview" },
-  { href: "/admin/global/schools", icon: "domain", label: "Schools" },
-  { href: "/admin/global/content", icon: "library_books", label: "Content" },
-  { href: "/admin/global/audit", icon: "fact_check", label: "Audit" },
-  { href: "/admin/global/users", icon: "manage_accounts", label: "Users" },
-  { href: "/admin/global/reports", icon: "bar_chart", label: "Reports" },
+  { href: "/dashboard", icon: "dashboard", label: "Overview" },
+  { href: "/dashboard/schools", icon: "domain", label: "Schools" },
+  { href: "/dashboard/content", icon: "library_books", label: "Content" },
+  { href: "/dashboard/audit", icon: "fact_check", label: "Audit" },
+  { href: "/dashboard/users", icon: "manage_accounts", label: "Users" },
+  { href: "/dashboard/reports", icon: "bar_chart", label: "Reports" },
 ];
 
 export default function GlobalAdminSidebar() {
@@ -28,7 +28,7 @@ export default function GlobalAdminSidebar() {
 
   // Only super_admin sees Settings
   const navItems = isSuperAdmin
-    ? [...baseNavItems, { href: "/admin/global/settings", icon: "settings", label: "Settings" }]
+    ? [...baseNavItems, { href: "/dashboard/settings", icon: "settings", label: "Settings" }]
     : baseNavItems;
 
   const initials = appUser?.displayName
@@ -48,7 +48,7 @@ export default function GlobalAdminSidebar() {
   return (
     <aside className="fixed left-0 top-0 h-full w-60 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col z-30">
       <div className="px-5 py-5 border-b border-[rgba(19,236,164,0.06)]">
-        <StemLogo size="sm" href="/admin/global" />
+        <StemLogo size="sm" href="/dashboard" />
         <div className="mt-3 flex items-center gap-2 px-1">
           <span className="w-5 h-5 rounded flex items-center justify-center" style={{ background: `${badgeColor}15` }}>
             <span className="material-symbols-outlined text-[14px]" style={{ color: badgeColor }}>

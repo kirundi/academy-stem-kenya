@@ -49,7 +49,7 @@ export default function CourseCard({
   grade,
 }: CourseCardProps) {
   const color = categoryColors[category] || "#13eca4";
-  const linkHref = href || `/student/lesson/${id}`;
+  const linkHref = href || `/school/student/lesson/${id}`;
   const completedColor = "#00f5d4";
 
   return (

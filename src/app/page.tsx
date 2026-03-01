@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PublicNavbar from "@/components/PublicNavbar";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#102022] font-sans text-slate-100 antialiased overflow-x-hidden">
       <PublicNavbar />

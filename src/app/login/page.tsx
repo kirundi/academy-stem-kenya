@@ -85,7 +85,7 @@ export default function LoginPage() {
     setError("");
     try {
       await joinClassroom(codeStr);
-      router.push("/student/dashboard");
+      router.push("/school/student/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to join classroom";
       setError(message);
@@ -113,23 +113,23 @@ export default function LoginPage() {
           const role = userDoc.data().role;
           switch (role) {
             case "student":
-              router.push("/student/dashboard");
+              router.push("/school/student/dashboard");
               break;
             case "teacher":
-              router.push("/teacher/dashboard");
+              router.push("/school/teacher/dashboard");
               break;
             case "school_admin":
-              router.push("/admin/school");
+              router.push("/school/admin");
               break;
             case "admin":
             case "super_admin":
-              router.push("/admin/global");
+              router.push("/dashboard");
               break;
             default:
-              router.push("/teacher/dashboard");
+              router.push("/school/teacher/dashboard");
           }
         } else {
-          router.push("/teacher/dashboard");
+          router.push("/school/teacher/dashboard");
         }
       }
     } catch (err: unknown) {
@@ -146,7 +146,7 @@ export default function LoginPage() {
     try {
       await signInWithGoogle();
       await refreshUser();
-      router.push("/teacher/dashboard");
+      router.push("/school/teacher/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Google sign-in failed";
       setError(message);
