@@ -363,7 +363,7 @@ export default function LoginPage() {
                   />
                 </div>
                 <div className="flex items-center justify-end">
-                  <Link href="/contact" className="text-[#13eca4] text-sm hover:underline">
+                  <Link href="/forgot-password" className="text-[#13eca4] text-sm hover:underline">
                     Forgot password?
                   </Link>
                 </div>

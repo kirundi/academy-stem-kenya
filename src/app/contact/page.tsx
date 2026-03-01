@@ -20,8 +20,8 @@ export default function ContactPage() {
                 icon: "mail",
                 title: "Email",
                 desc: "General inquiries and support",
-                detail: "info@stemimpactcenterkenya.org",
-                href: "mailto:info@stemimpactcenterkenya.org",
+                detail: "programs@stemimpactcenterkenya.org",
+                href: "mailto:programs@stemimpactcenterkenya.org",
               },
               {
                 icon: "location_on",

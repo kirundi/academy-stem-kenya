@@ -453,17 +453,16 @@ export default function Home() {
                 { heading: "Platform", links: [
                   { label: "Curriculum", href: "/#curriculum" },
                   { label: "Badges", href: "/#solutions" },
-                  { label: "Reporting", href: "/#solutions" },
+                  { label: "Educators", href: "/educators" },
                 ]},
                 { heading: "Company", links: [
                   { label: "About Us", href: "/about" },
-                  { label: "Our Team", href: "/about" },
-                  { label: "Impact Stories", href: "/about" },
-                ]},
-                { heading: "Support", links: [
                   { label: "Help Center", href: "/help" },
                   { label: "Contact", href: "/contact" },
-                  { label: "Privacy", href: "/privacy" },
+                ]},
+                { heading: "Legal", links: [
+                  { label: "Privacy Policy", href: "/privacy" },
+                  { label: "Terms of Service", href: "/terms" },
                 ]},
               ].map(({ heading, links }) => (
                 <div key={heading}>

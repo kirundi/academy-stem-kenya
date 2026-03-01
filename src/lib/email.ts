@@ -96,6 +96,42 @@ export async function sendSetupCredentialsEmail(params: {
   });
 }
 
+export async function sendPasswordResetEmail(params: {
+  to: string;
+  oobCode: string;
+}) {
+  const resetUrl = `${PLATFORM_URL}/reset-password?oobCode=${params.oobCode}`;
+
+  await getResend().emails.send({
+    from: FROM_EMAIL,
+    to: params.to,
+    subject: "Reset your STEM Impact Academy password",
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <h1 style="color: #10221c; font-size: 24px; margin: 0;">STEM Impact Academy</h1>
+          <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Kenya</p>
+        </div>
+        <div style="background: #f8fafb; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0;">
+          <h2 style="color: #10221c; font-size: 20px; margin: 0 0 8px;">Password Reset Request</h2>
+          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 24px;">
+            We received a request to reset the password for your account. Click the button below to choose a new password.
+          </p>
+          <a href="${resetUrl}" style="display: inline-block; background: #13eca4; color: #10221c; font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 8px; text-decoration: none;">
+            Reset Password
+          </a>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 20px;">
+            This link will expire in 1 hour. If you didn't request a password reset, you can safely ignore this email.
+          </p>
+        </div>
+        <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 32px;">
+          &copy; ${new Date().getFullYear()} STEM Impact Center Kenya &middot; stemimpactcenterkenya.org
+        </p>
+      </div>
+    `,
+  });
+}
+
 export async function sendWelcomeEmail(params: {
   to: string;
   schoolName: string;

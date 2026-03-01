@@ -7,7 +7,10 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { label: "Solutions", href: "/#solutions" },
   { label: "Curriculum", href: "/#curriculum" },
+  { label: "Educators", href: "/educators" },
   { label: "About Us", href: "/about" },
+  { label: "Help", href: "/help" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function PublicNavbar() {
