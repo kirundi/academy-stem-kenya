@@ -53,6 +53,17 @@ export default function OnboardingPage() {
         email: formData.email,
         password: formData.password,
       });
+      // Send welcome email (fire-and-forget)
+      fetch("/api/email/welcome", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: formData.email,
+          schoolName: formData.schoolName,
+          adminName: formData.fullName,
+        }),
+      }).catch(() => {});
+
       setSubmittedData(formData);
       setSubmitted(true);
     } catch (err: unknown) {

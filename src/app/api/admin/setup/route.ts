@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import crypto from "crypto";
+import { sendSetupCredentialsEmail } from "@/lib/email";
 
 export async function POST() {
   try {
@@ -60,6 +61,13 @@ export async function POST() {
       description: "Platform initialized — super admin account created",
       timestamp: FieldValue.serverTimestamp(),
     });
+
+    // Send credentials email via Resend
+    try {
+      await sendSetupCredentialsEmail({ to: email, name: displayName, tempPassword });
+    } catch (emailErr) {
+      console.error("Failed to send setup credentials email:", emailErr);
+    }
 
     return NextResponse.json({
       success: true,

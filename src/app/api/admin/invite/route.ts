@@ -3,6 +3,7 @@ import { adminAuth, adminDb } from "@/lib/firebase-admin";
 import { cookies } from "next/headers";
 import { FieldValue } from "firebase-admin/firestore";
 import crypto from "crypto";
+import { sendInviteEmail } from "@/lib/email";
 
 async function getAuthUser() {
   const cookieStore = await cookies();
@@ -77,6 +78,13 @@ export async function POST(request: NextRequest) {
       description: `Invited ${displayName} (${email}) as ${role}`,
       timestamp: FieldValue.serverTimestamp(),
     });
+
+    // Send invite email via Resend
+    try {
+      await sendInviteEmail({ to: email, name: displayName, role, tempPassword });
+    } catch (emailErr) {
+      console.error("Failed to send invite email:", emailErr);
+    }
 
     return NextResponse.json({
       success: true,
