@@ -11,8 +11,13 @@ export default function ForgotPasswordPage() {
   const [sent, setSent] = useState(false);
 
   const handleSubmit = async () => {
-    if (!email) {
+    const trimmed = email.trim();
+    if (!trimmed) {
       setError("Please enter your email address");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setError("Please enter a valid email address");
       return;
     }
     setLoading(true);
@@ -21,12 +26,15 @@ export default function ForgotPasswordPage() {
       const res = await fetch("/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: trimmed }),
       });
-      if (!res.ok) throw new Error("Something went wrong. Please try again.");
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        throw new Error(data?.error || "Unable to send reset link. Please try again later.");
+      }
       setSent(true);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Something went wrong";
+      const message = err instanceof Error ? err.message : "Unable to send reset link. Please try again later.";
       setError(message);
     } finally {
       setLoading(false);
@@ -90,8 +98,10 @@ export default function ForgotPasswordPage() {
               </div>
 
               {error && (
-                <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-                  <span className="material-symbols-outlined text-[#ff4d4d] text-lg">error</span>
+                <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border-l-4 border-[#ff4d4d] flex items-start gap-3">
+                  <svg className="w-5 h-5 text-[#ff4d4d] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                  </svg>
                   <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
                 </div>
               )}
@@ -100,11 +110,12 @@ export default function ForgotPasswordPage() {
                 <div>
                   <label className="block text-sm font-semibold text-slate-300 mb-2">Email Address</label>
                   <input
+                    autoFocus
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => { setEmail(e.target.value); if (error) setError(""); }}
                     placeholder="you@example.com"
-                    className="form-input"
+                    className={`form-input ${error ? "!border-[#ff4d4d]" : ""}`}
                     onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
                   />
                 </div>
@@ -114,7 +125,10 @@ export default function ForgotPasswordPage() {
                   className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
                   {loading ? (
-                    <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                    <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
                   ) : (
                     "Send Reset Link"
                   )}
@@ -122,20 +136,26 @@ export default function ForgotPasswordPage() {
                 <div className="pt-2 text-center">
                   <Link
                     href="/login"
-                    className="text-slate-500 hover:text-slate-300 text-sm transition-colors flex items-center gap-1 mx-auto justify-center"
+                    className="text-slate-500 hover:text-slate-300 text-sm transition-colors inline-flex items-center gap-1"
                   >
-                    <span className="material-symbols-outlined text-[16px]">arrow_back</span>
-                    Back to login
+                    &larr; Back to login
                   </Link>
                 </div>
               </div>
             </>
           ) : (
             <div className="text-center py-6">
-              <span className="material-symbols-outlined text-[#13eca4] text-5xl mb-4 block">mark_email_read</span>
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center">
+                <svg className="w-8 h-8 text-[#13eca4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                </svg>
+              </div>
               <h2 className="text-2xl font-bold text-white mb-3">Check Your Email</h2>
-              <p className="text-slate-400 text-base mb-8 max-w-sm mx-auto">
-                If an account exists for <strong className="text-white">{email}</strong>, we&apos;ve sent a password reset link. Check your inbox and spam folder.
+              <p className="text-slate-400 text-base mb-2 max-w-sm mx-auto">
+                If an account exists for <strong className="text-white">{email}</strong>, we&apos;ve sent a password reset link.
+              </p>
+              <p className="text-slate-500 text-sm mb-8 max-w-sm mx-auto">
+                Don&apos;t forget to check your spam folder. The link expires in 1 hour.
               </p>
               <Link
                 href="/login"

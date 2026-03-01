@@ -69,7 +69,10 @@ function ResetPasswordContent() {
     if (verifying) {
       return (
         <div className="text-center py-12">
-          <span className="material-symbols-outlined text-[#13eca4] text-4xl animate-spin block mb-4">progress_activity</span>
+          <svg className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
           <p className="text-slate-400 text-base">Verifying your reset link...</p>
         </div>
       );
@@ -78,7 +81,11 @@ function ResetPasswordContent() {
     if (codeError) {
       return (
         <div className="text-center py-6">
-          <span className="material-symbols-outlined text-[#ff4d4d] text-5xl mb-4 block">link_off</span>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(255,77,77,0.12)] flex items-center justify-center">
+            <svg className="w-8 h-8 text-[#ff4d4d]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.181 8.68a3.75 3.75 0 00-5.32 0l-4.5 4.5a3.75 3.75 0 005.32 5.32l.535-.536m2.605-6.784a3.75 3.75 0 015.32 0l4.5 4.5a3.75 3.75 0 01-5.32 5.32l-.536-.535M6.75 6.75l10.5 10.5" />
+            </svg>
+          </div>
           <h2 className="text-2xl font-bold text-white mb-3">Invalid or Expired Link</h2>
           <p className="text-slate-400 text-base mb-8 max-w-sm mx-auto">
             This password reset link is no longer valid. It may have expired or already been used.
@@ -101,7 +108,11 @@ function ResetPasswordContent() {
     if (success) {
       return (
         <div className="text-center py-6">
-          <span className="material-symbols-outlined text-[#13eca4] text-5xl mb-4 block">check_circle</span>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center">
+            <svg className="w-8 h-8 text-[#13eca4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
           <h2 className="text-2xl font-bold text-white mb-3">Password Reset Complete</h2>
           <p className="text-slate-400 text-base mb-8 max-w-sm mx-auto">
             Your password has been successfully updated. You can now sign in with your new password.
@@ -132,8 +143,10 @@ function ResetPasswordContent() {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-            <span className="material-symbols-outlined text-[#ff4d4d] text-lg">error</span>
+          <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border-l-4 border-[#ff4d4d] flex items-start gap-3">
+            <svg className="w-5 h-5 text-[#ff4d4d] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+            </svg>
             <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
           </div>
         )}
@@ -169,7 +182,10 @@ function ResetPasswordContent() {
             className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {loading ? (
-              <span className="material-symbols-outlined animate-spin">progress_activity</span>
+              <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
             ) : (
               "Reset Password"
             )}
@@ -177,10 +193,9 @@ function ResetPasswordContent() {
           <div className="pt-2 text-center">
             <Link
               href="/login"
-              className="text-slate-500 hover:text-slate-300 text-sm transition-colors flex items-center gap-1 mx-auto justify-center"
+              className="text-slate-500 hover:text-slate-300 text-sm transition-colors inline-flex items-center gap-1"
             >
-              <span className="material-symbols-outlined text-[16px]">arrow_back</span>
-              Back to login
+              &larr; Back to login
             </Link>
           </div>
         </div>
@@ -236,7 +251,10 @@ export default function ResetPasswordPage() {
           <Suspense
             fallback={
               <div className="text-center py-12">
-                <span className="material-symbols-outlined text-[#13eca4] text-4xl animate-spin block mb-4">progress_activity</span>
+                <svg className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                </svg>
                 <p className="text-slate-400 text-base">Loading...</p>
               </div>
             }

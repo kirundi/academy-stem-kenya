@@ -4,9 +4,10 @@ import { sendPasswordResetEmail } from "@/lib/email";
 
 export async function POST(request: NextRequest) {
   try {
-    const { email } = await request.json();
+    const body = await request.json();
+    const email = typeof body?.email === "string" ? body.email.trim() : "";
 
-    if (!email || typeof email !== "string") {
+    if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
@@ -25,7 +26,11 @@ export async function POST(request: NextRequest) {
 
     // Always return success regardless of whether the email exists
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+  } catch (err) {
+    console.error("Forgot-password route error:", err);
+    return NextResponse.json(
+      { error: "Unable to process your request. Please try again later." },
+      { status: 500 }
+    );
   }
 }
