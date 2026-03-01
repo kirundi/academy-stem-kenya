@@ -1,440 +1,480 @@
-import PublicNavbar from "@/components/PublicNavbar";
 import Link from "next/link";
-
-const courses = [
-  { icon: "bolt", color: "#f59e0b", title: "Circuitry & Electronics", desc: "Build real circuits and understand how electricity flows through the world around you.", level: "Beginner" },
-  { icon: "sports_esports", color: "#8b5cf6", title: "Game Design", desc: "Create your own video games from scratch using industry-standard tools and code.", level: "Intermediate" },
-  { icon: "language", color: "#3b82f6", title: "Web Literacy", desc: "Design and build websites that make an impact. HTML, CSS, and beyond.", level: "Beginner" },
-  { icon: "code", color: "#13eca4", title: "Coding & Python", desc: "Master programming fundamentals and bring your ideas to life with real code.", level: "Beginner" },
-  { icon: "eco", color: "#10b981", title: "Green Technology", desc: "Explore how technology can solve environmental challenges and build a better future.", level: "All Levels" },
-  { icon: "precision_manufacturing", color: "#06b6d4", title: "Robotics", desc: "Design, build, and program robots that can sense and interact with the physical world.", level: "Intermediate" },
-];
-
-const stats = [
-  { number: "50,000+", label: "Young Learners" },
-  { number: "1,200+", label: "Partner Schools" },
-  { number: "200+", label: "Project-Based Courses" },
-  { number: "48", label: "US States & Territories" },
-];
-
-const testimonials = [
-  {
-    quote: "Mouse Create completely changed how my students engage with technology. They go from passive consumers to active creators.",
-    name: "Ms. Aisha Williams",
-    role: "STEM Teacher, Brooklyn, NY",
-    initials: "AW",
-    color: "#13eca4",
-  },
-  {
-    quote: "I built my first website at 14 with Mouse. Now I'm studying Computer Science. It genuinely started my journey.",
-    name: "Kevin Osei",
-    role: "Former Student, Now CS Undergrad",
-    initials: "KO",
-    color: "#8b5cf6",
-  },
-  {
-    quote: "The project-based curriculum fits perfectly into our after-school program. Kids are excited to come in every day.",
-    name: "Director Priya Patel",
-    role: "Community Center, Chicago, IL",
-    initials: "PP",
-    color: "#f59e0b",
-  },
-];
-
-const partners = ["Schools", "Community Centers", "Afterschool Programs", "Libraries", "Youth Organizations"];
+import PublicNavbar from "@/components/PublicNavbar";
 
 export default function Home() {
   return (
-    <div className="tech-gradient min-h-screen text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#10221c] font-sans text-slate-100 antialiased overflow-x-hidden">
       <PublicNavbar />
 
-      {/* Hero Section */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-28 text-center">
-        {/* Floating decorative elements */}
-        <div className="absolute top-10 left-10 w-32 h-32 border-2 border-[rgba(19,236,164,0.15)] rounded-2xl rotate-12 hidden lg:block animate-float" />
-        <div className="absolute top-20 right-14 w-20 h-20 border-2 border-[rgba(255,77,77,0.15)] rounded-full hidden lg:block animate-float" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-10 left-20 w-16 h-16 bg-[rgba(19,236,164,0.06)] rounded-xl rotate-45 hidden lg:block" />
+      <main className="flex-1">
 
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] text-[#13eca4] text-sm font-semibold px-4 py-2 rounded-full mb-8">
-          <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-          Hands-on Tech & Design Education for Young People
-        </div>
-
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-8 max-w-5xl mx-auto">
-          Build the Skills to{" "}
-          <span className="relative">
-            <span className="text-[#13eca4]">Create</span>
-            <span className="absolute -bottom-1 left-0 right-0 h-[3px] bg-gradient-to-r from-[#13eca4] to-transparent rounded-full" />
-          </span>{" "}
-          Anything
-        </h1>
-
-        <p className="text-slate-400 text-xl leading-relaxed max-w-2xl mx-auto mb-12">
-          Mouse Create empowers young people with the tech & design skills they need to become
-          <span className="text-white font-semibold"> creative problem solvers</span>. 
-          Project-based courses in circuitry, coding, game design, and more.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/login"
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold px-8 py-4 rounded-xl text-lg hover:opacity-90 transition-all shadow-2xl shadow-[rgba(19,236,164,0.3)] animate-pulse-glow"
-          >
-            Start Learning Free
-            <span className="material-symbols-outlined">arrow_forward</span>
-          </Link>
-          <Link
-            href="/educators"
-            className="flex items-center gap-2 border border-[rgba(255,255,255,0.15)] text-white font-semibold px-8 py-4 rounded-xl text-lg hover:border-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.05)] transition-all"
-          >
-            <span className="material-symbols-outlined text-[20px]">school</span>
-            For Educators
-          </Link>
-        </div>
-
-        {/* Partner types */}
-        <div className="mt-16 flex flex-wrap items-center justify-center gap-3 text-sm text-slate-500">
-          <span>Trusted by educators at:</span>
-          {partners.map((p) => (
-            <span
-              key={p}
-              className="px-3 py-1.5 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-full font-medium text-slate-300"
-            >
-              {p}
-            </span>
-          ))}
-        </div>
-
-        {/* Dot grid overlay */}
-        <div className="absolute inset-0 dot-pattern -z-10 opacity-30 pointer-events-none" />
-      </section>
-
-      {/* Stats Bar */}
-      <section className="border-y border-[rgba(19,236,164,0.08)] bg-[rgba(0,0,0,0.2)]">
-        <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {stats.map(({ number, label }) => (
-            <div key={label}>
-              <p className="text-4xl font-bold text-[#13eca4] mb-1">{number}</p>
-              <p className="text-slate-400 text-sm font-medium">{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* How it Works */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center mb-16">
-          <span className="text-[#13eca4] text-sm font-bold uppercase tracking-widest">How It Works</span>
-          <h2 className="text-4xl font-bold mt-3 text-white">Your journey to becoming a creator</h2>
-          <p className="text-slate-400 text-lg mt-4 max-w-xl mx-auto">
-            From joining a class to showcasing your work — Mouse Create guides every step.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              step: "01",
-              icon: "groups",
-              color: "#13eca4",
-              title: "Join Your Class",
-              desc: "Enter a class code from your teacher or connect via Google Classroom to get started instantly.",
-            },
-            {
-              step: "02",
-              icon: "play_circle",
-              color: "#8b5cf6",
-              title: "Complete Projects",
-              desc: "Work through hands-on, step-by-step lessons at your own pace. Build real things you can show off.",
-            },
-            {
-              step: "03",
-              icon: "military_tech",
-              color: "#f59e0b",
-              title: "Earn Badges & Level Up",
-              desc: "Show your growth with certificates, badges, and a portfolio of projects you've created.",
-            },
-          ].map(({ step, icon, color, title, desc }) => (
-            <div
-              key={step}
-              className="relative bg-[#1a2e27] rounded-2xl p-8 border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.2)] transition-all group"
-            >
-              <div
-                className="absolute -top-4 -left-2 text-7xl font-black opacity-10 select-none"
-                style={{ color }}
-              >
-                {step}
-              </div>
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
-                style={{ background: `${color}18` }}
-              >
-                <span className="material-symbols-outlined text-[26px]" style={{ color }}>
-                  {icon}
-                </span>
-              </div>
-              <h3 className="text-white text-xl font-bold mb-3">{title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Courses Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 pb-28">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div>
-            <span className="text-[#13eca4] text-sm font-bold uppercase tracking-widest">Course Catalog</span>
-            <h2 className="text-4xl font-bold mt-3 text-white">Explore what you can build</h2>
-            <p className="text-slate-400 text-lg mt-3 max-w-lg">
-              Project-based courses designed to spark creativity and grow technical skills.
-            </p>
-          </div>
-          <Link
-            href="/courses"
-            className="flex items-center gap-2 text-[#13eca4] font-semibold hover:underline whitespace-nowrap"
-          >
-            View all courses
-            <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map(({ icon, color, title, desc, level }) => (
-            <div
-              key={title}
-              className="group bg-[#1a2e27] rounded-2xl p-6 border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.25)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.05)] transition-all cursor-pointer"
-            >
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
-                style={{ background: `${color}18` }}
-              >
-                <span className="material-symbols-outlined text-[26px]" style={{ color }}>{icon}</span>
-              </div>
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-white font-bold group-hover:text-[#13eca4] transition-colors">{title}</h3>
-                <span
-                  className="text-xs font-semibold px-2 py-0.5 rounded"
-                  style={{ background: `${color}18`, color }}
-                >
-                  {level}
-                </span>
-              </div>
-              <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
-              <div className="mt-4 flex items-center gap-1 text-[#13eca4] text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                Explore course
-                <span className="material-symbols-outlined text-[18px] animate-bounce-x">arrow_forward</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* For Educators Section */}
-      <section className="bg-[rgba(19,236,164,0.04)] border-y border-[rgba(19,236,164,0.08)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-[#13eca4] text-sm font-bold uppercase tracking-widest">For Educators</span>
-              <h2 className="text-4xl font-bold mt-3 text-white leading-snug">
-                Build an environment where learners explore their creative identity
-              </h2>
-              <p className="text-slate-400 text-lg mt-5 leading-relaxed">
-                Mouse Create gives educators the tools to integrate real tech & design projects into any
-                program — whether you're a classroom teacher, community center director, or afterschool provider.
-              </p>
-              <ul className="mt-8 space-y-4">
-                {[
-                  "Assign courses tailored to your students' skill level",
-                  "Track progress, grade submissions & give feedback",
-                  "Sync seamlessly with Google Classroom",
-                  "Access a library of 200+ ready-to-use project curricula",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-slate-300">
-                    <span className="text-[#13eca4] material-symbols-outlined text-[20px] mt-0.5 flex-shrink-0">check_circle</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-10 flex flex-wrap gap-3">
-                <Link
-                  href="/register/teacher"
-                  className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold px-6 py-3.5 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.25)]"
-                >
-                  Join as an Educator
-                  <span className="material-symbols-outlined">arrow_forward</span>
-                </Link>
-                <Link
-                  href="/onboarding"
-                  className="flex items-center gap-2 border border-[rgba(255,255,255,0.15)] text-white font-semibold px-6 py-3.5 rounded-xl hover:border-[rgba(19,236,164,0.3)] transition-all"
-                >
-                  Onboard your School
-                </Link>
-              </div>
-            </div>
-
-            {/* Dashboard Preview Card */}
-            <div className="relative">
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] p-6 shadow-2xl">
-                <div className="flex items-center justify-between mb-6">
-                  <div>
-                    <h3 className="text-white font-bold text-lg">Teacher Dashboard</h3>
-                    <p className="text-slate-400 text-sm">Grade 8 Robotics · 24 students</p>
-                  </div>
-                  <span className="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-2.5 py-1 rounded-full">
-                    3 Active
-                  </span>
+        {/* Hero Section */}
+        <section className="relative px-6 py-16 lg:py-24 overflow-hidden">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+              {/* Left */}
+              <div className="flex flex-col gap-8">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#13eca4] w-fit">
+                  <span className="material-symbols-outlined text-sm">verified</span>
+                  Impact-Driven Education
                 </div>
-                {["Intro to Circuits", "Python Basics", "3D Design"].map((c, i) => (
-                  <div key={c} className="flex items-center gap-3 mb-3 last:mb-0">
-                    <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold text-white"
-                      style={{ background: ["#3b82f6", "#8b5cf6", "#f97316"][i] }}
-                    >
-                      {c.split(" ").map((w) => w[0]).join("").slice(0, 2)}
+                <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-7xl text-slate-100">
+                  Build Projects.<br />
+                  <span className="text-[#13eca4]">Earn Badges.</span><br />
+                  Make an <span className="text-[#ff4d4d] italic">Impact.</span>
+                </h1>
+                <p className="max-w-xl text-lg text-slate-400">
+                  Empowering the next generation of innovators through project-based STEM learning that delivers measurable real-world results.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link
+                    href="/login"
+                    className="rounded-xl bg-[#13eca4] px-8 py-4 text-lg font-bold text-[#10221c] shadow-lg shadow-[rgba(19,236,164,0.2)] hover:scale-[1.02] transition-transform"
+                  >
+                    Join the Academy
+                  </Link>
+                  <Link
+                    href="/onboarding"
+                    className="rounded-xl border border-[rgba(255,255,255,0.12)] bg-[#1a2e27] px-8 py-4 text-lg font-bold hover:bg-[rgba(255,255,255,0.06)] transition-colors"
+                  >
+                    View Impact Report
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right — Skills Mastery Card */}
+              <div className="relative">
+                <div className="relative z-10 rounded-2xl border border-[rgba(19,236,164,0.12)] bg-[#1a2e27] p-6 shadow-2xl">
+                  <div className="flex items-center justify-between border-b border-[rgba(255,255,255,0.06)] pb-4">
+                    <h3 className="font-bold text-slate-100">Student Skills Mastery</h3>
+                    <span className="text-[#13eca4] font-bold">85% Global Avg</span>
+                  </div>
+                  <div className="py-6">
+                    <svg className="mx-auto" height="300" viewBox="0 0 100 100" width="300">
+                      <circle cx="50" cy="50" fill="none" r="45" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+                      <circle cx="50" cy="50" fill="none" r="30" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+                      <circle cx="50" cy="50" fill="none" r="15" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+                      <path d="M50 5 L50 95 M5 50 L95 50 M18 18 L82 82 M18 82 L82 18" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5" />
+                      <path d="M50 20 L75 35 L70 65 L40 75 L25 55 L30 30 Z" fill="rgba(19,236,164,0.25)" stroke="#13eca4" strokeWidth="2" />
+                    </svg>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                    <span>Coding</span>
+                    <span>Robotics</span>
+                    <span>Design</span>
+                  </div>
+                </div>
+                {/* Floating badge — top right */}
+                <div className="absolute -right-6 -top-6 z-20 h-24 w-24 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 p-4 shadow-xl rotate-12 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-4xl text-white">workspace_premium</span>
+                </div>
+                {/* Floating icon — bottom left */}
+                <div className="absolute -bottom-10 -left-10 z-20 h-32 w-32 rounded-xl bg-gradient-to-br from-blue-400 to-[#13eca4] p-4 shadow-xl -rotate-12 flex items-center justify-center">
+                  <span className="material-symbols-outlined text-5xl text-white">science</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Simple 3-Step Implementation */}
+        <section className="py-24 px-6 bg-[rgba(26,46,39,0.3)] relative">
+          <div className="mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-black text-slate-100">Simple 3-Step Implementation</h2>
+              <p className="mt-4 text-slate-400">From setup to mastery, we make STEM integration effortless.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+              <div className="hidden md:block absolute top-10 left-0 w-full h-px bg-gradient-to-r from-transparent via-[rgba(19,236,164,0.15)] to-transparent" />
+              {[
+                {
+                  icon: "school",
+                  borderColor: "#13eca4",
+                  num: "1",
+                  title: "School Onboarding",
+                  desc: "Administrators set up the academy dashboard, manage licenses, and define school-wide impact goals.",
+                },
+                {
+                  icon: "co_present",
+                  borderColor: "#ff4d4d",
+                  num: "2",
+                  title: "Teacher Setup",
+                  desc: "Teachers organize classrooms, sync student rosters, and assign curriculum-aligned projects in minutes.",
+                },
+                {
+                  icon: "rocket_launch",
+                  borderColor: "#13eca4",
+                  num: "3",
+                  title: "Student Learning",
+                  desc: "Students dive into hands-on project guides, building real-world solutions and earning verified badges.",
+                },
+              ].map(({ icon, borderColor, num, title, desc }) => (
+                <div key={num} className="relative flex flex-col items-center text-center group">
+                  <div
+                    className="w-20 h-20 rounded-2xl bg-[#1a2e27] flex items-center justify-center mb-6 relative z-10 transition-all duration-300"
+                    style={{ border: `2px solid ${borderColor}` }}
+                  >
+                    <span className="material-symbols-outlined text-3xl" style={{ color: borderColor }}>{icon}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-100 mb-4">{num}. {title}</h3>
+                  <p className="text-sm text-slate-400 leading-relaxed px-4">{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Lessons in Action */}
+        <section className="py-24 px-6 bg-[#10221c] overflow-hidden">
+          <div className="mx-auto max-w-7xl">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-black text-slate-100">Lessons in Action</h2>
+              <p className="mt-4 text-slate-400">Step-by-step guidance for complex project-based learning.</p>
+            </div>
+            <div className="relative max-w-5xl mx-auto rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[#1a2e27] overflow-hidden shadow-2xl">
+              {/* Window chrome */}
+              <div className="bg-[rgba(255,255,255,0.04)] px-6 py-3 flex items-center justify-between border-b border-[rgba(255,255,255,0.06)]">
+                <div className="flex items-center gap-4">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500/50" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/50" />
+                  </div>
+                  <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Activity: Building a Robot</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-slate-400 text-lg">timer</span>
+                  <span className="text-xs text-slate-400">45 Min Step</span>
+                </div>
+              </div>
+              <div className="flex flex-col lg:flex-row">
+                {/* Main content */}
+                <div className="flex-1 p-8 lg:p-12 border-r border-[rgba(255,255,255,0.06)]">
+                  <div className="mb-8">
+                    <div className="inline-block px-3 py-1 bg-[rgba(255,77,77,0.15)] text-[#ff4d4d] text-[10px] font-black uppercase tracking-widest rounded mb-4">
+                      Step 04: Motor Integration
                     </div>
-                    <div className="flex-1">
-                      <p className="text-white text-sm font-medium">{c}</p>
-                      <div className="mt-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full"
-                          style={{ width: `${[72, 45, 88][i]}%` }}
-                        />
+                    <h4 className="text-3xl font-bold text-slate-100 mb-6">Mounting the Primary Drive Motors</h4>
+                    <div className="aspect-video w-full rounded-xl bg-slate-800 relative overflow-hidden group">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        alt="Robot assembly"
+                        className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlzHK5yWM6ct-5epWYffgEr24f-CLhHDhe-Rb2TpXI4o7Ejrrr2-zM079b6YmuVzyr15cZcSeSwUc1dvjYYlIP4X8DqDTOni8VmbQZNS64i_oEgJVULn-AjP1KbF6a_axWmYWmLG7NfXi0kAdT0ZjC1cpl_58WYqo5zvu67nY9eM0jAvCufQVkTL7C47Wy3dpEP4CJ9dv4jc0Fh2PjSWAXoNb7QYszjnrkPZbn7yEHzTcSu9Ads14idPnGHcW6GR29QoFQDJYy3LmV"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#10221c]/80 to-transparent flex items-end p-6">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-[#13eca4] rounded-lg text-[#10221c]">
+                            <span className="material-symbols-outlined">play_circle</span>
+                          </div>
+                          <span className="text-sm font-bold text-white">Watch Video Tutorial</span>
+                        </div>
                       </div>
                     </div>
-                    <span className="text-[#13eca4] text-xs font-bold">{[72, 45, 88][i]}%</span>
                   </div>
-                ))}
-                <div className="mt-6 pt-5 border-t border-[rgba(255,255,255,0.06)] grid grid-cols-3 gap-4 text-center">
-                  {[["24", "Students"], ["156", "Submissions"], ["89%", "Engagement"]].map(([val, lbl]) => (
-                    <div key={lbl}>
-                      <p className="text-white font-bold text-xl">{val}</p>
-                      <p className="text-slate-500 text-xs">{lbl}</p>
+                  <p className="text-slate-400 leading-relaxed mb-6">
+                    Align the servo motor brackets with the pre-drilled holes on the chassis plate. Ensure the wires are facing toward the central control hub to prevent tension during movement.
+                  </p>
+                  <div className="flex gap-4">
+                    <button className="px-6 py-2 bg-[rgba(255,255,255,0.06)] text-slate-100 font-bold rounded-lg text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors border border-[rgba(255,255,255,0.08)]">
+                      Previous Step
+                    </button>
+                    <button className="px-6 py-2 bg-[#13eca4] text-[#10221c] font-bold rounded-lg text-sm hover:opacity-90 transition-opacity">
+                      Mark as Complete
+                    </button>
+                  </div>
+                </div>
+                {/* Sidebar navigation */}
+                <div className="w-full lg:w-72 bg-[rgba(13,31,26,0.5)] p-6">
+                  <h5 className="text-xs font-black uppercase text-slate-500 tracking-widest mb-6">Course Navigation</h5>
+                  <div className="space-y-4">
+                    {[
+                      { num: "01", label: "Project Intro" },
+                      { num: "02", label: "Safety Protocol" },
+                      { num: "03", label: "Chassis Assembly" },
+                    ].map(({ num, label }) => (
+                      <div key={num} className="flex items-start gap-3 opacity-50">
+                        <span className="material-symbols-outlined text-[#13eca4] text-sm">check_circle</span>
+                        <div className="text-xs text-slate-300">{num}: {label}</div>
+                      </div>
+                    ))}
+                    <div className="flex items-start gap-3">
+                      <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold flex-shrink-0">04</span>
+                      <div className="text-xs text-slate-100 font-bold">Motor Integration</div>
                     </div>
-                  ))}
-                </div>
-              </div>
-              {/* Floating badge */}
-              <div className="absolute -bottom-5 -right-5 bg-[#1a2e27] border border-[rgba(19,236,164,0.2)] rounded-xl p-4 shadow-xl">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#f59e0b] text-[28px]">military_tech</span>
-                  <div>
-                    <p className="text-white text-sm font-bold">Badge Earned!</p>
-                    <p className="text-slate-400 text-xs">Circuit Master · +100 XP</p>
+                    {[
+                      { num: "05", label: "Sensor Calibration" },
+                      { num: "06", label: "Logic Programming" },
+                    ].map(({ num, label }) => (
+                      <div key={num} className="flex items-start gap-3">
+                        <span className="w-5 h-5 rounded-full border border-[rgba(255,255,255,0.1)] flex items-center justify-center text-[10px] text-slate-500 font-bold flex-shrink-0">{num}</span>
+                        <div className="text-xs text-slate-500">{label}</div>
+                      </div>
+                    ))}
+                    <div className="pt-6 border-t border-[rgba(255,255,255,0.06)] mt-6">
+                      <div className="p-4 rounded-lg bg-[#1a2e27] border border-[rgba(19,236,164,0.1)] text-center">
+                        <div className="text-[10px] font-black uppercase text-[#13eca4] mb-2">Next Badge</div>
+                        <div className="text-xs font-bold text-slate-200">Robotics Lead I</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Testimonials */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center mb-14">
-          <span className="text-[#13eca4] text-sm font-bold uppercase tracking-widest">Stories</span>
-          <h2 className="text-4xl font-bold mt-3 text-white">What educators & learners say</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map(({ quote, name, role, initials, color }) => (
-            <div
-              key={name}
-              className="bg-[#1a2e27] rounded-2xl p-8 border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.2)] transition-all"
-            >
-              <div className="text-[#13eca4] mb-5">
-                <span className="material-symbols-outlined text-[36px]">format_quote</span>
-              </div>
-              <p className="text-slate-300 text-base leading-relaxed mb-6 italic">&ldquo;{quote}&rdquo;</p>
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm text-white"
-                  style={{ background: color }}
-                >
-                  {initials}
+        {/* Google Classroom Integration */}
+        <section className="py-24 px-6 bg-[rgba(26,46,39,0.3)] border-y border-[rgba(19,236,164,0.06)]">
+          <div className="mx-auto max-w-7xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Left — animated sync visual */}
+              <div className="order-2 lg:order-1 relative">
+                <div className="relative bg-[#10221c] rounded-3xl p-8 border border-[rgba(19,236,164,0.12)] shadow-2xl overflow-hidden">
+                  <div className="absolute inset-0 bg-[rgba(19,236,164,0.02)]" />
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="flex items-center gap-12 mb-12">
+                      <div className="w-20 h-20 rounded-2xl bg-white p-3 shadow-xl flex items-center justify-center">
+                        <div className="w-full h-full bg-emerald-600 rounded flex items-center justify-center text-white font-black text-2xl">G</div>
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <div className="w-12 h-px bg-[rgba(19,236,164,0.3)] relative">
+                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#13eca4] flex items-center justify-center shadow-lg shadow-[rgba(19,236,164,0.4)]">
+                            <span className="material-symbols-outlined text-xs font-bold text-[#10221c]">sync</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w-20 h-20 rounded-2xl bg-[#1a2e27] border border-[rgba(19,236,164,0.3)] p-4 shadow-xl flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[#13eca4] text-3xl">token</span>
+                      </div>
+                    </div>
+                    <div className="w-full space-y-4">
+                      <div className="h-10 w-full rounded-lg bg-[rgba(255,255,255,0.05)] animate-pulse" />
+                      <div className="h-10 w-3/4 rounded-lg bg-[rgba(255,255,255,0.05)] animate-pulse" />
+                      <div className="h-10 w-full rounded-lg bg-[rgba(255,255,255,0.05)] animate-pulse" />
+                    </div>
+                    <button className="mt-8 px-8 py-3 bg-[#13eca4] text-[#10221c] font-black rounded-xl shadow-lg shadow-[rgba(19,236,164,0.2)] hover:scale-105 transition-transform flex items-center gap-3">
+                      <span className="material-symbols-outlined text-lg">touch_app</span>
+                      One-click Sync
+                    </button>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-white font-semibold text-sm">{name}</p>
-                  <p className="text-slate-500 text-xs">{role}</p>
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-28 text-center">
-        <div className="relative bg-gradient-to-br from-[#13eca4] to-[#0dd494] rounded-3xl p-14 overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-[rgba(255,77,77,0.15)] rounded-full -ml-16 -mb-16" />
-          <div className="relative z-10">
-            <h2 className="text-4xl font-black text-[#10221c] mb-4">
-              Ready to start creating?
-            </h2>
-            <p className="text-[#10221c]/70 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-              Join 50,000+ young people building tech & design skills that matter. It&apos;s free to get started.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/login"
-                className="bg-[#10221c] text-white font-bold px-8 py-4 rounded-xl text-lg hover:bg-[#1a3a2c] transition-colors shadow-2xl"
-              >
-                I&apos;m a Student
-              </Link>
-              <Link
-                href="/register/teacher"
-                className="bg-white/20 text-[#10221c] font-bold px-8 py-4 rounded-xl text-lg hover:bg-white/30 transition-colors border border-[rgba(16,34,28,0.2)]"
-              >
-                I&apos;m an Educator
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[rgba(0,0,0,0.3)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
-            <div className="col-span-2">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="text-[#13eca4] w-8 h-8">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width={32} height={32}>
-                    <path d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z" fill="currentColor" />
-                  </svg>
+              {/* Right — text */}
+              <div className="order-1 lg:order-2 flex flex-col gap-6">
+                <div className="w-12 h-12 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4]">
+                  <span className="material-symbols-outlined">sync_alt</span>
                 </div>
-                <span className="text-xl font-bold text-white">mouse <span className="text-[#ff4d4d]">create</span></span>
-              </div>
-              <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-                Empowering young people with the tech & design skills to become creative problem solvers.
-              </p>
-            </div>
-            {[
-              { heading: "Platform", links: ["Student Portal", "Teacher Tools", "Admin Dashboard", "Course Library"] },
-              { heading: "Learn", links: ["Coding", "Game Design", "Circuitry", "Web Literacy", "Green Tech"] },
-              { heading: "For Educators", links: ["Join as Teacher", "Onboard School", "Help Center", "Contact Us"] },
-            ].map(({ heading, links }) => (
-              <div key={heading}>
-                <h4 className="text-white font-semibold text-sm mb-4">{heading}</h4>
-                <ul className="space-y-2.5">
-                  {links.map((link) => (
-                    <li key={link}>
-                      <Link href="#" className="text-slate-400 text-sm hover:text-[#13eca4] transition-colors">
-                        {link}
-                      </Link>
+                <h2 className="text-4xl font-black text-slate-100">Seamless Google Classroom Integration</h2>
+                <p className="text-lg text-slate-400">
+                  Sync your entire school roster in seconds. Automatically import classes, push assignments, and return grades directly to your existing workspace.
+                </p>
+                <ul className="space-y-4">
+                  {[
+                    "Automatic Roster Management",
+                    "Single Sign-On (SSO) Support",
+                    "Direct Gradebook Export",
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-slate-200 font-bold">
+                      <span className="material-symbols-outlined text-[#13eca4]">verified_user</span>
+                      {item}
                     </li>
                   ))}
                 </ul>
               </div>
-            ))}
+            </div>
           </div>
-          <div className="border-t border-[rgba(19,236,164,0.06)] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-            <p>© 2026 Mouse Create. All rights reserved. Empowering youth worldwide.</p>
-            <div className="flex gap-6">
-              <Link href="#" className="hover:text-[#13eca4] transition-colors">Privacy</Link>
-              <Link href="#" className="hover:text-[#13eca4] transition-colors">Terms</Link>
-              <Link href="#" className="hover:text-[#13eca4] transition-colors">Accessibility</Link>
+        </section>
+
+        {/* Recognized Achievement System */}
+        <section className="bg-[rgba(26,46,39,0.2)] py-20 px-6">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-12 flex flex-col items-center text-center">
+              <h2 className="text-3xl font-bold text-slate-100">Recognized Achievement System</h2>
+              <div className="mt-4 h-1 w-20 bg-[#13eca4]" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  icon: "code_blocks",
+                  color: "#13eca4",
+                  title: "Master Architect",
+                  desc: "Advanced proficiency in computational thinking and structural logic.",
+                  count: "12,403 Earned",
+                },
+                {
+                  icon: "eco",
+                  color: "#ff4d4d",
+                  title: "Green Innovator",
+                  desc: "Demonstrated impact in sustainable engineering and environmental solutions.",
+                  count: "8,912 Earned",
+                },
+                {
+                  icon: "precision_manufacturing",
+                  color: "#13eca4",
+                  title: "Robotics Lead",
+                  desc: "Expertise in automated systems and mechanical design principles.",
+                  count: "5,667 Earned",
+                },
+              ].map(({ icon, color, title, desc, count }) => (
+                <div
+                  key={title}
+                  className="flex flex-col items-center rounded-xl bg-[#1a2e27] p-8 border border-[rgba(255,255,255,0.06)] text-center transition-all group hover:border-[rgba(19,236,164,0.3)]"
+                >
+                  <div
+                    className="mb-6 rounded-full p-4 group-hover:scale-110 transition-transform"
+                    style={{ background: `${color}18`, color }}
+                  >
+                    <span className="material-symbols-outlined text-4xl">{icon}</span>
+                  </div>
+                  <h4 className="text-xl font-bold text-slate-100">{title}</h4>
+                  <p className="mt-2 text-slate-400 text-sm">{desc}</p>
+                  <span className="mt-4 text-xs font-bold uppercase" style={{ color }}>{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* School Registration CTA */}
+        <section className="py-24 px-6 relative overflow-hidden">
+          <div className="mx-auto max-w-5xl rounded-3xl bg-[#13eca4] px-8 py-16 lg:px-20 relative overflow-hidden">
+            <div className="absolute inset-0 opacity-10 pointer-events-none">
+              <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern height="40" id="cta-grid" patternUnits="userSpaceOnUse" width="40">
+                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="black" strokeWidth="1" />
+                  </pattern>
+                </defs>
+                <rect fill="url(#cta-grid)" height="100%" width="100%" />
+              </svg>
+            </div>
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <h2 className="text-4xl font-black text-[#10221c] leading-tight">Bring STEM Impact to Your School</h2>
+                <p className="mt-6 text-[#10221c]/80 text-lg leading-relaxed font-medium">
+                  Join 500+ forward-thinking schools transforming their curriculum with our project-based learning framework.
+                </p>
+                <ul className="mt-8 space-y-4">
+                  {[
+                    "Administrator Dashboard",
+                    "Standard-Aligned Curriculum",
+                    "Teacher Training & Support",
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-[#10221c] font-bold">
+                      <span className="material-symbols-outlined font-bold">check_circle</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-2xl bg-[rgba(16,34,28,0.08)] p-1">
+                <div className="rounded-xl bg-slate-100 p-8 shadow-2xl text-slate-900">
+                  <h3 className="text-xl font-bold mb-6">School Registration</h3>
+                  <form className="space-y-4">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold uppercase text-slate-500">First Name</label>
+                        <input
+                          className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13eca4]"
+                          placeholder="Jane"
+                          type="text"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold uppercase text-slate-500">Last Name</label>
+                        <input
+                          className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13eca4]"
+                          placeholder="Doe"
+                          type="text"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase text-slate-500">Work Email</label>
+                      <input
+                        className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13eca4]"
+                        placeholder="jane@school.edu"
+                        type="email"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase text-slate-500">School Name</label>
+                      <input
+                        className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13eca4]"
+                        placeholder="West Valley Academy"
+                        type="text"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold uppercase text-slate-500">Role</label>
+                      <select className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13eca4]">
+                        <option>School Administrator</option>
+                        <option>Department Head</option>
+                        <option>Teacher</option>
+                        <option>District Official</option>
+                      </select>
+                    </div>
+                    <Link
+                      href="/onboarding"
+                      className="mt-4 w-full rounded-lg bg-[#10221c] py-4 font-bold text-white shadow-lg hover:brightness-125 transition-all text-center block"
+                    >
+                      Request Demo Access
+                    </Link>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-12">
+        <div className="mx-auto max-w-7xl">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-12">
+            <div className="max-w-xs">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="material-symbols-outlined text-2xl text-[#13eca4]">token</span>
+                <h2 className="text-lg font-bold tracking-tight text-slate-100 uppercase italic">
+                  STEM <span className="text-[#ff4d4d]">Impact</span>
+                </h2>
+              </div>
+              <p className="text-sm text-slate-500">
+                Driving global innovation through accessible, project-based STEM education for every student.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12">
+              {[
+                { heading: "Platform", links: ["Curriculum", "Badges", "Reporting"] },
+                { heading: "Company", links: ["About Us", "Our Team", "Impact Stories"] },
+                { heading: "Support", links: ["Help Center", "Contact", "Privacy"] },
+              ].map(({ heading, links }) => (
+                <div key={heading}>
+                  <h4 className="font-bold text-slate-200 mb-4">{heading}</h4>
+                  <ul className="space-y-2 text-sm text-slate-500">
+                    {links.map((link) => (
+                      <li key={link}>
+                        <Link href="#" className="hover:text-[#13eca4] transition-colors">
+                          {link}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-12 border-t border-[rgba(19,236,164,0.06)] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-xs text-slate-600">© 2024 STEM Impact Academy. All rights reserved.</p>
+            <div className="flex gap-4">
+              <Link href="#" className="text-slate-600 hover:text-[#13eca4] transition-colors">
+                <span className="material-symbols-outlined">public</span>
+              </Link>
+              <Link href="#" className="text-slate-600 hover:text-[#13eca4] transition-colors">
+                <span className="material-symbols-outlined">alternate_email</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -442,4 +482,3 @@ export default function Home() {
     </div>
   );
 }
-

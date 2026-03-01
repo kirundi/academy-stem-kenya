@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -11,7 +11,11 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { Course, Lesson, LessonBlock } from "@/lib/types";
 
-export default function CourseCreatorStep2() {
+export default function CourseCreatorStep2Page() {
+  return <Suspense><CourseCreatorStep2 /></Suspense>;
+}
+
+function CourseCreatorStep2() {
   const searchParams = useSearchParams();
   const courseId = searchParams.get("courseId");
   const { appUser } = useAuthContext();

@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument, useCollection, orderBy } from "@/hooks/useFirestore";
 import type { Course, Lesson, LessonBlock } from "@/lib/types";
 
-export default function CourseCreatorPreview() {
+export default function CourseCreatorPreviewPage() {
+  return <Suspense><CourseCreatorPreview /></Suspense>;
+}
+
+function CourseCreatorPreview() {
   const searchParams = useSearchParams();
   const courseId = searchParams.get("courseId");
   const { appUser } = useAuthContext();

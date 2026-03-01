@@ -85,10 +85,11 @@ export default function AuditLogPage() {
                 const icon = typeIcon[a.type] ?? "info";
                 const color = typeColor[a.type] ?? "#13eca4";
                 const userName = userMap.get(a.userId) ?? "Unknown User";
-                const timestamp = a.timestamp?.toDate
-                  ? new Date((a.timestamp as any).toDate()).toLocaleString()
-                  : a.timestamp
-                  ? new Date(a.timestamp).toLocaleString()
+                const ts = a.timestamp as unknown as { toDate?: () => Date } | Date | undefined;
+                const timestamp = ts && typeof (ts as { toDate?: () => Date }).toDate === "function"
+                  ? (ts as { toDate: () => Date }).toDate().toLocaleString()
+                  : ts
+                  ? new Date(ts as unknown as string | number).toLocaleString()
                   : "Unknown time";
 
                 return (

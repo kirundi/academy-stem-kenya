@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
 
@@ -14,7 +14,11 @@ function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-export default function SubmitSuccessPage() {
+export default function SubmitSuccessPageWrapper() {
+  return <Suspense><SubmitSuccessPage /></Suspense>;
+}
+
+function SubmitSuccessPage() {
   const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
   const { appUser } = useAuthContext();

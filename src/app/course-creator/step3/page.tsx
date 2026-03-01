@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -16,7 +16,11 @@ interface UploadedResource {
   type: string;
 }
 
-export default function CourseCreatorStep3() {
+export default function CourseCreatorStep3Page() {
+  return <Suspense><CourseCreatorStep3 /></Suspense>;
+}
+
+function CourseCreatorStep3() {
   const searchParams = useSearchParams();
   const courseId = searchParams.get("courseId");
   const { appUser } = useAuthContext();

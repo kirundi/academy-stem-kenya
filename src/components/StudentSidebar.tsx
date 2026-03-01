@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import MouseLogo from "./MouseLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
+import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { label: "My Courses", href: "/student/dashboard", icon: "school" },
@@ -115,6 +116,7 @@ export default function StudentSidebar() {
               <p className="text-xs text-slate-300 font-medium truncate">{displayName}</p>
               <p className="text-xs text-slate-500 truncate">Student</p>
             </div>
+            <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
               <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">logout</span>
             </button>

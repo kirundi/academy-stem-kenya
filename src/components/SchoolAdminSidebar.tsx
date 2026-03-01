@@ -7,6 +7,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument } from "@/hooks/useFirestore";
 import { useAuth } from "@/hooks/useAuth";
 import type { School } from "@/lib/types";
+import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { label: "Overview", href: "/admin/school", icon: "dashboard", exact: true },
@@ -91,6 +92,7 @@ export default function SchoolAdminSidebar() {
               <p className="text-xs text-slate-300 font-medium truncate">{appUser?.displayName ?? "..."}</p>
               <p className="text-xs text-slate-500 truncate">Administrator</p>
             </div>
+            <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
               <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">logout</span>
             </button>

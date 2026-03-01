@@ -2,14 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import MouseLogo from "./MouseLogo";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Courses", href: "/courses" },
-  { label: "For Educators", href: "/educators" },
-  { label: "About", href: "/about" },
-  { label: "Help Center", href: "/help" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Curriculum", href: "#curriculum" },
+  { label: "About Us", href: "#about" },
 ];
 
 export default function PublicNavbar() {
@@ -19,7 +17,12 @@ export default function PublicNavbar() {
     <header className="sticky top-0 z-50 border-b border-[rgba(19,236,164,0.1)] bg-[rgba(16,34,28,0.7)] backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <MouseLogo />
+          <Link href="/" className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-2xl text-[#13eca4]">token</span>
+            <span className="text-base font-black tracking-tight text-slate-100 uppercase italic">
+              STEM <span className="text-[#ff4d4d]">Impact</span>
+            </span>
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">

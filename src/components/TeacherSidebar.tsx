@@ -5,13 +5,14 @@ import { usePathname, useRouter } from "next/navigation";
 import MouseLogo from "./MouseLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
+import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { label: "Dashboard", href: "/teacher/dashboard", icon: "dashboard" },
   { label: "Classrooms", href: "/teacher/classroom", icon: "groups" },
   { label: "Courses", href: "/teacher/courses", icon: "menu_book" },
   { label: "Grading", href: "/teacher/grading", icon: "grading" },
-  { label: "Student Progress", href: "/teacher/progress", icon: "insights" },
+  { label: "Class Review", href: "/teacher/class-review", icon: "rate_review" },
   { label: "Groups", href: "/teacher/groups", icon: "workspaces" },
   { label: "Analytics", href: "/teacher/analytics", icon: "bar_chart" },
   { label: "Enrollment", href: "/teacher/enrollment", icon: "manage_accounts" },
@@ -94,6 +95,7 @@ export default function TeacherSidebar() {
               <p className="text-xs text-slate-300 font-medium truncate">{displayName}</p>
               <p className="text-xs text-slate-500 truncate">Educator</p>
             </div>
+            <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
               <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">logout</span>
             </button>

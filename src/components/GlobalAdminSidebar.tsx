@@ -5,6 +5,7 @@ import Link from "next/link";
 import MouseLogo from "./MouseLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
+import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { href: "/admin/global", icon: "dashboard", label: "Overview" },
@@ -73,6 +74,7 @@ export default function GlobalAdminSidebar() {
               <p className="text-xs text-slate-300 font-medium truncate">{appUser?.displayName ?? "..."}</p>
               <p className="text-xs text-slate-500 truncate">Global Admin</p>
             </div>
+            <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
               <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">logout</span>
             </button>

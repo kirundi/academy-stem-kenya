@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -24,7 +24,11 @@ const metadata = [
   { label: "Language",        value: "English (Global)" },
 ];
 
-export default function CourseCreatorStep4() {
+export default function CourseCreatorStep4Page() {
+  return <Suspense><CourseCreatorStep4 /></Suspense>;
+}
+
+function CourseCreatorStep4() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const courseId = searchParams.get("courseId");
@@ -241,7 +245,7 @@ export default function CourseCreatorStep4() {
                     <div key={m.label} className="p-3 bg-[#1a2e27] rounded-lg">
                       <p className="text-slate-500 text-xs uppercase font-bold tracking-widest mb-1">{m.label}</p>
                       <p className="text-white font-semibold text-sm">
-                        {m.value || (m.key && course ? (course as Record<string, unknown>)[m.key] as string : "N/A") || "N/A"}
+                        {m.value || (m.key && course ? (course as unknown as Record<string, unknown>)[m.key] as string : "N/A") || "N/A"}
                       </p>
                     </div>
                   ))}

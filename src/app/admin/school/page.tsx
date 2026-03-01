@@ -93,7 +93,7 @@ export default function SchoolAdminDashboard() {
                           <span className="text-[#13eca4]">{a.description}</span>
                         </p>
                         <p className="text-xs text-slate-500 mt-1">
-                          {a.type} · {a.timestamp?.toDate ? new Date(a.timestamp.toDate()).toLocaleDateString() : "Recently"}
+                          {a.type} · {typeof (a.timestamp as unknown as { toDate?: () => Date })?.toDate === "function" ? (a.timestamp as unknown as { toDate: () => Date }).toDate().toLocaleDateString() : "Recently"}
                         </p>
                       </div>
                     </div>

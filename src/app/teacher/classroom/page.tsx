@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTeacherData } from "@/hooks/useTeacherData";
 import { useCreateDoc, useCollection } from "@/hooks/useFirestore";
 import { where } from "firebase/firestore";
 import { logActivity } from "@/lib/activity-logger";
 import type { Course, Enrollment } from "@/lib/types";
+
+type Tab = "roster" | "curriculum" | "insights";
 
 export default function TeacherClassroomPage() {
   const { appUser } = useAuthContext();
@@ -22,10 +23,10 @@ export default function TeacherClassroomPage() {
   const [newClassSubject, setNewClassSubject] = useState("");
   const [newClassGrade, setNewClassGrade] = useState("");
   const [newClassCapacity, setNewClassCapacity] = useState("30");
+  const [activeTab, setActiveTab] = useState<Tab>("roster");
 
   const selectedClassroom = classrooms[selectedIdx] ?? null;
 
-  // Fetch courses for the selected classroom
   const courseIds = selectedClassroom?.courseIds ?? [];
   const { data: classroomCourses } = useCollection<Course>(
     "courses",
@@ -33,14 +34,12 @@ export default function TeacherClassroomPage() {
     courseIds.length > 0
   );
 
-  // Fetch enrollments for the selected classroom to get students
   const { data: enrollments } = useCollection<Enrollment>(
     "enrollments",
     selectedClassroom ? [where("classroomId", "==", selectedClassroom.id)] : [],
     !!selectedClassroom
   );
 
-  // Get unique students from enrollments
   const studentMap = new Map<string, Enrollment>();
   enrollments.forEach((e) => {
     if (!studentMap.has(e.studentId)) studentMap.set(e.studentId, e);
@@ -70,7 +69,10 @@ export default function TeacherClassroomPage() {
 
   const handleCreateClassroom = async () => {
     if (!appUser || !newClassName.trim()) return;
-    const joinCode = newClassName.trim().substring(0, 4).toUpperCase() + "-" + Math.random().toString(36).substring(2, 5).toUpperCase();
+    const joinCode =
+      newClassName.trim().substring(0, 4).toUpperCase() +
+      "-" +
+      Math.random().toString(36).substring(2, 5).toUpperCase();
     await createClassroom({
       name: newClassName.trim(),
       subject: newClassSubject.trim() || "STEM",
@@ -94,148 +96,348 @@ export default function TeacherClassroomPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-bold text-white">Classroom Manager</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Configure student access and course visibility</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleSyncGoogleClassroom}
-            disabled={syncing}
-            className="flex items-center gap-2 px-4 py-2.5 border border-[rgba(255,255,255,0.1)] text-slate-300 rounded-lg text-sm font-medium hover:border-[rgba(19,236,164,0.3)] hover:text-[#13eca4] transition-all disabled:opacity-50"
-          >
-            <span className={`material-symbols-outlined text-[18px] ${syncing ? "animate-spin" : ""}`}>{syncing ? "progress_activity" : "sync"}</span>
-            {syncing ? "Syncing..." : "Sync Google Classroom"}
-          </button>
-          <button
-            onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)]"
-          >
-            <span className="material-symbols-outlined text-[18px]">add</span>
-            Create New Class
-          </button>
-        </div>
-      </header>
-
-      <div className="flex h-[calc(100vh-64px)]">
-        {/* Classroom List */}
-        <div className="w-80 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] overflow-y-auto">
-          <div className="p-4">
+    <div className="min-h-screen bg-[#10221c] flex h-screen overflow-hidden">
+      {/* Classroom List Sidebar */}
+      <div className="w-72 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col overflow-hidden">
+        <div className="px-4 py-4 border-b border-[rgba(19,236,164,0.08)]">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">My Classrooms</span>
+            <button
+              onClick={() => setShowCreateModal(true)}
+              className="flex items-center gap-1 text-xs font-bold text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-1 rounded-lg hover:bg-[rgba(19,236,164,0.2)] transition-colors"
+            >
+              <span className="material-symbols-outlined text-sm">add</span>
+              New
+            </button>
+          </div>
+          <div className="relative">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[16px]">search</span>
             <input
               type="text"
               placeholder="Search classrooms..."
-              className="form-input text-sm"
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)] rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[rgba(19,236,164,0.3)]"
             />
           </div>
-          <div className="px-4 space-y-2">
-            {classrooms.length === 0 && (
-              <div className="text-center py-8 text-slate-500 text-sm">No classrooms yet. Create one to get started.</div>
-            )}
-            {classrooms.map((cls, idx) => (
-              <button
-                key={cls.id}
-                onClick={() => setSelectedIdx(idx)}
-                className={`w-full text-left p-4 rounded-xl transition-all ${
-                  selectedIdx === idx
-                    ? "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)]"
-                    : "bg-[rgba(255,255,255,0.03)] border border-transparent hover:border-[rgba(255,255,255,0.08)]"
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[#13eca4] text-[10px] font-bold uppercase tracking-widest">
-                    {cls.subject}
-                  </span>
-                  <span
-                    className={`text-xs font-bold px-2 py-0.5 rounded ${
-                      cls.enrolled / cls.capacity > 0.8
-                        ? "bg-emerald-500/10 text-emerald-400"
-                        : "bg-blue-500/10 text-blue-400"
-                    }`}
-                  >
-                    {cls.enrolled}/{cls.capacity}
-                  </span>
-                </div>
-                <h3 className="text-white font-semibold text-sm">{cls.name}</h3>
-                <div className="mt-2 flex items-center gap-2">
-                  <code className="text-xs font-mono text-slate-400">{cls.joinCode}</code>
-                </div>
-                <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full"
-                    style={{ width: `${cls.avgProgress}%` }}
-                  />
-                </div>
-              </button>
-            ))}
-          </div>
         </div>
-
-        {/* Classroom Detail */}
-        <div className="flex-1 overflow-y-auto p-8">
-          {!selectedClassroom ? (
-            <div className="flex flex-col items-center justify-center h-full text-slate-500">
-              <span className="material-symbols-outlined text-[48px] mb-4">class</span>
-              <p>Select a classroom or create a new one</p>
-            </div>
-          ) : (
-            <div className="max-w-3xl">
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
-                    {selectedClassroom.subject}
-                  </span>
-                  <h2 className="text-white text-2xl font-bold mt-1">{selectedClassroom.name}</h2>
-                </div>
-                <button className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.08)] text-slate-400">
-                  <span className="material-symbols-outlined">settings</span>
-                </button>
+        <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1.5">
+          {classrooms.length === 0 && (
+            <p className="text-center py-8 text-slate-500 text-sm px-4">
+              No classrooms yet. Create one to get started.
+            </p>
+          )}
+          {classrooms.map((cls, idx) => (
+            <button
+              key={cls.id}
+              onClick={() => { setSelectedIdx(idx); setActiveTab("roster"); }}
+              className={`w-full text-left p-3.5 rounded-xl transition-all ${
+                selectedIdx === idx
+                  ? "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)]"
+                  : "bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-[rgba(255,255,255,0.06)]"
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-[#13eca4] text-[10px] font-bold uppercase tracking-widest truncate max-w-[120px]">
+                  {cls.subject}
+                </span>
+                <span className="text-[10px] font-bold text-slate-500 flex-shrink-0">
+                  {cls.enrolled}/{cls.capacity}
+                </span>
               </div>
+              <p className="text-white text-sm font-semibold truncate">{cls.name}</p>
+              <p className="text-slate-500 text-xs font-mono mt-0.5">{cls.joinCode}</p>
+              <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+                  style={{ width: `${cls.avgProgress}%` }}
+                />
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
 
-              {/* Join Code Card */}
-              <div className="flex items-center gap-4 p-5 bg-[rgba(0,0,0,0.2)] rounded-2xl border border-dashed border-[rgba(255,255,255,0.12)] mb-8">
-                <div className="flex-1">
-                  <p className="text-xs text-slate-500 font-semibold uppercase tracking-widest mb-1">Student Join Code</p>
-                  <p className="text-3xl font-mono font-black text-white tracking-widest">
-                    {selectedClassroom.joinCode}
+      {/* Main Detail Area */}
+      <div className="flex-1 overflow-y-auto">
+        {!selectedClassroom ? (
+          <div className="flex flex-col items-center justify-center h-full text-slate-500">
+            <span className="material-symbols-outlined text-[48px] mb-4">class</span>
+            <p>Select a classroom or create a new one</p>
+          </div>
+        ) : (
+          <div className="px-8 py-8 max-w-5xl mx-auto">
+            {/* Classroom Header */}
+            <div className="flex flex-wrap justify-between items-start gap-6 mb-8">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[#13eca4] text-4xl">smart_toy</span>
+                  <h1 className="text-slate-100 text-3xl font-black leading-tight tracking-tight">
+                    {selectedClassroom.name}
+                  </h1>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3">
+                    {/* Join Code Display */}
+                    <div className="flex items-center gap-2 text-slate-400 bg-[#1a2e27] px-3 py-1.5 rounded-lg w-fit border border-[rgba(19,236,164,0.1)]">
+                      <span className="text-xs font-bold uppercase tracking-wider">Join Code:</span>
+                      <span className="text-[#13eca4] font-mono font-bold tracking-widest text-lg">
+                        {selectedClassroom.joinCode}
+                      </span>
+                      <button
+                        onClick={() => copyCode(selectedClassroom.joinCode)}
+                        className="ml-2 hover:text-[#13eca4] transition-colors"
+                        title="Copy Code"
+                      >
+                        <span className="material-symbols-outlined text-sm">
+                          {copied === selectedClassroom.joinCode ? "check" : "content_copy"}
+                        </span>
+                      </button>
+                    </div>
+                    {/* Admin Assigned Badge */}
+                    <div className="relative group flex items-center gap-1.5 px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-amber-500">
+                      <span className="material-symbols-outlined text-[16px]">verified_user</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider">Admin Assigned</span>
+                    </div>
+                  </div>
+                  <p className="text-[11px] text-slate-500 italic flex items-center gap-1 ml-1">
+                    <span className="material-symbols-outlined text-xs">info</span>
+                    Managed by School Administration Office
                   </p>
                 </div>
+              </div>
+              {/* Action Buttons */}
+              <div className="flex flex-wrap gap-3">
                 <button
-                  onClick={() => copyCode(selectedClassroom.joinCode)}
-                  className="flex items-center gap-2 px-4 py-2.5 bg-[rgba(19,236,164,0.1)] text-[#13eca4] rounded-xl text-sm font-semibold hover:bg-[rgba(19,236,164,0.2)] transition-colors"
+                  onClick={handleSyncGoogleClassroom}
+                  disabled={syncing}
+                  className="flex items-center justify-center gap-2 rounded-lg h-11 px-5 bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-all shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined text-[18px]">
-                    {copied === selectedClassroom.joinCode ? "check" : "content_copy"}
+                  <span className={`material-symbols-outlined text-lg ${syncing ? "animate-spin" : ""}`}>
+                    {syncing ? "progress_activity" : "sync"}
                   </span>
-                  {copied === selectedClassroom.joinCode ? "Copied!" : "Copy"}
+                  {syncing ? "Syncing..." : "Sync with Google Classroom"}
+                </button>
+                <button className="flex items-center justify-center gap-2 rounded-lg h-11 px-5 bg-[#1a2e27] text-slate-100 text-sm font-bold border border-[rgba(19,236,164,0.1)] hover:border-[rgba(19,236,164,0.3)] transition-colors">
+                  <span className="material-symbols-outlined text-lg">move_to_inbox</span>
+                  Request Code Change
+                </button>
+                <button className="flex items-center justify-center gap-2 rounded-lg h-11 px-4 bg-[#1a2e27] text-slate-400 text-sm font-bold border border-[rgba(19,236,164,0.1)] hover:border-[rgba(19,236,164,0.3)] transition-colors">
+                  <span className="material-symbols-outlined text-lg">settings</span>
                 </button>
               </div>
+            </div>
 
-              {/* Course Access Control */}
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden mb-8">
+            {/* Tabs */}
+            <div className="mb-6 border-b border-[rgba(19,236,164,0.08)]">
+              <div className="flex gap-8">
+                {(["roster", "curriculum", "insights"] as Tab[]).map((tab) => {
+                  const icons: Record<Tab, string> = { roster: "group", curriculum: "menu_book", insights: "insights" };
+                  const labels: Record<Tab, string> = { roster: "Roster", curriculum: "Curriculum", insights: "Insights" };
+                  return (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(tab)}
+                      className={`flex items-center gap-2 pb-3 pt-2 border-b-2 transition-all text-sm font-bold ${
+                        activeTab === tab
+                          ? "border-[#13eca4] text-[#13eca4]"
+                          : "border-transparent text-slate-500 hover:text-slate-300 hover:border-slate-600"
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-lg">{icons[tab]}</span>
+                      {labels[tab]}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Roster Tab */}
+            {activeTab === "roster" && (
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-white">
+                    Class Roster{" "}
+                    <span className="text-slate-500 font-normal text-sm ml-2">
+                      ({selectedClassroom.enrolled} Students)
+                    </span>
+                  </h3>
+                  <button className="flex items-center gap-2 text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[rgba(19,236,164,0.2)] transition-all">
+                    <span className="material-symbols-outlined">person_add</span>
+                    Add Student
+                  </button>
+                </div>
+
+                <div className="overflow-hidden rounded-xl border border-[rgba(19,236,164,0.08)] bg-[#1a2e27]">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="bg-[rgba(0,0,0,0.2)] border-b border-[rgba(19,236,164,0.08)]">
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">Student Name</th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">Last Activity</th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider text-center">Status</th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider text-right">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[rgba(255,255,255,0.04)]">
+                        {uniqueStudents.length === 0 ? (
+                          <tr>
+                            <td colSpan={4} className="px-6 py-10 text-center text-slate-500 text-sm">
+                              No students enrolled yet. Share the join code to get started.
+                            </td>
+                          </tr>
+                        ) : (
+                          uniqueStudents.map((enrollment) => {
+                            const initials = enrollment.studentId.slice(0, 2).toUpperCase();
+                            const isActive = (enrollment.progress ?? 0) > 0;
+                            return (
+                              <tr key={enrollment.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
+                                      {initials}
+                                    </div>
+                                    <span className="text-slate-100 font-medium">{enrollment.studentId}</span>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-slate-400 text-sm">
+                                  Recently active
+                                  <span className="text-xs block text-slate-600">
+                                    Progress: {enrollment.progress ?? 0}%
+                                  </span>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-center">
+                                  {isActive ? (
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-500/10 text-green-500 border border-green-500/20">
+                                      Active
+                                    </span>
+                                  ) : (
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-500/10 text-slate-500 border border-slate-500/20">
+                                      Inactive
+                                    </span>
+                                  )}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-right">
+                                  <button className="text-[#13eca4] hover:text-[#13eca4]/80 text-sm font-bold tracking-wide">
+                                    Reset Password
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Bottom Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                  {/* Curriculum Visibility */}
+                  <div className="bg-[#1a2e27] rounded-xl p-6 border border-[rgba(19,236,164,0.08)]">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-base font-bold text-white">Curriculum Visibility</h4>
+                      <span className="material-symbols-outlined text-[#13eca4]">visibility</span>
+                    </div>
+                    <div className="space-y-4">
+                      {classroomCourses.length === 0 ? (
+                        <p className="text-xs text-slate-500 text-center py-2">No courses assigned</p>
+                      ) : (
+                        classroomCourses.slice(0, 3).map((course) => (
+                          <div key={course.id} className="flex items-center justify-between">
+                            <span className="text-sm text-slate-300 truncate max-w-[130px]">{course.title}</span>
+                            <label className="relative inline-flex h-6 w-11 items-center rounded-full bg-[#13eca4] cursor-pointer flex-shrink-0">
+                              <input type="checkbox" defaultChecked className="sr-only peer" />
+                              <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition peer-checked:translate-x-6" />
+                            </label>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Class Average */}
+                  <div className="bg-[#1a2e27] rounded-xl p-6 border border-[rgba(19,236,164,0.08)]">
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-base font-bold text-white">Class Average</h4>
+                      <span className="material-symbols-outlined text-[#13eca4]">analytics</span>
+                    </div>
+                    <div className="flex items-end justify-center gap-2 h-24 mb-4">
+                      {[60, 75, 85, 95, 50].map((h, i) => (
+                        <div
+                          key={i}
+                          className="w-8 rounded-t"
+                          style={{
+                            height: `${h}%`,
+                            background: `rgba(19,236,164,${0.2 + i * 0.15})`,
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <div className="text-center">
+                      <span className="text-2xl font-black text-[#13eca4]">
+                        {selectedClassroom.avgProgress ?? 0}%
+                      </span>
+                      <p className="text-xs text-slate-500 uppercase font-bold tracking-widest mt-1">
+                        Mastery Score
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Next Milestone */}
+                  <div className="bg-[#1a2e27] rounded-xl p-6 border border-[rgba(19,236,164,0.08)] flex flex-col justify-between">
+                    <div>
+                      <h4 className="text-base font-bold text-white mb-2">Next Milestone</h4>
+                      <p className="text-sm text-slate-400">
+                        {classroomCourses[0]
+                          ? `Complete: ${classroomCourses[0].title}`
+                          : "Assign a course to track milestones"}
+                      </p>
+                    </div>
+                    <div className="mt-4">
+                      <div className="w-full bg-white/10 rounded-full h-2">
+                        <div
+                          className="bg-[#13eca4] h-2 rounded-full"
+                          style={{ width: `${selectedClassroom.avgProgress ?? 0}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between mt-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+                        <span>{selectedClassroom.avgProgress ?? 0}% Progress</span>
+                        <span>{selectedClassroom.enrolled} Students</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Curriculum Tab */}
+            {activeTab === "curriculum" && (
+              <div className="bg-[#1a2e27] rounded-xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
                 <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
                   <h3 className="text-white font-bold">Course Access Control</h3>
-                  <Link
-                    href="/teacher/courses"
-                    className="text-[#13eca4] text-xs font-semibold hover:underline flex items-center gap-1"
-                  >
-                    Browse all courses
-                    <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-                  </Link>
+                  <button className="flex items-center gap-2 text-sm font-semibold text-[#13eca4] hover:underline">
+                    <span className="material-symbols-outlined text-[18px]">add_circle</span>
+                    Add Course
+                  </button>
                 </div>
                 <div className="divide-y divide-[rgba(255,255,255,0.05)]">
                   {classroomCourses.length === 0 && (
-                    <div className="px-6 py-8 text-center text-slate-500 text-sm">No courses assigned yet.</div>
+                    <div className="px-6 py-8 text-center text-slate-500 text-sm">
+                      No courses assigned yet.
+                    </div>
                   )}
                   {classroomCourses.map((course) => (
-                    <div key={course.id} className="px-6 py-4 flex items-center justify-between hover:bg-[rgba(255,255,255,0.02)] transition-colors">
+                    <div
+                      key={course.id}
+                      className="px-6 py-4 flex items-center justify-between hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+                    >
                       <div className="flex items-center gap-3">
                         <div
                           className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold text-white"
@@ -246,69 +448,67 @@ export default function TeacherClassroomPage() {
                         <span className="text-slate-300 font-medium text-sm">{course.title}</span>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
-                        <input
-                          type="checkbox"
-                          defaultChecked={true}
-                          className="sr-only peer"
-                        />
-                        <div className="w-11 h-6 bg-[rgba(255,255,255,0.1)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#13eca4]"></div>
+                        <input type="checkbox" defaultChecked className="sr-only peer" />
+                        <div className="w-11 h-6 bg-[rgba(255,255,255,0.1)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#13eca4]" />
                       </label>
                     </div>
                   ))}
                 </div>
-                <div className="px-6 py-4 bg-[rgba(0,0,0,0.1)]">
-                  <button className="flex items-center gap-2 text-[#13eca4] text-sm font-semibold hover:underline">
-                    <span className="material-symbols-outlined text-[18px]">add_circle</span>
-                    Add Course to Classroom
-                  </button>
-                </div>
               </div>
+            )}
 
-              {/* Students */}
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
-                <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
-                  <h3 className="text-white font-bold">
-                    Students ({selectedClassroom.enrolled})
-                  </h3>
-                  <button className="flex items-center gap-2 text-sm font-semibold bg-[rgba(19,236,164,0.1)] text-[#13eca4] px-3 py-1.5 rounded-lg hover:bg-[rgba(19,236,164,0.2)] transition-colors">
-                    <span className="material-symbols-outlined text-[16px]">person_add</span>
-                    Add Student
-                  </button>
-                </div>
-                <div className="divide-y divide-[rgba(255,255,255,0.05)]">
-                  {uniqueStudents.length === 0 && (
-                    <div className="px-6 py-8 text-center text-slate-500 text-sm">No students enrolled yet. Share the join code to get started.</div>
-                  )}
-                  {uniqueStudents.map((enrollment) => {
-                    const initials = enrollment.studentId.slice(0, 2).toUpperCase();
-                    return (
-                      <div key={enrollment.id} className="px-6 py-3.5 flex items-center gap-4">
-                        <div className="w-9 h-9 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center text-xs font-bold text-[#13eca4]">
-                          {initials}
+            {/* Insights Tab */}
+            {activeTab === "insights" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-[#1a2e27] rounded-xl p-6 border border-[rgba(19,236,164,0.08)]">
+                  <h4 className="text-base font-bold text-white mb-4">Enrollment Summary</h4>
+                  <div className="space-y-4">
+                    {[
+                      { label: "Total Students", value: selectedClassroom.enrolled, max: selectedClassroom.capacity },
+                      { label: "Average Progress", value: selectedClassroom.avgProgress ?? 0, max: 100 },
+                    ].map(({ label, value, max }) => (
+                      <div key={label}>
+                        <div className="flex justify-between text-sm mb-1.5">
+                          <span className="text-slate-400">{label}</span>
+                          <span className="text-[#13eca4] font-bold">{value} / {max}</span>
                         </div>
-                        <div className="flex-1">
-                          <p className="text-white text-sm font-medium">{enrollment.studentId}</p>
+                        <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+                            style={{ width: `${max > 0 ? Math.round((value / max) * 100) : 0}%` }}
+                          />
                         </div>
-                        <div className="flex items-center gap-3">
-                          <div className="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full"
-                              style={{ width: `${enrollment.progress ?? 0}%` }}
-                            />
-                          </div>
-                          <span className="text-[#13eca4] text-xs font-bold w-8 text-right">{enrollment.progress ?? 0}%</span>
-                        </div>
-                        <button className="p-1.5 rounded-lg text-slate-500 hover:text-[#13eca4] hover:bg-[rgba(19,236,164,0.08)] transition-all">
-                          <span className="material-symbols-outlined text-[18px]">more_vert</span>
-                        </button>
                       </div>
-                    );
-                  })}
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-[#1a2e27] rounded-xl p-6 border border-[rgba(19,236,164,0.08)]">
+                  <h4 className="text-base font-bold text-white mb-4">Courses Assigned</h4>
+                  {classroomCourses.length === 0 ? (
+                    <p className="text-slate-500 text-sm">No courses assigned yet.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {classroomCourses.map((course) => (
+                        <div key={course.id} className="flex items-center gap-3">
+                          <div
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                            style={{ background: course.color || "#13eca4" }}
+                          >
+                            {course.title.substring(0, 2).toUpperCase()}
+                          </div>
+                          <span className="text-sm text-slate-300 truncate">{course.title}</span>
+                          <span className="ml-auto text-[10px] font-bold uppercase text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-0.5 rounded flex-shrink-0">
+                            Active
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Create Classroom Modal */}

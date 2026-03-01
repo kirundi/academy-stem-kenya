@@ -126,10 +126,11 @@ export default function UsersManagementPage() {
               ) : (
                 filtered.map((u, i) => {
                   const color = roleColors[u.role] ?? "#13eca4";
-                  const joined = u.createdAt?.toDate
-                    ? new Date((u.createdAt as any).toDate()).toLocaleDateString()
-                    : u.createdAt
-                    ? new Date(u.createdAt).toLocaleDateString()
+                  const ca = u.createdAt as unknown as { toDate?: () => Date } | Date | undefined;
+                  const joined = ca && typeof (ca as { toDate?: () => Date }).toDate === "function"
+                    ? (ca as { toDate: () => Date }).toDate().toLocaleDateString()
+                    : ca
+                    ? new Date(ca as unknown as string | number).toLocaleDateString()
                     : "--";
                   return (
                     <tr key={u.id} className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}>
