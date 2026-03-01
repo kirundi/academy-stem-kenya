@@ -5,7 +5,6 @@ import {
   createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   signInWithPopup,
-  signInAnonymously,
   GoogleAuthProvider,
   updateProfile,
 } from "firebase/auth";
@@ -162,19 +161,21 @@ export function useAuth() {
     const classroomData = classroomDoc.data();
     const classroom = { id: classroomDoc.id, ...classroomData };
 
-    // Create anonymous student account if not logged in
+    // Students must sign in with Google — no anonymous accounts
     let currentUser = auth.currentUser;
     if (!currentUser) {
-      const cred = await signInAnonymously(auth);
+      const cred = await signInWithPopup(auth, googleProvider);
       currentUser = cred.user;
+    }
 
-      const studentName = `Student ${code.slice(0, 3)}`;
-      await updateProfile(currentUser, { displayName: studentName });
+    // Create or verify student user document
+    const userDocRef = doc(db, "users", currentUser.uid);
+    const userDoc = await getDoc(userDocRef);
 
-      // Create user document for the student
-      await setDoc(doc(db, "users", currentUser.uid), {
-        email: null,
-        displayName: studentName,
+    if (!userDoc.exists()) {
+      await setDoc(userDocRef, {
+        email: currentUser.email,
+        displayName: currentUser.displayName,
         role: "student" as UserRole,
         schoolId: classroomData.schoolId || null,
         createdAt: serverTimestamp(),
@@ -183,10 +184,10 @@ export function useAuth() {
         level: 1,
         badges: [],
       });
-
-      const idToken = await currentUser.getIdToken();
-      await setSessionCookie(idToken);
     }
+
+    const idToken = await currentUser.getIdToken();
+    await setSessionCookie(idToken);
 
     // Create enrollments for all courses in the classroom
     const courseIds = classroomData.courseIds || [];
