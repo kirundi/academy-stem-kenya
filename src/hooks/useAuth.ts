@@ -145,15 +145,16 @@ export function useAuth() {
     return { user, schoolId: schoolRef.id };
   }
 
-  async function studentLookup(code: string) {
+  async function studentVerify(code: string, firstName: string) {
     const res = await fetch("/api/auth/student-login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: code.toUpperCase() }),
+      body: JSON.stringify({ code: code.toUpperCase(), firstName }),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Student not found");
     return data.student as {
+      displayName: string;
       grade: string | null;
       schoolName: string;
     };
@@ -205,7 +206,7 @@ export function useAuth() {
 
   return {
     signIn,
-    studentLookup,
+    studentVerify,
     studentLogin,
     registerTeacher,
     onboardSchool,

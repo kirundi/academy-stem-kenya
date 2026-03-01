@@ -44,11 +44,30 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Step 1: preview only — return school & grade but NOT the student's name
+  // Shared name verification
+  const storedFirstName = (studentData.displayName || "").split(" ")[0].toLowerCase();
+  const providedFirstName = (firstName || "").trim().toLowerCase();
+  const nameProvided = firstName && typeof firstName === "string" && firstName.trim();
+  const nameMatches = nameProvided && storedFirstName === providedFirstName;
+
+  // Step 1: verify code + firstName → return student profile (no auth token)
   if (!confirm) {
+    if (!nameProvided) {
+      return NextResponse.json(
+        { error: "First name is required." },
+        { status: 400 },
+      );
+    }
+    if (!nameMatches) {
+      return NextResponse.json(
+        { error: "That name doesn't match this code. Try again or ask your teacher." },
+        { status: 403 },
+      );
+    }
     return NextResponse.json({
       found: true,
       student: {
+        displayName: studentData.displayName,
         grade: studentData.grade || null,
         schoolName,
       },
@@ -56,17 +75,14 @@ export async function POST(request: NextRequest) {
   }
 
   // Step 2: verify first name and generate custom token
-  if (!firstName || typeof firstName !== "string" || !firstName.trim()) {
+  if (!nameProvided) {
     return NextResponse.json(
       { error: "First name is required to log in." },
       { status: 400 },
     );
   }
 
-  const storedFirstName = (studentData.displayName || "").split(" ")[0].toLowerCase();
-  const providedFirstName = firstName.trim().toLowerCase();
-
-  if (storedFirstName !== providedFirstName) {
+  if (!nameMatches) {
     return NextResponse.json(
       { error: "That name doesn't match this code. Try again or ask your teacher." },
       { status: 403 },
