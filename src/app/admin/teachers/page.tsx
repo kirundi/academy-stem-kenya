@@ -3,14 +3,14 @@
 import { useState } from "react";
 
 const teachers = [
-  { name: "Dr. Sarah Jenkins", email: "sarah.j@academy.stemimpactcenterkenya.org", dept: "Physics",  deptColor: "#13eca4", students: 124, classes: 6, status: "active",  invited: false },
-  { name: "Marcus Thorne",     email: "m.thorne@academy.stemimpactcenterkenya.org", dept: "Robotics", deptColor: "#3b82f6", students: 88,  classes: 4, status: "active",  invited: false },
-  { name: "Elena Rodriguez",   email: "elena.r@academy.stemimpactcenterkenya.org",    dept: "Biotech",  deptColor: "#8b5cf6", students: null, classes: null, status: "invited", invited: true },
-  { name: "Alan Turing Jr.",   email: "turing@academy.stemimpactcenterkenya.org",  dept: "Comp Sci", deptColor: "#13eca4", students: 210, classes: 8, status: "active",  invited: false },
-  { name: "Ms. Wanjiku",       email: "wanjiku@academy.stemimpactcenterkenya.org", dept: "Game Design", deptColor: "#ec4899", students: 46, classes: 2, status: "active", invited: false },
-  { name: "Mr. Otieno",        email: "otieno@academy.stemimpactcenterkenya.org",  dept: "Green Tech",  deptColor: "#10b981", students: 38, classes: 2, status: "inactive", invited: false },
-  { name: "Dr. Chen",          email: "chen@academy.stemimpactcenterkenya.org",    dept: "Data Sci",    deptColor: "#f59e0b", students: 96, classes: 5, status: "active",  invited: false },
-  { name: "Ms. Achieng",       email: "achieng@academy.stemimpactcenterkenya.org",   dept: "Cybersec",    deptColor: "#06b6d4", students: null, classes: null, status: "invited", invited: true },
+  { name: "Dr. Sarah Jenkins", email: "sarah.j@stemimpactcenterkenya.org", dept: "Physics",  deptColor: "#13eca4", students: 124, classes: 6, status: "active",  invited: false },
+  { name: "Marcus Thorne",     email: "m.thorne@stemimpactcenterkenya.org", dept: "Robotics", deptColor: "#3b82f6", students: 88,  classes: 4, status: "active",  invited: false },
+  { name: "Elena Rodriguez",   email: "elena.r@stemimpactcenterkenya.org",    dept: "Biotech",  deptColor: "#8b5cf6", students: null, classes: null, status: "invited", invited: true },
+  { name: "Alan Turing Jr.",   email: "turing@stemimpactcenterkenya.org",  dept: "Comp Sci", deptColor: "#13eca4", students: 210, classes: 8, status: "active",  invited: false },
+  { name: "Ms. Wanjiku",       email: "wanjiku@stemimpactcenterkenya.org", dept: "Game Design", deptColor: "#ec4899", students: 46, classes: 2, status: "active", invited: false },
+  { name: "Mr. Otieno",        email: "otieno@stemimpactcenterkenya.org",  dept: "Green Tech",  deptColor: "#10b981", students: 38, classes: 2, status: "inactive", invited: false },
+  { name: "Dr. Chen",          email: "chen@stemimpactcenterkenya.org",    dept: "Data Sci",    deptColor: "#f59e0b", students: 96, classes: 5, status: "active",  invited: false },
+  { name: "Ms. Achieng",       email: "achieng@stemimpactcenterkenya.org",   dept: "Cybersec",    deptColor: "#06b6d4", students: null, classes: null, status: "invited", invited: true },
 ];
 
 const statusBadge = {
@@ -119,7 +119,7 @@ export default function TeacherManagementPage() {
         {/* Table */}
         <section className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden">
           <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3 flex-1 min-w-[240px]">
+            <div className="flex items-center gap-3 flex-1 min-w-60">
               <div className="relative flex-1 max-w-md">
                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
                 <input

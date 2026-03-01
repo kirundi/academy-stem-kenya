@@ -35,8 +35,10 @@ export default function ClassroomsPage() {
     editedCodes[id] !== undefined ? editedCodes[id] : defaultCode;
 
   const regenerateCode = (id: string) => {
-    const code = prefix + Math.random().toString(36).substring(2, 6).toUpperCase();
-    setEditedCodes((prev) => ({ ...prev, [id]: code }));
+    setEditedCodes((prev) => {
+      const code = prefix + crypto.randomUUID().substring(0, 4).toUpperCase();
+      return { ...prev, [id]: code };
+    });
   };
 
   return (
@@ -198,7 +200,7 @@ export default function ClassroomsPage() {
                       <tr key={c.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] text-xs font-bold flex-shrink-0">
+                            <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] text-xs font-bold shrink-0">
                               {teacherInitials}
                             </div>
                             <span className="text-sm font-medium text-white">

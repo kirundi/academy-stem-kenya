@@ -169,7 +169,7 @@ export default function TeacherEnrollmentPage() {
             <button
               key={c.id}
               onClick={() => setActiveClassroomIdx(idx)}
-              className={`flex-shrink-0 flex items-start gap-3 px-5 py-3 rounded-xl border text-left transition-all ${
+              className={`shrink-0 flex items-start gap-3 px-5 py-3 rounded-xl border text-left transition-all ${
                 activeClassroomIdx === idx
                   ? "bg-[rgba(19,236,164,0.08)] border-[rgba(19,236,164,0.25)] text-white"
                   : "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.07)] text-slate-400 hover:border-[rgba(255,255,255,0.15)]"

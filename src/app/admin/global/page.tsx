@@ -69,7 +69,7 @@ export default function GlobalAdminDashboard() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-white">Global Overview</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Platform-wide metrics · Mouse Create Network</p>
+          <p className="text-slate-400 text-xs mt-0.5">Platform-wide metrics · STEM Impact Academy</p>
         </div>
         <div className="flex items-center gap-3">
           <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
@@ -214,7 +214,7 @@ export default function GlobalAdminDashboard() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2 justify-center">
-                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-[60px]">
+                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-15">
                             <div className="h-1.5 rounded-full" style={{ background: hc, width: `${s.healthScore ?? 0}%` }} />
                           </div>
                           <span className="text-xs font-bold" style={{ color: hc }}>{s.healthScore ?? 0}%</span>

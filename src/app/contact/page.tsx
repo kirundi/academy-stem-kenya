@@ -20,8 +20,8 @@ export default function ContactPage() {
                 icon: "mail",
                 title: "Email",
                 desc: "General inquiries and support",
-                detail: "info@academy.stemimpactcenterkenya.org",
-                href: "mailto:info@academy.stemimpactcenterkenya.org",
+                detail: "info@stemimpactcenterkenya.org",
+                href: "mailto:info@stemimpactcenterkenya.org",
               },
               {
                 icon: "location_on",
@@ -75,7 +75,7 @@ export default function ContactPage() {
                   <label className="block text-xs font-bold uppercase text-slate-500 mb-2">Email</label>
                   <input
                     type="email"
-                    placeholder="you@academy.stemimpactcenterkenya.org"
+                    placeholder="you@stemimpactcenterkenya.org"
                     className="w-full rounded-lg bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#13eca4]"
                   />
                 </div>

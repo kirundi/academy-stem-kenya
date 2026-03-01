@@ -396,7 +396,7 @@ export default function UsersManagementPage() {
                     type="email"
                     value={inviteEmail}
                     onChange={(e) => setInviteEmail(e.target.value)}
-                    placeholder="user@academy.stemimpactcenterkenya.org"
+                    placeholder="user@stemimpactcenterkenya.org"
                     className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
                   />
                 </div>

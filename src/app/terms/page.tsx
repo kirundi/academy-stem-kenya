@@ -70,7 +70,7 @@ export default function TermsPage() {
               <p>
                 For questions about these Terms, please visit our{" "}
                 <Link href="/contact" className="text-[#13eca4] hover:underline">contact page</Link> or email{" "}
-                <a href="mailto:legal@academy.stemimpactcenterkenya.org" className="text-[#13eca4] hover:underline">legal@academy.stemimpactcenterkenya.org</a>.
+                <a href="mailto:legal@stemimpactcenterkenya.org" className="text-[#13eca4] hover:underline">legal@stemimpactcenterkenya.org</a>.
               </p>
             </section>
           </div>

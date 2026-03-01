@@ -113,7 +113,7 @@ export default function StudentDashboard() {
           <button className="p-2 rounded-full bg-[rgba(19,236,164,0.08)] text-[#13eca4] hover:bg-[rgba(19,236,164,0.15)] transition-colors">
             <span className="material-symbols-outlined text-[22px]">notifications</span>
           </button>
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-[#10221c] font-bold text-sm">
+          <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-[#10221c] font-bold text-sm">
             {initials}
           </div>
         </div>
@@ -121,8 +121,8 @@ export default function StudentDashboard() {
 
       <div className="px-8 py-8">
         {/* Hero welcome */}
-        <div className="relative bg-gradient-to-r from-[#1a2e27] to-[#162820] rounded-2xl p-8 mb-8 overflow-hidden border border-[rgba(19,236,164,0.1)]">
-          <div className="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-[rgba(19,236,164,0.03)] to-transparent" />
+        <div className="relative bg-linear-to-r from-[#1a2e27] to-[#162820] rounded-2xl p-8 mb-8 overflow-hidden border border-[rgba(19,236,164,0.1)]">
+          <div className="absolute right-0 top-0 w-64 h-full bg-linear-to-l from-[rgba(19,236,164,0.03)] to-transparent" />
           <div className="absolute -right-10 -bottom-10 w-48 h-48 border-2 border-[rgba(19,236,164,0.1)] rounded-full" />
           <div className="relative z-10">
             <p className="text-[#13eca4] font-semibold text-sm mb-2 uppercase tracking-widest">Welcome back</p>
@@ -154,10 +154,10 @@ export default function StudentDashboard() {
           {/* Courses grid */}
           <div className="xl:col-span-3">
             {/* Teacher Message Widget */}
-            <div className="relative bg-gradient-to-r from-[#1a2e27] to-[#162820] rounded-2xl p-5 mb-6 border border-[rgba(19,236,164,0.1)] overflow-hidden">
+            <div className="relative bg-linear-to-r from-[#1a2e27] to-[#162820] rounded-2xl p-5 mb-6 border border-[rgba(19,236,164,0.1)] overflow-hidden">
               <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[64px] text-[rgba(19,236,164,0.06)] pointer-events-none select-none" aria-hidden>campaign</span>
               <div className="flex items-start gap-4 relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[20px] text-[#13eca4]">campaign</span>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -170,14 +170,14 @@ export default function StudentDashboard() {
             {/* Recently Completed Banner */}
             {completedCourse && (
               <div className="flex items-center gap-4 p-4 rounded-2xl mb-6 border border-[rgba(0,245,212,0.2)] bg-[rgba(0,245,212,0.03)]">
-                <div className="w-10 h-10 rounded-xl bg-[rgba(0,245,212,0.1)] flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[rgba(0,245,212,0.1)] flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-[20px]" style={{ color: "#00f5d4", fontVariationSettings: "'FILL' 1" }}>emoji_events</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs font-bold uppercase tracking-wide mb-0.5" style={{ color: "#00f5d4" }}>Recently Completed</p>
                   <p className="text-white font-semibold text-sm truncate">{completedCourse.title}</p>
                 </div>
-                <Link href="/student/submit-success" className="text-[#0a1a18] text-xs font-bold px-4 py-2 rounded-lg flex-shrink-0 hover:opacity-90 transition-opacity" style={{ background: "#00f5d4" }}>
+                <Link href="/student/submit-success" className="text-[#0a1a18] text-xs font-bold px-4 py-2 rounded-lg shrink-0 hover:opacity-90 transition-opacity" style={{ background: "#00f5d4" }}>
                   View Certificate
                 </Link>
               </div>
@@ -222,7 +222,7 @@ export default function StudentDashboard() {
                 { icon: "military_tech", label: "Badges Earned", value: String(badgeCount), color: "#ec4899" },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-3 p-4 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.06)]">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${s.color}18` }}>
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${s.color}18` }}>
                     <span className="material-symbols-outlined text-[18px]" style={{ color: s.color }}>{s.icon}</span>
                   </div>
                   <div>
@@ -248,7 +248,7 @@ export default function StudentDashboard() {
                   <span className="text-[#13eca4] font-bold">{mergedCourses.length > 0 ? Math.round((mergedCourses.filter((c) => c.completed).length / mergedCourses.length) * 100) : 0}%</span>
                 </div>
                 <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full" style={{ width: `${mergedCourses.length > 0 ? Math.round((mergedCourses.filter((c) => c.completed).length / mergedCourses.length) * 100) : 0}%` }} />
+                  <div className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full" style={{ width: `${mergedCourses.length > 0 ? Math.round((mergedCourses.filter((c) => c.completed).length / mergedCourses.length) * 100) : 0}%` }} />
                 </div>
               </div>
               <p className="text-slate-400 text-xs">Keep learning to reach your goals!</p>
@@ -264,7 +264,7 @@ export default function StudentDashboard() {
                     return (
                       <div key={item.id} className="flex gap-3">
                         <div
-                          className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                          className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                           style={{ background: `${iconData.color}18` }}
                         >
                           <span className="material-symbols-outlined text-[18px]" style={{ color: iconData.color }}>

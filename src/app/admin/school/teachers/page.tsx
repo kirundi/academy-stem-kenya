@@ -126,7 +126,7 @@ export default function TeacherManagementPage() {
         {/* Table */}
         <section className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden">
           <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-3 flex-1 min-w-[240px]">
+            <div className="flex items-center gap-3 flex-1 min-w-60">
               <div className="relative flex-1 max-w-md">
                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
                 <input

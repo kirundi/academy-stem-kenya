@@ -63,7 +63,7 @@ export default function NotificationBell() {
       >
         <span className="material-symbols-outlined">notifications</span>
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] rounded-full bg-[#13eca4] text-[#10221c] text-[10px] font-black px-1 shadow-lg shadow-[rgba(19,236,164,0.3)]">
+          <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-4.5 h-4.5 rounded-full bg-[#13eca4] text-[#10221c] text-[10px] font-black px-1 shadow-lg shadow-[rgba(19,236,164,0.3)]">
             {unreadCount > 99 ? "99+" : unreadCount}
           </span>
         )}
@@ -112,7 +112,7 @@ export default function NotificationBell() {
                   }`}
                 >
                   <div
-                    className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${
+                    className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center ${
                       !notification.read
                         ? "bg-[rgba(19,236,164,0.15)] text-[#13eca4]"
                         : "bg-[rgba(255,255,255,0.06)] text-slate-500"
@@ -137,7 +137,7 @@ export default function NotificationBell() {
                     </p>
                   </div>
                   {!notification.read && (
-                    <div className="flex-shrink-0 w-2 h-2 rounded-full bg-[#13eca4] mt-1.5" />
+                    <div className="shrink-0 w-2 h-2 rounded-full bg-[#13eca4] mt-1.5" />
                   )}
                 </button>
               ))

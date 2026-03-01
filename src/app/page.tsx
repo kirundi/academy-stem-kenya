@@ -65,11 +65,11 @@ export default function Home() {
                   </div>
                 </div>
                 {/* Floating badge — top right */}
-                <div className="absolute -right-6 -top-6 z-20 h-24 w-24 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 p-4 shadow-xl rotate-12 flex items-center justify-center">
+                <div className="absolute -right-6 -top-6 z-20 h-24 w-24 rounded-xl bg-linear-to-br from-yellow-400 to-orange-500 p-4 shadow-xl rotate-12 flex items-center justify-center">
                   <span className="material-symbols-outlined text-4xl text-white">workspace_premium</span>
                 </div>
                 {/* Floating icon — bottom left */}
-                <div className="absolute -bottom-10 -left-10 z-20 h-32 w-32 rounded-xl bg-gradient-to-br from-blue-400 to-[#13daec] p-4 shadow-xl -rotate-12 flex items-center justify-center">
+                <div className="absolute -bottom-10 -left-10 z-20 h-32 w-32 rounded-xl bg-linear-to-br from-blue-400 to-[#13daec] p-4 shadow-xl -rotate-12 flex items-center justify-center">
                   <span className="material-symbols-outlined text-5xl text-white">science</span>
                 </div>
               </div>
@@ -85,7 +85,7 @@ export default function Home() {
               <p className="mt-4 text-slate-400">From setup to mastery, we make STEM integration effortless.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-              <div className="hidden md:block absolute top-10 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#283739] to-transparent" />
+              <div className="hidden md:block absolute top-10 left-0 w-full h-px bg-linear-to-r from-transparent via-[#283739] to-transparent" />
               {[
                 {
                   icon: "school",
@@ -162,7 +162,7 @@ export default function Home() {
                         className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlzHK5yWM6ct-5epWYffgEr24f-CLhHDhe-Rb2TpXI4o7Ejrrr2-zM079b6YmuVzyr15cZcSeSwUc1dvjYYlIP4X8DqDTOni8VmbQZNS64i_oEgJVULn-AjP1KbF6a_axWmYWmLG7NfXi0kAdT0ZjC1cpl_58WYqo5zvu67nY9eM0jAvCufQVkTL7C47Wy3dpEP4CJ9dv4jc0Fh2PjSWAXoNb7QYszjnrkPZbn7yEHzTcSu9Ads14idPnGHcW6GR29QoFQDJYy3LmV"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#102022]/80 to-transparent flex items-end p-6">
+                      <div className="absolute inset-0 bg-linear-to-t from-[#102022]/80 to-transparent flex items-end p-6">
                         <div className="flex items-center gap-3">
                           <div className="p-2 bg-[#13daec] rounded-lg text-[#102022]">
                             <span className="material-symbols-outlined">play_circle</span>
@@ -199,7 +199,7 @@ export default function Home() {
                       </div>
                     ))}
                     <div className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold flex-shrink-0">04</span>
+                      <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold shrink-0">04</span>
                       <div className="text-xs text-slate-100 font-bold">Motor Integration</div>
                     </div>
                     {[
@@ -207,7 +207,7 @@ export default function Home() {
                       { num: "06", label: "Logic Programming" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full border border-[#283739] flex items-center justify-center text-[10px] text-slate-500 font-bold flex-shrink-0">{num}</span>
+                        <span className="w-5 h-5 rounded-full border border-[#283739] flex items-center justify-center text-[10px] text-slate-500 font-bold shrink-0">{num}</span>
                         <div className="text-xs text-slate-500">{label}</div>
                       </div>
                     ))}

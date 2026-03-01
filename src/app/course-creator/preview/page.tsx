@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useDocument, useCollection, orderBy } from "@/hooks/useFirestore";
 import type { Course, Lesson, LessonBlock } from "@/lib/types";
@@ -215,16 +216,16 @@ function CourseCreatorPreview() {
                   }
                   if (block.type === "image") {
                     return (
-                      <div key={idx} className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)]">
+                      <div key={idx} className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)] h-75">
                         {block.url ? (
-                          <img src={block.url} alt={block.content || "Lesson image"} className="w-full h-[300px] object-cover" />
+                          <Image src={block.url} alt={block.content || "Lesson image"} fill className="object-cover" />
                         ) : (
-                          <div className="w-full h-[300px] bg-gradient-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                          <div className="w-full h-75 bg-linear-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
                             <span className="material-symbols-outlined text-slate-600 text-8xl">image</span>
                           </div>
                         )}
                         {block.content && (
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(16,34,28,0.8)] to-transparent p-6">
+                          <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-[rgba(16,34,28,0.8)] to-transparent p-6">
                             <p className="text-white font-bold text-lg">{block.content}</p>
                           </div>
                         )}
@@ -234,7 +235,7 @@ function CourseCreatorPreview() {
                   if (block.type === "video") {
                     return (
                       <div key={idx} className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)]">
-                        <div className="w-full h-[300px] bg-gradient-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                        <div className="w-full h-75 bg-linear-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
                           <span className="material-symbols-outlined text-slate-600 text-8xl">play_circle</span>
                         </div>
                       </div>
@@ -269,15 +270,15 @@ function CourseCreatorPreview() {
                 </p>
 
                 {/* Placeholder Image */}
-                <div className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)] mb-10 group">
+                <div className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)] mb-10 group h-75">
                   {course?.coverImageUrl ? (
-                    <img src={course.coverImageUrl} alt={course.title} className="w-full h-[300px] object-cover" />
+                    <Image src={course.coverImageUrl} alt={course.title} fill className="object-cover" />
                   ) : (
-                    <div className="w-full h-[300px] bg-gradient-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                    <div className="w-full h-75 bg-linear-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
                       <span className="material-symbols-outlined text-slate-600 text-8xl">precision_manufacturing</span>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,34,28,0.8)] to-transparent" />
+                  <div className="absolute inset-0 bg-linear-to-t from-[rgba(16,34,28,0.8)] to-transparent" />
                   <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                     <div>
                       <span className="bg-[rgba(19,236,164,0.2)] text-[#13eca4] text-[10px] font-bold uppercase px-2 py-1 rounded mb-2 inline-block">

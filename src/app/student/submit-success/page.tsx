@@ -23,7 +23,10 @@ function SubmitSuccessPage() {
   const searchParams = useSearchParams();
   const { appUser } = useAuthContext();
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const courseName = searchParams.get("course") ?? "Course";
   const displayName = appUser?.displayName ?? "Student";
@@ -40,19 +43,19 @@ function SubmitSuccessPage() {
         backgroundPosition: "0 0, 20px 20px",
       }} />
       {/* Glow behind badge */}
-      <div className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-10 blur-3xl pointer-events-none" style={{ background: "radial-gradient(circle, #13eca4, transparent)" }} />
+      <div className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 rounded-full opacity-10 blur-3xl pointer-events-none" style={{ background: "radial-gradient(circle, #13eca4, transparent)" }} />
 
       {/* Minimal navbar */}
       <header className="w-full flex items-center justify-between px-8 py-5 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur relative z-10">
         <div className="flex items-center gap-2">
-          <svg width="28" height="28" viewBox="0 0 85 85" fill="none"><path d="M42.44 44C42.44 44 28.46 23.19 19.1 10.01 17.48 7.68 19.16 4.5 21.97 4.5H62.91C65.72 4.5 67.4 7.68 65.78 10.01L51.8 30.21 65.78 50.4C67.4 52.73 65.72 55.91 62.91 55.91H51.8L65.78 76.1C67.4 78.43 65.72 81.61 62.91 81.61H21.97C19.16 81.61 17.48 78.43 19.1 76.1L33.08 55.91H21.97C19.16 55.91 17.48 52.73 19.1 50.4L33.08 30.21Z" fill="#13eca4"/></svg>
-          <span className="text-white font-black">mouse <span className="text-[#ff4d4d]">create</span></span>
+          <span className="material-symbols-outlined text-[#13eca4] text-[28px]">token</span>
+          <span className="text-white font-black uppercase italic">STEM Impact <span className="text-[#ff4d4d]">Academy</span></span>
         </div>
         <div className="flex items-center gap-5 text-slate-400 text-sm">
           <Link href="/student/dashboard" className="hover:text-[#13eca4] transition-colors">My Courses</Link>
           <Link href="/student/portfolio" className="hover:text-[#13eca4] transition-colors">Portfolio</Link>
         </div>
-        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-[#10221c] font-bold text-sm">{initials}</div>
+        <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-[#10221c] font-bold text-sm">{initials}</div>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 relative z-10 max-w-3xl w-full mx-auto">
@@ -137,7 +140,7 @@ function SubmitSuccessPage() {
           <Link href="/terms" className="hover:text-slate-400 transition-colors">Guidelines</Link>
           <Link href="/privacy" className="hover:text-slate-400 transition-colors">Privacy Policy</Link>
         </div>
-        <p className="mt-2">&copy; 2026 mouse create.</p>
+        <p className="mt-2">&copy; 2026 STEM Impact Academy.</p>
       </footer>
     </div>
   );

@@ -24,11 +24,7 @@ export function useNotifications(maxCount = 20) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!appUser?.uid) {
-      setNotifications([]);
-      setLoading(false);
-      return;
-    }
+    if (!appUser?.uid) return;
 
     const q = query(
       collection(db, "notifications"),
@@ -83,6 +79,17 @@ export function useNotifications(maxCount = 20) {
       if (process.env.NODE_ENV === "development") console.error("Failed to mark all notifications as read:", err);
     }
   }, [notifications]);
+
+  if (!appUser?.uid) {
+    return {
+      notifications: [],
+      unreadCount: 0,
+      loading: false,
+      error: null,
+      markAsRead,
+      markAllAsRead,
+    };
+  }
 
   return {
     notifications,

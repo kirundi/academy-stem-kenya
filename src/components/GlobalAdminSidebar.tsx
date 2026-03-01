@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import MouseLogo from "./MouseLogo";
+import StemLogo from "./StemLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
@@ -48,7 +48,7 @@ export default function GlobalAdminSidebar() {
   return (
     <aside className="fixed left-0 top-0 h-full w-60 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col z-30">
       <div className="px-5 py-5 border-b border-[rgba(19,236,164,0.06)]">
-        <MouseLogo size="sm" href="/admin/global" />
+        <StemLogo size="sm" href="/admin/global" />
         <div className="mt-3 flex items-center gap-2 px-1">
           <span className="w-5 h-5 rounded flex items-center justify-center" style={{ background: `${badgeColor}15` }}>
             <span className="material-symbols-outlined text-[14px]" style={{ color: badgeColor }}>

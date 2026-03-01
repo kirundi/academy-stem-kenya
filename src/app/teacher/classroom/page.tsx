@@ -144,10 +144,10 @@ export default function TeacherClassroomPage() {
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[#13eca4] text-[10px] font-bold uppercase tracking-widest truncate max-w-[120px]">
+                <span className="text-[#13eca4] text-[10px] font-bold uppercase tracking-widest truncate max-w-30">
                   {cls.subject}
                 </span>
-                <span className="text-[10px] font-bold text-slate-500 flex-shrink-0">
+                <span className="text-[10px] font-bold text-slate-500 shrink-0">
                   {cls.enrolled}/{cls.capacity}
                 </span>
               </div>
@@ -155,7 +155,7 @@ export default function TeacherClassroomPage() {
               <p className="text-slate-500 text-xs font-mono mt-0.5">{cls.joinCode}</p>
               <div className="mt-2 h-1 bg-white/10 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+                  className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full"
                   style={{ width: `${cls.avgProgress}%` }}
                 />
               </div>
@@ -351,8 +351,8 @@ export default function TeacherClassroomPage() {
                       ) : (
                         classroomCourses.slice(0, 3).map((course) => (
                           <div key={course.id} className="flex items-center justify-between">
-                            <span className="text-sm text-slate-300 truncate max-w-[130px]">{course.title}</span>
-                            <label className="relative inline-flex h-6 w-11 items-center rounded-full bg-[#13eca4] cursor-pointer flex-shrink-0">
+                            <span className="text-sm text-slate-300 truncate max-w-32.5">{course.title}</span>
+                            <label className="relative inline-flex h-6 w-11 items-center rounded-full bg-[#13eca4] cursor-pointer shrink-0">
                               <input type="checkbox" defaultChecked className="sr-only peer" />
                               <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition peer-checked:translate-x-6" />
                             </label>
@@ -449,7 +449,7 @@ export default function TeacherClassroomPage() {
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" defaultChecked className="sr-only peer" />
-                        <div className="w-11 h-6 bg-[rgba(255,255,255,0.1)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#13eca4]" />
+                        <div className="w-11 h-6 bg-[rgba(255,255,255,0.1)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#13eca4]" />
                       </label>
                     </div>
                   ))}
@@ -474,7 +474,7 @@ export default function TeacherClassroomPage() {
                         </div>
                         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+                            className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full"
                             style={{ width: `${max > 0 ? Math.round((value / max) * 100) : 0}%` }}
                           />
                         </div>
@@ -491,13 +491,13 @@ export default function TeacherClassroomPage() {
                       {classroomCourses.map((course) => (
                         <div key={course.id} className="flex items-center gap-3">
                           <div
-                            className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+                            className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white shrink-0"
                             style={{ background: course.color || "#13eca4" }}
                           >
                             {course.title.substring(0, 2).toUpperCase()}
                           </div>
                           <span className="text-sm text-slate-300 truncate">{course.title}</span>
-                          <span className="ml-auto text-[10px] font-bold uppercase text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-0.5 rounded flex-shrink-0">
+                          <span className="ml-auto text-[10px] font-bold uppercase text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-0.5 rounded shrink-0">
                             Active
                           </span>
                         </div>

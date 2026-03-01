@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import MouseLogo from "./MouseLogo";
+import StemLogo from "./StemLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument } from "@/hooks/useFirestore";
 import { useAuth } from "@/hooks/useAuth";
@@ -47,9 +47,9 @@ export default function SchoolAdminSidebar() {
   };
 
   return (
-    <aside className="w-60 flex-shrink-0 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col h-full fixed left-0 top-0 z-20">
+    <aside className="w-60 shrink-0 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col h-full fixed left-0 top-0 z-20">
       <div className="px-5 py-5 border-b border-[rgba(19,236,164,0.08)]">
-        <MouseLogo size="md" />
+        <StemLogo size="md" />
         <div className="mt-2">
           <span className="text-[10px] font-bold uppercase tracking-widest text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-0.5 rounded">
             School Admin

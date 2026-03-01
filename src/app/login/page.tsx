@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import MouseLogo from "@/components/MouseLogo";
+import StemLogo from "@/components/StemLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
@@ -176,7 +176,7 @@ export default function LoginPage() {
 
       {/* Navbar */}
       <header className="flex items-center justify-between px-6 md:px-20 py-4 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
-        <MouseLogo />
+        <StemLogo />
         <div className="flex items-center gap-6">
           <Link href="/#curriculum" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
             Courses
@@ -195,7 +195,7 @@ export default function LoginPage() {
 
       {/* Main */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14 relative">
-        <div className="max-w-[520px] w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-12 rounded-3xl shadow-2xl">
+        <div className="max-w-130 w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-12 rounded-3xl shadow-2xl">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.15)] rounded-full px-4 py-1.5 mb-4">
               <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
@@ -255,7 +255,7 @@ export default function LoginPage() {
                   }`}>
                     {classFound ? (
                       <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.15)] flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
                           <span className="material-symbols-outlined text-[18px] text-[#13eca4]">verified</span>
                         </div>
                         <div className="flex-1">
@@ -302,11 +302,11 @@ export default function LoginPage() {
 
               {/* Divider */}
               <div className="relative flex py-5 items-center">
-                <div className="flex-grow border-t border-[rgba(255,255,255,0.08)]" />
-                <span className="flex-shrink mx-4 text-slate-500 text-sm font-medium uppercase tracking-widest">
+                <div className="grow border-t border-[rgba(255,255,255,0.08)]" />
+                <span className="shrink mx-4 text-slate-500 text-sm font-medium uppercase tracking-widest">
                   OR
                 </span>
-                <div className="flex-grow border-t border-[rgba(255,255,255,0.08)]" />
+                <div className="grow border-t border-[rgba(255,255,255,0.08)]" />
               </div>
 
               {/* Google Classroom */}

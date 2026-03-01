@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import MouseLogo from "@/components/MouseLogo";
+import StemLogo from "@/components/StemLogo";
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -92,7 +92,7 @@ export default function TeacherRegisterPage() {
       <div className="relative w-full max-w-lg">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <MouseLogo size="lg" href="/" />
+          <StemLogo size="lg" href="/" />
         </div>
 
         {/* Step Indicator */}
@@ -128,7 +128,7 @@ export default function TeacherRegisterPage() {
           {step === 1 && (
             <>
               <h2 className="text-2xl font-bold text-white mb-1">Create Your Account</h2>
-              <p className="text-slate-400 text-sm mb-6">Join Mouse Create as an educator</p>
+              <p className="text-slate-400 text-sm mb-6">Join STEM Impact Academy as an educator</p>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="text-slate-400 text-xs font-semibold block mb-1.5">First Name</label>
@@ -141,7 +141,7 @@ export default function TeacherRegisterPage() {
               </div>
               <div className="mb-4">
                 <label className="text-slate-400 text-xs font-semibold block mb-1.5">Email Address</label>
-                <input type="email" className="form-input" placeholder="you@academy.stemimpactcenterkenya.org" value={formData.email} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} />
+                <input type="email" className="form-input" placeholder="you@stemimpactcenterkenya.org" value={formData.email} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} />
               </div>
               <div className="mb-4">
                 <label className="text-slate-400 text-xs font-semibold block mb-1.5">Password</label>

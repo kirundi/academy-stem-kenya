@@ -152,7 +152,7 @@ export default function SchoolsManagementPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2 justify-center">
-                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-[60px]">
+                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-15">
                             <div className="h-1.5 rounded-full" style={{ background: hc, width: `${s.healthScore ?? 0}%` }} />
                           </div>
                           <span className="text-xs font-bold" style={{ color: hc }}>{s.healthScore ?? 0}%</span>

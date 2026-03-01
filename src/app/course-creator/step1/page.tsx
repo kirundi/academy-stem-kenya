@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useCreateDoc } from "@/hooks/useFirestore";
@@ -150,7 +151,7 @@ export default function CourseCreatorStep1() {
       </header>
 
       <main className="flex justify-center py-10 px-4">
-        <div className="w-full max-w-[960px]">
+        <div className="w-full max-w-240">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap gap-2 mb-5 text-sm">
             <a href="/teacher/dashboard" className="text-slate-500 hover:text-[#13eca4] transition-colors">Dashboard</a>
@@ -214,10 +215,10 @@ export default function CourseCreatorStep1() {
                 />
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="relative group cursor-pointer border-2 border-dashed border-[rgba(255,255,255,0.15)] rounded-xl aspect-[4/3] flex flex-col items-center justify-center bg-[rgba(255,255,255,0.02)] hover:border-[rgba(19,236,164,0.5)] hover:bg-[rgba(19,236,164,0.03)] transition-all overflow-hidden"
+                  className="relative group cursor-pointer border-2 border-dashed border-[rgba(255,255,255,0.15)] rounded-xl aspect-4/3 flex flex-col items-center justify-center bg-[rgba(255,255,255,0.02)] hover:border-[rgba(19,236,164,0.5)] hover:bg-[rgba(19,236,164,0.03)] transition-all overflow-hidden"
                 >
                   {coverPreview ? (
-                    <img src={coverPreview} alt="Cover preview" className="absolute inset-0 w-full h-full object-cover" />
+                    <Image src={coverPreview} alt="Cover preview" fill className="object-cover" />
                   ) : (
                     <div className="text-center p-6">
                       <span className="material-symbols-outlined text-slate-600 text-5xl mb-2 group-hover:text-[#13eca4] transition-colors block">cloud_upload</span>

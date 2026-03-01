@@ -93,7 +93,7 @@ export default function BadgesPage() {
         {/* Radar + Right Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] rounded-2xl p-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-[rgba(19,236,164,0.03)] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-br from-[rgba(19,236,164,0.03)] to-transparent pointer-events-none" />
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-white font-bold text-lg">Skill Proficiency Map</h3>
               <div className="flex items-center gap-2 bg-[rgba(19,236,164,0.1)] px-3 py-1 rounded-full">
@@ -102,7 +102,7 @@ export default function BadgesPage() {
               </div>
             </div>
             <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="relative flex-shrink-0">
+              <div className="relative shrink-0">
                 <svg width="300" height="300" viewBox="0 0 360 360">
                   {[0.25,0.5,0.75,1].map((pct)=>(<polygon key={pct} points={ringPoints(pct)} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>))}
                   {axes.map((a,i)=>{const t=polarToXY(a,R_MAX);return(<line key={i} x1={CX} y1={CY} x2={t.x} y2={t.y} stroke="rgba(255,255,255,0.07)" strokeWidth="1"/>);})}

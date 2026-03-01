@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import MouseLogo from "@/components/MouseLogo";
+import StemLogo from "@/components/StemLogo";
 import { useAuth } from "@/hooks/useAuth";
 
 const STEP_LABELS = ["School Information", "Admin Account", "Submit Review"];
@@ -79,7 +79,7 @@ export default function OnboardingPage() {
       <div className="min-h-screen bg-[#10221c] flex items-start justify-center p-8">
         <div className="fixed inset-0 dot-pattern opacity-20" />
         <div className="relative w-full max-w-2xl">
-          <div className="flex justify-center mb-10"><MouseLogo size="lg" href="/" /></div>
+          <div className="flex justify-center mb-10"><StemLogo size="lg" href="/" /></div>
           <div className="flex flex-col items-center text-center mb-10">
             <div className="relative mb-8">
               <div className="w-24 h-24 rounded-full bg-[rgba(245,158,11,0.1)] border border-[rgba(245,158,11,0.3)] flex items-center justify-center">
@@ -138,8 +138,7 @@ export default function OnboardingPage() {
       {/* Sticky Header */}
       <header className="sticky top-0 z-20 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <MouseLogo size="sm" href="/" />
-          <span className="text-white font-bold text-lg hidden sm:block">STEM Learn</span>
+          <StemLogo size="sm" href="/" />
         </div>
         <span className="text-xs font-bold text-slate-400 bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] px-3 py-1.5 rounded-full">Guest Admin</span>
       </header>
@@ -156,7 +155,7 @@ export default function OnboardingPage() {
             </div>
             <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full transition-all duration-500"
+                className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full transition-all duration-500"
                 style={{ width: `${(step / 3) * 100}%` }}
               />
             </div>
@@ -283,7 +282,7 @@ export default function OnboardingPage() {
                   <input
                     type="email"
                     className="form-input"
-                    placeholder="admin@academy.stemimpactcenterkenya.org"
+                    placeholder="admin@stemimpactcenterkenya.org"
                     value={formData.email}
                     onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
                   />
@@ -343,7 +342,7 @@ export default function OnboardingPage() {
               <p className="text-red-300 text-sm font-semibold mb-1">Security Notice</p>
               <p className="text-slate-400 text-xs leading-relaxed">
                 Your information is encrypted and stored securely. Admin credentials will only be used for account access.
-                By submitting this form you agree to Mouse Create&apos;s{" "}
+                By submitting this form you agree to STEM Impact Academy&apos;s{" "}
                 <a href="/terms" className="text-[#13eca4] underline">Terms of Service</a> and{" "}
                 <a href="/privacy" className="text-[#13eca4] underline">Privacy Policy</a>.
               </p>

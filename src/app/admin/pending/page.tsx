@@ -6,7 +6,7 @@ const profileFields = [
   { label: "Institution Type",    value: "Private K-12 Academy" },
   { label: "Estimated Students",  value: "1,200 – 1,500 students" },
   { label: "Administrator",       value: "Dr. Sarah Jenkins" },
-  { label: "Email Address",       value: "s.jenkins@academy.stemimpactcenterkenya.org" },
+  { label: "Email Address",       value: "s.jenkins@stemimpactcenterkenya.org" },
 ];
 
 export default function SchoolPendingPage() {
@@ -18,7 +18,7 @@ export default function SchoolPendingPage() {
           <div className="w-8 h-8 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
             <span className="material-symbols-outlined text-[#13eca4] text-[20px]">rocket_launch</span>
           </div>
-          <span className="text-white font-bold text-lg">Mouse Create</span>
+          <span className="text-white font-bold text-lg">STEM Impact Academy</span>
         </div>
         <nav className="hidden md:flex items-center gap-8">
           <a href="/contact" className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors">Support</a>
@@ -51,7 +51,7 @@ export default function SchoolPendingPage() {
                 Registration Under Review
               </h1>
               <p className="text-slate-400 text-lg max-w-xl">
-                Our Global Admin team is currently verifying your school's credentials. This typically takes 24–48 hours to ensure a secure learning environment for all students.
+                Our Global Admin team is currently verifying your school&apos;s credentials. This typically takes 24–48 hours to ensure a secure learning environment for all students.
               </p>
               <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
                 <button className="flex items-center gap-2 px-6 py-3 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity">
@@ -64,7 +64,7 @@ export default function SchoolPendingPage() {
               </div>
             </div>
             {/* Spinning Icon */}
-            <div className="relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0">
+            <div className="relative w-48 h-48 md:w-64 md:h-64 shrink-0">
               <div className="absolute inset-0 bg-[rgba(19,236,164,0.1)] rounded-full animate-ping opacity-20" />
               <div
                 className="absolute inset-4 border-2 border-dashed border-[rgba(19,236,164,0.4)] rounded-full"

@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument, useCollection, useCreateDoc } from "@/hooks/useFirestore";
 import { where, orderBy } from "firebase/firestore";
@@ -134,7 +135,7 @@ export default function LessonPage() {
         </div>
         <div className="hidden md:flex items-center gap-2">
           <div className="h-2 w-32 bg-white/10 rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full" style={{ width: `${(completedCount / steps.length) * 100}%` }} />
+            <div className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full" style={{ width: `${(completedCount / steps.length) * 100}%` }} />
           </div>
           <span className="text-[#13eca4] text-xs font-bold">{completedCount}/{steps.length}</span>
         </div>
@@ -149,7 +150,7 @@ export default function LessonPage() {
           <div className="p-5 border-b border-[rgba(19,236,164,0.08)]">
             <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-1">Course Progress</p>
             <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mt-2">
-              <div className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full" style={{ width: `${(completedCount / steps.length) * 100}%` }} />
+              <div className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full" style={{ width: `${(completedCount / steps.length) * 100}%` }} />
             </div>
             <p className="text-xs text-slate-500 mt-1.5">{completedCount} of {steps.length} steps complete</p>
           </div>
@@ -175,7 +176,7 @@ export default function LessonPage() {
                       : "hover:bg-[rgba(255,255,255,0.04)]"
                   }`}
                 >
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
                     step.completed ? "bg-[#13eca4]"
                     : isCurrent ? "bg-[rgba(19,236,164,0.2)] border-2 border-[#13eca4]"
                     : "bg-white/10"
@@ -258,7 +259,7 @@ export default function LessonPage() {
                               <p className="text-slate-300 text-sm leading-relaxed">{block.content}</p>
                             )}
                             {block.type === "image" && block.url && (
-                              <img src={block.url} alt={block.content} className="rounded-xl max-w-full" />
+                              <Image src={block.url} alt={block.content} width={800} height={450} className="rounded-xl max-w-full h-auto" />
                             )}
                             {block.type === "video" && block.url && (
                               <div className="aspect-video bg-black rounded-xl overflow-hidden">
@@ -281,7 +282,7 @@ export default function LessonPage() {
                   </div>
                   <div className="border-t border-[rgba(19,236,164,0.08)] p-6 bg-[rgba(19,236,164,0.03)]">
                     <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.15)] flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
                         <span className="material-symbols-outlined text-[22px] text-[#13eca4]">task_alt</span>
                       </div>
                       <div className="flex-1">
@@ -319,7 +320,7 @@ export default function LessonPage() {
                           <textarea
                             rows={4}
                             placeholder={placeholder}
-                            className="form-input resize-none min-h-[110px]"
+                            className="form-input resize-none min-h-27.5"
                             value={reflectionAnswers[i]}
                             onChange={(e) => {
                               const updated = [...reflectionAnswers];

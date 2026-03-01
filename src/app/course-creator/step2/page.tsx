@@ -2,9 +2,10 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useDocument, useCollection, useUpdateDoc, orderBy } from "@/hooks/useFirestore";
+import { useDocument, useCollection, orderBy } from "@/hooks/useFirestore";
 import { useFileUpload } from "@/hooks/useFileUpload";
 import { logActivity } from "@/lib/activity-logger";
 import { collection, addDoc, serverTimestamp, doc, updateDoc } from "firebase/firestore";
@@ -389,13 +390,13 @@ function CourseCreatorStep2() {
                           {block.url ? "Replace Image" : "Upload Image"}
                         </button>
                       </div>
-                      <div className="relative rounded-lg overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[rgba(0,0,0,0.3)] group/img">
+                      <div className="relative rounded-lg overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[rgba(0,0,0,0.3)] group/img h-48">
                         {block.url ? (
-                          <img src={block.url} alt={block.content || "Lesson image"} className="w-full h-48 object-cover" />
+                          <Image src={block.url} alt={block.content || "Lesson image"} fill className="object-cover" />
                         ) : (
                           <div
                             onClick={() => handleImageUpload(idx)}
-                            className="w-full h-48 bg-gradient-to-br from-[rgba(19,236,164,0.1)] to-[rgba(59,130,246,0.1)] flex items-center justify-center cursor-pointer"
+                            className="w-full h-48 bg-linear-to-br from-[rgba(19,236,164,0.1)] to-[rgba(59,130,246,0.1)] flex items-center justify-center cursor-pointer"
                           >
                             {uploading ? (
                               <div className="flex flex-col items-center gap-2">

@@ -249,7 +249,7 @@ export default function GradingPage() {
                       </div>
                       <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-[#13eca4] to-[#0dd494] rounded-full transition-all"
+                          className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full transition-all"
                           style={{ width: `${(rubric[criterion.label] / criterion.max) * 100}%` }}
                         />
                       </div>

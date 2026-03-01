@@ -175,7 +175,7 @@ export default function ReportsPage() {
                       <td className="px-4 py-4 text-center text-slate-300">{data.students.toLocaleString()}</td>
                       <td className="px-4 py-4 text-center">
                         <div className="flex items-center gap-2 justify-center">
-                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-[60px]">
+                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-15">
                             <div className="h-1.5 rounded-full bg-[#13eca4]" style={{ width: `${pct}%` }} />
                           </div>
                           <span className="text-xs font-bold text-[#13eca4]">{pct}%</span>

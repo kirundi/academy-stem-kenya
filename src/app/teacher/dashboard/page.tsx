@@ -141,7 +141,7 @@ export default function TeacherDashboard() {
               {/* Create New */}
               <Link
                 href="/teacher/classroom"
-                className="bg-transparent border-2 border-dashed border-[rgba(19,236,164,0.18)] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 hover:border-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.03)] transition-all min-h-[180px] group"
+                className="bg-transparent border-2 border-dashed border-[rgba(19,236,164,0.18)] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 hover:border-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.03)] transition-all min-h-45 group"
               >
                 <div className="w-12 h-12 rounded-full bg-[rgba(19,236,164,0.08)] flex items-center justify-center group-hover:bg-[rgba(19,236,164,0.15)] transition-colors">
                   <span className="material-symbols-outlined text-[#13eca4] text-[24px]">add</span>
@@ -219,7 +219,7 @@ export default function TeacherDashboard() {
             </div>
 
             {/* Support */}
-            <div className="bg-gradient-to-br from-[rgba(19,236,164,0.06)] to-transparent rounded-2xl border border-[rgba(19,236,164,0.12)] p-5">
+            <div className="bg-linear-to-br from-[rgba(19,236,164,0.06)] to-transparent rounded-2xl border border-[rgba(19,236,164,0.12)] p-5">
               <div className="flex items-start gap-3 mb-4">
                 <span className="material-symbols-outlined text-[#13eca4] text-[28px]">school</span>
                 <div>

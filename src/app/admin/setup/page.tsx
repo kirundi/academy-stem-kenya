@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import MouseLogo from "@/components/MouseLogo";
+import StemLogo from "@/components/StemLogo";
 
 export default function AdminSetupPage() {
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function AdminSetupPage() {
     <div className="min-h-screen bg-[#10221c] flex items-center justify-center p-6">
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
-          <MouseLogo size="md" />
+          <StemLogo size="md" />
           <h1 className="text-2xl font-bold text-white mt-6">Platform Setup</h1>
           <p className="text-slate-400 text-sm mt-2">STEM Impact Academy — Admin Initialization</p>
         </div>
@@ -80,7 +80,7 @@ export default function AdminSetupPage() {
               <p className="text-slate-400 text-sm mt-2 mb-1">
                 This will create the global super admin account for:
               </p>
-              <p className="text-[#13eca4] font-mono text-sm font-bold">magu@academy.stemimpactcenterkenya.org</p>
+              <p className="text-[#13eca4] font-mono text-sm font-bold">magu@stemimpactcenterkenya.org</p>
 
               {error && (
                 <div className="mt-4 bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-4 py-3">

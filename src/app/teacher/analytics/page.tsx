@@ -162,7 +162,7 @@ export default function TeacherAnalyticsPage() {
             <button
               key={c.id}
               onClick={() => setActiveClassroom(i)}
-              className={`flex-shrink-0 px-5 py-3 rounded-xl text-sm font-semibold transition-all border ${
+              className={`shrink-0 px-5 py-3 rounded-xl text-sm font-semibold transition-all border ${
                 activeClassroom === i
                   ? "bg-[rgba(19,236,164,0.1)] border-[rgba(19,236,164,0.3)] text-[#13eca4]"
                   : "bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.08)] text-slate-400 hover:text-white"

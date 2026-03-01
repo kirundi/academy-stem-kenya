@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 interface CourseCardProps {
   id: string;
@@ -78,7 +79,7 @@ export default function CourseCard({
       {/* Image */}
       <div className="relative h-44 overflow-hidden bg-[#0d1f1a]">
         {image ? (
-          <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <Image src={image} alt={title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
           <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${color}20, ${color}08)` }}>
             <span className="material-symbols-outlined" style={{ fontSize: 56, color: `${color}60` }}>auto_stories</span>
@@ -87,7 +88,7 @@ export default function CourseCard({
         {completed && (
           <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${completedColor}15, transparent)` }} />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d1f1a]/80 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#0d1f1a]/80 to-transparent" />
         <span className="absolute bottom-3 left-3 text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider text-white" style={{ background: completed ? completedColor : color, color: completed ? "#0a1a18" : "white" }}>
           {category}
         </span>

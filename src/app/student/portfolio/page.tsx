@@ -175,7 +175,7 @@ export default function PortfolioPage() {
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-start justify-between mb-3">
                       <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                         style={{ background: `${project.color}18` }}
                       >
                         <span className="material-symbols-outlined text-[22px]" style={{ color: project.color }}>

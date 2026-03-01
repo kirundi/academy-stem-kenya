@@ -29,11 +29,7 @@ export function useDocument<T = DocumentData>(
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!docId) {
-      setData(null);
-      setLoading(false);
-      return;
-    }
+    if (!docId) return;
 
     const docRef = doc(db, collectionName, docId);
     const unsubscribe = onSnapshot(
@@ -55,6 +51,7 @@ export function useDocument<T = DocumentData>(
     return () => unsubscribe();
   }, [collectionName, docId]);
 
+  if (!docId) return { data: null, loading: false, error: null };
   return { data, loading, error };
 }
 
@@ -73,10 +70,7 @@ export function useCollection<T = DocumentData>(
   );
 
   useEffect(() => {
-    if (!enabled) {
-      setLoading(false);
-      return;
-    }
+    if (!enabled) return;
 
     const q = query(collection(db, collectionName), ...constraints);
     const unsubscribe = onSnapshot(
@@ -98,6 +92,7 @@ export function useCollection<T = DocumentData>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collectionName, constraintKey, enabled]);
 
+  if (!enabled) return { data: [] as (T & { id: string })[], loading: false, error: null };
   return { data, loading, error };
 }
 

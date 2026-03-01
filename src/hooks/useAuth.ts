@@ -141,7 +141,7 @@ export function useAuth() {
     return { user, schoolId: schoolRef.id };
   }
 
-  async function joinClassroom(code: string, studentName?: string) {
+  async function joinClassroom(code: string) {
     // Look up the classroom by join code
     const q = query(
       collection(db, "classrooms"),

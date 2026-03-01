@@ -178,7 +178,7 @@ export default function StudentProgressPage() {
 
       <div className="px-8 py-8">
         {/* XP Hero */}
-        <div className="bg-gradient-to-r from-[rgba(19,236,164,0.08)] to-[rgba(19,236,164,0.02)] border border-[rgba(19,236,164,0.12)] rounded-3xl p-7 mb-8 relative overflow-hidden">
+        <div className="bg-linear-to-r from-[rgba(19,236,164,0.08)] to-[rgba(19,236,164,0.02)] border border-[rgba(19,236,164,0.12)] rounded-3xl p-7 mb-8 relative overflow-hidden">
           <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full opacity-5 blur-2xl bg-[#13eca4]" />
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex items-center gap-5">
@@ -212,7 +212,7 @@ export default function StudentProgressPage() {
               <span className="text-[#13eca4] font-bold">{xp} / {xpForNextLevel} XP</span>
             </div>
             <div className="h-2.5 bg-[rgba(255,255,255,0.08)] rounded-full">
-              <div className="h-2.5 rounded-full bg-gradient-to-r from-[#13eca4] to-[#06d68e] transition-all" style={{ width: `${xpPercent}%` }} />
+              <div className="h-2.5 rounded-full bg-linear-to-r from-[#13eca4] to-[#06d68e] transition-all" style={{ width: `${xpPercent}%` }} />
             </div>
           </div>
         </div>
@@ -281,7 +281,7 @@ export default function StudentProgressPage() {
               <div className="space-y-4">
                 {milestones.map((m) => (
                   <div key={m.label} className="flex items-start gap-3 relative pl-1">
-                    <div className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${m.done ? "bg-[rgba(19,236,164,0.15)]" : "bg-[rgba(255,255,255,0.05)]"}`}>
+                    <div className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${m.done ? "bg-[rgba(19,236,164,0.15)]" : "bg-[rgba(255,255,255,0.05)]"}`}>
                       <span className={`material-symbols-outlined text-[14px] ${m.done ? "text-[#13eca4]" : "text-slate-600"}`}>{m.icon}</span>
                     </div>
                     <div>

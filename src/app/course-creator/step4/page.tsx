@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument, useUpdateDoc, useCollection } from "@/hooks/useFirestore";
@@ -169,7 +170,7 @@ function CourseCreatorStep4() {
       </header>
 
       <main className="flex-1 flex flex-col items-center">
-        <div className="w-full max-w-[1100px] px-6 py-8">
+        <div className="w-full max-w-275 px-6 py-8">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
             <a href="/teacher/courses" className="text-slate-500 hover:text-[#13eca4]">Course Creator</a>
@@ -344,9 +345,9 @@ function CourseCreatorStep4() {
               <div className="bg-[rgba(255,255,255,0.02)] rounded-2xl border border-[rgba(255,255,255,0.07)] p-6">
                 <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Course Preview Card</p>
                 <div className="bg-[#1a2e27] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-xl">
-                  <div className="h-32 bg-gradient-to-br from-[rgba(19,236,164,0.3)] to-[rgba(19,236,164,0.05)] relative">
+                  <div className="h-32 bg-linear-to-br from-[rgba(19,236,164,0.3)] to-[rgba(19,236,164,0.05)] relative">
                     {course?.coverImageUrl ? (
-                      <img src={course.coverImageUrl} alt={course.title} className="w-full h-full object-cover" />
+                      <Image src={course.coverImageUrl} alt={course.title} fill className="object-cover" />
                     ) : null}
                     <div className="absolute bottom-4 left-4 w-14 h-14 bg-[#10221c] rounded-xl flex items-center justify-center border border-[rgba(19,236,164,0.25)]">
                       <span className="material-symbols-outlined text-[#13eca4] text-3xl">{course?.icon || "precision_manufacturing"}</span>
@@ -374,7 +375,7 @@ function CourseCreatorStep4() {
 
       {/* Footer */}
       <footer className="border-t border-[rgba(255,255,255,0.07)] py-8 px-10 bg-[#10221c] mt-12">
-        <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="max-w-275 mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2 text-slate-500">
             <span className="material-symbols-outlined">copyright</span>
             <span className="text-sm font-medium">2026 STEM Learn Platforms Inc.</span>
