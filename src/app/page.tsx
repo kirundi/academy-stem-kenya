@@ -140,11 +140,11 @@ export default function Home() {
                     <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
                     <div className="w-3 h-3 rounded-full bg-green-500/50" />
                   </div>
-                  <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Activity: Building a Robot</span>
+                  <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">Activity: JavaScript Chatbot</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-slate-400 text-lg">timer</span>
-                  <span className="text-xs text-slate-400">45 Min Step</span>
+                  <span className="text-xs text-slate-400">30 Min Step</span>
                 </div>
               </div>
               <div className="flex flex-col lg:flex-row">
@@ -152,28 +152,28 @@ export default function Home() {
                 <div className="flex-1 p-8 lg:p-12 border-r border-[#283739]">
                   <div className="mb-8">
                     <div className="inline-block px-3 py-1 bg-[rgba(255,77,77,0.15)] text-[#ff4d4d] text-[10px] font-black uppercase tracking-widest rounded mb-4">
-                      Step 04: Motor Integration
+                      Step 03: Response Logic
                     </div>
-                    <h4 className="text-3xl font-bold text-slate-100 mb-6">Mounting the Primary Drive Motors</h4>
-                    <div className="aspect-video w-full rounded-xl bg-slate-800 relative overflow-hidden group">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        alt="Robot assembly"
-                        className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlzHK5yWM6ct-5epWYffgEr24f-CLhHDhe-Rb2TpXI4o7Ejrrr2-zM079b6YmuVzyr15cZcSeSwUc1dvjYYlIP4X8DqDTOni8VmbQZNS64i_oEgJVULn-AjP1KbF6a_axWmYWmLG7NfXi0kAdT0ZjC1cpl_58WYqo5zvu67nY9eM0jAvCufQVkTL7C47Wy3dpEP4CJ9dv4jc0Fh2PjSWAXoNb7QYszjnrkPZbn7yEHzTcSu9Ads14idPnGHcW6GR29QoFQDJYy3LmV"
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-[#102022]/80 to-transparent flex items-end p-6">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-[#13daec] rounded-lg text-[#102022]">
-                            <span className="material-symbols-outlined">play_circle</span>
-                          </div>
-                          <span className="text-sm font-bold text-white">Watch Video Tutorial</span>
-                        </div>
+                    <h4 className="text-3xl font-bold text-slate-100 mb-6">Building the Reply Engine</h4>
+                    <div className="w-full rounded-xl bg-[#0d1b1e] border border-[#283739] overflow-hidden font-mono text-sm">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-[#283739]/50 border-b border-[#283739]">
+                        <span className="material-symbols-outlined text-yellow-400 text-sm">javascript</span>
+                        <span className="text-[10px] text-slate-400 uppercase tracking-widest">chatbot.js</span>
+                      </div>
+                      <div className="p-4 space-y-1 text-[13px] leading-relaxed">
+                        <div><span className="text-purple-400">function</span> <span className="text-yellow-300">getReply</span><span className="text-slate-300">(message) {"{"}</span></div>
+                        <div className="pl-4"><span className="text-purple-400">const</span> <span className="text-sky-300">msg</span> <span className="text-slate-400">=</span> <span className="text-slate-300">message.</span><span className="text-yellow-300">toLowerCase</span><span className="text-slate-300">();</span></div>
+                        <div className="pl-4 mt-2"><span className="text-purple-400">if</span> <span className="text-slate-300">(msg.</span><span className="text-yellow-300">includes</span><span className="text-slate-300">(</span><span className="text-green-400">&quot;hello&quot;</span><span className="text-slate-300">))</span></div>
+                        <div className="pl-8"><span className="text-purple-400">return</span> <span className="text-green-400">&quot;Hi there! How can I help?&quot;</span><span className="text-slate-300">;</span></div>
+                        <div className="pl-4"><span className="text-purple-400">if</span> <span className="text-slate-300">(msg.</span><span className="text-yellow-300">includes</span><span className="text-slate-300">(</span><span className="text-green-400">&quot;weather&quot;</span><span className="text-slate-300">))</span></div>
+                        <div className="pl-8"><span className="text-purple-400">return</span> <span className="text-green-400">&quot;Nairobi is sunny today!&quot;</span><span className="text-slate-300">;</span></div>
+                        <div className="pl-4 mt-2"><span className="text-purple-400">return</span> <span className="text-green-400">&quot;Tell me more!&quot;</span><span className="text-slate-300">;</span></div>
+                        <div><span className="text-slate-300">{"}"}</span></div>
                       </div>
                     </div>
                   </div>
                   <p className="text-slate-400 leading-relaxed mb-6">
-                    Align the servo motor brackets with the pre-drilled holes on the chassis plate. Ensure the wires are facing toward the central control hub to prevent tension during movement.
+                    Create a function that reads the user&apos;s message and returns a matching reply. Use <code className="text-[#13daec] bg-[#13daec]/10 px-1.5 py-0.5 rounded text-xs">includes()</code> to check for keywords and build branching logic that gives your chatbot personality.
                   </p>
                   <div className="flex gap-4">
                     <button className="px-6 py-2 bg-[#283739] text-slate-100 font-bold rounded-lg text-sm hover:bg-slate-700 transition-colors">
@@ -189,9 +189,8 @@ export default function Home() {
                   <h5 className="text-xs font-black uppercase text-slate-500 tracking-widest mb-6">Course Navigation</h5>
                   <div className="space-y-4">
                     {[
-                      { num: "01", label: "Project Intro" },
-                      { num: "02", label: "Safety Protocol" },
-                      { num: "03", label: "Chassis Assembly" },
+                      { num: "01", label: "Project Setup" },
+                      { num: "02", label: "HTML Chat UI" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3 opacity-50">
                         <span className="material-symbols-outlined text-[#13daec] text-sm">check_circle</span>
@@ -199,12 +198,13 @@ export default function Home() {
                       </div>
                     ))}
                     <div className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold shrink-0">04</span>
-                      <div className="text-xs text-slate-100 font-bold">Motor Integration</div>
+                      <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold shrink-0">03</span>
+                      <div className="text-xs text-slate-100 font-bold">Response Logic</div>
                     </div>
                     {[
-                      { num: "05", label: "Sensor Calibration" },
-                      { num: "06", label: "Logic Programming" },
+                      { num: "04", label: "Event Listeners" },
+                      { num: "05", label: "Styling & Polish" },
+                      { num: "06", label: "Deploy & Share" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3">
                         <span className="w-5 h-5 rounded-full border border-[#283739] flex items-center justify-center text-[10px] text-slate-500 font-bold shrink-0">{num}</span>
@@ -214,7 +214,7 @@ export default function Home() {
                     <div className="pt-6 border-t border-[#283739] mt-6">
                       <div className="p-4 rounded-lg bg-[#1a2e30] border border-[#283739] text-center">
                         <div className="text-[10px] font-black uppercase text-[#13daec] mb-2">Next Badge</div>
-                        <div className="text-xs font-bold text-slate-200">Robotics Lead I</div>
+                        <div className="text-xs font-bold text-slate-200">JS Developer I</div>
                       </div>
                     </div>
                   </div>
