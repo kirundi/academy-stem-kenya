@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 const departments = [
   { name: "Robotics",     pct: 94, color: "#13eca4" },
   { name: "Data Science", pct: 82, color: "#3b82f6" },
@@ -33,10 +31,10 @@ export default function SchoolAnalyticsPage() {
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">Dashboard</span>
-            <a href="#" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Departments</a>
-            <a href="#" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Classrooms</a>
+            <a href="/admin/global" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Overview</a>
+            <a href="/admin/global/schools" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Schools</a>
             <a href="/admin/teachers" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Teachers</a>
-            <a href="#" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Reports</a>
+            <a href="/admin/global/reports" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Reports</a>
           </nav>
         </div>
         <div className="flex items-center gap-2">
@@ -180,7 +178,7 @@ export default function SchoolAnalyticsPage() {
             <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden pb-6">
               <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex justify-between items-center">
                 <h3 className="text-white font-bold text-lg">Top Performing Classrooms</h3>
-                <a href="#" className="text-[#13eca4] text-sm font-semibold hover:underline">View All</a>
+                <a href="/admin/global/schools" className="text-[#13eca4] text-sm font-semibold hover:underline">View All</a>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">

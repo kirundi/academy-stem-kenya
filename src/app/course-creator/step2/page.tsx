@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useDocument, useCollection, useCreateDoc, useUpdateDoc, orderBy } from "@/hooks/useFirestore";
+import { useDocument, useCollection, useUpdateDoc, orderBy } from "@/hooks/useFirestore";
 import { useFileUpload } from "@/hooks/useFileUpload";
 import { logActivity } from "@/lib/activity-logger";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { Course, Lesson, LessonBlock } from "@/lib/types";
 
@@ -108,14 +108,10 @@ function CourseCreatorStep2() {
 
       // If editing an existing lesson
       if (lessons && lessons[activeLessonIdx]) {
-        const { update } = { update: async (docId: string, data: Record<string, unknown>) => {
-          const { doc: firestoreDoc, updateDoc: firestoreUpdateDoc } = await import("firebase/firestore");
-          await firestoreUpdateDoc(firestoreDoc(db, `courses/${courseId}/lessons`, docId), {
-            ...data,
-            updatedAt: serverTimestamp(),
-          });
-        }};
-        await update(lessons[activeLessonIdx].id, lessonData);
+        await updateDoc(doc(db, `courses/${courseId}/lessons`, lessons[activeLessonIdx].id), {
+          ...lessonData,
+          updatedAt: serverTimestamp(),
+        });
       } else {
         // Create new lesson in subcollection
         await addDoc(collection(db, `courses/${courseId}/lessons`), {
@@ -126,8 +122,7 @@ function CourseCreatorStep2() {
       }
 
       // Update course totalLessons count
-      const { doc: firestoreDoc, updateDoc: firestoreUpdateDoc } = await import("firebase/firestore");
-      await firestoreUpdateDoc(firestoreDoc(db, "courses", courseId), {
+      await updateDoc(doc(db, "courses", courseId), {
         totalLessons: (lessons?.length || 0) + 1,
         updatedAt: serverTimestamp(),
       });
@@ -167,7 +162,7 @@ function CourseCreatorStep2() {
       // Switch to the new lesson
       setActiveLessonIdx(lessons?.length || 0);
     } catch (err) {
-      console.error("Failed to add step:", err);
+      if (process.env.NODE_ENV === "development") console.error("Failed to add step:", err);
     }
   };
 
@@ -184,7 +179,7 @@ function CourseCreatorStep2() {
           prev.map((b, i) => (i === blockIndex ? { ...b, url, content: file.name } : b))
         );
       } catch (err) {
-        console.error("Image upload failed:", err);
+        if (process.env.NODE_ENV === "development") console.error("Image upload failed:", err);
       }
     };
     input.click();
@@ -235,9 +230,14 @@ function CourseCreatorStep2() {
         </div>
         <div className="flex items-center gap-8">
           <nav className="hidden md:flex items-center gap-6">
-            {["Dashboard", "Curriculum", "Students", "Settings"].map((item) => (
-              <a key={item} href="#" className={`text-sm font-medium transition-colors ${item === "Curriculum" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}>
-                {item}
+            {[
+              { label: "Dashboard", href: "/teacher/dashboard" },
+              { label: "Curriculum", href: "/teacher/courses" },
+              { label: "Students", href: "/teacher/classroom" },
+              { label: "Grading", href: "/teacher/grading" },
+            ].map((item) => (
+              <a key={item.label} href={item.href} className={`text-sm font-medium transition-colors ${item.label === "Curriculum" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}>
+                {item.label}
               </a>
             ))}
           </nav>

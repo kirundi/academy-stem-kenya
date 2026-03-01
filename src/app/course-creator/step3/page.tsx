@@ -162,8 +162,12 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
         </div>
         <div className="flex items-center gap-6">
           <nav className="hidden lg:flex items-center gap-6">
-            {["Curriculum", "Library", "Students"].map((item) => (
-              <a key={item} href="#" className="text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">{item}</a>
+            {[
+              { label: "Curriculum", href: "/teacher/courses" },
+              { label: "Library", href: "/admin/school/library" },
+              { label: "Students", href: "/teacher/classroom" },
+            ].map((item) => (
+              <a key={item.label} href={item.href} className="text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">{item.label}</a>
             ))}
           </nav>
           <button
@@ -190,9 +194,9 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
         {/* Title Area */}
         <div className="px-6 lg:px-10 py-6 border-b border-[rgba(255,255,255,0.07)]">
           <nav className="flex flex-wrap gap-2 mb-4 text-sm">
-            <a href="#" className="text-slate-500 hover:text-[#13eca4]">My Courses</a>
+            <a href="/teacher/courses" className="text-slate-500 hover:text-[#13eca4]">My Courses</a>
             <span className="text-slate-600">/</span>
-            <a href="#" className="text-slate-500 hover:text-[#13eca4]">{course?.title || "Course"}</a>
+            <a href={`/course-creator/step1?courseId=${courseId}`} className="text-slate-500 hover:text-[#13eca4]">{course?.title || "Course"}</a>
             <span className="text-slate-600">/</span>
             <span className="text-white font-medium">Step 3: Facilitation Notes</span>
           </nav>

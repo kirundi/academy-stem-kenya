@@ -66,7 +66,7 @@ export function useNotifications(maxCount = 20) {
           read: true,
         });
       } catch (err) {
-        console.error("Failed to mark notification as read:", err);
+        if (process.env.NODE_ENV === "development") console.error("Failed to mark notification as read:", err);
       }
     },
     []
@@ -80,7 +80,7 @@ export function useNotifications(maxCount = 20) {
     try {
       await Promise.all(promises);
     } catch (err) {
-      console.error("Failed to mark all notifications as read:", err);
+      if (process.env.NODE_ENV === "development") console.error("Failed to mark all notifications as read:", err);
     }
   }, [notifications]);
 

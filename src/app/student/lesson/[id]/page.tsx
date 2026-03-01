@@ -99,7 +99,7 @@ export default function LessonPage() {
       await logActivity(appUser.uid, "submission", `Submitted ${courseTitle} - ${currentStep.title}`, courseId);
       router.push("/student/submit-success?course=" + encodeURIComponent(courseTitle));
     } catch (err) {
-      console.error("Submission failed:", err);
+      if (process.env.NODE_ENV === "development") console.error("Submission failed:", err);
     }
   };
 

@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Lexend } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 
-const spaceGrotesk = Space_Grotesk({
+const lexend = Lexend({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Mouse Create — Learn Tech & Design Skills",
+  title: "STEM Impact Academy | Comprehensive Learning Platform",
   description:
     "An online learning platform designed for young people to build the tech & design skills they need to become creative problem solvers. Courses in circuitry, game design, web literacy, coding, green technology, and more.",
   keywords: ["STEM", "coding", "game design", "web literacy", "circuitry", "green tech", "youth education"],
   openGraph: {
-    title: "Mouse Create — Learn Tech & Design Skills",
+    title: "STEM Impact Academy | Comprehensive Learning Platform",
     description: "Build tech & design skills through hands-on projects and courses designed for young creative problem solvers.",
     type: "website",
   },
@@ -38,7 +37,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={`${spaceGrotesk.className} antialiased`}>
+      <body className={`${lexend.className} antialiased`}>
         <AuthProvider>
           {children}
         </AuthProvider>

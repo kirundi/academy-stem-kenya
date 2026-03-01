@@ -61,7 +61,7 @@ export default function TeacherClassroomPage() {
         await logActivity(appUser.uid, "sync", "Synced Google Classroom data");
       }
     } catch (err) {
-      console.error("Google Classroom sync error:", err);
+      if (process.env.NODE_ENV === "development") console.error("Google Classroom sync error:", err);
     } finally {
       setSyncing(false);
     }

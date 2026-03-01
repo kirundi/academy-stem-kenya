@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { useDeleteDoc } from "@/hooks/useFirestore";
 
@@ -11,6 +13,7 @@ const difficultyColor: Record<string, string> = {
 };
 
 export default function ContentManagementPage() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const { allCourses, loading } = useGlobalAdminData();
@@ -49,10 +52,10 @@ export default function ContentManagementPage() {
           <p className="text-slate-400 text-xs mt-0.5">{allCourses.length} courses across the platform</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
+          <Link href="/course-creator/step1" className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create Course
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -138,7 +141,10 @@ export default function ContentManagementPage() {
                     </td>
                     <td className="px-4 py-4 text-center text-white font-semibold">{c.totalLessons ?? 0}</td>
                     <td className="px-4 py-4 text-right">
-                      <button className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">Edit</button>
+                      <button
+                        onClick={() => router.push(`/course-creator/step1?courseId=${c.id}`)}
+                        className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3"
+                      >Edit</button>
                       <button
                         onClick={() => remove(c.id)}
                         className="text-slate-400 hover:text-red-400 transition-colors text-xs font-semibold"

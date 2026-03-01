@@ -5,6 +5,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useStudentData } from "@/hooks/useStudentData";
 import { useCollection } from "@/hooks/useFirestore";
 import { where } from "firebase/firestore";
+import { toDate } from "@/lib/timestamps";
 import type { Course } from "@/lib/types";
 
 const skillColors: Record<string, string> = {
@@ -42,7 +43,7 @@ const defaultIcon = "star";
 
 export default function StudentProgressPage() {
   const { appUser } = useAuthContext();
-  const { enrollments, submissions, earnedBadges, activities, loading: studentLoading } = useStudentData();
+  const { enrollments, submissions, earnedBadges, loading: studentLoading } = useStudentData();
 
   // Get unique courseIds from enrollments
   const courseIds = useMemo(
@@ -80,9 +81,9 @@ export default function StudentProgressPage() {
     // First submission
     const firstSub = submissions.length > 0
       ? [...submissions].sort((a, b) => {
-          const da = a.submittedAt ? new Date(a.submittedAt as unknown as string).getTime() : 0;
-          const db = b.submittedAt ? new Date(b.submittedAt as unknown as string).getTime() : 0;
-          return da - db;
+          const da = a.submittedAt ? toDate(a.submittedAt).getTime() : 0;
+          const db_ = b.submittedAt ? toDate(b.submittedAt).getTime() : 0;
+          return da - db_;
         })[0]
       : null;
     items.push({
@@ -90,7 +91,7 @@ export default function StudentProgressPage() {
       icon: "rocket_launch",
       done: submissions.length > 0,
       date: firstSub?.submittedAt
-        ? new Date(firstSub.submittedAt as unknown as string).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+        ? toDate(firstSub.submittedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
         : "--",
     });
 

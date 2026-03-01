@@ -92,7 +92,7 @@ export default function TeacherEnrollmentPage() {
       setShowAddModal(false);
       setNewEmail("");
     } catch (err) {
-      console.error("Error adding student:", err);
+      if (process.env.NODE_ENV === "development") console.error("Error adding student:", err);
     } finally {
       setAddingStudent(false);
     }

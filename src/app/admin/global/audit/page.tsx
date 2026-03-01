@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
+import { formatTimestamp } from "@/lib/timestamps";
 
 export default function AuditLogPage() {
   const [search, setSearch] = useState("");
@@ -85,12 +86,7 @@ export default function AuditLogPage() {
                 const icon = typeIcon[a.type] ?? "info";
                 const color = typeColor[a.type] ?? "#13eca4";
                 const userName = userMap.get(a.userId) ?? "Unknown User";
-                const ts = a.timestamp as unknown as { toDate?: () => Date } | Date | undefined;
-                const timestamp = ts && typeof (ts as { toDate?: () => Date }).toDate === "function"
-                  ? (ts as { toDate: () => Date }).toDate().toLocaleString()
-                  : ts
-                  ? new Date(ts as unknown as string | number).toLocaleString()
-                  : "Unknown time";
+                const timestamp = formatTimestamp(a.timestamp);
 
                 return (
                   <div key={a.id} className="px-6 py-4 flex items-start gap-4 hover:bg-[rgba(255,255,255,0.02)] transition-colors">

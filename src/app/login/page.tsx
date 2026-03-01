@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import MouseLogo from "@/components/MouseLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { db, auth } from "@/lib/firebase";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -106,8 +106,6 @@ export default function LoginPage() {
       await refreshUser();
 
       // Fetch user role to redirect correctly
-      const { doc, getDoc } = await import("firebase/firestore");
-      const { auth } = await import("@/lib/firebase");
       const user = auth.currentUser;
       if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -123,7 +121,8 @@ export default function LoginPage() {
             case "school_admin":
               router.push("/admin/school");
               break;
-            case "global_admin":
+            case "admin":
+            case "super_admin":
               router.push("/admin/global");
               break;
             default:
@@ -179,10 +178,10 @@ export default function LoginPage() {
       <header className="flex items-center justify-between px-6 md:px-20 py-4 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
         <MouseLogo />
         <div className="flex items-center gap-6">
-          <Link href="#" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
+          <Link href="/#curriculum" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
             Courses
           </Link>
-          <Link href="#" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
+          <Link href="/help" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
             Help Center
           </Link>
           <Link
@@ -364,7 +363,7 @@ export default function LoginPage() {
                   />
                 </div>
                 <div className="flex items-center justify-end">
-                  <Link href="#" className="text-[#13eca4] text-sm hover:underline">
+                  <Link href="/contact" className="text-[#13eca4] text-sm hover:underline">
                     Forgot password?
                   </Link>
                 </div>
@@ -397,9 +396,9 @@ export default function LoginPage() {
 
         {/* Footer links */}
         <div className="mt-10 flex gap-8 text-slate-500 text-sm font-medium">
-          <Link href="#" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-          <Link href="#" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
-          <Link href="#" className="hover:text-slate-300 transition-colors">Contact Support</Link>
+          <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
+          <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact Support</Link>
         </div>
       </main>
     </div>

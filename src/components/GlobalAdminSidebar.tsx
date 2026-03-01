@@ -7,7 +7,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
 
-const navItems = [
+const baseNavItems = [
   { href: "/admin/global", icon: "dashboard", label: "Overview" },
   { href: "/admin/global/schools", icon: "domain", label: "Schools" },
   { href: "/admin/global/content", icon: "library_books", label: "Content" },
@@ -21,6 +21,15 @@ export default function GlobalAdminSidebar() {
   const router = useRouter();
   const { appUser } = useAuthContext();
   const { signOut } = useAuth();
+
+  const isSuperAdmin = appUser?.role === "super_admin";
+  const badgeLabel = isSuperAdmin ? "Super Admin" : "Admin";
+  const badgeColor = isSuperAdmin ? "#f59e0b" : "#ff4d4d";
+
+  // Only super_admin sees Settings
+  const navItems = isSuperAdmin
+    ? [...baseNavItems, { href: "/admin/global/settings", icon: "settings", label: "Settings" }]
+    : baseNavItems;
 
   const initials = appUser?.displayName
     ? appUser.displayName
@@ -41,10 +50,14 @@ export default function GlobalAdminSidebar() {
       <div className="px-5 py-5 border-b border-[rgba(19,236,164,0.06)]">
         <MouseLogo size="sm" href="/admin/global" />
         <div className="mt-3 flex items-center gap-2 px-1">
-          <span className="w-5 h-5 rounded flex items-center justify-center bg-[rgba(255,77,77,0.1)]">
-            <span className="material-symbols-outlined text-[14px] text-[#ff4d4d]">admin_panel_settings</span>
+          <span className="w-5 h-5 rounded flex items-center justify-center" style={{ background: `${badgeColor}15` }}>
+            <span className="material-symbols-outlined text-[14px]" style={{ color: badgeColor }}>
+              {isSuperAdmin ? "shield_person" : "admin_panel_settings"}
+            </span>
           </span>
-          <span className="text-xs font-bold text-[#ff4d4d] uppercase tracking-widest">Global Admin</span>
+          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: badgeColor }}>
+            {badgeLabel}
+          </span>
         </div>
       </div>
 
@@ -61,18 +74,14 @@ export default function GlobalAdminSidebar() {
       </nav>
 
       <div className="border-t border-[rgba(19,236,164,0.06)] px-3 py-4 space-y-1">
-        <Link href="/admin/global/settings" className="sidebar-link">
-          <span className="material-symbols-outlined text-[20px]">settings</span>
-          <span>Settings</span>
-        </Link>
         <div className="pt-3 px-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[rgba(255,77,77,0.15)] flex items-center justify-center text-[#ff4d4d] text-xs font-bold">
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: `${badgeColor}20`, color: badgeColor }}>
               {initials}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-slate-300 font-medium truncate">{appUser?.displayName ?? "..."}</p>
-              <p className="text-xs text-slate-500 truncate">Global Admin</p>
+              <p className="text-xs text-slate-500 truncate">{badgeLabel}</p>
             </div>
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">

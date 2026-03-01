@@ -49,8 +49,8 @@ export default function TeacherManagementPage() {
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a href="/admin/school" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">Dashboard</a>
             <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">Staff Management</span>
-            <a href="#" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">Curriculum</a>
-            <a href="#" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">Students</a>
+            <a href="/admin/global/content" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">Curriculum</a>
+            <a href="/admin/global/users" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">Students</a>
             <a href="/admin/analytics" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">Analytics</a>
           </nav>
         </div>

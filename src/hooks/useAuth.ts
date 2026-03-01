@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import {
   doc,
+  getDoc,
   setDoc,
   serverTimestamp,
   query,
@@ -17,6 +18,7 @@ import {
   where,
   getDocs,
   addDoc,
+  writeBatch,
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { UserRole } from "@/lib/types";
@@ -154,20 +156,24 @@ export function useAuth() {
     const classroomDoc = snap.docs[0];
     const classroom = { id: classroomDoc.id, ...classroomDoc.data() };
 
-    // If user is already logged in, create enrollment
+    // If user is already logged in, create enrollments atomically
     const currentUser = auth.currentUser;
     if (currentUser) {
-      // Create enrollment for each course in the classroom
       const courseIds = classroomDoc.data().courseIds || [];
-      for (const courseId of courseIds) {
-        await addDoc(collection(db, "enrollments"), {
-          studentId: currentUser.uid,
-          classroomId: classroomDoc.id,
-          courseId,
-          progress: 0,
-          completedLessons: 0,
-          startedAt: serverTimestamp(),
-        });
+      if (courseIds.length > 0) {
+        const batch = writeBatch(db);
+        for (const courseId of courseIds) {
+          const enrollmentRef = doc(collection(db, "enrollments"));
+          batch.set(enrollmentRef, {
+            studentId: currentUser.uid,
+            classroomId: classroomDoc.id,
+            courseId,
+            progress: 0,
+            completedLessons: 0,
+            startedAt: serverTimestamp(),
+          });
+        }
+        await batch.commit();
       }
     }
 
@@ -180,7 +186,6 @@ export function useAuth() {
 
     // Check if user document exists, create if not
     const userDocRef = doc(db, "users", user.uid);
-    const { getDoc } = await import("firebase/firestore");
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {

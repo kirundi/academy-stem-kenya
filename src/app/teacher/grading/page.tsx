@@ -90,7 +90,7 @@ export default function GradingPage() {
       await logActivity(appUser.uid, "grade_submission", `Graded submission ${selected.id} with ${grade}`);
       setFeedback("");
     } catch (err) {
-      console.error("Grading error:", err);
+      if (process.env.NODE_ENV === "development") console.error("Grading error:", err);
     } finally {
       setSubmitting(false);
     }

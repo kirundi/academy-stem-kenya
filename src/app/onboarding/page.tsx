@@ -333,8 +333,8 @@ export default function OnboardingPage() {
               <p className="text-slate-400 text-xs leading-relaxed">
                 Your information is encrypted and stored securely. Admin credentials will only be used for account access.
                 By submitting this form you agree to Mouse Create&apos;s{" "}
-                <a href="#" className="text-[#13eca4] underline">Terms of Service</a> and{" "}
-                <a href="#" className="text-[#13eca4] underline">Privacy Policy</a>.
+                <a href="/terms" className="text-[#13eca4] underline">Terms of Service</a> and{" "}
+                <a href="/privacy" className="text-[#13eca4] underline">Privacy Policy</a>.
               </p>
             </div>
           </div>

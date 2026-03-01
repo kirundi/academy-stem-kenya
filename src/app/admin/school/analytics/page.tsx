@@ -61,10 +61,10 @@ export default function SchoolAnalyticsPage() {
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">Dashboard</span>
-            <a href="#" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Departments</a>
+            <a href="/admin/school" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Overview</a>
             <a href="/admin/school/classrooms" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Classrooms</a>
             <a href="/admin/school/teachers" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Teachers</a>
-            <a href="#" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Reports</a>
+            <a href="/admin/school/students" className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium">Students</a>
           </nav>
         </div>
         <div className="flex items-center gap-2">

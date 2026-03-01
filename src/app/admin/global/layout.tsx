@@ -10,7 +10,7 @@ export default function GlobalAdminLayout({ children }: { children: React.ReactN
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && (!appUser || appUser.role !== "global_admin")) {
+    if (!loading && (!appUser || (appUser.role !== "super_admin" && appUser.role !== "admin"))) {
       router.replace("/login");
     }
   }, [appUser, loading, router]);
@@ -23,7 +23,7 @@ export default function GlobalAdminLayout({ children }: { children: React.ReactN
     );
   }
 
-  if (!appUser || appUser.role !== "global_admin") {
+  if (!appUser || (appUser.role !== "super_admin" && appUser.role !== "admin")) {
     return null;
   }
 

@@ -3,7 +3,6 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument, useCollection, orderBy } from "@/hooks/useFirestore";
 import type { Course, Lesson, LessonBlock } from "@/lib/types";
 
@@ -14,8 +13,6 @@ export default function CourseCreatorPreviewPage() {
 function CourseCreatorPreview() {
   const searchParams = useSearchParams();
   const courseId = searchParams.get("courseId");
-  const { appUser } = useAuthContext();
-
   // Fetch course data
   const { data: course, loading: courseLoading } = useDocument<Course>("courses", courseId);
 
@@ -79,8 +76,12 @@ function CourseCreatorPreview() {
           </div>
         </div>
         <nav className="hidden md:flex items-center gap-8">
-          {["Editor", "Curriculum", "Resources"].map((item) => (
-            <a key={item} href="#" className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors">{item}</a>
+          {[
+            { label: "Editor", href: "/teacher/courses" },
+            { label: "Curriculum", href: "/teacher/courses" },
+            { label: "Resources", href: "/teacher/dashboard" },
+          ].map((item) => (
+            <a key={item.label} href={item.href} className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors">{item.label}</a>
           ))}
         </nav>
         <div className="flex items-center gap-4">

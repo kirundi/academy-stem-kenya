@@ -1,4 +1,4 @@
-export type UserRole = "student" | "teacher" | "school_admin" | "global_admin";
+export type UserRole = "student" | "teacher" | "school_admin" | "admin" | "super_admin";
 
 export interface AppUser {
   uid: string;
@@ -133,4 +133,17 @@ export interface Notification {
   read: boolean;
   createdAt: Date;
   type: string;
+}
+
+export interface PlatformSettings {
+  siteName: string;
+  supportEmail: string;
+  platformUrl: string;
+  features: {
+    studentRegistration: boolean;
+    googleClassroomSync: boolean;
+    publicCourseLibrary: boolean;
+  };
+  updatedAt: Date;
+  updatedBy: string;
 }

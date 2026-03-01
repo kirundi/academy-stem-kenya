@@ -133,9 +133,9 @@ function SubmitSuccessPage() {
 
       <footer className="w-full py-5 text-center text-slate-600 text-xs relative z-10 border-t border-[rgba(255,255,255,0.04)]">
         <div className="flex items-center justify-center gap-6">
-          <Link href="#" className="hover:text-slate-400 transition-colors">Help Center</Link>
-          <Link href="#" className="hover:text-slate-400 transition-colors">Guidelines</Link>
-          <Link href="#" className="hover:text-slate-400 transition-colors">Privacy Policy</Link>
+          <Link href="/help" className="hover:text-slate-400 transition-colors">Help Center</Link>
+          <Link href="/terms" className="hover:text-slate-400 transition-colors">Guidelines</Link>
+          <Link href="/privacy" className="hover:text-slate-400 transition-colors">Privacy Policy</Link>
         </div>
         <p className="mt-2">&copy; 2026 mouse create.</p>
       </footer>

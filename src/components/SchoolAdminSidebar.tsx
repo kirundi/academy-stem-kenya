@@ -20,7 +20,6 @@ const navItems = [
 
 const bottomItems = [
   { label: "Onboarding", href: "/onboarding", icon: "rocket_launch" },
-  { label: "Settings", href: "/admin/school/settings", icon: "settings" },
 ];
 
 export default function SchoolAdminSidebar() {

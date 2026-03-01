@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 const profileFields = [
   { label: "Institution Type",    value: "Private K-12 Academy" },
@@ -11,8 +10,6 @@ const profileFields = [
 ];
 
 export default function SchoolPendingPage() {
-  const [dismissed, setDismissed] = useState(false);
-
   return (
     <div className="min-h-screen bg-[#10221c]">
       {/* Header */}
@@ -24,8 +21,8 @@ export default function SchoolPendingPage() {
           <span className="text-white font-bold text-lg">Mouse Create</span>
         </div>
         <nav className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors">Support</a>
-          <a href="#" className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors">Documentation</a>
+          <a href="/contact" className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors">Support</a>
+          <a href="/help" className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors">Documentation</a>
         </nav>
         <div className="flex items-center gap-3">
           <button className="w-10 h-10 rounded-lg bg-[rgba(255,255,255,0.06)] flex items-center justify-center text-slate-400 hover:text-white transition-colors">

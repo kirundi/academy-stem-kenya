@@ -9,15 +9,9 @@ import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { label: "My Courses", href: "/student/dashboard", icon: "school" },
-  { label: "Current Lesson", href: "/student/lesson/intro-to-web", icon: "play_circle" },
   { label: "My Portfolio", href: "/student/portfolio", icon: "grid_view" },
   { label: "Badges & Awards", href: "/student/badges", icon: "military_tech" },
   { label: "My Progress", href: "/student/progress", icon: "insights" },
-];
-
-const bottomItems = [
-  { label: "Help", href: "/help", icon: "help_outline" },
-  { label: "Settings", href: "/student/settings", icon: "settings" },
 ];
 
 function getInitials(name: string): string {
@@ -96,17 +90,6 @@ export default function StudentSidebar() {
 
       {/* Bottom */}
       <div className="px-3 pb-4 space-y-1 border-t border-[rgba(19,236,164,0.08)] pt-3">
-        {bottomItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="sidebar-link"
-          >
-            <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
-            {item.label}
-          </Link>
-        ))}
-
         <div className="pt-3 px-3">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] text-xs font-bold">

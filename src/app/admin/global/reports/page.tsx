@@ -197,7 +197,7 @@ export default function ReportsPage() {
               { role: "Students", count: students.length, color: "#3b82f6", icon: "group" },
               { role: "Teachers", count: teachers.length, color: "#13eca4", icon: "school" },
               { role: "School Admins", count: allUsers.filter((u) => u.role === "school_admin").length, color: "#f59e0b", icon: "admin_panel_settings" },
-              { role: "Global Admins", count: allUsers.filter((u) => u.role === "global_admin").length, color: "#ff4d4d", icon: "security" },
+              { role: "Admins", count: allUsers.filter((u) => u.role === "admin" || u.role === "super_admin").length, color: "#ff4d4d", icon: "security" },
             ].map((r) => {
               const pct = allUsers.length > 0 ? Math.round((r.count / allUsers.length) * 100) : 0;
               return (

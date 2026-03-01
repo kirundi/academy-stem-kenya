@@ -19,9 +19,7 @@ const navItems = [
 ];
 
 const bottomItems = [
-  { label: "Resource Library", href: "/teacher/resources", icon: "library_books" },
-  { label: "Help Center", href: "/help", icon: "help_outline" },
-  { label: "Settings", href: "/teacher/settings", icon: "settings" },
+  { label: "Courses", href: "/teacher/courses", icon: "library_books" },
 ];
 
 export default function TeacherSidebar() {

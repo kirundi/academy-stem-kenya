@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useSchoolAdminData } from "@/hooks/useAdminData";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { formatTimestamp } from "@/lib/timestamps";
 
 export default function SchoolAdminDashboard() {
   const [dismissed, setDismissed] = useState(false);
@@ -76,7 +77,7 @@ export default function SchoolAdminDashboard() {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-white font-bold text-xl">Recent Teacher Activity</h3>
-              <a href="#" className="text-sm text-[#13eca4] hover:underline">View all logs</a>
+              <a href="/admin/global/audit" className="text-sm text-[#13eca4] hover:underline">View all logs</a>
             </div>
             <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden">
               <div className="divide-y divide-[rgba(255,255,255,0.05)]">
@@ -93,7 +94,7 @@ export default function SchoolAdminDashboard() {
                           <span className="text-[#13eca4]">{a.description}</span>
                         </p>
                         <p className="text-xs text-slate-500 mt-1">
-                          {a.type} · {typeof (a.timestamp as unknown as { toDate?: () => Date })?.toDate === "function" ? (a.timestamp as unknown as { toDate: () => Date }).toDate().toLocaleDateString() : "Recently"}
+                          {a.type} · {formatTimestamp(a.timestamp, "Recently")}
                         </p>
                       </div>
                     </div>

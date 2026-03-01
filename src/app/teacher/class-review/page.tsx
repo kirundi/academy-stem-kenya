@@ -69,7 +69,7 @@ export default function ClassReviewPage() {
     try {
       await logActivity(appUser.uid, "finish_review", `Completed class review for ${reviewClassroom.name}`);
     } catch (err) {
-      console.error("Error finishing review:", err);
+      if (process.env.NODE_ENV === "development") console.error("Error finishing review:", err);
     } finally {
       setFinishing(false);
     }

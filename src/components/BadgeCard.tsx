@@ -8,14 +8,14 @@ interface BadgeCardProps {
   earned?: boolean;
   earnedDate?: string;
   xpValue?: number;
-  rarity?: "Common" | "Rare" | "Epic" | "Legendary";
+  rarity?: "common" | "rare" | "epic" | "legendary";
 }
 
 const rarityColors = {
-  Common: { border: "#64748b", glow: "#64748b" },
-  Rare: { border: "#3b82f6", glow: "#3b82f6" },
-  Epic: { border: "#a855f7", glow: "#a855f7" },
-  Legendary: { border: "#f59e0b", glow: "#f59e0b" },
+  common: { border: "#64748b", glow: "#64748b" },
+  rare: { border: "#3b82f6", glow: "#3b82f6" },
+  epic: { border: "#a855f7", glow: "#a855f7" },
+  legendary: { border: "#f59e0b", glow: "#f59e0b" },
 };
 
 export default function BadgeCard({
@@ -26,7 +26,7 @@ export default function BadgeCard({
   earned = false,
   earnedDate,
   xpValue = 50,
-  rarity = "Common",
+  rarity = "common",
 }: BadgeCardProps) {
   const { border, glow } = rarityColors[rarity];
 
@@ -62,7 +62,7 @@ export default function BadgeCard({
           color: border,
         }}
       >
-        {rarity}
+        {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
       </div>
 
       {/* Badge icon */}

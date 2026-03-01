@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument, useUpdateDoc, useCollection } from "@/hooks/useFirestore";
 import { logActivity } from "@/lib/activity-logger";
-import { collection, getDocs, updateDoc, doc, arrayUnion } from "firebase/firestore";
+import { updateDoc, doc, arrayUnion } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { Course, Classroom } from "@/lib/types";
 
@@ -142,9 +142,14 @@ function CourseCreatorStep4() {
             <h2 className="text-xl font-bold tracking-tight">STEM Learn CMS</h2>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            {["Dashboard", "Courses", "Library", "Reports"].map((item) => (
-              <a key={item} href="#" className={`text-sm font-medium transition-colors ${item === "Courses" ? "text-[#13eca4]" : "text-slate-400 hover:text-[#13eca4]"}`}>
-                {item}
+            {[
+              { label: "Dashboard", href: "/teacher/dashboard" },
+              { label: "Courses", href: "/teacher/courses" },
+              { label: "Library", href: "/admin/school/library" },
+              { label: "Analytics", href: "/teacher/analytics" },
+            ].map((item) => (
+              <a key={item.label} href={item.href} className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4]" : "text-slate-400 hover:text-[#13eca4]"}`}>
+                {item.label}
               </a>
             ))}
           </nav>
@@ -167,7 +172,7 @@ function CourseCreatorStep4() {
         <div className="w-full max-w-[1100px] px-6 py-8">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
-            <a href="#" className="text-slate-500 hover:text-[#13eca4]">Course Creator</a>
+            <a href="/teacher/courses" className="text-slate-500 hover:text-[#13eca4]">Course Creator</a>
             <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
             <Link href={`/course-creator/step3?courseId=${courseId}`} className="text-slate-500 hover:text-[#13eca4]">Step 3: Facilitation Notes</Link>
             <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
@@ -245,7 +250,7 @@ function CourseCreatorStep4() {
                     <div key={m.label} className="p-3 bg-[#1a2e27] rounded-lg">
                       <p className="text-slate-500 text-xs uppercase font-bold tracking-widest mb-1">{m.label}</p>
                       <p className="text-white font-semibold text-sm">
-                        {m.value || (m.key && course ? (course as unknown as Record<string, unknown>)[m.key] as string : "N/A") || "N/A"}
+                        {m.value || (m.key && course ? String(course[m.key as keyof Course] ?? "N/A") : "N/A") || "N/A"}
                       </p>
                     </div>
                   ))}
@@ -375,8 +380,12 @@ function CourseCreatorStep4() {
             <span className="text-sm font-medium">2026 STEM Learn Platforms Inc.</span>
           </div>
           <div className="flex gap-8">
-            {["Documentation", "Privacy Policy", "Support Center"].map((link) => (
-              <a key={link} href="#" className="text-slate-500 hover:text-[#13eca4] text-sm transition-colors">{link}</a>
+            {[
+              { label: "Documentation", href: "/help" },
+              { label: "Privacy Policy", href: "/privacy" },
+              { label: "Support Center", href: "/contact" },
+            ].map((link) => (
+              <a key={link.label} href={link.href} className="text-slate-500 hover:text-[#13eca4] text-sm transition-colors">{link.label}</a>
             ))}
           </div>
         </div>

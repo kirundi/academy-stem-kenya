@@ -202,7 +202,7 @@ export default function TeacherDashboard() {
                 {[
                   { icon: "add",       label: "Create New Classroom",    href: "/teacher/classroom", color: "#13eca4" },
                   { icon: "menu_book", label: "Browse Course Library",   href: "/teacher/courses",   color: "#8b5cf6" },
-                  { icon: "insights",  label: "Student Progress Report", href: "/teacher/progress",  color: "#3b82f6" },
+                  { icon: "insights",  label: "Student Progress Report", href: "/teacher/analytics",  color: "#3b82f6" },
                   { icon: "sync",      label: "Sync Google Classroom",   href: "#",                  color: "#f59e0b" },
                 ].map(({ icon, label, href, color }) => (
                   <Link
@@ -228,10 +228,10 @@ export default function TeacherDashboard() {
                 </div>
               </div>
               <Link
-                href="/help"
+                href="/teacher/courses"
                 className="w-full flex items-center justify-center gap-2 border border-[rgba(19,236,164,0.3)] text-[#13eca4] font-semibold py-2.5 rounded-xl text-sm hover:bg-[rgba(19,236,164,0.06)] transition-colors"
               >
-                Open Help Center
+                Browse Resources
               </Link>
             </div>
           </div>

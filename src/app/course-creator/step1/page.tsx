@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useCreateDoc } from "@/hooks/useFirestore";
@@ -125,9 +124,14 @@ export default function CourseCreatorStep1() {
             <h2 className="text-white text-lg font-bold tracking-tight">STEM Learn</h2>
           </div>
           <nav className="hidden md:flex items-center gap-8">
-            {["Dashboard", "Courses", "Students", "Resources"].map((item) => (
-              <a key={item} href="#" className={`text-sm font-medium transition-colors ${item === "Courses" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}>
-                {item}
+            {[
+              { label: "Dashboard", href: "/teacher/dashboard" },
+              { label: "Courses", href: "/teacher/courses" },
+              { label: "Students", href: "/teacher/classroom" },
+              { label: "Resources", href: "/teacher/dashboard" },
+            ].map((item) => (
+              <a key={item.label} href={item.href} className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}>
+                {item.label}
               </a>
             ))}
           </nav>
@@ -149,9 +153,9 @@ export default function CourseCreatorStep1() {
         <div className="w-full max-w-[960px]">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap gap-2 mb-5 text-sm">
-            <a href="#" className="text-slate-500 hover:text-[#13eca4] transition-colors">Dashboard</a>
+            <a href="/teacher/dashboard" className="text-slate-500 hover:text-[#13eca4] transition-colors">Dashboard</a>
             <span className="text-slate-600">/</span>
-            <a href="#" className="text-slate-500 hover:text-[#13eca4] transition-colors">Course Creator</a>
+            <a href="/teacher/courses" className="text-slate-500 hover:text-[#13eca4] transition-colors">Course Creator</a>
             <span className="text-slate-600">/</span>
             <span className="text-[#13eca4] font-medium">New Course</span>
           </div>
