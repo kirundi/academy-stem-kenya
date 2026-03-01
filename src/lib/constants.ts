@@ -76,7 +76,7 @@ export const RoleDashboardMap = {
   student: Routes.STUDENT_DASHBOARD,
   teacher: Routes.TEACHER_DASHBOARD,
   school_admin: Routes.SCHOOL_ADMIN,
-  admin: Routes.ADMIN_PENDING,
+  admin: Routes.GLOBAL_ADMIN,
   super_admin: Routes.GLOBAL_ADMIN,
 } as const;
 

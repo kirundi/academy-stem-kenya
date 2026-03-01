@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 interface Settings {
   siteName: string;
@@ -14,12 +16,21 @@ interface Settings {
 }
 
 export default function PlatformSettingsPage() {
+  const { appUser, loading: authLoading } = useAuthContext();
+  const router = useRouter();
   const [settings, setSettings] = useState<Settings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
+    if (!authLoading && appUser?.role !== "super_admin") {
+      router.replace("/dashboard");
+    }
+  }, [appUser, authLoading, router]);
+
+  useEffect(() => {
+    if (appUser?.role !== "super_admin") return;
     fetch("/api/settings")
       .then((r) => r.json())
       .then((data) => {
@@ -27,7 +38,7 @@ export default function PlatformSettingsPage() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [appUser]);
 
   const handleSave = async () => {
     if (!settings) return;
@@ -55,6 +66,14 @@ export default function PlatformSettingsPage() {
       features: { ...settings.features, [key]: !settings.features[key] },
     });
   };
+
+  if (authLoading || appUser?.role !== "super_admin") {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+      </div>
+    );
+  }
 
   if (loading || !settings) {
     return (

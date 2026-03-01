@@ -1,18 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import StemLogo from "@/components/StemLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { RoleDashboardMap } from "@/lib/constants";
 import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "@/lib/firebase";
 
 export default function LoginPage() {
   const router = useRouter();
   const { signIn, joinClassroom, signInWithGoogle } = useAuth();
-  const { refreshUser } = useAuthContext();
+  const { appUser, loading: authLoading, refreshUser } = useAuthContext();
+
+  // Redirect already-authenticated users to their dashboard
+  useEffect(() => {
+    if (!authLoading && appUser?.role) {
+      const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
+      if (dest) router.replace(dest);
+    }
+  }, [appUser, authLoading, router]);
 
   const [classCode, setClassCode] = useState(["", "", "", "", "", ""]);
   const [emailMode, setEmailMode] = useState(false);
@@ -105,32 +114,14 @@ export default function LoginPage() {
       await signIn(email, password);
       await refreshUser();
 
-      // Fetch user role to redirect correctly
+      // Redirect based on role using centralized map
       const user = auth.currentUser;
       if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const role = userDoc.data().role;
-          switch (role) {
-            case "student":
-              router.push("/school/student/dashboard");
-              break;
-            case "teacher":
-              router.push("/school/teacher/dashboard");
-              break;
-            case "school_admin":
-              router.push("/school/admin");
-              break;
-            case "admin":
-            case "super_admin":
-              router.push("/dashboard");
-              break;
-            default:
-              router.push("/school/teacher/dashboard");
-          }
-        } else {
-          router.push("/school/teacher/dashboard");
-        }
+        const role = userDoc.exists() ? userDoc.data().role : "teacher";
+        const dest = RoleDashboardMap[role as keyof typeof RoleDashboardMap]
+          ?? RoleDashboardMap.teacher;
+        router.push(dest);
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Invalid email or password";

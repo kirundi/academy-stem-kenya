@@ -120,6 +120,7 @@ export interface Badge {
 export interface Activity {
   id: string;
   userId: string;
+  schoolId?: string;
   type: string;
   description: string;
   courseId?: string;

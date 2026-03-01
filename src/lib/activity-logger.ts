@@ -5,13 +5,19 @@ export async function logActivity(
   userId: string,
   type: string,
   description: string,
-  courseId?: string
+  courseIdOrExtra?: string | { courseId?: string; schoolId?: string }
 ) {
+  const extra =
+    typeof courseIdOrExtra === "string"
+      ? { courseId: courseIdOrExtra }
+      : courseIdOrExtra;
+
   await addDoc(collection(db, "activities"), {
     userId,
     type,
     description,
-    courseId: courseId || null,
+    courseId: extra?.courseId || null,
+    schoolId: extra?.schoolId || null,
     timestamp: serverTimestamp(),
   });
 }

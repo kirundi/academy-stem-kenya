@@ -1,17 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
-import { cookies } from "next/headers";
+import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
+import { getAuthUser, hasRole } from "@/lib/api-auth";
 
-async function getAuthUser() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("__session")?.value;
-  if (!session) return null;
-  try {
-    return await adminAuth.verifySessionCookie(session, true);
-  } catch {
-    return null;
-  }
+/**
+ * Verify the user can access the given course.
+ * - Global admins: always allowed
+ * - Others: course must be a platform course (schoolId=null) or belong to user's school
+ */
+async function canAccessCourse(user: { role: string; schoolId: string | null }, courseId: string) {
+  if (hasRole(user as Parameters<typeof hasRole>[0], ["admin", "super_admin"])) return true;
+
+  const courseDoc = await adminDb.collection("courses").doc(courseId).get();
+  if (!courseDoc.exists) return false;
+
+  const courseSchoolId = courseDoc.data()!.schoolId;
+  return courseSchoolId === null || courseSchoolId === user.schoolId;
 }
 
 export async function GET(
@@ -22,6 +26,11 @@ export async function GET(
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id: courseId } = await params;
+
+  if (!(await canAccessCourse(user, courseId))) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const snap = await adminDb
     .collection("courses")
     .doc(courseId)
@@ -40,7 +49,17 @@ export async function POST(
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
+  // Only admins and teachers can create lessons
+  if (!hasRole(user, ["admin", "super_admin", "teacher"])) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const { id: courseId } = await params;
+
+  if (!(await canAccessCourse(user, courseId))) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const body = await request.json();
 
   const docRef = await adminDb

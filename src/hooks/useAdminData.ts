@@ -38,7 +38,17 @@ export function useSchoolAdminData() {
   const { data: activities, loading: activitiesLoading } =
     useCollection<Activity>(
       "activities",
-      [orderBy("timestamp", "desc"), limit(20)]
+      schoolId
+        ? [where("schoolId", "==", schoolId), orderBy("timestamp", "desc"), limit(20)]
+        : [],
+      !!schoolId
+    );
+
+  const { data: courses, loading: coursesLoading } =
+    useCollection<Course>(
+      "courses",
+      schoolId ? [where("schoolId", "in", [schoolId, null])] : [],
+      !!schoolId
     );
 
   return {
@@ -46,22 +56,23 @@ export function useSchoolAdminData() {
     students,
     classrooms,
     activities,
+    courses,
     loading:
-      teachersLoading || studentsLoading || classroomsLoading || activitiesLoading,
+      teachersLoading || studentsLoading || classroomsLoading || activitiesLoading || coursesLoading,
   };
 }
 
 export function useGlobalAdminData() {
-  const { data: schools, loading: schoolsLoading } =
+  const { data: schools, loading: schoolsLoading, error: schoolsError } =
     useCollection<School>("schools");
 
-  const { data: allUsers, loading: usersLoading } =
+  const { data: allUsers, loading: usersLoading, error: usersError } =
     useCollection<AppUser>("users");
 
-  const { data: allCourses, loading: coursesLoading } =
+  const { data: allCourses, loading: coursesLoading, error: coursesError } =
     useCollection<Course>("courses");
 
-  const { data: activities, loading: activitiesLoading } =
+  const { data: activities, loading: activitiesLoading, error: activitiesError } =
     useCollection<Activity>(
       "activities",
       [orderBy("timestamp", "desc"), limit(50)]
@@ -69,6 +80,8 @@ export function useGlobalAdminData() {
 
   const teachers = allUsers.filter((u) => u.role === "teacher");
   const students = allUsers.filter((u) => u.role === "student");
+
+  const error = schoolsError || usersError || coursesError || activitiesError;
 
   return {
     schools,
@@ -78,5 +91,6 @@ export function useGlobalAdminData() {
     teachers,
     students,
     loading: schoolsLoading || usersLoading || coursesLoading || activitiesLoading,
+    error,
   };
 }

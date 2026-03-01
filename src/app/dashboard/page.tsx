@@ -16,12 +16,28 @@ const healthColor = (h: number) => {
 };
 
 export default function GlobalAdminDashboard() {
-  const { schools, allUsers, allCourses, teachers, students, loading } = useGlobalAdminData();
+  const { schools, allUsers, allCourses, teachers, students, loading, error } = useGlobalAdminData();
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 gap-3">
+        <span className="material-symbols-outlined text-4xl text-[#ff4d4d]">cloud_off</span>
+        <p className="text-white font-semibold">Failed to load dashboard data</p>
+        <p className="text-slate-400 text-sm">{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-2 px-4 py-2 bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] text-[#13eca4] text-sm font-semibold rounded-lg hover:bg-[rgba(19,236,164,0.15)] transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }
