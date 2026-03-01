@@ -1,31 +1,130 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useDocument, useUpdateDoc, useCollection } from "@/hooks/useFirestore";
+import { logActivity } from "@/lib/activity-logger";
+import { collection, getDocs, updateDoc, doc, arrayUnion } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import type { Course, Classroom } from "@/lib/types";
 
-const checklistItems = [
-  { label: "Step instructions completed",      detail: "All 5 modules have detailed text content.",                              checked: true  },
-  { label: "Media assets uploaded",            detail: "12 high-resolution images and 3 videos attached.",                      checked: true  },
-  { label: "Interactive tasks configured",     detail: "Final quiz and 2 drag-and-drop activities pending validation.",          checked: false },
-  { label: "Course badge assigned",            detail: "'Master Mechanic' badge selected.",                                     checked: true, badge: "military_tech" },
+const checklistItemsDef = [
+  { label: "Step instructions completed",      detail: "All modules have detailed text content.",                              defaultChecked: true  },
+  { label: "Media assets uploaded",            detail: "Images and videos attached.",                                          defaultChecked: true  },
+  { label: "Interactive tasks configured",     detail: "Tasks and activities configured and validated.",                        defaultChecked: false },
+  { label: "Course badge assigned",            detail: "Completion badge selected.",                                           defaultChecked: true, badge: "military_tech" },
 ];
 
 const metadata = [
-  { label: "Target Age",      value: "Grade 9–12 (14–18 yrs)" },
-  { label: "Estimated Time",  value: "4.5 Hours"               },
-  { label: "Subject Area",    value: "Engineering & Physics"   },
-  { label: "Language",        value: "English (Global)"        },
-];
-
-const classrooms = [
-  { name: "Section 9-A Robotics Lab",   checked: true  },
-  { name: "Section 10-C Advanced STEM", checked: false },
+  { label: "Target Age",      key: "targetGrade" },
+  { label: "Estimated Time",  key: "estimatedDuration" },
+  { label: "Subject Area",    key: "category" },
+  { label: "Language",        value: "English (Global)" },
 ];
 
 export default function CourseCreatorStep4() {
-  const [checklist, setChecklist] = useState(checklistItems.map((c) => c.checked));
-  const [classAssign, setClassAssign] = useState(classrooms.map((c) => c.checked));
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("courseId");
+  const { appUser } = useAuthContext();
+
+  const { data: course, loading: courseLoading } = useDocument<Course>("courses", courseId);
+  const { update, loading: updating } = useUpdateDoc("courses");
+
+  // Fetch classrooms for assignment
+  const { data: allClassrooms, loading: classroomsLoading } = useCollection<Classroom>("classrooms");
+
+  const [checklist, setChecklist] = useState(checklistItemsDef.map((c) => c.defaultChecked));
+  const [classAssign, setClassAssign] = useState<boolean[]>([]);
   const [submitToLibrary, setSubmitToLibrary] = useState(true);
+  const [publishing, setPublishing] = useState(false);
+  const [publishStatus, setPublishStatus] = useState<string | null>(null);
+
+  // Initialize classroom assignment state when classrooms load
+  useEffect(() => {
+    if (allClassrooms && allClassrooms.length > 0) {
+      setClassAssign(allClassrooms.map(() => false));
+    }
+  }, [allClassrooms]);
+
+  const handlePublish = async () => {
+    if (!courseId || !appUser) return;
+
+    // Verify all checklist items are checked
+    const allChecked = checklist.every(Boolean);
+    if (!allChecked) {
+      setPublishStatus("Error: Please complete all checklist items before publishing.");
+      return;
+    }
+
+    setPublishing(true);
+    setPublishStatus(null);
+
+    try {
+      // Update course status to published
+      await update(courseId, {
+        status: "published",
+        publishedAt: new Date().toISOString(),
+        publishedBy: appUser.uid,
+        submitToLibrary,
+      });
+
+      // Assign course to selected classrooms
+      const selectedClassrooms = allClassrooms?.filter((_, i) => classAssign[i]) || [];
+      for (const classroom of selectedClassrooms) {
+        await updateDoc(doc(db, "classrooms", classroom.id), {
+          courseIds: arrayUnion(courseId),
+        });
+      }
+
+      await logActivity(
+        appUser.uid,
+        "course_published",
+        `Published course "${course?.title || courseId}" and assigned to ${selectedClassrooms.length} classroom(s)`,
+        courseId
+      );
+
+      setPublishStatus("Course published successfully!");
+
+      // Redirect to preview after a short delay
+      setTimeout(() => {
+        router.push(`/course-creator/preview?courseId=${courseId}`);
+      }, 2000);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to publish course.";
+      setPublishStatus(`Error: ${message}`);
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  const classrooms = allClassrooms || [];
+
+  if (courseLoading || classroomsLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#10221c]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
+          <p className="text-slate-400 text-sm">Loading review details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!courseId) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#10221c] text-white">
+        <div className="text-center">
+          <p className="text-slate-400 mb-4">No course ID provided.</p>
+          <Link href="/course-creator/step1" className="text-[#13eca4] hover:underline font-bold">
+            Go back to Step 1
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex min-h-screen flex-col bg-[#10221c] text-white overflow-x-hidden">
@@ -55,7 +154,7 @@ export default function CourseCreatorStep4() {
           </div>
           <span className="material-symbols-outlined text-slate-400 hover:text-[#13eca4] cursor-pointer">notifications</span>
           <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border-2 border-[rgba(19,236,164,0.25)] flex items-center justify-center text-[#13eca4] font-bold text-sm">
-            TM
+            {appUser?.displayName?.slice(0, 2).toUpperCase() || "TM"}
           </div>
         </div>
       </header>
@@ -66,7 +165,7 @@ export default function CourseCreatorStep4() {
           <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
             <a href="#" className="text-slate-500 hover:text-[#13eca4]">Course Creator</a>
             <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
-            <a href="#" className="text-slate-500 hover:text-[#13eca4]">Step 3: Interactive Tasks</a>
+            <Link href={`/course-creator/step3?courseId=${courseId}`} className="text-slate-500 hover:text-[#13eca4]">Step 3: Facilitation Notes</Link>
             <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
             <span className="text-[#13eca4] font-medium underline underline-offset-4">Step 4: Review &amp; Publish</span>
           </div>
@@ -75,13 +174,29 @@ export default function CourseCreatorStep4() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 border-b border-[rgba(255,255,255,0.07)] pb-8">
             <div className="max-w-2xl">
               <h1 className="text-4xl font-black tracking-tight mb-2">Review &amp; Publish</h1>
-              <p className="text-slate-400 text-lg">Your course &quot;Introduction to Robotics&quot; is almost ready. Verify the checklist and configure access permissions before making it live.</p>
+              <p className="text-slate-400 text-lg">
+                Your course &quot;{course?.title || "Untitled Course"}&quot; is almost ready. Verify the checklist and configure access permissions before making it live.
+              </p>
             </div>
-            <Link href="/course-creator/preview" className="px-6 py-3 rounded-xl border border-[rgba(255,255,255,0.12)] text-slate-400 font-bold hover:bg-[rgba(255,255,255,0.06)] transition-all flex items-center gap-2">
+            <Link href={`/course-creator/preview?courseId=${courseId}`} className="px-6 py-3 rounded-xl border border-[rgba(255,255,255,0.12)] text-slate-400 font-bold hover:bg-[rgba(255,255,255,0.06)] transition-all flex items-center gap-2">
               <span className="material-symbols-outlined text-xl">visibility</span>
               Preview Course
             </Link>
           </div>
+
+          {/* Status Message */}
+          {publishStatus && (
+            <div className={`mb-6 p-4 rounded-lg text-sm flex items-center gap-2 ${
+              publishStatus.startsWith("Error")
+                ? "bg-red-500/10 border border-red-500/30 text-red-400"
+                : "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.3)] text-[#13eca4]"
+            }`}>
+              <span className="material-symbols-outlined text-lg">
+                {publishStatus.startsWith("Error") ? "error" : "check_circle"}
+              </span>
+              {publishStatus}
+            </div>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left: Checklist + Metadata */}
@@ -93,7 +208,7 @@ export default function CourseCreatorStep4() {
                   Course Summary Checklist
                 </h2>
                 <div className="space-y-4">
-                  {checklistItems.map((item, i) => (
+                  {checklistItemsDef.map((item, i) => (
                     <label key={i} className="flex items-center gap-4 p-4 rounded-xl bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.3)] cursor-pointer transition-all">
                       <input
                         type="checkbox"
@@ -125,7 +240,9 @@ export default function CourseCreatorStep4() {
                   {metadata.map((m) => (
                     <div key={m.label} className="p-3 bg-[#1a2e27] rounded-lg">
                       <p className="text-slate-500 text-xs uppercase font-bold tracking-widest mb-1">{m.label}</p>
-                      <p className="text-white font-semibold text-sm">{m.value}</p>
+                      <p className="text-white font-semibold text-sm">
+                        {m.value || (m.key && course ? (course as Record<string, unknown>)[m.key] as string : "N/A") || "N/A"}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -144,20 +261,27 @@ export default function CourseCreatorStep4() {
                   <div className="space-y-3">
                     <label className="text-sm font-semibold text-slate-400 uppercase tracking-wide block">Assign to Classrooms</label>
                     <div className="space-y-2">
-                      {classrooms.map((cls, i) => (
-                        <div key={i} className="flex items-center justify-between p-3 bg-[rgba(255,255,255,0.04)] rounded-xl border border-[rgba(255,255,255,0.08)]">
-                          <div className="flex items-center gap-3">
-                            <span className="material-symbols-outlined text-[rgba(19,236,164,0.6)]">groups</span>
-                            <span className="text-white font-medium text-sm">{cls.name}</span>
+                      {classrooms.length > 0 ? (
+                        classrooms.map((cls, i) => (
+                          <div key={cls.id} className="flex items-center justify-between p-3 bg-[rgba(255,255,255,0.04)] rounded-xl border border-[rgba(255,255,255,0.08)]">
+                            <div className="flex items-center gap-3">
+                              <span className="material-symbols-outlined text-[rgba(19,236,164,0.6)]">groups</span>
+                              <div>
+                                <span className="text-white font-medium text-sm block">{cls.name}</span>
+                                <span className="text-slate-500 text-[10px]">{cls.subject} - {cls.grade}</span>
+                              </div>
+                            </div>
+                            <input
+                              type="checkbox"
+                              checked={classAssign[i] || false}
+                              onChange={(e) => setClassAssign((prev) => prev.map((v, j) => (j === i ? e.target.checked : v)))}
+                              className="h-5 w-5 rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[rgba(255,255,255,0.05)]"
+                            />
                           </div>
-                          <input
-                            type="checkbox"
-                            checked={classAssign[i]}
-                            onChange={(e) => setClassAssign((prev) => prev.map((v, j) => (j === i ? e.target.checked : v)))}
-                            className="h-5 w-5 rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[rgba(255,255,255,0.05)]"
-                          />
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p className="text-slate-500 text-sm italic p-3">No classrooms found. Create a classroom first.</p>
+                      )}
                       <button className="w-full py-2 border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-xl text-slate-500 hover:text-[#13eca4] hover:border-[rgba(19,236,164,0.4)] text-sm font-medium transition-all flex items-center justify-center gap-2">
                         <span className="material-symbols-outlined text-base">add_circle</span>
                         Add More Classes
@@ -183,9 +307,22 @@ export default function CourseCreatorStep4() {
 
                   {/* Publish Button */}
                   <div className="pt-6">
-                    <button className="w-full bg-[#13eca4] hover:opacity-90 text-[#10221c] font-black text-xl py-5 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-[rgba(19,236,164,0.2)]">
-                      <span className="material-symbols-outlined font-bold">cloud_upload</span>
-                      Publish Course
+                    <button
+                      onClick={handlePublish}
+                      disabled={publishing || updating}
+                      className="w-full bg-[#13eca4] hover:opacity-90 text-[#10221c] font-black text-xl py-5 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {publishing ? (
+                        <>
+                          <div className="w-6 h-6 border-3 border-[#10221c]/30 border-t-[#10221c] rounded-full animate-spin" />
+                          Publishing...
+                        </>
+                      ) : (
+                        <>
+                          <span className="material-symbols-outlined font-bold">cloud_upload</span>
+                          Publish Course
+                        </>
+                      )}
                     </button>
                     <p className="text-center text-slate-500 text-xs mt-4 italic">
                       By clicking publish, you agree to the school&apos;s digital curriculum guidelines.
@@ -199,21 +336,24 @@ export default function CourseCreatorStep4() {
                 <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Course Preview Card</p>
                 <div className="bg-[#1a2e27] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-xl">
                   <div className="h-32 bg-gradient-to-br from-[rgba(19,236,164,0.3)] to-[rgba(19,236,164,0.05)] relative">
+                    {course?.coverImageUrl ? (
+                      <img src={course.coverImageUrl} alt={course.title} className="w-full h-full object-cover" />
+                    ) : null}
                     <div className="absolute bottom-4 left-4 w-14 h-14 bg-[#10221c] rounded-xl flex items-center justify-center border border-[rgba(19,236,164,0.25)]">
-                      <span className="material-symbols-outlined text-[#13eca4] text-3xl">precision_manufacturing</span>
+                      <span className="material-symbols-outlined text-[#13eca4] text-3xl">{course?.icon || "precision_manufacturing"}</span>
                     </div>
                   </div>
                   <div className="p-4">
-                    <h4 className="text-white font-bold">Introduction to Robotics</h4>
+                    <h4 className="text-white font-bold">{course?.title || "Untitled Course"}</h4>
                     <div className="flex items-center gap-2 mt-2">
                       <div className="w-5 h-5 rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center">
                         <span className="material-symbols-outlined text-[12px] text-[#13eca4]">person</span>
                       </div>
-                      <span className="text-slate-400 text-xs">Sarah Jenkins · Physics Dept.</span>
+                      <span className="text-slate-400 text-xs">{appUser?.displayName || "Teacher"}</span>
                     </div>
                     <div className="flex gap-2 mt-4">
-                      <span className="px-2 py-1 bg-[rgba(19,236,164,0.1)] text-[#13eca4] text-[10px] font-bold rounded uppercase">Beginner</span>
-                      <span className="px-2 py-1 bg-[rgba(255,255,255,0.06)] text-slate-300 text-[10px] font-bold rounded uppercase">Robotics</span>
+                      <span className="px-2 py-1 bg-[rgba(19,236,164,0.1)] text-[#13eca4] text-[10px] font-bold rounded uppercase">{course?.difficulty || "Beginner"}</span>
+                      <span className="px-2 py-1 bg-[rgba(255,255,255,0.06)] text-slate-300 text-[10px] font-bold rounded uppercase">{course?.category || "STEM"}</span>
                     </div>
                   </div>
                 </div>

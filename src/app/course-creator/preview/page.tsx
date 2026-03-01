@@ -2,28 +2,64 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
-const module1Steps = [
-  { label: "1. Introduction",    completed: true,  active: false, locked: false },
-  { label: "2. Components List", completed: true,  active: false, locked: false },
-  { label: "3. Sensor Circuit",  completed: false, active: true,  locked: false },
-  { label: "4. Programming",     completed: false, active: false, locked: true  },
-  { label: "5. Testing Logic",   completed: false, active: false, locked: true  },
-];
-
-const module2Steps = [
-  { label: "6. Signal Processing", completed: false, active: false, locked: true },
-  { label: "7. Feedback Loops",    completed: false, active: false, locked: true },
-];
-
-const instructions = [
-  { num: 1, text: <>Connect the <strong>VCC pin</strong> of the sensor to the 5V rail on your breadboard.</> },
-  { num: 2, text: <>Connect the <strong>GND pin</strong> to the common ground rail.</> },
-  { num: 3, text: <>Attach the <strong>Trig pin</strong> to Digital Pin 9 and the <strong>Echo pin</strong> to Digital Pin 10.</> },
-];
+import { useSearchParams } from "next/navigation";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useDocument, useCollection, orderBy } from "@/hooks/useFirestore";
+import type { Course, Lesson, LessonBlock } from "@/lib/types";
 
 export default function CourseCreatorPreview() {
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("courseId");
+  const { appUser } = useAuthContext();
+
+  // Fetch course data
+  const { data: course, loading: courseLoading } = useDocument<Course>("courses", courseId);
+
+  // Fetch lessons
+  const { data: lessons, loading: lessonsLoading } = useCollection<Lesson>(
+    `courses/${courseId}/lessons`,
+    [orderBy("order", "asc")],
+    !!courseId
+  );
+
+  const [activeLessonIdx, setActiveLessonIdx] = useState(0);
   const [reflection, setReflection] = useState("");
+
+  const loading = courseLoading || lessonsLoading;
+
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#10221c]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
+          <p className="text-slate-400 text-sm">Loading course preview...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!courseId) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#10221c] text-white">
+        <div className="text-center">
+          <p className="text-slate-400 mb-4">No course ID provided.</p>
+          <Link href="/course-creator/step1" className="text-[#13eca4] hover:underline font-bold">
+            Go back to Step 1
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const activeLesson = lessons?.[activeLessonIdx];
+  const completedCount = activeLessonIdx;
+  const totalCount = lessons?.length || 1;
+  const progressPct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+  // Split lessons into modules (group every 5 into a module)
+  const moduleSize = 5;
+  const module1Lessons = lessons?.slice(0, moduleSize) || [];
+  const module2Lessons = lessons?.slice(moduleSize) || [];
 
   return (
     <div className="relative flex h-screen w-full flex-col overflow-hidden bg-[#10221c] text-white">
@@ -48,7 +84,7 @@ export default function CourseCreatorPreview() {
             <span className="text-slate-500 text-[10px] uppercase font-bold tracking-tighter">Previewing as</span>
             <span className="text-white text-xs font-semibold">Demo Student</span>
           </div>
-          <Link href="/course-creator/step4" className="flex items-center gap-2 rounded-lg bg-[#13eca4] px-4 py-2 text-[#10221c] text-sm font-bold hover:opacity-90 transition-all">
+          <Link href={`/course-creator/step4?courseId=${courseId}`} className="flex items-center gap-2 rounded-lg bg-[#13eca4] px-4 py-2 text-[#10221c] text-sm font-bold hover:opacity-90 transition-all">
             <span className="material-symbols-outlined text-sm">exit_to_app</span>
             Exit Preview
           </Link>
@@ -63,50 +99,73 @@ export default function CourseCreatorPreview() {
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Progress</span>
-                <span className="text-xs font-bold text-[#13eca4]">35%</span>
+                <span className="text-xs font-bold text-[#13eca4]">{progressPct}%</span>
               </div>
               <div className="h-2 w-full rounded-full bg-[rgba(255,255,255,0.06)]">
-                <div className="h-full rounded-full bg-[#13eca4] shadow-[0_0_10px_rgba(19,236,164,0.4)]" style={{ width: "35%" }} />
+                <div className="h-full rounded-full bg-[#13eca4] shadow-[0_0_10px_rgba(19,236,164,0.4)]" style={{ width: `${progressPct}%` }} />
               </div>
-              <p className="mt-2 text-[10px] text-slate-500 font-medium">3 of 8 steps completed</p>
+              <p className="mt-2 text-[10px] text-slate-500 font-medium">{completedCount} of {totalCount} steps completed</p>
             </div>
 
             {/* Module 1 */}
             <div className="space-y-6">
               <div>
-                <h3 className="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-3">Module 1: Foundations</h3>
+                <h3 className="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-3">
+                  {module1Lessons.length > 0 ? "Module 1: Foundations" : "No Lessons Yet"}
+                </h3>
                 <div className="space-y-1">
-                  {module1Steps.map((s, i) => (
-                    <button
-                      key={i}
-                      disabled={s.locked}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                        s.active ? "bg-[rgba(19,236,164,0.1)] text-[#13eca4]"
-                        : s.locked ? "text-slate-600 cursor-not-allowed opacity-50"
-                        : "text-slate-400 hover:bg-[rgba(19,236,164,0.05)]"
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-lg">
-                        {s.active ? "bolt" : s.completed ? "check_circle" : s.locked ? "lock" : "radio_button_unchecked"}
-                      </span>
-                      <span className={s.active ? "font-bold" : "font-medium"}>{s.label}</span>
-                    </button>
-                  ))}
+                  {module1Lessons.map((lesson, i) => {
+                    const isActive = i === activeLessonIdx;
+                    const isCompleted = i < activeLessonIdx;
+                    const isLocked = i > activeLessonIdx + 1;
+                    return (
+                      <button
+                        key={lesson.id}
+                        onClick={() => !isLocked && setActiveLessonIdx(i)}
+                        disabled={isLocked}
+                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                          isActive ? "bg-[rgba(19,236,164,0.1)] text-[#13eca4]"
+                          : isLocked ? "text-slate-600 cursor-not-allowed opacity-50"
+                          : "text-slate-400 hover:bg-[rgba(19,236,164,0.05)]"
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-lg">
+                          {isActive ? "bolt" : isCompleted ? "check_circle" : isLocked ? "lock" : "radio_button_unchecked"}
+                        </span>
+                        <span className={isActive ? "font-bold" : "font-medium"}>
+                          {i + 1}. {lesson.title}
+                        </span>
+                      </button>
+                    );
+                  })}
+                  {module1Lessons.length === 0 && (
+                    <p className="text-slate-600 text-xs italic px-3">No lessons have been added yet.</p>
+                  )}
                 </div>
               </div>
 
               {/* Module 2 */}
-              <div>
-                <h3 className="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-3">Module 2: Advanced Logic</h3>
-                <div className="space-y-1 opacity-50">
-                  {module2Steps.map((s, i) => (
-                    <button key={i} disabled className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 cursor-not-allowed text-sm">
-                      <span className="material-symbols-outlined text-lg">lock</span>
-                      <span className="font-medium">{s.label}</span>
-                    </button>
-                  ))}
+              {module2Lessons.length > 0 && (
+                <div>
+                  <h3 className="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-3">Module 2: Advanced</h3>
+                  <div className="space-y-1 opacity-50">
+                    {module2Lessons.map((lesson, i) => {
+                      const globalIdx = moduleSize + i;
+                      return (
+                        <button
+                          key={lesson.id}
+                          disabled={globalIdx > activeLessonIdx + 1}
+                          onClick={() => setActiveLessonIdx(globalIdx)}
+                          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 cursor-not-allowed text-sm"
+                        >
+                          <span className="material-symbols-outlined text-lg">lock</span>
+                          <span className="font-medium">{globalIdx + 1}. {lesson.title}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -127,53 +186,107 @@ export default function CourseCreatorPreview() {
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-[rgba(19,236,164,0.5)] mb-4">
-              <span className="text-xs font-bold uppercase tracking-widest">Introduction to Robotics</span>
+              <span className="text-xs font-bold uppercase tracking-widest">{course?.title || "Course"}</span>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">Module 1</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
+                Module {activeLessonIdx < moduleSize ? "1" : "2"}
+              </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
-              Step 3: Building the Sensor Circuit
+              {activeLesson?.title || `Step ${activeLessonIdx + 1}: ${course?.title || "Lesson"}`}
             </h1>
 
-            <p className="text-lg text-slate-400 leading-relaxed mb-8">
-              Now that we have identified the components, it&apos;s time to wire the ultrasonic sensor to the microcontroller. This circuit will allow your robot to &quot;see&quot; obstacles by measuring the time it takes for sound waves to bounce back.
-            </p>
-
-            {/* Image */}
-            <div className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)] mb-10 group">
-              <div className="w-full h-[300px] bg-gradient-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
-                <span className="material-symbols-outlined text-slate-600 text-8xl">precision_manufacturing</span>
+            {/* Lesson Content */}
+            {activeLesson?.blocks && activeLesson.blocks.length > 0 ? (
+              <div className="space-y-8 mb-10">
+                {activeLesson.blocks.map((block: LessonBlock, idx: number) => {
+                  if (block.type === "text") {
+                    return (
+                      <p key={idx} className="text-lg text-slate-400 leading-relaxed">
+                        {block.content}
+                      </p>
+                    );
+                  }
+                  if (block.type === "image") {
+                    return (
+                      <div key={idx} className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)]">
+                        {block.url ? (
+                          <img src={block.url} alt={block.content || "Lesson image"} className="w-full h-[300px] object-cover" />
+                        ) : (
+                          <div className="w-full h-[300px] bg-gradient-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                            <span className="material-symbols-outlined text-slate-600 text-8xl">image</span>
+                          </div>
+                        )}
+                        {block.content && (
+                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[rgba(16,34,28,0.8)] to-transparent p-6">
+                            <p className="text-white font-bold text-lg">{block.content}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+                  if (block.type === "video") {
+                    return (
+                      <div key={idx} className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)]">
+                        <div className="w-full h-[300px] bg-gradient-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                          <span className="material-symbols-outlined text-slate-600 text-8xl">play_circle</span>
+                        </div>
+                      </div>
+                    );
+                  }
+                  if (block.type === "task") {
+                    let taskData = { title: "", instructions: "" };
+                    try {
+                      taskData = JSON.parse(block.content);
+                    } catch {
+                      taskData = { title: "Task", instructions: block.content };
+                    }
+                    return (
+                      <div key={idx} className="bg-[rgba(19,236,164,0.04)] border border-[rgba(19,236,164,0.15)] rounded-2xl p-8">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 rounded-xl bg-[#13eca4] flex items-center justify-center text-[#10221c]">
+                            <span className="material-symbols-outlined">task_alt</span>
+                          </div>
+                          <h3 className="text-xl font-bold text-white">{taskData.title}</h3>
+                        </div>
+                        <p className="text-sm text-slate-400 mb-4">{taskData.instructions}</p>
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,34,28,0.8)] to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
-                <div>
-                  <span className="bg-[rgba(19,236,164,0.2)] text-[#13eca4] text-[10px] font-bold uppercase px-2 py-1 rounded mb-2 inline-block">Figure 3.1</span>
-                  <h4 className="text-white font-bold text-lg">Ultrasonic Wiring Guide</h4>
+            ) : (
+              <>
+                <p className="text-lg text-slate-400 leading-relaxed mb-8">
+                  {course?.description || "No content has been added to this lesson yet. Go back to the editor to add content blocks."}
+                </p>
+
+                {/* Placeholder Image */}
+                <div className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)] mb-10 group">
+                  {course?.coverImageUrl ? (
+                    <img src={course.coverImageUrl} alt={course.title} className="w-full h-[300px] object-cover" />
+                  ) : (
+                    <div className="w-full h-[300px] bg-gradient-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                      <span className="material-symbols-outlined text-slate-600 text-8xl">precision_manufacturing</span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(16,34,28,0.8)] to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                    <div>
+                      <span className="bg-[rgba(19,236,164,0.2)] text-[#13eca4] text-[10px] font-bold uppercase px-2 py-1 rounded mb-2 inline-block">
+                        {course?.category || "STEM"}
+                      </span>
+                      <h4 className="text-white font-bold text-lg">{course?.title || "Course Preview"}</h4>
+                    </div>
+                    <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.1)] backdrop-blur-md flex items-center justify-center text-white hover:bg-[#13eca4] hover:text-[#10221c] transition-colors">
+                      <span className="material-symbols-outlined">zoom_in</span>
+                    </button>
+                  </div>
                 </div>
-                <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.1)] backdrop-blur-md flex items-center justify-center text-white hover:bg-[#13eca4] hover:text-[#10221c] transition-colors">
-                  <span className="material-symbols-outlined">zoom_in</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Step-by-Step */}
-            <div className="bg-[rgba(255,255,255,0.02)] border-l-4 border-[#13eca4] rounded-r-xl p-6 mb-10">
-              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#13eca4]">list_alt</span>
-                Step-by-Step Instructions
-              </h3>
-              <ul className="space-y-4 text-slate-300">
-                {instructions.map((step) => (
-                  <li key={step.num} className="flex gap-4">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[rgba(19,236,164,0.15)] text-[#13eca4] text-xs font-bold flex items-center justify-center border border-[rgba(19,236,164,0.3)]">
-                      {step.num}
-                    </span>
-                    <span>{step.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              </>
+            )}
 
             {/* Student Reflection */}
             <div className="bg-[rgba(19,236,164,0.04)] border border-[rgba(19,236,164,0.15)] rounded-2xl p-8 mb-12">
@@ -188,7 +301,7 @@ export default function CourseCreatorPreview() {
               </div>
               <label className="block mb-4">
                 <span className="text-sm font-medium text-slate-300 block mb-2">
-                  Based on your wiring, why do you think we need both a &quot;Trigger&quot; and an &quot;Echo&quot; pin for this sensor?
+                  What did you learn from this lesson? How would you apply this knowledge?
                 </span>
                 <textarea
                   value={reflection}
@@ -207,11 +320,19 @@ export default function CourseCreatorPreview() {
 
             {/* Navigation */}
             <div className="flex items-center justify-between pt-8 border-t border-[rgba(19,236,164,0.08)] mb-20">
-              <button className="flex items-center gap-2 text-slate-400 hover:text-white font-bold transition-colors">
+              <button
+                onClick={() => setActiveLessonIdx((prev) => Math.max(0, prev - 1))}
+                disabled={activeLessonIdx === 0}
+                className="flex items-center gap-2 text-slate-400 hover:text-white font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              >
                 <span className="material-symbols-outlined">arrow_back</span>
                 Previous Step
               </button>
-              <button className="flex items-center gap-2 bg-[#13eca4] px-8 py-3 rounded-xl text-[#10221c] font-black tracking-wide shadow-[0_0_20px_rgba(19,236,164,0.25)] hover:shadow-[0_0_30px_rgba(19,236,164,0.4)] transition-all">
+              <button
+                onClick={() => setActiveLessonIdx((prev) => Math.min((lessons?.length || 1) - 1, prev + 1))}
+                disabled={activeLessonIdx >= (lessons?.length || 1) - 1}
+                className="flex items-center gap-2 bg-[#13eca4] px-8 py-3 rounded-xl text-[#10221c] font-black tracking-wide shadow-[0_0_20px_rgba(19,236,164,0.25)] hover:shadow-[0_0_30px_rgba(19,236,164,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 Complete &amp; Continue
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>

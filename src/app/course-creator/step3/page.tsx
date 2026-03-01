@@ -1,9 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useDocument, useUpdateDoc } from "@/hooks/useFirestore";
+import { useFileUpload } from "@/hooks/useFileUpload";
+import { logActivity } from "@/lib/activity-logger";
+import type { Course } from "@/lib/types";
+
+interface UploadedResource {
+  name: string;
+  url: string;
+  size: string;
+  type: string;
+}
 
 export default function CourseCreatorStep3() {
+  const searchParams = useSearchParams();
+  const courseId = searchParams.get("courseId");
+  const { appUser } = useAuthContext();
+  const { data: course, loading: courseLoading } = useDocument<Course>("courses", courseId);
+  const { update, loading: updating } = useUpdateDoc("courses");
+  const { uploadFile, uploading, progress } = useFileUpload();
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [notesContent, setNotesContent] = useState(
 `Common Pitfalls:
 - Many students forget to ground the breadboard to the MCU common rail.
@@ -16,6 +38,107 @@ Discussion Prompts:
 Pro-Tip:
 Keep some extra jumper wires ready, as the tips often break if students are too aggressive with the breadboard sockets.`
   );
+
+  const [uploadedResources, setUploadedResources] = useState<UploadedResource[]>([]);
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<string | null>(null);
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  };
+
+  const handleResourceUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !courseId) return;
+
+    if (file.size > 20 * 1024 * 1024) {
+      setSaveStatus("Error: File must be under 20MB.");
+      return;
+    }
+
+    try {
+      const url = await uploadFile(
+        file,
+        `courses/${courseId}/resources/${Date.now()}_${file.name}`
+      );
+
+      setUploadedResources((prev) => [
+        ...prev,
+        {
+          name: file.name,
+          url,
+          size: formatFileSize(file.size),
+          type: file.type,
+        },
+      ]);
+
+      setSaveStatus("Resource uploaded successfully!");
+      setTimeout(() => setSaveStatus(null), 3000);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Upload failed.";
+      setSaveStatus(`Error: ${message}`);
+    }
+
+    // Reset file input
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleSaveNotes = async () => {
+    if (!courseId || !appUser) return;
+
+    setSavingNotes(true);
+    setSaveStatus(null);
+
+    try {
+      await update(courseId, {
+        facilitationNotes: notesContent,
+        resources: uploadedResources,
+      });
+
+      await logActivity(
+        appUser.uid,
+        "facilitation_notes_saved",
+        `Updated facilitation notes for course "${course?.title || courseId}"`,
+        courseId
+      );
+
+      setSaveStatus("Notes saved successfully!");
+      setTimeout(() => setSaveStatus(null), 3000);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Failed to save notes.";
+      setSaveStatus(`Error: ${message}`);
+    } finally {
+      setSavingNotes(false);
+    }
+  };
+
+  const isLoading = savingNotes || updating || uploading;
+
+  if (courseLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#10221c]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
+          <p className="text-slate-400 text-sm">Loading facilitation notes...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!courseId) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#10221c] text-white">
+        <div className="text-center">
+          <p className="text-slate-400 mb-4">No course ID provided.</p>
+          <Link href="/course-creator/step1" className="text-[#13eca4] hover:underline font-bold">
+            Go back to Step 1
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex min-h-screen flex-col bg-[#10221c] text-white overflow-x-hidden">
@@ -39,11 +162,22 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
               <a key={item} href="#" className="text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">{item}</a>
             ))}
           </nav>
-          <button className="flex items-center justify-center h-10 px-4 rounded-lg bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity">
-            Save Course
+          <button
+            onClick={handleSaveNotes}
+            disabled={isLoading}
+            className="flex items-center justify-center h-10 px-4 rounded-lg bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {savingNotes ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-[#10221c]/30 border-t-[#10221c] rounded-full animate-spin" />
+                Saving...
+              </div>
+            ) : (
+              "Save Course"
+            )}
           </button>
           <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border border-[rgba(19,236,164,0.3)] flex items-center justify-center text-[#13eca4] font-bold text-sm">
-            TM
+            {appUser?.displayName?.slice(0, 2).toUpperCase() || "TM"}
           </div>
         </div>
       </header>
@@ -54,7 +188,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
           <nav className="flex flex-wrap gap-2 mb-4 text-sm">
             <a href="#" className="text-slate-500 hover:text-[#13eca4]">My Courses</a>
             <span className="text-slate-600">/</span>
-            <a href="#" className="text-slate-500 hover:text-[#13eca4]">Robotics 101</a>
+            <a href="#" className="text-slate-500 hover:text-[#13eca4]">{course?.title || "Course"}</a>
             <span className="text-slate-600">/</span>
             <span className="text-white font-medium">Step 3: Facilitation Notes</span>
           </nav>
@@ -63,21 +197,36 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
               <h1 className="text-white text-3xl font-black tracking-tight mb-2">Teacher Facilitation Notes</h1>
               <p className="text-slate-400 text-base">Add educator-only tips, classroom management strategies, and answer keys for this specific learning step.</p>
             </div>
-            <Link href="/course-creator/preview" className="flex items-center gap-2 h-10 px-4 rounded-lg bg-[#1a2e27] text-white text-sm font-bold border border-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.08)] transition-colors">
+            <Link href={`/course-creator/preview?courseId=${courseId}`} className="flex items-center gap-2 h-10 px-4 rounded-lg bg-[#1a2e27] text-white text-sm font-bold border border-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.08)] transition-colors">
               <span className="material-symbols-outlined text-lg">visibility</span>
               Preview as Student
             </Link>
           </div>
 
+          {/* Status Message */}
+          {saveStatus && (
+            <div className={`mt-4 p-3 rounded-lg text-sm flex items-center gap-2 ${
+              saveStatus.startsWith("Error")
+                ? "bg-red-500/10 border border-red-500/30 text-red-400"
+                : "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.3)] text-[#13eca4]"
+            }`}>
+              <span className="material-symbols-outlined text-lg">
+                {saveStatus.startsWith("Error") ? "error" : "check_circle"}
+              </span>
+              {saveStatus}
+            </div>
+          )}
+
           {/* Tab Nav */}
           <div className="mt-8 flex border-b border-[rgba(255,255,255,0.07)] gap-8">
             {[
-              { label: "Content Builder",    num: "1", active: false },
-              { label: "Interactive Tasks",   num: "2", active: false },
-              { label: "Facilitation Notes",  num: "3", active: true  },
+              { label: "Content Builder",    num: "1", active: false, href: `/course-creator/step2?courseId=${courseId}` },
+              { label: "Interactive Tasks",   num: "2", active: false, href: `/course-creator/step2?courseId=${courseId}` },
+              { label: "Facilitation Notes",  num: "3", active: true,  href: "#" },
             ].map((tab) => (
-              <button
+              <Link
                 key={tab.label}
+                href={tab.href}
                 className={`flex items-center gap-2 pb-3 font-bold text-sm transition-all border-b-2 ${
                   tab.active
                     ? "border-[#13eca4] text-[#13eca4]"
@@ -88,7 +237,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                   tab.active ? "bg-[#13eca4] text-[#10221c]" : "bg-[rgba(255,255,255,0.08)] text-slate-400"
                 }`}>{tab.num}</span>
                 {tab.label}
-              </button>
+              </Link>
             ))}
           </div>
         </div>
@@ -115,9 +264,9 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                   <span className="material-symbols-outlined text-7xl text-white">play_circle</span>
                 </div>
               </div>
-              <h2 className="text-2xl font-bold mb-4">Module 3: Wiring the Controller</h2>
+              <h2 className="text-2xl font-bold mb-4">{course?.title || "Module 3: Wiring the Controller"}</h2>
               <p className="text-slate-400 leading-relaxed mb-6">
-                In this step, students will connect the microcontroller to the motor driver. Ensure that all power is disconnected before starting the wiring process. Use the color-coded jumper wires as shown in the diagram.
+                {course?.description || "In this step, students will connect the microcontroller to the motor driver. Ensure that all power is disconnected before starting the wiring process. Use the color-coded jumper wires as shown in the diagram."}
               </p>
               <div className="bg-[rgba(19,236,164,0.06)] border-l-4 border-[#13eca4] p-4 rounded-r-lg mb-6">
                 <div className="flex items-start gap-3">
@@ -133,15 +282,15 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                   <span className="material-symbols-outlined text-[#13eca4] mb-2 block">inventory_2</span>
                   <p className="font-bold text-sm">Required Materials</p>
                   <ul className="text-xs text-slate-500 mt-2 space-y-1">
-                    <li>• Microcontroller board</li>
-                    <li>• 4x Jumper Wires</li>
-                    <li>• Breadboard</li>
+                    <li>- Microcontroller board</li>
+                    <li>- 4x Jumper Wires</li>
+                    <li>- Breadboard</li>
                   </ul>
                 </div>
                 <div className="p-4 border border-[rgba(255,255,255,0.08)] rounded-lg bg-[#1a2e27]">
                   <span className="material-symbols-outlined text-[#13eca4] mb-2 block">timer</span>
                   <p className="font-bold text-sm">Estimated Time</p>
-                  <p className="text-xs text-slate-500 mt-2">15–20 Minutes</p>
+                  <p className="text-xs text-slate-500 mt-2">{course?.estimatedDuration || "15-20 Minutes"}</p>
                 </div>
               </div>
             </div>
@@ -195,10 +344,55 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Upload */}
-                <div className="p-5 rounded-xl bg-[#1a2e27] border-2 border-dashed border-[rgba(255,255,255,0.1)] flex flex-col items-center justify-center gap-2 text-center py-8 cursor-pointer hover:border-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.03)] transition-all">
-                  <span className="material-symbols-outlined text-3xl text-slate-500">upload_file</span>
-                  <p className="text-sm font-bold">Upload Educator Resources</p>
-                  <p className="text-[10px] text-slate-500">PDF, PPTX, or ZIP files (Max 20MB)</p>
+                <div>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".pdf,.pptx,.zip,.doc,.docx,.xls,.xlsx"
+                    className="hidden"
+                    onChange={handleResourceUpload}
+                  />
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="p-5 rounded-xl bg-[#1a2e27] border-2 border-dashed border-[rgba(255,255,255,0.1)] flex flex-col items-center justify-center gap-2 text-center py-8 cursor-pointer hover:border-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.03)] transition-all"
+                  >
+                    {uploading ? (
+                      <>
+                        <div className="w-10 h-10 border-3 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
+                        <p className="text-sm font-bold text-[#13eca4]">{progress}%</p>
+                        <p className="text-[10px] text-slate-500">Uploading...</p>
+                      </>
+                    ) : (
+                      <>
+                        <span className="material-symbols-outlined text-3xl text-slate-500">upload_file</span>
+                        <p className="text-sm font-bold">Upload Educator Resources</p>
+                        <p className="text-[10px] text-slate-500">PDF, PPTX, or ZIP files (Max 20MB)</p>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Uploaded Resources List */}
+                  {uploadedResources.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {uploadedResources.map((res, i) => (
+                        <div key={i} className="flex items-center gap-3 p-2 rounded-lg bg-[rgba(19,236,164,0.04)] border border-[rgba(19,236,164,0.1)]">
+                          <span className="material-symbols-outlined text-[#13eca4] text-sm">description</span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold text-white truncate">{res.name}</p>
+                            <p className="text-[10px] text-slate-500">{res.size}</p>
+                          </div>
+                          <a
+                            href={res.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#13eca4] hover:underline text-[10px] font-bold"
+                          >
+                            View
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {/* Collaborator Notes */}
@@ -224,16 +418,18 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
       <footer className="border-t border-[rgba(255,255,255,0.07)] bg-[#10221c] p-4 flex justify-between items-center px-10 shrink-0">
         <div className="flex items-center gap-4 text-slate-500">
           <span className="text-xs flex items-center gap-1">
-            <span className="material-symbols-outlined text-sm">history</span>
-            Last autosaved at 2:45 PM
+            <span className="material-symbols-outlined text-sm">
+              {savingNotes ? "sync" : "history"}
+            </span>
+            {savingNotes ? "Saving..." : saveStatus || "Ready to save"}
           </span>
         </div>
         <div className="flex gap-4">
-          <Link href="/course-creator/step2" className="px-6 py-2 rounded-lg text-slate-400 font-bold text-sm hover:bg-[rgba(255,255,255,0.06)] transition-colors">
-            Back to Task 2
+          <Link href={`/course-creator/step2?courseId=${courseId}`} className="px-6 py-2 rounded-lg text-slate-400 font-bold text-sm hover:bg-[rgba(255,255,255,0.06)] transition-colors">
+            Back to Curriculum
           </Link>
-          <Link href="/course-creator/step4" className="px-8 py-2 rounded-lg bg-[#13eca4] text-[#10221c] font-black text-sm shadow-lg shadow-[rgba(19,236,164,0.15)] hover:opacity-90 transition-opacity">
-            Publish Step
+          <Link href={`/course-creator/step4?courseId=${courseId}`} className="px-8 py-2 rounded-lg bg-[#13eca4] text-[#10221c] font-black text-sm shadow-lg shadow-[rgba(19,236,164,0.15)] hover:opacity-90 transition-opacity">
+            Next: Review &amp; Publish
           </Link>
         </div>
       </footer>
