@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
   signInWithPopup,
+  signInWithCustomToken,
   GoogleAuthProvider,
   updateProfile,
 } from "firebase/auth";
@@ -18,7 +19,6 @@ import {
   where,
   getDocs,
   addDoc,
-  writeBatch,
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { UserRole } from "@/lib/types";
@@ -145,69 +145,34 @@ export function useAuth() {
     return { user, schoolId: schoolRef.id };
   }
 
-  async function joinClassroom(code: string) {
-    // Look up the classroom by join code
-    const q = query(
-      collection(db, "classrooms"),
-      where("joinCode", "==", code.toUpperCase())
-    );
-    const snap = await getDocs(q);
+  async function studentLookup(code: string) {
+    const res = await fetch("/api/auth/student-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: code.toUpperCase() }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Student not found");
+    return data.student as {
+      displayName: string;
+      grade: string | null;
+      schoolName: string;
+    };
+  }
 
-    if (snap.empty) {
-      throw new Error("Classroom not found. Check the code with your teacher.");
-    }
+  async function studentLogin(code: string) {
+    const res = await fetch("/api/auth/student-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: code.toUpperCase(), confirm: true }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Login failed");
 
-    const classroomDoc = snap.docs[0];
-    const classroomData = classroomDoc.data();
-    const classroom = { id: classroomDoc.id, ...classroomData };
-
-    // Students must sign in with Google — no anonymous accounts
-    let currentUser = auth.currentUser;
-    if (!currentUser) {
-      const cred = await signInWithPopup(auth, googleProvider);
-      currentUser = cred.user;
-    }
-
-    // Create or verify student user document
-    const userDocRef = doc(db, "users", currentUser.uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (!userDoc.exists()) {
-      await setDoc(userDocRef, {
-        email: currentUser.email,
-        displayName: currentUser.displayName,
-        role: "student" as UserRole,
-        schoolId: classroomData.schoolId || null,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-        xp: 0,
-        level: 1,
-        badges: [],
-      });
-    }
-
-    const idToken = await currentUser.getIdToken();
+    const cred = await signInWithCustomToken(auth, data.customToken);
+    const idToken = await cred.user.getIdToken();
     await setSessionCookie(idToken);
-
-    // Create enrollments for all courses in the classroom
-    const courseIds = classroomData.courseIds || [];
-    if (courseIds.length > 0) {
-      const batch = writeBatch(db);
-      for (const courseId of courseIds) {
-        const enrollmentRef = doc(collection(db, "enrollments"));
-        batch.set(enrollmentRef, {
-          studentId: currentUser.uid,
-          classroomId: classroomDoc.id,
-          courseId,
-          progress: 0,
-          completedLessons: 0,
-          startedAt: serverTimestamp(),
-        });
-      }
-      await batch.commit();
-    }
-
-    return classroom;
+    return cred.user;
   }
 
   async function signInWithGoogle() {
@@ -241,9 +206,10 @@ export function useAuth() {
 
   return {
     signIn,
+    studentLookup,
+    studentLogin,
     registerTeacher,
     onboardSchool,
-    joinClassroom,
     signInWithGoogle,
     signOut,
   };

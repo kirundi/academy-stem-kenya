@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTeacherData } from "@/hooks/useTeacherData";
-import { useCollection, useCreateDoc } from "@/hooks/useFirestore";
+import { useCollection } from "@/hooks/useFirestore";
 import { where } from "firebase/firestore";
 import { logActivity } from "@/lib/activity-logger";
 import type { Enrollment, AppUser } from "@/lib/types";
@@ -13,15 +13,18 @@ type Tab = "roster" | "curriculum" | "insights";
 export default function TeacherEnrollmentPage() {
   const { appUser } = useAuthContext();
   const { classrooms, pendingSubmissions, loading: teacherLoading } = useTeacherData();
-  const { create: createEnrollment } = useCreateDoc("enrollments");
-
   const [activeClassroomIdx, setActiveClassroomIdx] = useState(0);
   const [tab, setTab] = useState<Tab>("roster");
   const [search, setSearch] = useState("");
   const [codeCopied, setCodeCopied] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [newEmail, setNewEmail] = useState("");
+  const [newStudentName, setNewStudentName] = useState("");
+  const [newStudentAge, setNewStudentAge] = useState("");
+  const [newStudentGrade, setNewStudentGrade] = useState("");
   const [addingStudent, setAddingStudent] = useState(false);
+  const [addStudentError, setAddStudentError] = useState("");
+  const [createdStudentCode, setCreatedStudentCode] = useState("");
+  const [codeCopiedStudent, setCodeCopiedStudent] = useState<string | null>(null);
 
   const cls = classrooms[activeClassroomIdx] ?? null;
 
@@ -51,8 +54,8 @@ export default function TeacherEnrollmentPage() {
     return {
       id: sid,
       name: user?.displayName ?? sid,
-      email: user?.email ?? "",
-      joined: enrollment?.startedAt instanceof Date ? enrollment.startedAt.toLocaleDateString() : "Unknown",
+      studentCode: user?.studentCode ?? null,
+      grade: user?.grade ?? null,
       lastActive: "Recently",
       status: enrollment?.progress === 0 ? "Pending" : "Active" as string,
       mastery: enrollment?.progress ?? 0,
@@ -64,7 +67,7 @@ export default function TeacherEnrollmentPage() {
   const filtered = studentData.filter(
     (s) =>
       s.name.toLowerCase().includes(search.toLowerCase()) ||
-      s.email.toLowerCase().includes(search.toLowerCase())
+      (s.studentCode?.toLowerCase().includes(search.toLowerCase()) ?? false)
   );
 
   const copyCode = () => {
@@ -75,57 +78,45 @@ export default function TeacherEnrollmentPage() {
   };
 
   const handleAddStudent = useCallback(async () => {
-    if (!cls || !appUser || !newEmail.trim()) return;
+    if (!cls || !appUser || !newStudentName.trim()) return;
     setAddingStudent(true);
+    setAddStudentError("");
     try {
-      // Create enrollment record for the student
-      // In a real app, you'd look up the student by email first
-      await createEnrollment({
-        studentId: newEmail.trim(),
-        classroomId: cls.id,
-        courseId: cls.courseIds?.[0] ?? "",
-        progress: 0,
-        completedLessons: 0,
-        startedAt: new Date(),
+      const res = await fetch("/api/students", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          displayName: newStudentName.trim(),
+          age: newStudentAge ? parseInt(newStudentAge) : undefined,
+          grade: newStudentGrade.trim() || undefined,
+          classroomId: cls.id,
+        }),
       });
-      await logActivity(appUser.uid, "add_student", `Added student ${newEmail.trim()} to ${cls.name}`);
-      setShowAddModal(false);
-      setNewEmail("");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to create student");
+      setCreatedStudentCode(data.student.studentCode);
+      await logActivity(appUser.uid, "add_student", `Created student ${newStudentName.trim()} in ${cls.name}`);
     } catch (err) {
-      if (process.env.NODE_ENV === "development") console.error("Error adding student:", err);
+      setAddStudentError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setAddingStudent(false);
     }
-  }, [cls, appUser, newEmail, createEnrollment]);
+  }, [cls, appUser, newStudentName, newStudentAge, newStudentGrade]);
 
-  const handleImportCSV = useCallback(() => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".csv";
-    input.onchange = async (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file || !cls || !appUser) return;
-      const text = await file.text();
-      const lines = text.split("\n").filter((l) => l.trim());
-      // Skip header line if present
-      const dataLines = lines[0]?.includes("@") ? lines : lines.slice(1);
-      for (const line of dataLines) {
-        const email = line.split(",")[0]?.trim();
-        if (email) {
-          await createEnrollment({
-            studentId: email,
-            classroomId: cls.id,
-            courseId: cls.courseIds?.[0] ?? "",
-            progress: 0,
-            completedLessons: 0,
-            startedAt: new Date(),
-          });
-        }
-      }
-      await logActivity(appUser.uid, "import_csv", `Imported ${dataLines.length} students to ${cls.name}`);
-    };
-    input.click();
-  }, [cls, appUser, createEnrollment]);
+  const resetAddModal = () => {
+    setShowAddModal(false);
+    setNewStudentName("");
+    setNewStudentAge("");
+    setNewStudentGrade("");
+    setAddStudentError("");
+    setCreatedStudentCode("");
+  };
+
+  const copyStudentCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCodeCopiedStudent(code);
+    setTimeout(() => setCodeCopiedStudent(null), 2000);
+  };
 
   if (loading) {
     return (
@@ -245,8 +236,8 @@ export default function TeacherEnrollmentPage() {
                     <thead>
                       <tr className="border-b border-[rgba(255,255,255,0.06)] text-xs text-slate-500">
                         <th className="px-6 py-3 text-left font-medium">Student</th>
-                        <th className="px-4 py-3 text-left font-medium">Email</th>
-                        <th className="px-4 py-3 text-left font-medium">Joined</th>
+                        <th className="px-4 py-3 text-left font-medium">Code</th>
+                        <th className="px-4 py-3 text-left font-medium">Grade</th>
                         <th className="px-4 py-3 text-left font-medium">Last Active</th>
                         <th className="px-4 py-3 text-center font-medium">Mastery</th>
                         <th className="px-4 py-3 text-center font-medium">Status</th>
@@ -264,8 +255,24 @@ export default function TeacherEnrollmentPage() {
                               <span className="text-white font-semibold">{s.name}</span>
                             </div>
                           </td>
-                          <td className="px-4 py-4 text-slate-400 text-xs">{s.email}</td>
-                          <td className="px-4 py-4 text-slate-400 text-xs">{s.joined}</td>
+                          <td className="px-4 py-4">
+                            {s.studentCode ? (
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[#13eca4] font-mono font-bold tracking-wider text-xs">{s.studentCode}</span>
+                                <button
+                                  onClick={() => copyStudentCode(s.studentCode!)}
+                                  className="text-slate-500 hover:text-[#13eca4] transition-colors"
+                                >
+                                  <span className="material-symbols-outlined text-[14px]">
+                                    {codeCopiedStudent === s.studentCode ? "check" : "content_copy"}
+                                  </span>
+                                </button>
+                              </div>
+                            ) : (
+                              <span className="text-slate-600 text-xs">&mdash;</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-4 text-slate-400 text-xs">{s.grade || "—"}</td>
                           <td className="px-4 py-4 text-slate-400 text-xs">{s.lastActive}</td>
                           <td className="px-4 py-4 text-center">
                             {s.mastery > 0 ? (
@@ -296,9 +303,17 @@ export default function TeacherEnrollmentPage() {
                           </td>
                           <td className="px-4 py-4">
                             <div className="flex items-center justify-center gap-1.5">
-                              <button className="text-slate-500 hover:text-blue-400 transition-colors p-1.5 rounded-lg hover:bg-[rgba(59,130,246,0.08)]" title="Reset Password">
-                                <span className="material-symbols-outlined text-[16px]">lock_reset</span>
-                              </button>
+                              {s.studentCode && (
+                                <button
+                                  onClick={() => copyStudentCode(s.studentCode!)}
+                                  className="text-slate-500 hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-[rgba(19,236,164,0.08)]"
+                                  title="Copy Student Code"
+                                >
+                                  <span className="material-symbols-outlined text-[16px]">
+                                    {codeCopiedStudent === s.studentCode ? "check" : "content_copy"}
+                                  </span>
+                                </button>
+                              )}
                               <button className="text-slate-500 hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-[rgba(19,236,164,0.08)]" title="View Profile">
                                 <span className="material-symbols-outlined text-[16px]">open_in_new</span>
                               </button>
@@ -316,13 +331,6 @@ export default function TeacherEnrollmentPage() {
                   )}
                   <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)] flex items-center justify-between">
                     <span className="text-slate-500 text-xs">{filtered.length} student{filtered.length !== 1 ? "s" : ""}</span>
-                    <button
-                      onClick={handleImportCSV}
-                      className="flex items-center gap-1.5 text-slate-400 hover:text-[#13eca4] text-xs font-medium transition-colors"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">upload_file</span>
-                      Import CSV
-                    </button>
                   </div>
                 </div>
               </>
@@ -376,27 +384,105 @@ export default function TeacherEnrollmentPage() {
       {showAddModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
           <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.12)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 className="text-white font-bold text-lg mb-1">Add Student</h2>
-            <p className="text-slate-400 text-sm mb-5">Enter the student&apos;s email address to send an enrollment invite.</p>
-            <input
-              type="email"
-              placeholder="student@school.edu"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600 mb-4"
-            />
-            <div className="flex gap-3">
-              <button onClick={() => setShowAddModal(false)} className="flex-1 border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-semibold py-2.5 rounded-xl hover:border-[rgba(255,255,255,0.2)] transition-colors">
-                Cancel
-              </button>
-              <button
-                onClick={handleAddStudent}
-                disabled={addingStudent || !newEmail.trim()}
-                className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
-              >
-                {addingStudent ? "Adding..." : "Send Invite"}
-              </button>
-            </div>
+            {!createdStudentCode ? (
+              <>
+                <h2 className="text-white font-bold text-lg mb-1">Add New Student</h2>
+                <p className="text-slate-400 text-sm mb-5">
+                  Create a student profile. A unique login code will be generated.
+                </p>
+                {addStudentError && (
+                  <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                    {addStudentError}
+                  </div>
+                )}
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                      Full Name <span className="text-red-400">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Jane Mwangi"
+                      value={newStudentName}
+                      onChange={(e) => setNewStudentName(e.target.value)}
+                      className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Age</label>
+                      <input
+                        type="number"
+                        placeholder="e.g. 12"
+                        value={newStudentAge}
+                        onChange={(e) => setNewStudentAge(e.target.value)}
+                        min="4"
+                        max="25"
+                        className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Grade</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Grade 6"
+                        value={newStudentGrade}
+                        onChange={(e) => setNewStudentGrade(e.target.value)}
+                        className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-3 mt-5">
+                  <button
+                    onClick={resetAddModal}
+                    className="flex-1 border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-semibold py-2.5 rounded-xl hover:border-[rgba(255,255,255,0.2)] transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAddStudent}
+                    disabled={addingStudent || !newStudentName.trim()}
+                    className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
+                  >
+                    {addingStudent ? "Creating..." : "Create Student"}
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="text-center">
+                <div className="w-16 h-16 bg-[rgba(19,236,164,0.15)] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-[#13eca4] text-3xl">check_circle</span>
+                </div>
+                <h2 className="text-white font-bold text-lg mb-1">Student Created!</h2>
+                <p className="text-slate-400 text-sm mb-6">
+                  Share this login code with <span className="text-white font-semibold">{newStudentName}</span>
+                </p>
+                <div className="bg-[#0d1f1a] border-2 border-dashed border-[rgba(19,236,164,0.3)] rounded-2xl p-6 mb-6">
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Student Login Code</p>
+                  <p className="text-[#13eca4] font-mono font-black text-4xl tracking-[0.3em]">
+                    {createdStudentCode}
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => copyStudentCode(createdStudentCode)}
+                    className="flex-1 flex items-center justify-center gap-2 border border-[rgba(19,236,164,0.2)] text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-sm">
+                      {codeCopiedStudent === createdStudentCode ? "check" : "content_copy"}
+                    </span>
+                    {codeCopiedStudent === createdStudentCode ? "Copied!" : "Copy Code"}
+                  </button>
+                  <button
+                    onClick={resetAddModal}
+                    className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

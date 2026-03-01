@@ -7,7 +7,7 @@ import StemLogo from "@/components/StemLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { RoleDashboardMap } from "@/lib/constants";
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { db, auth } from "@/lib/firebase";
 
@@ -42,7 +42,7 @@ function friendlyFirebaseError(err: unknown): string {
 
 export default function LoginPage() {
   const router = useRouter();
-  const { signIn, joinClassroom, signInWithGoogle } = useAuth();
+  const { signIn, studentLookup, studentLogin } = useAuth();
   const { appUser, loading: authLoading, refreshUser } = useAuthContext();
 
   const [classCode, setClassCode] = useState(["", "", "", "", "", ""]);
@@ -60,14 +60,12 @@ export default function LoginPage() {
       if (dest) router.replace(dest);
     }
   }, [appUser, authLoading, loading, router]);
-  const [classFound, setClassFound] = useState<{
-    id: string;
-    title: string;
-    teacher: string;
-    school: string;
-    students: number;
+  const [studentFound, setStudentFound] = useState<{
+    displayName: string;
+    grade: string | null;
+    schoolName: string;
   } | null>(null);
-  const [classSearched, setClassSearched] = useState(false);
+  const [studentSearched, setStudentSearched] = useState(false);
   const [codeLooking, setCodeLooking] = useState(false);
 
   const codeStr = classCode.join("");
@@ -82,37 +80,21 @@ export default function LoginPage() {
       el?.focus();
     }
 
-    // Auto-lookup when all 6 characters entered
     const newCode = next.join("");
     if (newCode.length === 6) {
-      setClassSearched(false);
+      setStudentSearched(false);
       setCodeLooking(true);
       try {
-        const q = query(
-          collection(db, "classrooms"),
-          where("joinCode", "==", newCode)
-        );
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-          const data = snap.docs[0].data();
-          setClassFound({
-            id: snap.docs[0].id,
-            title: data.name || data.title,
-            teacher: data.teacherName || "Teacher",
-            school: data.schoolName || "School",
-            students: data.enrolled || 0,
-          });
-        } else {
-          setClassFound(null);
-        }
+        const student = await studentLookup(newCode);
+        setStudentFound(student);
       } catch {
-        setClassFound(null);
+        setStudentFound(null);
       }
       setCodeLooking(false);
-      setClassSearched(true);
+      setStudentSearched(true);
     } else {
-      setClassSearched(false);
-      setClassFound(null);
+      setStudentSearched(false);
+      setStudentFound(null);
     }
   };
 
@@ -131,46 +113,32 @@ export default function LoginPage() {
       next[i] = pasted[i];
     }
     setClassCode(next);
-    // Focus last filled input or next empty one
     const focusIdx = Math.min(pasted.length, 5);
     document.getElementById(`code-${focusIdx}`)?.focus();
-    // Trigger lookup if full code pasted
     if (pasted.length === 6) {
-      setClassSearched(false);
+      setStudentSearched(false);
       setCodeLooking(true);
-      const q = query(collection(db, "classrooms"), where("joinCode", "==", pasted));
-      getDocs(q).then((snap) => {
-        if (!snap.empty) {
-          const data = snap.docs[0].data();
-          setClassFound({
-            id: snap.docs[0].id,
-            title: data.name || data.title,
-            teacher: data.teacherName || "Teacher",
-            school: data.schoolName || "School",
-            students: data.enrolled || 0,
-          });
-        } else {
-          setClassFound(null);
-        }
+      studentLookup(pasted).then((student) => {
+        setStudentFound(student);
         setCodeLooking(false);
-        setClassSearched(true);
+        setStudentSearched(true);
       }).catch(() => {
-        setClassFound(null);
+        setStudentFound(null);
         setCodeLooking(false);
-        setClassSearched(true);
+        setStudentSearched(true);
       });
     }
   };
 
-  const handleJoinClassroom = async () => {
-    if (!classFound) return;
+  const handleStudentLogin = async () => {
+    if (!studentFound) return;
     setLoading(true);
     setError("");
     try {
-      await joinClassroom(codeStr);
+      await studentLogin(codeStr);
       router.push("/school/student/dashboard");
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to join classroom";
+      const message = err instanceof Error ? err.message : "Failed to log in";
       setError(message);
     } finally {
       setLoading(false);
@@ -189,28 +157,6 @@ export default function LoginPage() {
       await refreshUser();
 
       // Redirect based on role using centralized map
-      const user = auth.currentUser;
-      if (user) {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        const role = userDoc.exists() ? userDoc.data().role : "teacher";
-        const dest = RoleDashboardMap[role as keyof typeof RoleDashboardMap]
-          ?? RoleDashboardMap.teacher;
-        router.push(dest);
-      }
-    } catch (err: unknown) {
-      setError(friendlyFirebaseError(err));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    setError("");
-    try {
-      await signInWithGoogle();
-      await refreshUser();
-
       const user = auth.currentUser;
       if (user) {
         const userDoc = await getDoc(doc(db, "users", user.uid));
@@ -294,10 +240,10 @@ export default function LoginPage() {
 
           {!emailMode ? (
             <>
-              {/* Class Code Path */}
+              {/* Student Code Login */}
               <div className="mb-8">
                 <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-5 text-center">
-                  Unique Join Code
+                  Your Student Code
                 </label>
                 <div className="flex justify-center gap-2 md:gap-3 mb-5">
                   {classCode.map((val, i) => (
@@ -324,38 +270,40 @@ export default function LoginPage() {
                   ))}
                 </div>
 
-                {/* Loading indicator during class code lookup */}
+                {/* Loading indicator */}
                 {codeLooking && (
                   <div className="flex items-center justify-center gap-2 mb-5 py-3">
                     <span className="material-symbols-outlined animate-spin text-[#13eca4] text-lg">progress_activity</span>
-                    <span className="text-slate-400 text-sm">Looking up classroom...</span>
+                    <span className="text-slate-400 text-sm">Finding your profile...</span>
                   </div>
                 )}
 
-                {/* Class Found Preview Card */}
-                {codeComplete && classSearched && !codeLooking && (
+                {/* Student Found Preview Card */}
+                {codeComplete && studentSearched && !codeLooking && (
                   <div className={`rounded-xl p-4 mb-5 border transition-all ${
-                    classFound
+                    studentFound
                       ? "bg-[rgba(19,236,164,0.05)] border-[rgba(19,236,164,0.2)]"
                       : "bg-[rgba(255,77,77,0.05)] border-[rgba(255,77,77,0.2)]"
                   }`}>
-                    {classFound ? (
+                    {studentFound ? (
                       <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
-                          <span className="material-symbols-outlined text-[18px] text-[#13eca4]">verified</span>
+                        <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
+                          <span className="text-[#13eca4] text-sm font-bold">
+                            {studentFound.displayName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                          </span>
                         </div>
                         <div className="flex-1">
-                          <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">Class Found</p>
-                          <p className="text-white font-bold">{classFound.title}</p>
+                          <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">Welcome back!</p>
+                          <p className="text-white font-bold text-lg">{studentFound.displayName}</p>
                           <div className="flex items-center gap-2 mt-1">
-                            <div className="w-5 h-5 rounded-full bg-[rgba(19,236,164,0.2)] flex items-center justify-center">
-                              <span className="text-[#13eca4] text-[10px] font-bold">{classFound.teacher[0]}</span>
-                            </div>
-                            <span className="text-slate-400 text-xs">{classFound.teacher}</span>
-                            <span className="text-slate-600 text-xs">·</span>
-                            <span className="text-slate-500 text-xs">{classFound.students} students</span>
+                            {studentFound.grade && (
+                              <>
+                                <span className="text-slate-400 text-xs">{studentFound.grade}</span>
+                                <span className="text-slate-600 text-xs">·</span>
+                              </>
+                            )}
+                            <span className="text-slate-500 text-xs">{studentFound.schoolName}</span>
                           </div>
-                          <p className="text-slate-500 text-xs mt-0.5">{classFound.school}</p>
                         </div>
                       </div>
                     ) : (
@@ -368,64 +316,34 @@ export default function LoginPage() {
                 )}
 
                 <button
-                  onClick={handleJoinClassroom}
-                  disabled={loading || !classFound}
+                  onClick={handleStudentLogin}
+                  disabled={loading || !studentFound}
                   className={`w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
-                    codeComplete && classFound
-                      ? "bg-white text-slate-700 hover:bg-slate-50 shadow-sm border border-slate-200"
-                      : "bg-white/50 text-slate-400 cursor-not-allowed border border-slate-200/50"
+                    codeComplete && studentFound
+                      ? "bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)]"
+                      : "bg-[#13eca4]/30 text-[#10221c]/50 cursor-not-allowed"
                   }`}
                 >
                   {loading ? (
-                    <span className="material-symbols-outlined animate-spin text-slate-700">progress_activity</span>
+                    <span className="material-symbols-outlined animate-spin text-[#10221c]">progress_activity</span>
                   ) : (
                     <>
-                      <svg className="w-5 h-5" viewBox="0 0 24 24">
-                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                      </svg>
-                      {classFound ? "Join with Google" : "Join Classroom"}
+                      <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
+                      {studentFound ? "Start Learning" : "Enter Your Code"}
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Divider */}
-              <div className="relative flex py-5 items-center">
-                <div className="grow border-t border-[rgba(255,255,255,0.08)]" />
-                <span className="shrink mx-4 text-slate-500 text-sm font-medium uppercase tracking-widest">
-                  OR
-                </span>
-                <div className="grow border-t border-[rgba(255,255,255,0.08)]" />
-              </div>
-
-              {/* Returning student / Google Classroom */}
-              <div className="mt-8 space-y-4">
+              {/* Teacher/Admin login link */}
+              <div className="mt-8 text-center">
                 <button
-                  onClick={handleGoogleLogin}
-                  disabled={loading}
-                  className="w-full flex items-center justify-center gap-3 bg-[rgba(255,255,255,0.06)] text-white h-14 rounded-xl font-bold text-base hover:bg-[rgba(255,255,255,0.1)] transition-colors border border-[rgba(255,255,255,0.1)] disabled:opacity-50"
+                  onClick={() => { setEmailMode(true); setError(""); }}
+                  className="text-slate-500 hover:text-[#13eca4] text-sm font-semibold flex items-center justify-center gap-2 mx-auto group transition-colors"
                 >
-                  <svg className="w-5 h-5" viewBox="0 0 24 24">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                  </svg>
-                  Returning Student? Sign In
+                  <span className="material-symbols-outlined text-lg">admin_panel_settings</span>
+                  Login with Email (Teachers &amp; Admins)
                 </button>
-
-                <div className="pt-4 text-center">
-                  <button
-                    onClick={() => { setEmailMode(true); setError(""); }}
-                    className="text-slate-500 hover:text-[#13eca4] text-sm font-semibold flex items-center justify-center gap-2 mx-auto group transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-lg">admin_panel_settings</span>
-                    Login with Email (Teachers &amp; Admins)
-                  </button>
-                </div>
               </div>
             </>
           ) : (

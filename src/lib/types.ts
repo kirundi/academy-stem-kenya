@@ -9,6 +9,10 @@ export interface AppUser {
   createdAt: Date;
   updatedAt: Date;
   // Student-specific
+  studentCode?: string;
+  age?: number;
+  grade?: string;
+  classroomIds?: string[];
   xp?: number;
   level?: number;
   badges?: string[];
