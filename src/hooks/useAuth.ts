@@ -199,6 +199,19 @@ export function useAuth() {
     return cred;
   }
 
+  /** Re-mint the server session cookie from the current Firebase token. */
+  async function refreshSession(): Promise<boolean> {
+    const user = auth.currentUser;
+    if (!user) return false;
+    try {
+      const idToken = await user.getIdToken(true);
+      await setSessionCookie(idToken);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async function signOut() {
     await clearSessionCookie();
     await firebaseSignOut(auth);
@@ -211,6 +224,7 @@ export function useAuth() {
     registerTeacher,
     onboardSchool,
     signInWithGoogle,
+    refreshSession,
     signOut,
   };
 }

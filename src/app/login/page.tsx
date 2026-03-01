@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import StemLogo from "@/components/StemLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { RoleDashboardMap } from "@/lib/constants";
-import { doc, getDoc } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import { db, auth } from "@/lib/firebase";
 
 function friendlyFirebaseError(err: unknown): string {
   if (err instanceof FirebaseError) {
@@ -40,26 +38,20 @@ function friendlyFirebaseError(err: unknown): string {
   return "Something went wrong. Please try again.";
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
-  const { signIn, studentVerify, studentLogin } = useAuth();
+  const searchParams = useSearchParams();
+  const { signIn, studentVerify, studentLogin, refreshSession, signOut } = useAuth();
   const { appUser, loading: authLoading, refreshUser } = useAuthContext();
 
+  // Login mode driven by URL — survives redirects and page reloads
+  const emailMode = searchParams.get("mode") === "email";
+
   const [classCode, setClassCode] = useState(["", "", "", "", "", ""]);
-  const [emailMode, setEmailMode] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Redirect already-authenticated users to their dashboard
-  // Skip while a login is in progress (loading) to avoid fighting the form redirect
-  useEffect(() => {
-    if (!authLoading && !loading && appUser?.role) {
-      const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
-      if (dest) router.replace(dest);
-    }
-  }, [appUser, authLoading, loading, router]);
   const [firstName, setFirstName] = useState("");
   const [verifiedStudent, setVerifiedStudent] = useState<{
     displayName: string;
@@ -67,6 +59,30 @@ export default function LoginPage() {
     schoolName: string;
   } | null>(null);
   const [verifying, setVerifying] = useState(false);
+
+  // Redirect already-authenticated users to their dashboard.
+  // Refreshes the server session cookie first to prevent redirect loops
+  // caused by stale client-side auth with an expired server cookie.
+  useEffect(() => {
+    if (authLoading || loading || !appUser?.role) return;
+
+    const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
+    if (!dest) return;
+
+    let cancelled = false;
+
+    refreshSession().then((valid) => {
+      if (cancelled) return;
+      if (valid) {
+        router.replace(dest);
+      } else {
+        // Server session is stale — clear client auth to break the loop
+        signOut();
+      }
+    });
+
+    return () => { cancelled = true; };
+  }, [appUser, authLoading, loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const codeStr = classCode.join("");
   const codeComplete = codeStr.length === 6;
@@ -79,7 +95,6 @@ export default function LoginPage() {
     if (val && index < 5) {
       document.getElementById(`code-${index + 1}`)?.focus();
     }
-    // Reset verified state when code changes
     if (verifiedStudent) setVerifiedStudent(null);
   };
 
@@ -144,16 +159,7 @@ export default function LoginPage() {
     try {
       await signIn(email, password);
       await refreshUser();
-
-      // Redirect based on role using centralized map
-      const user = auth.currentUser;
-      if (user) {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        const role = userDoc.exists() ? userDoc.data().role : "teacher";
-        const dest = RoleDashboardMap[role as keyof typeof RoleDashboardMap]
-          ?? RoleDashboardMap.teacher;
-        router.push(dest);
-      }
+      // The useEffect will detect appUser, refresh the session, and redirect
     } catch (err: unknown) {
       setError(friendlyFirebaseError(err));
     } finally {
@@ -342,22 +348,22 @@ export default function LoginPage() {
                     ) : (
                       <>
                         <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
-                        {formReady ? "Start Learning" : "Enter Your Code & Name"}
+                        Start Learning!
                       </>
                     )}
                   </button>
                 )}
               </div>
 
-              {/* Teacher/Admin login link */}
+              {/* Teacher/Admin login link — uses URL param so mode survives redirects */}
               <div className="mt-8 text-center">
-                <button
-                  onClick={() => { setEmailMode(true); setError(""); }}
-                  className="text-slate-500 hover:text-[#13eca4] text-sm font-semibold flex items-center justify-center gap-2 mx-auto group transition-colors"
+                <Link
+                  href="/login?mode=email"
+                  className="text-slate-500 hover:text-[#13eca4] text-sm font-semibold inline-flex items-center justify-center gap-2 group transition-colors"
                 >
                   <span className="material-symbols-outlined text-lg">admin_panel_settings</span>
                   Login with Email (Teachers &amp; Admins)
-                </button>
+                </Link>
               </div>
             </>
           ) : (
@@ -405,13 +411,13 @@ export default function LoginPage() {
                   </button>
                 </div>
                 <div className="pt-2 text-center">
-                  <button
-                    onClick={() => { setEmailMode(false); setError(""); }}
-                    className="text-slate-500 hover:text-slate-300 text-sm transition-colors flex items-center gap-1 mx-auto"
+                  <Link
+                    href="/login"
+                    className="text-slate-500 hover:text-slate-300 text-sm transition-colors inline-flex items-center gap-1"
                   >
                     <span className="material-symbols-outlined text-[16px]">arrow_back</span>
                     Back to student login
-                  </button>
+                  </Link>
                 </div>
               </div>
             </>
@@ -426,5 +432,13 @@ export default function LoginPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase-admin";
-import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,8 +14,9 @@ export async function POST(request: NextRequest) {
       expiresIn,
     });
 
-    const cookieStore = await cookies();
-    cookieStore.set("__session", sessionCookie, {
+    // Set cookie directly on the response to ensure Set-Cookie header is sent
+    const response = NextResponse.json({ status: "success" });
+    response.cookies.set("__session", sessionCookie, {
       maxAge: expiresIn / 1000,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       sameSite: "lax",
     });
 
-    return NextResponse.json({ status: "success" });
+    return response;
   } catch (error) {
     console.error("Session creation error:", error);
     return NextResponse.json(
@@ -36,9 +36,15 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE() {
   try {
-    const cookieStore = await cookies();
-    cookieStore.delete("__session");
-    return NextResponse.json({ status: "success" });
+    const response = NextResponse.json({ status: "success" });
+    response.cookies.set("__session", "", {
+      maxAge: 0,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      sameSite: "lax",
+    });
+    return response;
   } catch (error) {
     console.error("Session deletion error:", error);
     return NextResponse.json(
