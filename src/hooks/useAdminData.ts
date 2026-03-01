@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useCollection } from "./useFirestore";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { where, orderBy, limit } from "firebase/firestore";
@@ -63,25 +64,43 @@ export function useSchoolAdminData() {
 }
 
 export function useGlobalAdminData() {
-  const { data: schools, loading: schoolsLoading, error: schoolsError } =
-    useCollection<School>("schools");
+  const [schools, setSchools] = useState<(School & { id: string })[]>([]);
+  const [allUsers, setAllUsers] = useState<(AppUser & { id: string })[]>([]);
+  const [allCourses, setAllCourses] = useState<(Course & { id: string })[]>([]);
+  const [activities, setActivities] = useState<(Activity & { id: string })[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const { data: allUsers, loading: usersLoading, error: usersError } =
-    useCollection<AppUser>("users");
+  useEffect(() => {
+    let cancelled = false;
 
-  const { data: allCourses, loading: coursesLoading, error: coursesError } =
-    useCollection<Course>("courses");
+    async function fetchData() {
+      try {
+        const res = await fetch("/api/admin/dashboard");
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || "Failed to load dashboard data");
+        }
+        const data = await res.json();
+        if (cancelled) return;
+        setSchools(data.schools);
+        setAllUsers(data.users);
+        setAllCourses(data.courses);
+        setActivities(data.activities);
+      } catch (err) {
+        if (cancelled) return;
+        setError(err instanceof Error ? err.message : "Failed to load dashboard data");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
 
-  const { data: activities, loading: activitiesLoading, error: activitiesError } =
-    useCollection<Activity>(
-      "activities",
-      [orderBy("timestamp", "desc"), limit(50)]
-    );
+    fetchData();
+    return () => { cancelled = true; };
+  }, []);
 
   const teachers = allUsers.filter((u) => u.role === "teacher");
   const students = allUsers.filter((u) => u.role === "student");
-
-  const error = schoolsError || usersError || coursesError || activitiesError;
 
   return {
     schools,
@@ -90,7 +109,7 @@ export function useGlobalAdminData() {
     activities,
     teachers,
     students,
-    loading: schoolsLoading || usersLoading || coursesLoading || activitiesLoading,
+    loading,
     error,
   };
 }
