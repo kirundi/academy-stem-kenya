@@ -23,7 +23,7 @@ const SETTINGS_DOC = "settings/platform";
 
 const DEFAULT_SETTINGS = {
   siteName: "STEM Impact Academy",
-  supportEmail: "support@stemimpactcenterkenya.org",
+  supportEmail: "support@academy.stemimpactcenterkenya.org",
   platformUrl: "academy.stemimpactcenterkenya.org",
   features: {
     studentRegistration: true,

@@ -80,7 +80,7 @@ export default function AdminSetupPage() {
               <p className="text-slate-400 text-sm mt-2 mb-1">
                 This will create the global super admin account for:
               </p>
-              <p className="text-[#13eca4] font-mono text-sm font-bold">magu@stemimpactcenterkenya.org</p>
+              <p className="text-[#13eca4] font-mono text-sm font-bold">magu@academy.stemimpactcenterkenya.org</p>
 
               {error && (
                 <div className="mt-4 bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-4 py-3">

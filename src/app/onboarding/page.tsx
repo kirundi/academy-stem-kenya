@@ -272,7 +272,7 @@ export default function OnboardingPage() {
                   <input
                     type="email"
                     className="form-input"
-                    placeholder="admin@yourschool.ke"
+                    placeholder="admin@academy.stemimpactcenterkenya.org"
                     value={formData.email}
                     onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
                   />

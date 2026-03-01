@@ -141,7 +141,7 @@ export default function TeacherRegisterPage() {
               </div>
               <div className="mb-4">
                 <label className="text-slate-400 text-xs font-semibold block mb-1.5">Email Address</label>
-                <input type="email" className="form-input" placeholder="you@school.edu" value={formData.email} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} />
+                <input type="email" className="form-input" placeholder="you@academy.stemimpactcenterkenya.org" value={formData.email} onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))} />
               </div>
               <div className="mb-4">
                 <label className="text-slate-400 text-xs font-semibold block mb-1.5">Password</label>

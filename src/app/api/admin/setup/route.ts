@@ -19,7 +19,7 @@ export async function POST() {
       );
     }
 
-    const email = "magu@stemimpactcenterkenya.org";
+    const email = "magu@academy.stemimpactcenterkenya.org";
     const displayName = "Alex Magu";
     const tempPassword = crypto.randomBytes(6).toString("base64url");
 

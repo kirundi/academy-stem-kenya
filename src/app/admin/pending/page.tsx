@@ -6,7 +6,7 @@ const profileFields = [
   { label: "Institution Type",    value: "Private K-12 Academy" },
   { label: "Estimated Students",  value: "1,200 – 1,500 students" },
   { label: "Administrator",       value: "Dr. Sarah Jenkins" },
-  { label: "Email Address",       value: "s.jenkins@horizonstem.edu" },
+  { label: "Email Address",       value: "s.jenkins@academy.stemimpactcenterkenya.org" },
 ];
 
 export default function SchoolPendingPage() {

@@ -64,7 +64,7 @@ export default function PrivacyPage() {
               <p>
                 If you have questions about this Privacy Policy, please contact us at{" "}
                 <Link href="/contact" className="text-[#13eca4] hover:underline">our contact page</Link> or email us at{" "}
-                <a href="mailto:privacy@stemimpactcenterkenya.org" className="text-[#13eca4] hover:underline">privacy@stemimpactcenterkenya.org</a>.
+                <a href="mailto:privacy@academy.stemimpactcenterkenya.org" className="text-[#13eca4] hover:underline">privacy@academy.stemimpactcenterkenya.org</a>.
               </p>
             </section>
           </div>

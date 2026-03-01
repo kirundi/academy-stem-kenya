@@ -3,14 +3,14 @@
 import { useState } from "react";
 
 const teachers = [
-  { name: "Dr. Sarah Jenkins", email: "sarah.j@stemacademy.edu", dept: "Physics",  deptColor: "#13eca4", students: 124, classes: 6, status: "active",  invited: false },
-  { name: "Marcus Thorne",     email: "m.thorne@stemacademy.edu", dept: "Robotics", deptColor: "#3b82f6", students: 88,  classes: 4, status: "active",  invited: false },
-  { name: "Elena Rodriguez",   email: "elena.r@external.com",    dept: "Biotech",  deptColor: "#8b5cf6", students: null, classes: null, status: "invited", invited: true },
-  { name: "Alan Turing Jr.",   email: "turing@stemacademy.edu",  dept: "Comp Sci", deptColor: "#13eca4", students: 210, classes: 8, status: "active",  invited: false },
-  { name: "Ms. Wanjiku",       email: "wanjiku@stemacademy.edu", dept: "Game Design", deptColor: "#ec4899", students: 46, classes: 2, status: "active", invited: false },
-  { name: "Mr. Otieno",        email: "otieno@stemacademy.edu",  dept: "Green Tech",  deptColor: "#10b981", students: 38, classes: 2, status: "inactive", invited: false },
-  { name: "Dr. Chen",          email: "chen@stemacademy.edu",    dept: "Data Sci",    deptColor: "#f59e0b", students: 96, classes: 5, status: "active",  invited: false },
-  { name: "Ms. Achieng",       email: "achieng@external.com",   dept: "Cybersec",    deptColor: "#06b6d4", students: null, classes: null, status: "invited", invited: true },
+  { name: "Dr. Sarah Jenkins", email: "sarah.j@academy.stemimpactcenterkenya.org", dept: "Physics",  deptColor: "#13eca4", students: 124, classes: 6, status: "active",  invited: false },
+  { name: "Marcus Thorne",     email: "m.thorne@academy.stemimpactcenterkenya.org", dept: "Robotics", deptColor: "#3b82f6", students: 88,  classes: 4, status: "active",  invited: false },
+  { name: "Elena Rodriguez",   email: "elena.r@academy.stemimpactcenterkenya.org",    dept: "Biotech",  deptColor: "#8b5cf6", students: null, classes: null, status: "invited", invited: true },
+  { name: "Alan Turing Jr.",   email: "turing@academy.stemimpactcenterkenya.org",  dept: "Comp Sci", deptColor: "#13eca4", students: 210, classes: 8, status: "active",  invited: false },
+  { name: "Ms. Wanjiku",       email: "wanjiku@academy.stemimpactcenterkenya.org", dept: "Game Design", deptColor: "#ec4899", students: 46, classes: 2, status: "active", invited: false },
+  { name: "Mr. Otieno",        email: "otieno@academy.stemimpactcenterkenya.org",  dept: "Green Tech",  deptColor: "#10b981", students: 38, classes: 2, status: "inactive", invited: false },
+  { name: "Dr. Chen",          email: "chen@academy.stemimpactcenterkenya.org",    dept: "Data Sci",    deptColor: "#f59e0b", students: 96, classes: 5, status: "active",  invited: false },
+  { name: "Ms. Achieng",       email: "achieng@academy.stemimpactcenterkenya.org",   dept: "Cybersec",    deptColor: "#06b6d4", students: null, classes: null, status: "invited", invited: true },
 ];
 
 const statusBadge = {
