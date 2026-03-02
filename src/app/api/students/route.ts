@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { adminAuth, adminDb, setUserClaims } from "@/lib/firebase-admin";
 import { cookies } from "next/headers";
 import { FieldValue } from "firebase-admin/firestore";
 import { generateUniqueStudentCode } from "@/lib/student-code";
@@ -111,6 +111,9 @@ export async function POST(request: NextRequest) {
         createdAt: FieldValue.serverTimestamp(),
         updatedAt: FieldValue.serverTimestamp(),
       });
+
+    // Embed role + schoolId in the Firebase Auth token as custom claims
+    await setUserClaims(userRecord.uid, { role: "student", schoolId });
 
     const courseIds: string[] = classroomData.courseIds || [];
     const batch = adminDb.batch();

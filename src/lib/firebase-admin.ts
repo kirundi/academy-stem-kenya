@@ -21,4 +21,12 @@ const adminApp =
 const adminAuth = getAuth(adminApp);
 const adminDb = getFirestore(adminApp);
 
+/** Set role & schoolId as Firebase custom claims on the user's token. */
+export async function setUserClaims(
+  uid: string,
+  claims: { role: string; schoolId: string | null }
+) {
+  await adminAuth.setCustomUserClaims(uid, claims);
+}
+
 export { adminApp, adminAuth, adminDb };

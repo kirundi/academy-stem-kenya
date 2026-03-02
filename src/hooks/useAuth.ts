@@ -43,6 +43,15 @@ async function clearSessionCookie() {
   await fetch("/api/auth/session", { method: "DELETE" });
 }
 
+/** Ask the server to set custom claims from the user's Firestore profile. */
+async function setClaimsFromProfile(idToken: string) {
+  await fetch("/api/auth/set-claims", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idToken }),
+  });
+}
+
 export function useAuth() {
   async function signIn(email: string, password: string) {
     const cred = await signInWithEmailAndPassword(auth, email, password);
@@ -93,8 +102,11 @@ export function useAuth() {
       updatedAt: serverTimestamp(),
     });
 
+    // Set custom claims, refresh token to include them, then create session
     const idToken = await user.getIdToken();
-    await setSessionCookie(idToken);
+    await setClaimsFromProfile(idToken);
+    const freshToken = await user.getIdToken(true);
+    await setSessionCookie(freshToken);
     return user;
   }
 
@@ -140,8 +152,11 @@ export function useAuth() {
       updatedAt: serverTimestamp(),
     });
 
+    // Set custom claims, refresh token to include them, then create session
     const idToken = await user.getIdToken();
-    await setSessionCookie(idToken);
+    await setClaimsFromProfile(idToken);
+    const freshToken = await user.getIdToken(true);
+    await setSessionCookie(freshToken);
     return { user, schoolId: schoolRef.id };
   }
 
@@ -194,8 +209,11 @@ export function useAuth() {
       });
     }
 
+    // Set custom claims, refresh token to include them, then create session
     const idToken = await user.getIdToken();
-    await setSessionCookie(idToken);
+    await setClaimsFromProfile(idToken);
+    const freshToken = await user.getIdToken(true);
+    await setSessionCookie(freshToken);
     return cred;
   }
 

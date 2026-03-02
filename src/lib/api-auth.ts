@@ -10,8 +10,9 @@ export interface AuthenticatedUser {
 }
 
 /**
- * Verifies the session cookie and fetches the user's Firestore profile.
- * Returns null if unauthenticated.
+ * Verifies the session cookie and returns the authenticated user.
+ * Reads role from custom claims first; falls back to Firestore for
+ * users created before claims were backfilled.
  */
 export async function getAuthUser(): Promise<AuthenticatedUser | null> {
   const cookieStore = await cookies();
@@ -20,6 +21,18 @@ export async function getAuthUser(): Promise<AuthenticatedUser | null> {
 
   try {
     const decoded = await adminAuth.verifySessionCookie(session, true);
+
+    // Prefer custom claims (no Firestore read needed)
+    if (decoded.role) {
+      return {
+        uid: decoded.uid,
+        email: decoded.email,
+        role: decoded.role as UserRole,
+        schoolId: (decoded.schoolId as string) ?? null,
+      };
+    }
+
+    // Fallback: read from Firestore (pre-backfill users)
     const userDoc = await adminDb.collection("users").doc(decoded.uid).get();
     if (!userDoc.exists) return null;
 

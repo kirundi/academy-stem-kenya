@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { adminAuth, adminDb, setUserClaims } from "@/lib/firebase-admin";
 import { cookies } from "next/headers";
 import { FieldValue } from "firebase-admin/firestore";
 import crypto from "crypto";
@@ -71,6 +71,9 @@ export async function POST(request: NextRequest) {
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });
+
+    // Embed role + schoolId in the Firebase Auth token as custom claims
+    await setUserClaims(userRecord.uid, { role, schoolId: schoolId || null });
 
     await adminDb.collection("activities").add({
       userId: caller.uid,
