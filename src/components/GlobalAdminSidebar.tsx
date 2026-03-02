@@ -14,6 +14,10 @@ const baseNavItems = [
   { href: "/dashboard/audit", icon: "fact_check", label: "Audit" },
   { href: "/dashboard/users", icon: "manage_accounts", label: "Users" },
   { href: "/dashboard/reports", icon: "bar_chart", label: "Reports" },
+  { href: "/dashboard/api-monitor", icon: "monitor_heart", label: "API Monitor" },
+  { href: "/dashboard/webhooks", icon: "webhook", label: "Webhooks" },
+  { href: "/dashboard/developer", icon: "code", label: "Developer" },
+  { href: "/dashboard/integrations", icon: "hub", label: "Integrations" },
 ];
 
 export default function GlobalAdminSidebar() {

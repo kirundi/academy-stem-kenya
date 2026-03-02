@@ -16,6 +16,7 @@ const navItems = [
   { label: "Classrooms", href: "/school/admin/classrooms", icon: "school" },
   { label: "Analytics", href: "/school/admin/analytics", icon: "analytics" },
   { label: "Course Library", href: "/school/admin/library", icon: "library_books" },
+  { label: "Integrations", href: "/school/admin/integrations", icon: "hub" },
 ];
 
 const bottomItems = [

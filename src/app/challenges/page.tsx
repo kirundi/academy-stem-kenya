@@ -1,0 +1,508 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import PublicNavbar from "@/components/PublicNavbar";
+
+interface Challenge {
+  slug: string;
+  title: string;
+  category: string;
+  categoryColor: string;
+  description: string;
+  targetDate: Date;
+  status: "upcoming" | "live" | "ended";
+  prize: string;
+  teamSize: string;
+  bgGradient: string;
+  icon: string;
+}
+
+interface Winner {
+  name: string;
+  school: string;
+  project: string;
+  award: string;
+  initials: string;
+  color: string;
+}
+
+const CHALLENGES: Challenge[] = [
+  {
+    slug: "eco-hack-2024",
+    title: "Eco-Hack 2024",
+    category: "Sustainability",
+    categoryColor: "bg-emerald-500 text-white",
+    description:
+      "Build software solutions for environmental sustainability. Focus on carbon tracking, renewable energy management apps, and smart urban systems.",
+    targetDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000 + 30 * 60 * 1000),
+    status: "upcoming",
+    prize: "$2,000",
+    teamSize: "2–4 students",
+    bgGradient: "from-emerald-900/60 to-[#102022]",
+    icon: "eco",
+  },
+  {
+    slug: "robo-race-2024",
+    title: "Robo-Race 2024",
+    category: "Robotics",
+    categoryColor: "bg-[#13daec] text-[#102022]",
+    description:
+      "Design and program the fastest autonomous robot. Optimise sensors and motor controls to navigate complex obstacle courses under 48-hour conditions.",
+    targetDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000 + 15 * 60 * 1000),
+    status: "upcoming",
+    prize: "$1,500",
+    teamSize: "2–3 students",
+    bgGradient: "from-[#13daec]/20 to-[#102022]",
+    icon: "smart_toy",
+  },
+  {
+    slug: "ai-health-sprint",
+    title: "AI Health Sprint",
+    category: "Healthcare AI",
+    categoryColor: "bg-violet-500 text-white",
+    description:
+      "Create AI-powered tools that improve patient outcomes, triage efficiency, or health monitoring for underserved communities across Africa.",
+    targetDate: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000),
+    status: "upcoming",
+    prize: "$3,000",
+    teamSize: "2–5 students",
+    bgGradient: "from-violet-900/40 to-[#102022]",
+    icon: "health_and_safety",
+  },
+  {
+    slug: "data-dive-2024",
+    title: "Data Dive 2024",
+    category: "Data Science",
+    categoryColor: "bg-amber-500 text-[#102022]",
+    description:
+      "Use real Kenyan census and climate datasets to build predictive models for agricultural yield, urban planning, or education access.",
+    targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+    status: "upcoming",
+    prize: "$1,200",
+    teamSize: "1–4 students",
+    bgGradient: "from-amber-900/40 to-[#102022]",
+    icon: "bar_chart",
+  },
+];
+
+const WINNERS: Winner[] = [
+  { name: "Alex Rivera", school: "Tech Academy Prep", project: "SolarSense Irrigation", award: "2023 Champion", initials: "AR", color: "#13daec" },
+  { name: "Sarah Chen", school: "Global STEM High", project: "MediBot Assistant", award: "Health Innovator", initials: "SC", color: "#a78bfa" },
+  { name: "Marcus Thorne", school: "Metro Tech Institute", project: "Aero-Drone Mapping", award: "Data Excellence", initials: "MT", color: "#f59e0b" },
+  { name: "Elena Sokolov", school: "West Side Science", project: "RecycleAI Sort", award: "Sustainability Pro", initials: "ES", color: "#34d399" },
+];
+
+function useCountdown(targetDate: Date) {
+  const calc = () => {
+    const diff = Math.max(0, targetDate.getTime() - Date.now());
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+    };
+  };
+  const [time, setTime] = useState(calc);
+  useEffect(() => {
+    const id = setInterval(() => setTime(calc()), 1000);
+    return () => clearInterval(id);
+  });
+  return time;
+}
+
+function ChallengeCard({ challenge }: { challenge: Challenge }) {
+  const { days, hours, minutes } = useCountdown(challenge.targetDate);
+  return (
+    <div className="group flex flex-col bg-[#1a2e30] rounded-2xl overflow-hidden border border-[#2d4548] hover:border-[#13daec]/50 transition-all shadow-xl">
+      {/* Card header gradient */}
+      <div className={`relative h-44 bg-linear-to-br ${challenge.bgGradient} flex items-center justify-center overflow-hidden`}>
+        <span className="material-symbols-outlined text-[80px] text-[#13daec]/20 group-hover:text-[#13daec]/30 transition-all">
+          {challenge.icon}
+        </span>
+        <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${challenge.categoryColor}`}>
+          {challenge.category}
+        </span>
+        {challenge.status === "live" && (
+          <span className="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-rose-500/20 border border-rose-500/40 text-rose-400 rounded-full text-[10px] font-bold uppercase">
+            <span className="size-1.5 rounded-full bg-rose-400 animate-pulse"></span>
+            Live
+          </span>
+        )}
+      </div>
+
+      <div className="flex-1 p-6 flex flex-col justify-between gap-4">
+        <div>
+          {/* Countdown */}
+          <div className="flex items-center gap-2 text-[#13daec] mb-3">
+            <span className="material-symbols-outlined text-sm">timer</span>
+            <p className="text-xs font-bold uppercase tracking-widest">
+              Starts in: {String(days).padStart(2, "0")}d {String(hours).padStart(2, "0")}h {String(minutes).padStart(2, "0")}m
+            </p>
+          </div>
+          <h3 className="text-xl font-bold text-white mb-2">{challenge.title}</h3>
+          <p className="text-slate-400 text-sm leading-relaxed">{challenge.description}</p>
+        </div>
+
+        {/* Meta row */}
+        <div className="flex items-center gap-4 text-xs text-slate-500">
+          <span className="flex items-center gap-1">
+            <span className="material-symbols-outlined text-sm">emoji_events</span>
+            Prize: <span className="text-[#13daec] font-bold ml-1">{challenge.prize}</span>
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="material-symbols-outlined text-sm">group</span>
+            {challenge.teamSize}
+          </span>
+        </div>
+
+        <div className="flex gap-3">
+          <Link
+            href={`/challenges/${challenge.slug}`}
+            className="flex-1 rounded-lg h-10 border border-[#2d4548] text-slate-300 text-sm font-bold flex items-center justify-center hover:border-[#13daec] hover:text-[#13daec] transition-all"
+          >
+            View Brief
+          </Link>
+          <Link
+            href={`/challenges/${challenge.slug}#enroll`}
+            className="flex-1 rounded-lg h-10 bg-[#13daec] text-[#102022] text-sm font-bold flex items-center justify-center gap-1.5 hover:brightness-110 transition-all"
+          >
+            <span className="material-symbols-outlined text-base">group_add</span>
+            Register Team
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ChallengesPage() {
+  const [activeFilter, setActiveFilter] = useState("all");
+
+  const filters = [
+    { val: "all", label: "All" },
+    { val: "upcoming", label: "Upcoming" },
+    { val: "live", label: "Live Now" },
+    { val: "robotics", label: "Robotics" },
+    { val: "sustainability", label: "Sustainability" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#102022] text-slate-100 antialiased overflow-x-hidden">
+      <PublicNavbar />
+
+      <main>
+        {/* ── Hero ── */}
+        <section className="relative h-130 flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-linear-to-br from-[#102022] via-[#0d1f22] to-[#13daec]/15" />
+          {/* Grid overlay */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(19,218,236,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(19,218,236,0.3) 1px, transparent 1px)",
+              backgroundSize: "60px 60px",
+            }}
+          />
+          {/* Glow orbs */}
+          <div className="absolute top-20 left-1/4 size-72 bg-[#13daec]/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 right-1/4 size-56 bg-violet-500/10 rounded-full blur-3xl" />
+
+          <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#13daec]/10 border border-[#13daec]/20 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#13daec] mb-6">
+              <span className="material-symbols-outlined text-sm">bolt</span>
+              High-Stakes STEM Competition
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tighter mb-6 text-white">
+              Explore Our{" "}
+              <span className="text-[#13daec]">Hackathons</span>
+            </h1>
+            <p className="text-slate-300 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
+              Empowering the next generation of innovators through high-energy STEM challenges and competitive coding. Build, compete, and change the world.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a
+                href="#challenges"
+                className="rounded-xl h-14 px-8 bg-[#13daec] text-[#102022] text-base font-black hover:shadow-[0_0_24px_rgba(19,218,236,0.4)] transition-all flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined">rocket_launch</span>
+                View All Challenges
+              </a>
+              <Link
+                href="/about"
+                className="rounded-xl h-14 px-8 border-2 border-[#13daec]/50 text-[#13daec] text-base font-black hover:bg-[#13daec]/10 transition-all flex items-center gap-2"
+              >
+                <span className="material-symbols-outlined">school</span>
+                School Partnership
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Stats Bar ── */}
+        <div className="bg-[#1a2e30] border-y border-[#2d4548]">
+          <div className="max-w-6xl mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-4 divide-x divide-[#2d4548]">
+            {[
+              { value: "142+", label: "Schools Competing", icon: "domain" },
+              { value: "6,400+", label: "Student Participants", icon: "groups" },
+              { value: "$12k", label: "Total Prize Pool", icon: "emoji_events" },
+              { value: "48h", label: "Hacking Window", icon: "timer" },
+            ].map(({ value, label, icon }) => (
+              <div key={label} className="px-6 first:pl-0 last:pr-0 flex items-center gap-3">
+                <span className="material-symbols-outlined text-[#13daec] text-2xl">{icon}</span>
+                <div>
+                  <p className="text-xl font-black text-white">{value}</p>
+                  <p className="text-xs text-slate-500">{label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Active & Upcoming Challenges ── */}
+        <section id="challenges" className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-black text-white">Active &amp; Upcoming Challenges</h2>
+              <div className="h-1 w-20 bg-[#13daec] mt-3" />
+            </div>
+            <a href="#schedule" className="text-[#13daec] font-bold flex items-center gap-1 text-sm hover:underline">
+              View Schedule <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+          </div>
+
+          {/* Filter pills */}
+          <div className="flex flex-wrap gap-2 mb-8">
+            {filters.map((f) => (
+              <button
+                key={f.val}
+                onClick={() => setActiveFilter(f.val)}
+                className={`px-4 py-1.5 rounded-full text-sm font-bold border transition-all ${
+                  activeFilter === f.val
+                    ? "bg-[#13daec] text-[#102022] border-[#13daec]"
+                    : "border-[#2d4548] text-slate-400 hover:border-[#13daec] hover:text-[#13daec]"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {CHALLENGES.map((c) => (
+              <ChallengeCard key={c.slug} challenge={c} />
+            ))}
+          </div>
+        </section>
+
+        {/* ── How Challenges Work ── */}
+        <section className="py-24 bg-[#0d1f22]">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">How Challenges Work</h2>
+              <p className="text-slate-400 max-w-lg mx-auto">
+                Your journey from registration to winning. Follow these three critical stages.
+              </p>
+            </div>
+
+            <div className="relative grid grid-cols-1 md:grid-cols-3 gap-16">
+              {/* Connector line */}
+              <div className="hidden md:block absolute top-9.5 left-[20%] right-[20%] h-px bg-[#13daec]/20 z-0" />
+
+              {[
+                {
+                  icon: "schedule",
+                  step: "01",
+                  title: "Countdown to Start",
+                  desc: "Register your school and form teams. Access pre-event resources and set up your dev environment before the timer hits zero.",
+                },
+                {
+                  icon: "code_blocks",
+                  step: "02",
+                  title: "Timed Hacking",
+                  desc: "A 48-hour intensive window to build your project. Access mentors and attend live technical workshops during the challenge.",
+                },
+                {
+                  icon: "verified",
+                  step: "03",
+                  title: "Submission & Jury",
+                  desc: "Submit your demo and source code. Industry experts evaluate projects based on innovation, technical depth, and impact.",
+                },
+              ].map(({ icon, step, title, desc }) => (
+                <div key={step} className="relative z-10 flex flex-col items-center text-center group">
+                  <div className="relative">
+                    <div className="size-20 bg-[#102022] border-4 border-[#13daec]/20 group-hover:border-[#13daec] flex items-center justify-center rounded-full mb-5 transition-all shadow-[0_0_20px_rgba(19,218,236,0.08)] group-hover:shadow-[0_0_24px_rgba(19,218,236,0.25)]">
+                      <span className="material-symbols-outlined text-[#13daec] text-4xl">{icon}</span>
+                    </div>
+                    <span className="absolute -top-2 -right-2 size-6 rounded-full bg-[#13daec] text-[#102022] text-[10px] font-black flex items-center justify-center">
+                      {step}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-3">{title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Courses vs Challenges comparison */}
+            <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 rounded-2xl bg-[#102022] border border-[#2d4548]">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="material-symbols-outlined text-slate-400 text-2xl">menu_book</span>
+                  <h4 className="font-bold text-white text-lg">Standard Courses</h4>
+                </div>
+                <ul className="space-y-2 text-sm text-slate-400">
+                  {["Self-paced learning modules", "Weekly assignments & quizzes", "Guided curriculum with mentors", "Certificate on completion"].map((item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-slate-600 text-base">remove</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="p-6 rounded-2xl bg-[#13daec]/5 border border-[#13daec]/30">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="material-symbols-outlined text-[#13daec] text-2xl">bolt</span>
+                  <h4 className="font-bold text-white text-lg">Hackathon Challenges</h4>
+                </div>
+                <ul className="space-y-2 text-sm text-slate-300">
+                  {["Live countdown & time pressure", "Real-world problem prompts", "Compete against peer schools", "Cash prizes + Hall of Fame glory"].map((item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-[#13daec] text-base">check_circle</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Hall of Fame ── */}
+        <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 flex items-center justify-center gap-3">
+              <span className="material-symbols-outlined text-[#13daec] text-4xl">workspace_premium</span>
+              Hall of Fame
+            </h2>
+            <p className="text-slate-400 max-w-lg mx-auto">
+              Celebrating our past champions and their groundbreaking projects.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {WINNERS.map((winner) => (
+              <div
+                key={winner.name}
+                className="bg-[#1a2e30] p-6 rounded-2xl border border-[#2d4548] hover:border-[#13daec]/40 flex flex-col items-center text-center relative overflow-hidden group transition-all"
+              >
+                {/* Glow orb */}
+                <div className="absolute -top-4 -right-4 size-20 bg-[#13daec]/10 rounded-full blur-2xl group-hover:bg-[#13daec]/20 transition-all" />
+
+                {/* Avatar */}
+                <div
+                  className="size-20 rounded-full flex items-center justify-center text-2xl font-black mb-4 border-2 p-0.5"
+                  style={{ borderColor: winner.color, background: `${winner.color}18` }}
+                >
+                  <span style={{ color: winner.color }}>{winner.initials}</span>
+                </div>
+
+                <h4 className="font-bold text-lg text-white mb-0.5">{winner.name}</h4>
+                <p className="text-[#13daec] text-xs font-bold uppercase tracking-widest mb-4">{winner.school}</p>
+
+                <div className="bg-[#102022] w-full py-3 rounded-lg mb-4 px-3">
+                  <p className="text-slate-400 text-xs italic">"{winner.project}"</p>
+                </div>
+
+                <div className="flex items-center gap-1.5" style={{ color: winner.color }}>
+                  <span className="material-symbols-outlined text-lg">military_tech</span>
+                  <span className="text-xs font-bold">{winner.award}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 text-[#13daec] font-bold hover:underline text-sm"
+            >
+              View full leaderboard <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* ── CTA Section ── */}
+        <section className="py-20 bg-[#13daec] px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-[#102022] text-4xl md:text-5xl font-black mb-6">
+              Bring the Challenge to Your School
+            </h2>
+            <p className="text-[#102022]/75 text-lg md:text-xl font-medium mb-10 max-w-2xl mx-auto">
+              Partner with STEM Impact Academy to host exclusive hackathons, access our competition platform, and give your students a global stage.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/register/teacher"
+                className="bg-[#102022] text-white rounded-xl h-14 px-10 font-bold text-base hover:bg-[#1a2e30] transition-colors flex items-center justify-center gap-2"
+              >
+                <span className="material-symbols-outlined">school</span>
+                School Registration
+              </Link>
+              <Link
+                href="/contact"
+                className="bg-transparent border-2 border-[#102022] text-[#102022] rounded-xl h-14 px-10 font-bold text-base hover:bg-[#102022] hover:text-white transition-all flex items-center justify-center"
+              >
+                Contact Sales
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Footer ── */}
+        <footer className="bg-[#0d1f22] border-t border-[#2d4548] py-14 px-6 md:px-20">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div className="md:col-span-2">
+              <Link href="/" className="flex items-center gap-3 mb-5">
+                <span className="material-symbols-outlined text-3xl text-[#13daec]">token</span>
+                <span className="text-xl font-bold tracking-tight text-slate-100 uppercase italic">
+                  STEM Impact <span className="text-[#ff4d4d]">Academy</span>
+                </span>
+              </Link>
+              <p className="text-slate-400 max-w-sm text-sm leading-relaxed mb-5">
+                Pioneering educational experiences that blend technology, engineering, and competition to inspire the leaders of tomorrow.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">Quick Links</h4>
+              <ul className="space-y-3">
+                {["Curriculum", "Hackathons", "School Partnership", "Scholarships"].map((item) => (
+                  <li key={item}>
+                    <Link href="#" className="text-slate-400 hover:text-[#13daec] transition-colors text-sm">
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">Support</h4>
+              <ul className="space-y-3">
+                {[["Help Center", "/help"], ["Rules & Terms", "/terms"], ["Privacy Policy", "/privacy"], ["Safety Guidelines", "#"]].map(([item, href]) => (
+                  <li key={item}>
+                    <Link href={href} className="text-slate-400 hover:text-[#13daec] transition-colors text-sm">
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-10 pt-8 border-t border-[#2d4548] text-center text-slate-500 text-xs">
+            © 2024 STEM Impact Academy. All rights reserved.
+          </div>
+        </footer>
+      </main>
+    </div>
+  );
+}

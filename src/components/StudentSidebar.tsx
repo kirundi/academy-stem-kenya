@@ -12,6 +12,10 @@ const navItems = [
   { label: "My Portfolio", href: "/school/student/portfolio", icon: "grid_view" },
   { label: "Badges & Awards", href: "/school/student/badges", icon: "military_tech" },
   { label: "My Progress", href: "/school/student/progress", icon: "insights" },
+  { label: "Achievements", href: "/school/student/achievements", icon: "emoji_events" },
+  { label: "Challenges", href: "/school/student/challenges", icon: "trophy" },
+  { label: "Collaboration", href: "/school/student/collaboration", icon: "groups" },
+  { label: "Settings", href: "/school/student/settings", icon: "settings" },
 ];
 
 function getInitials(name: string): string {

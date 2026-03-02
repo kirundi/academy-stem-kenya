@@ -66,7 +66,7 @@ export default function TeacherProfilePage() {
           </nav>
         </header>
 
-        <div className="px-6 py-8 max-w-[1400px] mx-auto">
+        <div className="px-6 py-8 max-w-350 mx-auto">
 
           {/* Profile Banner */}
           <section className="flex flex-col @container mb-8">
@@ -97,11 +97,11 @@ export default function TeacherProfilePage() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setEditMode(!editMode)}
-                  className="flex-1 md:flex-none min-w-[120px] flex items-center justify-center rounded-lg h-11 px-5 bg-slate-800 text-white text-sm font-bold transition-all hover:bg-slate-700"
+                  className="flex-1 md:flex-none min-w-30 flex items-center justify-center rounded-lg h-11 px-5 bg-slate-800 text-white text-sm font-bold transition-all hover:bg-slate-700"
                 >
                   {editMode ? "Cancel" : "Edit Profile"}
                 </button>
-                <button className="flex-1 md:flex-none min-w-[120px] flex items-center justify-center rounded-lg h-11 px-5 bg-[#13eca4] text-[#10221c] text-sm font-bold shadow-[0_0_20px_rgba(19,236,164,0.3)] transition-all hover:opacity-90">
+                <button className="flex-1 md:flex-none min-w-30 flex items-center justify-center rounded-lg h-11 px-5 bg-[#13eca4] text-[#10221c] text-sm font-bold shadow-[0_0_20px_rgba(19,236,164,0.3)] transition-all hover:opacity-90">
                   Share Profile
                 </button>
               </div>
@@ -223,7 +223,7 @@ export default function TeacherProfilePage() {
                 </h3>
                 {editMode ? (
                   <textarea
-                    className="w-full bg-[#10221c] border border-[rgba(19,236,164,0.2)] rounded-lg text-slate-300 px-4 py-3 text-sm focus:border-[#13eca4] outline-none transition-all resize-none min-h-[100px]"
+                    className="w-full bg-[#10221c] border border-[rgba(19,236,164,0.2)] rounded-lg text-slate-300 px-4 py-3 text-sm focus:border-[#13eca4] outline-none transition-all resize-none min-h-25"
                     defaultValue="Passionate STEM educator with a focus on hands-on learning and real-world applications. Dedicated to inspiring the next generation of scientists and engineers."
                   />
                 ) : (

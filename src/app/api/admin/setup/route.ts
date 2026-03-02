@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { adminAuth, adminDb, setUserClaims } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import crypto from "crypto";
 import { sendSetupCredentialsEmail } from "@/lib/email";
@@ -53,6 +53,11 @@ export async function POST() {
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });
+
+    // Write custom claims so the first login produces a claims-bearing token.
+    // Without this the session cookie has no role claim and refreshSession()
+    // in the login page can silently sign the user out.
+    await setUserClaims(uid, { role: "super_admin", schoolId: null });
 
     // Log the setup activity
     await adminDb.collection("activities").add({

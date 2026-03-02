@@ -137,7 +137,7 @@ export default function StudentSettingsPage() {
                     <div className="md:col-span-2 space-y-1.5">
                       <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Bio</label>
                       <textarea
-                        className="w-full bg-[#102022] border border-[#2d4548] rounded-lg text-slate-100 px-4 py-2.5 text-sm focus:border-[#13daec] focus:ring-1 focus:ring-[#13daec] outline-none transition-all min-h-[100px] resize-none"
+                        className="w-full bg-[#102022] border border-[#2d4548] rounded-lg text-slate-100 px-4 py-2.5 text-sm focus:border-[#13daec] focus:ring-1 focus:ring-[#13daec] outline-none transition-all min-h-25 resize-none"
                         placeholder="Tell us about your STEM interests..."
                         defaultValue="Aspiring coder and robotics enthusiast. Currently exploring AI and electronics."
                       />

@@ -55,8 +55,15 @@ async function setClaimsFromProfile(idToken: string) {
 export function useAuth() {
   async function signIn(email: string, password: string) {
     const cred = await signInWithEmailAndPassword(auth, email, password);
+    // Set custom claims (role, schoolId) on the Firebase Auth token so the
+    // session cookie carries them — required for middleware role enforcement.
+    // This matches the claim-setting pattern used in registerTeacher,
+    // onboardSchool, and signInWithGoogle.
     const idToken = await cred.user.getIdToken();
-    await setSessionCookie(idToken);
+    await setClaimsFromProfile(idToken);
+    // Force-refresh so the NEW token contains the freshly written claims.
+    const freshToken = await cred.user.getIdToken(true);
+    await setSessionCookie(freshToken);
     return cred.user;
   }
 

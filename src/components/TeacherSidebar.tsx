@@ -12,10 +12,15 @@ const navItems = [
   { label: "Classrooms", href: "/school/teacher/classroom", icon: "groups" },
   { label: "Courses", href: "/school/teacher/courses", icon: "menu_book" },
   { label: "Grading", href: "/school/teacher/grading", icon: "grading" },
+  { label: "Team Grading", href: "/school/teacher/grading-panel", icon: "fact_check" },
+  { label: "Challenges", href: "/school/teacher/challenges", icon: "trophy" },
+  { label: "Team Setup", href: "/school/teacher/team-setup", icon: "add_circle" },
   { label: "Class Review", href: "/school/teacher/class-review", icon: "rate_review" },
   { label: "Groups", href: "/school/teacher/groups", icon: "workspaces" },
   { label: "Analytics", href: "/school/teacher/analytics", icon: "bar_chart" },
   { label: "Enrollment", href: "/school/teacher/enrollment", icon: "manage_accounts" },
+  { label: "My Profile", href: "/school/teacher/profile", icon: "account_circle" },
+  { label: "Settings", href: "/school/teacher/settings", icon: "settings" },
 ];
 
 const bottomItems = [

@@ -145,7 +145,7 @@ export default function TeacherSettingsPage() {
                         <span className="text-sm font-medium text-slate-300">Auto-sync Rosters</span>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input type="checkbox" className="sr-only peer" checked={autoSync} onChange={() => setAutoSync(!autoSync)} />
-                          <div className={`w-11 h-6 rounded-full transition-colors after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all ${autoSync ? "bg-[#13eca4] after:translate-x-full" : "bg-slate-700"}`} />
+                          <div className={`w-11 h-6 rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all ${autoSync ? "bg-[#13eca4] after:translate-x-full" : "bg-slate-700"}`} />
                         </label>
                       </div>
                       <button className="flex items-center gap-2 bg-slate-800 text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-slate-700 transition-colors">
