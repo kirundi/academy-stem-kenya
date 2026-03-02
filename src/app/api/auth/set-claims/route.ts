@@ -23,10 +23,11 @@ export async function POST(request: NextRequest) {
     const data = userDoc.data()!;
     const role = data.role as string;
     const schoolId = (data.schoolId as string) ?? null;
+    const requiresPasswordChange = (data.requiresPasswordChange as boolean) ?? false;
 
     await setUserClaims(decoded.uid, { role, schoolId });
 
-    return NextResponse.json({ status: "success", role, schoolId });
+    return NextResponse.json({ status: "success", role, schoolId, requiresPasswordChange });
   } catch (error) {
     console.error("Set claims error:", error);
     return NextResponse.json({ error: "Failed to set claims" }, { status: 500 });

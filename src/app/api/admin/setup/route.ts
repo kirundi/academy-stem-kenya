@@ -50,6 +50,7 @@ export async function POST() {
       displayName,
       role: "super_admin",
       schoolId: null,
+      requiresPasswordChange: true,
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });

@@ -64,11 +64,16 @@ async function clearSessionCookie() {
   await fetch("/api/auth/session", { method: "DELETE" });
 }
 
+interface ClaimsResult {
+  role: string | null;
+  requiresPasswordChange: boolean;
+}
+
 /**
  * Asks the server to set custom claims from the user's Firestore profile.
- * Returns the user's role so callers can redirect without an extra DB read.
+ * Returns the role and whether a password change is required.
  */
-async function setClaimsFromProfile(idToken: string): Promise<string | null> {
+async function setClaimsFromProfile(idToken: string): Promise<ClaimsResult> {
   try {
     const res = await fetch("/api/auth/set-claims", {
       method: "POST",
@@ -78,13 +83,16 @@ async function setClaimsFromProfile(idToken: string): Promise<string | null> {
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
       console.warn("set-claims failed:", data.error);
-      return null;
+      return { role: null, requiresPasswordChange: false };
     }
     const data = await res.json();
-    return (data.role as string) ?? null;
+    return {
+      role: (data.role as string) ?? null,
+      requiresPasswordChange: (data.requiresPasswordChange as boolean) ?? false,
+    };
   } catch (err) {
     console.warn("set-claims request failed:", err);
-    return null;
+    return { role: null, requiresPasswordChange: false };
   }
 }
 
@@ -94,19 +102,19 @@ export function useAuth() {
    * Returns the user's role so the caller can redirect immediately
    * without waiting for an additional Firestore read.
    */
-  async function signIn(email: string, password: string): Promise<{ role: string | null }> {
+  async function signIn(email: string, password: string): Promise<ClaimsResult> {
     const cred = await signInWithEmailAndPassword(auth, email, password);
 
     // Set custom claims on the Auth user from the Firestore profile.
     const idToken = await cred.user.getIdToken();
-    const role = await setClaimsFromProfile(idToken);
+    const claims = await setClaimsFromProfile(idToken);
 
     // Force-refresh so the new token carries the freshly written claims,
     // then create the server session cookie with that token.
     const freshToken = await cred.user.getIdToken(true);
     await setSessionCookie(freshToken);
 
-    return { role };
+    return claims;
   }
 
   async function registerTeacher(data: {

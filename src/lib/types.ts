@@ -6,6 +6,7 @@ export interface AppUser {
   displayName: string;
   role: UserRole;
   schoolId: string | null;
+  requiresPasswordChange?: boolean;
   createdAt: Date;
   updatedAt: Date;
   // Student-specific

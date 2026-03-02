@@ -151,17 +151,21 @@ function LoginContent() {
     setLoading(true);
     setError("");
     try {
-      // signIn() creates the session cookie AND returns the role.
-      // We redirect directly here — no need to wait for useEffect or
-      // call refreshSession() again (which was causing the session to be
-      // destroyed on transient failures).
-      const { role } = await signIn(email, password);
+      // signIn() creates the session cookie AND returns the role + whether
+      // a password change is required. We redirect directly here.
+      const { role, requiresPasswordChange } = await signIn(email, password);
 
       redirected.current = true;
+
+      if (requiresPasswordChange) {
+        router.push("/dashboard/change-password");
+        return;
+      }
+
       const dest =
         role && role in RoleDashboardMap
           ? RoleDashboardMap[role as keyof typeof RoleDashboardMap]
-          : "/dashboard"; // fallback for admin/super_admin
+          : "/dashboard";
 
       router.push(dest);
     } catch (err: unknown) {

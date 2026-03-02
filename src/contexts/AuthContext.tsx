@@ -55,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           displayName: data.displayName,
           role: data.role,
           schoolId: data.schoolId ?? null,
+          requiresPasswordChange: data.requiresPasswordChange ?? false,
           createdAt: data.createdAt?.toDate?.() ?? new Date(),
           updatedAt: data.updatedAt?.toDate?.() ?? new Date(),
           studentCode: data.studentCode,
