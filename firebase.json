@@ -10,6 +10,7 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "predeploy": ["npm run build"],
     "frameworksBackend": {
       "region": "us-central1"
     }
