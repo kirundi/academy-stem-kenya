@@ -3,8 +3,8 @@ import { adminAuth, adminDb, setUserClaims } from "@/lib/firebase-admin";
 
 /**
  * Sets Firebase custom claims (role, schoolId) on the calling user.
- * Called by client-side registration flows (registerTeacher, onboardSchool, signInWithGoogle)
- * after the Firestore user doc is created.
+ * Called by client-side auth flows after the Firestore user doc exists.
+ * Returns the role so the client can redirect immediately.
  */
 export async function POST(request: NextRequest) {
   try {
@@ -21,12 +21,12 @@ export async function POST(request: NextRequest) {
     }
 
     const data = userDoc.data()!;
-    await setUserClaims(decoded.uid, {
-      role: data.role,
-      schoolId: data.schoolId ?? null,
-    });
+    const role = data.role as string;
+    const schoolId = (data.schoolId as string) ?? null;
 
-    return NextResponse.json({ status: "success" });
+    await setUserClaims(decoded.uid, { role, schoolId });
+
+    return NextResponse.json({ status: "success", role, schoolId });
   } catch (error) {
     console.error("Set claims error:", error);
     return NextResponse.json({ error: "Failed to set claims" }, { status: 500 });

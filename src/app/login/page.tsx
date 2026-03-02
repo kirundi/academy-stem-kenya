@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import StemLogo from "@/components/StemLogo";
@@ -41,8 +41,8 @@ function friendlyFirebaseError(err: unknown): string {
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { signIn, studentVerify, studentLogin, refreshSession, signOut } = useAuth();
-  const { appUser, loading: authLoading, refreshUser } = useAuthContext();
+  const { signIn, studentVerify, studentLogin } = useAuth();
+  const { appUser, loading: authLoading } = useAuthContext();
 
   // Login mode driven by URL — survives redirects and page reloads
   const emailMode = searchParams.get("mode") === "email";
@@ -60,29 +60,22 @@ function LoginContent() {
   } | null>(null);
   const [verifying, setVerifying] = useState(false);
 
+  // Track whether we've already triggered a redirect so we don't loop.
+  const redirected = useRef(false);
+
   // Redirect already-authenticated users to their dashboard.
-  // Refreshes the server session cookie first to prevent redirect loops
-  // caused by stale client-side auth with an expired server cookie.
+  // This only runs on initial page load when a session cookie already exists.
+  // Post-login redirects are handled directly in the submit handlers below.
   useEffect(() => {
-    if (authLoading || loading || !appUser?.role) return;
+    if (authLoading || loading || redirected.current) return;
+    if (!appUser?.role) return;
 
     const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
     if (!dest) return;
 
-    let cancelled = false;
-
-    refreshSession().then((valid) => {
-      if (cancelled) return;
-      if (valid) {
-        router.replace(dest);
-      } else {
-        // Server session is stale — clear client auth to break the loop
-        signOut();
-      }
-    });
-
-    return () => { cancelled = true; };
-  }, [appUser, authLoading, loading]); // eslint-disable-line react-hooks/exhaustive-deps
+    redirected.current = true;
+    router.replace(dest);
+  }, [appUser, authLoading, loading, router]);
 
   const codeStr = classCode.join("");
   const codeComplete = codeStr.length === 6;
@@ -140,6 +133,7 @@ function LoginContent() {
     setError("");
     try {
       await studentLogin(codeStr, firstName.trim());
+      redirected.current = true;
       router.push("/school/student/dashboard");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Failed to log in";
@@ -157,9 +151,19 @@ function LoginContent() {
     setLoading(true);
     setError("");
     try {
-      await signIn(email, password);
-      await refreshUser();
-      // The useEffect will detect appUser, refresh the session, and redirect
+      // signIn() creates the session cookie AND returns the role.
+      // We redirect directly here — no need to wait for useEffect or
+      // call refreshSession() again (which was causing the session to be
+      // destroyed on transient failures).
+      const { role } = await signIn(email, password);
+
+      redirected.current = true;
+      const dest =
+        role && role in RoleDashboardMap
+          ? RoleDashboardMap[role as keyof typeof RoleDashboardMap]
+          : "/dashboard"; // fallback for admin/super_admin
+
+      router.push(dest);
     } catch (err: unknown) {
       setError(friendlyFirebaseError(err));
     } finally {

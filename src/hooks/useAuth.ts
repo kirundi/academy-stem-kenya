@@ -27,15 +27,36 @@ const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope("https://www.googleapis.com/auth/classroom.courses.readonly");
 googleProvider.addScope("https://www.googleapis.com/auth/classroom.rosters.readonly");
 
-async function setSessionCookie(idToken: string) {
-  const res = await fetch("/api/auth/session", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ idToken }),
-  });
-  if (!res.ok) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || "Failed to create session");
+/**
+ * Creates the server-side session cookie from a Firebase ID token.
+ * Retries once with a fresh token if the first attempt fails, to handle
+ * transient network errors or token edge cases.
+ */
+async function setSessionCookie(idToken: string): Promise<void> {
+  const attempt = async (token: string) => {
+    const res = await fetch("/api/auth/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken: token }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || "Failed to create session");
+    }
+  };
+
+  try {
+    await attempt(idToken);
+  } catch (firstError) {
+    // Retry once with a force-refreshed token
+    try {
+      const user = auth.currentUser;
+      if (!user) throw firstError;
+      const freshToken = await user.getIdToken(true);
+      await attempt(freshToken);
+    } catch {
+      throw firstError; // surface the original error
+    }
   }
 }
 
@@ -43,28 +64,49 @@ async function clearSessionCookie() {
   await fetch("/api/auth/session", { method: "DELETE" });
 }
 
-/** Ask the server to set custom claims from the user's Firestore profile. */
-async function setClaimsFromProfile(idToken: string) {
-  await fetch("/api/auth/set-claims", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ idToken }),
-  });
+/**
+ * Asks the server to set custom claims from the user's Firestore profile.
+ * Returns the user's role so callers can redirect without an extra DB read.
+ */
+async function setClaimsFromProfile(idToken: string): Promise<string | null> {
+  try {
+    const res = await fetch("/api/auth/set-claims", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      console.warn("set-claims failed:", data.error);
+      return null;
+    }
+    const data = await res.json();
+    return (data.role as string) ?? null;
+  } catch (err) {
+    console.warn("set-claims request failed:", err);
+    return null;
+  }
 }
 
 export function useAuth() {
-  async function signIn(email: string, password: string) {
+  /**
+   * Email + password sign-in for staff and admins.
+   * Returns the user's role so the caller can redirect immediately
+   * without waiting for an additional Firestore read.
+   */
+  async function signIn(email: string, password: string): Promise<{ role: string | null }> {
     const cred = await signInWithEmailAndPassword(auth, email, password);
-    // Set custom claims (role, schoolId) on the Firebase Auth token so the
-    // session cookie carries them — required for middleware role enforcement.
-    // This matches the claim-setting pattern used in registerTeacher,
-    // onboardSchool, and signInWithGoogle.
+
+    // Set custom claims on the Auth user from the Firestore profile.
     const idToken = await cred.user.getIdToken();
-    await setClaimsFromProfile(idToken);
-    // Force-refresh so the NEW token contains the freshly written claims.
+    const role = await setClaimsFromProfile(idToken);
+
+    // Force-refresh so the new token carries the freshly written claims,
+    // then create the server session cookie with that token.
     const freshToken = await cred.user.getIdToken(true);
     await setSessionCookie(freshToken);
-    return cred.user;
+
+    return { role };
   }
 
   async function registerTeacher(data: {
@@ -109,7 +151,6 @@ export function useAuth() {
       updatedAt: serverTimestamp(),
     });
 
-    // Set custom claims, refresh token to include them, then create session
     const idToken = await user.getIdToken();
     await setClaimsFromProfile(idToken);
     const freshToken = await user.getIdToken(true);
@@ -128,13 +169,11 @@ export function useAuth() {
     email: string;
     password: string;
   }) {
-    // Create admin user in Firebase Auth
     const cred = await createUserWithEmailAndPassword(auth, data.email, data.password);
     const user = cred.user;
 
     await updateProfile(user, { displayName: data.fullName });
 
-    // Create school document
     const schoolRef = await addDoc(collection(db, "schools"), {
       name: data.schoolName,
       type: data.schoolType,
@@ -147,7 +186,6 @@ export function useAuth() {
       createdAt: serverTimestamp(),
     });
 
-    // Create admin user document
     await setDoc(doc(db, "users", user.uid), {
       email: data.email,
       displayName: data.fullName,
@@ -159,7 +197,6 @@ export function useAuth() {
       updatedAt: serverTimestamp(),
     });
 
-    // Set custom claims, refresh token to include them, then create session
     const idToken = await user.getIdToken();
     await setClaimsFromProfile(idToken);
     const freshToken = await user.getIdToken(true);
@@ -201,7 +238,6 @@ export function useAuth() {
     const cred = await signInWithPopup(auth, googleProvider);
     const user = cred.user;
 
-    // Check if user document exists, create if not
     const userDocRef = doc(db, "users", user.uid);
     const userDoc = await getDoc(userDocRef);
 
@@ -216,7 +252,6 @@ export function useAuth() {
       });
     }
 
-    // Set custom claims, refresh token to include them, then create session
     const idToken = await user.getIdToken();
     await setClaimsFromProfile(idToken);
     const freshToken = await user.getIdToken(true);
@@ -224,7 +259,7 @@ export function useAuth() {
     return cred;
   }
 
-  /** Re-mint the server session cookie from the current Firebase token. */
+  /** Re-mints the server session cookie from the current Firebase token. */
   async function refreshSession(): Promise<boolean> {
     const user = auth.currentUser;
     if (!user) return false;
