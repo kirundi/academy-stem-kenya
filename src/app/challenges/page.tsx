@@ -35,7 +35,9 @@ const CHALLENGES: Challenge[] = [
     categoryColor: "bg-emerald-500 text-white",
     description:
       "Build software solutions for environmental sustainability. Focus on carbon tracking, renewable energy management apps, and smart urban systems.",
-    targetDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000 + 30 * 60 * 1000),
+    targetDate: new Date(
+      Date.now() + 5 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000 + 30 * 60 * 1000
+    ),
     status: "upcoming",
     prize: "$2,000",
     teamSize: "2–4 students",
@@ -49,7 +51,9 @@ const CHALLENGES: Challenge[] = [
     categoryColor: "bg-[#13daec] text-[#102022]",
     description:
       "Design and program the fastest autonomous robot. Optimise sensors and motor controls to navigate complex obstacle courses under 48-hour conditions.",
-    targetDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000 + 15 * 60 * 1000),
+    targetDate: new Date(
+      Date.now() + 12 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000 + 15 * 60 * 1000
+    ),
     status: "upcoming",
     prize: "$1,500",
     teamSize: "2–3 students",
@@ -87,10 +91,38 @@ const CHALLENGES: Challenge[] = [
 ];
 
 const WINNERS: Winner[] = [
-  { name: "Alex Rivera", school: "Tech Academy Prep", project: "SolarSense Irrigation", award: "2023 Champion", initials: "AR", color: "#13daec" },
-  { name: "Sarah Chen", school: "Global STEM High", project: "MediBot Assistant", award: "Health Innovator", initials: "SC", color: "#a78bfa" },
-  { name: "Marcus Thorne", school: "Metro Tech Institute", project: "Aero-Drone Mapping", award: "Data Excellence", initials: "MT", color: "#f59e0b" },
-  { name: "Elena Sokolov", school: "West Side Science", project: "RecycleAI Sort", award: "Sustainability Pro", initials: "ES", color: "#34d399" },
+  {
+    name: "Alex Rivera",
+    school: "Tech Academy Prep",
+    project: "SolarSense Irrigation",
+    award: "2023 Champion",
+    initials: "AR",
+    color: "#13daec",
+  },
+  {
+    name: "Sarah Chen",
+    school: "Global STEM High",
+    project: "MediBot Assistant",
+    award: "Health Innovator",
+    initials: "SC",
+    color: "#a78bfa",
+  },
+  {
+    name: "Marcus Thorne",
+    school: "Metro Tech Institute",
+    project: "Aero-Drone Mapping",
+    award: "Data Excellence",
+    initials: "MT",
+    color: "#f59e0b",
+  },
+  {
+    name: "Elena Sokolov",
+    school: "West Side Science",
+    project: "RecycleAI Sort",
+    award: "Sustainability Pro",
+    initials: "ES",
+    color: "#34d399",
+  },
 ];
 
 function useCountdown(targetDate: Date) {
@@ -116,11 +148,15 @@ function ChallengeCard({ challenge }: { challenge: Challenge }) {
   return (
     <div className="group flex flex-col bg-[#1a2e30] rounded-2xl overflow-hidden border border-[#2d4548] hover:border-[#13daec]/50 transition-all shadow-xl">
       {/* Card header gradient */}
-      <div className={`relative h-44 bg-linear-to-br ${challenge.bgGradient} flex items-center justify-center overflow-hidden`}>
+      <div
+        className={`relative h-44 bg-linear-to-br ${challenge.bgGradient} flex items-center justify-center overflow-hidden`}
+      >
         <span className="material-symbols-outlined text-[80px] text-[#13daec]/20 group-hover:text-[#13daec]/30 transition-all">
           {challenge.icon}
         </span>
-        <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${challenge.categoryColor}`}>
+        <span
+          className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${challenge.categoryColor}`}
+        >
           {challenge.category}
         </span>
         {challenge.status === "live" && (
@@ -137,7 +173,8 @@ function ChallengeCard({ challenge }: { challenge: Challenge }) {
           <div className="flex items-center gap-2 text-[#13daec] mb-3">
             <span className="material-symbols-outlined text-sm">timer</span>
             <p className="text-xs font-bold uppercase tracking-widest">
-              Starts in: {String(days).padStart(2, "0")}d {String(hours).padStart(2, "0")}h {String(minutes).padStart(2, "0")}m
+              Starts in: {String(days).padStart(2, "0")}d {String(hours).padStart(2, "0")}h{" "}
+              {String(minutes).padStart(2, "0")}m
             </p>
           </div>
           <h3 className="text-xl font-bold text-white mb-2">{challenge.title}</h3>
@@ -214,11 +251,11 @@ export default function ChallengesPage() {
               High-Stakes STEM Competition
             </div>
             <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tighter mb-6 text-white">
-              Explore Our{" "}
-              <span className="text-[#13daec]">Hackathons</span>
+              Explore Our <span className="text-[#13daec]">Hackathons</span>
             </h1>
             <p className="text-slate-300 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
-              Empowering the next generation of innovators through high-energy STEM challenges and competitive coding. Build, compete, and change the world.
+              Empowering the next generation of innovators through high-energy STEM challenges and
+              competitive coding. Build, compete, and change the world.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a
@@ -263,11 +300,17 @@ export default function ChallengesPage() {
         <section id="challenges" className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-white">Active &amp; Upcoming Challenges</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-white">
+                Active &amp; Upcoming Challenges
+              </h2>
               <div className="h-1 w-20 bg-[#13daec] mt-3" />
             </div>
-            <a href="#schedule" className="text-[#13daec] font-bold flex items-center gap-1 text-sm hover:underline">
-              View Schedule <span className="material-symbols-outlined text-base">arrow_forward</span>
+            <a
+              href="#schedule"
+              className="text-[#13daec] font-bold flex items-center gap-1 text-sm hover:underline"
+            >
+              View Schedule{" "}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
             </a>
           </div>
 
@@ -299,7 +342,9 @@ export default function ChallengesPage() {
         <section className="py-24 bg-[#0d1f22]">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">How Challenges Work</h2>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+                How Challenges Work
+              </h2>
               <p className="text-slate-400 max-w-lg mx-auto">
                 Your journey from registration to winning. Follow these three critical stages.
               </p>
@@ -329,10 +374,15 @@ export default function ChallengesPage() {
                   desc: "Submit your demo and source code. Industry experts evaluate projects based on innovation, technical depth, and impact.",
                 },
               ].map(({ icon, step, title, desc }) => (
-                <div key={step} className="relative z-10 flex flex-col items-center text-center group">
+                <div
+                  key={step}
+                  className="relative z-10 flex flex-col items-center text-center group"
+                >
                   <div className="relative">
                     <div className="size-20 bg-[#102022] border-4 border-[#13daec]/20 group-hover:border-[#13daec] flex items-center justify-center rounded-full mb-5 transition-all shadow-[0_0_20px_rgba(19,218,236,0.08)] group-hover:shadow-[0_0_24px_rgba(19,218,236,0.25)]">
-                      <span className="material-symbols-outlined text-[#13daec] text-4xl">{icon}</span>
+                      <span className="material-symbols-outlined text-[#13daec] text-4xl">
+                        {icon}
+                      </span>
                     </div>
                     <span className="absolute -top-2 -right-2 size-6 rounded-full bg-[#13daec] text-[#102022] text-[10px] font-black flex items-center justify-center">
                       {step}
@@ -348,13 +398,22 @@ export default function ChallengesPage() {
             <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="p-6 rounded-2xl bg-[#102022] border border-[#2d4548]">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="material-symbols-outlined text-slate-400 text-2xl">menu_book</span>
+                  <span className="material-symbols-outlined text-slate-400 text-2xl">
+                    menu_book
+                  </span>
                   <h4 className="font-bold text-white text-lg">Standard Courses</h4>
                 </div>
                 <ul className="space-y-2 text-sm text-slate-400">
-                  {["Self-paced learning modules", "Weekly assignments & quizzes", "Guided curriculum with mentors", "Certificate on completion"].map((item) => (
+                  {[
+                    "Self-paced learning modules",
+                    "Weekly assignments & quizzes",
+                    "Guided curriculum with mentors",
+                    "Certificate on completion",
+                  ].map((item) => (
                     <li key={item} className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-slate-600 text-base">remove</span>
+                      <span className="material-symbols-outlined text-slate-600 text-base">
+                        remove
+                      </span>
                       {item}
                     </li>
                   ))}
@@ -366,9 +425,16 @@ export default function ChallengesPage() {
                   <h4 className="font-bold text-white text-lg">Hackathon Challenges</h4>
                 </div>
                 <ul className="space-y-2 text-sm text-slate-300">
-                  {["Live countdown & time pressure", "Real-world problem prompts", "Compete against peer schools", "Cash prizes + Hall of Fame glory"].map((item) => (
+                  {[
+                    "Live countdown & time pressure",
+                    "Real-world problem prompts",
+                    "Compete against peer schools",
+                    "Cash prizes + Hall of Fame glory",
+                  ].map((item) => (
                     <li key={item} className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[#13daec] text-base">check_circle</span>
+                      <span className="material-symbols-outlined text-[#13daec] text-base">
+                        check_circle
+                      </span>
                       {item}
                     </li>
                   ))}
@@ -382,7 +448,9 @@ export default function ChallengesPage() {
         <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black text-white mb-4 flex items-center justify-center gap-3">
-              <span className="material-symbols-outlined text-[#13daec] text-4xl">workspace_premium</span>
+              <span className="material-symbols-outlined text-[#13daec] text-4xl">
+                workspace_premium
+              </span>
               Hall of Fame
             </h2>
             <p className="text-slate-400 max-w-lg mx-auto">
@@ -408,10 +476,12 @@ export default function ChallengesPage() {
                 </div>
 
                 <h4 className="font-bold text-lg text-white mb-0.5">{winner.name}</h4>
-                <p className="text-[#13daec] text-xs font-bold uppercase tracking-widest mb-4">{winner.school}</p>
+                <p className="text-[#13daec] text-xs font-bold uppercase tracking-widest mb-4">
+                  {winner.school}
+                </p>
 
                 <div className="bg-[#102022] w-full py-3 rounded-lg mb-4 px-3">
-                  <p className="text-slate-400 text-xs italic">"{winner.project}"</p>
+                  <p className="text-slate-400 text-xs italic">&quot;{winner.project}&quot;</p>
                 </div>
 
                 <div className="flex items-center gap-1.5" style={{ color: winner.color }}>
@@ -427,7 +497,8 @@ export default function ChallengesPage() {
               href="/login"
               className="inline-flex items-center gap-2 text-[#13daec] font-bold hover:underline text-sm"
             >
-              View full leaderboard <span className="material-symbols-outlined text-base">arrow_forward</span>
+              View full leaderboard{" "}
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
             </Link>
           </div>
         </section>
@@ -439,7 +510,8 @@ export default function ChallengesPage() {
               Bring the Challenge to Your School
             </h2>
             <p className="text-[#102022]/75 text-lg md:text-xl font-medium mb-10 max-w-2xl mx-auto">
-              Partner with STEM Impact Academy to host exclusive hackathons, access our competition platform, and give your students a global stage.
+              Partner with STEM Impact Academy to host exclusive hackathons, access our competition
+              platform, and give your students a global stage.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -470,15 +542,21 @@ export default function ChallengesPage() {
                 </span>
               </Link>
               <p className="text-slate-400 max-w-sm text-sm leading-relaxed mb-5">
-                Pioneering educational experiences that blend technology, engineering, and competition to inspire the leaders of tomorrow.
+                Pioneering educational experiences that blend technology, engineering, and
+                competition to inspire the leaders of tomorrow.
               </p>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">Quick Links</h4>
+              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">
+                Quick Links
+              </h4>
               <ul className="space-y-3">
                 {["Curriculum", "Hackathons", "School Partnership", "Scholarships"].map((item) => (
                   <li key={item}>
-                    <Link href="#" className="text-slate-400 hover:text-[#13daec] transition-colors text-sm">
+                    <Link
+                      href="#"
+                      className="text-slate-400 hover:text-[#13daec] transition-colors text-sm"
+                    >
                       {item}
                     </Link>
                   </li>
@@ -486,11 +564,21 @@ export default function ChallengesPage() {
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">Support</h4>
+              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">
+                Support
+              </h4>
               <ul className="space-y-3">
-                {[["Help Center", "/help"], ["Rules & Terms", "/terms"], ["Privacy Policy", "/privacy"], ["Safety Guidelines", "#"]].map(([item, href]) => (
+                {[
+                  ["Help Center", "/help"],
+                  ["Rules & Terms", "/terms"],
+                  ["Privacy Policy", "/privacy"],
+                  ["Safety Guidelines", "#"],
+                ].map(([item, href]) => (
                   <li key={item}>
-                    <Link href={href} className="text-slate-400 hover:text-[#13daec] transition-colors text-sm">
+                    <Link
+                      href={href}
+                      className="text-slate-400 hover:text-[#13daec] transition-colors text-sm"
+                    >
                       {item}
                     </Link>
                   </li>

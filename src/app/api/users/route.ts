@@ -47,10 +47,13 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "userId required" }, { status: 400 });
   }
 
-  await adminDb.collection("users").doc(userId).update({
-    ...updates,
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await adminDb
+    .collection("users")
+    .doc(userId)
+    .update({
+      ...updates,
+      updatedAt: FieldValue.serverTimestamp(),
+    });
 
   return NextResponse.json({ status: "updated" });
 }

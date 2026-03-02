@@ -10,15 +10,41 @@ const roleOptions = ["Project Lead", "Lead Coder", "Hardware Designer", "Data An
 const initialTeamMembers = [
   { id: "julian", name: "Julian Rivera", role: "Project Lead", initials: "JR", color: PRIMARY },
   { id: "sophia", name: "Sophia Chen", role: "Lead Coder", initials: "SC", color: "#60a5fa" },
-  { id: "marcus", name: "Marcus Thorne", role: "Hardware Designer", initials: "MT", color: "#f59e0b" },
+  {
+    id: "marcus",
+    name: "Marcus Thorne",
+    role: "Hardware Designer",
+    initials: "MT",
+    color: "#f59e0b",
+  },
 ];
 
-const unassignedPool = ["Alex Kim", "Bella Lopez", "Chris Wu", "Dani Pratt", "Evan Foster", "Fiona Osei", "George Ndiaye", "Hana Wanjiru", "Ivan Mwangi", "Jane Otieno", "Kevin Mutua", "Lena Achieng", "Mia Kimani", "Noel Omondi"];
+const unassignedPool = [
+  "Alex Kim",
+  "Bella Lopez",
+  "Chris Wu",
+  "Dani Pratt",
+  "Evan Foster",
+  "Fiona Osei",
+  "George Ndiaye",
+  "Hana Wanjiru",
+  "Ivan Mwangi",
+  "Jane Otieno",
+  "Kevin Mutua",
+  "Lena Achieng",
+  "Mia Kimani",
+  "Noel Omondi",
+];
 
 type TeamMember = { id: string; name: string; role: string; initials: string; color: string };
 
 function getInitials(name: string) {
-  return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 }
 
 const memberColors = [PRIMARY, "#60a5fa", "#f59e0b", "#a78bfa", "#f87171", "#34d399"];
@@ -50,7 +76,13 @@ export default function TeacherTeamSetupPage() {
     const colorIdx = teamMembers.length % memberColors.length;
     setTeamMembers((prev) => [
       ...prev,
-      { id: name.toLowerCase().replace(" ", "-"), name, role: roleOptions[0], initials: getInitials(name), color: memberColors[colorIdx] },
+      {
+        id: name.toLowerCase().replace(" ", "-"),
+        name,
+        role: roleOptions[0],
+        initials: getInitials(name),
+        color: memberColors[colorIdx],
+      },
     ]);
     setUnassigned((prev) => prev.filter((n) => n !== name));
   };
@@ -72,7 +104,9 @@ export default function TeacherTeamSetupPage() {
       <aside className="w-64 shrink-0 hidden lg:flex flex-col bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.1)] sticky top-0 h-screen overflow-y-auto">
         {/* Current context */}
         <div className="px-4 py-5 border-b border-[rgba(19,236,164,0.1)]">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Current Context</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">
+            Current Context
+          </p>
           <div className="p-3 bg-[#13eca4]/10 rounded-xl border border-[#13eca4]/20">
             <h4 className="text-sm font-bold text-[#13eca4]">Robotics 101</h4>
             <p className="text-xs text-slate-400 mt-0.5">Grade 10 – Section A</p>
@@ -82,11 +116,36 @@ export default function TeacherTeamSetupPage() {
         {/* Nav */}
         <nav className="flex flex-col gap-1 px-3 py-4 flex-1">
           {[
-            { label: "Overview", icon: "dashboard", active: false, href: "/school/teacher/dashboard" },
-            { label: "Class Roster", icon: "group", active: false, href: "/school/teacher/classroom" },
-            { label: "Project Setup", icon: "add_circle", active: true, href: "/school/teacher/team-setup" },
-            { label: "Team Management", icon: "groups", active: false, href: "/school/teacher/groups" },
-            { label: "Settings", icon: "settings", active: false, href: "/school/teacher/settings" },
+            {
+              label: "Overview",
+              icon: "dashboard",
+              active: false,
+              href: "/school/teacher/dashboard",
+            },
+            {
+              label: "Class Roster",
+              icon: "group",
+              active: false,
+              href: "/school/teacher/classroom",
+            },
+            {
+              label: "Project Setup",
+              icon: "add_circle",
+              active: true,
+              href: "/school/teacher/team-setup",
+            },
+            {
+              label: "Team Management",
+              icon: "groups",
+              active: false,
+              href: "/school/teacher/groups",
+            },
+            {
+              label: "Settings",
+              icon: "settings",
+              active: false,
+              href: "/school/teacher/settings",
+            },
           ].map((item) => (
             <Link
               key={item.label}
@@ -118,26 +177,41 @@ export default function TeacherTeamSetupPage() {
         {/* Breadcrumb + heading */}
         <div className="mb-8">
           <nav className="flex items-center gap-1.5 text-xs text-slate-400 mb-3">
-            <Link href="/school/teacher/classroom" className="hover:text-[#13eca4] transition-colors">Classes</Link>
+            <Link
+              href="/school/teacher/classroom"
+              className="hover:text-[#13eca4] transition-colors"
+            >
+              Classes
+            </Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-            <span className="hover:text-[#13eca4] cursor-pointer transition-colors">Robotics 101</span>
+            <span className="hover:text-[#13eca4] cursor-pointer transition-colors">
+              Robotics 101
+            </span>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
             <span className="text-white font-semibold">Project Creator</span>
           </nav>
-          <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-white">Create Collaborative Project</h1>
-          <p className="text-slate-400 mt-2 text-sm">Assemble teams and assign high-impact STEM roles for the upcoming competition.</p>
+          <h1 className="text-3xl lg:text-4xl font-black tracking-tight text-white">
+            Create Collaborative Project
+          </h1>
+          <p className="text-slate-400 mt-2 text-sm">
+            Assemble teams and assign high-impact STEM roles for the upcoming competition.
+          </p>
         </div>
 
         <div className="flex flex-col gap-6">
           {/* ── Section 1: Project Foundation ── */}
           <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
-              <span className="material-symbols-outlined text-[#13eca4] p-2 bg-[#13eca4]/10 rounded-xl text-xl">description</span>
+              <span className="material-symbols-outlined text-[#13eca4] p-2 bg-[#13eca4]/10 rounded-xl text-xl">
+                description
+              </span>
               <h2 className="text-lg font-bold text-white">1. Project Foundation</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Project Title</label>
+                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Project Title
+                </label>
                 <input
                   type="text"
                   value={title}
@@ -147,7 +221,9 @@ export default function TeacherTeamSetupPage() {
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Assigned Course</label>
+                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Assigned Course
+                </label>
                 <select
                   value={course}
                   onChange={(e) => setCourse(e.target.value)}
@@ -159,7 +235,9 @@ export default function TeacherTeamSetupPage() {
                 </select>
               </div>
               <div className="col-span-full flex flex-col gap-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Mission Objective</label>
+                <label className="text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Mission Objective
+                </label>
                 <textarea
                   rows={3}
                   value={objective}
@@ -175,7 +253,9 @@ export default function TeacherTeamSetupPage() {
           <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-2xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-[#13eca4] p-2 bg-[#13eca4]/10 rounded-xl text-xl">groups</span>
+                <span className="material-symbols-outlined text-[#13eca4] p-2 bg-[#13eca4]/10 rounded-xl text-xl">
+                  groups
+                </span>
                 <h2 className="text-lg font-bold text-white">2. Team Formation &amp; Roles</h2>
               </div>
               <button className="flex items-center gap-1.5 px-4 py-2 bg-[#13eca4]/10 hover:bg-[#13eca4]/20 text-[#13eca4] rounded-xl text-xs font-bold transition-colors">
@@ -189,13 +269,20 @@ export default function TeacherTeamSetupPage() {
               <div className="bg-[#142a25] px-4 py-3 flex items-center justify-between border-b border-[rgba(19,236,164,0.1)]">
                 <div className="flex items-center gap-3">
                   <div className="size-3 rounded-full bg-[#13eca4]" />
-                  <h3 className="font-bold text-xs uppercase tracking-widest text-white">Team Alpha – Mars Unit</h3>
+                  <h3 className="font-bold text-xs uppercase tracking-widest text-white">
+                    Team Alpha – Mars Unit
+                  </h3>
                 </div>
-                <span className="text-xs text-slate-500 font-medium">{teamMembers.length} Students Assigned</span>
+                <span className="text-xs text-slate-500 font-medium">
+                  {teamMembers.length} Students Assigned
+                </span>
               </div>
               <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                 {teamMembers.map((m) => (
-                  <div key={m.id} className="flex items-center gap-3 p-3 bg-[#142a25] rounded-xl border border-[rgba(19,236,164,0.1)]">
+                  <div
+                    key={m.id}
+                    className="flex items-center gap-3 p-3 bg-[#142a25] rounded-xl border border-[rgba(19,236,164,0.1)]"
+                  >
                     <div
                       className="size-10 rounded-full flex items-center justify-center text-[10px] font-bold text-[#0d1f1a] shrink-0"
                       style={{ backgroundColor: m.color }}
@@ -210,7 +297,9 @@ export default function TeacherTeamSetupPage() {
                         className="text-xs bg-transparent border-none p-0 focus:outline-none text-[#13eca4] font-medium cursor-pointer w-full"
                       >
                         {roleOptions.map((r) => (
-                          <option key={r} value={r} className="bg-[#0d1f1a]">{r}</option>
+                          <option key={r} value={r} className="bg-[#0d1f1a]">
+                            {r}
+                          </option>
                         ))}
                       </select>
                     </div>
@@ -237,7 +326,9 @@ export default function TeacherTeamSetupPage() {
 
             {/* Unassigned pool */}
             <div className="border border-dashed border-[rgba(19,236,164,0.12)] rounded-xl p-4 text-center">
-              <p className="text-slate-400 text-sm mb-3 italic">Unassigned Students ({unassigned.length})</p>
+              <p className="text-slate-400 text-sm mb-3 italic">
+                Unassigned Students ({unassigned.length})
+              </p>
               <div className="flex flex-wrap justify-center gap-2">
                 {visibleUnassigned.map((name) => (
                   <button
@@ -263,14 +354,25 @@ export default function TeacherTeamSetupPage() {
           {/* ── Section 3: Authorization & Permissions ── */}
           <div className="bg-[#13eca4]/5 border border-[#13eca4]/20 rounded-2xl p-6 shadow-sm">
             <div className="flex items-center gap-3 mb-5">
-              <span className="material-symbols-outlined text-[#13eca4] p-2 bg-[#13eca4]/10 rounded-xl text-xl">security</span>
+              <span className="material-symbols-outlined text-[#13eca4] p-2 bg-[#13eca4]/10 rounded-xl text-xl">
+                security
+              </span>
               <h2 className="text-lg font-bold text-white">3. Authorization &amp; Permissions</h2>
             </div>
             <div className="flex flex-col gap-4">
               {[
-                { key: "stepByStep" as keyof typeof permissions, label: "Enable step-by-step collaborative course guidance" },
-                { key: "progressReports" as keyof typeof permissions, label: "Auto-generate weekly progress reports for teachers" },
-                { key: "customRoles" as keyof typeof permissions, label: "Allow teams to customise their internal roles" },
+                {
+                  key: "stepByStep" as keyof typeof permissions,
+                  label: "Enable step-by-step collaborative course guidance",
+                },
+                {
+                  key: "progressReports" as keyof typeof permissions,
+                  label: "Auto-generate weekly progress reports for teachers",
+                },
+                {
+                  key: "customRoles" as keyof typeof permissions,
+                  label: "Allow teams to customise their internal roles",
+                },
               ].map((perm) => (
                 <label key={perm.key} className="flex items-center gap-3 cursor-pointer group">
                   {/* Toggle switch */}
@@ -279,7 +381,9 @@ export default function TeacherTeamSetupPage() {
                       type="checkbox"
                       className="sr-only"
                       checked={permissions[perm.key]}
-                      onChange={(e) => setPermissions((prev) => ({ ...prev, [perm.key]: e.target.checked }))}
+                      onChange={(e) =>
+                        setPermissions((prev) => ({ ...prev, [perm.key]: e.target.checked }))
+                      }
                     />
                     <div
                       className={`w-10 h-6 rounded-full transition-colors duration-200 ${
@@ -293,7 +397,9 @@ export default function TeacherTeamSetupPage() {
                       />
                     </div>
                   </div>
-                  <span className="text-sm text-slate-200 group-hover:text-white transition-colors">{perm.label}</span>
+                  <span className="text-sm text-slate-200 group-hover:text-white transition-colors">
+                    {perm.label}
+                  </span>
                 </label>
               ))}
             </div>
@@ -314,7 +420,9 @@ export default function TeacherTeamSetupPage() {
               }`}
             >
               {launching ? (
-                <span className="material-symbols-outlined animate-spin text-lg">progress_activity</span>
+                <span className="material-symbols-outlined animate-spin text-lg">
+                  progress_activity
+                </span>
               ) : launched ? (
                 <>
                   <span className="material-symbols-outlined text-lg">check_circle</span>

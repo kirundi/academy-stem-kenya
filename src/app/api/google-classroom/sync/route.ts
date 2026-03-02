@@ -21,10 +21,7 @@ export async function POST(request: NextRequest) {
   const { accessToken } = await request.json();
 
   if (!accessToken) {
-    return NextResponse.json(
-      { error: "Google access token required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Google access token required" }, { status: 400 });
   }
 
   try {
@@ -94,10 +91,7 @@ export async function POST(request: NextRequest) {
           const email = profile?.emailAddress;
 
           if (email) {
-            const userSnap = await adminDb
-              .collection("users")
-              .where("email", "==", email)
-              .get();
+            const userSnap = await adminDb.collection("users").where("email", "==", email).get();
 
             if (userSnap.empty) {
               // Create student user record
@@ -135,9 +129,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ synced, count: synced.length });
   } catch (error) {
     console.error("Google Classroom sync error:", error);
-    return NextResponse.json(
-      { error: "Sync failed" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Sync failed" }, { status: 500 });
   }
 }

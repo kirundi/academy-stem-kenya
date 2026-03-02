@@ -1,18 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useAuth } from "@/hooks/useAuth";
 import StemLogo from "@/components/StemLogo";
 
 export default function ChangePasswordPage() {
   const router = useRouter();
-  const { firebaseUser, appUser, loading } = useAuthContext();
-  const { refreshSession } = useAuth();
+  const { firebaseUser, loading } = useAuthContext();
+  // Tracks whether handleSubmit has taken ownership of the redirect.
+  // Prevents the unauthenticated useEffect from firing after updatePassword()
+  // briefly triggers an auth state change.
+  const passwordChanged = useRef(false);
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -23,17 +25,14 @@ export default function ChangePasswordPage() {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // Redirect away if the user doesn't need a password change
+  // Only redirect unauthenticated users. Never auto-redirect to /dashboard here —
+  // that would race against handleSubmit's session refresh and land on the wrong page.
   useEffect(() => {
     if (loading) return;
-    if (!firebaseUser) {
+    if (!firebaseUser && !passwordChanged.current) {
       router.replace("/login?mode=email");
-      return;
     }
-    if (appUser && appUser.requiresPasswordChange === false) {
-      router.replace("/dashboard");
-    }
-  }, [firebaseUser, appUser, loading, router]);
+  }, [firebaseUser, loading, router]);
 
   const passwordStrength = (pw: string): { label: string; color: string; width: string } => {
     if (pw.length === 0) return { label: "", color: "", width: "0%" };
@@ -69,21 +68,46 @@ export default function ChangePasswordPage() {
 
     setSubmitting(true);
     try {
-      // Re-authenticate with the current (temp) password before changing
+      // 1. Re-authenticate with the current (temp) password before changing
       const credential = EmailAuthProvider.credential(firebaseUser.email, currentPassword);
       await reauthenticateWithCredential(firebaseUser, credential);
 
-      // Update the password in Firebase Auth
+      // 2. Update the password in Firebase Auth (this invalidates the old token)
       await updatePassword(firebaseUser, newPassword);
 
-      // Clear the flag in Firestore
+      // 3. Immediately get a fresh token reflecting the new password.
+      //    This must happen before anything else can trigger a redirect (e.g.
+      //    AuthContext re-fetching Firestore after onAuthStateChanged fires).
+      const freshToken = await firebaseUser.getIdToken(true);
+
+      // 4. Clear the requiresPasswordChange flag in Firestore first.
+      //    This prevents a race condition where AuthContext might re-fetch
+      //    the user profile and re-trigger the password change redirect.
       await updateDoc(doc(db, "users", firebaseUser.uid), {
         requiresPasswordChange: false,
       });
 
-      // Refresh the session cookie so it stays valid
-      await refreshSession();
+      // 5. Create a new session cookie with the fresh token.
+      const sessionRes = await fetch("/api/auth/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken: freshToken }),
+      });
+      if (!sessionRes.ok) {
+        const data = await sessionRes.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to refresh session");
+      }
 
+      // 6. Clear the requiresPasswordChange flag in Firestore.
+      //    AuthContext will re-fetch here, but the session is already valid.
+      await updateDoc(doc(db, "users", firebaseUser.uid), {
+        requiresPasswordChange: false,
+      });
+
+      // 7. Block the unauthenticated useEffect from firing a spurious redirect.
+      passwordChanged.current = true;
+
+      // 8. Navigate to the dashboard.
       router.replace("/dashboard");
     } catch (err: unknown) {
       const code = (err as { code?: string }).code;
@@ -94,7 +118,9 @@ export default function ChangePasswordPage() {
       } else if (code === "auth/requires-recent-login") {
         setError("Session expired. Please log out and log in again to change your password.");
       } else {
-        setError(err instanceof Error ? err.message : "Failed to update password. Please try again.");
+        setError(
+          err instanceof Error ? err.message : "Failed to update password. Please try again."
+        );
       }
     } finally {
       setSubmitting(false);
@@ -104,7 +130,9 @@ export default function ChangePasswordPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#10221c] flex items-center justify-center">
-        <span className="material-symbols-outlined animate-spin text-[#13eca4] text-4xl">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-[#13eca4] text-4xl">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -124,7 +152,6 @@ export default function ChangePasswordPage() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14">
         <div className="max-w-md w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-10 rounded-3xl shadow-2xl">
-
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] mb-4">
@@ -132,12 +159,15 @@ export default function ChangePasswordPage() {
             </div>
             <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.15)] rounded-full px-4 py-1.5 mb-3">
               <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-              <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">Security Setup</span>
+              <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
+                Security Setup
+              </span>
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">Set Your Password</h1>
             <p className="text-slate-400 text-sm leading-relaxed">
               You&apos;re logged in with a temporary password.
-              <br />Please set a new secure password to continue.
+              <br />
+              Please set a new secure password to continue.
             </p>
             {firebaseUser?.email && (
               <p className="mt-3 text-xs text-slate-500 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)] rounded-lg px-3 py-2 inline-block">
@@ -149,7 +179,9 @@ export default function ChangePasswordPage() {
           {/* Error */}
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">error</span>
+              <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">
+                error
+              </span>
               <p className="text-[#ff4d4d] text-sm">{error}</p>
             </div>
           )}
@@ -250,7 +282,9 @@ export default function ChangePasswordPage() {
               </div>
               {/* Match indicator */}
               {confirmPassword.length > 0 && (
-                <p className={`text-xs mt-1 font-medium ${newPassword === confirmPassword ? "text-[#13eca4]" : "text-[#ff4d4d]"}`}>
+                <p
+                  className={`text-xs mt-1 font-medium ${newPassword === confirmPassword ? "text-[#13eca4]" : "text-[#ff4d4d]"}`}
+                >
                   {newPassword === confirmPassword ? "Passwords match" : "Passwords do not match"}
                 </p>
               )}
@@ -264,7 +298,10 @@ export default function ChangePasswordPage() {
                 { label: "Lowercase letter (a–z)", met: /[a-z]/.test(newPassword) },
                 { label: "Number (0–9)", met: /[0-9]/.test(newPassword) },
               ].map(({ label, met }) => (
-                <li key={label} className={`flex items-center gap-2 transition-colors ${met ? "text-[#13eca4]" : "text-slate-500"}`}>
+                <li
+                  key={label}
+                  className={`flex items-center gap-2 transition-colors ${met ? "text-[#13eca4]" : "text-slate-500"}`}
+                >
                   <span className="material-symbols-outlined text-[14px]">
                     {met ? "check_circle" : "radio_button_unchecked"}
                   </span>
@@ -275,7 +312,12 @@ export default function ChangePasswordPage() {
 
             <button
               type="submit"
-              disabled={submitting || newPassword.length < 8 || newPassword !== confirmPassword || !currentPassword}
+              disabled={
+                submitting ||
+                newPassword.length < 8 ||
+                newPassword !== confirmPassword ||
+                !currentPassword
+              }
               className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {submitting ? (

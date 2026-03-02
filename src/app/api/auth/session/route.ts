@@ -7,10 +7,7 @@ export async function POST(request: NextRequest) {
     const { idToken } = body;
 
     if (!idToken || typeof idToken !== "string") {
-      return NextResponse.json(
-        { error: "Valid ID token is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Valid ID token is required" }, { status: 400 });
     }
 
     // Create a session cookie (5 days).
@@ -40,10 +37,7 @@ export async function POST(request: NextRequest) {
 
     // Return actionable error info to the client
     const code = err.code ?? "unknown";
-    return NextResponse.json(
-      { error: "Failed to create session", code },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Failed to create session", code }, { status: 401 });
   }
 }
 
@@ -60,9 +54,6 @@ export async function DELETE() {
     return response;
   } catch (error) {
     console.error("Session deletion error:", error);
-    return NextResponse.json(
-      { error: "Failed to delete session" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete session" }, { status: 500 });
   }
 }

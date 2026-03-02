@@ -46,7 +46,9 @@ export default function UsersManagementPage() {
   const [inviteRole, setInviteRole] = useState<InviteRole>("teacher");
   const [inviteSchoolId, setInviteSchoolId] = useState("");
   const [inviteLoading, setInviteLoading] = useState(false);
-  const [inviteResult, setInviteResult] = useState<{ email: string; tempPassword: string } | null>(null);
+  const [inviteResult, setInviteResult] = useState<{ email: string; tempPassword: string } | null>(
+    null
+  );
   const [inviteError, setInviteError] = useState("");
 
   // Confirm dialog state
@@ -56,7 +58,9 @@ export default function UsersManagementPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -83,8 +87,8 @@ export default function UsersManagementPage() {
 
   // Roles available for role change in context menu
   const changeableRoles = isSuperAdmin
-    ? ["student", "teacher", "school_admin", "admin"] as const
-    : ["student", "teacher", "school_admin"] as const;
+    ? (["student", "teacher", "school_admin", "admin"] as const)
+    : (["student", "teacher", "school_admin"] as const);
 
   const handleInvite = async () => {
     if (!inviteEmail || !inviteName) return;
@@ -197,9 +201,14 @@ export default function UsersManagementPage() {
             <p className="text-white text-3xl font-bold mt-2">{allUsers.length}</p>
           </div>
           {Object.entries(roleBadge).map(([key, label]) => (
-            <div key={key} className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]">
+            <div
+              key={key}
+              className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]"
+            >
               <span className="text-slate-400 text-sm font-medium">{label}s</span>
-              <p className="text-3xl font-bold mt-2" style={{ color: roleColors[key] }}>{roleCounts[key] ?? 0}</p>
+              <p className="text-3xl font-bold mt-2" style={{ color: roleColors[key] }}>
+                {roleCounts[key] ?? 0}
+              </p>
             </div>
           ))}
         </div>
@@ -207,7 +216,9 @@ export default function UsersManagementPage() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="relative flex-1 max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+              search
+            </span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -221,10 +232,12 @@ export default function UsersManagementPage() {
                 key={r}
                 onClick={() => setRoleFilter(r)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
-                  roleFilter === r ? "bg-[#13eca4] text-[#10221c]" : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
+                  roleFilter === r
+                    ? "bg-[#13eca4] text-[#10221c]"
+                    : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
                 }`}
               >
-                {r === "all" ? "All" : roleBadge[r] ?? r}
+                {r === "all" ? "All" : (roleBadge[r] ?? r)}
               </button>
             ))}
           </div>
@@ -245,7 +258,9 @@ export default function UsersManagementPage() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">No users found</td>
+                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                    No users found
+                  </td>
                 </tr>
               ) : (
                 filtered.map((u, i) => {
@@ -253,11 +268,22 @@ export default function UsersManagementPage() {
                   const joined = formatTimestamp(u.createdAt, "--");
                   const modifiable = canModifyUser(u.role);
                   return (
-                    <tr key={u.id} className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}>
+                    <tr
+                      key={u.id}
+                      className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
+                    >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: `${color}15`, color }}>
-                            {u.displayName?.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2) ?? "?"}
+                          <div
+                            className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold"
+                            style={{ background: `${color}15`, color }}
+                          >
+                            {u.displayName
+                              ?.split(" ")
+                              .map((w: string) => w[0])
+                              .join("")
+                              .toUpperCase()
+                              .slice(0, 2) ?? "?"}
                           </div>
                           <div>
                             <p className="text-white font-semibold">{u.displayName}</p>
@@ -266,16 +292,23 @@ export default function UsersManagementPage() {
                         </div>
                       </td>
                       <td className="px-4 py-4 text-center">
-                        <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ color, background: `${color}18` }}>
+                        <span
+                          className="text-xs font-bold px-2.5 py-1 rounded-full"
+                          style={{ color, background: `${color}18` }}
+                        >
                           {roleBadge[u.role] ?? u.role}
                         </span>
                       </td>
-                      <td className="px-4 py-4 text-center text-slate-300 text-xs">{u.schoolId ? schoolMap.get(u.schoolId) ?? "Unknown" : "--"}</td>
+                      <td className="px-4 py-4 text-center text-slate-300 text-xs">
+                        {u.schoolId ? (schoolMap.get(u.schoolId) ?? "Unknown") : "--"}
+                      </td>
                       <td className="px-4 py-4 text-center text-slate-400 text-xs">{joined}</td>
                       <td className="px-4 py-4 text-right relative">
                         <div className="flex items-center justify-end gap-1">
                           <button className="p-2 hover:bg-[rgba(19,236,164,0.08)] rounded-lg text-slate-400 hover:text-[#13eca4] transition-colors">
-                            <span className="material-symbols-outlined text-[18px]">visibility</span>
+                            <span className="material-symbols-outlined text-[18px]">
+                              visibility
+                            </span>
                           </button>
                           {modifiable && (
                             <div className="relative">
@@ -283,12 +316,16 @@ export default function UsersManagementPage() {
                                 onClick={() => setOpenMenu(openMenu === i ? null : i)}
                                 className="p-2 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
                               >
-                                <span className="material-symbols-outlined text-[18px]">more_vert</span>
+                                <span className="material-symbols-outlined text-[18px]">
+                                  more_vert
+                                </span>
                               </button>
                               {openMenu === i && (
                                 <div className="absolute right-0 top-full mt-1 w-52 bg-[#1a2e27] border border-[rgba(255,255,255,0.1)] rounded-xl shadow-2xl z-20 overflow-hidden">
                                   <div className="px-4 py-2 border-b border-[rgba(255,255,255,0.05)]">
-                                    <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">Change Role</p>
+                                    <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
+                                      Change Role
+                                    </p>
                                   </div>
                                   {changeableRoles.map((role) => (
                                     <button
@@ -301,9 +338,16 @@ export default function UsersManagementPage() {
                                           : "text-slate-300 hover:bg-[rgba(255,255,255,0.05)]"
                                       }`}
                                     >
-                                      <span className="w-2 h-2 rounded-full" style={{ background: roleColors[role] }} />
+                                      <span
+                                        className="w-2 h-2 rounded-full"
+                                        style={{ background: roleColors[role] }}
+                                      />
                                       {roleBadge[role]}
-                                      {u.role === role && <span className="text-[10px] text-slate-600 ml-auto">Current</span>}
+                                      {u.role === role && (
+                                        <span className="text-[10px] text-slate-600 ml-auto">
+                                          Current
+                                        </span>
+                                      )}
                                     </button>
                                   ))}
                                   <div className="border-t border-[rgba(255,255,255,0.05)]">
@@ -327,21 +371,34 @@ export default function UsersManagementPage() {
             </tbody>
           </table>
           <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)]">
-            <p className="text-slate-500 text-xs">Showing {filtered.length} of {allUsers.length} users</p>
+            <p className="text-slate-500 text-xs">
+              Showing {filtered.length} of {allUsers.length} users
+            </p>
           </div>
         </div>
       </div>
 
       {/* Invite Modal */}
       {showInvite && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6" onClick={closeInviteModal}>
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-md shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+          onClick={closeInviteModal}
+        >
+          <div
+            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-md shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
               <div>
                 <h2 className="text-white font-bold text-lg">Invite User</h2>
-                <p className="text-slate-400 text-xs mt-0.5">Create a new account with a temporary password</p>
+                <p className="text-slate-400 text-xs mt-0.5">
+                  Create a new account with a temporary password
+                </p>
               </div>
-              <button onClick={closeInviteModal} className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors">
+              <button
+                onClick={closeInviteModal}
+                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+              >
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
@@ -350,19 +407,27 @@ export default function UsersManagementPage() {
               <div className="px-6 py-6">
                 <div className="text-center mb-5">
                   <div className="w-12 h-12 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-3">
-                    <span className="material-symbols-outlined text-2xl text-[#13eca4]">check_circle</span>
+                    <span className="material-symbols-outlined text-2xl text-[#13eca4]">
+                      check_circle
+                    </span>
                   </div>
                   <p className="text-white font-bold">Account Created</p>
                 </div>
                 <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-xl p-4 space-y-3">
                   <div>
-                    <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">Email</label>
+                    <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
+                      Email
+                    </label>
                     <p className="text-white text-sm font-mono mt-0.5">{inviteResult.email}</p>
                   </div>
                   <div>
-                    <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">Temporary Password</label>
+                    <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
+                      Temporary Password
+                    </label>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <p className="text-[#13eca4] font-mono font-bold tracking-wider">{inviteResult.tempPassword}</p>
+                      <p className="text-[#13eca4] font-mono font-bold tracking-wider">
+                        {inviteResult.tempPassword}
+                      </p>
                       <button
                         onClick={() => navigator.clipboard.writeText(inviteResult.tempPassword)}
                         className="p-1 hover:bg-[rgba(19,236,164,0.08)] rounded text-slate-400 hover:text-[#13eca4] transition-colors"
@@ -382,7 +447,9 @@ export default function UsersManagementPage() {
             ) : (
               <div className="px-6 py-6 space-y-4">
                 <div>
-                  <label className="text-slate-400 text-xs font-medium block mb-1.5">Display Name</label>
+                  <label className="text-slate-400 text-xs font-medium block mb-1.5">
+                    Display Name
+                  </label>
                   <input
                     value={inviteName}
                     onChange={(e) => setInviteName(e.target.value)}
@@ -420,7 +487,9 @@ export default function UsersManagementPage() {
                 </div>
                 {inviteRole === "school_admin" && (
                   <div>
-                    <label className="text-slate-400 text-xs font-medium block mb-1.5">School</label>
+                    <label className="text-slate-400 text-xs font-medium block mb-1.5">
+                      School
+                    </label>
                     <select
                       value={inviteSchoolId}
                       onChange={(e) => setInviteSchoolId(e.target.value)}
@@ -428,7 +497,9 @@ export default function UsersManagementPage() {
                     >
                       <option value="">Select a school</option>
                       {schools.map((s) => (
-                        <option key={s.id} value={s.id}>{s.name}</option>
+                        <option key={s.id} value={s.id}>
+                          {s.name}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -446,7 +517,9 @@ export default function UsersManagementPage() {
                   className="w-full bg-[#13eca4] text-[#10221c] font-bold text-sm py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   {inviteLoading ? (
-                    <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
+                    <span className="material-symbols-outlined animate-spin text-[18px]">
+                      progress_activity
+                    </span>
                   ) : (
                     <span className="material-symbols-outlined text-[18px]">person_add</span>
                   )}
@@ -460,15 +533,27 @@ export default function UsersManagementPage() {
 
       {/* Confirmation Dialog */}
       {confirmAction && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6" onClick={() => setConfirmAction(null)}>
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(255,255,255,0.1)] w-full max-w-sm shadow-2xl p-6" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+          onClick={() => setConfirmAction(null)}
+        >
+          <div
+            className="bg-[#1a2e27] rounded-2xl border border-[rgba(255,255,255,0.1)] w-full max-w-sm shadow-2xl p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="text-center mb-5">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 ${
-                confirmAction.type === "delete" ? "bg-[rgba(255,77,77,0.1)]" : "bg-[rgba(245,158,11,0.1)]"
-              }`}>
-                <span className={`material-symbols-outlined text-2xl ${
-                  confirmAction.type === "delete" ? "text-[#ff4d4d]" : "text-amber-500"
-                }`}>
+              <div
+                className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 ${
+                  confirmAction.type === "delete"
+                    ? "bg-[rgba(255,77,77,0.1)]"
+                    : "bg-[rgba(245,158,11,0.1)]"
+                }`}
+              >
+                <span
+                  className={`material-symbols-outlined text-2xl ${
+                    confirmAction.type === "delete" ? "text-[#ff4d4d]" : "text-amber-500"
+                  }`}
+                >
                   {confirmAction.type === "delete" ? "delete_forever" : "swap_horiz"}
                 </span>
               </div>
@@ -497,7 +582,11 @@ export default function UsersManagementPage() {
                     : "bg-[#13eca4] text-[#10221c] hover:opacity-90"
                 }`}
               >
-                {actionLoading ? "Processing..." : confirmAction.type === "delete" ? "Delete" : "Confirm"}
+                {actionLoading
+                  ? "Processing..."
+                  : confirmAction.type === "delete"
+                    ? "Delete"
+                    : "Confirm"}
               </button>
             </div>
           </div>

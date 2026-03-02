@@ -32,9 +32,10 @@ const defaultCourseIcon = { icon: "science", color: "#13eca4" };
 
 function formatDate(date: Date | { toDate?: () => Date } | null | undefined): string | null {
   if (!date) return null;
-  const d = typeof (date as { toDate?: () => Date }).toDate === "function"
-    ? (date as { toDate: () => Date }).toDate()
-    : date as Date;
+  const d =
+    typeof (date as { toDate?: () => Date }).toDate === "function"
+      ? (date as { toDate: () => Date }).toDate()
+      : (date as Date);
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
@@ -73,7 +74,9 @@ export default function PortfolioPage() {
       const iconData = courseIcons[category] ?? defaultCourseIcon;
       return {
         id: sub.id,
-        title: sub.content ? sub.content.slice(0, 60) + (sub.content.length > 60 ? "..." : "") : `${course?.title ?? "Course"} Submission`,
+        title: sub.content
+          ? sub.content.slice(0, 60) + (sub.content.length > 60 ? "..." : "")
+          : `${course?.title ?? "Course"} Submission`,
         course: course?.title ?? "Course",
         description: sub.content || "No description provided.",
         status: sub.status,
@@ -90,15 +93,22 @@ export default function PortfolioPage() {
   // Compute stats
   const totalSubmitted = projects.length;
   const gradedCount = projects.filter((p) => p.status === "graded").length;
-  const avgScore = gradedCount > 0
-    ? Math.round(projects.filter((p) => p.status === "graded" && p.score !== null).reduce((sum, p) => sum + (p.score ?? 0), 0) / gradedCount)
-    : 0;
+  const avgScore =
+    gradedCount > 0
+      ? Math.round(
+          projects
+            .filter((p) => p.status === "graded" && p.score !== null)
+            .reduce((sum, p) => sum + (p.score ?? 0), 0) / gradedCount
+        )
+      : 0;
   const underReviewCount = projects.filter((p) => p.status === "pending").length;
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -109,7 +119,9 @@ export default function PortfolioPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-white">My Portfolio</h1>
-          <p className="text-slate-400 text-xs mt-0.5">{totalSubmitted} total projects &middot; {gradedCount} graded</p>
+          <p className="text-slate-400 text-xs mt-0.5">
+            {totalSubmitted} total projects &middot; {gradedCount} graded
+          </p>
         </div>
         <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)]">
           <span className="material-symbols-outlined text-[18px]">share</span>
@@ -121,17 +133,37 @@ export default function PortfolioPage() {
         {/* Summary Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
           {[
-            { icon: "science", color: "#13eca4", label: "Projects Submitted", value: String(totalSubmitted) },
+            {
+              icon: "science",
+              color: "#13eca4",
+              label: "Projects Submitted",
+              value: String(totalSubmitted),
+            },
             { icon: "check_circle", color: "#10b981", label: "Graded", value: String(gradedCount) },
-            { icon: "star", color: "#f59e0b", label: "Average Score", value: gradedCount > 0 ? `${avgScore}%` : "--" },
-            { icon: "pending", color: "#3b82f6", label: "Under Review", value: String(underReviewCount) },
+            {
+              icon: "star",
+              color: "#f59e0b",
+              label: "Average Score",
+              value: gradedCount > 0 ? `${avgScore}%` : "--",
+            },
+            {
+              icon: "pending",
+              color: "#3b82f6",
+              label: "Under Review",
+              value: String(underReviewCount),
+            },
           ].map(({ icon, color, label, value }) => (
             <div
               key={label}
               className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]"
             >
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: `${color}18` }}>
-                <span className="material-symbols-outlined text-[22px]" style={{ color }}>{icon}</span>
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
+                style={{ background: `${color}18` }}
+              >
+                <span className="material-symbols-outlined text-[22px]" style={{ color }}>
+                  {icon}
+                </span>
               </div>
               <p className="text-slate-400 text-xs font-medium mb-1">{label}</p>
               <p className="text-white font-bold text-2xl">{value}</p>
@@ -178,7 +210,10 @@ export default function PortfolioPage() {
                         className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                         style={{ background: `${project.color}18` }}
                       >
-                        <span className="material-symbols-outlined text-[22px]" style={{ color: project.color }}>
+                        <span
+                          className="material-symbols-outlined text-[22px]"
+                          style={{ color: project.color }}
+                        >
                           {project.icon}
                         </span>
                       </div>
@@ -194,7 +229,9 @@ export default function PortfolioPage() {
                       {project.title}
                     </h3>
                     <p className="text-[#13eca4] text-xs font-semibold mb-2">{project.course}</p>
-                    <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-4">{project.description}</p>
+                    <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-4">
+                      {project.description}
+                    </p>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 mb-4">
@@ -210,14 +247,18 @@ export default function PortfolioPage() {
                           <>
                             <span
                               className="text-2xl font-black"
-                              style={{ color: project.score && project.score >= 90 ? "#13eca4" : "#f59e0b" }}
+                              style={{
+                                color: project.score && project.score >= 90 ? "#13eca4" : "#f59e0b",
+                              }}
                             >
                               {project.grade}
                             </span>
                             <span className="text-slate-500 text-sm">{project.score}%</span>
                           </>
                         ) : project.submittedAt ? (
-                          <span className="text-xs text-slate-500">Submitted {project.submittedAt}</span>
+                          <span className="text-xs text-slate-500">
+                            Submitted {project.submittedAt}
+                          </span>
                         ) : (
                           <span className="text-xs text-slate-500">Not yet submitted</span>
                         )}
@@ -248,8 +289,12 @@ export default function PortfolioPage() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3 block">grid_view</span>
-            <p className="text-slate-400 text-sm">No submissions yet. Complete course lessons and submit your work!</p>
+            <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3 block">
+              grid_view
+            </span>
+            <p className="text-slate-400 text-sm">
+              No submissions yet. Complete course lessons and submit your work!
+            </p>
           </div>
         )}
       </div>

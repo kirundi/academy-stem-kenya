@@ -70,7 +70,9 @@ export default function PlatformSettingsPage() {
   if (authLoading || appUser?.role !== "super_admin") {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -78,12 +80,19 @@ export default function PlatformSettingsPage() {
   if (loading || !settings) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
 
-  const featureToggles: { key: keyof Settings["features"]; label: string; description: string; icon: string }[] = [
+  const featureToggles: {
+    key: keyof Settings["features"];
+    label: string;
+    description: string;
+    icon: string;
+  }[] = [
     {
       key: "studentRegistration",
       label: "Student Self-Registration",
@@ -124,7 +133,9 @@ export default function PlatformSettingsPage() {
             className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {saving ? (
-              <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>
+              <span className="material-symbols-outlined animate-spin text-[18px]">
+                progress_activity
+              </span>
             ) : (
               <span className="material-symbols-outlined text-[18px]">save</span>
             )}
@@ -150,7 +161,9 @@ export default function PlatformSettingsPage() {
               />
             </div>
             <div>
-              <label className="text-slate-400 text-xs font-medium block mb-1.5">Support Email</label>
+              <label className="text-slate-400 text-xs font-medium block mb-1.5">
+                Support Email
+              </label>
               <input
                 type="email"
                 value={settings.supportEmail}
@@ -159,7 +172,9 @@ export default function PlatformSettingsPage() {
               />
             </div>
             <div>
-              <label className="text-slate-400 text-xs font-medium block mb-1.5">Platform URL</label>
+              <label className="text-slate-400 text-xs font-medium block mb-1.5">
+                Platform URL
+              </label>
               <input
                 value={settings.platformUrl}
                 onChange={(e) => setSettings({ ...settings, platformUrl: e.target.value })}
@@ -183,7 +198,9 @@ export default function PlatformSettingsPage() {
               >
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-[rgba(19,236,164,0.06)] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[18px] text-[#13eca4]">{ft.icon}</span>
+                    <span className="material-symbols-outlined text-[18px] text-[#13eca4]">
+                      {ft.icon}
+                    </span>
                   </div>
                   <div>
                     <p className="text-white text-sm font-semibold">{ft.label}</p>
@@ -220,7 +237,9 @@ export default function PlatformSettingsPage() {
             </div>
             <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4">
               <p className="text-slate-500 text-xs">Domain</p>
-              <p className="text-[#13eca4] text-sm font-semibold mt-1">academy.stemimpactcenterkenya.org</p>
+              <p className="text-[#13eca4] text-sm font-semibold mt-1">
+                academy.stemimpactcenterkenya.org
+              </p>
             </div>
             <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4">
               <p className="text-slate-500 text-xs">Firebase Project</p>

@@ -4,17 +4,17 @@ A full-stack learning management platform for STEM education in Kenya, built wit
 
 ## Tech Stack
 
-| Layer       | Technology                         |
-| ----------- | ---------------------------------- |
-| Framework   | Next.js 16 (App Router)            |
-| UI          | React 19, Tailwind CSS 4           |
-| Language    | TypeScript 5 (strict)              |
-| Auth        | Firebase Authentication            |
-| Database    | Cloud Firestore                    |
-| Storage     | Firebase Storage                   |
-| Email       | Resend                             |
-| Hosting     | Firebase Hosting                   |
-| CI          | GitHub Actions                     |
+| Layer     | Technology               |
+| --------- | ------------------------ |
+| Framework | Next.js 16 (App Router)  |
+| UI        | React 19, Tailwind CSS 4 |
+| Language  | TypeScript 5 (strict)    |
+| Auth      | Firebase Authentication  |
+| Database  | Cloud Firestore          |
+| Storage   | Firebase Storage         |
+| Email     | Resend                   |
+| Hosting   | Firebase Hosting         |
+| CI        | GitHub Actions           |
 
 ## Architecture
 
@@ -86,15 +86,15 @@ The platform supports five user roles with route-level access control:
 
 ## Scripts
 
-| Command              | Description                        |
-| -------------------- | ---------------------------------- |
-| `npm run dev`        | Start development server           |
-| `npm run build`      | Production build                   |
-| `npm start`          | Start production server            |
-| `npm run lint`       | Run ESLint                         |
-| `npm test`           | Run tests (Vitest)                 |
-| `npm run test:watch` | Run tests in watch mode            |
-| `npm run format`     | Format code with Prettier          |
+| Command                | Description                      |
+| ---------------------- | -------------------------------- |
+| `npm run dev`          | Start development server         |
+| `npm run build`        | Production build                 |
+| `npm start`            | Start production server          |
+| `npm run lint`         | Run ESLint                       |
+| `npm test`             | Run tests (Vitest)               |
+| `npm run test:watch`   | Run tests in watch mode          |
+| `npm run format`       | Format code with Prettier        |
 | `npm run format:check` | Check formatting without changes |
 
 ## Testing

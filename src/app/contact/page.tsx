@@ -10,7 +10,8 @@ export default function ContactPage() {
           <div className="text-center mb-16">
             <h1 className="text-4xl font-black mb-4">Contact Us</h1>
             <p className="text-slate-400 max-w-xl mx-auto">
-              Have questions about STEM Impact Academy? We are here to help. Reach out using any of the methods below.
+              Have questions about STEM Impact Academy? We are here to help. Reach out using any of
+              the methods below.
             </p>
           </div>
 
@@ -64,7 +65,9 @@ export default function ContactPage() {
             <form className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2">Name</label>
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                    Name
+                  </label>
                   <input
                     type="text"
                     placeholder="Your name"
@@ -72,7 +75,9 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2">Email</label>
+                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                    Email
+                  </label>
                   <input
                     type="email"
                     placeholder="you@stemimpactcenterkenya.org"
@@ -81,7 +86,9 @@ export default function ContactPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-bold uppercase text-slate-500 mb-2">Subject</label>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                  Subject
+                </label>
                 <input
                   type="text"
                   placeholder="How can we help?"
@@ -89,7 +96,9 @@ export default function ContactPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold uppercase text-slate-500 mb-2">Message</label>
+                <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                  Message
+                </label>
                 <textarea
                   rows={5}
                   placeholder="Tell us more..."
@@ -108,7 +117,9 @@ export default function ContactPage() {
       </main>
 
       <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center mt-16">
-        <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.</p>
+        <p className="text-xs text-slate-600">
+          &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
+        </p>
       </footer>
     </div>
   );

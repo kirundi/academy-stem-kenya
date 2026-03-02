@@ -18,9 +18,7 @@ export default function TeacherCoursesPage() {
   const classroomIds = classrooms.map((c) => c.id);
   const { data: enrollments } = useCollection<Enrollment>(
     "enrollments",
-    classroomIds.length > 0
-      ? [where("classroomId", "in", classroomIds.slice(0, 10))]
-      : [],
+    classroomIds.length > 0 ? [where("classroomId", "in", classroomIds.slice(0, 10))] : [],
     classroomIds.length > 0
   );
 
@@ -34,7 +32,9 @@ export default function TeacherCoursesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -51,7 +51,9 @@ export default function TeacherCoursesPage() {
 
   const filtered = courses.filter((c) => {
     const matchCat = activeCategory === "All" || c.category === activeCategory;
-    const matchSearch = c.title.toLowerCase().includes(search.toLowerCase()) || c.category.toLowerCase().includes(search.toLowerCase());
+    const matchSearch =
+      c.title.toLowerCase().includes(search.toLowerCase()) ||
+      c.category.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
   });
 
@@ -72,7 +74,9 @@ export default function TeacherCoursesPage() {
         {/* Search & Filter */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[20px]">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[20px]">
+              search
+            </span>
             <input
               type="text"
               value={search}
@@ -104,7 +108,10 @@ export default function TeacherCoursesPage() {
         {filtered.length === 0 && (
           <div className="text-center py-16 text-slate-500">
             <span className="material-symbols-outlined text-[48px] mb-4 block">menu_book</span>
-            <p>No courses found. {search ? "Try a different search." : "Courses will appear here once added."}</p>
+            <p>
+              No courses found.{" "}
+              {search ? "Try a different search." : "Courses will appear here once added."}
+            </p>
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
@@ -115,7 +122,9 @@ export default function TeacherCoursesPage() {
             >
               <div
                 className="h-2 w-full"
-                style={{ background: `linear-gradient(90deg, ${course.color || "#13eca4"}, transparent)` }}
+                style={{
+                  background: `linear-gradient(90deg, ${course.color || "#13eca4"}, transparent)`,
+                }}
               />
               <div className="p-5 flex-1 flex flex-col">
                 <div className="flex items-start justify-between mb-3">
@@ -123,7 +132,10 @@ export default function TeacherCoursesPage() {
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
                     style={{ background: `${course.color || "#13eca4"}18` }}
                   >
-                    <span className="material-symbols-outlined text-[22px]" style={{ color: course.color || "#13eca4" }}>
+                    <span
+                      className="material-symbols-outlined text-[22px]"
+                      style={{ color: course.color || "#13eca4" }}
+                    >
                       {course.icon || "menu_book"}
                     </span>
                   </div>
@@ -137,7 +149,10 @@ export default function TeacherCoursesPage() {
                 <h3 className="text-white font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
                   {course.title}
                 </h3>
-                <p className="text-slate-500 text-xs font-semibold mb-3" style={{ color: course.color || "#13eca4" }}>
+                <p
+                  className="text-slate-500 text-xs font-semibold mb-3"
+                  style={{ color: course.color || "#13eca4" }}
+                >
                   {course.category}
                 </p>
 
@@ -148,7 +163,10 @@ export default function TeacherCoursesPage() {
                   </span>
                   <span
                     className="text-xs px-1.5 py-0.5 rounded"
-                    style={{ background: `${course.color || "#13eca4"}18`, color: course.color || "#13eca4" }}
+                    style={{
+                      background: `${course.color || "#13eca4"}18`,
+                      color: course.color || "#13eca4",
+                    }}
                   >
                     {course.difficulty}
                   </span>
@@ -156,7 +174,9 @@ export default function TeacherCoursesPage() {
 
                 {course.assigned && (
                   <p className="text-slate-500 text-xs mb-4">
-                    <span className="material-symbols-outlined text-[14px] align-middle">group</span>{" "}
+                    <span className="material-symbols-outlined text-[14px] align-middle">
+                      group
+                    </span>{" "}
                     {course.students} student{course.students !== 1 ? "s" : ""} enrolled
                   </p>
                 )}

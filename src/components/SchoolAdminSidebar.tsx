@@ -19,9 +19,7 @@ const navItems = [
   { label: "Integrations", href: "/school/admin/integrations", icon: "hub" },
 ];
 
-const bottomItems = [
-  { label: "Onboarding", href: "/onboarding", icon: "rocket_launch" },
-];
+const bottomItems = [{ label: "Onboarding", href: "/onboarding", icon: "rocket_launch" }];
 
 export default function SchoolAdminSidebar() {
   const pathname = usePathname();
@@ -89,12 +87,16 @@ export default function SchoolAdminSidebar() {
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-slate-300 font-medium truncate">{appUser?.displayName ?? "..."}</p>
+              <p className="text-xs text-slate-300 font-medium truncate">
+                {appUser?.displayName ?? "..."}
+              </p>
               <p className="text-xs text-slate-500 truncate">Administrator</p>
             </div>
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">logout</span>
+              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+                logout
+              </span>
             </button>
           </div>
         </div>

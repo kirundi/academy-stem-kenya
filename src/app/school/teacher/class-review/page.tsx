@@ -45,7 +45,9 @@ export default function ClassReviewPage() {
 
   // Initialize message when user data is available
   if (appUser && !msg) {
-    setMsg(`Hello Class! \n\nI'm excited to be your instructor. Looking forward to a great learning experience together.\n\nOver the next few weeks, we will work through the curriculum together. Feel free to reach out if you have any questions.\n\nBest,\n${appUser.displayName}`);
+    setMsg(
+      `Hello Class! \n\nI'm excited to be your instructor. Looking forward to a great learning experience together.\n\nOver the next few weeks, we will work through the curriculum together. Feel free to reach out if you have any questions.\n\nBest,\n${appUser.displayName}`
+    );
   }
 
   const loading = teacherLoading || coursesLoading;
@@ -53,7 +55,9 @@ export default function ClassReviewPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -67,7 +71,11 @@ export default function ClassReviewPage() {
     if (!appUser || !reviewClassroom) return;
     setFinishing(true);
     try {
-      await logActivity(appUser.uid, "finish_review", `Completed class review for ${reviewClassroom.name}`);
+      await logActivity(
+        appUser.uid,
+        "finish_review",
+        `Completed class review for ${reviewClassroom.name}`
+      );
     } catch (err) {
       if (process.env.NODE_ENV === "development") console.error("Error finishing review:", err);
     } finally {
@@ -93,20 +101,40 @@ export default function ClassReviewPage() {
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
             <div className="w-7 h-7 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#13eca4] text-[16px]">account_tree</span>
+              <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
+                account_tree
+              </span>
             </div>
             <span className="text-white font-bold">STEM Learn</span>
           </div>
           <div className="flex items-center bg-[rgba(255,255,255,0.05)] rounded-lg border border-[rgba(255,255,255,0.08)] px-3 py-1.5">
             <span className="material-symbols-outlined text-slate-400 text-[16px]">search</span>
-            <input placeholder="Search resources..." className="bg-transparent border-none text-white text-sm placeholder-slate-500 focus:outline-none ml-2 w-36" />
+            <input
+              placeholder="Search resources..."
+              className="bg-transparent border-none text-white text-sm placeholder-slate-500 focus:outline-none ml-2 w-36"
+            />
           </div>
         </div>
         <div className="flex items-center gap-5">
           <nav className="hidden md:flex items-center gap-5 text-sm">
-            <a href="/school/teacher/classroom" className="text-slate-400 hover:text-[#13eca4] transition-colors">Classrooms</a>
-            <a href="/school/teacher/courses" className="text-slate-400 hover:text-[#13eca4] transition-colors">Curriculum</a>
-            <a href="/school/teacher/grading" className="text-slate-400 hover:text-[#13eca4] transition-colors">Grades</a>
+            <a
+              href="/school/teacher/classroom"
+              className="text-slate-400 hover:text-[#13eca4] transition-colors"
+            >
+              Classrooms
+            </a>
+            <a
+              href="/school/teacher/courses"
+              className="text-slate-400 hover:text-[#13eca4] transition-colors"
+            >
+              Curriculum
+            </a>
+            <a
+              href="/school/teacher/grading"
+              className="text-slate-400 hover:text-[#13eca4] transition-colors"
+            >
+              Grades
+            </a>
           </nav>
           <button
             onClick={handleFinishReview}
@@ -127,14 +155,21 @@ export default function ClassReviewPage() {
         <aside className="w-72 border-r border-[rgba(255,255,255,0.06)] bg-[rgba(13,31,26,0.5)] flex flex-col p-6 gap-8 overflow-y-auto shrink-0">
           {/* Progress */}
           <div>
-            <h3 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">Review Progress</h3>
+            <h3 className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-4">
+              Review Progress
+            </h3>
             <div className="flex flex-col gap-1">
               <div className="flex justify-between items-end mb-2">
                 <span className="text-[#13eca4] text-2xl font-bold">{progress}%</span>
-                <span className="text-slate-500 text-xs mb-1">{checklist.filter(Boolean).length} of {checklist.length} Tasks</span>
+                <span className="text-slate-500 text-xs mb-1">
+                  {checklist.filter(Boolean).length} of {checklist.length} Tasks
+                </span>
               </div>
               <div className="w-full bg-[rgba(255,255,255,0.06)] h-2 rounded-full overflow-hidden">
-                <div className="bg-[#13eca4] h-full rounded-full transition-all" style={{ width: `${progress}%` }} />
+                <div
+                  className="bg-[#13eca4] h-full rounded-full transition-all"
+                  style={{ width: `${progress}%` }}
+                />
               </div>
             </div>
           </div>
@@ -144,11 +179,21 @@ export default function ClassReviewPage() {
             <h3 className="text-white text-sm font-bold">Class Audit Checklist</h3>
             <div className="flex flex-col gap-2">
               {[
-                { label: "Review Student Roster", sub: `${studentCount} Student${studentCount !== 1 ? "s" : ""} verified`, subColor: "text-slate-500" },
-                { label: "Verify Authorized Courses", sub: courses.length > 0 ? `${courses.length} courses to review` : "No courses", subColor: "text-amber-400", subIcon: "warning" },
+                {
+                  label: "Review Student Roster",
+                  sub: `${studentCount} Student${studentCount !== 1 ? "s" : ""} verified`,
+                  subColor: "text-slate-500",
+                },
+                {
+                  label: "Verify Authorized Courses",
+                  sub: courses.length > 0 ? `${courses.length} courses to review` : "No courses",
+                  subColor: "text-amber-400",
+                  subIcon: "warning",
+                },
                 { label: "Check Pending Grades", sub: "All caught up", subColor: "text-slate-500" },
               ].map((item, i) => (
-                <label key={item.label}
+                <label
+                  key={item.label}
                   className={`group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${
                     checklist[i]
                       ? "bg-[rgba(19,236,164,0.05)] border border-[rgba(19,236,164,0.2)]"
@@ -166,9 +211,15 @@ export default function ClassReviewPage() {
                     className="w-5 h-5 rounded border-slate-600 bg-transparent text-[#13eca4] focus:ring-0 cursor-pointer"
                   />
                   <div className="flex flex-col">
-                    <span className="text-white text-sm font-medium group-hover:text-[#13eca4] transition-colors">{item.label}</span>
+                    <span className="text-white text-sm font-medium group-hover:text-[#13eca4] transition-colors">
+                      {item.label}
+                    </span>
                     <span className={`${item.subColor} text-xs flex items-center gap-1`}>
-                      {item.subIcon && <span className="material-symbols-outlined text-[12px]">{item.subIcon}</span>}
+                      {item.subIcon && (
+                        <span className="material-symbols-outlined text-[12px]">
+                          {item.subIcon}
+                        </span>
+                      )}
                       {item.sub}
                     </span>
                   </div>
@@ -193,10 +244,12 @@ export default function ClassReviewPage() {
                 <span className="material-symbols-outlined text-[16px]">folder_shared</span>
                 Classroom ID: {reviewClassroom.id.slice(0, 12)}
               </div>
-              <h1 className="text-white text-4xl font-black leading-tight mb-2">Classroom Review</h1>
+              <h1 className="text-white text-4xl font-black leading-tight mb-2">
+                Classroom Review
+              </h1>
               <p className="text-slate-400 text-lg">
-                Class: <span className="text-slate-200">{reviewClassroom.name}</span>{" "}
-                ({reviewClassroom.subject} · {reviewClassroom.grade})
+                Class: <span className="text-slate-200">{reviewClassroom.name}</span> (
+                {reviewClassroom.subject} · {reviewClassroom.grade})
               </p>
             </div>
 
@@ -228,12 +281,20 @@ export default function ClassReviewPage() {
                       }`}
                     >
                       <div className="flex justify-between items-start">
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDeprecated ? "bg-[rgba(255,255,255,0.04)]" : "bg-[rgba(19,236,164,0.1)]"}`}>
-                          <span className={`material-symbols-outlined text-[28px] ${isDeprecated ? "text-slate-400" : "text-[#13eca4]"}`}>{c.icon || "menu_book"}</span>
+                        <div
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDeprecated ? "bg-[rgba(255,255,255,0.04)]" : "bg-[rgba(19,236,164,0.1)]"}`}
+                        >
+                          <span
+                            className={`material-symbols-outlined text-[28px] ${isDeprecated ? "text-slate-400" : "text-[#13eca4]"}`}
+                          >
+                            {c.icon || "menu_book"}
+                          </span>
                         </div>
                         {/* Toggle */}
                         <div className="flex items-center gap-2 bg-[rgba(13,31,26,0.8)] py-1.5 px-2 rounded-full border border-[rgba(255,255,255,0.06)]">
-                          <span className="text-[10px] uppercase font-bold text-slate-500">Keep Authorized</span>
+                          <span className="text-[10px] uppercase font-bold text-slate-500">
+                            Keep Authorized
+                          </span>
                           <button
                             onClick={() => {
                               const next = [...authorized];
@@ -242,7 +303,9 @@ export default function ClassReviewPage() {
                             }}
                             className={`w-10 h-6 rounded-full relative flex items-center px-1 transition-colors ${authorized[i] ? "bg-[#13eca4]" : "bg-[rgba(255,255,255,0.1)]"}`}
                           >
-                            <div className={`w-4 h-4 bg-[#10221c] rounded-full shadow transition-transform ${authorized[i] ? "translate-x-4" : "translate-x-0"}`} />
+                            <div
+                              className={`w-4 h-4 bg-[#10221c] rounded-full shadow transition-transform ${authorized[i] ? "translate-x-4" : "translate-x-0"}`}
+                            />
                           </button>
                         </div>
                       </div>
@@ -252,10 +315,14 @@ export default function ClassReviewPage() {
                       </div>
                       <div className="flex items-center gap-5 pt-2 mt-auto border-t border-[rgba(255,255,255,0.06)]">
                         <div className="flex items-center gap-1 text-slate-500 text-xs">
-                          <span className="material-symbols-outlined text-[14px]">grid_view</span>{c.totalLessons ?? 0} Lessons
+                          <span className="material-symbols-outlined text-[14px]">grid_view</span>
+                          {c.totalLessons ?? 0} Lessons
                         </div>
                         <div className="flex items-center gap-1 text-slate-500 text-xs">
-                          <span className="material-symbols-outlined text-[14px]">signal_cellular_alt</span>{c.difficulty}
+                          <span className="material-symbols-outlined text-[14px]">
+                            signal_cellular_alt
+                          </span>
+                          {c.difficulty}
                         </div>
                       </div>
                     </div>
@@ -266,7 +333,9 @@ export default function ClassReviewPage() {
                   <div className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.04)] flex items-center justify-center text-slate-400 group-hover:text-[#13eca4] group-hover:bg-[rgba(19,236,164,0.1)] transition-colors">
                     <span className="material-symbols-outlined">add</span>
                   </div>
-                  <p className="text-slate-400 font-medium group-hover:text-[#13eca4] transition-colors">Add New Module</p>
+                  <p className="text-slate-400 font-medium group-hover:text-[#13eca4] transition-colors">
+                    Add New Module
+                  </p>
                 </button>
               </div>
             </div>
@@ -278,11 +347,16 @@ export default function ClassReviewPage() {
                 <div className="flex items-center gap-4 px-6 py-4 bg-[rgba(13,31,26,0.5)] border-b border-[rgba(255,255,255,0.06)]">
                   <div className="flex-1">
                     <p className="text-white font-bold">Message to Students</p>
-                    <p className="text-slate-500 text-xs">This will be posted to the classroom feed upon review finalization.</p>
+                    <p className="text-slate-500 text-xs">
+                      This will be posted to the classroom feed upon review finalization.
+                    </p>
                   </div>
                   <div className="flex gap-1">
-                    {["format_bold","format_italic","link"].map((ic) => (
-                      <button key={ic} className="p-2 text-slate-400 hover:text-white transition-colors">
+                    {["format_bold", "format_italic", "link"].map((ic) => (
+                      <button
+                        key={ic}
+                        className="p-2 text-slate-400 hover:text-white transition-colors"
+                      >
                         <span className="material-symbols-outlined text-[18px]">{ic}</span>
                       </button>
                     ))}
@@ -297,7 +371,9 @@ export default function ClassReviewPage() {
                 </div>
                 <div className="flex justify-between items-center px-6 py-4 bg-[rgba(13,31,26,0.3)] border-t border-[rgba(255,255,255,0.06)]">
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#13eca4] text-[16px]">check_circle</span>
+                    <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
+                      check_circle
+                    </span>
                     <span className="text-slate-500 text-xs">Autosaved</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -318,9 +394,14 @@ export default function ClassReviewPage() {
             <span className="material-symbols-outlined text-[22px]">priority_high</span>
             <div className="flex flex-col">
               <p className="text-sm font-bold">Advanced Course Found</p>
-              <p className="text-xs opacity-80">Toggle authorization status before finalizing review.</p>
+              <p className="text-xs opacity-80">
+                Toggle authorization status before finalizing review.
+              </p>
             </div>
-            <button onClick={() => setAlertDismissed(true)} className="ml-auto opacity-60 hover:opacity-100 transition-opacity">
+            <button
+              onClick={() => setAlertDismissed(true)}
+              className="ml-auto opacity-60 hover:opacity-100 transition-opacity"
+            >
               <span className="material-symbols-outlined text-[16px]">close</span>
             </button>
           </div>

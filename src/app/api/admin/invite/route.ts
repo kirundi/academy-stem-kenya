@@ -37,7 +37,10 @@ export async function POST(request: NextRequest) {
   const { email, displayName, role, schoolId } = body;
 
   if (!email || !displayName || !role) {
-    return NextResponse.json({ error: "email, displayName, and role are required" }, { status: 400 });
+    return NextResponse.json(
+      { error: "email, displayName, and role are required" },
+      { status: 400 }
+    );
   }
 
   // Permission tiers: super_admin can invite anyone, admin can only invite teacher/school_admin
@@ -63,14 +66,17 @@ export async function POST(request: NextRequest) {
       displayName,
     });
 
-    await adminDb.collection("users").doc(userRecord.uid).set({
-      email,
-      displayName,
-      role,
-      schoolId: schoolId || null,
-      createdAt: FieldValue.serverTimestamp(),
-      updatedAt: FieldValue.serverTimestamp(),
-    });
+    await adminDb
+      .collection("users")
+      .doc(userRecord.uid)
+      .set({
+        email,
+        displayName,
+        role,
+        schoolId: schoolId || null,
+        createdAt: FieldValue.serverTimestamp(),
+        updatedAt: FieldValue.serverTimestamp(),
+      });
 
     // Embed role + schoolId in the Firebase Auth token as custom claims
     await setUserClaims(userRecord.uid, { role, schoolId: schoolId || null });

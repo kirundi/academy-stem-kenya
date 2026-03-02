@@ -20,10 +20,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-export function useDocument<T = DocumentData>(
-  collectionName: string,
-  docId: string | null
-) {
+export function useDocument<T = DocumentData>(collectionName: string, docId: string | null) {
   const [data, setData] = useState<(T & { id: string }) | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -65,9 +62,7 @@ export function useCollection<T = DocumentData>(
   const [error, setError] = useState<string | null>(null);
 
   // Serialize constraints to a stable string for deps
-  const constraintKey = JSON.stringify(
-    constraints.map((c) => c.type + String(c))
-  );
+  const constraintKey = JSON.stringify(constraints.map((c) => c.type + String(c)));
 
   useEffect(() => {
     if (!enabled) return;
@@ -76,9 +71,7 @@ export function useCollection<T = DocumentData>(
     const unsubscribe = onSnapshot(
       q,
       (snap) => {
-        const items = snap.docs.map(
-          (d) => ({ id: d.id, ...d.data() }) as T & { id: string }
-        );
+        const items = snap.docs.map((d) => ({ id: d.id, ...d.data() }) as T & { id: string });
         setData(items);
         setLoading(false);
       },
@@ -176,9 +169,7 @@ export async function fetchCollection<T = DocumentData>(
 ): Promise<(T & { id: string })[]> {
   const q = query(collection(db, collectionName), ...constraints);
   const snap = await getDocs(q);
-  return snap.docs.map(
-    (d) => ({ id: d.id, ...d.data() }) as T & { id: string }
-  );
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as T & { id: string });
 }
 
 // Re-export Firestore query helpers for convenience

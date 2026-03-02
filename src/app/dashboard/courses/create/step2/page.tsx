@@ -13,7 +13,11 @@ import { db } from "@/lib/firebase";
 import type { Course, Lesson, LessonBlock } from "@/lib/types";
 
 export default function CourseCreatorStep2Page() {
-  return <Suspense><CourseCreatorStep2 /></Suspense>;
+  return (
+    <Suspense>
+      <CourseCreatorStep2 />
+    </Suspense>
+  );
 }
 
 function CourseCreatorStep2() {
@@ -36,9 +40,7 @@ function CourseCreatorStep2() {
   const [activeLessonIdx, setActiveLessonIdx] = useState(0);
 
   // Block editor state for current lesson
-  const [blocks, setBlocks] = useState<LessonBlock[]>([
-    { type: "text", content: "" },
-  ]);
+  const [blocks, setBlocks] = useState<LessonBlock[]>([{ type: "text", content: "" }]);
   const [lessonTitle, setLessonTitle] = useState("");
   const [taskType, setTaskType] = useState("Short Answer / Reflection");
   const [taskTitle, setTaskTitle] = useState("");
@@ -103,7 +105,10 @@ function CourseCreatorStep2() {
         type: "Reading" as const,
         duration: "30 min",
         order: lessons?.length || 0,
-        content: blocks.filter((b) => b.type === "text").map((b) => b.content).join("\n\n"),
+        content: blocks
+          .filter((b) => b.type === "text")
+          .map((b) => b.content)
+          .join("\n\n"),
         blocks: allBlocks,
       };
 
@@ -202,7 +207,10 @@ function CourseCreatorStep2() {
       <div className="flex h-screen items-center justify-center bg-[#10221c] text-white">
         <div className="text-center">
           <p className="text-slate-400 mb-4">No course ID provided.</p>
-          <Link href="/dashboard/courses/create/step1" className="text-[#13eca4] hover:underline font-bold">
+          <Link
+            href="/dashboard/courses/create/step1"
+            className="text-[#13eca4] hover:underline font-bold"
+          >
             Go back to Step 1
           </Link>
         </div>
@@ -237,18 +245,28 @@ function CourseCreatorStep2() {
               { label: "Students", href: "/dashboard/users" },
               { label: "Grading", href: "/dashboard/reports" },
             ].map((item) => (
-              <a key={item.label} href={item.href} className={`text-sm font-medium transition-colors ${item.label === "Curriculum" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}>
+              <a
+                key={item.label}
+                href={item.href}
+                className={`text-sm font-medium transition-colors ${item.label === "Curriculum" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}
+              >
                 {item.label}
               </a>
             ))}
           </nav>
           <div className="w-px h-6 bg-[rgba(255,255,255,0.1)]" />
           <div className="flex gap-3">
-            <Link href={`/dashboard/courses/create/preview?courseId=${courseId}`} className="flex items-center gap-2 h-10 px-4 rounded-lg bg-[rgba(255,255,255,0.08)] text-white text-sm font-bold hover:bg-[rgba(255,255,255,0.12)] transition-colors">
+            <Link
+              href={`/dashboard/courses/create/preview?courseId=${courseId}`}
+              className="flex items-center gap-2 h-10 px-4 rounded-lg bg-[rgba(255,255,255,0.08)] text-white text-sm font-bold hover:bg-[rgba(255,255,255,0.12)] transition-colors"
+            >
               <span className="material-symbols-outlined text-sm">visibility</span>
               Preview
             </Link>
-            <Link href={`/dashboard/courses/create/step3?courseId=${courseId}`} className="h-10 px-4 rounded-lg bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity flex items-center">
+            <Link
+              href={`/dashboard/courses/create/step3?courseId=${courseId}`}
+              className="h-10 px-4 rounded-lg bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity flex items-center"
+            >
               Next: Facilitation
             </Link>
           </div>
@@ -263,7 +281,9 @@ function CourseCreatorStep2() {
         <aside className="w-72 border-r border-[rgba(255,255,255,0.08)] bg-[#10221c] flex flex-col shrink-0">
           <div className="p-6 border-b border-[rgba(255,255,255,0.08)]">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">Lesson Steps</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Lesson Steps
+              </h3>
               <span className="text-[10px] bg-[rgba(19,236,164,0.15)] text-[#13eca4] px-2 py-0.5 rounded-full font-bold">
                 {lessons?.length || 0} STEPS
               </span>
@@ -282,22 +302,30 @@ function CourseCreatorStep2() {
                 }`}
               >
                 <span className="material-symbols-outlined text-lg">drag_indicator</span>
-                <span className={`text-sm ${s.active ? "font-bold" : "font-medium"}`}>{s.label}</span>
-                {s.active && <span className="ml-auto material-symbols-outlined text-sm">edit</span>}
+                <span className={`text-sm ${s.active ? "font-bold" : "font-medium"}`}>
+                  {s.label}
+                </span>
+                {s.active && (
+                  <span className="ml-auto material-symbols-outlined text-sm">edit</span>
+                )}
               </div>
             ))}
             <button
               onClick={handleAddNewStep}
               className="w-full flex items-center gap-3 p-3 rounded-lg border-2 border-dashed border-[rgba(255,255,255,0.1)] text-slate-500 hover:border-[rgba(19,236,164,0.4)] hover:text-[#13eca4] transition-all mt-4 group"
             >
-              <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">add_circle</span>
+              <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">
+                add_circle
+              </span>
               <span className="text-sm font-medium">Add New Step</span>
             </button>
           </div>
           <div className="p-4 border-t border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)]">
             <div className="flex items-center justify-between text-xs text-slate-500 mb-3">
               <span>{saveStatus || (savingLesson ? "Saving..." : "Ready to edit")}</span>
-              <span className={`material-symbols-outlined text-sm ${savingLesson ? "text-amber-400 animate-pulse" : "text-emerald-400"}`}>
+              <span
+                className={`material-symbols-outlined text-sm ${savingLesson ? "text-amber-400 animate-pulse" : "text-emerald-400"}`}
+              >
                 {savingLesson ? "sync" : "cloud_done"}
               </span>
             </div>
@@ -320,7 +348,9 @@ function CourseCreatorStep2() {
               <span className="material-symbols-outlined text-xs">chevron_right</span>
               <span>{course?.title || "Course"}</span>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
-              <span className="text-[#13eca4]">Step {activeLessonIdx + 1}: {lessonTitle || "New Lesson"}</span>
+              <span className="text-[#13eca4]">
+                Step {activeLessonIdx + 1}: {lessonTitle || "New Lesson"}
+              </span>
             </div>
 
             {/* Step Header */}
@@ -333,10 +363,16 @@ function CourseCreatorStep2() {
                 className="text-3xl font-bold tracking-tight bg-transparent border-none outline-none text-white placeholder-slate-600 w-full"
               />
               <div className="flex gap-2">
-                <button className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)] text-slate-400 transition-colors" title="Settings">
+                <button
+                  className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)] text-slate-400 transition-colors"
+                  title="Settings"
+                >
                   <span className="material-symbols-outlined">settings</span>
                 </button>
-                <button className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)] text-slate-400 transition-colors" title="Duplicate">
+                <button
+                  className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)] text-slate-400 transition-colors"
+                  title="Duplicate"
+                >
                   <span className="material-symbols-outlined">content_copy</span>
                 </button>
               </div>
@@ -347,7 +383,10 @@ function CourseCreatorStep2() {
               {blocks.map((block, idx) => {
                 if (block.type === "text") {
                   return (
-                    <div key={idx} className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all">
+                    <div
+                      key={idx}
+                      className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all"
+                    >
                       <div className="flex items-center gap-2 mb-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
                         <span className="material-symbols-outlined text-base">notes</span>
                         Text Content (Markdown)
@@ -361,14 +400,24 @@ function CourseCreatorStep2() {
                       />
                       {/* Block controls */}
                       <div className="absolute -right-3 top-3 opacity-0 group-hover:opacity-100 flex flex-col gap-1 transition-opacity">
-                        <button onClick={() => handleMoveBlock(idx, "up")} className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4]">
-                          <span className="material-symbols-outlined text-sm">keyboard_arrow_up</span>
+                        <button
+                          onClick={() => handleMoveBlock(idx, "up")}
+                          className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4]"
+                        >
+                          <span className="material-symbols-outlined text-sm">
+                            keyboard_arrow_up
+                          </span>
                         </button>
                         <button className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4] cursor-move">
                           <span className="material-symbols-outlined text-sm">drag_indicator</span>
                         </button>
-                        <button onClick={() => handleMoveBlock(idx, "down")} className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4]">
-                          <span className="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        <button
+                          onClick={() => handleMoveBlock(idx, "down")}
+                          className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4]"
+                        >
+                          <span className="material-symbols-outlined text-sm">
+                            keyboard_arrow_down
+                          </span>
                         </button>
                       </div>
                     </div>
@@ -377,7 +426,10 @@ function CourseCreatorStep2() {
 
                 if (block.type === "image") {
                   return (
-                    <div key={idx} className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all">
+                    <div
+                      key={idx}
+                      className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all"
+                    >
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest">
                           <span className="material-symbols-outlined text-base">image</span>
@@ -392,7 +444,12 @@ function CourseCreatorStep2() {
                       </div>
                       <div className="relative rounded-lg overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[rgba(0,0,0,0.3)] group/img h-48">
                         {block.url ? (
-                          <Image src={block.url} alt={block.content || "Lesson image"} fill className="object-cover" />
+                          <Image
+                            src={block.url}
+                            alt={block.content || "Lesson image"}
+                            fill
+                            className="object-cover"
+                          />
                         ) : (
                           <div
                             onClick={() => handleImageUpload(idx)}
@@ -404,7 +461,9 @@ function CourseCreatorStep2() {
                                 <span className="text-sm text-[#13eca4]">{progress}%</span>
                               </div>
                             ) : (
-                              <span className="material-symbols-outlined text-slate-600 text-5xl">image</span>
+                              <span className="material-symbols-outlined text-slate-600 text-5xl">
+                                image
+                              </span>
                             )}
                           </div>
                         )}
@@ -422,7 +481,10 @@ function CourseCreatorStep2() {
 
                 if (block.type === "video") {
                   return (
-                    <div key={idx} className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all">
+                    <div
+                      key={idx}
+                      className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all"
+                    >
                       <div className="flex items-center gap-2 mb-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
                         <span className="material-symbols-outlined text-base">smart_display</span>
                         Video Embed
@@ -505,10 +567,15 @@ function CourseCreatorStep2() {
                 <div className="absolute inset-x-0 h-px bg-[rgba(255,255,255,0.06)]" />
                 <div className="relative flex gap-3 bg-[#10221c] px-4">
                   {[
-                    { icon: "text_fields", label: "Text",     type: "text" as const,  primary: false },
-                    { icon: "image",        label: "Image",    type: "image" as const, primary: false },
-                    { icon: "smart_display",label: "Video",    type: "video" as const, primary: false },
-                    { icon: "add_task",     label: "Add Task", type: "task" as const,  primary: true  },
+                    { icon: "text_fields", label: "Text", type: "text" as const, primary: false },
+                    { icon: "image", label: "Image", type: "image" as const, primary: false },
+                    {
+                      icon: "smart_display",
+                      label: "Video",
+                      type: "video" as const,
+                      primary: false,
+                    },
+                    { icon: "add_task", label: "Add Task", type: "task" as const, primary: true },
                   ].map((b) => (
                     <button
                       key={b.label}

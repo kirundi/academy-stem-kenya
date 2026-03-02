@@ -22,12 +22,17 @@ export default function ContentManagementPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
 
-  const categories = ["All", ...Array.from(new Set(allCourses.map((c) => c.category).filter(Boolean)))];
+  const categories = [
+    "All",
+    ...Array.from(new Set(allCourses.map((c) => c.category).filter(Boolean))),
+  ];
 
   const filtered = allCourses.filter((c) => {
     const matchSearch =
@@ -49,10 +54,15 @@ export default function ContentManagementPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-white">Content Management</h1>
-          <p className="text-slate-400 text-xs mt-0.5">{allCourses.length} courses across the platform</p>
+          <p className="text-slate-400 text-xs mt-0.5">
+            {allCourses.length} courses across the platform
+          </p>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/dashboard/courses/create/step1" className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
+          <Link
+            href="/dashboard/courses/create/step1"
+            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+          >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create Course
           </Link>
@@ -67,9 +77,14 @@ export default function ContentManagementPage() {
             <p className="text-white text-3xl font-bold mt-2">{allCourses.length}</p>
           </div>
           {diffBreakdown.map((d) => (
-            <div key={d.level} className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]">
+            <div
+              key={d.level}
+              className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]"
+            >
               <span className="text-slate-400 text-sm font-medium">{d.level}</span>
-              <p className="text-3xl font-bold mt-2" style={{ color: d.color }}>{d.count}</p>
+              <p className="text-3xl font-bold mt-2" style={{ color: d.color }}>
+                {d.count}
+              </p>
             </div>
           ))}
         </div>
@@ -77,7 +92,9 @@ export default function ContentManagementPage() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="relative flex-1 max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+              search
+            </span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -117,34 +134,63 @@ export default function ContentManagementPage() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">No courses found</td>
+                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                    No courses found
+                  </td>
                 </tr>
               ) : (
                 filtered.map((c, i) => (
-                  <tr key={c.id} className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}>
+                  <tr
+                    key={c.id}
+                    className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
+                  >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `${c.color ?? "#13eca4"}18` }}>
-                          <span className="material-symbols-outlined text-[18px]" style={{ color: c.color ?? "#13eca4" }}>{c.icon ?? "auto_stories"}</span>
+                        <div
+                          className="w-9 h-9 rounded-xl flex items-center justify-center"
+                          style={{ background: `${c.color ?? "#13eca4"}18` }}
+                        >
+                          <span
+                            className="material-symbols-outlined text-[18px]"
+                            style={{ color: c.color ?? "#13eca4" }}
+                          >
+                            {c.icon ?? "auto_stories"}
+                          </span>
                         </div>
                         <div>
                           <p className="text-white font-semibold">{c.title}</p>
-                          <p className="text-slate-500 text-xs line-clamp-1">{c.description ?? "No description"}</p>
+                          <p className="text-slate-500 text-xs line-clamp-1">
+                            {c.description ?? "No description"}
+                          </p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-center text-slate-300 text-xs">{c.category ?? "--"}</td>
+                    <td className="px-4 py-4 text-center text-slate-300 text-xs">
+                      {c.category ?? "--"}
+                    </td>
                     <td className="px-4 py-4 text-center">
-                      <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ color: difficultyColor[c.difficulty] ?? "#13eca4", background: `${difficultyColor[c.difficulty] ?? "#13eca4"}18` }}>
+                      <span
+                        className="text-xs font-bold px-2.5 py-1 rounded-full"
+                        style={{
+                          color: difficultyColor[c.difficulty] ?? "#13eca4",
+                          background: `${difficultyColor[c.difficulty] ?? "#13eca4"}18`,
+                        }}
+                      >
                         {c.difficulty}
                       </span>
                     </td>
-                    <td className="px-4 py-4 text-center text-white font-semibold">{c.totalLessons ?? 0}</td>
+                    <td className="px-4 py-4 text-center text-white font-semibold">
+                      {c.totalLessons ?? 0}
+                    </td>
                     <td className="px-4 py-4 text-right">
                       <button
-                        onClick={() => router.push(`/dashboard/courses/create/step1?courseId=${c.id}`)}
+                        onClick={() =>
+                          router.push(`/dashboard/courses/create/step1?courseId=${c.id}`)
+                        }
                         className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3"
-                      >Edit</button>
+                      >
+                        Edit
+                      </button>
                       <button
                         onClick={() => remove(c.id)}
                         className="text-slate-400 hover:text-red-400 transition-colors text-xs font-semibold"
@@ -158,7 +204,9 @@ export default function ContentManagementPage() {
             </tbody>
           </table>
           <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)]">
-            <p className="text-slate-500 text-xs">Showing {filtered.length} of {allCourses.length} courses</p>
+            <p className="text-slate-500 text-xs">
+              Showing {filtered.length} of {allCourses.length} courses
+            </p>
           </div>
         </div>
       </div>

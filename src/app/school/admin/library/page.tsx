@@ -18,10 +18,9 @@ export default function CourseLibraryPage() {
     schoolId ? [where("schoolId", "==", schoolId)] : [],
     !!schoolId
   );
-  const { data: globalCourses, loading: globalLoading } = useCollection<Course>(
-    "courses",
-    [where("schoolId", "==", null)]
-  );
+  const { data: globalCourses, loading: globalLoading } = useCollection<Course>("courses", [
+    where("schoolId", "==", null),
+  ]);
 
   const loading = schoolLoading || globalLoading;
   const allCourses = [...schoolCourses, ...globalCourses];
@@ -29,12 +28,17 @@ export default function CourseLibraryPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
 
-  const categories = ["All", ...Array.from(new Set(allCourses.map((c) => c.category).filter(Boolean)))];
+  const categories = [
+    "All",
+    ...Array.from(new Set(allCourses.map((c) => c.category).filter(Boolean))),
+  ];
 
   const filtered = allCourses.filter((c) => {
     const matchSearch =
@@ -63,13 +67,17 @@ export default function CourseLibraryPage() {
             <span className="text-xs font-bold uppercase tracking-wider">Curriculum</span>
           </div>
           <h1 className="text-white text-4xl font-black leading-tight">Course Library</h1>
-          <p className="text-slate-400 mt-1">{allCourses.length} courses available for your school.</p>
+          <p className="text-slate-400 mt-1">
+            {allCourses.length} courses available for your school.
+          </p>
         </section>
 
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="relative flex-1 max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+              search
+            </span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -100,26 +108,48 @@ export default function CourseLibraryPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((course) => (
-              <div key={course.id} className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden hover:border-[rgba(19,236,164,0.2)] transition-all group">
-                <div className="h-32 flex items-center justify-center" style={{ background: `${course.color ?? "#13eca4"}15` }}>
-                  <span className="material-symbols-outlined text-5xl" style={{ color: course.color ?? "#13eca4" }}>{course.icon ?? "auto_stories"}</span>
+              <div
+                key={course.id}
+                className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden hover:border-[rgba(19,236,164,0.2)] transition-all group"
+              >
+                <div
+                  className="h-32 flex items-center justify-center"
+                  style={{ background: `${course.color ?? "#13eca4"}15` }}
+                >
+                  <span
+                    className="material-symbols-outlined text-5xl"
+                    style={{ color: course.color ?? "#13eca4" }}
+                  >
+                    {course.icon ?? "auto_stories"}
+                  </span>
                 </div>
                 <div className="p-5">
                   <div className="flex items-center gap-2 mb-2">
                     <span
                       className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                      style={{ color: difficultyColor[course.difficulty] ?? "#13eca4", background: `${difficultyColor[course.difficulty] ?? "#13eca4"}18` }}
+                      style={{
+                        color: difficultyColor[course.difficulty] ?? "#13eca4",
+                        background: `${difficultyColor[course.difficulty] ?? "#13eca4"}18`,
+                      }}
                     >
                       {course.difficulty}
                     </span>
                     {course.category && (
-                      <span className="text-[10px] text-slate-500 font-medium">{course.category}</span>
+                      <span className="text-[10px] text-slate-500 font-medium">
+                        {course.category}
+                      </span>
                     )}
                   </div>
-                  <h3 className="text-white font-bold text-lg mb-1 group-hover:text-[#13eca4] transition-colors">{course.title}</h3>
-                  <p className="text-slate-400 text-sm line-clamp-2">{course.description ?? "No description."}</p>
+                  <h3 className="text-white font-bold text-lg mb-1 group-hover:text-[#13eca4] transition-colors">
+                    {course.title}
+                  </h3>
+                  <p className="text-slate-400 text-sm line-clamp-2">
+                    {course.description ?? "No description."}
+                  </p>
                   <div className="flex items-center justify-between mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)]">
-                    <span className="text-xs text-slate-500">{course.totalLessons ?? 0} lessons</span>
+                    <span className="text-xs text-slate-500">
+                      {course.totalLessons ?? 0} lessons
+                    </span>
                     {course.estimatedDuration && (
                       <span className="text-xs text-slate-500">{course.estimatedDuration}</span>
                     )}

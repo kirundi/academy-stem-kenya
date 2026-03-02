@@ -11,46 +11,35 @@ export function useSchoolAdminData() {
   const { appUser } = useAuthContext();
   const schoolId = appUser?.schoolId ?? null;
 
-  const { data: teachers, loading: teachersLoading } =
-    useCollection<AppUser>(
-      "users",
-      schoolId
-        ? [where("schoolId", "==", schoolId), where("role", "==", "teacher")]
-        : [],
-      !!schoolId
-    );
+  const { data: teachers, loading: teachersLoading } = useCollection<AppUser>(
+    "users",
+    schoolId ? [where("schoolId", "==", schoolId), where("role", "==", "teacher")] : [],
+    !!schoolId
+  );
 
-  const { data: students, loading: studentsLoading } =
-    useCollection<AppUser>(
-      "users",
-      schoolId
-        ? [where("schoolId", "==", schoolId), where("role", "==", "student")]
-        : [],
-      !!schoolId
-    );
+  const { data: students, loading: studentsLoading } = useCollection<AppUser>(
+    "users",
+    schoolId ? [where("schoolId", "==", schoolId), where("role", "==", "student")] : [],
+    !!schoolId
+  );
 
-  const { data: classrooms, loading: classroomsLoading } =
-    useCollection<Classroom>(
-      "classrooms",
-      schoolId ? [where("schoolId", "==", schoolId)] : [],
-      !!schoolId
-    );
+  const { data: classrooms, loading: classroomsLoading } = useCollection<Classroom>(
+    "classrooms",
+    schoolId ? [where("schoolId", "==", schoolId)] : [],
+    !!schoolId
+  );
 
-  const { data: activities, loading: activitiesLoading } =
-    useCollection<Activity>(
-      "activities",
-      schoolId
-        ? [where("schoolId", "==", schoolId), orderBy("timestamp", "desc"), limit(20)]
-        : [],
-      !!schoolId
-    );
+  const { data: activities, loading: activitiesLoading } = useCollection<Activity>(
+    "activities",
+    schoolId ? [where("schoolId", "==", schoolId), orderBy("timestamp", "desc"), limit(20)] : [],
+    !!schoolId
+  );
 
-  const { data: courses, loading: coursesLoading } =
-    useCollection<Course>(
-      "courses",
-      schoolId ? [where("schoolId", "in", [schoolId, null])] : [],
-      !!schoolId
-    );
+  const { data: courses, loading: coursesLoading } = useCollection<Course>(
+    "courses",
+    schoolId ? [where("schoolId", "in", [schoolId, null])] : [],
+    !!schoolId
+  );
 
   return {
     teachers,
@@ -59,7 +48,11 @@ export function useSchoolAdminData() {
     activities,
     courses,
     loading:
-      teachersLoading || studentsLoading || classroomsLoading || activitiesLoading || coursesLoading,
+      teachersLoading ||
+      studentsLoading ||
+      classroomsLoading ||
+      activitiesLoading ||
+      coursesLoading,
   };
 }
 
@@ -96,7 +89,9 @@ export function useGlobalAdminData() {
     }
 
     fetchData();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const teachers = allUsers.filter((u) => u.role === "teacher");

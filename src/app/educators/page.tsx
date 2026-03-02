@@ -18,7 +18,8 @@ export default function EducatorsPage() {
               Empower Your Classroom with <span className="text-[#13eca4]">STEM Impact</span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg text-slate-400 mb-10">
-              Access project-based curriculum, facilitation guides, and real-time analytics to deliver meaningful STEM experiences to every student.
+              Access project-based curriculum, facilitation guides, and real-time analytics to
+              deliver meaningful STEM experiences to every student.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
@@ -40,7 +41,9 @@ export default function EducatorsPage() {
         {/* What You Get */}
         <section className="py-20 px-6 bg-[rgba(26,46,39,0.3)]">
           <div className="mx-auto max-w-7xl">
-            <h2 className="text-3xl font-black text-center mb-16">Everything You Need to Teach STEM</h2>
+            <h2 className="text-3xl font-black text-center mb-16">
+              Everything You Need to Teach STEM
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
@@ -79,7 +82,9 @@ export default function EducatorsPage() {
                   className="rounded-xl bg-[#1a2e27] p-8 border border-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.3)] transition-all"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center mb-4">
-                    <span className="material-symbols-outlined text-[#13eca4] text-2xl">{icon}</span>
+                    <span className="material-symbols-outlined text-[#13eca4] text-2xl">
+                      {icon}
+                    </span>
                   </div>
                   <h3 className="text-lg font-bold mb-2">{title}</h3>
                   <p className="text-sm text-slate-400 leading-relaxed">{desc}</p>
@@ -94,7 +99,8 @@ export default function EducatorsPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-black mb-6">Ready to Transform Your Teaching?</h2>
             <p className="text-slate-400 mb-10">
-              Join hundreds of educators across Kenya using STEM Impact Academy to deliver world-class project-based learning.
+              Join hundreds of educators across Kenya using STEM Impact Academy to deliver
+              world-class project-based learning.
             </p>
             <Link
               href="/register/teacher"
@@ -107,7 +113,9 @@ export default function EducatorsPage() {
       </main>
 
       <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center">
-        <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.</p>
+        <p className="text-xs text-slate-600">
+          &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
+        </p>
       </footer>
     </div>
   );

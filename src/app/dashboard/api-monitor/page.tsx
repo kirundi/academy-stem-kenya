@@ -3,19 +3,82 @@
 import { useState } from "react";
 
 const USAGE_BY_SCHOOL = [
-  { school: "Jefferson Science Magnet", requests: "242,501", integrations: ["G-Classroom", "Canvas"], status: "Optimal" },
-  { school: "Oakwood STEM Collegiate", requests: "189,420", integrations: ["Clever"], status: "Optimal" },
-  { school: "North Valley Academy", requests: "156,002", integrations: ["G-Classroom", "Internal"], status: "Throttled" },
-  { school: "Impact Prep Charter", requests: "98,750", integrations: ["G-Classroom"], status: "Optimal" },
-  { school: "Riverside STEM School", requests: "87,314", integrations: ["Canvas"], status: "Degraded" },
-  { school: "East Bay Academy", requests: "71,200", integrations: ["Clever", "G-Classroom"], status: "Optimal" },
+  {
+    school: "Jefferson Science Magnet",
+    requests: "242,501",
+    integrations: ["G-Classroom", "Canvas"],
+    status: "Optimal",
+  },
+  {
+    school: "Oakwood STEM Collegiate",
+    requests: "189,420",
+    integrations: ["Clever"],
+    status: "Optimal",
+  },
+  {
+    school: "North Valley Academy",
+    requests: "156,002",
+    integrations: ["G-Classroom", "Internal"],
+    status: "Throttled",
+  },
+  {
+    school: "Impact Prep Charter",
+    requests: "98,750",
+    integrations: ["G-Classroom"],
+    status: "Optimal",
+  },
+  {
+    school: "Riverside STEM School",
+    requests: "87,314",
+    integrations: ["Canvas"],
+    status: "Degraded",
+  },
+  {
+    school: "East Bay Academy",
+    requests: "71,200",
+    integrations: ["Clever", "G-Classroom"],
+    status: "Optimal",
+  },
 ];
 
 const METRIC_CARDS = [
-  { label: "Total API Calls (24h)", value: "1.2M", trend: "+12.4%", trendUp: true, color: "text-emerald-400", bg: "bg-emerald-400/10", icon: "trending_up" },
-  { label: "Avg Response Time", value: "42ms", trend: "-5.2%", trendUp: true, color: "text-emerald-400", bg: "bg-emerald-400/10", icon: "arrow_downward" },
-  { label: "Success Rate", value: "99.9%", valueColor: "text-[#13daec]", trend: "-0.1%", trendUp: false, color: "text-[#ef4444]", bg: "bg-[rgba(239,68,68,0.1)]", icon: "warning" },
-  { label: "Webhook Deliveries", value: "856k", trend: "Active", trendUp: true, color: "text-emerald-400", bg: "bg-emerald-400/10", icon: "check_circle" },
+  {
+    label: "Total API Calls (24h)",
+    value: "1.2M",
+    trend: "+12.4%",
+    trendUp: true,
+    color: "text-emerald-400",
+    bg: "bg-emerald-400/10",
+    icon: "trending_up",
+  },
+  {
+    label: "Avg Response Time",
+    value: "42ms",
+    trend: "-5.2%",
+    trendUp: true,
+    color: "text-emerald-400",
+    bg: "bg-emerald-400/10",
+    icon: "arrow_downward",
+  },
+  {
+    label: "Success Rate",
+    value: "99.9%",
+    valueColor: "text-[#13daec]",
+    trend: "-0.1%",
+    trendUp: false,
+    color: "text-[#ef4444]",
+    bg: "bg-[rgba(239,68,68,0.1)]",
+    icon: "warning",
+  },
+  {
+    label: "Webhook Deliveries",
+    value: "856k",
+    trend: "Active",
+    trendUp: true,
+    color: "text-emerald-400",
+    bg: "bg-emerald-400/10",
+    icon: "check_circle",
+  },
 ];
 
 export default function ApiMonitorPage() {
@@ -25,8 +88,12 @@ export default function ApiMonitorPage() {
     <div className="p-6 space-y-6 min-h-screen">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-black tracking-tight text-slate-100">Global API Usage &amp; Monitoring</h1>
-        <p className="text-slate-400 mt-1">Real-time throughput and system health across 1,240 integrated schools.</p>
+        <h1 className="text-3xl font-black tracking-tight text-slate-100">
+          Global API Usage &amp; Monitoring
+        </h1>
+        <p className="text-slate-400 mt-1">
+          Real-time throughput and system health across 1,240 integrated schools.
+        </p>
       </div>
 
       {/* Time range pills */}
@@ -45,11 +112,18 @@ export default function ApiMonitorPage() {
       {/* Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {METRIC_CARDS.map((m) => (
-          <div key={m.label} className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-5 hover:border-[rgba(19,218,236,0.3)] transition-all">
+          <div
+            key={m.label}
+            className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-5 hover:border-[rgba(19,218,236,0.3)] transition-all"
+          >
             <p className="text-slate-400 text-sm font-medium">{m.label}</p>
             <div className="flex items-end justify-between mt-2">
-              <h3 className={`text-3xl font-bold ${m.valueColor ?? "text-slate-100"}`}>{m.value}</h3>
-              <span className={`text-sm font-bold flex items-center ${m.color} ${m.bg} px-2 py-0.5 rounded-full`}>
+              <h3 className={`text-3xl font-bold ${m.valueColor ?? "text-slate-100"}`}>
+                {m.value}
+              </h3>
+              <span
+                className={`text-sm font-bold flex items-center ${m.color} ${m.bg} px-2 py-0.5 rounded-full`}
+              >
                 <span className="material-symbols-outlined text-sm mr-1">{m.icon}</span>
                 {m.trend}
               </span>
@@ -96,14 +170,36 @@ export default function ApiMonitorPage() {
               </defs>
               {/* Grid lines */}
               {[0, 50, 100, 150, 200].map((y) => (
-                <line key={y} x1="0" y1={y} x2="1000" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+                <line
+                  key={y}
+                  x1="0"
+                  y1={y}
+                  x2="1000"
+                  y2={y}
+                  stroke="rgba(255,255,255,0.05)"
+                  strokeWidth="1"
+                />
               ))}
               {/* Area fill – main */}
-              <path d="M0,150 Q100,80 200,120 T400,60 T600,100 T800,40 T1000,90 L1000,200 L0,200 Z" fill="url(#areaGrad)" />
+              <path
+                d="M0,150 Q100,80 200,120 T400,60 T600,100 T800,40 T1000,90 L1000,200 L0,200 Z"
+                fill="url(#areaGrad)"
+              />
               {/* Main line */}
-              <path d="M0,150 Q100,80 200,120 T400,60 T600,100 T800,40 T1000,90" fill="none" stroke="#13daec" strokeWidth="3" />
+              <path
+                d="M0,150 Q100,80 200,120 T400,60 T600,100 T800,40 T1000,90"
+                fill="none"
+                stroke="#13daec"
+                strokeWidth="3"
+              />
               {/* Secondary line */}
-              <path d="M0,180 Q100,160 200,170 T400,145 T600,155 T800,135 T1000,150" fill="none" stroke="#64748b" strokeWidth="2" strokeDasharray="5 3" />
+              <path
+                d="M0,180 Q100,160 200,170 T400,145 T600,155 T800,135 T1000,150"
+                fill="none"
+                stroke="#64748b"
+                strokeWidth="2"
+                strokeDasharray="5 3"
+              />
               {/* Error spikes */}
               <circle cx="400" cy="60" r="4" fill="#ef4444" />
               <path d="M390,70 L400,60 L410,75" fill="none" stroke="#ef4444" strokeWidth="2" />
@@ -111,7 +207,9 @@ export default function ApiMonitorPage() {
               <path d="M790,50 L800,40 L810,52" fill="none" stroke="#ef4444" strokeWidth="2" />
             </svg>
             <div className="flex justify-between mt-3 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
-              {["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "23:59"].map((t) => <span key={t}>{t}</span>)}
+              {["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "23:59"].map((t) => (
+                <span key={t}>{t}</span>
+              ))}
             </div>
           </div>
         </div>
@@ -125,7 +223,12 @@ export default function ApiMonitorPage() {
               {[
                 { label: "Throughput Capacity", value: "72%", pct: 72, color: "bg-[#13daec]" },
                 { label: "Queue Depth", value: "12ms wait", pct: 24, color: "bg-emerald-400" },
-                { label: "Active Connections", value: "4.2k / 10k", pct: 42, color: "bg-[#13daec]/50" },
+                {
+                  label: "Active Connections",
+                  value: "4.2k / 10k",
+                  pct: 42,
+                  color: "bg-[#13daec]/50",
+                },
               ].map((row) => (
                 <div key={row.label}>
                   <div className="flex justify-between items-center mb-1.5">
@@ -133,7 +236,10 @@ export default function ApiMonitorPage() {
                     <span className="text-sm font-bold text-slate-100">{row.value}</span>
                   </div>
                   <div className="w-full bg-[#102022] h-2.5 rounded-full overflow-hidden">
-                    <div className={`${row.color} h-full rounded-full`} style={{ width: `${row.pct}%` }} />
+                    <div
+                      className={`${row.color} h-full rounded-full`}
+                      style={{ width: `${row.pct}%` }}
+                    />
                   </div>
                 </div>
               ))}
@@ -199,26 +305,41 @@ export default function ApiMonitorPage() {
                   <td className="px-6 py-4">
                     <div className="flex gap-1 flex-wrap">
                       {row.integrations.map((tag) => (
-                        <span key={tag} className="px-2 py-0.5 bg-[#1a2e31] border border-[rgba(19,218,236,0.2)] rounded text-[10px] text-slate-300">{tag}</span>
+                        <span
+                          key={tag}
+                          className="px-2 py-0.5 bg-[#1a2e31] border border-[rgba(19,218,236,0.2)] rounded text-[10px] text-slate-300"
+                        >
+                          {tag}
+                        </span>
                       ))}
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium ${
-                      row.status === "Optimal" ? "bg-emerald-400/10 text-emerald-400" :
-                      row.status === "Throttled" ? "bg-[rgba(239,68,68,0.1)] text-[#ef4444]" :
-                      "bg-amber-400/10 text-amber-400"
-                    }`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${
-                        row.status === "Optimal" ? "bg-emerald-400" :
-                        row.status === "Throttled" ? "bg-[#ef4444] animate-pulse" :
-                        "bg-amber-400"
-                      }`} />
+                    <span
+                      className={`inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium ${
+                        row.status === "Optimal"
+                          ? "bg-emerald-400/10 text-emerald-400"
+                          : row.status === "Throttled"
+                            ? "bg-[rgba(239,68,68,0.1)] text-[#ef4444]"
+                            : "bg-amber-400/10 text-amber-400"
+                      }`}
+                    >
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full ${
+                          row.status === "Optimal"
+                            ? "bg-emerald-400"
+                            : row.status === "Throttled"
+                              ? "bg-[#ef4444] animate-pulse"
+                              : "bg-amber-400"
+                        }`}
+                      />
                       {row.status}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm">
-                    <button className="text-[#13daec] hover:underline font-medium">View Logs</button>
+                    <button className="text-[#13daec] hover:underline font-medium">
+                      View Logs
+                    </button>
                   </td>
                 </tr>
               ))}

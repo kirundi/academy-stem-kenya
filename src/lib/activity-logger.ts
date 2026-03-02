@@ -8,9 +8,7 @@ export async function logActivity(
   courseIdOrExtra?: string | { courseId?: string; schoolId?: string }
 ) {
   const extra =
-    typeof courseIdOrExtra === "string"
-      ? { courseId: courseIdOrExtra }
-      : courseIdOrExtra;
+    typeof courseIdOrExtra === "string" ? { courseId: courseIdOrExtra } : courseIdOrExtra;
 
   await addDoc(collection(db, "activities"), {
     userId,

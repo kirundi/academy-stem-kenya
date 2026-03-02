@@ -43,7 +43,9 @@ const CHALLENGE_DATA: Record<string, ChallengeData> = {
     category: "Sustainability",
     categoryColor: "bg-emerald-500 text-white",
     status: "live",
-    targetDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000 + 5 * 60 * 60 * 1000 + 42 * 60 * 1000 + 18 * 1000),
+    targetDate: new Date(
+      Date.now() + 12 * 24 * 60 * 60 * 1000 + 5 * 60 * 60 * 1000 + 42 * 60 * 1000 + 18 * 1000
+    ),
     prize: "$2,000",
     teamSize: "2–4 students",
     duration: "48 hours",
@@ -71,12 +73,33 @@ const CHALLENGE_DATA: Record<string, ChallengeData> = {
       ],
     },
     resources: [
-      { icon: "terminal", title: "React Starter Kit", description: "Pre-configured boilerplate", action: "download" },
-      { icon: "api", title: "Open Weather API", description: "Environment data endpoints", action: "link" },
-      { icon: "school", title: "Facilitation Guide", description: "For educators and mentors", action: "view" },
-      { icon: "dataset", title: "Urban Census Data", description: "Kenya 2023 city datasets", action: "download" },
+      {
+        icon: "terminal",
+        title: "React Starter Kit",
+        description: "Pre-configured boilerplate",
+        action: "download",
+      },
+      {
+        icon: "api",
+        title: "Open Weather API",
+        description: "Environment data endpoints",
+        action: "link",
+      },
+      {
+        icon: "school",
+        title: "Facilitation Guide",
+        description: "For educators and mentors",
+        action: "view",
+      },
+      {
+        icon: "dataset",
+        title: "Urban Census Data",
+        description: "Kenya 2023 city datasets",
+        action: "download",
+      },
     ],
-    quote: '"Innovation is the bridge between a problem and a sustainable solution." — Academy Mentor',
+    quote:
+      '"Innovation is the bridge between a problem and a sustainable solution." — Academy Mentor',
     bgImage: "linear-gradient(135deg, #0d2e1a 0%, #102022 60%, #13daec10 100%)",
   },
   "robo-race-2024": {
@@ -114,29 +137,58 @@ const CHALLENGE_DATA: Record<string, ChallengeData> = {
       ],
     },
     resources: [
-      { icon: "smart_toy", title: "Arduino Starter Pack", description: "Hardware component list", action: "download" },
-      { icon: "api", title: "Simulation API", description: "Virtual robot test environment", action: "link" },
-      { icon: "school", title: "Mentor Sessions", description: "Booking link for guidance", action: "view" },
-      { icon: "map", title: "Course Blueprint", description: "Obstacle layout PDF", action: "download" },
+      {
+        icon: "smart_toy",
+        title: "Arduino Starter Pack",
+        description: "Hardware component list",
+        action: "download",
+      },
+      {
+        icon: "api",
+        title: "Simulation API",
+        description: "Virtual robot test environment",
+        action: "link",
+      },
+      {
+        icon: "school",
+        title: "Mentor Sessions",
+        description: "Booking link for guidance",
+        action: "view",
+      },
+      {
+        icon: "map",
+        title: "Course Blueprint",
+        description: "Obstacle layout PDF",
+        action: "download",
+      },
     ],
-    quote: '"The best engineers don\'t just solve problems — they race to be first." — Academy Coach',
+    quote:
+      '"The best engineers don\'t just solve problems — they race to be first." — Academy Coach',
     bgImage: "linear-gradient(135deg, #0d1e2e 0%, #102022 60%, #13daec10 100%)",
   },
 };
 
 const FALLBACK_CHALLENGE = CHALLENGE_DATA["eco-hack-2024"];
 
-function CountdownUnit({ value, label, highlight = false }: { value: number; label: string; highlight?: boolean }) {
+function CountdownUnit({
+  value,
+  label,
+  highlight = false,
+}: {
+  value: number;
+  label: string;
+  highlight?: boolean;
+}) {
   return (
     <div className="flex flex-col items-center">
       <div
         className={`flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-xl backdrop-blur-md border ${
-          highlight
-            ? "bg-rose-500/20 border-rose-500/40"
-            : "bg-[#102022]/80 border-[#13daec]/20"
+          highlight ? "bg-rose-500/20 border-rose-500/40" : "bg-[#102022]/80 border-[#13daec]/20"
         }`}
       >
-        <p className={`text-2xl sm:text-3xl font-black tabular-nums ${highlight ? "text-rose-400" : "text-[#13daec]"}`}>
+        <p
+          className={`text-2xl sm:text-3xl font-black tabular-nums ${highlight ? "text-rose-400" : "text-[#13daec]"}`}
+        >
           {String(value).padStart(2, "0")}
         </p>
       </div>
@@ -214,18 +266,19 @@ export default function ChallengeBriefPage() {
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 pb-48">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-slate-500 mb-6">
-          <Link href="/challenges" className="hover:text-[#13daec] transition-colors">Challenges</Link>
+          <Link href="/challenges" className="hover:text-[#13daec] transition-colors">
+            Challenges
+          </Link>
           <span className="material-symbols-outlined text-xs">chevron_right</span>
-          <span className="text-slate-100 font-medium">{challenge.title} {challenge.subtitle}</span>
+          <span className="text-slate-100 font-medium">
+            {challenge.title} {challenge.subtitle}
+          </span>
         </nav>
 
         {/* ── Hero Banner ── */}
         <div className="relative w-full rounded-2xl overflow-hidden mb-8 group">
           {/* Background */}
-          <div
-            className="absolute inset-0"
-            style={{ background: challenge.bgImage }}
-          />
+          <div className="absolute inset-0" style={{ background: challenge.bgImage }} />
           {/* Grid overlay */}
           <div
             className="absolute inset-0 opacity-10"
@@ -263,7 +316,11 @@ export default function ChallengeBriefPage() {
 
                 {/* Meta tags */}
                 <div className="flex flex-wrap items-center gap-3 mt-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${challenge.categoryColor}`}>{challenge.category}</span>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-bold ${challenge.categoryColor}`}
+                  >
+                    {challenge.category}
+                  </span>
                   <span className="flex items-center gap-1 text-slate-400 text-xs">
                     <span className="material-symbols-outlined text-sm">emoji_events</span>
                     Prize: <span className="text-[#13daec] font-bold ml-1">{challenge.prize}</span>
@@ -287,7 +344,6 @@ export default function ChallengeBriefPage() {
 
         {/* ── 3-Column Content Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-
           {/* Column 1: The Prompt */}
           <section className="flex flex-col gap-5 bg-[#1a2e30]/50 p-6 rounded-2xl border border-[#2d4548]">
             <div className="flex items-center gap-3">
@@ -310,7 +366,9 @@ export default function ChallengeBriefPage() {
               </div>
 
               <div className="p-4 bg-[#13daec]/10 rounded-xl border border-[#13daec]/20">
-                <p className="text-[#13daec] text-xs font-bold mb-1 uppercase tracking-wider">Tech Focus</p>
+                <p className="text-[#13daec] text-xs font-bold mb-1 uppercase tracking-wider">
+                  Tech Focus
+                </p>
                 <p className="text-slate-200 text-sm">{challenge.prompt.techFocus}</p>
               </div>
             </div>
@@ -328,11 +386,15 @@ export default function ChallengeBriefPage() {
             <div className="space-y-6">
               {/* Constraints */}
               <div>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Constraints</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">
+                  Constraints
+                </p>
                 <ul className="space-y-3">
                   {challenge.rules.constraints.map((c) => (
                     <li key={c} className="flex items-start gap-2 text-sm text-slate-400">
-                      <span className="material-symbols-outlined text-rose-400 text-[18px] mt-0.5">check_circle</span>
+                      <span className="material-symbols-outlined text-rose-400 text-[18px] mt-0.5">
+                        check_circle
+                      </span>
                       {c}
                     </li>
                   ))}
@@ -341,7 +403,9 @@ export default function ChallengeBriefPage() {
 
               {/* Rubric */}
               <div className="pt-4 border-t border-[#2d4548]">
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Rubric Breakdown</p>
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
+                  Rubric Breakdown
+                </p>
                 <div className="space-y-4">
                   {challenge.rules.rubric.map(({ label, pct }) => (
                     <div key={label}>
@@ -362,8 +426,12 @@ export default function ChallengeBriefPage() {
 
               {/* Judging note */}
               <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 flex items-start gap-2">
-                <span className="material-symbols-outlined text-amber-400 text-base mt-0.5">info</span>
-                <p className="text-xs text-slate-400">Judging takes place 48 hours after submission close. Results announced live.</p>
+                <span className="material-symbols-outlined text-amber-400 text-base mt-0.5">
+                  info
+                </span>
+                <p className="text-xs text-slate-400">
+                  Judging takes place 48 hours after submission close. Results announced live.
+                </p>
               </div>
             </div>
           </section>
@@ -386,7 +454,9 @@ export default function ChallengeBriefPage() {
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-9 rounded-lg bg-[#13daec]/10 flex items-center justify-center shrink-0">
-                      <span className="material-symbols-outlined text-[#13daec] text-lg">{res.icon}</span>
+                      <span className="material-symbols-outlined text-[#13daec] text-lg">
+                        {res.icon}
+                      </span>
                     </div>
                     <div>
                       <p className="text-sm font-bold text-slate-100">{res.title}</p>
@@ -415,10 +485,30 @@ export default function ChallengeBriefPage() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
             {[
-              { icon: "event_available", label: "Registration Opens", date: "Jan 20, 2024", status: "done" },
-              { icon: "rocket_launch", label: "Challenge Starts", date: "Feb 2, 2024", status: "active" },
-              { icon: "upload_file", label: "Submission Deadline", date: "Feb 4, 2024 11:59 PM", status: "upcoming" },
-              { icon: "workspace_premium", label: "Results Announced", date: "Feb 7, 2024", status: "upcoming" },
+              {
+                icon: "event_available",
+                label: "Registration Opens",
+                date: "Jan 20, 2024",
+                status: "done",
+              },
+              {
+                icon: "rocket_launch",
+                label: "Challenge Starts",
+                date: "Feb 2, 2024",
+                status: "active",
+              },
+              {
+                icon: "upload_file",
+                label: "Submission Deadline",
+                date: "Feb 4, 2024 11:59 PM",
+                status: "upcoming",
+              },
+              {
+                icon: "workspace_premium",
+                label: "Results Announced",
+                date: "Feb 7, 2024",
+                status: "upcoming",
+              },
             ].map(({ icon, label, date, status }) => (
               <div key={label} className="flex flex-col items-center text-center gap-2">
                 <div
@@ -426,19 +516,25 @@ export default function ChallengeBriefPage() {
                     status === "done"
                       ? "bg-emerald-500/10 border-emerald-500/30"
                       : status === "active"
-                      ? "bg-[#13daec]/10 border-[#13daec]/40 shadow-[0_0_12px_rgba(19,218,236,0.2)]"
-                      : "bg-[#102022] border-[#2d4548]"
+                        ? "bg-[#13daec]/10 border-[#13daec]/40 shadow-[0_0_12px_rgba(19,218,236,0.2)]"
+                        : "bg-[#102022] border-[#2d4548]"
                   }`}
                 >
                   <span
                     className={`material-symbols-outlined text-xl ${
-                      status === "done" ? "text-emerald-400" : status === "active" ? "text-[#13daec]" : "text-slate-600"
+                      status === "done"
+                        ? "text-emerald-400"
+                        : status === "active"
+                          ? "text-[#13daec]"
+                          : "text-slate-600"
                     }`}
                   >
                     {icon}
                   </span>
                 </div>
-                <p className={`text-xs font-bold ${status === "active" ? "text-[#13daec]" : status === "done" ? "text-emerald-400" : "text-slate-500"}`}>
+                <p
+                  className={`text-xs font-bold ${status === "active" ? "text-[#13daec]" : status === "done" ? "text-emerald-400" : "text-slate-500"}`}
+                >
                   {label}
                 </p>
                 <p className="text-[10px] text-slate-600">{date}</p>
@@ -455,10 +551,22 @@ export default function ChallengeBriefPage() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
-              { q: "Can students from multiple schools team up?", a: "No. All team members must be enrolled at the same registered school to compete." },
-              { q: "Is there a maximum number of teams per school?", a: "Each school may register up to 5 teams per challenge to keep competition fair." },
-              { q: "What happens if our submission is late?", a: "Late submissions are auto-rejected. The platform locks at the deadline timestamp." },
-              { q: "Do we own the IP of our project?", a: "Yes — all intellectual property belongs to the student creators. STEM Academy only requests a right to showcase winning projects." },
+              {
+                q: "Can students from multiple schools team up?",
+                a: "No. All team members must be enrolled at the same registered school to compete.",
+              },
+              {
+                q: "Is there a maximum number of teams per school?",
+                a: "Each school may register up to 5 teams per challenge to keep competition fair.",
+              },
+              {
+                q: "What happens if our submission is late?",
+                a: "Late submissions are auto-rejected. The platform locks at the deadline timestamp.",
+              },
+              {
+                q: "Do we own the IP of our project?",
+                a: "Yes — all intellectual property belongs to the student creators. STEM Academy only requests a right to showcase winning projects.",
+              },
             ].map(({ q, a }) => (
               <div key={q} className="p-4 rounded-xl bg-[#102022]/60 border border-[#2d4548]">
                 <p className="text-sm font-bold text-slate-200 mb-1.5">{q}</p>
@@ -479,8 +587,12 @@ export default function ChallengeBriefPage() {
             <span className="material-symbols-outlined text-[#13daec] text-lg">bolt</span>
           </div>
           <div>
-            <p className="text-xs font-bold text-white">{challenge.title} {challenge.subtitle}</p>
-            <p className="text-[10px] text-slate-500">Prize pool: <span className="text-[#13daec] font-bold">{challenge.prize}</span></p>
+            <p className="text-xs font-bold text-white">
+              {challenge.title} {challenge.subtitle}
+            </p>
+            <p className="text-[10px] text-slate-500">
+              Prize pool: <span className="text-[#13daec] font-bold">{challenge.prize}</span>
+            </p>
           </div>
         </div>
 

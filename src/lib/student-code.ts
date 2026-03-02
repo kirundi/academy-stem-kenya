@@ -14,17 +14,10 @@ export function generateStudentCode(): string {
   return code;
 }
 
-export async function generateUniqueStudentCode(
-  db: Firestore,
-  maxAttempts = 5,
-): Promise<string> {
+export async function generateUniqueStudentCode(db: Firestore, maxAttempts = 5): Promise<string> {
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     const code = generateStudentCode();
-    const existing = await db
-      .collection("users")
-      .where("studentCode", "==", code)
-      .limit(1)
-      .get();
+    const existing = await db.collection("users").where("studentCode", "==", code).limit(1).get();
     if (existing.empty) {
       return code;
     }

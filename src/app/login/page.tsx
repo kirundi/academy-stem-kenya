@@ -41,7 +41,7 @@ function friendlyFirebaseError(err: unknown): string {
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { signIn, studentVerify, studentLogin } = useAuth();
+  const { signIn, studentVerify, studentLogin, signOut } = useAuth();
   const { appUser, loading: authLoading } = useAuthContext();
 
   // Login mode driven by URL — survives redirects and page reloads
@@ -66,8 +66,10 @@ function LoginContent() {
   // Redirect already-authenticated users to their dashboard.
   // This only runs on initial page load when a session cookie already exists.
   // Post-login redirects are handled directly in the submit handlers below.
+  // The `error` guard prevents a redirect when signIn() failed — client-side
+  // Firebase auth may be set but there is no valid server session cookie yet.
   useEffect(() => {
-    if (authLoading || loading || redirected.current) return;
+    if (authLoading || loading || redirected.current || error) return;
     if (!appUser?.role) return;
 
     const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
@@ -75,7 +77,7 @@ function LoginContent() {
 
     redirected.current = true;
     router.replace(dest);
-  }, [appUser, authLoading, loading, router]);
+  }, [appUser, authLoading, error, loading, router]);
 
   const codeStr = classCode.join("");
   const codeComplete = codeStr.length === 6;
@@ -99,7 +101,11 @@ function LoginContent() {
 
   const handleCodePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
-    const pasted = e.clipboardData.getData("text").replace(/[^A-Za-z0-9]/g, "").toUpperCase().slice(0, 6);
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/[^A-Za-z0-9]/g, "")
+      .toUpperCase()
+      .slice(0, 6);
     if (!pasted) return;
     const next = ["", "", "", "", "", ""];
     for (let i = 0; i < pasted.length && i < 6; i++) {
@@ -169,6 +175,10 @@ function LoginContent() {
 
       router.push(dest);
     } catch (err: unknown) {
+      // If session cookie creation failed, signInWithEmailAndPassword may have
+      // already set client-side Firebase auth state. Sign out here so the
+      // auto-redirect useEffect doesn't loop to /dashboard with no session cookie.
+      try { await signOut(); } catch { /* ignore */ }
       setError(friendlyFirebaseError(err));
     } finally {
       setLoading(false);
@@ -192,16 +202,25 @@ function LoginContent() {
 
       {/* Decorative borders */}
       <div className="absolute top-20 left-10 w-32 h-32 border-2 border-[rgba(19,236,164,0.2)] rounded-xl rotate-12 hidden lg:block animate-float" />
-      <div className="absolute bottom-20 right-10 w-48 h-48 border-2 border-[rgba(255,77,77,0.15)] rounded-full hidden lg:block animate-float" style={{ animationDelay: "1.5s" }} />
+      <div
+        className="absolute bottom-20 right-10 w-48 h-48 border-2 border-[rgba(255,77,77,0.15)] rounded-full hidden lg:block animate-float"
+        style={{ animationDelay: "1.5s" }}
+      />
 
       {/* Navbar */}
       <header className="flex items-center justify-between px-6 md:px-20 py-4 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
         <StemLogo />
         <div className="flex items-center gap-6">
-          <Link href="/#curriculum" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
+          <Link
+            href="/#curriculum"
+            className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors"
+          >
             Courses
           </Link>
-          <Link href="/help" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
+          <Link
+            href="/help"
+            className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors"
+          >
             Help Center
           </Link>
           <Link
@@ -253,7 +272,9 @@ function LoginContent() {
                   {classCode.map((val, i) => (
                     <span key={i} className="flex items-center">
                       {i === 3 && (
-                        <span className="text-slate-500 font-bold mr-2 md:mr-3 text-xl select-none">—</span>
+                        <span className="text-slate-500 font-bold mr-2 md:mr-3 text-xl select-none">
+                          —
+                        </span>
                       )}
                       <input
                         id={`code-${i}`}
@@ -282,7 +303,10 @@ function LoginContent() {
                   <input
                     type="text"
                     value={firstName}
-                    onChange={(e) => { setFirstName(e.target.value); if (verifiedStudent) setVerifiedStudent(null); }}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                      if (verifiedStudent) setVerifiedStudent(null);
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         if (verifiedStudent) handleStudentLogin();
@@ -305,20 +329,33 @@ function LoginContent() {
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
                         <span className="text-[#13eca4] text-sm font-bold">
-                          {verifiedStudent.displayName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2)}
+                          {verifiedStudent.displayName
+                            .split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                            .toUpperCase()
+                            .slice(0, 2)}
                         </span>
                       </div>
                       <div className="flex-1">
-                        <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">Welcome back!</p>
-                        <p className="text-white font-bold text-lg">{verifiedStudent.displayName}</p>
+                        <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">
+                          Welcome back!
+                        </p>
+                        <p className="text-white font-bold text-lg">
+                          {verifiedStudent.displayName}
+                        </p>
                         <div className="flex items-center gap-2 mt-1">
                           {verifiedStudent.grade && (
                             <>
-                              <span className="text-slate-400 text-xs">{verifiedStudent.grade}</span>
+                              <span className="text-slate-400 text-xs">
+                                {verifiedStudent.grade}
+                              </span>
                               <span className="text-slate-600 text-xs">·</span>
                             </>
                           )}
-                          <span className="text-slate-500 text-xs">{verifiedStudent.schoolName}</span>
+                          <span className="text-slate-500 text-xs">
+                            {verifiedStudent.schoolName}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -333,7 +370,9 @@ function LoginContent() {
                     className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
                   >
                     {loading ? (
-                      <span className="material-symbols-outlined animate-spin text-[#10221c]">progress_activity</span>
+                      <span className="material-symbols-outlined animate-spin text-[#10221c]">
+                        progress_activity
+                      </span>
                     ) : (
                       <>
                         <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
@@ -352,7 +391,9 @@ function LoginContent() {
                     }`}
                   >
                     {verifying ? (
-                      <span className="material-symbols-outlined animate-spin text-[#10221c]">progress_activity</span>
+                      <span className="material-symbols-outlined animate-spin text-[#10221c]">
+                        progress_activity
+                      </span>
                     ) : (
                       <>
                         <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
@@ -379,7 +420,9 @@ function LoginContent() {
               {/* Email Login */}
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">Email Address</label>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                    Email Address
+                  </label>
                   <input
                     type="email"
                     value={email}
@@ -390,7 +433,9 @@ function LoginContent() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">Password</label>
+                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                    Password
+                  </label>
                   <input
                     type="password"
                     value={password}
@@ -412,7 +457,9 @@ function LoginContent() {
                     className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
                   >
                     {loading ? (
-                      <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                      <span className="material-symbols-outlined animate-spin">
+                        progress_activity
+                      </span>
                     ) : (
                       "Sign In"
                     )}
@@ -434,9 +481,15 @@ function LoginContent() {
 
         {/* Footer links */}
         <div className="mt-10 flex gap-8 text-slate-500 text-sm font-medium">
-          <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact Support</Link>
+          <Link href="/privacy" className="hover:text-slate-300 transition-colors">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-slate-300 transition-colors">
+            Terms of Service
+          </Link>
+          <Link href="/contact" className="hover:text-slate-300 transition-colors">
+            Contact Support
+          </Link>
         </div>
       </main>
     </div>

@@ -24,9 +24,7 @@ export default function StemLogo({ size = "md", href = "/", variant = "dark" }: 
         token
       </span>
       <span className={`${s.text} font-bold tracking-tight leading-none uppercase italic`}>
-        <span className={variant === "dark" ? "text-white" : "text-slate-900"}>
-          STEM Impact{" "}
-        </span>
+        <span className={variant === "dark" ? "text-white" : "text-slate-900"}>STEM Impact </span>
         <span className="text-[#ff4d4d]">Academy</span>
       </span>
     </div>

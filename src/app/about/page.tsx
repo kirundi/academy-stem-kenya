@@ -14,7 +14,8 @@ export default function AboutPage() {
               About <span className="text-[#13eca4]">STEM Impact</span> Academy
             </h1>
             <p className="max-w-2xl mx-auto text-lg text-slate-400">
-              We are on a mission to empower the next generation of African innovators through accessible, project-based STEM education that delivers measurable real-world results.
+              We are on a mission to empower the next generation of African innovators through
+              accessible, project-based STEM education that delivers measurable real-world results.
             </p>
           </div>
         </section>
@@ -28,16 +29,23 @@ export default function AboutPage() {
               </div>
               <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
               <p className="text-slate-400 leading-relaxed">
-                To provide schools across Kenya and beyond with a comprehensive, project-based STEM learning platform that equips students with critical 21st-century skills while empowering educators with the tools they need to deliver transformative learning experiences.
+                To provide schools across Kenya and beyond with a comprehensive, project-based STEM
+                learning platform that equips students with critical 21st-century skills while
+                empowering educators with the tools they need to deliver transformative learning
+                experiences.
               </p>
             </div>
             <div className="rounded-xl bg-[#1a2e27] p-8 border border-[rgba(255,255,255,0.06)]">
               <div className="w-12 h-12 rounded-xl bg-[rgba(255,77,77,0.1)] flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-[#ff4d4d] text-2xl">visibility</span>
+                <span className="material-symbols-outlined text-[#ff4d4d] text-2xl">
+                  visibility
+                </span>
               </div>
               <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
               <p className="text-slate-400 leading-relaxed">
-                A world where every student, regardless of their background, has access to high-quality STEM education that inspires innovation, builds practical skills, and creates measurable impact in their communities.
+                A world where every student, regardless of their background, has access to
+                high-quality STEM education that inspires innovation, builds practical skills, and
+                creates measurable impact in their communities.
               </p>
             </div>
           </div>
@@ -68,7 +76,8 @@ export default function AboutPage() {
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-black mb-6">Join Our Mission</h2>
             <p className="text-slate-400 mb-10">
-              Whether you are a school administrator, educator, or partner organization, there is a place for you in the STEM Impact community.
+              Whether you are a school administrator, educator, or partner organization, there is a
+              place for you in the STEM Impact community.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
@@ -89,7 +98,9 @@ export default function AboutPage() {
       </main>
 
       <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center">
-        <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.</p>
+        <p className="text-xs text-slate-600">
+          &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
+        </p>
       </footer>
     </div>
   );

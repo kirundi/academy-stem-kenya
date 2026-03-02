@@ -5,11 +5,7 @@ import { useRouter } from "next/navigation";
 import StudentSidebar from "@/components/StudentSidebar";
 import { useAuthContext } from "@/contexts/AuthContext";
 
-export default function StudentLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function StudentLayout({ children }: { children: React.ReactNode }) {
   const { appUser, loading, role } = useAuthContext();
   const router = useRouter();
 
@@ -32,7 +28,9 @@ export default function StudentLayout({
   if (!appUser || role !== "student") {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#10221c]">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -40,9 +38,7 @@ export default function StudentLayout({
   return (
     <div className="flex min-h-screen bg-[#10221c]">
       <StudentSidebar />
-      <div className="flex-1 ml-60 flex flex-col min-h-screen">
-        {children}
-      </div>
+      <div className="flex-1 ml-60 flex flex-col min-h-screen">{children}</div>
     </div>
   );
 }

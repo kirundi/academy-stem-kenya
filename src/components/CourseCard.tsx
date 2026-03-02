@@ -53,24 +53,33 @@ export default function CourseCard({
   const completedColor = "#00f5d4";
 
   return (
-    <div className={`group bg-[#1a2e27] border rounded-2xl overflow-hidden transition-all duration-300 flex flex-col relative ${
-      locked
-        ? "border-[rgba(255,255,255,0.06)] opacity-75 hover:opacity-100"
-        : completed
-        ? "border-[rgba(0,245,212,0.2)] hover:border-[rgba(0,245,212,0.4)] hover:shadow-xl hover:shadow-[rgba(0,245,212,0.06)]"
-        : "border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.3)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.06)]"
-    }`}>
+    <div
+      className={`group bg-[#1a2e27] border rounded-2xl overflow-hidden transition-all duration-300 flex flex-col relative ${
+        locked
+          ? "border-[rgba(255,255,255,0.06)] opacity-75 hover:opacity-100"
+          : completed
+            ? "border-[rgba(0,245,212,0.2)] hover:border-[rgba(0,245,212,0.4)] hover:shadow-xl hover:shadow-[rgba(0,245,212,0.06)]"
+            : "border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.3)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.06)]"
+      }`}
+    >
       {/* Completed / Locked overlay badge */}
       {completed && (
         <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 bg-[#00f5d4] text-[#0a1a18] text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wide">
-          <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+          <span
+            className="material-symbols-outlined text-[12px]"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            check_circle
+          </span>
           Completed
         </div>
       )}
       {locked && (
         <div className="absolute inset-0 flex items-center justify-center z-10 bg-[#0d1f1a]/60 rounded-2xl">
           <div className="text-center">
-            <span className="material-symbols-outlined text-slate-500 text-[40px] block mb-2">lock</span>
+            <span className="material-symbols-outlined text-slate-500 text-[40px] block mb-2">
+              lock
+            </span>
             <p className="text-slate-500 text-xs font-semibold">Complete Prerequisites</p>
           </div>
         </div>
@@ -79,24 +88,49 @@ export default function CourseCard({
       {/* Image */}
       <div className="relative h-44 overflow-hidden bg-[#0d1f1a]">
         {image ? (
-          <Image src={image} alt={title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+          />
         ) : (
-          <div className="w-full h-full flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${color}20, ${color}08)` }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 56, color: `${color}60` }}>auto_stories</span>
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ background: `linear-gradient(135deg, ${color}20, ${color}08)` }}
+          >
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: 56, color: `${color}60` }}
+            >
+              auto_stories
+            </span>
           </div>
         )}
         {completed && (
-          <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${completedColor}15, transparent)` }} />
+          <div
+            className="absolute inset-0"
+            style={{ background: `linear-gradient(135deg, ${completedColor}15, transparent)` }}
+          />
         )}
         <div className="absolute inset-0 bg-linear-to-t from-[#0d1f1a]/80 to-transparent" />
-        <span className="absolute bottom-3 left-3 text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider text-white" style={{ background: completed ? completedColor : color, color: completed ? "#0a1a18" : "white" }}>
+        <span
+          className="absolute bottom-3 left-3 text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider text-white"
+          style={{
+            background: completed ? completedColor : color,
+            color: completed ? "#0a1a18" : "white",
+          }}
+        >
           {category}
         </span>
         <span className="absolute top-3 right-3 text-xs font-semibold px-2 py-0.5 rounded bg-black/60 text-slate-300">
           {difficulty}
         </span>
         {completed && grade && (
-          <span className="absolute bottom-3 right-3 text-base font-black px-2 py-0.5 rounded" style={{ color: completedColor, background: "rgba(0,0,0,0.5)" }}>
+          <span
+            className="absolute bottom-3 right-3 text-base font-black px-2 py-0.5 rounded"
+            style={{ color: completedColor, background: "rgba(0,0,0,0.5)" }}
+          >
             {grade}
           </span>
         )}
@@ -104,7 +138,9 @@ export default function CourseCard({
 
       {/* Content */}
       <div className="p-5 flex-1 flex flex-col">
-        <h3 className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-white group-hover:text-[#13eca4]"}`}>
+        <h3
+          className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-white group-hover:text-[#13eca4]"}`}
+        >
           {title}
         </h3>
         <p className="text-slate-400 text-sm leading-relaxed mb-5 flex-1">{description}</p>
@@ -117,36 +153,63 @@ export default function CourseCard({
                 ? `${completedLessons}/${totalLessons} lessons`
                 : "Progress"}
             </span>
-            <span className="text-xs font-bold" style={{ color: completed ? completedColor : progress > 0 ? "#13eca4" : "#64748b" }}>
+            <span
+              className="text-xs font-bold"
+              style={{ color: completed ? completedColor : progress > 0 ? "#13eca4" : "#64748b" }}
+            >
               {progress}%
             </span>
           </div>
           <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-            <div className="h-full rounded-full transition-all duration-700" style={{
-              width: `${progress}%`,
-              background: completed
-                ? `linear-gradient(90deg, ${completedColor}, #13eca4)`
-                : `linear-gradient(90deg, #13eca4, #0dd494)`,
-            }} />
+            <div
+              className="h-full rounded-full transition-all duration-700"
+              style={{
+                width: `${progress}%`,
+                background: completed
+                  ? `linear-gradient(90deg, ${completedColor}, #13eca4)`
+                  : `linear-gradient(90deg, #13eca4, #0dd494)`,
+              }}
+            />
           </div>
         </div>
 
         {locked ? (
-          <button disabled className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[rgba(255,255,255,0.05)] text-slate-600 font-bold rounded-xl text-sm cursor-not-allowed">
+          <button
+            disabled
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[rgba(255,255,255,0.05)] text-slate-600 font-bold rounded-xl text-sm cursor-not-allowed"
+          >
             <span className="material-symbols-outlined text-[18px]">lock</span>
             Complete Prerequisites
           </button>
         ) : completed ? (
-          <Link href={linkHref} className="w-full flex items-center justify-center gap-2 py-3 px-4 font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg" style={{ background: completedColor, color: "#0a1a18", boxShadow: `0 4px 15px ${completedColor}30` }}>
-            <span className="material-symbols-outlined text-[18px]" style={{ fontVariationSettings: "'FILL' 1" }}>visibility</span>
+          <Link
+            href={linkHref}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg"
+            style={{
+              background: completedColor,
+              color: "#0a1a18",
+              boxShadow: `0 4px 15px ${completedColor}30`,
+            }}
+          >
+            <span
+              className="material-symbols-outlined text-[18px]"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              visibility
+            </span>
             Review Project
           </Link>
         ) : (
-          <Link href={linkHref} className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#13eca4] text-[#10221c] font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] group/btn">
+          <Link
+            href={linkHref}
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#13eca4] text-[#10221c] font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] group/btn"
+          >
             {progress > 0 ? (
               <>
                 Continue Learning
-                <span className="material-symbols-outlined text-[18px] group-hover/btn:translate-x-1 transition-transform">arrow_forward</span>
+                <span className="material-symbols-outlined text-[18px] group-hover/btn:translate-x-1 transition-transform">
+                  arrow_forward
+                </span>
               </>
             ) : (
               <>

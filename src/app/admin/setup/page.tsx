@@ -6,8 +6,12 @@ import StemLogo from "@/components/StemLogo";
 
 export default function AdminSetupPage() {
   const router = useRouter();
-  const [status, setStatus] = useState<"checking" | "ready" | "loading" | "done" | "already_initialized">("checking");
-  const [credentials, setCredentials] = useState<{ email: string; tempPassword: string } | null>(null);
+  const [status, setStatus] = useState<
+    "checking" | "ready" | "loading" | "done" | "already_initialized"
+  >("checking");
+  const [credentials, setCredentials] = useState<{ email: string; tempPassword: string } | null>(
+    null
+  );
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -50,7 +54,9 @@ export default function AdminSetupPage() {
         <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-8">
           {status === "checking" && (
             <div className="text-center py-8">
-              <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+              <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+                progress_activity
+              </span>
               <p className="text-slate-400 text-sm mt-4">Checking platform status...</p>
             </div>
           )}
@@ -58,7 +64,9 @@ export default function AdminSetupPage() {
           {status === "already_initialized" && (
             <div className="text-center py-8">
               <div className="w-16 h-16 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-3xl text-[#13eca4]">check_circle</span>
+                <span className="material-symbols-outlined text-3xl text-[#13eca4]">
+                  check_circle
+                </span>
               </div>
               <h2 className="text-white font-bold text-lg">Platform Already Initialized</h2>
               <p className="text-slate-400 text-sm mt-2">A global admin account already exists.</p>
@@ -74,13 +82,17 @@ export default function AdminSetupPage() {
           {status === "ready" && (
             <div className="text-center py-4">
               <div className="w-16 h-16 rounded-full bg-[rgba(255,77,77,0.1)] flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-3xl text-[#ff4d4d]">admin_panel_settings</span>
+                <span className="material-symbols-outlined text-3xl text-[#ff4d4d]">
+                  admin_panel_settings
+                </span>
               </div>
               <h2 className="text-white font-bold text-lg">Initialize Super Admin</h2>
               <p className="text-slate-400 text-sm mt-2 mb-1">
                 This will create the global super admin account for:
               </p>
-              <p className="text-[#13eca4] font-mono text-sm font-bold">magu@stemimpactcenterkenya.org</p>
+              <p className="text-[#13eca4] font-mono text-sm font-bold">
+                magu@stemimpactcenterkenya.org
+              </p>
 
               {error && (
                 <div className="mt-4 bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-4 py-3">
@@ -99,7 +111,9 @@ export default function AdminSetupPage() {
 
           {status === "loading" && (
             <div className="text-center py-8">
-              <span className="material-symbols-outlined animate-spin text-4xl text-[#ff4d4d]">progress_activity</span>
+              <span className="material-symbols-outlined animate-spin text-4xl text-[#ff4d4d]">
+                progress_activity
+              </span>
               <p className="text-slate-400 text-sm mt-4">Creating super admin account...</p>
             </div>
           )}
@@ -108,21 +122,31 @@ export default function AdminSetupPage() {
             <div className="py-4">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-3xl text-[#13eca4]">verified</span>
+                  <span className="material-symbols-outlined text-3xl text-[#13eca4]">
+                    verified
+                  </span>
                 </div>
                 <h2 className="text-white font-bold text-lg">Super Admin Created</h2>
-                <p className="text-slate-400 text-sm mt-2">Save these credentials securely. The password cannot be retrieved again.</p>
+                <p className="text-slate-400 text-sm mt-2">
+                  Save these credentials securely. The password cannot be retrieved again.
+                </p>
               </div>
 
               <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-xl p-5 space-y-4">
                 <div>
-                  <label className="text-slate-500 text-xs uppercase tracking-wider font-medium">Email</label>
+                  <label className="text-slate-500 text-xs uppercase tracking-wider font-medium">
+                    Email
+                  </label>
                   <p className="text-white font-mono text-sm mt-1">{credentials.email}</p>
                 </div>
                 <div>
-                  <label className="text-slate-500 text-xs uppercase tracking-wider font-medium">Temporary Password</label>
+                  <label className="text-slate-500 text-xs uppercase tracking-wider font-medium">
+                    Temporary Password
+                  </label>
                   <div className="flex items-center gap-2 mt-1">
-                    <p className="text-[#13eca4] font-mono text-lg font-bold tracking-wider">{credentials.tempPassword}</p>
+                    <p className="text-[#13eca4] font-mono text-lg font-bold tracking-wider">
+                      {credentials.tempPassword}
+                    </p>
                     <button
                       onClick={() => navigator.clipboard.writeText(credentials.tempPassword)}
                       className="p-1.5 hover:bg-[rgba(19,236,164,0.08)] rounded-lg text-slate-400 hover:text-[#13eca4] transition-colors"
@@ -136,7 +160,8 @@ export default function AdminSetupPage() {
 
               <div className="mt-4 bg-[rgba(255,191,0,0.06)] border border-[rgba(255,191,0,0.15)] rounded-lg px-4 py-3">
                 <p className="text-amber-400 text-xs font-medium">
-                  Please change this password after your first login via Firebase Console &gt; Authentication.
+                  Please change this password after your first login via Firebase Console &gt;
+                  Authentication.
                 </p>
               </div>
 
@@ -150,9 +175,7 @@ export default function AdminSetupPage() {
           )}
         </div>
 
-        <p className="text-center text-slate-600 text-xs mt-6">
-          academy.stemimpactcenterkenya.org
-        </p>
+        <p className="text-center text-slate-600 text-xs mt-6">academy.stemimpactcenterkenya.org</p>
       </div>
     </div>
   );

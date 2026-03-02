@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   if (!code || typeof code !== "string" || code.length !== 6) {
     return NextResponse.json(
       { error: "A valid 6-character student code is required" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   if (snap.empty) {
     return NextResponse.json(
       { error: "No student found with this code. Check with your teacher." },
-      { status: 404 },
+      { status: 404 }
     );
   }
 
@@ -35,10 +35,7 @@ export async function POST(request: NextRequest) {
   // Fetch school name for display
   let schoolName = "School";
   if (studentData.schoolId) {
-    const schoolDoc = await adminDb
-      .collection("schools")
-      .doc(studentData.schoolId)
-      .get();
+    const schoolDoc = await adminDb.collection("schools").doc(studentData.schoolId).get();
     if (schoolDoc.exists) {
       schoolName = schoolDoc.data()?.name || "School";
     }
@@ -53,15 +50,12 @@ export async function POST(request: NextRequest) {
   // Step 1: verify code + firstName → return student profile (no auth token)
   if (!confirm) {
     if (!nameProvided) {
-      return NextResponse.json(
-        { error: "First name is required." },
-        { status: 400 },
-      );
+      return NextResponse.json({ error: "First name is required." }, { status: 400 });
     }
     if (!nameMatches) {
       return NextResponse.json(
         { error: "That name doesn't match this code. Try again or ask your teacher." },
-        { status: 403 },
+        { status: 403 }
       );
     }
     return NextResponse.json({
@@ -76,20 +70,20 @@ export async function POST(request: NextRequest) {
 
   // Step 2: verify first name and generate custom token
   if (!nameProvided) {
-    return NextResponse.json(
-      { error: "First name is required to log in." },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "First name is required to log in." }, { status: 400 });
   }
 
   if (!nameMatches) {
     return NextResponse.json(
       { error: "That name doesn't match this code. Try again or ask your teacher." },
-      { status: 403 },
+      { status: 403 }
     );
   }
 
   try {
+    // Note: The `requiresPasswordChange` flag is intentionally not checked here.
+    // Student accounts are passwordless (they use codes + names to log in),
+    // so the password change flow is not applicable to them.
     const customToken = await adminAuth.createCustomToken(uid);
 
     return NextResponse.json({
@@ -105,7 +99,7 @@ export async function POST(request: NextRequest) {
     console.error("Error creating custom token:", err);
     return NextResponse.json(
       { error: "Failed to authenticate. Please try again." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

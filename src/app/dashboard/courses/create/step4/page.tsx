@@ -12,21 +12,38 @@ import { db } from "@/lib/firebase";
 import type { Course, Classroom } from "@/lib/types";
 
 const checklistItemsDef = [
-  { label: "Step instructions completed",      detail: "All modules have detailed text content.",                              defaultChecked: true  },
-  { label: "Media assets uploaded",            detail: "Images and videos attached.",                                          defaultChecked: true  },
-  { label: "Interactive tasks configured",     detail: "Tasks and activities configured and validated.",                        defaultChecked: false },
-  { label: "Course badge assigned",            detail: "Completion badge selected.",                                           defaultChecked: true, badge: "military_tech" },
+  {
+    label: "Step instructions completed",
+    detail: "All modules have detailed text content.",
+    defaultChecked: true,
+  },
+  { label: "Media assets uploaded", detail: "Images and videos attached.", defaultChecked: true },
+  {
+    label: "Interactive tasks configured",
+    detail: "Tasks and activities configured and validated.",
+    defaultChecked: false,
+  },
+  {
+    label: "Course badge assigned",
+    detail: "Completion badge selected.",
+    defaultChecked: true,
+    badge: "military_tech",
+  },
 ];
 
 const metadata = [
-  { label: "Target Age",      key: "targetGrade" },
-  { label: "Estimated Time",  key: "estimatedDuration" },
-  { label: "Subject Area",    key: "category" },
-  { label: "Language",        value: "English (Global)" },
+  { label: "Target Age", key: "targetGrade" },
+  { label: "Estimated Time", key: "estimatedDuration" },
+  { label: "Subject Area", key: "category" },
+  { label: "Language", value: "English (Global)" },
 ];
 
 export default function CourseCreatorStep4Page() {
-  return <Suspense><CourseCreatorStep4 /></Suspense>;
+  return (
+    <Suspense>
+      <CourseCreatorStep4 />
+    </Suspense>
+  );
 }
 
 function CourseCreatorStep4() {
@@ -39,7 +56,8 @@ function CourseCreatorStep4() {
   const { update, loading: updating } = useUpdateDoc("courses");
 
   // Fetch classrooms for assignment
-  const { data: allClassrooms, loading: classroomsLoading } = useCollection<Classroom>("classrooms");
+  const { data: allClassrooms, loading: classroomsLoading } =
+    useCollection<Classroom>("classrooms");
 
   const [checklist, setChecklist] = useState(checklistItemsDef.map((c) => c.defaultChecked));
   const [classAssign, setClassAssign] = useState<boolean[]>([]);
@@ -123,7 +141,10 @@ function CourseCreatorStep4() {
       <div className="flex min-h-screen items-center justify-center bg-[#10221c] text-white">
         <div className="text-center">
           <p className="text-slate-400 mb-4">No course ID provided.</p>
-          <Link href="/dashboard/courses/create/step1" className="text-[#13eca4] hover:underline font-bold">
+          <Link
+            href="/dashboard/courses/create/step1"
+            className="text-[#13eca4] hover:underline font-bold"
+          >
             Go back to Step 1
           </Link>
         </div>
@@ -149,7 +170,11 @@ function CourseCreatorStep4() {
               { label: "Library", href: "/dashboard/content" },
               { label: "Analytics", href: "/dashboard/reports" },
             ].map((item) => (
-              <a key={item.label} href={item.href} className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4]" : "text-slate-400 hover:text-[#13eca4]"}`}>
+              <a
+                key={item.label}
+                href={item.href}
+                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4]" : "text-slate-400 hover:text-[#13eca4]"}`}
+              >
                 {item.label}
               </a>
             ))}
@@ -160,9 +185,14 @@ function CourseCreatorStep4() {
             <div className="flex items-center pl-4 text-slate-500">
               <span className="material-symbols-outlined text-xl">search</span>
             </div>
-            <input placeholder="Search resources..." className="bg-transparent border-none focus:ring-0 text-sm text-white placeholder-slate-600 px-3 outline-none w-48" />
+            <input
+              placeholder="Search resources..."
+              className="bg-transparent border-none focus:ring-0 text-sm text-white placeholder-slate-600 px-3 outline-none w-48"
+            />
           </div>
-          <span className="material-symbols-outlined text-slate-400 hover:text-[#13eca4] cursor-pointer">notifications</span>
+          <span className="material-symbols-outlined text-slate-400 hover:text-[#13eca4] cursor-pointer">
+            notifications
+          </span>
           <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border-2 border-[rgba(19,236,164,0.25)] flex items-center justify-center text-[#13eca4] font-bold text-sm">
             {appUser?.displayName?.slice(0, 2).toUpperCase() || "TM"}
           </div>
@@ -173,11 +203,20 @@ function CourseCreatorStep4() {
         <div className="w-full max-w-275 px-6 py-8">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
-            <a href="/dashboard/content" className="text-slate-500 hover:text-[#13eca4]">Course Creator</a>
+            <a href="/dashboard/content" className="text-slate-500 hover:text-[#13eca4]">
+              Course Creator
+            </a>
             <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
-            <Link href={`/dashboard/courses/create/step3?courseId=${courseId}`} className="text-slate-500 hover:text-[#13eca4]">Step 3: Facilitation Notes</Link>
+            <Link
+              href={`/dashboard/courses/create/step3?courseId=${courseId}`}
+              className="text-slate-500 hover:text-[#13eca4]"
+            >
+              Step 3: Facilitation Notes
+            </Link>
             <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
-            <span className="text-[#13eca4] font-medium underline underline-offset-4">Step 4: Review &amp; Publish</span>
+            <span className="text-[#13eca4] font-medium underline underline-offset-4">
+              Step 4: Review &amp; Publish
+            </span>
           </div>
 
           {/* Header */}
@@ -185,10 +224,14 @@ function CourseCreatorStep4() {
             <div className="max-w-2xl">
               <h1 className="text-4xl font-black tracking-tight mb-2">Review &amp; Publish</h1>
               <p className="text-slate-400 text-lg">
-                Your course &quot;{course?.title || "Untitled Course"}&quot; is almost ready. Verify the checklist and configure access permissions before making it live.
+                Your course &quot;{course?.title || "Untitled Course"}&quot; is almost ready. Verify
+                the checklist and configure access permissions before making it live.
               </p>
             </div>
-            <Link href={`/dashboard/courses/create/preview?courseId=${courseId}`} className="px-6 py-3 rounded-xl border border-[rgba(255,255,255,0.12)] text-slate-400 font-bold hover:bg-[rgba(255,255,255,0.06)] transition-all flex items-center gap-2">
+            <Link
+              href={`/dashboard/courses/create/preview?courseId=${courseId}`}
+              className="px-6 py-3 rounded-xl border border-[rgba(255,255,255,0.12)] text-slate-400 font-bold hover:bg-[rgba(255,255,255,0.06)] transition-all flex items-center gap-2"
+            >
               <span className="material-symbols-outlined text-xl">visibility</span>
               Preview Course
             </Link>
@@ -196,11 +239,13 @@ function CourseCreatorStep4() {
 
           {/* Status Message */}
           {publishStatus && (
-            <div className={`mb-6 p-4 rounded-lg text-sm flex items-center gap-2 ${
-              publishStatus.startsWith("Error")
-                ? "bg-red-500/10 border border-red-500/30 text-red-400"
-                : "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.3)] text-[#13eca4]"
-            }`}>
+            <div
+              className={`mb-6 p-4 rounded-lg text-sm flex items-center gap-2 ${
+                publishStatus.startsWith("Error")
+                  ? "bg-red-500/10 border border-red-500/30 text-red-400"
+                  : "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.3)] text-[#13eca4]"
+              }`}
+            >
               <span className="material-symbols-outlined text-lg">
                 {publishStatus.startsWith("Error") ? "error" : "check_circle"}
               </span>
@@ -219,20 +264,33 @@ function CourseCreatorStep4() {
                 </h2>
                 <div className="space-y-4">
                   {checklistItemsDef.map((item, i) => (
-                    <label key={i} className="flex items-center gap-4 p-4 rounded-xl bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.3)] cursor-pointer transition-all">
+                    <label
+                      key={i}
+                      className="flex items-center gap-4 p-4 rounded-xl bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.3)] cursor-pointer transition-all"
+                    >
                       <input
                         type="checkbox"
                         checked={checklist[i]}
-                        onChange={(e) => setChecklist((prev) => prev.map((v, j) => (j === i ? e.target.checked : v)))}
+                        onChange={(e) =>
+                          setChecklist((prev) =>
+                            prev.map((v, j) => (j === i ? e.target.checked : v))
+                          )
+                        }
                         className="h-5 w-5 rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[rgba(255,255,255,0.05)]"
                       />
                       <div className="flex flex-col flex-1">
                         <span className="text-white font-medium">{item.label}</span>
-                        <span className={`text-xs mt-0.5 ${checklist[i] ? "text-[#13eca4]" : "text-slate-500"}`}>{item.detail}</span>
+                        <span
+                          className={`text-xs mt-0.5 ${checklist[i] ? "text-[#13eca4]" : "text-slate-500"}`}
+                        >
+                          {item.detail}
+                        </span>
                       </div>
                       {item.badge && (
                         <div className="w-10 h-10 bg-[rgba(19,236,164,0.1)] rounded-full flex items-center justify-center">
-                          <span className="material-symbols-outlined text-[#13eca4]">{item.badge}</span>
+                          <span className="material-symbols-outlined text-[#13eca4]">
+                            {item.badge}
+                          </span>
                         </div>
                       )}
                     </label>
@@ -249,9 +307,15 @@ function CourseCreatorStep4() {
                 <div className="grid grid-cols-2 gap-4">
                   {metadata.map((m) => (
                     <div key={m.label} className="p-3 bg-[#1a2e27] rounded-lg">
-                      <p className="text-slate-500 text-xs uppercase font-bold tracking-widest mb-1">{m.label}</p>
+                      <p className="text-slate-500 text-xs uppercase font-bold tracking-widest mb-1">
+                        {m.label}
+                      </p>
                       <p className="text-white font-semibold text-sm">
-                        {m.value || (m.key && course ? String(course[m.key as keyof Course] ?? "N/A") : "N/A") || "N/A"}
+                        {m.value ||
+                          (m.key && course
+                            ? String(course[m.key as keyof Course] ?? "N/A")
+                            : "N/A") ||
+                          "N/A"}
                       </p>
                     </div>
                   ))}
@@ -269,28 +333,45 @@ function CourseCreatorStep4() {
                 <div className="space-y-6">
                   {/* Assign to Classrooms */}
                   <div className="space-y-3">
-                    <label className="text-sm font-semibold text-slate-400 uppercase tracking-wide block">Assign to Classrooms</label>
+                    <label className="text-sm font-semibold text-slate-400 uppercase tracking-wide block">
+                      Assign to Classrooms
+                    </label>
                     <div className="space-y-2">
                       {classrooms.length > 0 ? (
                         classrooms.map((cls, i) => (
-                          <div key={cls.id} className="flex items-center justify-between p-3 bg-[rgba(255,255,255,0.04)] rounded-xl border border-[rgba(255,255,255,0.08)]">
+                          <div
+                            key={cls.id}
+                            className="flex items-center justify-between p-3 bg-[rgba(255,255,255,0.04)] rounded-xl border border-[rgba(255,255,255,0.08)]"
+                          >
                             <div className="flex items-center gap-3">
-                              <span className="material-symbols-outlined text-[rgba(19,236,164,0.6)]">groups</span>
+                              <span className="material-symbols-outlined text-[rgba(19,236,164,0.6)]">
+                                groups
+                              </span>
                               <div>
-                                <span className="text-white font-medium text-sm block">{cls.name}</span>
-                                <span className="text-slate-500 text-[10px]">{cls.subject} - {cls.grade}</span>
+                                <span className="text-white font-medium text-sm block">
+                                  {cls.name}
+                                </span>
+                                <span className="text-slate-500 text-[10px]">
+                                  {cls.subject} - {cls.grade}
+                                </span>
                               </div>
                             </div>
                             <input
                               type="checkbox"
                               checked={classAssign[i] || false}
-                              onChange={(e) => setClassAssign((prev) => prev.map((v, j) => (j === i ? e.target.checked : v)))}
+                              onChange={(e) =>
+                                setClassAssign((prev) =>
+                                  prev.map((v, j) => (j === i ? e.target.checked : v))
+                                )
+                              }
                               className="h-5 w-5 rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[rgba(255,255,255,0.05)]"
                             />
                           </div>
                         ))
                       ) : (
-                        <p className="text-slate-500 text-sm italic p-3">No classrooms found. Create a classroom first.</p>
+                        <p className="text-slate-500 text-sm italic p-3">
+                          No classrooms found. Create a classroom first.
+                        </p>
                       )}
                       <button className="w-full py-2 border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-xl text-slate-500 hover:text-[#13eca4] hover:border-[rgba(19,236,164,0.4)] text-sm font-medium transition-all flex items-center justify-center gap-2">
                         <span className="material-symbols-outlined text-base">add_circle</span>
@@ -311,7 +392,9 @@ function CourseCreatorStep4() {
                     />
                     <div className="flex flex-col">
                       <span className="text-white font-semibold">Submit to School Library</span>
-                      <span className="text-slate-400 text-xs">Allow other teachers to clone and adapt this course.</span>
+                      <span className="text-slate-400 text-xs">
+                        Allow other teachers to clone and adapt this course.
+                      </span>
                     </div>
                   </label>
 
@@ -335,7 +418,8 @@ function CourseCreatorStep4() {
                       )}
                     </button>
                     <p className="text-center text-slate-500 text-xs mt-4 italic">
-                      By clicking publish, you agree to the school&apos;s digital curriculum guidelines.
+                      By clicking publish, you agree to the school&apos;s digital curriculum
+                      guidelines.
                     </p>
                   </div>
                 </div>
@@ -343,27 +427,44 @@ function CourseCreatorStep4() {
 
               {/* Course Preview Card */}
               <div className="bg-[rgba(255,255,255,0.02)] rounded-2xl border border-[rgba(255,255,255,0.07)] p-6">
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Course Preview Card</p>
+                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">
+                  Course Preview Card
+                </p>
                 <div className="bg-[#1a2e27] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-xl">
                   <div className="h-32 bg-linear-to-br from-[rgba(19,236,164,0.3)] to-[rgba(19,236,164,0.05)] relative">
                     {course?.coverImageUrl ? (
-                      <Image src={course.coverImageUrl} alt={course.title} fill className="object-cover" />
+                      <Image
+                        src={course.coverImageUrl}
+                        alt={course.title}
+                        fill
+                        className="object-cover"
+                      />
                     ) : null}
                     <div className="absolute bottom-4 left-4 w-14 h-14 bg-[#10221c] rounded-xl flex items-center justify-center border border-[rgba(19,236,164,0.25)]">
-                      <span className="material-symbols-outlined text-[#13eca4] text-3xl">{course?.icon || "precision_manufacturing"}</span>
+                      <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                        {course?.icon || "precision_manufacturing"}
+                      </span>
                     </div>
                   </div>
                   <div className="p-4">
                     <h4 className="text-white font-bold">{course?.title || "Untitled Course"}</h4>
                     <div className="flex items-center gap-2 mt-2">
                       <div className="w-5 h-5 rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[12px] text-[#13eca4]">person</span>
+                        <span className="material-symbols-outlined text-[12px] text-[#13eca4]">
+                          person
+                        </span>
                       </div>
-                      <span className="text-slate-400 text-xs">{appUser?.displayName || "Teacher"}</span>
+                      <span className="text-slate-400 text-xs">
+                        {appUser?.displayName || "Teacher"}
+                      </span>
                     </div>
                     <div className="flex gap-2 mt-4">
-                      <span className="px-2 py-1 bg-[rgba(19,236,164,0.1)] text-[#13eca4] text-[10px] font-bold rounded uppercase">{course?.difficulty || "Beginner"}</span>
-                      <span className="px-2 py-1 bg-[rgba(255,255,255,0.06)] text-slate-300 text-[10px] font-bold rounded uppercase">{course?.category || "STEM"}</span>
+                      <span className="px-2 py-1 bg-[rgba(19,236,164,0.1)] text-[#13eca4] text-[10px] font-bold rounded uppercase">
+                        {course?.difficulty || "Beginner"}
+                      </span>
+                      <span className="px-2 py-1 bg-[rgba(255,255,255,0.06)] text-slate-300 text-[10px] font-bold rounded uppercase">
+                        {course?.category || "STEM"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -386,7 +487,13 @@ function CourseCreatorStep4() {
               { label: "Privacy Policy", href: "/privacy" },
               { label: "Support Center", href: "/contact" },
             ].map((link) => (
-              <a key={link.label} href={link.href} className="text-slate-500 hover:text-[#13eca4] text-sm transition-colors">{link.label}</a>
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-slate-500 hover:text-[#13eca4] text-sm transition-colors"
+              >
+                {link.label}
+              </a>
             ))}
           </div>
         </div>

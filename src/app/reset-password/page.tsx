@@ -69,9 +69,24 @@ function ResetPasswordContent() {
     if (verifying) {
       return (
         <div className="text-center py-12">
-          <svg className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          <svg
+            className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
           </svg>
           <p className="text-slate-400 text-base">Verifying your reset link...</p>
         </div>
@@ -82,8 +97,18 @@ function ResetPasswordContent() {
       return (
         <div className="text-center py-6">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(255,77,77,0.12)] flex items-center justify-center">
-            <svg className="w-8 h-8 text-[#ff4d4d]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.181 8.68a3.75 3.75 0 00-5.32 0l-4.5 4.5a3.75 3.75 0 005.32 5.32l.535-.536m2.605-6.784a3.75 3.75 0 015.32 0l4.5 4.5a3.75 3.75 0 01-5.32 5.32l-.536-.535M6.75 6.75l10.5 10.5" />
+            <svg
+              className="w-8 h-8 text-[#ff4d4d]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.181 8.68a3.75 3.75 0 00-5.32 0l-4.5 4.5a3.75 3.75 0 005.32 5.32l.535-.536m2.605-6.784a3.75 3.75 0 015.32 0l4.5 4.5a3.75 3.75 0 01-5.32 5.32l-.536-.535M6.75 6.75l10.5 10.5"
+              />
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-white mb-3">Invalid or Expired Link</h2>
@@ -97,7 +122,10 @@ function ResetPasswordContent() {
             Request a New Link
           </Link>
           <div className="mt-6">
-            <Link href="/login" className="text-slate-500 hover:text-slate-300 text-sm transition-colors">
+            <Link
+              href="/login"
+              className="text-slate-500 hover:text-slate-300 text-sm transition-colors"
+            >
               Back to Login
             </Link>
           </div>
@@ -109,8 +137,18 @@ function ResetPasswordContent() {
       return (
         <div className="text-center py-6">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center">
-            <svg className="w-8 h-8 text-[#13eca4]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="w-8 h-8 text-[#13eca4]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-white mb-3">Password Reset Complete</h2>
@@ -132,11 +170,11 @@ function ResetPasswordContent() {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.15)] rounded-full px-4 py-1.5 mb-4">
             <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-            <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">Password Reset</span>
+            <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
+              Password Reset
+            </span>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">
-            Create New Password
-          </h1>
+          <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">Create New Password</h1>
           <p className="text-slate-400 text-base">
             Enter a new password for <strong className="text-white">{verifiedEmail}</strong>
           </p>
@@ -144,8 +182,18 @@ function ResetPasswordContent() {
 
         {error && (
           <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border-l-4 border-[#ff4d4d] flex items-start gap-3">
-            <svg className="w-5 h-5 text-[#ff4d4d] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+            <svg
+              className="w-5 h-5 text-[#ff4d4d] shrink-0 mt-0.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+              />
             </svg>
             <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
           </div>
@@ -164,7 +212,9 @@ function ResetPasswordContent() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold text-slate-300 mb-2">Confirm Password</label>
+            <label className="block text-sm font-semibold text-slate-300 mb-2">
+              Confirm Password
+            </label>
             <input
               id="confirm-pw"
               type="password"
@@ -183,8 +233,19 @@ function ResetPasswordContent() {
           >
             {loading ? (
               <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
               </svg>
             ) : (
               "Reset Password"
@@ -224,16 +285,25 @@ export default function ResetPasswordPage() {
 
       {/* Decorative borders */}
       <div className="absolute top-20 left-10 w-32 h-32 border-2 border-[rgba(19,236,164,0.2)] rounded-xl rotate-12 hidden lg:block animate-float" />
-      <div className="absolute bottom-20 right-10 w-48 h-48 border-2 border-[rgba(255,77,77,0.15)] rounded-full hidden lg:block animate-float" style={{ animationDelay: "1.5s" }} />
+      <div
+        className="absolute bottom-20 right-10 w-48 h-48 border-2 border-[rgba(255,77,77,0.15)] rounded-full hidden lg:block animate-float"
+        style={{ animationDelay: "1.5s" }}
+      />
 
       {/* Navbar */}
       <header className="flex items-center justify-between px-6 md:px-20 py-4 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
         <StemLogo />
         <div className="flex items-center gap-6">
-          <Link href="/#curriculum" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
+          <Link
+            href="/#curriculum"
+            className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors"
+          >
             Courses
           </Link>
-          <Link href="/help" className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors">
+          <Link
+            href="/help"
+            className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors"
+          >
             Help Center
           </Link>
           <Link
@@ -251,9 +321,24 @@ export default function ResetPasswordPage() {
           <Suspense
             fallback={
               <div className="text-center py-12">
-                <svg className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                <svg
+                  className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  />
                 </svg>
                 <p className="text-slate-400 text-base">Loading...</p>
               </div>
@@ -265,9 +350,15 @@ export default function ResetPasswordPage() {
 
         {/* Footer links */}
         <div className="mt-10 flex gap-8 text-slate-500 text-sm font-medium">
-          <Link href="/privacy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
-          <Link href="/contact" className="hover:text-slate-300 transition-colors">Contact Support</Link>
+          <Link href="/privacy" className="hover:text-slate-300 transition-colors">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-slate-300 transition-colors">
+            Terms of Service
+          </Link>
+          <Link href="/contact" className="hover:text-slate-300 transition-colors">
+            Contact Support
+          </Link>
         </div>
       </main>
     </div>

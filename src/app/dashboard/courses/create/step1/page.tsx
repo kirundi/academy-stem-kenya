@@ -16,7 +16,15 @@ const badges = [
   { icon: "terminal", label: "Terminal" },
 ];
 
-const categories = ["Robotics", "Web Design", "Data Science", "Astronomy", "Circuitry", "Game Design", "Coding"];
+const categories = [
+  "Robotics",
+  "Web Design",
+  "Data Science",
+  "Astronomy",
+  "Circuitry",
+  "Game Design",
+  "Coding",
+];
 
 export default function CourseCreatorStep1Page() {
   const router = useRouter();
@@ -28,7 +36,9 @@ export default function CourseCreatorStep1Page() {
 
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState(categories[0]);
-  const [difficulty, setDifficulty] = useState<"Beginner" | "Intermediate" | "Advanced">("Intermediate");
+  const [difficulty, setDifficulty] = useState<"Beginner" | "Intermediate" | "Advanced">(
+    "Intermediate"
+  );
   const [description, setDescription] = useState("");
   const [targetGrade, setTargetGrade] = useState("");
   const [durationAmount, setDurationAmount] = useState("");
@@ -131,7 +141,11 @@ export default function CourseCreatorStep1Page() {
               { label: "Students", href: "/dashboard/users" },
               { label: "Resources", href: "/dashboard" },
             ].map((item) => (
-              <a key={item.label} href={item.href} className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}>
+              <a
+                key={item.label}
+                href={item.href}
+                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}
+              >
                 {item.label}
               </a>
             ))}
@@ -154,9 +168,16 @@ export default function CourseCreatorStep1Page() {
         <div className="w-full max-w-240">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap gap-2 mb-5 text-sm">
-            <a href="/dashboard" className="text-slate-500 hover:text-[#13eca4] transition-colors">Dashboard</a>
+            <a href="/dashboard" className="text-slate-500 hover:text-[#13eca4] transition-colors">
+              Dashboard
+            </a>
             <span className="text-slate-600">/</span>
-            <a href="/dashboard/content" className="text-slate-500 hover:text-[#13eca4] transition-colors">Course Creator</a>
+            <a
+              href="/dashboard/content"
+              className="text-slate-500 hover:text-[#13eca4] transition-colors"
+            >
+              Course Creator
+            </a>
             <span className="text-slate-600">/</span>
             <span className="text-[#13eca4] font-medium">New Course</span>
           </div>
@@ -164,25 +185,35 @@ export default function CourseCreatorStep1Page() {
           {/* Title */}
           <div className="mb-8">
             <h1 className="text-4xl font-black tracking-tight">Create New Course</h1>
-            <p className="text-slate-400 text-lg mt-1">Step 1: Basic Information &amp; Badge Setup</p>
+            <p className="text-slate-400 text-lg mt-1">
+              Step 1: Basic Information &amp; Badge Setup
+            </p>
           </div>
 
           {/* 4-Step Stepper */}
           <div className="grid grid-cols-4 gap-4 mb-12">
             {[
-              { label: "1. Basic Info",    active: true  },
-              { label: "2. Curriculum",    active: false },
-              { label: "3. Facilitation",  active: false },
-              { label: "4. Publish",       active: false },
+              { label: "1. Basic Info", active: true },
+              { label: "2. Curriculum", active: false },
+              { label: "3. Facilitation", active: false },
+              { label: "4. Publish", active: false },
             ].map((s, i) => (
               <div key={i} className="flex flex-col gap-2">
-                <div className={`h-1.5 w-full rounded-full ${s.active ? "bg-[#13eca4]" : "bg-[rgba(255,255,255,0.08)]"}`} />
+                <div
+                  className={`h-1.5 w-full rounded-full ${s.active ? "bg-[#13eca4]" : "bg-[rgba(255,255,255,0.08)]"}`}
+                />
                 <div className="flex items-center gap-2">
-                  <span className={`material-symbols-outlined text-xl ${s.active ? "text-[#13eca4]" : "text-slate-600"}`}
-                    style={s.active ? { fontVariationSettings: "'FILL' 1" } : {}}>
+                  <span
+                    className={`material-symbols-outlined text-xl ${s.active ? "text-[#13eca4]" : "text-slate-600"}`}
+                    style={s.active ? { fontVariationSettings: "'FILL' 1" } : {}}
+                  >
                     {s.active ? "check_circle" : "radio_button_unchecked"}
                   </span>
-                  <p className={`text-sm font-medium ${s.active ? "text-[#13eca4] font-bold" : "text-slate-500"}`}>{s.label}</p>
+                  <p
+                    className={`text-sm font-medium ${s.active ? "text-[#13eca4] font-bold" : "text-slate-500"}`}
+                  >
+                    {s.label}
+                  </p>
                 </div>
               </div>
             ))}
@@ -221,8 +252,12 @@ export default function CourseCreatorStep1Page() {
                     <Image src={coverPreview} alt="Cover preview" fill className="object-cover" />
                   ) : (
                     <div className="text-center p-6">
-                      <span className="material-symbols-outlined text-slate-600 text-5xl mb-2 group-hover:text-[#13eca4] transition-colors block">cloud_upload</span>
-                      <p className="text-sm text-slate-400 font-medium">Click to upload or drag and drop</p>
+                      <span className="material-symbols-outlined text-slate-600 text-5xl mb-2 group-hover:text-[#13eca4] transition-colors block">
+                        cloud_upload
+                      </span>
+                      <p className="text-sm text-slate-400 font-medium">
+                        Click to upload or drag and drop
+                      </p>
                       <p className="text-xs text-slate-600 mt-1 italic">SVG, PNG, JPG (max 2MB)</p>
                     </div>
                   )}
@@ -238,10 +273,14 @@ export default function CourseCreatorStep1Page() {
               {/* Badge Selection */}
               <div>
                 <h3 className="text-white text-lg font-bold mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4]">workspace_premium</span>
+                  <span className="material-symbols-outlined text-[#13eca4]">
+                    workspace_premium
+                  </span>
                   Completion Badge
                 </h3>
-                <p className="text-slate-500 text-sm mb-4 italic">Select the digital token students earn.</p>
+                <p className="text-slate-500 text-sm mb-4 italic">
+                  Select the digital token students earn.
+                </p>
                 <div className="grid grid-cols-3 gap-3">
                   {badges.map((b, i) => (
                     <button
@@ -253,7 +292,11 @@ export default function CourseCreatorStep1Page() {
                           : "border-transparent hover:border-[rgba(255,255,255,0.2)]"
                       }`}
                     >
-                      <span className={`material-symbols-outlined text-4xl ${selectedBadge === i ? "text-[#13eca4]" : "text-slate-500"}`}>{b.icon}</span>
+                      <span
+                        className={`material-symbols-outlined text-4xl ${selectedBadge === i ? "text-[#13eca4]" : "text-slate-500"}`}
+                      >
+                        {b.icon}
+                      </span>
                     </button>
                   ))}
                   <button className="aspect-square rounded-xl bg-[#1a2e27] flex items-center justify-center border-2 border-dashed border-[rgba(255,255,255,0.12)] hover:border-[rgba(19,236,164,0.4)] transition-all">
@@ -284,11 +327,15 @@ export default function CourseCreatorStep1Page() {
                     onChange={(e) => setCategory(e.target.value)}
                     className="w-full bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-lg focus:ring-2 focus:ring-[#13eca4] text-white p-3 h-12 outline-none appearance-none cursor-pointer transition-all"
                   >
-                    {categories.map((c) => <option key={c}>{c}</option>)}
+                    {categories.map((c) => (
+                      <option key={c}>{c}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-white text-base font-bold mb-2">Difficulty Level</label>
+                  <label className="block text-white text-base font-bold mb-2">
+                    Difficulty Level
+                  </label>
                   <div className="flex gap-2 h-12">
                     {(["Beginner", "Intermediate", "Advanced"] as const).map((d) => (
                       <button
@@ -308,7 +355,9 @@ export default function CourseCreatorStep1Page() {
               </div>
 
               <div>
-                <label className="block text-white text-base font-bold mb-2">Short Description</label>
+                <label className="block text-white text-base font-bold mb-2">
+                  Short Description
+                </label>
                 <textarea
                   rows={4}
                   value={description}
@@ -319,26 +368,32 @@ export default function CourseCreatorStep1Page() {
               </div>
 
               <div>
-                <label className="block text-white text-base font-bold mb-2">Target Grade Level</label>
+                <label className="block text-white text-base font-bold mb-2">
+                  Target Grade Level
+                </label>
                 <div className="flex flex-wrap gap-2">
-                  {["Grade 5-6", "Grade 7-8", "Grade 9-10", "Grade 11-12", "All Levels"].map((g) => (
-                    <button
-                      key={g}
-                      onClick={() => setTargetGrade(g)}
-                      className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
-                        targetGrade === g
-                          ? "border-[#13eca4] text-[#13eca4] bg-[rgba(19,236,164,0.1)]"
-                          : "border-[rgba(255,255,255,0.1)] text-slate-400 hover:border-[#13eca4] hover:text-[#13eca4]"
-                      }`}
-                    >
-                      {g}
-                    </button>
-                  ))}
+                  {["Grade 5-6", "Grade 7-8", "Grade 9-10", "Grade 11-12", "All Levels"].map(
+                    (g) => (
+                      <button
+                        key={g}
+                        onClick={() => setTargetGrade(g)}
+                        className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
+                          targetGrade === g
+                            ? "border-[#13eca4] text-[#13eca4] bg-[rgba(19,236,164,0.1)]"
+                            : "border-[rgba(255,255,255,0.1)] text-slate-400 hover:border-[#13eca4] hover:text-[#13eca4]"
+                        }`}
+                      >
+                        {g}
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
 
               <div>
-                <label className="block text-white text-base font-bold mb-2">Estimated Duration</label>
+                <label className="block text-white text-base font-bold mb-2">
+                  Estimated Duration
+                </label>
                 <div className="flex gap-3">
                   <input
                     type="number"

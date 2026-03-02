@@ -6,16 +6,62 @@ import Link from "next/link";
 type Filter = "global" | "school" | "category";
 
 const podium = [
-  { rank: 2, team: "Solar Synthetics", school: "Greenwood High", pts: 8940, color: "from-slate-500/30 to-slate-700/10", ring: "ring-slate-400", badge: "bg-slate-400 text-slate-900", medal: "🥈" },
-  { rank: 1, team: "AquaPurify Elite", school: "Oakridge Academy", pts: 10250, color: "from-yellow-500/30 to-yellow-700/5", ring: "ring-yellow-400", badge: "bg-yellow-400 text-yellow-900", medal: "👑" },
-  { rank: 3, team: "Wind Walkers", school: "St. Mary's Tech", pts: 7120, color: "from-orange-600/30 to-orange-800/5", ring: "ring-orange-400", badge: "bg-orange-400 text-orange-900", medal: "🥉" },
+  {
+    rank: 2,
+    team: "Solar Synthetics",
+    school: "Greenwood High",
+    pts: 8940,
+    color: "from-slate-500/30 to-slate-700/10",
+    ring: "ring-slate-400",
+    badge: "bg-slate-400 text-slate-900",
+    medal: "🥈",
+  },
+  {
+    rank: 1,
+    team: "AquaPurify Elite",
+    school: "Oakridge Academy",
+    pts: 10250,
+    color: "from-yellow-500/30 to-yellow-700/5",
+    ring: "ring-yellow-400",
+    badge: "bg-yellow-400 text-yellow-900",
+    medal: "👑",
+  },
+  {
+    rank: 3,
+    team: "Wind Walkers",
+    school: "St. Mary's Tech",
+    pts: 7120,
+    color: "from-orange-600/30 to-orange-800/5",
+    ring: "ring-orange-400",
+    badge: "bg-orange-400 text-orange-900",
+    medal: "🥉",
+  },
 ];
 
 const rows = [
-  { rank: 4, team: "Terraformers", school: "Northside International", badges: ["eco", "biotech"], pts: 6845 },
-  { rank: 5, team: "Eco Warriors", school: "Riverside Secondary", badges: ["eco", "energy", "award_star"], pts: 6210, isMe: true },
+  {
+    rank: 4,
+    team: "Terraformers",
+    school: "Northside International",
+    badges: ["eco", "biotech"],
+    pts: 6845,
+  },
+  {
+    rank: 5,
+    team: "Eco Warriors",
+    school: "Riverside Secondary",
+    badges: ["eco", "energy", "award_star"],
+    pts: 6210,
+    isMe: true,
+  },
   { rank: 6, team: "Green Genies", school: "Riverside Secondary", badges: ["eco"], pts: 5930 },
-  { rank: 7, team: "Bio-Bots", school: "St. Mary's Tech", badges: ["biotech", "smart_toy"], pts: 5715 },
+  {
+    rank: 7,
+    team: "Bio-Bots",
+    school: "St. Mary's Tech",
+    badges: ["biotech", "smart_toy"],
+    pts: 5715,
+  },
 ];
 
 const schoolSpirit = [
@@ -26,9 +72,27 @@ const schoolSpirit = [
 ];
 
 const activity = [
-  { team: "AquaPurify Elite", event: "Completed Prototype milestone", pts: "+1,200 pts", color: "bg-[#13eca4]", time: "2m ago" },
-  { team: "Green Genies", event: "Earned 'Eco Pioneer' badge", pts: "+250 pts", color: "bg-yellow-400", time: "5m ago" },
-  { team: "Terraformers", event: "Submitted final prototype", pts: "+500 pts", color: "bg-slate-400", time: "12m ago" },
+  {
+    team: "AquaPurify Elite",
+    event: "Completed Prototype milestone",
+    pts: "+1,200 pts",
+    color: "bg-[#13eca4]",
+    time: "2m ago",
+  },
+  {
+    team: "Green Genies",
+    event: "Earned 'Eco Pioneer' badge",
+    pts: "+250 pts",
+    color: "bg-yellow-400",
+    time: "5m ago",
+  },
+  {
+    team: "Terraformers",
+    event: "Submitted final prototype",
+    pts: "+500 pts",
+    color: "bg-slate-400",
+    time: "12m ago",
+  },
 ];
 
 export default function HackathonLeaderboard() {
@@ -40,10 +104,25 @@ export default function HackathonLeaderboard() {
       {/* Top Nav */}
       <header className="sticky top-0 z-30 border-b border-[rgba(19,236,164,0.12)] bg-[#0d1f1a] px-8 py-4 flex items-center justify-between">
         <nav className="flex items-center gap-6">
-          <Link href="/school/student/challenges" className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors">Challenges</Link>
+          <Link
+            href="/school/student/challenges"
+            className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors"
+          >
+            Challenges
+          </Link>
           <span className="text-sm font-semibold text-[#13eca4]">Leaderboard</span>
-          <Link href="#" className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors">Projects</Link>
-          <Link href="#" className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors">Mentors</Link>
+          <Link
+            href="#"
+            className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors"
+          >
+            Projects
+          </Link>
+          <Link
+            href="#"
+            className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors"
+          >
+            Mentors
+          </Link>
         </nav>
         <Link
           href="/school/student/challenges/active"
@@ -60,11 +139,22 @@ export default function HackathonLeaderboard() {
           <div className="absolute top-0 left-1/3 w-96 h-96 rounded-full blur-[120px] opacity-10 bg-[#13eca4]" />
         </div>
         <div className="max-w-3xl">
-          <p className="text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-2">Live Event</p>
-          <h1 className="text-4xl font-black tracking-tight mb-4">Eco-Hack 2024 Global Leaderboard</h1>
+          <p className="text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-2">
+            Live Event
+          </p>
+          <h1 className="text-4xl font-black tracking-tight mb-4">
+            Eco-Hack 2024 Global Leaderboard
+          </h1>
           <div className="flex items-center gap-4">
-            <button className="px-4 py-2 border border-[rgba(19,236,164,0.3)] rounded-lg text-sm font-semibold text-[#13eca4] hover:bg-[#13eca4]/5 transition-colors">View Rules</button>
-            <Link href="/school/student/challenges/active" className="px-4 py-2 bg-[#13eca4] text-[#0d1f1a] rounded-lg text-sm font-bold hover:brightness-105 transition-all">Submit Project</Link>
+            <button className="px-4 py-2 border border-[rgba(19,236,164,0.3)] rounded-lg text-sm font-semibold text-[#13eca4] hover:bg-[#13eca4]/5 transition-colors">
+              View Rules
+            </button>
+            <Link
+              href="/school/student/challenges/active"
+              className="px-4 py-2 bg-[#13eca4] text-[#0d1f1a] rounded-lg text-sm font-bold hover:brightness-105 transition-all"
+            >
+              Submit Project
+            </Link>
           </div>
         </div>
       </div>
@@ -90,7 +180,9 @@ export default function HackathonLeaderboard() {
             <span className="text-slate-500">Total Participants</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-yellow-400 text-base">attach_money</span>
+            <span className="material-symbols-outlined text-yellow-400 text-base">
+              attach_money
+            </span>
             <span className="font-bold">$25,000</span>
             <span className="text-slate-500">Prize Pool</span>
           </div>
@@ -109,7 +201,9 @@ export default function HackathonLeaderboard() {
                 className={`flex flex-col items-center gap-3 flex-1 bg-linear-to-b ${p.color} border border-[rgba(255,255,255,0.05)] rounded-2xl px-4 py-6 ${p.rank === 1 ? "scale-105 pb-8" : ""} transition-transform`}
               >
                 <div className="text-2xl">{p.medal}</div>
-                <div className={`size-14 rounded-full ring-2 ${p.ring} flex items-center justify-center text-lg font-black bg-[#1a2e30]`}>
+                <div
+                  className={`size-14 rounded-full ring-2 ${p.ring} flex items-center justify-center text-lg font-black bg-[#1a2e30]`}
+                >
                   {p.team[0]}
                 </div>
                 <div className="text-center">
@@ -139,24 +233,35 @@ export default function HackathonLeaderboard() {
                       : "hover:bg-[#1a2e30]/40"
                   }`}
                 >
-                  <span className={`text-sm font-black w-6 shrink-0 ${row.isMe ? "text-[#13eca4]" : "text-slate-500"}`}>
+                  <span
+                    className={`text-sm font-black w-6 shrink-0 ${row.isMe ? "text-[#13eca4]" : "text-slate-500"}`}
+                  >
                     {row.rank}
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-sm truncate">
                       {row.team}
                       {row.isMe && (
-                        <span className="ml-2 text-[10px] font-bold text-[#13eca4] bg-[#13eca4]/15 rounded-full px-2 py-0.5">You</span>
+                        <span className="ml-2 text-[10px] font-bold text-[#13eca4] bg-[#13eca4]/15 rounded-full px-2 py-0.5">
+                          You
+                        </span>
                       )}
                     </p>
                     <p className="text-xs text-slate-400 truncate">{row.school}</p>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
                     {row.badges.map((b) => (
-                      <span key={b} className="material-symbols-outlined text-base text-[#13eca4]/70">{b}</span>
+                      <span
+                        key={b}
+                        className="material-symbols-outlined text-base text-[#13eca4]/70"
+                      >
+                        {b}
+                      </span>
                     ))}
                   </div>
-                  <span className="text-sm font-black w-20 text-right shrink-0">{row.pts.toLocaleString()} pts</span>
+                  <span className="text-sm font-black w-20 text-right shrink-0">
+                    {row.pts.toLocaleString()} pts
+                  </span>
                 </div>
               ))}
             </div>
@@ -178,13 +283,16 @@ export default function HackathonLeaderboard() {
         <div className="col-span-12 lg:col-span-4 space-y-6">
           {/* School Spirit */}
           <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-6">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5">School Spirit</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5">
+              School Spirit
+            </h3>
             <div className="space-y-4">
               {schoolSpirit.map((s, i) => (
                 <div key={s.name}>
                   <div className="flex justify-between text-xs mb-1.5">
                     <span className="font-semibold text-slate-300">
-                      {i === 0 && <span className="mr-1">🏆</span>}{s.name}
+                      {i === 0 && <span className="mr-1">🏆</span>}
+                      {s.name}
                     </span>
                     <span className="text-slate-400">{s.pts.toLocaleString()}</span>
                   </div>
@@ -204,18 +312,24 @@ export default function HackathonLeaderboard() {
 
           {/* Recent Activity */}
           <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-6">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5">Recent Activity</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5">
+              Recent Activity
+            </h3>
             <div className="space-y-4">
               {activity.map((a, i) => (
                 <div key={i} className="flex gap-3">
                   <div className="flex flex-col items-center">
                     <div className={`size-3 rounded-full shrink-0 mt-0.5 ${a.color}`} />
-                    {i < activity.length - 1 && <div className="w-px flex-1 my-1 bg-[rgba(19,236,164,0.1)]" />}
+                    {i < activity.length - 1 && (
+                      <div className="w-px flex-1 my-1 bg-[rgba(19,236,164,0.1)]" />
+                    )}
                   </div>
                   <div className="pb-4">
                     <p className="text-xs font-bold text-slate-300">{a.team}</p>
                     <p className="text-xs text-slate-500">{a.event}</p>
-                    <p className={`text-xs font-bold mt-0.5 ${a.color === "bg-[#13eca4]" ? "text-[#13eca4]" : a.color === "bg-yellow-400" ? "text-yellow-400" : "text-slate-400"}`}>
+                    <p
+                      className={`text-xs font-bold mt-0.5 ${a.color === "bg-[#13eca4]" ? "text-[#13eca4]" : a.color === "bg-yellow-400" ? "text-yellow-400" : "text-slate-400"}`}
+                    >
                       {a.pts}
                     </p>
                     <p className="text-[10px] text-slate-600 mt-0.5">{a.time}</p>
@@ -227,7 +341,9 @@ export default function HackathonLeaderboard() {
 
           {/* Regional Map placeholder */}
           <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-6">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Regional Map</h3>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+              Regional Map
+            </h3>
             <div className="aspect-video rounded-xl bg-[#1a2e30] flex flex-col items-center justify-center gap-2 border border-[rgba(19,236,164,0.08)]">
               <span className="material-symbols-outlined text-4xl text-[#13eca4]/30">map</span>
               <p className="text-xs text-slate-600">Interactive map coming soon</p>

@@ -41,15 +41,15 @@ export default function TeacherEnrollmentPage() {
   // Fetch user docs for students in this classroom
   const { data: studentUsers, loading: studentsLoading } = useCollection<AppUser>(
     "users",
-    studentIds.length > 0
-      ? [where("__name__", "in", studentIds.slice(0, 10))]
-      : [],
+    studentIds.length > 0 ? [where("__name__", "in", studentIds.slice(0, 10))] : [],
     studentIds.length > 0
   );
 
   // Build student data combining user info with enrollment info
   const studentData = studentIds.map((sid) => {
-    const user = studentUsers.find((u) => u.uid === sid || (u as AppUser & { id: string }).id === sid);
+    const user = studentUsers.find(
+      (u) => u.uid === sid || (u as AppUser & { id: string }).id === sid
+    );
     const enrollment = enrollments.find((e) => e.studentId === sid);
     return {
       id: sid,
@@ -57,7 +57,7 @@ export default function TeacherEnrollmentPage() {
       studentCode: user?.studentCode ?? null,
       grade: user?.grade ?? null,
       lastActive: "Recently",
-      status: enrollment?.progress === 0 ? "Pending" : "Active" as string,
+      status: enrollment?.progress === 0 ? "Pending" : ("Active" as string),
       mastery: enrollment?.progress ?? 0,
     };
   });
@@ -95,7 +95,11 @@ export default function TeacherEnrollmentPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to create student");
       setCreatedStudentCode(data.student.studentCode);
-      await logActivity(appUser.uid, "add_student", `Created student ${newStudentName.trim()} in ${cls.name}`);
+      await logActivity(
+        appUser.uid,
+        "add_student",
+        `Created student ${newStudentName.trim()} in ${cls.name}`
+      );
     } catch (err) {
       setAddStudentError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -121,15 +125,18 @@ export default function TeacherEnrollmentPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
 
   // Compute insights from real data
-  const avgMastery = studentData.length > 0
-    ? Math.round(studentData.reduce((sum, s) => sum + s.mastery, 0) / studentData.length)
-    : 0;
+  const avgMastery =
+    studentData.length > 0
+      ? Math.round(studentData.reduce((sum, s) => sum + s.mastery, 0) / studentData.length)
+      : 0;
   const pendingForClassroom = cls
     ? pendingSubmissions.filter((s) => s.classroomId === cls.id).length
     : 0;
@@ -154,7 +161,9 @@ export default function TeacherEnrollmentPage() {
         {/* Classroom Selector */}
         <div className="flex gap-3 mb-8 overflow-x-auto">
           {classrooms.length === 0 && (
-            <div className="text-slate-500 text-sm">No classrooms yet. Create one from the Classroom Manager.</div>
+            <div className="text-slate-500 text-sm">
+              No classrooms yet. Create one from the Classroom Manager.
+            </div>
           )}
           {classrooms.map((c, idx) => (
             <button
@@ -168,7 +177,9 @@ export default function TeacherEnrollmentPage() {
             >
               <div>
                 <p className="font-semibold text-sm">{c.name}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{c.grade} · {c.enrolled} students</p>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {c.grade} · {c.enrolled} students
+                </p>
               </div>
             </button>
           ))}
@@ -184,15 +195,24 @@ export default function TeacherEnrollmentPage() {
                 </div>
                 <div>
                   <p className="text-white font-bold">{cls.name}</p>
-                  <p className="text-slate-400 text-xs">{cls.subject} · {cls.grade}</p>
+                  <p className="text-slate-400 text-xs">
+                    {cls.subject} · {cls.grade}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-xl px-4 py-2.5 flex items-center gap-2">
                   <span className="text-slate-400 text-xs font-medium">Join Code</span>
-                  <code className="text-[#13eca4] font-black tracking-widest text-sm">{cls.joinCode}</code>
-                  <button onClick={copyCode} className="text-slate-500 hover:text-[#13eca4] transition-colors ml-1">
-                    <span className="material-symbols-outlined text-[16px]">{codeCopied ? "check_circle" : "content_copy"}</span>
+                  <code className="text-[#13eca4] font-black tracking-widest text-sm">
+                    {cls.joinCode}
+                  </code>
+                  <button
+                    onClick={copyCode}
+                    className="text-slate-500 hover:text-[#13eca4] transition-colors ml-1"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">
+                      {codeCopied ? "check_circle" : "content_copy"}
+                    </span>
                   </button>
                 </div>
                 <button className="flex items-center gap-1 text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors border border-[rgba(255,255,255,0.08)] hover:border-[rgba(19,236,164,0.2)] px-3 py-2.5 rounded-xl">
@@ -209,7 +229,9 @@ export default function TeacherEnrollmentPage() {
                   key={t}
                   onClick={() => setTab(t)}
                   className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
-                    tab === t ? "bg-[rgba(19,236,164,0.12)] text-[#13eca4]" : "text-slate-400 hover:text-white"
+                    tab === t
+                      ? "bg-[rgba(19,236,164,0.12)] text-[#13eca4]"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
                   {t}
@@ -221,7 +243,9 @@ export default function TeacherEnrollmentPage() {
               <>
                 {/* Search */}
                 <div className="flex items-center gap-2 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-xl px-4 py-2.5 mb-4 w-full max-w-sm">
-                  <span className="material-symbols-outlined text-slate-500 text-[18px]">search</span>
+                  <span className="material-symbols-outlined text-slate-500 text-[18px]">
+                    search
+                  </span>
                   <input
                     type="text"
                     placeholder="Search students..."
@@ -246,7 +270,10 @@ export default function TeacherEnrollmentPage() {
                     </thead>
                     <tbody>
                       {filtered.map((s) => (
-                        <tr key={s.id} className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                        <tr
+                          key={s.id}
+                          className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors"
+                        >
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2.5">
                               <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
@@ -258,7 +285,9 @@ export default function TeacherEnrollmentPage() {
                           <td className="px-4 py-4">
                             {s.studentCode ? (
                               <div className="flex items-center gap-1.5">
-                                <span className="text-[#13eca4] font-mono font-bold tracking-wider text-xs">{s.studentCode}</span>
+                                <span className="text-[#13eca4] font-mono font-bold tracking-wider text-xs">
+                                  {s.studentCode}
+                                </span>
                                 <button
                                   onClick={() => copyStudentCode(s.studentCode!)}
                                   className="text-slate-500 hover:text-[#13eca4] transition-colors"
@@ -282,7 +311,12 @@ export default function TeacherEnrollmentPage() {
                                     className="h-1.5 rounded-full"
                                     style={{
                                       width: `${s.mastery}%`,
-                                      background: s.mastery >= 90 ? "#13eca4" : s.mastery >= 70 ? "#3b82f6" : "#f59e0b",
+                                      background:
+                                        s.mastery >= 90
+                                          ? "#13eca4"
+                                          : s.mastery >= 70
+                                            ? "#3b82f6"
+                                            : "#f59e0b",
                                     }}
                                   />
                                 </div>
@@ -293,11 +327,15 @@ export default function TeacherEnrollmentPage() {
                             )}
                           </td>
                           <td className="px-4 py-4 text-center">
-                            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                              s.status === "Active" ? "bg-emerald-500/10 text-emerald-400"
-                              : s.status === "Pending" ? "bg-amber-500/10 text-amber-400"
-                              : "bg-red-500/10 text-red-400"
-                            }`}>
+                            <span
+                              className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                                s.status === "Active"
+                                  ? "bg-emerald-500/10 text-emerald-400"
+                                  : s.status === "Pending"
+                                    ? "bg-amber-500/10 text-amber-400"
+                                    : "bg-red-500/10 text-red-400"
+                              }`}
+                            >
                               {s.status}
                             </span>
                           </td>
@@ -314,11 +352,21 @@ export default function TeacherEnrollmentPage() {
                                   </span>
                                 </button>
                               )}
-                              <button className="text-slate-500 hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-[rgba(19,236,164,0.08)]" title="View Profile">
-                                <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                              <button
+                                className="text-slate-500 hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-[rgba(19,236,164,0.08)]"
+                                title="View Profile"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">
+                                  open_in_new
+                                </span>
                               </button>
-                              <button className="text-slate-500 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-[rgba(255,77,77,0.08)]" title="Remove Student">
-                                <span className="material-symbols-outlined text-[16px]">person_remove</span>
+                              <button
+                                className="text-slate-500 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-[rgba(255,77,77,0.08)]"
+                                title="Remove Student"
+                              >
+                                <span className="material-symbols-outlined text-[16px]">
+                                  person_remove
+                                </span>
                               </button>
                             </div>
                           </td>
@@ -327,10 +375,14 @@ export default function TeacherEnrollmentPage() {
                     </tbody>
                   </table>
                   {filtered.length === 0 && (
-                    <div className="text-center py-12 text-slate-500 text-sm">No students match your search.</div>
+                    <div className="text-center py-12 text-slate-500 text-sm">
+                      No students match your search.
+                    </div>
                   )}
                   <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)] flex items-center justify-between">
-                    <span className="text-slate-500 text-xs">{filtered.length} student{filtered.length !== 1 ? "s" : ""}</span>
+                    <span className="text-slate-500 text-xs">
+                      {filtered.length} student{filtered.length !== 1 ? "s" : ""}
+                    </span>
                   </div>
                 </div>
               </>
@@ -339,12 +391,16 @@ export default function TeacherEnrollmentPage() {
             {tab === "curriculum" && (
               <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] divide-y divide-[rgba(255,255,255,0.05)]">
                 {(cls.courseIds ?? []).length === 0 && (
-                  <div className="px-6 py-12 text-center text-slate-500 text-sm">No courses assigned to this classroom.</div>
+                  <div className="px-6 py-12 text-center text-slate-500 text-sm">
+                    No courses assigned to this classroom.
+                  </div>
                 )}
                 {(cls.courseIds ?? []).map((courseId, i) => (
                   <div key={courseId} className="flex items-center justify-between px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-lg bg-[rgba(19,236,164,0.08)] flex items-center justify-center text-[#13eca4] text-xs font-bold">{i + 1}</div>
+                      <div className="w-7 h-7 rounded-lg bg-[rgba(19,236,164,0.08)] flex items-center justify-center text-[#13eca4] text-xs font-bold">
+                        {i + 1}
+                      </div>
                       <span className="text-white text-sm font-medium">{courseId}</span>
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer">
@@ -361,13 +417,42 @@ export default function TeacherEnrollmentPage() {
             {tab === "insights" && (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[
-                  { icon: "trending_up", label: "Class Avg. Mastery", value: `${avgMastery}%`, sub: studentData.length > 0 ? `${studentData.length} students` : "No data yet", color: "#13eca4" },
-                  { icon: "pending_actions", label: "Pending Submissions", value: String(pendingForClassroom), sub: "Awaiting your review", color: "#f59e0b" },
-                  { icon: "emoji_events", label: "Students Enrolled", value: String(studentData.length), sub: "This classroom", color: "#8b5cf6" },
+                  {
+                    icon: "trending_up",
+                    label: "Class Avg. Mastery",
+                    value: `${avgMastery}%`,
+                    sub: studentData.length > 0 ? `${studentData.length} students` : "No data yet",
+                    color: "#13eca4",
+                  },
+                  {
+                    icon: "pending_actions",
+                    label: "Pending Submissions",
+                    value: String(pendingForClassroom),
+                    sub: "Awaiting your review",
+                    color: "#f59e0b",
+                  },
+                  {
+                    icon: "emoji_events",
+                    label: "Students Enrolled",
+                    value: String(studentData.length),
+                    sub: "This classroom",
+                    color: "#8b5cf6",
+                  },
                 ].map((c) => (
-                  <div key={c.label} className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-5">
-                    <div className="w-9 h-9 rounded-xl mb-3 flex items-center justify-center" style={{ background: `${c.color}18` }}>
-                      <span className="material-symbols-outlined text-[20px]" style={{ color: c.color }}>{c.icon}</span>
+                  <div
+                    key={c.label}
+                    className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-5"
+                  >
+                    <div
+                      className="w-9 h-9 rounded-xl mb-3 flex items-center justify-center"
+                      style={{ background: `${c.color}18` }}
+                    >
+                      <span
+                        className="material-symbols-outlined text-[20px]"
+                        style={{ color: c.color }}
+                      >
+                        {c.icon}
+                      </span>
                     </div>
                     <p className="text-slate-400 text-xs">{c.label}</p>
                     <p className="text-white text-2xl font-bold">{c.value}</p>
@@ -410,7 +495,9 @@ export default function TeacherEnrollmentPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Age</label>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Age
+                      </label>
                       <input
                         type="number"
                         placeholder="e.g. 12"
@@ -422,7 +509,9 @@ export default function TeacherEnrollmentPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Grade</label>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Grade
+                      </label>
                       <input
                         type="text"
                         placeholder="e.g. Grade 6"
@@ -452,14 +541,19 @@ export default function TeacherEnrollmentPage() {
             ) : (
               <div className="text-center">
                 <div className="w-16 h-16 bg-[rgba(19,236,164,0.15)] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-[#13eca4] text-3xl">check_circle</span>
+                  <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                    check_circle
+                  </span>
                 </div>
                 <h2 className="text-white font-bold text-lg mb-1">Student Created!</h2>
                 <p className="text-slate-400 text-sm mb-6">
-                  Share this login code with <span className="text-white font-semibold">{newStudentName}</span>
+                  Share this login code with{" "}
+                  <span className="text-white font-semibold">{newStudentName}</span>
                 </p>
                 <div className="bg-[#0d1f1a] border-2 border-dashed border-[rgba(19,236,164,0.3)] rounded-2xl p-6 mb-6">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Student Login Code</p>
+                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">
+                    Student Login Code
+                  </p>
                   <p className="text-[#13eca4] font-mono font-black text-4xl tracking-[0.3em]">
                     {createdStudentCode}
                   </p>

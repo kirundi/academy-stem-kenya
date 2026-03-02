@@ -3,10 +3,7 @@ import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAuthUser, hasRole } from "@/lib/api-auth";
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
@@ -40,16 +37,19 @@ export async function PUT(
   const body = await request.json();
   const { grade, score, feedback, rubricScores } = body;
 
-  await adminDb.collection("submissions").doc(submissionId).update({
-    status: "graded",
-    grade,
-    score,
-    feedback,
-    rubricScores: rubricScores || {},
-    gradedBy: user.uid,
-    gradedAt: FieldValue.serverTimestamp(),
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await adminDb
+    .collection("submissions")
+    .doc(submissionId)
+    .update({
+      status: "graded",
+      grade,
+      score,
+      feedback,
+      rubricScores: rubricScores || {},
+      gradedBy: user.uid,
+      gradedAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    });
 
   return NextResponse.json({ status: "graded" });
 }

@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
   if (!caller) {
     return NextResponse.json(
       { error: "Unauthorized — teacher or admin access required" },
-      { status: 403 },
+      { status: 403 }
     );
   }
 
@@ -46,27 +46,15 @@ export async function POST(request: NextRequest) {
   const { displayName, age, grade, classroomId } = body;
 
   if (!displayName?.trim()) {
-    return NextResponse.json(
-      { error: "Student name is required" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Student name is required" }, { status: 400 });
   }
   if (!classroomId) {
-    return NextResponse.json(
-      { error: "Classroom ID is required" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "Classroom ID is required" }, { status: 400 });
   }
 
-  const classroomDoc = await adminDb
-    .collection("classrooms")
-    .doc(classroomId)
-    .get();
+  const classroomDoc = await adminDb.collection("classrooms").doc(classroomId).get();
   if (!classroomDoc.exists) {
-    return NextResponse.json(
-      { error: "Classroom not found" },
-      { status: 404 },
-    );
+    return NextResponse.json({ error: "Classroom not found" }, { status: 404 });
   }
   const classroomData = classroomDoc.data()!;
 
@@ -79,7 +67,7 @@ export async function POST(request: NextRequest) {
   if (!isOwner && !isSameSchoolAdmin) {
     return NextResponse.json(
       { error: "You don't have permission to add students to this classroom" },
-      { status: 403 },
+      { status: 403 }
     );
   }
 
@@ -147,12 +135,11 @@ export async function POST(request: NextRequest) {
           schoolId,
         },
       },
-      { status: 201 },
+      { status: 201 }
     );
   } catch (err: unknown) {
     console.error("Error creating student:", err);
-    const message =
-      err instanceof Error ? err.message : "Failed to create student";
+    const message = err instanceof Error ? err.message : "Failed to create student";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
@@ -167,10 +154,7 @@ export async function GET(request: NextRequest) {
   const classroomId = searchParams.get("classroomId");
 
   if (!classroomId) {
-    return NextResponse.json(
-      { error: "classroomId is required" },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: "classroomId is required" }, { status: 400 });
   }
 
   const enrollmentsSnap = await adminDb
@@ -178,9 +162,7 @@ export async function GET(request: NextRequest) {
     .where("classroomId", "==", classroomId)
     .get();
 
-  const studentIds = [
-    ...new Set(enrollmentsSnap.docs.map((d) => d.data().studentId)),
-  ];
+  const studentIds = [...new Set(enrollmentsSnap.docs.map((d) => d.data().studentId))];
   if (studentIds.length === 0) {
     return NextResponse.json({ students: [] });
   }
@@ -197,10 +179,7 @@ export async function GET(request: NextRequest) {
 
   for (let i = 0; i < studentIds.length; i += 10) {
     const batch = studentIds.slice(i, i + 10);
-    const usersSnap = await adminDb
-      .collection("users")
-      .where("__name__", "in", batch)
-      .get();
+    const usersSnap = await adminDb.collection("users").where("__name__", "in", batch).get();
     for (const doc of usersSnap.docs) {
       const data = doc.data();
       students.push({

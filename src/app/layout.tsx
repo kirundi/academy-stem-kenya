@@ -12,10 +12,19 @@ export const metadata: Metadata = {
   title: "STEM Impact Academy | Comprehensive Learning Platform",
   description:
     "An online learning platform designed for young people to build the tech & design skills they need to become creative problem solvers. Courses in circuitry, game design, web literacy, coding, green technology, and more.",
-  keywords: ["STEM", "coding", "game design", "web literacy", "circuitry", "green tech", "youth education"],
+  keywords: [
+    "STEM",
+    "coding",
+    "game design",
+    "web literacy",
+    "circuitry",
+    "green tech",
+    "youth education",
+  ],
   openGraph: {
     title: "STEM Impact Academy | Comprehensive Learning Platform",
-    description: "Build tech & design skills through hands-on projects and courses designed for young creative problem solvers.",
+    description:
+      "Build tech & design skills through hands-on projects and courses designed for young creative problem solvers.",
     type: "website",
   },
 };
@@ -36,9 +45,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${lexend.className} antialiased`}>
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

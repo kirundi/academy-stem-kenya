@@ -16,18 +16,14 @@ export default function TeacherAnalyticsPage() {
   // Fetch enrollments for all classrooms
   const { data: allEnrollments, loading: enrollmentsLoading } = useCollection<Enrollment>(
     "enrollments",
-    classroomIds.length > 0
-      ? [where("classroomId", "in", classroomIds.slice(0, 10))]
-      : [],
+    classroomIds.length > 0 ? [where("classroomId", "in", classroomIds.slice(0, 10))] : [],
     classroomIds.length > 0
   );
 
   // Fetch submissions for all classrooms
   const { data: allSubmissions, loading: submissionsLoading } = useCollection<Submission>(
     "submissions",
-    classroomIds.length > 0
-      ? [where("classroomId", "in", classroomIds.slice(0, 10))]
-      : [],
+    classroomIds.length > 0 ? [where("classroomId", "in", classroomIds.slice(0, 10))] : [],
     classroomIds.length > 0
   );
 
@@ -38,9 +34,7 @@ export default function TeacherAnalyticsPage() {
   // Fetch student user data for selected classroom
   const { data: studentUsers } = useCollection<AppUser>(
     "users",
-    clsStudentIds.length > 0
-      ? [where("__name__", "in", clsStudentIds.slice(0, 10))]
-      : [],
+    clsStudentIds.length > 0 ? [where("__name__", "in", clsStudentIds.slice(0, 10))] : [],
     clsStudentIds.length > 0
   );
 
@@ -49,7 +43,9 @@ export default function TeacherAnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -76,9 +72,12 @@ export default function TeacherAnalyticsPage() {
   // Compute stats for selected classroom
   const clsSubmissions = cls ? allSubmissions.filter((s) => s.classroomId === cls.id) : [];
   const totalStudents = clsStudentIds.length;
-  const avgMastery = clsEnrollments.length > 0
-    ? Math.round(clsEnrollments.reduce((sum, e) => sum + (e.progress ?? 0), 0) / clsEnrollments.length)
-    : 0;
+  const avgMastery =
+    clsEnrollments.length > 0
+      ? Math.round(
+          clsEnrollments.reduce((sum, e) => sum + (e.progress ?? 0), 0) / clsEnrollments.length
+        )
+      : 0;
   const totalSubmissions = clsSubmissions.length;
 
   // Compute weekly activity from submission dates
@@ -87,7 +86,9 @@ export default function TeacherAnalyticsPage() {
   const weeklyActivity = dayNames.map((day, dayIdx) => {
     const count = clsSubmissions.filter((s) => {
       if (!(s.submittedAt instanceof Date)) return false;
-      const diffDays = Math.floor((now.getTime() - s.submittedAt.getTime()) / (1000 * 60 * 60 * 24));
+      const diffDays = Math.floor(
+        (now.getTime() - s.submittedAt.getTime()) / (1000 * 60 * 60 * 24)
+      );
       return diffDays < 7 && s.submittedAt.getDay() === dayIdx;
     }).length;
     return { day, submissions: count };
@@ -101,10 +102,30 @@ export default function TeacherAnalyticsPage() {
   const needsSupport = clsEnrollments.filter((e) => e.progress < 60).length;
   const totalForDist = clsEnrollments.length || 1;
   const masteryDist = [
-    { label: "Excellent (90-100%)", pct: Math.round((excellent / totalForDist) * 100), count: excellent, color: "#13eca4" },
-    { label: "Proficient (75-89%)", pct: Math.round((proficient / totalForDist) * 100), count: proficient, color: "#3b82f6" },
-    { label: "Developing (60-74%)", pct: Math.round((developing / totalForDist) * 100), count: developing, color: "#f59e0b" },
-    { label: "Needs Support (<60%)", pct: Math.round((needsSupport / totalForDist) * 100), count: needsSupport, color: "#ff4d4d" },
+    {
+      label: "Excellent (90-100%)",
+      pct: Math.round((excellent / totalForDist) * 100),
+      count: excellent,
+      color: "#13eca4",
+    },
+    {
+      label: "Proficient (75-89%)",
+      pct: Math.round((proficient / totalForDist) * 100),
+      count: proficient,
+      color: "#3b82f6",
+    },
+    {
+      label: "Developing (60-74%)",
+      pct: Math.round((developing / totalForDist) * 100),
+      count: developing,
+      color: "#f59e0b",
+    },
+    {
+      label: "Needs Support (<60%)",
+      pct: Math.round((needsSupport / totalForDist) * 100),
+      count: needsSupport,
+      color: "#ff4d4d",
+    },
   ];
 
   // Top performers across all classrooms
@@ -119,7 +140,9 @@ export default function TeacherAnalyticsPage() {
     .sort((a, b) => b.progress - a.progress)
     .slice(0, 5)
     .map((s) => {
-      const user = studentUsers.find((u) => (u as AppUser & { id: string }).id === s.studentId || u.uid === s.studentId);
+      const user = studentUsers.find(
+        (u) => (u as AppUser & { id: string }).id === s.studentId || u.uid === s.studentId
+      );
       const classroom = classrooms.find((c) =>
         allEnrollments.some((e) => e.studentId === s.studentId && e.classroomId === c.id)
       );
@@ -136,7 +159,9 @@ export default function TeacherAnalyticsPage() {
     clsSubmissions
       .filter((s) => {
         if (!(s.submittedAt instanceof Date)) return false;
-        const diffDays = Math.floor((now.getTime() - s.submittedAt.getTime()) / (1000 * 60 * 60 * 24));
+        const diffDays = Math.floor(
+          (now.getTime() - s.submittedAt.getTime()) / (1000 * 60 * 60 * 24)
+        );
         return diffDays < 7;
       })
       .map((s) => s.studentId)
@@ -178,13 +203,31 @@ export default function TeacherAnalyticsPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
             { icon: "group", label: "Total Students", value: totalStudents, color: "#13eca4" },
-            { icon: "trending_up", label: "Avg. Mastery Score", value: `${avgMastery}%`, color: "#3b82f6" },
-            { icon: "assignment_turned_in", label: "Submissions", value: totalSubmissions, color: "#f59e0b" },
+            {
+              icon: "trending_up",
+              label: "Avg. Mastery Score",
+              value: `${avgMastery}%`,
+              color: "#3b82f6",
+            },
+            {
+              icon: "assignment_turned_in",
+              label: "Submissions",
+              value: totalSubmissions,
+              color: "#f59e0b",
+            },
             { icon: "person", label: "Active This Week", value: activeThisWeek, color: "#8b5cf6" },
           ].map((s) => (
-            <div key={s.label} className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style={{ background: `${s.color}18` }}>
-                <span className="material-symbols-outlined text-[20px]" style={{ color: s.color }}>{s.icon}</span>
+            <div
+              key={s.label}
+              className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]"
+            >
+              <div
+                className="w-9 h-9 rounded-xl flex items-center justify-center mb-3"
+                style={{ background: `${s.color}18` }}
+              >
+                <span className="material-symbols-outlined text-[20px]" style={{ color: s.color }}>
+                  {s.icon}
+                </span>
               </div>
               <p className="text-slate-400 text-xs font-medium">{s.label}</p>
               <p className="text-white text-2xl font-bold">{s.value}</p>
@@ -203,12 +246,14 @@ export default function TeacherAnalyticsPage() {
               {weeklyActivity.map((d) => (
                 <div key={d.day} className="flex-1 flex flex-col items-center gap-1.5">
                   <span className="text-[#13eca4] text-xs font-bold">{d.submissions}</span>
-                  <div className="w-full rounded-t-lg transition-all hover:opacity-80 relative group" style={{
-                    height: `${(d.submissions / maxSubmissions) * 100}%`,
-                    minHeight: "4px",
-                    background: "linear-gradient(180deg, #13eca4, #0dd494)",
-                  }}>
-                  </div>
+                  <div
+                    className="w-full rounded-t-lg transition-all hover:opacity-80 relative group"
+                    style={{
+                      height: `${(d.submissions / maxSubmissions) * 100}%`,
+                      minHeight: "4px",
+                      background: "linear-gradient(180deg, #13eca4, #0dd494)",
+                    }}
+                  ></div>
                   <span className="text-slate-500 text-xs">{d.day}</span>
                 </div>
               ))}
@@ -223,10 +268,15 @@ export default function TeacherAnalyticsPage() {
                 <div key={m.label}>
                   <div className="flex items-center justify-between text-xs mb-1.5">
                     <span className="text-slate-400">{m.label}</span>
-                    <span className="font-bold" style={{ color: m.color }}>{m.count} student{m.count !== 1 ? "s" : ""}</span>
+                    <span className="font-bold" style={{ color: m.color }}>
+                      {m.count} student{m.count !== 1 ? "s" : ""}
+                    </span>
                   </div>
                   <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full">
-                    <div className="h-2 rounded-full transition-all" style={{ background: m.color, width: `${m.pct}%` }} />
+                    <div
+                      className="h-2 rounded-full transition-all"
+                      style={{ background: m.color, width: `${m.pct}%` }}
+                    />
                   </div>
                 </div>
               ))}
@@ -240,7 +290,9 @@ export default function TeacherAnalyticsPage() {
             <h2 className="text-white font-bold">Top Performers</h2>
           </div>
           {topStudents.length === 0 ? (
-            <div className="px-6 py-12 text-center text-slate-500 text-sm">No student data available yet.</div>
+            <div className="px-6 py-12 text-center text-slate-500 text-sm">
+              No student data available yet.
+            </div>
           ) : (
             <table className="w-full text-sm">
               <thead>
@@ -254,15 +306,30 @@ export default function TeacherAnalyticsPage() {
               </thead>
               <tbody>
                 {topStudents.map((s, i) => (
-                  <tr key={s.name + i} className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                  <tr
+                    key={s.name + i}
+                    className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors"
+                  >
                     <td className="px-6 py-4">
-                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${
-                        i === 0 ? "bg-yellow-400 text-yellow-900" : i === 1 ? "bg-slate-400 text-slate-900" : i === 2 ? "bg-amber-700 text-white" : "text-slate-500"
-                      }`}>{i < 3 ? "\u2605" : i + 1}</span>
+                      <span
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-black ${
+                          i === 0
+                            ? "bg-yellow-400 text-yellow-900"
+                            : i === 1
+                              ? "bg-slate-400 text-slate-900"
+                              : i === 2
+                                ? "bg-amber-700 text-white"
+                                : "text-slate-500"
+                        }`}
+                      >
+                        {i < 3 ? "\u2605" : i + 1}
+                      </span>
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">{s.name[0]}</div>
+                        <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
+                          {s.name[0]}
+                        </div>
                         <span className="text-white font-semibold">{s.name}</span>
                       </div>
                     </td>

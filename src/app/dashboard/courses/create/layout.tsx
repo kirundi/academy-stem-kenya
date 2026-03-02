@@ -4,11 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/AuthContext";
 
-export default function CourseCreatorLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function CourseCreatorLayout({ children }: { children: React.ReactNode }) {
   const { appUser, loading, role } = useAuthContext();
   const router = useRouter();
 
@@ -21,7 +17,9 @@ export default function CourseCreatorLayout({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#10221c]">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -29,7 +27,9 @@ export default function CourseCreatorLayout({
   if (!appUser || (role !== "admin" && role !== "super_admin")) {
     return (
       <div className="flex items-center justify-center h-screen bg-[#10221c]">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }

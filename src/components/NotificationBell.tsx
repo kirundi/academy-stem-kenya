@@ -4,18 +4,14 @@ import { useState, useRef, useEffect } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
 
 export default function NotificationBell() {
-  const { notifications, unreadCount, loading, markAsRead, markAllAsRead } =
-    useNotifications();
+  const { notifications, unreadCount, loading, markAsRead, markAllAsRead } = useNotifications();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     }
@@ -106,9 +102,7 @@ export default function NotificationBell() {
                     }
                   }}
                   className={`w-full flex items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-[rgba(255,255,255,0.04)] ${
-                    !notification.read
-                      ? "bg-[rgba(19,236,164,0.04)]"
-                      : ""
+                    !notification.read ? "bg-[rgba(19,236,164,0.04)]" : ""
                   }`}
                 >
                   <div
@@ -125,9 +119,7 @@ export default function NotificationBell() {
                   <div className="flex-1 min-w-0">
                     <p
                       className={`text-xs leading-relaxed ${
-                        !notification.read
-                          ? "text-white font-medium"
-                          : "text-slate-400"
+                        !notification.read ? "text-white font-medium" : "text-slate-400"
                       }`}
                     >
                       {notification.message}

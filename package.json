@@ -10,8 +10,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"**/*.{js,jsx,mjs,cjs,json,md,mdx,yaml,yml,html}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"**/*.{js,jsx,mjs,cjs,json,md,mdx,yaml,yml,html}\" --ignore-path .gitignore"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",

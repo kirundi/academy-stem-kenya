@@ -7,7 +7,12 @@ const stars = [1, 2, 3, 4, 5];
 const stats = [
   { icon: "auto_awesome", label: "Skill Boost", value: "+500 XP", sub: "Added to your profile" },
   { icon: "leaderboard", label: "Community Rank", value: "Top 1%", sub: "Global participant rank" },
-  { icon: "celebration", label: "Exclusive Perk", value: "2025 Summit", sub: "STEM Summit access granted" },
+  {
+    icon: "celebration",
+    label: "Exclusive Perk",
+    value: "2025 Summit",
+    sub: "STEM Summit access granted",
+  },
 ];
 
 export default function ChallengeWinnerPage() {
@@ -37,13 +42,19 @@ export default function ChallengeWinnerPage() {
       <div className="relative z-10">
         {/* Top nav */}
         <header className="flex items-center gap-6 px-8 py-5 border-b border-[rgba(19,236,164,0.12)] bg-[#0d1f1a]/80 backdrop-blur-sm">
-          <Link href="/school/student/challenges" className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors flex items-center gap-1">
+          <Link
+            href="/school/student/challenges"
+            className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors flex items-center gap-1"
+          >
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Challenges
           </Link>
           <div className="h-4 w-px bg-[rgba(19,236,164,0.2)]" />
           <span className="text-sm font-semibold text-slate-300">Eco-Hack 2024</span>
-          <Link href="/school/student/challenges/leaderboard" className="ml-auto text-sm font-semibold text-[#13eca4] hover:brightness-110 transition-all flex items-center gap-1">
+          <Link
+            href="/school/student/challenges/leaderboard"
+            className="ml-auto text-sm font-semibold text-[#13eca4] hover:brightness-110 transition-all flex items-center gap-1"
+          >
             <span className="material-symbols-outlined text-base">leaderboard</span>
             View Leaderboard
           </Link>
@@ -66,7 +77,8 @@ export default function ChallengeWinnerPage() {
             <div className="col-span-12 lg:col-span-5 flex flex-col items-center gap-8">
               {/* 3D Badge */}
               <div className="relative group">
-                <div className="w-72 h-72 rounded-full flex flex-col items-center justify-center relative overflow-hidden
+                <div
+                  className="w-72 h-72 rounded-full flex flex-col items-center justify-center relative overflow-hidden
                   border-[6px] border-yellow-400 shadow-[0_0_60px_rgba(250,204,21,0.4),0_0_100px_rgba(250,204,21,0.15)]
                   bg-[#142a25]"
                 >
@@ -74,7 +86,8 @@ export default function ChallengeWinnerPage() {
                   <div
                     className="absolute inset-0 opacity-20"
                     style={{
-                      backgroundImage: "radial-gradient(circle, rgba(250,204,21,0.6) 1px, transparent 1px)",
+                      backgroundImage:
+                        "radial-gradient(circle, rgba(250,204,21,0.6) 1px, transparent 1px)",
                       backgroundSize: "20px 20px",
                     }}
                   />
@@ -82,7 +95,9 @@ export default function ChallengeWinnerPage() {
                     emoji_events
                   </span>
                   <p className="text-base font-black tracking-[0.2em] text-yellow-400 relative z-10 leading-tight text-center px-4">
-                    ECO-HACK<br />CHAMPION 2024
+                    ECO-HACK
+                    <br />
+                    CHAMPION 2024
                   </p>
                   {/* Outer ring glow */}
                   <div className="absolute inset-2 rounded-full border border-yellow-400/20 pointer-events-none" />
@@ -93,7 +108,9 @@ export default function ChallengeWinnerPage() {
               {/* Stars */}
               <div className="flex items-center gap-2">
                 {stars.map((s) => (
-                  <span key={s} className="material-symbols-outlined text-yellow-400 text-2xl">star</span>
+                  <span key={s} className="material-symbols-outlined text-yellow-400 text-2xl">
+                    star
+                  </span>
                 ))}
               </div>
 
@@ -126,20 +143,32 @@ export default function ChallengeWinnerPage() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center px-12 py-8 bottom-12">
                   <div className="text-center mb-4">
                     <div className="flex items-center justify-center mb-2">
-                      <span className="material-symbols-outlined text-[#13eca4] text-3xl">verified</span>
+                      <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                        verified
+                      </span>
                     </div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#13eca4] mb-1">STEM Impact Academy</p>
-                    <h2 className="text-lg font-black tracking-wide uppercase text-white mb-1">Certificate of Achievement</h2>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#13eca4] mb-1">
+                      STEM Impact Academy
+                    </p>
+                    <h2 className="text-lg font-black tracking-wide uppercase text-white mb-1">
+                      Certificate of Achievement
+                    </h2>
                     <div className="w-20 h-px bg-linear-to-r from-transparent via-[#13eca4]/60 to-transparent mx-auto mb-4" />
                   </div>
 
-                  <p className="text-xs text-slate-400 tracking-widest uppercase mb-1">This is to certify that</p>
-                  <p className="text-2xl font-black tracking-tight border-b border-[#13eca4]/40 pb-1 mb-3">Alex Rivera</p>
+                  <p className="text-xs text-slate-400 tracking-widest uppercase mb-1">
+                    This is to certify that
+                  </p>
+                  <p className="text-2xl font-black tracking-tight border-b border-[#13eca4]/40 pb-1 mb-3">
+                    Alex Rivera
+                  </p>
 
                   <p className="text-xs text-slate-400 text-center leading-relaxed max-w-xs mb-2">
                     has demonstrated exceptional innovation and technical excellence in the
                   </p>
-                  <p className="text-sm font-bold text-[#13eca4] text-center mb-6">Eco-Hack 2024 Sustainability Challenge</p>
+                  <p className="text-sm font-bold text-[#13eca4] text-center mb-6">
+                    Eco-Hack 2024 Sustainability Challenge
+                  </p>
 
                   {/* Bottom row */}
                   <div className="w-full grid grid-cols-3 items-end gap-4 mt-auto">
@@ -149,7 +178,9 @@ export default function ChallengeWinnerPage() {
                     </div>
                     <div className="flex flex-col items-center">
                       <div className="size-10 rounded-full bg-[#13eca4]/20 border border-[#13eca4]/40 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#13eca4] text-lg">shield</span>
+                        <span className="material-symbols-outlined text-[#13eca4] text-lg">
+                          shield
+                        </span>
                       </div>
                       <p className="text-[9px] text-slate-500 mt-1">Academy Seal</p>
                     </div>
@@ -162,7 +193,9 @@ export default function ChallengeWinnerPage() {
 
                 {/* Footer bar with verify ID */}
                 <div className="absolute bottom-0 left-0 right-0 h-12 bg-[#0a1a16]/80 border-t border-[rgba(19,236,164,0.12)] flex items-center justify-between px-6">
-                  <span className="text-[10px] text-slate-500 font-mono">Verify ID: STEM-2024-EH-00192</span>
+                  <span className="text-[10px] text-slate-500 font-mono">
+                    Verify ID: STEM-2024-EH-00192
+                  </span>
                   <button
                     onClick={handleDownload}
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-[#13eca4]/15 text-[#13eca4] border border-[#13eca4]/30 rounded-lg text-xs font-bold hover:bg-[#13eca4]/25 transition-colors"
@@ -186,7 +219,9 @@ export default function ChallengeWinnerPage() {
                   <span className="material-symbols-outlined text-xl">{s.icon}</span>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400 uppercase tracking-wider font-bold mb-0.5">{s.label}</p>
+                  <p className="text-xs text-slate-400 uppercase tracking-wider font-bold mb-0.5">
+                    {s.label}
+                  </p>
                   <p className="text-xl font-black">{s.value}</p>
                   <p className="text-xs text-slate-500 mt-0.5">{s.sub}</p>
                 </div>

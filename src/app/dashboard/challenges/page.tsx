@@ -33,7 +33,7 @@ export default function AdminChallengeCreator() {
   const [published, setPublished] = useState(false);
 
   const toggleSchool = (s: string) =>
-    setSelectedSchools((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
+    setSelectedSchools((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]));
 
   const filteredSchools = schools.filter((s) =>
     s.toLowerCase().includes(schoolSearch.toLowerCase())
@@ -74,11 +74,17 @@ export default function AdminChallengeCreator() {
           }`}
         >
           {isPublishing ? (
-            <span className="material-symbols-outlined animate-spin text-lg">progress_activity</span>
+            <span className="material-symbols-outlined animate-spin text-lg">
+              progress_activity
+            </span>
           ) : published ? (
-            <><span className="material-symbols-outlined text-lg">check_circle</span> Published!</>
+            <>
+              <span className="material-symbols-outlined text-lg">check_circle</span> Published!
+            </>
           ) : (
-            <><span className="material-symbols-outlined text-lg">publish</span> Publish Now</>
+            <>
+              <span className="material-symbols-outlined text-lg">publish</span> Publish Now
+            </>
           )}
         </button>
       </header>
@@ -127,7 +133,9 @@ export default function AdminChallengeCreator() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Start Date</label>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                    Start Date
+                  </label>
                   <input
                     type="date"
                     value={startDate}
@@ -136,7 +144,9 @@ export default function AdminChallengeCreator() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Start Time</label>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                    Start Time
+                  </label>
                   <input
                     type="time"
                     value={startTime}
@@ -146,7 +156,9 @@ export default function AdminChallengeCreator() {
                 </div>
               </div>
               <div className="mb-6">
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Duration (Hours)</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                  Duration (Hours)
+                </label>
                 <input
                   type="number"
                   min={1}
@@ -159,7 +171,9 @@ export default function AdminChallengeCreator() {
               <div className="flex items-start gap-6 p-4 bg-[#1a2e30] rounded-xl border border-[rgba(19,236,164,0.1)]">
                 <div className="flex-1">
                   <p className="font-semibold text-sm mb-1">Allow Late Submissions</p>
-                  <p className="text-xs text-slate-400">Students can submit up to 15 minutes past the deadline with a point penalty.</p>
+                  <p className="text-xs text-slate-400">
+                    Students can submit up to 15 minutes past the deadline with a point penalty.
+                  </p>
                   {lateSubmissions && (
                     <p className="text-xs font-bold text-red-400 mt-1 flex items-center gap-1">
                       <span className="material-symbols-outlined text-sm">warning</span>
@@ -186,14 +200,25 @@ export default function AdminChallengeCreator() {
               </h2>
               {/* Toolbar */}
               <div className="flex items-center gap-1 mb-3 p-2 bg-[#1a2e30] rounded-t-lg border border-[rgba(19,236,164,0.1)] border-b-0 flex-wrap">
-                {["format_bold", "format_italic", "format_list_bulleted", "link", "image", "H1", "H2", "code"].map((icon) => (
+                {[
+                  "format_bold",
+                  "format_italic",
+                  "format_list_bulleted",
+                  "link",
+                  "image",
+                  "H1",
+                  "H2",
+                  "code",
+                ].map((icon) => (
                   <button
                     key={icon}
                     className="p-1.5 rounded text-slate-400 hover:bg-white/10 hover:text-white transition-colors text-xs font-bold min-w-8"
                   >
-                    {icon.startsWith("format_") || ["link", "image", "code"].includes(icon)
-                      ? <span className="material-symbols-outlined text-base">{icon}</span>
-                      : icon}
+                    {icon.startsWith("format_") || ["link", "image", "code"].includes(icon) ? (
+                      <span className="material-symbols-outlined text-base">{icon}</span>
+                    ) : (
+                      icon
+                    )}
                   </button>
                 ))}
               </div>
@@ -210,7 +235,9 @@ export default function AdminChallengeCreator() {
             <div className="sticky top-24 space-y-6">
               {/* Participation Scope */}
               <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-6">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">Participation Scope</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400 mb-4">
+                  Participation Scope
+                </h3>
                 <div className="space-y-3">
                   {scopeOptions.map((opt) => (
                     <div key={opt.key}>
@@ -222,14 +249,20 @@ export default function AdminChallengeCreator() {
                             : "border-[rgba(19,236,164,0.1)] text-slate-400 hover:border-[rgba(19,236,164,0.2)] hover:text-slate-300"
                         }`}
                       >
-                        <div className={`p-1.5 rounded-lg shrink-0 ${scope === opt.key ? "bg-[#13eca4]/20 text-[#13eca4]" : "bg-[#1a2e30]"}`}>
+                        <div
+                          className={`p-1.5 rounded-lg shrink-0 ${scope === opt.key ? "bg-[#13eca4]/20 text-[#13eca4]" : "bg-[#1a2e30]"}`}
+                        >
                           <span className="material-symbols-outlined text-base">{opt.icon}</span>
                         </div>
                         <div className="text-left flex-1">
                           <p className="text-sm font-semibold leading-none mb-0.5">{opt.label}</p>
                           <p className="text-xs text-slate-500">{opt.sub}</p>
                         </div>
-                        {scope === opt.key && <span className="material-symbols-outlined text-[#13eca4] shrink-0">check_circle</span>}
+                        {scope === opt.key && (
+                          <span className="material-symbols-outlined text-[#13eca4] shrink-0">
+                            check_circle
+                          </span>
+                        )}
                       </button>
 
                       {/* School search expander */}
@@ -249,12 +282,16 @@ export default function AdminChallengeCreator() {
                               >
                                 <div
                                   className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center transition-colors ${
-                                    selectedSchools.includes(s) ? "bg-[#13eca4] border-[#13eca4]" : "border-slate-500 group-hover:border-[#13eca4]/50"
+                                    selectedSchools.includes(s)
+                                      ? "bg-[#13eca4] border-[#13eca4]"
+                                      : "border-slate-500 group-hover:border-[#13eca4]/50"
                                   }`}
                                   onClick={() => toggleSchool(s)}
                                 >
                                   {selectedSchools.includes(s) && (
-                                    <span className="material-symbols-outlined text-[#0d1f1a] text-[10px]">check</span>
+                                    <span className="material-symbols-outlined text-[#0d1f1a] text-[10px]">
+                                      check
+                                    </span>
                                   )}
                                 </div>
                                 <span className="text-xs text-slate-300">{s}</span>
@@ -271,7 +308,9 @@ export default function AdminChallengeCreator() {
                     onClick={handlePublish}
                     disabled={isPublishing || published}
                     className={`w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
-                      published ? "bg-green-600/30 text-green-400" : "bg-[#13eca4] text-[#0d1f1a] hover:brightness-105"
+                      published
+                        ? "bg-green-600/30 text-green-400"
+                        : "bg-[#13eca4] text-[#0d1f1a] hover:brightness-105"
                     }`}
                   >
                     {published ? "Published!" : "Create Challenge"}
@@ -284,13 +323,19 @@ export default function AdminChallengeCreator() {
 
               {/* Preview card */}
               <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-5">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Live Preview</h4>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                  Live Preview
+                </h4>
                 <div className="rounded-xl bg-[#1a2e30] overflow-hidden border border-[rgba(19,236,164,0.1)]">
                   <div className="h-20 bg-linear-to-r from-[#13eca4]/30 to-[#1a2e30] flex items-center px-4">
-                    <span className="material-symbols-outlined text-[#13eca4] text-3xl">filter_drama</span>
+                    <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                      filter_drama
+                    </span>
                   </div>
                   <div className="p-4">
-                    <p className="text-xs text-[#13eca4] font-bold uppercase mb-1">{theme || "Hackathon Theme"}</p>
+                    <p className="text-xs text-[#13eca4] font-bold uppercase mb-1">
+                      {theme || "Hackathon Theme"}
+                    </p>
                     <p className="font-bold text-sm mb-3">{title || "Challenge Title"}</p>
                     <div className="flex justify-between text-[10px] text-slate-500">
                       <span>Starts {startDate}</span>

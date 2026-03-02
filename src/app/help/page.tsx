@@ -11,7 +11,8 @@ export default function HelpPage() {
           <div className="text-center mb-16">
             <h1 className="text-4xl font-black mb-4">Help Center</h1>
             <p className="text-slate-400 max-w-xl mx-auto">
-              Find answers to common questions and get the support you need to make the most of STEM Impact Academy.
+              Find answers to common questions and get the support you need to make the most of STEM
+              Impact Academy.
             </p>
           </div>
 
@@ -86,7 +87,9 @@ export default function HelpPage() {
                 <ul className="space-y-2">
                   {items.map((item) => (
                     <li key={item} className="text-sm text-slate-400 flex items-center gap-2">
-                      <span className="material-symbols-outlined text-slate-600 text-sm">chevron_right</span>
+                      <span className="material-symbols-outlined text-slate-600 text-sm">
+                        chevron_right
+                      </span>
                       {item}
                     </li>
                   ))}
@@ -97,7 +100,9 @@ export default function HelpPage() {
 
           {/* Still need help? */}
           <div className="rounded-2xl bg-[rgba(19,236,164,0.05)] border border-[rgba(19,236,164,0.15)] p-8 md:p-12 text-center">
-            <span className="material-symbols-outlined text-[#13eca4] text-4xl mb-4">support_agent</span>
+            <span className="material-symbols-outlined text-[#13eca4] text-4xl mb-4">
+              support_agent
+            </span>
             <h2 className="text-2xl font-bold mb-3">Still Need Help?</h2>
             <p className="text-slate-400 mb-6 max-w-lg mx-auto">
               Can&apos;t find what you&apos;re looking for? Our support team is ready to assist you.
@@ -113,7 +118,9 @@ export default function HelpPage() {
       </main>
 
       <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center mt-16">
-        <p className="text-xs text-slate-600">&copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.</p>
+        <p className="text-xs text-slate-600">
+          &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
+        </p>
       </footer>
     </div>
   );

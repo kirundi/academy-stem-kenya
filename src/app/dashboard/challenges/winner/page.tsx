@@ -41,8 +41,7 @@ function getShareUrl(platform: string, text: string, url: string) {
     return `https://twitter.com/intent/tweet?text=${enc(text)}&url=${enc(url)}`;
   if (platform === "linkedin")
     return `https://www.linkedin.com/sharing/share-offsite/?url=${enc(url)}&summary=${enc(text)}`;
-  if (platform === "whatsapp")
-    return `https://api.whatsapp.com/send?text=${enc(text + " " + url)}`;
+  if (platform === "whatsapp") return `https://api.whatsapp.com/send?text=${enc(text + " " + url)}`;
   return "#";
 }
 
@@ -128,7 +127,6 @@ export default function ChallengeWinnerPage() {
       `}</style>
 
       <div className="relative min-h-screen bg-[#060f0c] text-white overflow-x-hidden">
-
         {/* ── CONFETTI LAYER ── */}
         <div className="pointer-events-none fixed inset-0 z-10 overflow-hidden" aria-hidden>
           {particles.map((p) => (
@@ -177,7 +175,6 @@ export default function ChallengeWinnerPage() {
         </div>
 
         <div className="relative z-20 max-w-5xl mx-auto px-4 pb-20 pt-4">
-
           {/* ── HEADLINE ── */}
           <div className={`text-center mb-10 ${animateIn ? "slide-up-1" : "opacity-0"}`}>
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-xs font-bold uppercase tracking-widest mb-4">
@@ -188,7 +185,8 @@ export default function ChallengeWinnerPage() {
               <span className="text-white">Congratulations, </span>
               <span
                 style={{
-                  background: "linear-gradient(135deg, #FFD700 0%, #FFA500 40%, #FFD700 70%, #FFEC80 100%)",
+                  background:
+                    "linear-gradient(135deg, #FFD700 0%, #FFA500 40%, #FFD700 70%, #FFEC80 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -198,13 +196,15 @@ export default function ChallengeWinnerPage() {
               </span>
             </h1>
             <p className="mt-3 text-slate-400 text-lg max-w-xl mx-auto">
-              You&apos;ve topped the leaderboard in the <span className="text-white font-semibold">{WINNER.challenge}</span> hackathon.
+              You&apos;ve topped the leaderboard in the{" "}
+              <span className="text-white font-semibold">{WINNER.challenge}</span> hackathon.
             </p>
           </div>
 
           {/* ── BADGE + STATS ROW ── */}
-          <div className={`flex flex-col lg:flex-row items-center justify-center gap-10 mb-14 ${animateIn ? "slide-up-2" : "opacity-0"}`}>
-
+          <div
+            className={`flex flex-col lg:flex-row items-center justify-center gap-10 mb-14 ${animateIn ? "slide-up-2" : "opacity-0"}`}
+          >
             {/* 3-D GOLD BADGE */}
             <div className="relative flex flex-col items-center">
               {/* outer glow */}
@@ -285,10 +285,15 @@ export default function ChallengeWinnerPage() {
             {/* STATS PANEL */}
             <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
               {[
-                { icon: "school",        label: "Institution", value: WINNER.school,    accent: "#13eca4" },
-                { icon: "leaderboard",   label: "Global Rank", value: "#1 of 312",      accent: "#FFD700" },
-                { icon: "workspace_premium", label: "Accuracy",value: "96.4%",          accent: "#845EF7" },
-                { icon: "schedule",      label: "Submitted",   value: "43h 12m",        accent: "#FF922B" },
+                { icon: "school", label: "Institution", value: WINNER.school, accent: "#13eca4" },
+                {
+                  icon: "leaderboard",
+                  label: "Global Rank",
+                  value: "#1 of 312",
+                  accent: "#FFD700",
+                },
+                { icon: "workspace_premium", label: "Accuracy", value: "96.4%", accent: "#845EF7" },
+                { icon: "schedule", label: "Submitted", value: "43h 12m", accent: "#FF922B" },
               ].map((s) => (
                 <div
                   key={s.label}
@@ -306,7 +311,9 @@ export default function ChallengeWinnerPage() {
                       {s.icon}
                     </span>
                   </div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{s.label}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                    {s.label}
+                  </p>
                   <p className="text-base font-black text-white leading-tight">{s.value}</p>
                 </div>
               ))}
@@ -319,12 +326,12 @@ export default function ChallengeWinnerPage() {
             ref={certRef}
             className={`relative ${animateIn ? "slide-up-3" : "opacity-0"}`}
           >
-
             {/* outer gold frame */}
             <div
               className="rounded-2xl p-0.75"
               style={{
-                background: "linear-gradient(135deg, #FFD700 0%, #B8860B 25%, #FFE680 50%, #B8860B 75%, #FFD700 100%)",
+                background:
+                  "linear-gradient(135deg, #FFD700 0%, #B8860B 25%, #FFE680 50%, #B8860B 75%, #FFD700 100%)",
               }}
             >
               {/* inner card */}
@@ -354,7 +361,12 @@ export default function ChallengeWinnerPage() {
                       fill="none"
                     />
                     <circle cx="4" cy="4" r="3" fill="#FFD700" fillOpacity="0.7" />
-                    <path d="M12 4 L16 8 M4 12 L8 16" stroke="#FFD700" strokeWidth="1" opacity="0.6" />
+                    <path
+                      d="M12 4 L16 8 M4 12 L8 16"
+                      stroke="#FFD700"
+                      strokeWidth="1"
+                      opacity="0.6"
+                    />
                   </svg>
                 ))}
 
@@ -372,15 +384,29 @@ export default function ChallengeWinnerPage() {
                 </div>
 
                 <div className="relative z-10 px-8 md:px-16 py-12">
-
                   {/* header row */}
                   <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
                     {/* Academy seal */}
                     <div className="flex flex-col items-center gap-3">
                       <svg viewBox="0 0 100 100" width="80" height="80">
                         {/* outer ring */}
-                        <circle cx="50" cy="50" r="47" fill="none" stroke="#FFD700" strokeWidth="2" />
-                        <circle cx="50" cy="50" r="42" fill="none" stroke="#FFD700" strokeWidth="0.8" strokeDasharray="3 3" />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="47"
+                          fill="none"
+                          stroke="#FFD700"
+                          strokeWidth="2"
+                        />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="none"
+                          stroke="#FFD700"
+                          strokeWidth="0.8"
+                          strokeDasharray="3 3"
+                        />
                         {/* body */}
                         <circle cx="50" cy="50" r="38" fill="url(#sealGrad)" />
                         <defs>
@@ -390,14 +416,27 @@ export default function ChallengeWinnerPage() {
                           </radialGradient>
                         </defs>
                         {/* torch icon */}
-                        <text x="50" y="54" textAnchor="middle" fontSize="26" fill="#13eca4" fontFamily="'Material Symbols Outlined', sans-serif">&#xe3a5;</text>
+                        <text
+                          x="50"
+                          y="54"
+                          textAnchor="middle"
+                          fontSize="26"
+                          fill="#13eca4"
+                          fontFamily="'Material Symbols Outlined', sans-serif"
+                        >
+                          &#xe3a5;
+                        </text>
                         {/* circular text */}
                         <path id="sealArc" d="M 50,50 m -34,0 a 34,34 0 1,1 68,0" fill="none" />
                         <text fontSize="6.5" fill="#FFD700" fontWeight="700" letterSpacing="2">
-                          <textPath href="#sealArc" startOffset="8%">SIC KENYA ACADEMY · EST. 2018</textPath>
+                          <textPath href="#sealArc" startOffset="8%">
+                            SIC KENYA ACADEMY · EST. 2018
+                          </textPath>
                         </text>
                       </svg>
-                      <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-yellow-500/80">Official Seal</p>
+                      <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-yellow-500/80">
+                        Official Seal
+                      </p>
                     </div>
 
                     {/* cert type */}
@@ -411,7 +450,8 @@ export default function ChallengeWinnerPage() {
                       <h2
                         className="font-black text-3xl md:text-4xl leading-tight"
                         style={{
-                          background: "linear-gradient(135deg, #FFD700 0%, #FFF0A0 50%, #FFD700 100%)",
+                          background:
+                            "linear-gradient(135deg, #FFD700 0%, #FFF0A0 50%, #FFD700 100%)",
                           WebkitBackgroundClip: "text",
                           WebkitTextFillColor: "transparent",
                           backgroundClip: "text",
@@ -425,8 +465,12 @@ export default function ChallengeWinnerPage() {
 
                     {/* cert ID */}
                     <div className="flex flex-col items-center md:items-end gap-1">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500">Certificate ID</p>
-                      <p className="text-[11px] font-mono text-yellow-500/80 font-bold">{WINNER.certificateId}</p>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500">
+                        Certificate ID
+                      </p>
+                      <p className="text-[11px] font-mono text-yellow-500/80 font-bold">
+                        {WINNER.certificateId}
+                      </p>
                       {/* QR stand-in */}
                       <div
                         className="mt-1 w-14 h-14 rounded-lg border border-[rgba(255,215,0,0.2)] grid grid-cols-3 gap-0.5 p-1"
@@ -451,9 +495,21 @@ export default function ChallengeWinnerPage() {
 
                   {/* divider */}
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,215,0,0.4))" }} />
-                    <span className="material-symbols-outlined text-yellow-500/60 text-lg">diamond</span>
-                    <div className="flex-1 h-px" style={{ background: "linear-gradient(to left, transparent, rgba(255,215,0,0.4))" }} />
+                    <div
+                      className="flex-1 h-px"
+                      style={{
+                        background: "linear-gradient(to right, transparent, rgba(255,215,0,0.4))",
+                      }}
+                    />
+                    <span className="material-symbols-outlined text-yellow-500/60 text-lg">
+                      diamond
+                    </span>
+                    <div
+                      className="flex-1 h-px"
+                      style={{
+                        background: "linear-gradient(to left, transparent, rgba(255,215,0,0.4))",
+                      }}
+                    />
                   </div>
 
                   {/* body text */}
@@ -462,7 +518,8 @@ export default function ChallengeWinnerPage() {
                     <p
                       className="font-black text-4xl md:text-5xl py-2"
                       style={{
-                        background: "linear-gradient(135deg, #ffffff 0%, #e0ffe8 50%, #ffffff 100%)",
+                        background:
+                          "linear-gradient(135deg, #ffffff 0%, #e0ffe8 50%, #ffffff 100%)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
@@ -472,37 +529,56 @@ export default function ChallengeWinnerPage() {
                     >
                       {WINNER.name}
                     </p>
-                    <p className="text-slate-400 text-sm">of <span className="text-white font-semibold">{WINNER.school}</span></p>
+                    <p className="text-slate-400 text-sm">
+                      of <span className="text-white font-semibold">{WINNER.school}</span>
+                    </p>
 
                     <p className="text-slate-400 text-sm pt-3 leading-relaxed max-w-lg mx-auto">
-                      has demonstrated <span className="text-[#13eca4] font-semibold">exceptional innovation</span> and{" "}
-                      <span className="text-[#13eca4] font-semibold">technical excellence</span>, earning
+                      has demonstrated{" "}
+                      <span className="text-[#13eca4] font-semibold">exceptional innovation</span>{" "}
+                      and <span className="text-[#13eca4] font-semibold">technical excellence</span>
+                      , earning
                       <span className="text-white font-bold"> 1st Place</span> in the
                     </p>
-                    <p
-                      className="text-xl md:text-2xl font-black pt-1"
-                      style={{ color: "#FFD700" }}
-                    >
+                    <p className="text-xl md:text-2xl font-black pt-1" style={{ color: "#FFD700" }}>
                       {WINNER.challenge}
                     </p>
                     <p className="text-slate-500 text-sm italic">Theme: {WINNER.theme}</p>
-                    <p className="text-slate-500 text-sm pt-1">Awarded on <span className="text-slate-300">{WINNER.date}</span></p>
+                    <p className="text-slate-500 text-sm pt-1">
+                      Awarded on <span className="text-slate-300">{WINNER.date}</span>
+                    </p>
                   </div>
 
                   {/* divider */}
                   <div className="flex items-center gap-3 mb-10">
-                    <div className="flex-1 h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,215,0,0.4))" }} />
-                    <span className="material-symbols-outlined text-yellow-500/60 text-lg">star</span>
-                    <div className="flex-1 h-px" style={{ background: "linear-gradient(to left, transparent, rgba(255,215,0,0.4))" }} />
+                    <div
+                      className="flex-1 h-px"
+                      style={{
+                        background: "linear-gradient(to right, transparent, rgba(255,215,0,0.4))",
+                      }}
+                    />
+                    <span className="material-symbols-outlined text-yellow-500/60 text-lg">
+                      star
+                    </span>
+                    <div
+                      className="flex-1 h-px"
+                      style={{
+                        background: "linear-gradient(to left, transparent, rgba(255,215,0,0.4))",
+                      }}
+                    />
                   </div>
 
                   {/* signature section */}
                   <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-
                     {/* signature */}
                     <div className="flex flex-col items-center gap-1 flex-1">
                       {/* stylised SVG signature */}
-                      <svg viewBox="0 0 220 70" width="220" height="70" className="overflow-visible">
+                      <svg
+                        viewBox="0 0 220 70"
+                        width="220"
+                        height="70"
+                        className="overflow-visible"
+                      >
                         <path
                           d="M10,55 C30,10 60,5 80,30 C95,48 100,15 130,40 C150,55 160,25 190,35 C205,40 210,50 215,45"
                           fill="none"
@@ -521,7 +597,9 @@ export default function ChallengeWinnerPage() {
                       </svg>
                       <div className="h-px w-48 bg-[rgba(255,215,0,0.3)] my-1" />
                       <p className="text-sm font-bold text-white">{WINNER.adminName}</p>
-                      <p className="text-[10px] text-slate-500 text-center max-w-50 leading-tight">{WINNER.adminTitle}</p>
+                      <p className="text-[10px] text-slate-500 text-center max-w-50 leading-tight">
+                        {WINNER.adminTitle}
+                      </p>
                     </div>
 
                     {/* trophy icon centred */}
@@ -542,7 +620,12 @@ export default function ChallengeWinnerPage() {
 
                     {/* verifier */}
                     <div className="flex flex-col items-center gap-1 flex-1">
-                      <svg viewBox="0 0 220 70" width="220" height="70" className="overflow-visible">
+                      <svg
+                        viewBox="0 0 220 70"
+                        width="220"
+                        height="70"
+                        className="overflow-visible"
+                      >
                         <path
                           d="M15,48 C35,20 65,18 90,38 C108,52 115,22 145,42 C165,55 170,28 200,35 C210,38 215,46 218,42"
                           fill="none"
@@ -561,10 +644,11 @@ export default function ChallengeWinnerPage() {
                       </svg>
                       <div className="h-px w-48 bg-[rgba(19,236,164,0.3)] my-1" />
                       <p className="text-sm font-bold text-white">Ms. Priya Nkemdirim</p>
-                      <p className="text-[10px] text-slate-500 text-center max-w-50 leading-tight">Head of Competitions, SIC Kenya Academy</p>
+                      <p className="text-[10px] text-slate-500 text-center max-w-50 leading-tight">
+                        Head of Competitions, SIC Kenya Academy
+                      </p>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -573,7 +657,6 @@ export default function ChallengeWinnerPage() {
           {/* ── ACTION BUTTONS ── */}
           <div className={`mt-10 ${animateIn ? "slide-up-4" : "opacity-0"}`}>
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 no-print">
-
               {/* Download PDF */}
               <button
                 onClick={handleDownload}
@@ -590,7 +673,9 @@ export default function ChallengeWinnerPage() {
                   style={{ background: "rgba(255,255,255,0.12)" }}
                 />
                 {printing ? (
-                  <span className="material-symbols-outlined animate-spin text-xl">progress_activity</span>
+                  <span className="material-symbols-outlined animate-spin text-xl">
+                    progress_activity
+                  </span>
                 ) : (
                   <span className="material-symbols-outlined text-xl">download</span>
                 )}
@@ -645,11 +730,23 @@ export default function ChallengeWinnerPage() {
                       borderColor: "rgba(132,94,247,0.3)",
                     }}
                   >
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">Share on</p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">
+                      Share on
+                    </p>
                     {[
-                      { platform: "twitter",  label: "Twitter / X",       icon: "alternate_email", color: "#1DA1F2" },
-                      { platform: "linkedin", label: "LinkedIn",           icon: "business_center", color: "#0A66C2" },
-                      { platform: "whatsapp", label: "WhatsApp",           icon: "chat",            color: "#25D366" },
+                      {
+                        platform: "twitter",
+                        label: "Twitter / X",
+                        icon: "alternate_email",
+                        color: "#1DA1F2",
+                      },
+                      {
+                        platform: "linkedin",
+                        label: "LinkedIn",
+                        icon: "business_center",
+                        color: "#0A66C2",
+                      },
+                      { platform: "whatsapp", label: "WhatsApp", icon: "chat", color: "#25D366" },
                     ].map((s) => (
                       <a
                         key={s.platform}
@@ -676,7 +773,9 @@ export default function ChallengeWinnerPage() {
                       }}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-white/5"
                     >
-                      <span className="material-symbols-outlined text-base text-slate-400">link</span>
+                      <span className="material-symbols-outlined text-base text-slate-400">
+                        link
+                      </span>
                       <span className="text-sm font-semibold text-slate-300">Copy Link</span>
                     </button>
                   </div>
@@ -687,10 +786,11 @@ export default function ChallengeWinnerPage() {
             {/* hint text */}
             <p className="text-center text-xs text-slate-600 mt-5">
               Certificate is digitally signed and verifiable at{" "}
-              <span className="text-slate-500 font-mono">academy.sickenya.org/verify/{WINNER.certificateId}</span>
+              <span className="text-slate-500 font-mono">
+                academy.sickenya.org/verify/{WINNER.certificateId}
+              </span>
             </p>
           </div>
-
         </div>
       </div>
     </>

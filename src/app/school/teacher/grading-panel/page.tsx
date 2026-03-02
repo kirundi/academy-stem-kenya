@@ -12,32 +12,50 @@ const teamMembers = [
 ];
 
 const codeLines = [
-  { ln: 1,  tokens: [{ t: "class", c: "keyword" }, { t: " MarsRover:", c: "def" }] },
-  { ln: 2,  tokens: [{ t: "    def __init__(self, battery=100):", c: "def" }] },
-  { ln: 3,  tokens: [{ t: "        self.battery = battery", c: "var" }] },
-  { ln: 4,  tokens: [{ t: "        self.position = [0, 0]", c: "var" }] },
-  { ln: 5,  tokens: [{ t: "        self.log = []", c: "var" }] },
-  { ln: 6,  tokens: [{ t: "", c: "plain" }] },
-  { ln: 7,  tokens: [{ t: "    def move(self, direction, steps=1):", c: "def" }] },
-  { ln: 8,  tokens: [{ t: "        if self.battery < 10:", c: "keyword" }] },
-  { ln: 9,  tokens: [{ t: '            raise LowBatteryError("Cannot move")', c: "string" }] },
+  {
+    ln: 1,
+    tokens: [
+      { t: "class", c: "keyword" },
+      { t: " MarsRover:", c: "def" },
+    ],
+  },
+  { ln: 2, tokens: [{ t: "    def __init__(self, battery=100):", c: "def" }] },
+  { ln: 3, tokens: [{ t: "        self.battery = battery", c: "var" }] },
+  { ln: 4, tokens: [{ t: "        self.position = [0, 0]", c: "var" }] },
+  { ln: 5, tokens: [{ t: "        self.log = []", c: "var" }] },
+  { ln: 6, tokens: [{ t: "", c: "plain" }] },
+  { ln: 7, tokens: [{ t: "    def move(self, direction, steps=1):", c: "def" }] },
+  { ln: 8, tokens: [{ t: "        if self.battery < 10:", c: "keyword" }] },
+  { ln: 9, tokens: [{ t: '            raise LowBatteryError("Cannot move")', c: "string" }] },
   { ln: 10, tokens: [{ t: "        self._update_position(direction, steps)", c: "var" }] },
   { ln: 11, tokens: [{ t: "        self.battery -= steps * 2", c: "var" }] },
   { ln: 12, tokens: [{ t: '        self.log.append(f"{direction} x{steps}")', c: "string" }] },
   { ln: 13, tokens: [{ t: "", c: "plain" }] },
   { ln: 14, tokens: [{ t: "    def _update_position(self, direction, steps):", c: "def" }] },
-  { ln: 15, tokens: [{ t: '        if direction == "N": self.position[1] += steps', c: "keyword" }] },
-  { ln: 16, tokens: [{ t: '        elif direction == "S": self.position[1] -= steps', c: "keyword" }] },
-  { ln: 17, tokens: [{ t: '        elif direction == "E": self.position[0] += steps', c: "keyword" }] },
-  { ln: 18, tokens: [{ t: '        elif direction == "W": self.position[0] -= steps', c: "keyword" }] },
+  {
+    ln: 15,
+    tokens: [{ t: '        if direction == "N": self.position[1] += steps', c: "keyword" }],
+  },
+  {
+    ln: 16,
+    tokens: [{ t: '        elif direction == "S": self.position[1] -= steps', c: "keyword" }],
+  },
+  {
+    ln: 17,
+    tokens: [{ t: '        elif direction == "E": self.position[0] += steps', c: "keyword" }],
+  },
+  {
+    ln: 18,
+    tokens: [{ t: '        elif direction == "W": self.position[0] -= steps', c: "keyword" }],
+  },
 ];
 
 const tokenStyle: Record<string, string> = {
   keyword: "text-[#ff79c6]",
-  def:     "text-[#50fa7b]",
-  var:     "text-[#f8f8f2]",
-  string:  "text-[#f1fa8c]",
-  plain:   "text-[#f8f8f2]",
+  def: "text-[#50fa7b]",
+  var: "text-[#f8f8f2]",
+  string: "text-[#f1fa8c]",
+  plain: "text-[#f8f8f2]",
 };
 
 const reflections = [
@@ -82,9 +100,16 @@ export default function TeacherGradingPanelPage() {
         {/* Top bar */}
         <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.1)] bg-[#0d1f1a] flex items-center justify-between">
           <nav className="flex items-center gap-1.5 text-xs text-slate-400">
-            <Link href="/school/teacher/classroom" className="hover:text-[#13eca4] transition-colors">Classes</Link>
+            <Link
+              href="/school/teacher/classroom"
+              className="hover:text-[#13eca4] transition-colors"
+            >
+              Classes
+            </Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-            <span className="hover:text-[#13eca4] cursor-pointer transition-colors">Robotics 101</span>
+            <span className="hover:text-[#13eca4] cursor-pointer transition-colors">
+              Robotics 101
+            </span>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
             <span className="text-[#13eca4] font-semibold">Mars Rover – Team Alpha</span>
           </nav>
@@ -124,11 +149,13 @@ export default function TeacherGradingPanelPage() {
 
           {/* Tab Bar */}
           <div className="flex items-center gap-1 border-b border-[rgba(19,236,164,0.1)] mb-6">
-            {([
-              { key: "files", label: "Project Files", icon: "code" },
-              { key: "reflection", label: "Collective Reflection", icon: "chat" },
-              { key: "changelog", label: "Team Changelog", icon: "history" },
-            ] as Array<{ key: Tab; label: string; icon: string }>).map((tab) => (
+            {(
+              [
+                { key: "files", label: "Project Files", icon: "code" },
+                { key: "reflection", label: "Collective Reflection", icon: "chat" },
+                { key: "changelog", label: "Team Changelog", icon: "history" },
+              ] as Array<{ key: Tab; label: string; icon: string }>
+            ).map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
@@ -180,8 +207,13 @@ export default function TeacherGradingPanelPage() {
           {activeTab === "reflection" && (
             <div className="flex flex-col gap-6">
               {reflections.map((r, i) => (
-                <div key={i} className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-2xl p-5">
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Q{i + 1}: {r.q}</p>
+                <div
+                  key={i}
+                  className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-2xl p-5"
+                >
+                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">
+                    Q{i + 1}: {r.q}
+                  </p>
                   <blockquote className="border-l-2 border-[#13eca4]/40 pl-4 text-sm text-slate-200 italic leading-relaxed">
                     {r.a}
                   </blockquote>
@@ -218,15 +250,22 @@ export default function TeacherGradingPanelPage() {
             {gradeSliders.map((s) => (
               <div key={s.key}>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-xs font-bold text-slate-300 uppercase tracking-widest">{s.label}</label>
-                  <span className="text-sm font-black" style={{ color: PRIMARY }}>{sliders[s.key]}<span className="text-xs text-slate-400 font-normal">/100</span></span>
+                  <label className="text-xs font-bold text-slate-300 uppercase tracking-widest">
+                    {s.label}
+                  </label>
+                  <span className="text-sm font-black" style={{ color: PRIMARY }}>
+                    {sliders[s.key]}
+                    <span className="text-xs text-slate-400 font-normal">/100</span>
+                  </span>
                 </div>
                 <input
                   type="range"
                   min={0}
                   max={100}
                   value={sliders[s.key]}
-                  onChange={(e) => setSliders((prev) => ({ ...prev, [s.key]: Number(e.target.value) }))}
+                  onChange={(e) =>
+                    setSliders((prev) => ({ ...prev, [s.key]: Number(e.target.value) }))
+                  }
                   className="w-full accent-[#13eca4] cursor-pointer"
                 />
               </div>
@@ -238,10 +277,15 @@ export default function TeacherGradingPanelPage() {
 
           {/* Individual Contributions */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Individual Contributions</h3>
+            <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
+              Individual Contributions
+            </h3>
             <div className="flex flex-col gap-4">
               {teamMembers.map((m) => (
-                <div key={m.id} className="bg-[#142a25] rounded-xl border border-[rgba(19,236,164,0.12)] p-4">
+                <div
+                  key={m.id}
+                  className="bg-[#142a25] rounded-xl border border-[rgba(19,236,164,0.12)] p-4"
+                >
                   <div className="flex items-center gap-2.5 mb-3">
                     <div
                       className="size-7 rounded-full flex items-center justify-center text-[9px] font-bold text-[#0d1f1a]"
@@ -270,11 +314,18 @@ export default function TeacherGradingPanelPage() {
           <div className="bg-[#142a25] rounded-xl border border-[rgba(19,236,164,0.2)] p-4">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Calculated Average</p>
-                <p className="text-lg font-black text-white">{avgGrade}<span className="text-sm text-slate-400">/100</span></p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                  Calculated Average
+                </p>
+                <p className="text-lg font-black text-white">
+                  {avgGrade}
+                  <span className="text-sm text-slate-400">/100</span>
+                </p>
               </div>
               <div className="text-right">
-                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Final Team Grade</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
+                  Final Team Grade
+                </p>
                 <div className="flex items-center gap-1.5">
                   <input
                     type="text"
@@ -303,7 +354,9 @@ export default function TeacherGradingPanelPage() {
               }`}
             >
               {publishing ? (
-                <span className="material-symbols-outlined animate-spin text-lg">progress_activity</span>
+                <span className="material-symbols-outlined animate-spin text-lg">
+                  progress_activity
+                </span>
               ) : published ? (
                 <>
                   <span className="material-symbols-outlined text-lg">check_circle</span>

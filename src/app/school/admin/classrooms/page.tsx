@@ -14,7 +14,9 @@ export default function ClassroomsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -47,7 +49,9 @@ export default function ClassroomsPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-14 flex items-center justify-between">
         <div className="flex items-center gap-4 flex-1">
           <div className="relative max-w-md w-full">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+              search
+            </span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -90,7 +94,10 @@ export default function ClassroomsPage() {
             <p className="text-3xl font-bold text-white">{activeCodes}</p>
             <div className="mt-2 text-xs text-[#13eca4] flex items-center gap-1">
               <span className="material-symbols-outlined text-xs">check_circle</span>
-              {classrooms.length > 0 ? `${Math.round((activeCodes / classrooms.length) * 100)}%` : "0%"} utilization
+              {classrooms.length > 0
+                ? `${Math.round((activeCodes / classrooms.length) * 100)}%`
+                : "0%"}{" "}
+              utilization
             </div>
           </div>
           <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] p-6 rounded-xl">
@@ -111,7 +118,11 @@ export default function ClassroomsPage() {
               Global Configuration
             </h2>
             <button
-              onClick={() => { setPendingPrefix("TECH-"); setPrefix("TECH-"); setCodeMode("Alphanumeric (8 chars)"); }}
+              onClick={() => {
+                setPendingPrefix("TECH-");
+                setPrefix("TECH-");
+                setCodeMode("Alphanumeric (8 chars)");
+              }}
               className="text-[#13eca4] text-sm font-medium hover:underline"
             >
               Reset Defaults
@@ -161,7 +172,9 @@ export default function ClassroomsPage() {
             <h3 className="font-bold text-white">Classrooms &amp; Code Registry</h3>
             <div className="flex gap-2">
               <button className="bg-[#10221c] p-2 rounded-lg border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.3)] transition-colors">
-                <span className="material-symbols-outlined text-base text-slate-400">filter_list</span>
+                <span className="material-symbols-outlined text-base text-slate-400">
+                  filter_list
+                </span>
               </button>
               <button className="bg-[#10221c] p-2 rounded-lg border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.3)] transition-colors">
                 <span className="material-symbols-outlined text-base text-slate-400">download</span>
@@ -192,9 +205,15 @@ export default function ClassroomsPage() {
                     const code = getCodeForClassroom(c.id, c.joinCode ?? "");
                     const isExpired = !code || code.trim() === "";
                     const teacherName = teacherMap.get(c.teacherId) ?? "Unassigned";
-                    const teacherInitials = teacherName !== "Unassigned"
-                      ? teacherName.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2)
-                      : "?";
+                    const teacherInitials =
+                      teacherName !== "Unassigned"
+                        ? teacherName
+                            .split(" ")
+                            .map((w) => w[0])
+                            .join("")
+                            .toUpperCase()
+                            .slice(0, 2)
+                        : "?";
 
                     return (
                       <tr key={c.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
@@ -203,9 +222,7 @@ export default function ClassroomsPage() {
                             <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] text-xs font-bold shrink-0">
                               {teacherInitials}
                             </div>
-                            <span className="text-sm font-medium text-white">
-                              {teacherName}
-                            </span>
+                            <span className="text-sm font-medium text-white">{teacherName}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-slate-300">{c.name}</td>
@@ -214,7 +231,9 @@ export default function ClassroomsPage() {
                           <div className="flex items-center gap-2 group">
                             <input
                               value={isExpired ? "EXPIRED" : code}
-                              onChange={(e) => setEditedCodes((prev) => ({ ...prev, [c.id]: e.target.value }))}
+                              onChange={(e) =>
+                                setEditedCodes((prev) => ({ ...prev, [c.id]: e.target.value }))
+                              }
                               className={`w-28 border-none rounded px-2 py-1 text-xs font-mono focus:outline-none focus:ring-1 ${
                                 isExpired
                                   ? "bg-red-900/20 text-red-400 focus:ring-red-500"
@@ -261,7 +280,9 @@ export default function ClassroomsPage() {
 
           {/* Pagination */}
           <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between text-xs text-slate-400">
-            <span>Showing {filtered.length} of {classrooms.length} classrooms</span>
+            <span>
+              Showing {filtered.length} of {classrooms.length} classrooms
+            </span>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span>Rows per page:</span>

@@ -46,10 +46,7 @@ export default function StudentProgressPage() {
   const { enrollments, submissions, earnedBadges, loading: studentLoading } = useStudentData();
 
   // Get unique courseIds from enrollments
-  const courseIds = useMemo(
-    () => [...new Set(enrollments.map((e) => e.courseId))],
-    [enrollments]
-  );
+  const courseIds = useMemo(() => [...new Set(enrollments.map((e) => e.courseId))], [enrollments]);
 
   // Fetch courses
   const { data: courses, loading: coursesLoading } = useCollection<Course>(
@@ -79,29 +76,64 @@ export default function StudentProgressPage() {
     const items: { label: string; date: string; icon: string; done: boolean }[] = [];
 
     // First submission
-    const firstSub = submissions.length > 0
-      ? [...submissions].sort((a, b) => {
-          const da = a.submittedAt ? toDate(a.submittedAt).getTime() : 0;
-          const db_ = b.submittedAt ? toDate(b.submittedAt).getTime() : 0;
-          return da - db_;
-        })[0]
-      : null;
+    const firstSub =
+      submissions.length > 0
+        ? [...submissions].sort((a, b) => {
+            const da = a.submittedAt ? toDate(a.submittedAt).getTime() : 0;
+            const db_ = b.submittedAt ? toDate(b.submittedAt).getTime() : 0;
+            return da - db_;
+          })[0]
+        : null;
     items.push({
       label: "First Submission",
       icon: "rocket_launch",
       done: submissions.length > 0,
       date: firstSub?.submittedAt
-        ? toDate(firstSub.submittedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+        ? toDate(firstSub.submittedAt).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })
         : "--",
     });
 
     const xp = appUser?.xp ?? 0;
-    items.push({ label: "50 XP Earned", icon: "star", done: xp >= 50, date: xp >= 50 ? "Achieved" : "--" });
-    items.push({ label: "First Badge", icon: "military_tech", done: earnedBadges.length >= 1, date: earnedBadges.length >= 1 ? "Achieved" : "--" });
-    items.push({ label: "500 XP Milestone", icon: "workspace_premium", done: xp >= 500, date: xp >= 500 ? "Achieved" : "--" });
-    items.push({ label: "Level 5 Reached", icon: "trending_up", done: (appUser?.level ?? 0) >= 5, date: (appUser?.level ?? 0) >= 5 ? "Achieved" : "--" });
-    items.push({ label: "1000 XP Milestone", icon: "emoji_events", done: xp >= 1000, date: xp >= 1000 ? "Achieved" : "--" });
-    items.push({ label: "Complete 3 Courses", icon: "school", done: enrollments.filter((e) => e.progress >= 100).length >= 3, date: enrollments.filter((e) => e.progress >= 100).length >= 3 ? "Achieved" : "--" });
+    items.push({
+      label: "50 XP Earned",
+      icon: "star",
+      done: xp >= 50,
+      date: xp >= 50 ? "Achieved" : "--",
+    });
+    items.push({
+      label: "First Badge",
+      icon: "military_tech",
+      done: earnedBadges.length >= 1,
+      date: earnedBadges.length >= 1 ? "Achieved" : "--",
+    });
+    items.push({
+      label: "500 XP Milestone",
+      icon: "workspace_premium",
+      done: xp >= 500,
+      date: xp >= 500 ? "Achieved" : "--",
+    });
+    items.push({
+      label: "Level 5 Reached",
+      icon: "trending_up",
+      done: (appUser?.level ?? 0) >= 5,
+      date: (appUser?.level ?? 0) >= 5 ? "Achieved" : "--",
+    });
+    items.push({
+      label: "1000 XP Milestone",
+      icon: "emoji_events",
+      done: xp >= 1000,
+      date: xp >= 1000 ? "Achieved" : "--",
+    });
+    items.push({
+      label: "Complete 3 Courses",
+      icon: "school",
+      done: enrollments.filter((e) => e.progress >= 100).length >= 3,
+      date: enrollments.filter((e) => e.progress >= 100).length >= 3 ? "Achieved" : "--",
+    });
 
     return items;
   }, [submissions, appUser?.xp, appUser?.level, earnedBadges.length, enrollments]);
@@ -158,7 +190,9 @@ export default function StudentProgressPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -194,11 +228,26 @@ export default function StudentProgressPage() {
             <div className="md:ml-auto grid grid-cols-3 gap-4">
               {[
                 { label: "Total XP", value: String(xp), icon: "star", color: "#f59e0b" },
-                { label: "Badges", value: String(earnedBadges.length), icon: "military_tech", color: "#13eca4" },
-                { label: "Submissions", value: String(submissions.length), icon: "upload_file", color: "#8b5cf6" },
+                {
+                  label: "Badges",
+                  value: String(earnedBadges.length),
+                  icon: "military_tech",
+                  color: "#13eca4",
+                },
+                {
+                  label: "Submissions",
+                  value: String(submissions.length),
+                  icon: "upload_file",
+                  color: "#8b5cf6",
+                },
               ].map((s) => (
                 <div key={s.label} className="text-center">
-                  <span className="material-symbols-outlined text-[22px] block mb-1" style={{ color: s.color }}>{s.icon}</span>
+                  <span
+                    className="material-symbols-outlined text-[22px] block mb-1"
+                    style={{ color: s.color }}
+                  >
+                    {s.icon}
+                  </span>
                   <p className="text-white text-xl font-bold">{s.value}</p>
                   <p className="text-slate-500 text-xs">{s.label}</p>
                 </div>
@@ -209,10 +258,15 @@ export default function StudentProgressPage() {
           <div className="mt-5">
             <div className="flex justify-between text-xs mb-2">
               <span className="text-slate-400 font-semibold">Progress to Level {level + 1}</span>
-              <span className="text-[#13eca4] font-bold">{xp} / {xpForNextLevel} XP</span>
+              <span className="text-[#13eca4] font-bold">
+                {xp} / {xpForNextLevel} XP
+              </span>
             </div>
             <div className="h-2.5 bg-[rgba(255,255,255,0.08)] rounded-full">
-              <div className="h-2.5 rounded-full bg-linear-to-r from-[#13eca4] to-[#06d68e] transition-all" style={{ width: `${xpPercent}%` }} />
+              <div
+                className="h-2.5 rounded-full bg-linear-to-r from-[#13eca4] to-[#06d68e] transition-all"
+                style={{ width: `${xpPercent}%` }}
+              />
             </div>
           </div>
         </div>
@@ -228,18 +282,28 @@ export default function StudentProgressPage() {
                     <div key={skill.name}>
                       <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-2">
-                          <span className="material-symbols-outlined text-[18px]" style={{ color: skill.color }}>{skill.icon}</span>
+                          <span
+                            className="material-symbols-outlined text-[18px]"
+                            style={{ color: skill.color }}
+                          >
+                            {skill.icon}
+                          </span>
                           <span className="text-white text-sm font-semibold">{skill.name}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-slate-500 text-xs">{skill.xp} XP</span>
-                          <span className="text-sm font-bold" style={{ color: skill.color }}>{skill.level}%</span>
+                          <span className="text-sm font-bold" style={{ color: skill.color }}>
+                            {skill.level}%
+                          </span>
                         </div>
                       </div>
                       <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full relative overflow-hidden">
                         <div
                           className="h-2 rounded-full transition-all duration-700"
-                          style={{ background: `linear-gradient(90deg, ${skill.color}, ${skill.color}88)`, width: `${skill.level}%` }}
+                          style={{
+                            background: `linear-gradient(90deg, ${skill.color}, ${skill.color}88)`,
+                            width: `${skill.level}%`,
+                          }}
                         />
                       </div>
                     </div>
@@ -250,8 +314,15 @@ export default function StudentProgressPage() {
                 <div className="mt-6 grid grid-cols-3 gap-3">
                   <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-[rgba(19,236,164,0.1)]">
                     <p className="text-slate-500 text-xs mb-1">Strongest Skill</p>
-                    <p className="font-bold text-sm" style={{ color: strongest?.color ?? defaultColor }}>{strongest?.name ?? "N/A"}</p>
-                    <p className="text-xs" style={{ color: strongest?.color ?? defaultColor }}>{strongest?.level ?? 0}%</p>
+                    <p
+                      className="font-bold text-sm"
+                      style={{ color: strongest?.color ?? defaultColor }}
+                    >
+                      {strongest?.name ?? "N/A"}
+                    </p>
+                    <p className="text-xs" style={{ color: strongest?.color ?? defaultColor }}>
+                      {strongest?.level ?? 0}%
+                    </p>
                   </div>
                   <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-[rgba(19,236,164,0.1)]">
                     <p className="text-slate-500 text-xs mb-1">Total Skills</p>
@@ -260,15 +331,23 @@ export default function StudentProgressPage() {
                   </div>
                   <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-[rgba(19,236,164,0.1)]">
                     <p className="text-slate-500 text-xs mb-1">Focus Area</p>
-                    <p className="font-bold text-sm" style={{ color: weakest?.color ?? "#3b82f6" }}>{weakest?.name ?? "N/A"}</p>
-                    <p className="text-xs" style={{ color: weakest?.color ?? "#3b82f6" }}>{weakest?.level ?? 0}% -- keep going!</p>
+                    <p className="font-bold text-sm" style={{ color: weakest?.color ?? "#3b82f6" }}>
+                      {weakest?.name ?? "N/A"}
+                    </p>
+                    <p className="text-xs" style={{ color: weakest?.color ?? "#3b82f6" }}>
+                      {weakest?.level ?? 0}% -- keep going!
+                    </p>
                   </div>
                 </div>
               </>
             ) : (
               <div className="text-center py-8">
-                <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">insights</span>
-                <p className="text-slate-500 text-sm">No skills data yet. Complete courses to build your skills profile!</p>
+                <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">
+                  insights
+                </span>
+                <p className="text-slate-500 text-sm">
+                  No skills data yet. Complete courses to build your skills profile!
+                </p>
               </div>
             )}
           </div>
@@ -281,12 +360,24 @@ export default function StudentProgressPage() {
               <div className="space-y-4">
                 {milestones.map((m) => (
                   <div key={m.label} className="flex items-start gap-3 relative pl-1">
-                    <div className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${m.done ? "bg-[rgba(19,236,164,0.15)]" : "bg-[rgba(255,255,255,0.05)]"}`}>
-                      <span className={`material-symbols-outlined text-[14px] ${m.done ? "text-[#13eca4]" : "text-slate-600"}`}>{m.icon}</span>
+                    <div
+                      className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${m.done ? "bg-[rgba(19,236,164,0.15)]" : "bg-[rgba(255,255,255,0.05)]"}`}
+                    >
+                      <span
+                        className={`material-symbols-outlined text-[14px] ${m.done ? "text-[#13eca4]" : "text-slate-600"}`}
+                      >
+                        {m.icon}
+                      </span>
                     </div>
                     <div>
-                      <p className={`text-sm font-semibold ${m.done ? "text-white" : "text-slate-600"}`}>{m.label}</p>
-                      <p className={`text-xs ${m.done ? "text-slate-500" : "text-slate-700"}`}>{m.date}</p>
+                      <p
+                        className={`text-sm font-semibold ${m.done ? "text-white" : "text-slate-600"}`}
+                      >
+                        {m.label}
+                      </p>
+                      <p className={`text-xs ${m.done ? "text-slate-500" : "text-slate-700"}`}>
+                        {m.date}
+                      </p>
                     </div>
                     {m.done && (
                       <span className="ml-auto text-xs text-[#13eca4] font-bold">&check;</span>
@@ -308,15 +399,30 @@ export default function StudentProgressPage() {
             {completedCourses.length > 0 ? (
               <div className="space-y-3">
                 {completedCourses.map((c) => (
-                  <div key={c.title} className="flex items-center gap-4 p-3 bg-[rgba(255,255,255,0.03)] rounded-xl">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${c.color}18` }}>
-                      <span className="material-symbols-outlined text-[20px]" style={{ color: c.color }}>school</span>
+                  <div
+                    key={c.title}
+                    className="flex items-center gap-4 p-3 bg-[rgba(255,255,255,0.03)] rounded-xl"
+                  >
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center"
+                      style={{ background: `${c.color}18` }}
+                    >
+                      <span
+                        className="material-symbols-outlined text-[20px]"
+                        style={{ color: c.color }}
+                      >
+                        school
+                      </span>
                     </div>
                     <div className="flex-1">
                       <p className="text-white font-semibold text-sm">{c.title}</p>
-                      <p className="text-slate-500 text-xs">{c.category} &middot; {c.xp} XP earned</p>
+                      <p className="text-slate-500 text-xs">
+                        {c.category} &middot; {c.xp} XP earned
+                      </p>
                     </div>
-                    <span className="text-white font-black text-lg" style={{ color: c.color }}>{c.grade}</span>
+                    <span className="text-white font-black text-lg" style={{ color: c.color }}>
+                      {c.grade}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -335,17 +441,30 @@ export default function StudentProgressPage() {
                 {inProgressCourses.map((c) => (
                   <div key={c.title} className="p-3 bg-[rgba(255,255,255,0.03)] rounded-xl">
                     <div className="flex items-center gap-3 mb-2">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${c.color}18` }}>
-                        <span className="material-symbols-outlined text-[16px]" style={{ color: c.color }}>school</span>
+                      <div
+                        className="w-8 h-8 rounded-lg flex items-center justify-center"
+                        style={{ background: `${c.color}18` }}
+                      >
+                        <span
+                          className="material-symbols-outlined text-[16px]"
+                          style={{ color: c.color }}
+                        >
+                          school
+                        </span>
                       </div>
                       <div className="flex-1">
                         <p className="text-white font-semibold text-sm">{c.title}</p>
                         <p className="text-slate-500 text-xs">{c.category}</p>
                       </div>
-                      <span className="text-sm font-bold" style={{ color: c.color }}>{c.progress}%</span>
+                      <span className="text-sm font-bold" style={{ color: c.color }}>
+                        {c.progress}%
+                      </span>
                     </div>
                     <div className="h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full">
-                      <div className="h-1.5 rounded-full" style={{ background: c.color, width: `${c.progress}%` }} />
+                      <div
+                        className="h-1.5 rounded-full"
+                        style={{ background: c.color, width: `${c.progress}%` }}
+                      />
                     </div>
                   </div>
                 ))}

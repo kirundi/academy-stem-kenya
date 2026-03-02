@@ -49,12 +49,31 @@ const teamMembers = [
 ];
 
 const chatMessages = [
-  { id: 1, author: "Leo Chen", initials: "LC", text: "I've updated the nozzle geometry — throat diameter is now 42.55mm. Check Step 4!", time: "2:14 PM", isSelf: false },
-  { id: 2, author: "Sarah Miller", initials: "SM", text: "Should we adjust the expansion ratio? The exit pressure looks a bit high.", time: "2:17 PM", isSelf: false },
-  { id: 3, author: "You", initials: "YO", text: "Good catch Sarah. Leo, can you explain the current ratio choice?", time: "2:19 PM", isSelf: true },
+  {
+    id: 1,
+    author: "Leo Chen",
+    initials: "LC",
+    text: "I've updated the nozzle geometry — throat diameter is now 42.55mm. Check Step 4!",
+    time: "2:14 PM",
+    isSelf: false,
+  },
+  {
+    id: 2,
+    author: "Sarah Miller",
+    initials: "SM",
+    text: "Should we adjust the expansion ratio? The exit pressure looks a bit high.",
+    time: "2:17 PM",
+    isSelf: false,
+  },
+  {
+    id: 3,
+    author: "You",
+    initials: "YO",
+    text: "Good catch Sarah. Leo, can you explain the current ratio choice?",
+    time: "2:19 PM",
+    isSelf: true,
+  },
 ];
-
-
 
 export default function StudentCollaborationPage() {
   const [chatInput, setChatInput] = useState("");
@@ -111,11 +130,19 @@ export default function StudentCollaborationPage() {
             <div key={msg.id} className={`flex gap-2 ${msg.isSelf ? "flex-row-reverse" : ""}`}>
               <div
                 className="size-7 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 text-[#0d1f1a]"
-                style={{ backgroundColor: msg.isSelf ? "#60a5fa" : msg.author === "Leo Chen" ? PRIMARY : "#94a3b8" }}
+                style={{
+                  backgroundColor: msg.isSelf
+                    ? "#60a5fa"
+                    : msg.author === "Leo Chen"
+                      ? PRIMARY
+                      : "#94a3b8",
+                }}
               >
                 {msg.initials}
               </div>
-              <div className={`max-w-45 ${msg.isSelf ? "items-end" : "items-start"} flex flex-col gap-0.5`}>
+              <div
+                className={`max-w-45 ${msg.isSelf ? "items-end" : "items-start"} flex flex-col gap-0.5`}
+              >
                 {!msg.isSelf && (
                   <span className="text-[10px] font-semibold text-slate-400">{msg.author}</span>
                 )}
@@ -161,9 +188,16 @@ export default function StudentCollaborationPage() {
         <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.1)] bg-[#0d1f1a] flex items-center justify-between">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-1.5 text-xs text-slate-400">
-            <Link href="/school/student/dashboard" className="hover:text-[#13eca4] transition-colors">Projects</Link>
+            <Link
+              href="/school/student/dashboard"
+              className="hover:text-[#13eca4] transition-colors"
+            >
+              Projects
+            </Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-            <span className="hover:text-[#13eca4] cursor-pointer transition-colors">Aerospace Engineering 101</span>
+            <span className="hover:text-[#13eca4] cursor-pointer transition-colors">
+              Aerospace Engineering 101
+            </span>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
             <span className="text-[#13eca4] font-semibold">Step 4: Propulsion Design</span>
           </nav>
@@ -176,18 +210,27 @@ export default function StudentCollaborationPage() {
         <div className="flex-1 overflow-y-auto p-6">
           {/* Project Title */}
           <div className="mb-6">
-            <h1 className="text-2xl font-black text-white tracking-tight">Propulsion System Design</h1>
-            <p className="text-sm text-slate-400 mt-1">Collaborative Design Phase · Lesson 4 of 6</p>
+            <h1 className="text-2xl font-black text-white tracking-tight">
+              Propulsion System Design
+            </h1>
+            <p className="text-sm text-slate-400 mt-1">
+              Collaborative Design Phase · Lesson 4 of 6
+            </p>
           </div>
 
           {/* Team Progress Bar */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Team Progress</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                Team Progress
+              </span>
               <span className="text-sm font-bold text-[#13eca4]">65%</span>
             </div>
             <div className="w-full h-2 bg-[#1a2e30] rounded-full overflow-hidden">
-              <div className="h-full bg-[#13eca4] rounded-full transition-all duration-500" style={{ width: "65%" }} />
+              <div
+                className="h-full bg-[#13eca4] rounded-full transition-all duration-500"
+                style={{ width: "65%" }}
+              />
             </div>
           </div>
 
@@ -198,22 +241,31 @@ export default function StudentCollaborationPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="size-8 rounded-full bg-[#13eca4]/20 flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#13eca4] text-lg">check_circle</span>
+                    <span className="material-symbols-outlined text-[#13eca4] text-lg">
+                      check_circle
+                    </span>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Step 3 · Completed</p>
+                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                      Step 3 · Completed
+                    </p>
                     <h3 className="text-sm font-bold text-white">Fuel Capacity Calculations</h3>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex -space-x-1.5">
                     {["SM", "LC"].map((init) => (
-                      <div key={init} className="size-6 rounded-full bg-slate-600 border border-[#0d1f1a] flex items-center justify-center text-[8px] font-bold text-white">
+                      <div
+                        key={init}
+                        className="size-6 rounded-full bg-slate-600 border border-[#0d1f1a] flex items-center justify-center text-[8px] font-bold text-white"
+                      >
                         {init}
                       </div>
                     ))}
                   </div>
-                  <button className="text-xs text-[#13eca4] font-semibold hover:underline">Review Results</button>
+                  <button className="text-xs text-[#13eca4] font-semibold hover:underline">
+                    Review Results
+                  </button>
                 </div>
               </div>
             </div>
@@ -226,7 +278,9 @@ export default function StudentCollaborationPage() {
                     <span className="material-symbols-outlined text-[#0d1f1a] text-lg">edit</span>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-[#13eca4] uppercase tracking-widest">Step 4 · Active</p>
+                    <p className="text-[10px] font-bold text-[#13eca4] uppercase tracking-widest">
+                      Step 4 · Active
+                    </p>
                     <h3 className="text-sm font-bold text-white">Nozzle Geometry Configuration</h3>
                   </div>
                 </div>
@@ -239,27 +293,42 @@ export default function StudentCollaborationPage() {
               {/* Stacked avatars + collaborators */}
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex -space-x-1">
-                  <div className="size-7 rounded-full bg-[#13eca4] border-2 border-[#0d2420] flex items-center justify-center text-[9px] font-bold text-[#0d1f1a]">LC</div>
-                  <div className="size-7 rounded-full bg-blue-400 border-2 border-[#0d2420] flex items-center justify-center text-[9px] font-bold text-white">YO</div>
+                  <div className="size-7 rounded-full bg-[#13eca4] border-2 border-[#0d2420] flex items-center justify-center text-[9px] font-bold text-[#0d1f1a]">
+                    LC
+                  </div>
+                  <div className="size-7 rounded-full bg-blue-400 border-2 border-[#0d2420] flex items-center justify-center text-[9px] font-bold text-white">
+                    YO
+                  </div>
                 </div>
                 <span className="text-xs text-slate-400">Leo editing · You viewing</span>
               </div>
 
               {/* Quote block */}
               <blockquote className="border-l-2 border-[#13eca4]/40 pl-3 mb-5 text-xs text-slate-300 italic leading-relaxed">
-                &ldquo;I&apos;m adjusting the expansion ratio to 1:16 to optimise thrust at altitude. The throat geometry is critical for pressure consistency.&rdquo;
-                <span className="block mt-1 text-[10px] not-italic text-slate-500 font-semibold">— Leo Chen</span>
+                &ldquo;I&apos;m adjusting the expansion ratio to 1:16 to optimise thrust at
+                altitude. The throat geometry is critical for pressure consistency.&rdquo;
+                <span className="block mt-1 text-[10px] not-italic text-slate-500 font-semibold">
+                  — Leo Chen
+                </span>
               </blockquote>
 
               {/* Metric Cards */}
               <div className="grid grid-cols-2 gap-3 mb-5">
                 <div className="bg-[#142a25] rounded-xl p-3 border border-[rgba(19,236,164,0.15)]">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Throat Diameter</p>
-                  <p className="text-xl font-black text-white">42.55 <span className="text-sm font-normal text-slate-400">mm</span></p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">
+                    Throat Diameter
+                  </p>
+                  <p className="text-xl font-black text-white">
+                    42.55 <span className="text-sm font-normal text-slate-400">mm</span>
+                  </p>
                 </div>
                 <div className="bg-[#142a25] rounded-xl p-3 border border-[rgba(19,236,164,0.15)]">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">Exit Pressure</p>
-                  <p className="text-xl font-black text-white">0.084 <span className="text-sm font-normal text-slate-400">MPa</span></p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">
+                    Exit Pressure
+                  </p>
+                  <p className="text-xl font-black text-white">
+                    0.084 <span className="text-sm font-normal text-slate-400">MPa</span>
+                  </p>
                 </div>
               </div>
 
@@ -286,7 +355,9 @@ export default function StudentCollaborationPage() {
                   <span className="material-symbols-outlined text-slate-500 text-lg">lock</span>
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">Step 5 · Upcoming</p>
+                  <p className="text-[10px] font-bold text-slate-600 uppercase tracking-widest">
+                    Step 5 · Upcoming
+                  </p>
                   <h3 className="text-sm font-bold text-slate-500">Structural Integrity Test</h3>
                   <p className="text-xs text-slate-600 mt-0.5">Locked until Step 4 is finalised</p>
                 </div>
@@ -310,7 +381,9 @@ export default function StudentCollaborationPage() {
       {/* ── RIGHT PANEL: Collaborator Activity ──────────────── */}
       <aside className="w-80 shrink-0 flex flex-col bg-[#0d1f1a] border-l border-[rgba(19,236,164,0.1)] h-full overflow-y-auto">
         <div className="px-4 py-4 border-b border-[rgba(19,236,164,0.1)]">
-          <h2 className="text-sm font-bold text-white uppercase tracking-widest">Collaborator Activity</h2>
+          <h2 className="text-sm font-bold text-white uppercase tracking-widest">
+            Collaborator Activity
+          </h2>
         </div>
 
         <div className="flex-1 px-4 py-4 flex flex-col gap-6">
@@ -337,7 +410,9 @@ export default function StudentCollaborationPage() {
                       <span className="size-2 rounded-full bg-[#13eca4] animate-pulse" />
                     )}
                   </div>
-                  <p className={`text-xs truncate ${m.status === "editing" ? "text-[#13eca4]" : "text-slate-400"}`}>
+                  <p
+                    className={`text-xs truncate ${m.status === "editing" ? "text-[#13eca4]" : "text-slate-400"}`}
+                  >
                     {m.statusLabel}
                   </p>
                   <p className="text-[10px] text-slate-500 mt-0.5">{m.timeAgo}</p>
@@ -348,7 +423,9 @@ export default function StudentCollaborationPage() {
 
           {/* Project Brief */}
           <div className="bg-[#142a25] rounded-xl border border-[rgba(19,236,164,0.15)] p-4">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">Project Brief</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">
+              Project Brief
+            </p>
             <div className="flex flex-col gap-2">
               {[
                 { label: "Target Thrust", value: "450 N" },

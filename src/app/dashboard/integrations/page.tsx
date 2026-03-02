@@ -20,20 +20,92 @@ interface SyncError {
 }
 
 const SCHOOLS: School[] = [
-  { id: "SIA-9921-X", name: "Oakwood STEM High", location: "CA, United States", status: "active", syncedStudents: 1420, gradesPassed: 12841 },
-  { id: "SIA-3302-N", name: "Northside Academy", location: "NY, United States", status: "active", syncedStudents: 890, gradesPassed: 5412 },
-  { id: "SIA-5517-T", name: "Horizon Tech School", location: "TX, United States", status: "syncing", syncedStudents: 2105, gradesPassed: 18309 },
-  { id: "SIA-8821-K", name: "St. Joseph Tech", location: "FL, United States", status: "error", syncedStudents: 634, gradesPassed: 3201 },
-  { id: "SIA-1102-W", name: "Westview STEM", location: "WA, United States", status: "active", syncedStudents: 1180, gradesPassed: 9870 },
-  { id: "SIA-6643-M", name: "Maple Ridge Academy", location: "OR, United States", status: "inactive", syncedStudents: 0, gradesPassed: 0 },
+  {
+    id: "SIA-9921-X",
+    name: "Oakwood STEM High",
+    location: "CA, United States",
+    status: "active",
+    syncedStudents: 1420,
+    gradesPassed: 12841,
+  },
+  {
+    id: "SIA-3302-N",
+    name: "Northside Academy",
+    location: "NY, United States",
+    status: "active",
+    syncedStudents: 890,
+    gradesPassed: 5412,
+  },
+  {
+    id: "SIA-5517-T",
+    name: "Horizon Tech School",
+    location: "TX, United States",
+    status: "syncing",
+    syncedStudents: 2105,
+    gradesPassed: 18309,
+  },
+  {
+    id: "SIA-8821-K",
+    name: "St. Joseph Tech",
+    location: "FL, United States",
+    status: "error",
+    syncedStudents: 634,
+    gradesPassed: 3201,
+  },
+  {
+    id: "SIA-1102-W",
+    name: "Westview STEM",
+    location: "WA, United States",
+    status: "active",
+    syncedStudents: 1180,
+    gradesPassed: 9870,
+  },
+  {
+    id: "SIA-6643-M",
+    name: "Maple Ridge Academy",
+    location: "OR, United States",
+    status: "inactive",
+    syncedStudents: 0,
+    gradesPassed: 0,
+  },
 ];
 
 const SYNC_ERRORS: SyncError[] = [
-  { code: "AUTH_EXPIRED", school: "Oakwood STEM", message: "Refresh token handshake failed after 3 attempts.", time: "2m ago", severity: "error" },
-  { code: "RATE_LIMIT", school: "Northside Academy", message: "Grade push throttled by Google Classroom API.", time: "14m ago", severity: "error" },
-  { code: "TIMEOUT", school: "Horizon Tech", message: "Sync task timed out during metadata fetch.", time: "1h ago", severity: "warn" },
-  { code: "ID_MISMATCH", school: "St. Joseph Tech", message: "Student ID 'STU-9902' not found in Classroom.", time: "2h ago", severity: "error" },
-  { code: "QUOTA_WARN", school: "Westview STEM", message: "Approaching daily API quota limit (82%).", time: "3h ago", severity: "warn" },
+  {
+    code: "AUTH_EXPIRED",
+    school: "Oakwood STEM",
+    message: "Refresh token handshake failed after 3 attempts.",
+    time: "2m ago",
+    severity: "error",
+  },
+  {
+    code: "RATE_LIMIT",
+    school: "Northside Academy",
+    message: "Grade push throttled by Google Classroom API.",
+    time: "14m ago",
+    severity: "error",
+  },
+  {
+    code: "TIMEOUT",
+    school: "Horizon Tech",
+    message: "Sync task timed out during metadata fetch.",
+    time: "1h ago",
+    severity: "warn",
+  },
+  {
+    code: "ID_MISMATCH",
+    school: "St. Joseph Tech",
+    message: "Student ID 'STU-9902' not found in Classroom.",
+    time: "2h ago",
+    severity: "error",
+  },
+  {
+    code: "QUOTA_WARN",
+    school: "Westview STEM",
+    message: "Approaching daily API quota limit (82%).",
+    time: "3h ago",
+    severity: "warn",
+  },
 ];
 
 const STATUS_CONFIG = {
@@ -51,7 +123,9 @@ export default function IntegrationsPage() {
   const [killSwitchModal, setKillSwitchModal] = useState(false);
   const [savedToast, setSavedToast] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
-  const [activeSection, setActiveSection] = useState<"system" | "cloud" | "logs" | "security">("system");
+  const [activeSection, setActiveSection] = useState<"system" | "cloud" | "logs" | "security">(
+    "system"
+  );
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -64,7 +138,8 @@ export default function IntegrationsPage() {
     setTimeout(() => setSavedToast(false), 3000);
   };
 
-  const filteredSchools = filterStatus === "all" ? SCHOOLS : SCHOOLS.filter((s) => s.status === filterStatus);
+  const filteredSchools =
+    filterStatus === "all" ? SCHOOLS : SCHOOLS.filter((s) => s.status === filterStatus);
 
   const navItems = [
     { section: "system" as const, label: "System Control", icon: "dashboard_customize" },
@@ -79,7 +154,9 @@ export default function IntegrationsPage() {
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
         <div className="px-4 py-2 bg-[#1a2e30]/90 backdrop-blur border border-[#13daec]/20 rounded-full flex items-center gap-2 shadow-2xl">
           <span className="size-2 rounded-full bg-[#13daec] animate-pulse"></span>
-          <span className="text-[10px] font-bold text-slate-300 tracking-wider uppercase">Live System Feed Active</span>
+          <span className="text-[10px] font-bold text-slate-300 tracking-wider uppercase">
+            Live System Feed Active
+          </span>
         </div>
       </div>
 
@@ -92,7 +169,9 @@ export default function IntegrationsPage() {
               <h3 className="text-white font-black text-xl">Global Kill Switch</h3>
             </div>
             <p className="text-slate-400 mb-6 leading-relaxed">
-              This will immediately halt <strong className="text-white">all active sync jobs</strong> across every school in the system. OAuth sessions will be suspended. This action affects{" "}
+              This will immediately halt{" "}
+              <strong className="text-white">all active sync jobs</strong> across every school in
+              the system. OAuth sessions will be suspended. This action affects{" "}
               <strong className="text-rose-400">142 active schools</strong>.
             </p>
             <div className="flex gap-3">
@@ -135,13 +214,19 @@ export default function IntegrationsPage() {
               }`}
             >
               <span className="material-symbols-outlined text-lg">{item.icon}</span>
-              <p className={`text-sm ${activeSection === item.section ? "font-semibold" : "font-medium"}`}>{item.label}</p>
+              <p
+                className={`text-sm ${activeSection === item.section ? "font-semibold" : "font-medium"}`}
+              >
+                {item.label}
+              </p>
             </button>
           ))}
 
           {/* Quick Stats */}
           <div className="mt-8 px-3">
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-4">Quick Stats</p>
+            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-4">
+              Quick Stats
+            </p>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-xs text-slate-400">Sync Status</span>
@@ -152,7 +237,7 @@ export default function IntegrationsPage() {
                 <span className="text-xs text-[#13daec] font-bold">142</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-400">Today's Syncs</span>
+                <span className="text-xs text-slate-400">Today&apos;s Syncs</span>
                 <span className="text-xs text-[#13daec] font-bold">1,204</span>
               </div>
               <div className="flex justify-between items-center">
@@ -168,8 +253,12 @@ export default function IntegrationsPage() {
           {/* Header */}
           <div className="flex flex-wrap justify-between items-end gap-4">
             <div>
-              <h1 className="text-white text-3xl font-black tracking-tight">System Integrations Control</h1>
-              <p className="text-slate-400 text-sm mt-1">Manage global API keys and monitor cross-platform school synchronization.</p>
+              <h1 className="text-white text-3xl font-black tracking-tight">
+                System Integrations Control
+              </h1>
+              <p className="text-slate-400 text-sm mt-1">
+                Manage global API keys and monitor cross-platform school synchronization.
+              </p>
             </div>
             <button
               onClick={() => setKillSwitchModal(true)}
@@ -183,12 +272,16 @@ export default function IntegrationsPage() {
           {/* API Config Panel */}
           <section className="bg-[#1a2e30]/40 border border-[#2d4548] rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-6">
-              <span className="material-symbols-outlined text-[#13daec]">settings_input_component</span>
+              <span className="material-symbols-outlined text-[#13daec]">
+                settings_input_component
+              </span>
               <h2 className="text-white text-lg font-bold">Google Cloud API Configuration</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
-                <label className="text-slate-300 text-xs font-semibold uppercase tracking-wider">Client ID</label>
+                <label className="text-slate-300 text-xs font-semibold uppercase tracking-wider">
+                  Client ID
+                </label>
                 <div className="relative">
                   <input
                     type="text"
@@ -201,12 +294,16 @@ export default function IntegrationsPage() {
                     onClick={() => handleCopy(clientId, "clientId")}
                     className="absolute right-3 top-3 text-slate-500 hover:text-[#13daec] transition-colors"
                   >
-                    <span className="material-symbols-outlined text-lg">{copiedField === "clientId" ? "check" : "content_copy"}</span>
+                    <span className="material-symbols-outlined text-lg">
+                      {copiedField === "clientId" ? "check" : "content_copy"}
+                    </span>
                   </button>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-slate-300 text-xs font-semibold uppercase tracking-wider">Client Secret Key</label>
+                <label className="text-slate-300 text-xs font-semibold uppercase tracking-wider">
+                  Client Secret Key
+                </label>
                 <div className="relative">
                   <input
                     type={showSecret ? "text" : "password"}
@@ -218,7 +315,9 @@ export default function IntegrationsPage() {
                     onClick={() => setShowSecret(!showSecret)}
                     className="absolute right-3 top-3 text-slate-500 hover:text-[#13daec] transition-colors"
                   >
-                    <span className="material-symbols-outlined text-lg">{showSecret ? "visibility_off" : "visibility"}</span>
+                    <span className="material-symbols-outlined text-lg">
+                      {showSecret ? "visibility_off" : "visibility"}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -270,14 +369,18 @@ export default function IntegrationsPage() {
                       key={val}
                       onClick={() => setFilterStatus(val)}
                       className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
-                        filterStatus === val ? "bg-[#13daec] text-[#102022]" : "text-slate-400 hover:text-slate-100"
+                        filterStatus === val
+                          ? "bg-[#13daec] text-[#102022]"
+                          : "text-slate-400 hover:text-slate-100"
                       }`}
                     >
                       {label}
                     </button>
                   ))}
                 </div>
-                <span className="text-xs px-2 py-1 rounded bg-[#13daec]/20 text-[#13daec] font-bold">12 New Syncs Today</span>
+                <span className="text-xs px-2 py-1 rounded bg-[#13daec]/20 text-[#13daec] font-bold">
+                  12 New Syncs Today
+                </span>
               </div>
             </div>
             <div className="overflow-x-auto">
@@ -303,8 +406,12 @@ export default function IntegrationsPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`inline-flex items-center gap-1.5 text-xs font-bold ${cfg.color}`}>
-                            <span className={`size-2 rounded-full ${cfg.dot} ${cfg.pulse ? "animate-pulse" : ""}`}></span>
+                          <span
+                            className={`inline-flex items-center gap-1.5 text-xs font-bold ${cfg.color}`}
+                          >
+                            <span
+                              className={`size-2 rounded-full ${cfg.dot} ${cfg.pulse ? "animate-pulse" : ""}`}
+                            ></span>
                             {cfg.label}
                           </span>
                         </td>
@@ -337,7 +444,9 @@ export default function IntegrationsPage() {
         <aside className="w-72 shrink-0 flex flex-col gap-5">
           {/* Real-time Status */}
           <div className="bg-[#1a2e30] border border-[#2d4548] rounded-2xl p-6 flex flex-col gap-4">
-            <h3 className="text-slate-100 font-bold text-sm uppercase tracking-wider">Health Monitor</h3>
+            <h3 className="text-slate-100 font-bold text-sm uppercase tracking-wider">
+              Health Monitor
+            </h3>
 
             <div className="flex items-center justify-between p-4 bg-[#102022]/50 rounded-xl border border-emerald-500/20">
               <div className="flex items-center gap-3">
@@ -361,7 +470,11 @@ export default function IntegrationsPage() {
               ].map(({ label, value, highlight }) => (
                 <div key={label} className="p-3 bg-[#102022] border border-[#2d4548] rounded-xl">
                   <p className="text-[10px] text-slate-500 font-bold">{label}</p>
-                  <p className={`text-lg font-black ${highlight ? "text-[#13daec]" : "text-amber-400"}`}>{value}</p>
+                  <p
+                    className={`text-lg font-black ${highlight ? "text-[#13daec]" : "text-amber-400"}`}
+                  >
+                    {value}
+                  </p>
                 </div>
               ))}
             </div>
@@ -392,7 +505,9 @@ export default function IntegrationsPage() {
           <div className="bg-[#1a2e30]/40 border border-[#2d4548] rounded-2xl flex flex-col overflow-hidden flex-1">
             <div className="px-5 py-4 border-b border-[#2d4548] flex items-center gap-2">
               <span className="material-symbols-outlined text-rose-400 text-lg">warning</span>
-              <h3 className="text-slate-100 font-bold text-sm uppercase tracking-wider">Recent Errors</h3>
+              <h3 className="text-slate-100 font-bold text-sm uppercase tracking-wider">
+                Recent Errors
+              </h3>
             </div>
             <div className="overflow-y-auto p-4 space-y-3 max-h-72">
               {SYNC_ERRORS.map((err, i) => (
@@ -405,7 +520,9 @@ export default function IntegrationsPage() {
                   }`}
                 >
                   <div className="flex justify-between items-start mb-1">
-                    <span className={`text-[10px] font-black ${err.severity === "error" ? "text-rose-400" : "text-slate-400"}`}>
+                    <span
+                      className={`text-[10px] font-black ${err.severity === "error" ? "text-rose-400" : "text-slate-400"}`}
+                    >
                       {err.code}
                     </span>
                     <span className="text-[10px] text-slate-500">{err.time}</span>

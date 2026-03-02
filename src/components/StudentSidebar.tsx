@@ -67,7 +67,9 @@ export default function StudentSidebar() {
         <div className="mt-3">
           <div className="flex justify-between text-xs text-slate-400 mb-1.5">
             <span>XP Progress</span>
-            <span className="text-[#13eca4] font-semibold">{xp} / {xpForNextLevel}</span>
+            <span className="text-[#13eca4] font-semibold">
+              {xp} / {xpForNextLevel}
+            </span>
           </div>
           <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div
@@ -105,7 +107,9 @@ export default function StudentSidebar() {
             </div>
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">logout</span>
+              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+                logout
+              </span>
             </button>
           </div>
         </div>

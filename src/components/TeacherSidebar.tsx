@@ -23,9 +23,7 @@ const navItems = [
   { label: "Settings", href: "/school/teacher/settings", icon: "settings" },
 ];
 
-const bottomItems = [
-  { label: "Courses", href: "/school/teacher/courses", icon: "library_books" },
-];
+const bottomItems = [{ label: "Courses", href: "/school/teacher/courses", icon: "library_books" }];
 
 export default function TeacherSidebar() {
   const pathname = usePathname();
@@ -40,7 +38,9 @@ export default function TeacherSidebar() {
     .join("")
     .toUpperCase()
     .slice(0, 2);
-  const roleName = appUser?.department ?? (appUser?.subjects?.length ? appUser.subjects.join(", ") : "STEM Educator");
+  const roleName =
+    appUser?.department ??
+    (appUser?.subjects?.length ? appUser.subjects.join(", ") : "STEM Educator");
 
   const handleSignOut = async () => {
     await signOut();
@@ -100,7 +100,9 @@ export default function TeacherSidebar() {
             </div>
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">logout</span>
+              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+                logout
+              </span>
             </button>
           </div>
         </div>

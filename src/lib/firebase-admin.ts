@@ -14,9 +14,7 @@ function getCredential() {
 }
 
 const adminApp =
-  getApps().length === 0
-    ? initializeApp({ credential: getCredential() })
-    : getApps()[0];
+  getApps().length === 0 ? initializeApp({ credential: getCredential() }) : getApps()[0];
 
 const adminAuth = getAuth(adminApp);
 const adminDb = getFirestore(adminApp);

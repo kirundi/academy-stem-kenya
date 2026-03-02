@@ -11,40 +11,34 @@ export function useTeacherData() {
   const uid = appUser?.uid ?? null;
   const schoolId = appUser?.schoolId ?? null;
 
-  const { data: classrooms, loading: classroomsLoading } =
-    useCollection<Classroom>(
-      "classrooms",
-      uid ? [where("teacherId", "==", uid)] : [],
-      !!uid
-    );
-
-  // Get classroom IDs for scoping submissions (Firestore "in" supports up to 30)
-  const classroomIds = useMemo(
-    () => classrooms.map((c) => c.id).slice(0, 30),
-    [classrooms]
+  const { data: classrooms, loading: classroomsLoading } = useCollection<Classroom>(
+    "classrooms",
+    uid ? [where("teacherId", "==", uid)] : [],
+    !!uid
   );
 
-  const { data: pendingSubmissions, loading: submissionsLoading } =
-    useCollection<Submission>(
-      "submissions",
-      classroomIds.length > 0
-        ? [
-            where("classroomId", "in", classroomIds),
-            where("status", "==", "pending"),
-            orderBy("submittedAt", "desc"),
-            limit(20),
-          ]
-        : [],
-      classroomIds.length > 0
-    );
+  // Get classroom IDs for scoping submissions (Firestore "in" supports up to 30)
+  const classroomIds = useMemo(() => classrooms.map((c) => c.id).slice(0, 30), [classrooms]);
+
+  const { data: pendingSubmissions, loading: submissionsLoading } = useCollection<Submission>(
+    "submissions",
+    classroomIds.length > 0
+      ? [
+          where("classroomId", "in", classroomIds),
+          where("status", "==", "pending"),
+          orderBy("submittedAt", "desc"),
+          limit(20),
+        ]
+      : [],
+    classroomIds.length > 0
+  );
 
   // Scope courses to teacher's school (platform-wide courses have schoolId=null)
-  const { data: allCourses, loading: coursesLoading } =
-    useCollection<Course>(
-      "courses",
-      schoolId ? [where("schoolId", "in", [schoolId, null])] : [],
-      !!schoolId
-    );
+  const { data: allCourses, loading: coursesLoading } = useCollection<Course>(
+    "courses",
+    schoolId ? [where("schoolId", "in", [schoolId, null])] : [],
+    !!schoolId
+  );
 
   return {
     classrooms,

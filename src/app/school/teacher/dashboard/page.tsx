@@ -16,37 +16,41 @@ export default function TeacherDashboard() {
   const classroomIds = classrooms.map((c) => c.id);
   const { data: recentSubmissions } = useCollection<Submission>(
     "submissions",
-    classroomIds.length > 0
-      ? [where("classroomId", "in", classroomIds.slice(0, 10))]
-      : [],
+    classroomIds.length > 0 ? [where("classroomId", "in", classroomIds.slice(0, 10))] : [],
     classroomIds.length > 0
   );
 
   // Get enrollments to count active students
   const { data: enrollments } = useCollection<Enrollment>(
     "enrollments",
-    classroomIds.length > 0
-      ? [where("classroomId", "in", classroomIds.slice(0, 10))]
-      : [],
+    classroomIds.length > 0 ? [where("classroomId", "in", classroomIds.slice(0, 10))] : [],
     classroomIds.length > 0
   );
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
 
   const displayName = appUser?.displayName ?? "Teacher";
-  const today = new Date().toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const uniqueStudentIds = new Set(enrollments.map((e) => e.studentId));
   const totalStudents = uniqueStudentIds.size;
   const pendingCount = pendingSubmissions.length;
-  const avgProgress = classrooms.length > 0
-    ? Math.round(classrooms.reduce((sum, c) => sum + (c.avgProgress ?? 0), 0) / classrooms.length)
-    : 0;
+  const avgProgress =
+    classrooms.length > 0
+      ? Math.round(classrooms.reduce((sum, c) => sum + (c.avgProgress ?? 0), 0) / classrooms.length)
+      : 0;
 
   // Sort recent submissions by date desc and take top 4
   const sortedRecent = [...recentSubmissions]
@@ -66,7 +70,9 @@ export default function TeacherDashboard() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-white">My Dashboard</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Welcome back, {displayName} · {today}</p>
+          <p className="text-slate-400 text-xs mt-0.5">
+            Welcome back, {displayName} · {today}
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <button className="relative p-2 text-slate-400 hover:bg-[rgba(255,255,255,0.06)] rounded-lg">
@@ -90,15 +96,40 @@ export default function TeacherDashboard() {
         <div>
           <h2 className="text-3xl font-black text-white">Welcome back, {displayName}!</h2>
           <p className="text-slate-400 mt-1">
-            You have <span className="text-orange-400 font-semibold">{pendingCount} pending submission{pendingCount !== 1 ? "s" : ""}</span> across {classrooms.length} classroom{classrooms.length !== 1 ? "s" : ""} · {today}
+            You have{" "}
+            <span className="text-orange-400 font-semibold">
+              {pendingCount} pending submission{pendingCount !== 1 ? "s" : ""}
+            </span>{" "}
+            across {classrooms.length} classroom{classrooms.length !== 1 ? "s" : ""} · {today}
           </p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <StatCard icon="group"       label="Active Students"     value={totalStudents} change={totalStudents > 0 ? "Enrolled" : "No students yet"} changeType="positive" iconColor="#3b82f6" />
-          <StatCard icon="upload_file" label="Pending Submissions" value={pendingCount}  change={pendingCount > 0 ? "Needs Review" : "All caught up"} changeType={pendingCount > 0 ? "negative" : "positive"} iconColor="#ef4444" />
-          <StatCard icon="analytics"   label="Avg. Class Progress" value={`${avgProgress}%`} change={classrooms.length > 0 ? `${classrooms.length} classrooms` : "No classrooms"} changeType="positive" iconColor="#13eca4" />
+          <StatCard
+            icon="group"
+            label="Active Students"
+            value={totalStudents}
+            change={totalStudents > 0 ? "Enrolled" : "No students yet"}
+            changeType="positive"
+            iconColor="#3b82f6"
+          />
+          <StatCard
+            icon="upload_file"
+            label="Pending Submissions"
+            value={pendingCount}
+            change={pendingCount > 0 ? "Needs Review" : "All caught up"}
+            changeType={pendingCount > 0 ? "negative" : "positive"}
+            iconColor="#ef4444"
+          />
+          <StatCard
+            icon="analytics"
+            label="Avg. Class Progress"
+            value={`${avgProgress}%`}
+            change={classrooms.length > 0 ? `${classrooms.length} classrooms` : "No classrooms"}
+            changeType="positive"
+            iconColor="#13eca4"
+          />
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
@@ -106,7 +137,10 @@ export default function TeacherDashboard() {
           <div className="xl:col-span-2">
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-white font-bold text-xl">Active Classrooms</h3>
-              <Link href="/school/teacher/classroom" className="text-[#13eca4] text-sm font-semibold hover:underline flex items-center gap-1">
+              <Link
+                href="/school/teacher/classroom"
+                className="text-[#13eca4] text-sm font-semibold hover:underline flex items-center gap-1"
+              >
                 Manage all
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </Link>
@@ -115,16 +149,27 @@ export default function TeacherDashboard() {
               {classrooms.slice(0, 3).map((cls, idx) => {
                 const color = classColors[idx % classColors.length];
                 return (
-                  <div key={cls.id} className="bg-[#1a2e27] rounded-2xl border border-[rgba(255,255,255,0.06)] overflow-hidden">
+                  <div
+                    key={cls.id}
+                    className="bg-[#1a2e27] rounded-2xl border border-[rgba(255,255,255,0.06)] overflow-hidden"
+                  >
                     <div className="p-5">
-                      <span className="text-xs font-bold uppercase tracking-widest" style={{ color }}>{cls.subject}</span>
+                      <span
+                        className="text-xs font-bold uppercase tracking-widest"
+                        style={{ color }}
+                      >
+                        {cls.subject}
+                      </span>
                       <h4 className="text-white font-bold text-base mt-0.5 mb-4">{cls.name}</h4>
                       <div className="flex items-center justify-between text-sm mb-1.5">
                         <span className="text-slate-400">Class Progress</span>
                         <span className="text-white font-semibold">{cls.avgProgress ?? 0}%</span>
                       </div>
                       <div className="h-1.5 bg-[rgba(255,255,255,0.07)] rounded-full mb-4">
-                        <div className="h-full rounded-full" style={{ width: `${cls.avgProgress ?? 0}%`, backgroundColor: color }} />
+                        <div
+                          className="h-full rounded-full"
+                          style={{ width: `${cls.avgProgress ?? 0}%`, backgroundColor: color }}
+                        />
                       </div>
                       <Link
                         href="/school/teacher/grading"
@@ -146,7 +191,9 @@ export default function TeacherDashboard() {
                 <div className="w-12 h-12 rounded-full bg-[rgba(19,236,164,0.08)] flex items-center justify-center group-hover:bg-[rgba(19,236,164,0.15)] transition-colors">
                   <span className="material-symbols-outlined text-[#13eca4] text-[24px]">add</span>
                 </div>
-                <p className="text-slate-400 text-sm font-semibold group-hover:text-[#13eca4] transition-colors">Create New Classroom</p>
+                <p className="text-slate-400 text-sm font-semibold group-hover:text-[#13eca4] transition-colors">
+                  Create New Classroom
+                </p>
               </Link>
             </div>
           </div>
@@ -157,26 +204,35 @@ export default function TeacherDashboard() {
             <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
               <div className="px-5 py-4 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
                 <h3 className="text-white font-bold">Recent Submissions</h3>
-                <Link href="/school/teacher/grading" className="text-[#13eca4] text-xs font-semibold hover:underline">
+                <Link
+                  href="/school/teacher/grading"
+                  className="text-[#13eca4] text-xs font-semibold hover:underline"
+                >
                   View all
                 </Link>
               </div>
               <div className="divide-y divide-[rgba(255,255,255,0.05)]">
                 {sortedRecent.length === 0 && (
-                  <div className="px-5 py-8 text-center text-slate-500 text-sm">No submissions yet.</div>
+                  <div className="px-5 py-8 text-center text-slate-500 text-sm">
+                    No submissions yet.
+                  </div>
                 )}
                 {sortedRecent.map((sub) => {
                   const studentInitials = (sub.studentId ?? "?").slice(0, 2).toUpperCase();
-                  const timeAgo = sub.submittedAt instanceof Date
-                    ? formatTimeAgo(sub.submittedAt)
-                    : "Recently";
+                  const timeAgo =
+                    sub.submittedAt instanceof Date ? formatTimeAgo(sub.submittedAt) : "Recently";
                   return (
-                    <div key={sub.id} className="px-5 py-3.5 flex items-center gap-3 hover:bg-[rgba(255,255,255,0.03)] transition-colors">
+                    <div
+                      key={sub.id}
+                      className="px-5 py-3.5 flex items-center gap-3 hover:bg-[rgba(255,255,255,0.03)] transition-colors"
+                    >
                       <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-xs font-bold text-[#13eca4]">
                         {studentInitials}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm font-medium truncate">{sub.content || "Submission"}</p>
+                        <p className="text-white text-sm font-medium truncate">
+                          {sub.content || "Submission"}
+                        </p>
                         <p className="text-slate-500 text-xs">{sub.courseId}</p>
                       </div>
                       <div className="text-right">
@@ -200,19 +256,40 @@ export default function TeacherDashboard() {
               <h3 className="text-white font-bold mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 {[
-                  { icon: "add",       label: "Create New Classroom",    href: "/school/teacher/classroom", color: "#13eca4" },
-                  { icon: "menu_book", label: "Browse Course Library",   href: "/school/teacher/courses",   color: "#8b5cf6" },
-                  { icon: "insights",  label: "Student Progress Report", href: "/school/teacher/analytics",  color: "#3b82f6" },
-                  { icon: "sync",      label: "Sync Google Classroom",   href: "#",                  color: "#f59e0b" },
+                  {
+                    icon: "add",
+                    label: "Create New Classroom",
+                    href: "/school/teacher/classroom",
+                    color: "#13eca4",
+                  },
+                  {
+                    icon: "menu_book",
+                    label: "Browse Course Library",
+                    href: "/school/teacher/courses",
+                    color: "#8b5cf6",
+                  },
+                  {
+                    icon: "insights",
+                    label: "Student Progress Report",
+                    href: "/school/teacher/analytics",
+                    color: "#3b82f6",
+                  },
+                  { icon: "sync", label: "Sync Google Classroom", href: "#", color: "#f59e0b" },
                 ].map(({ icon, label, href, color }) => (
                   <Link
                     key={label}
                     href={href}
                     className="flex items-center gap-3 p-3 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] border border-transparent hover:border-[rgba(19,236,164,0.12)] transition-all group"
                   >
-                    <span className="material-symbols-outlined text-[20px]" style={{ color }}>{icon}</span>
-                    <span className="text-slate-300 text-sm font-medium group-hover:text-white transition-colors">{label}</span>
-                    <span className="material-symbols-outlined text-slate-600 text-[16px] ml-auto group-hover:text-[#13eca4] transition-colors">chevron_right</span>
+                    <span className="material-symbols-outlined text-[20px]" style={{ color }}>
+                      {icon}
+                    </span>
+                    <span className="text-slate-300 text-sm font-medium group-hover:text-white transition-colors">
+                      {label}
+                    </span>
+                    <span className="material-symbols-outlined text-slate-600 text-[16px] ml-auto group-hover:text-[#13eca4] transition-colors">
+                      chevron_right
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -224,7 +301,9 @@ export default function TeacherDashboard() {
                 <span className="material-symbols-outlined text-[#13eca4] text-[28px]">school</span>
                 <div>
                   <h3 className="text-white font-bold">Need Support?</h3>
-                  <p className="text-slate-400 text-xs mt-1">Access facilitation notes, educator guides, and curriculum resources.</p>
+                  <p className="text-slate-400 text-xs mt-1">
+                    Access facilitation notes, educator guides, and curriculum resources.
+                  </p>
                 </div>
               </div>
               <Link

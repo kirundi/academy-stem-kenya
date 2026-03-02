@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
@@ -70,6 +64,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           department: data.department,
         });
         setError(null);
+      } else {
+        // Handle the case where the user document doesn't exist.
+        console.error(
+          `Authentication error: No Firestore document for user ${user.uid}.`
+        );
+        setError(
+          "Your user profile is missing or corrupt. Please contact support for assistance."
+        );
+        setAppUser(null);
       }
     } catch (err) {
       clearTimeout(timeoutId);

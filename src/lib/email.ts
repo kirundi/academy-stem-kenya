@@ -96,10 +96,7 @@ export async function sendSetupCredentialsEmail(params: {
   });
 }
 
-export async function sendPasswordResetEmail(params: {
-  to: string;
-  oobCode: string;
-}) {
+export async function sendPasswordResetEmail(params: { to: string; oobCode: string }) {
   const resetUrl = `${PLATFORM_URL}/reset-password?oobCode=${encodeURIComponent(params.oobCode)}`;
 
   await getResend().emails.send({

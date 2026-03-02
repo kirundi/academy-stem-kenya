@@ -33,9 +33,7 @@ export default function BadgeCard({
   return (
     <div
       className={`relative rounded-2xl p-5 bg-[#1a2e27] border transition-all duration-300 flex flex-col items-center text-center group ${
-        earned
-          ? "hover:shadow-lg"
-          : "opacity-50 grayscale"
+        earned ? "hover:shadow-lg" : "opacity-50 grayscale"
       }`}
       style={{
         borderColor: earned ? `${border}40` : "rgba(255,255,255,0.06)",
@@ -70,10 +68,7 @@ export default function BadgeCard({
         className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 mt-2"
         style={{ background: `${color}18` }}
       >
-        <span
-          className="material-symbols-outlined text-[36px]"
-          style={{ color }}
-        >
+        <span className="material-symbols-outlined text-[36px]" style={{ color }}>
           {icon}
         </span>
       </div>
@@ -88,9 +83,7 @@ export default function BadgeCard({
         >
           +{xpValue} XP
         </span>
-        {earned && earnedDate && (
-          <span className="text-xs text-slate-500">{earnedDate}</span>
-        )}
+        {earned && earnedDate && <span className="text-xs text-slate-500">{earnedDate}</span>}
       </div>
 
       {!earned && (

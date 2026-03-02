@@ -9,10 +9,22 @@ import { logActivity } from "@/lib/activity-logger";
 import type { Submission } from "@/lib/types";
 
 const rubricCriteria = [
-  { label: "Technical Accuracy", max: 30, description: "Does the solution work as intended and follow technical requirements?" },
-  { label: "Creativity & Design", max: 25, description: "Is the approach creative and well-designed?" },
+  {
+    label: "Technical Accuracy",
+    max: 30,
+    description: "Does the solution work as intended and follow technical requirements?",
+  },
+  {
+    label: "Creativity & Design",
+    max: 25,
+    description: "Is the approach creative and well-designed?",
+  },
   { label: "Documentation", max: 20, description: "Is the work well-documented and explained?" },
-  { label: "Effort & Completeness", max: 25, description: "Was a genuine effort made and is the project complete?" },
+  {
+    label: "Effort & Completeness",
+    max: 25,
+    description: "Was a genuine effort made and is the project complete?",
+  },
 ];
 
 export default function GradingPage() {
@@ -46,7 +58,9 @@ export default function GradingPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -56,18 +70,28 @@ export default function GradingPage() {
     statusDisplay: s.status === "pending" ? "Pending" : s.status === "graded" ? "Graded" : "Draft",
   }));
 
-  const filtered = filter === "All"
-    ? submissions
-    : submissions.filter((s) => s.statusDisplay === filter);
+  const filtered =
+    filter === "All" ? submissions : submissions.filter((s) => s.statusDisplay === filter);
 
   const selected = selectedId
-    ? submissions.find((s) => s.id === selectedId) ?? submissions[0]
+    ? (submissions.find((s) => s.id === selectedId) ?? submissions[0])
     : submissions[0];
 
   const totalScore = Object.values(rubric).reduce((a, b) => a + b, 0);
   const maxScore = rubricCriteria.reduce((a, c) => a + c.max, 0);
   const percentage = Math.round((totalScore / maxScore) * 100);
-  const grade = percentage >= 90 ? "A+" : percentage >= 85 ? "A" : percentage >= 80 ? "B+" : percentage >= 75 ? "B" : percentage >= 70 ? "C+" : "C";
+  const grade =
+    percentage >= 90
+      ? "A+"
+      : percentage >= 85
+        ? "A"
+        : percentage >= 80
+          ? "B+"
+          : percentage >= 75
+            ? "B"
+            : percentage >= 70
+              ? "C+"
+              : "C";
 
   const pendingCount = submissions.filter((s) => s.status === "pending").length;
 
@@ -87,7 +111,11 @@ export default function GradingPage() {
         }),
       });
       if (!res.ok) throw new Error("Failed to submit grade");
-      await logActivity(appUser.uid, "grade_submission", `Graded submission ${selected.id} with ${grade}`);
+      await logActivity(
+        appUser.uid,
+        "grade_submission",
+        `Graded submission ${selected.id} with ${grade}`
+      );
       setFeedback("");
     } catch (err) {
       if (process.env.NODE_ENV === "development") console.error("Grading error:", err);
@@ -130,7 +158,9 @@ export default function GradingPage() {
               key={f}
               onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                filter === f ? "bg-[#13eca4] text-[#10221c]" : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
+                filter === f
+                  ? "bg-[#13eca4] text-[#10221c]"
+                  : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
               }`}
             >
               {f}
@@ -145,9 +175,14 @@ export default function GradingPage() {
           <div className="p-3 space-y-2">
             {filtered.map((sub) => {
               const initials = (sub.studentId ?? "?").slice(0, 2).toUpperCase();
-              const submittedDate = sub.submittedAt instanceof Date
-                ? sub.submittedAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-                : "Unknown date";
+              const submittedDate =
+                sub.submittedAt instanceof Date
+                  ? sub.submittedAt.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })
+                  : "Unknown date";
               return (
                 <button
                   key={sub.id}
@@ -172,7 +207,9 @@ export default function GradingPage() {
                       <span className="w-2 h-2 bg-orange-400 rounded-full" />
                     )}
                   </div>
-                  <p className="text-slate-300 text-xs font-medium truncate">{sub.content || "Submission"}</p>
+                  <p className="text-slate-300 text-xs font-medium truncate">
+                    {sub.content || "Submission"}
+                  </p>
                   <p className="text-slate-500 text-xs">{sub.courseId}</p>
                 </button>
               );
@@ -190,11 +227,20 @@ export default function GradingPage() {
                   {(selected.studentId ?? "?").slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-white text-2xl font-bold">{selected.content || "Submission"}</h2>
-                  <p className="text-slate-400 text-sm">{selected.studentId} · {selected.courseId} · {selected.classroomId}</p>
+                  <h2 className="text-white text-2xl font-bold">
+                    {selected.content || "Submission"}
+                  </h2>
+                  <p className="text-slate-400 text-sm">
+                    {selected.studentId} · {selected.courseId} · {selected.classroomId}
+                  </p>
                   <p className="text-slate-500 text-xs mt-1">
-                    Submitted {selected.submittedAt instanceof Date
-                      ? selected.submittedAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
+                    Submitted{" "}
+                    {selected.submittedAt instanceof Date
+                      ? selected.submittedAt.toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })
                       : "Unknown date"}
                   </p>
                 </div>
@@ -204,12 +250,19 @@ export default function GradingPage() {
               {selected.content && (
                 <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6 mb-6">
                   <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#13eca4] text-[20px]">description</span>
+                    <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+                      description
+                    </span>
                     Student&apos;s Submission
                   </h3>
                   <p className="text-slate-300 text-sm leading-relaxed">{selected.content}</p>
                   {selected.fileUrl && (
-                    <a href={selected.fileUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-1 text-[#13eca4] text-sm hover:underline">
+                    <a
+                      href={selected.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-1 text-[#13eca4] text-sm hover:underline"
+                    >
                       <span className="material-symbols-outlined text-[16px]">attach_file</span>
                       View attached file
                     </a>
@@ -239,7 +292,10 @@ export default function GradingPage() {
                             onChange={(e) =>
                               setRubric((prev) => ({
                                 ...prev,
-                                [criterion.label]: Math.min(criterion.max, Math.max(0, parseInt(e.target.value) || 0)),
+                                [criterion.label]: Math.min(
+                                  criterion.max,
+                                  Math.max(0, parseInt(e.target.value) || 0)
+                                ),
                               }))
                             }
                             className="w-16 text-center bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] rounded-lg py-1.5 text-white font-bold text-sm focus:border-[#13eca4] outline-none"
@@ -260,16 +316,24 @@ export default function GradingPage() {
                 <div className="px-6 py-4 bg-[rgba(0,0,0,0.2)] flex items-center justify-between">
                   <span className="text-white font-semibold">Total Score</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-slate-400 text-sm">{totalScore} / {maxScore}</span>
+                    <span className="text-slate-400 text-sm">
+                      {totalScore} / {maxScore}
+                    </span>
                     <span
                       className="text-2xl font-black"
-                      style={{ color: percentage >= 90 ? "#13eca4" : percentage >= 75 ? "#f59e0b" : "#ff4d4d" }}
+                      style={{
+                        color:
+                          percentage >= 90 ? "#13eca4" : percentage >= 75 ? "#f59e0b" : "#ff4d4d",
+                      }}
                     >
                       {grade}
                     </span>
                     <span
                       className="text-lg font-bold"
-                      style={{ color: percentage >= 90 ? "#13eca4" : percentage >= 75 ? "#f59e0b" : "#ff4d4d" }}
+                      style={{
+                        color:
+                          percentage >= 90 ? "#13eca4" : percentage >= 75 ? "#f59e0b" : "#ff4d4d",
+                      }}
                     >
                       {percentage}%
                     </span>
@@ -280,7 +344,9 @@ export default function GradingPage() {
               {/* Feedback */}
               <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6 mb-6">
                 <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4] text-[20px]">feedback</span>
+                  <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+                    feedback
+                  </span>
                   Feedback to Student
                 </h3>
                 <textarea
@@ -292,10 +358,16 @@ export default function GradingPage() {
                 />
                 {/* Quick feedback buttons */}
                 <div className="flex flex-wrap gap-2 mb-2">
-                  {["Great work!", "Nice creativity", "Add more detail", "Needs improvement", "Well documented"].map((q) => (
+                  {[
+                    "Great work!",
+                    "Nice creativity",
+                    "Add more detail",
+                    "Needs improvement",
+                    "Well documented",
+                  ].map((q) => (
                     <button
                       key={q}
-                      onClick={() => setFeedback((prev) => prev ? `${prev} ${q}` : q)}
+                      onClick={() => setFeedback((prev) => (prev ? `${prev} ${q}` : q))}
                       className="text-xs px-3 py-1.5 rounded-xl bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white hover:bg-[rgba(255,255,255,0.1)] transition-all"
                     >
                       {q}
@@ -311,7 +383,9 @@ export default function GradingPage() {
                   disabled={submitting}
                   className="flex-1 flex items-center justify-center gap-2 bg-[#13eca4] text-[#10221c] font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined text-[20px]">{submitting ? "progress_activity" : "check_circle"}</span>
+                  <span className="material-symbols-outlined text-[20px]">
+                    {submitting ? "progress_activity" : "check_circle"}
+                  </span>
                   {submitting ? "Submitting..." : "Submit Grade & Feedback"}
                 </button>
                 <button className="px-5 py-3.5 border border-[rgba(255,255,255,0.1)] text-slate-400 rounded-xl font-semibold hover:border-[rgba(255,255,255,0.2)] hover:text-white transition-all">

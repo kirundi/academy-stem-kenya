@@ -9,10 +9,7 @@ export function useFileUpload() {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
-  async function uploadFile(
-    file: File,
-    path: string
-  ): Promise<string> {
+  async function uploadFile(file: File, path: string): Promise<string> {
     setUploading(true);
     setProgress(0);
     setError(null);
@@ -24,9 +21,7 @@ export function useFileUpload() {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const pct = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
+          const pct = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
           setProgress(pct);
         },
         (err) => {

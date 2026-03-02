@@ -17,9 +17,7 @@ import type { Notification } from "@/lib/types";
 
 export function useNotifications(maxCount = 20) {
   const { appUser } = useAuthContext();
-  const [notifications, setNotifications] = useState<
-    (Notification & { id: string })[]
-  >([]);
+  const [notifications, setNotifications] = useState<(Notification & { id: string })[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -55,28 +53,25 @@ export function useNotifications(maxCount = 20) {
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  const markAsRead = useCallback(
-    async (notificationId: string) => {
-      try {
-        await updateDoc(doc(db, "notifications", notificationId), {
-          read: true,
-        });
-      } catch (err) {
-        if (process.env.NODE_ENV === "development") console.error("Failed to mark notification as read:", err);
-      }
-    },
-    []
-  );
+  const markAsRead = useCallback(async (notificationId: string) => {
+    try {
+      await updateDoc(doc(db, "notifications", notificationId), {
+        read: true,
+      });
+    } catch (err) {
+      if (process.env.NODE_ENV === "development")
+        console.error("Failed to mark notification as read:", err);
+    }
+  }, []);
 
   const markAllAsRead = useCallback(async () => {
     const unread = notifications.filter((n) => !n.read);
-    const promises = unread.map((n) =>
-      updateDoc(doc(db, "notifications", n.id), { read: true })
-    );
+    const promises = unread.map((n) => updateDoc(doc(db, "notifications", n.id), { read: true }));
     try {
       await Promise.all(promises);
     } catch (err) {
-      if (process.env.NODE_ENV === "development") console.error("Failed to mark all notifications as read:", err);
+      if (process.env.NODE_ENV === "development")
+        console.error("Failed to mark all notifications as read:", err);
     }
   }, [notifications]);
 

@@ -84,7 +84,8 @@ export default function TeacherClassroomPage() {
         await logActivity(appUser.uid, "sync", "Synced Google Classroom data");
       }
     } catch (err) {
-      if (process.env.NODE_ENV === "development") console.error("Google Classroom sync error:", err);
+      if (process.env.NODE_ENV === "development")
+        console.error("Google Classroom sync error:", err);
     } finally {
       setSyncing(false);
     }
@@ -190,7 +191,9 @@ export default function TeacherClassroomPage() {
       <div className="w-72 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col overflow-hidden">
         <div className="px-4 py-4 border-b border-[rgba(19,236,164,0.08)]">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">My Classrooms</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              My Classrooms
+            </span>
             <button
               onClick={() => setShowCreateModal(true)}
               className="flex items-center gap-1 text-xs font-bold text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-1 rounded-lg hover:bg-[rgba(19,236,164,0.2)] transition-colors"
@@ -200,7 +203,9 @@ export default function TeacherClassroomPage() {
             </button>
           </div>
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[16px]">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[16px]">
+              search
+            </span>
             <input
               type="text"
               placeholder="Search classrooms..."
@@ -217,7 +222,10 @@ export default function TeacherClassroomPage() {
           {classrooms.map((cls, idx) => (
             <button
               key={cls.id}
-              onClick={() => { setSelectedIdx(idx); setActiveTab("roster"); }}
+              onClick={() => {
+                setSelectedIdx(idx);
+                setActiveTab("roster");
+              }}
               className={`w-full text-left p-3.5 rounded-xl transition-all ${
                 selectedIdx === idx
                   ? "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)]"
@@ -258,7 +266,9 @@ export default function TeacherClassroomPage() {
             <div className="flex flex-wrap justify-between items-start gap-6 mb-8">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-[#13eca4] text-4xl">smart_toy</span>
+                  <span className="material-symbols-outlined text-[#13eca4] text-4xl">
+                    smart_toy
+                  </span>
                   <h1 className="text-slate-100 text-3xl font-black leading-tight tracking-tight">
                     {selectedClassroom.name}
                   </h1>
@@ -284,7 +294,9 @@ export default function TeacherClassroomPage() {
                     {/* Admin Assigned Badge */}
                     <div className="relative group flex items-center gap-1.5 px-2.5 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-amber-500">
                       <span className="material-symbols-outlined text-[16px]">verified_user</span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider">Admin Assigned</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider">
+                        Admin Assigned
+                      </span>
                     </div>
                   </div>
                   <p className="text-[11px] text-slate-500 italic flex items-center gap-1 ml-1">
@@ -300,7 +312,9 @@ export default function TeacherClassroomPage() {
                   disabled={syncing}
                   className="flex items-center justify-center gap-2 rounded-lg h-11 px-5 bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-all shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
                 >
-                  <span className={`material-symbols-outlined text-lg ${syncing ? "animate-spin" : ""}`}>
+                  <span
+                    className={`material-symbols-outlined text-lg ${syncing ? "animate-spin" : ""}`}
+                  >
                     {syncing ? "progress_activity" : "sync"}
                   </span>
                   {syncing ? "Syncing..." : "Sync with Google Classroom"}
@@ -319,8 +333,16 @@ export default function TeacherClassroomPage() {
             <div className="mb-6 border-b border-[rgba(19,236,164,0.08)]">
               <div className="flex gap-8">
                 {(["roster", "curriculum", "insights"] as Tab[]).map((tab) => {
-                  const icons: Record<Tab, string> = { roster: "group", curriculum: "menu_book", insights: "insights" };
-                  const labels: Record<Tab, string> = { roster: "Roster", curriculum: "Curriculum", insights: "Insights" };
+                  const icons: Record<Tab, string> = {
+                    roster: "group",
+                    curriculum: "menu_book",
+                    insights: "insights",
+                  };
+                  const labels: Record<Tab, string> = {
+                    roster: "Roster",
+                    curriculum: "Curriculum",
+                    insights: "Insights",
+                  };
                   return (
                     <button
                       key={tab}
@@ -363,23 +385,41 @@ export default function TeacherClassroomPage() {
                     <table className="w-full text-left">
                       <thead>
                         <tr className="bg-[rgba(0,0,0,0.2)] border-b border-[rgba(19,236,164,0.08)]">
-                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">Student Name</th>
-                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">Code</th>
-                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">Grade</th>
-                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider text-center">Status</th>
-                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider text-right">Actions</th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                            Student Name
+                          </th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                            Code
+                          </th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+                            Grade
+                          </th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider text-center">
+                            Status
+                          </th>
+                          <th className="px-6 py-4 text-slate-400 text-xs font-semibold uppercase tracking-wider text-right">
+                            Actions
+                          </th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[rgba(255,255,255,0.04)]">
                         {rosterLoading ? (
                           <tr>
-                            <td colSpan={5} className="px-6 py-10 text-center text-slate-500 text-sm">
-                              <span className="material-symbols-outlined animate-spin text-2xl text-[#13eca4]">progress_activity</span>
+                            <td
+                              colSpan={5}
+                              className="px-6 py-10 text-center text-slate-500 text-sm"
+                            >
+                              <span className="material-symbols-outlined animate-spin text-2xl text-[#13eca4]">
+                                progress_activity
+                              </span>
                             </td>
                           </tr>
                         ) : rosterStudents.length === 0 && uniqueStudents.length === 0 ? (
                           <tr>
-                            <td colSpan={5} className="px-6 py-10 text-center text-slate-500 text-sm">
+                            <td
+                              colSpan={5}
+                              className="px-6 py-10 text-center text-slate-500 text-sm"
+                            >
                               No students yet. Click &quot;Add Student&quot; to create one.
                             </td>
                           </tr>
@@ -392,18 +432,25 @@ export default function TeacherClassroomPage() {
                               .toUpperCase()
                               .slice(0, 2);
                             return (
-                              <tr key={student.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                              <tr
+                                key={student.id}
+                                className="hover:bg-[rgba(19,236,164,0.02)] transition-colors"
+                              >
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
                                       {initials}
                                     </div>
-                                    <span className="text-slate-100 font-medium">{student.displayName}</span>
+                                    <span className="text-slate-100 font-medium">
+                                      {student.displayName}
+                                    </span>
                                   </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-[#13eca4] font-mono font-bold tracking-wider text-sm">{student.studentCode}</span>
+                                    <span className="text-[#13eca4] font-mono font-bold tracking-wider text-sm">
+                                      {student.studentCode}
+                                    </span>
                                     <button
                                       onClick={() => copyCode(student.studentCode)}
                                       className="text-slate-500 hover:text-[#13eca4] transition-colors"
@@ -443,23 +490,34 @@ export default function TeacherClassroomPage() {
                           uniqueStudents.map((enrollment) => {
                             const initials = enrollment.studentId.slice(0, 2).toUpperCase();
                             return (
-                              <tr key={enrollment.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                              <tr
+                                key={enrollment.id}
+                                className="hover:bg-[rgba(19,236,164,0.02)] transition-colors"
+                              >
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="flex items-center gap-3">
                                     <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
                                       {initials}
                                     </div>
-                                    <span className="text-slate-100 font-medium">{enrollment.studentId}</span>
+                                    <span className="text-slate-100 font-medium">
+                                      {enrollment.studentId}
+                                    </span>
                                   </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-slate-500 text-sm">—</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-slate-500 text-sm">—</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-slate-500 text-sm">
+                                  —
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-slate-500 text-sm">
+                                  —
+                                </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-center">
                                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-500/10 text-slate-500 border border-slate-500/20">
                                     Legacy
                                   </span>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-slate-500 text-sm">—</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-right text-slate-500 text-sm">
+                                  —
+                                </td>
                               </tr>
                             );
                           })
@@ -479,11 +537,15 @@ export default function TeacherClassroomPage() {
                     </div>
                     <div className="space-y-4">
                       {classroomCourses.length === 0 ? (
-                        <p className="text-xs text-slate-500 text-center py-2">No courses assigned</p>
+                        <p className="text-xs text-slate-500 text-center py-2">
+                          No courses assigned
+                        </p>
                       ) : (
                         classroomCourses.slice(0, 3).map((course) => (
                           <div key={course.id} className="flex items-center justify-between">
-                            <span className="text-sm text-slate-300 truncate max-w-32.5">{course.title}</span>
+                            <span className="text-sm text-slate-300 truncate max-w-32.5">
+                              {course.title}
+                            </span>
                             <label className="relative inline-flex h-6 w-11 items-center rounded-full bg-[#13eca4] cursor-pointer shrink-0">
                               <input type="checkbox" defaultChecked className="sr-only peer" />
                               <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition peer-checked:translate-x-6" />
@@ -596,13 +658,23 @@ export default function TeacherClassroomPage() {
                   <h4 className="text-base font-bold text-white mb-4">Enrollment Summary</h4>
                   <div className="space-y-4">
                     {[
-                      { label: "Total Students", value: selectedClassroom.enrolled, max: selectedClassroom.capacity },
-                      { label: "Average Progress", value: selectedClassroom.avgProgress ?? 0, max: 100 },
+                      {
+                        label: "Total Students",
+                        value: selectedClassroom.enrolled,
+                        max: selectedClassroom.capacity,
+                      },
+                      {
+                        label: "Average Progress",
+                        value: selectedClassroom.avgProgress ?? 0,
+                        max: 100,
+                      },
                     ].map(({ label, value, max }) => (
                       <div key={label}>
                         <div className="flex justify-between text-sm mb-1.5">
                           <span className="text-slate-400">{label}</span>
-                          <span className="text-[#13eca4] font-bold">{value} / {max}</span>
+                          <span className="text-[#13eca4] font-bold">
+                            {value} / {max}
+                          </span>
                         </div>
                         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                           <div
@@ -728,7 +800,9 @@ export default function TeacherClassroomPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Age</label>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Age
+                      </label>
                       <input
                         type="number"
                         placeholder="e.g. 12"
@@ -740,7 +814,9 @@ export default function TeacherClassroomPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">Grade</label>
+                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                        Grade
+                      </label>
                       <input
                         type="text"
                         placeholder="e.g. Grade 6"
@@ -771,14 +847,19 @@ export default function TeacherClassroomPage() {
               <>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-[rgba(19,236,164,0.15)] rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="material-symbols-outlined text-[#13eca4] text-3xl">check_circle</span>
+                    <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                      check_circle
+                    </span>
                   </div>
                   <h2 className="text-white font-bold text-lg mb-1">Student Created!</h2>
                   <p className="text-slate-400 text-sm mb-6">
-                    Share this login code with <span className="text-white font-semibold">{newStudentName}</span>
+                    Share this login code with{" "}
+                    <span className="text-white font-semibold">{newStudentName}</span>
                   </p>
                   <div className="bg-[#0d1f1a] border-2 border-dashed border-[rgba(19,236,164,0.3)] rounded-2xl p-6 mb-6">
-                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Student Login Code</p>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">
+                      Student Login Code
+                    </p>
                     <p className="text-[#13eca4] font-mono font-black text-4xl tracking-[0.3em]">
                       {createdStudentCode}
                     </p>

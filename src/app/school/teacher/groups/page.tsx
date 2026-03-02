@@ -46,9 +46,7 @@ export default function TeacherGroupsPage() {
   // Fetch user data for students
   const { data: studentUsers } = useCollection<AppUser>(
     "users",
-    allStudentIds.length > 0
-      ? [where("__name__", "in", allStudentIds.slice(0, 10))]
-      : [],
+    allStudentIds.length > 0 ? [where("__name__", "in", allStudentIds.slice(0, 10))] : [],
     allStudentIds.length > 0
   );
 
@@ -62,7 +60,9 @@ export default function TeacherGroupsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">progress_activity</span>
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
       </div>
     );
   }
@@ -71,13 +71,17 @@ export default function TeacherGroupsPage() {
   const assignedStudentIds = new Set(groups.flatMap((g) => g.studentIds ?? []));
   const unassignedStudentIds = allStudentIds.filter((id) => !assignedStudentIds.has(id));
   const unassignedStudents = unassignedStudentIds.map((id) => {
-    const user = studentUsers.find((u) => (u as AppUser & { id: string }).id === id || u.uid === id);
+    const user = studentUsers.find(
+      (u) => (u as AppUser & { id: string }).id === id || u.uid === id
+    );
     return { id, name: user?.displayName ?? id };
   });
 
   // Helper to get student name
   const getStudentName = (studentId: string) => {
-    const user = studentUsers.find((u) => (u as AppUser & { id: string }).id === studentId || u.uid === studentId);
+    const user = studentUsers.find(
+      (u) => (u as AppUser & { id: string }).id === studentId || u.uid === studentId
+    );
     return user?.displayName ?? studentId;
   };
 
@@ -97,7 +101,11 @@ export default function TeacherGroupsPage() {
       classroomId: primaryClassroom.id,
       teacherId: appUser.uid,
     });
-    await logActivity(appUser.uid, "create_group", `Created Group ${String.fromCharCode(64 + groupNum)}`);
+    await logActivity(
+      appUser.uid,
+      "create_group",
+      `Created Group ${String.fromCharCode(64 + groupNum)}`
+    );
   };
 
   return (
@@ -106,7 +114,9 @@ export default function TeacherGroupsPage() {
         <div>
           <h1 className="text-xl font-bold text-white">Classroom Group Manager</h1>
           <p className="text-slate-400 text-xs mt-0.5">
-            {primaryClassroom?.name ?? "No classroom"} · Managing {groups.length} group{groups.length !== 1 ? "s" : ""} and {totalGroupStudents} student{totalGroupStudents !== 1 ? "s" : ""}
+            {primaryClassroom?.name ?? "No classroom"} · Managing {groups.length} group
+            {groups.length !== 1 ? "s" : ""} and {totalGroupStudents} student
+            {totalGroupStudents !== 1 ? "s" : ""}
           </p>
         </div>
         <button
@@ -137,11 +147,17 @@ export default function TeacherGroupsPage() {
                 <div className="p-5 border-b border-[rgba(255,255,255,0.04)]">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-white font-bold">{g.name}</h3>
-                    <span className="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide" style={{ color: g.levelColor, background: `${g.levelColor}18` }}>
+                    <span
+                      className="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                      style={{ color: g.levelColor, background: `${g.levelColor}18` }}
+                    >
                       Level {g.levelNum}
                     </span>
                   </div>
-                  <p className="text-slate-500 text-xs">{(g.studentIds ?? []).length} student{(g.studentIds ?? []).length !== 1 ? "s" : ""} enrolled</p>
+                  <p className="text-slate-500 text-xs">
+                    {(g.studentIds ?? []).length} student
+                    {(g.studentIds ?? []).length !== 1 ? "s" : ""} enrolled
+                  </p>
                 </div>
 
                 {/* Students list */}
@@ -152,8 +168,13 @@ export default function TeacherGroupsPage() {
                   {(g.studentIds ?? []).map((sid) => {
                     const name = getStudentName(sid);
                     return (
-                      <div key={sid} className="flex items-center gap-3 p-2 rounded-lg bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] group cursor-grab">
-                        <span className="material-symbols-outlined text-[16px] text-slate-600 group-hover:text-slate-400">drag_indicator</span>
+                      <div
+                        key={sid}
+                        className="flex items-center gap-3 p-2 rounded-lg bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] group cursor-grab"
+                      >
+                        <span className="material-symbols-outlined text-[16px] text-slate-600 group-hover:text-slate-400">
+                          drag_indicator
+                        </span>
                         <div className="w-6 h-6 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[10px] font-bold text-[#13eca4]">
                           {name[0]}
                         </div>
@@ -166,9 +187,14 @@ export default function TeacherGroupsPage() {
                 {/* Courses */}
                 <div className="p-4 pt-0 flex flex-wrap gap-1.5">
                   {(g.courseIds ?? []).map((c) => (
-                    <span key={c} className="flex items-center gap-1 text-xs bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.08)] text-slate-400 px-2 py-0.5 rounded-full">
+                    <span
+                      key={c}
+                      className="flex items-center gap-1 text-xs bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.08)] text-slate-400 px-2 py-0.5 rounded-full"
+                    >
                       {c}
-                      <span className="material-symbols-outlined text-[12px] hover:text-[#ff4d4d] cursor-pointer">close</span>
+                      <span className="material-symbols-outlined text-[12px] hover:text-[#ff4d4d] cursor-pointer">
+                        close
+                      </span>
                     </span>
                   ))}
                   <button className="text-xs text-[#13eca4] hover:underline flex items-center gap-0.5">
@@ -184,9 +210,13 @@ export default function TeacherGroupsPage() {
               className="bg-[rgba(255,255,255,0.02)] border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 h-40 hover:border-[rgba(19,236,164,0.3)] hover:bg-[rgba(19,236,164,0.02)] transition-all cursor-pointer group"
             >
               <div className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.05)] group-hover:bg-[rgba(19,236,164,0.1)] flex items-center justify-center transition-colors">
-                <span className="material-symbols-outlined text-[22px] text-slate-500 group-hover:text-[#13eca4]">add</span>
+                <span className="material-symbols-outlined text-[22px] text-slate-500 group-hover:text-[#13eca4]">
+                  add
+                </span>
               </div>
-              <span className="text-slate-500 group-hover:text-[#13eca4] text-sm font-semibold transition-colors">Create New Group</span>
+              <span className="text-slate-500 group-hover:text-[#13eca4] text-sm font-semibold transition-colors">
+                Create New Group
+              </span>
             </div>
           </div>
         </div>
@@ -196,7 +226,9 @@ export default function TeacherGroupsPage() {
           <div className="p-5 border-b border-[rgba(19,236,164,0.08)]">
             <h2 className="text-white font-bold text-sm mb-3">Unassigned Students</h2>
             <div className="relative">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">search</span>
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">
+                search
+              </span>
               <input
                 type="text"
                 value={search}
@@ -210,15 +242,22 @@ export default function TeacherGroupsPage() {
             {unassignedStudents.length === 0 && (
               <p className="text-slate-600 text-xs text-center py-4">No unassigned students</p>
             )}
-            {unassignedStudents.filter((s) => s.name.toLowerCase().includes(search.toLowerCase())).map((s) => (
-              <div key={s.id} className="flex items-center gap-3 p-3 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] group cursor-grab">
-                <span className="material-symbols-outlined text-[16px] text-slate-600 group-hover:text-slate-400">drag_indicator</span>
-                <div className="w-7 h-7 rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center text-xs font-bold text-slate-400">
-                  {s.name[0]}
+            {unassignedStudents
+              .filter((s) => s.name.toLowerCase().includes(search.toLowerCase()))
+              .map((s) => (
+                <div
+                  key={s.id}
+                  className="flex items-center gap-3 p-3 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] group cursor-grab"
+                >
+                  <span className="material-symbols-outlined text-[16px] text-slate-600 group-hover:text-slate-400">
+                    drag_indicator
+                  </span>
+                  <div className="w-7 h-7 rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center text-xs font-bold text-slate-400">
+                    {s.name[0]}
+                  </div>
+                  <span className="text-slate-400 text-sm font-medium">{s.name}</span>
                 </div>
-                <span className="text-slate-400 text-sm font-medium">{s.name}</span>
-              </div>
-            ))}
+              ))}
           </div>
           <div className="p-3 border-t border-[rgba(19,236,164,0.08)]">
             <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[rgba(255,255,255,0.1)] text-slate-400 text-sm font-semibold hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">

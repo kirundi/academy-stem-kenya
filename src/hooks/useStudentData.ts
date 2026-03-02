@@ -9,31 +9,25 @@ export function useStudentData() {
   const { appUser } = useAuthContext();
   const uid = appUser?.uid ?? null;
 
-  const { data: enrollments, loading: enrollmentsLoading } =
-    useCollection<Enrollment>(
-      "enrollments",
-      uid ? [where("studentId", "==", uid)] : [],
-      !!uid
-    );
+  const { data: enrollments, loading: enrollmentsLoading } = useCollection<Enrollment>(
+    "enrollments",
+    uid ? [where("studentId", "==", uid)] : [],
+    !!uid
+  );
 
-  const { data: submissions, loading: submissionsLoading } =
-    useCollection<Submission>(
-      "submissions",
-      uid ? [where("studentId", "==", uid), orderBy("submittedAt", "desc")] : [],
-      !!uid
-    );
+  const { data: submissions, loading: submissionsLoading } = useCollection<Submission>(
+    "submissions",
+    uid ? [where("studentId", "==", uid), orderBy("submittedAt", "desc")] : [],
+    !!uid
+  );
 
-  const { data: activities, loading: activitiesLoading } =
-    useCollection<Activity>(
-      "activities",
-      uid
-        ? [where("userId", "==", uid), orderBy("timestamp", "desc"), limit(10)]
-        : [],
-      !!uid
-    );
+  const { data: activities, loading: activitiesLoading } = useCollection<Activity>(
+    "activities",
+    uid ? [where("userId", "==", uid), orderBy("timestamp", "desc"), limit(10)] : [],
+    !!uid
+  );
 
-  const { data: allBadges, loading: badgesLoading } =
-    useCollection<Badge>("badges");
+  const { data: allBadges, loading: badgesLoading } = useCollection<Badge>("badges");
 
   const earnedBadgeIds = appUser?.badges ?? [];
   const earnedBadges = allBadges.filter((b) => earnedBadgeIds.includes(b.id));
@@ -46,10 +40,6 @@ export function useStudentData() {
     earnedBadges,
     lockedBadges,
     allBadges,
-    loading:
-      enrollmentsLoading ||
-      submissionsLoading ||
-      activitiesLoading ||
-      badgesLoading,
+    loading: enrollmentsLoading || submissionsLoading || activitiesLoading || badgesLoading,
   };
 }

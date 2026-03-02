@@ -4,9 +4,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut as firebaseSignOut,
-  signInWithPopup,
   signInWithCustomToken,
-  GoogleAuthProvider,
   updateProfile,
 } from "firebase/auth";
 import {
@@ -22,10 +20,6 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { UserRole } from "@/lib/types";
-
-const googleProvider = new GoogleAuthProvider();
-googleProvider.addScope("https://www.googleapis.com/auth/classroom.courses.readonly");
-googleProvider.addScope("https://www.googleapis.com/auth/classroom.rosters.readonly");
 
 /**
  * Creates the server-side session cookie from a Firebase ID token.
@@ -72,28 +66,27 @@ interface ClaimsResult {
 /**
  * Asks the server to set custom claims from the user's Firestore profile.
  * Returns the role and whether a password change is required.
+ * @throws Will throw an error if the API call fails.
  */
 async function setClaimsFromProfile(idToken: string): Promise<ClaimsResult> {
-  try {
-    const res = await fetch("/api/auth/set-claims", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idToken }),
-    });
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      console.warn("set-claims failed:", data.error);
-      return { role: null, requiresPasswordChange: false };
-    }
-    const data = await res.json();
-    return {
-      role: (data.role as string) ?? null,
-      requiresPasswordChange: (data.requiresPasswordChange as boolean) ?? false,
-    };
-  } catch (err) {
-    console.warn("set-claims request failed:", err);
-    return { role: null, requiresPasswordChange: false };
+  const res = await fetch("/api/auth/set-claims", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ idToken }),
+  });
+
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    const errorMessage = data.error || "Failed to set custom claims";
+    console.error("set-claims API call failed:", errorMessage);
+    throw new Error(errorMessage);
   }
+
+  const data = await res.json();
+  return {
+    role: (data.role as string) ?? null,
+    requiresPasswordChange: (data.requiresPasswordChange as boolean) ?? false,
+  };
 }
 
 export function useAuth() {
@@ -105,16 +98,24 @@ export function useAuth() {
   async function signIn(email: string, password: string): Promise<ClaimsResult> {
     const cred = await signInWithEmailAndPassword(auth, email, password);
 
-    // Set custom claims on the Auth user from the Firestore profile.
-    const idToken = await cred.user.getIdToken();
-    const claims = await setClaimsFromProfile(idToken);
+    try {
+      // Set custom claims on the Auth user from the Firestore profile.
+      const idToken = await cred.user.getIdToken();
+      const claims = await setClaimsFromProfile(idToken);
 
-    // Force-refresh so the new token carries the freshly written claims,
-    // then create the server session cookie with that token.
-    const freshToken = await cred.user.getIdToken(true);
-    await setSessionCookie(freshToken);
+      // Force-refresh so the new token carries the freshly written claims,
+      // then create the server session cookie with that token.
+      const freshToken = await cred.user.getIdToken(true);
+      await setSessionCookie(freshToken);
 
-    return claims;
+      return claims;
+    } catch (error) {
+      // If setting claims or session fails, sign out to prevent inconsistent state.
+      await firebaseSignOut(auth);
+      // Ensure the client-side session is also cleared.
+      await clearSessionCookie();
+      throw error;
+    }
   }
 
   async function registerTeacher(data: {
@@ -130,40 +131,44 @@ export function useAuth() {
     const cred = await createUserWithEmailAndPassword(auth, data.email, data.password);
     const user = cred.user;
 
-    await updateProfile(user, {
-      displayName: `${data.firstName} ${data.lastName}`,
-    });
+    try {
+      await updateProfile(user, {
+        displayName: `${data.firstName} ${data.lastName}`,
+      });
 
-    // Find or reference the school
-    let schoolId: string | null = null;
-    const schoolQuery = query(
-      collection(db, "schools"),
-      where("name", "==", data.school)
-    );
-    const schoolSnap = await getDocs(schoolQuery);
-    if (!schoolSnap.empty) {
-      schoolId = schoolSnap.docs[0].id;
+      // Find or reference the school
+      let schoolId: string | null = null;
+      const schoolQuery = query(collection(db, "schools"), where("name", "==", data.school));
+      const schoolSnap = await getDocs(schoolQuery);
+      if (!schoolSnap.empty) {
+        schoolId = schoolSnap.docs[0].id;
+      }
+
+      // Create user document
+      await setDoc(doc(db, "users", user.uid), {
+        email: data.email,
+        displayName: `${data.firstName} ${data.lastName}`,
+        role: "teacher" as UserRole,
+        schoolId,
+        schoolName: data.school,
+        city: data.city,
+        teacherRole: data.role,
+        subjects: data.subjects,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+
+      const idToken = await user.getIdToken();
+      await setClaimsFromProfile(idToken);
+      const freshToken = await user.getIdToken(true);
+      await setSessionCookie(freshToken);
+      return user;
+    } catch (error) {
+      // If any step after user creation fails, sign out to prevent inconsistent state.
+      await firebaseSignOut(auth);
+      await clearSessionCookie();
+      throw error;
     }
-
-    // Create user document
-    await setDoc(doc(db, "users", user.uid), {
-      email: data.email,
-      displayName: `${data.firstName} ${data.lastName}`,
-      role: "teacher" as UserRole,
-      schoolId,
-      schoolName: data.school,
-      city: data.city,
-      teacherRole: data.role,
-      subjects: data.subjects,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    });
-
-    const idToken = await user.getIdToken();
-    await setClaimsFromProfile(idToken);
-    const freshToken = await user.getIdToken(true);
-    await setSessionCookie(freshToken);
-    return user;
   }
 
   async function onboardSchool(data: {
@@ -180,36 +185,43 @@ export function useAuth() {
     const cred = await createUserWithEmailAndPassword(auth, data.email, data.password);
     const user = cred.user;
 
-    await updateProfile(user, { displayName: data.fullName });
+    try {
+      await updateProfile(user, { displayName: data.fullName });
 
-    const schoolRef = await addDoc(collection(db, "schools"), {
-      name: data.schoolName,
-      type: data.schoolType,
-      location: data.location,
-      studentCount: data.studentCount,
-      status: "review",
-      plan: "community",
-      healthScore: 0,
-      adminId: user.uid,
-      createdAt: serverTimestamp(),
-    });
+      const schoolRef = await addDoc(collection(db, "schools"), {
+        name: data.schoolName,
+        type: data.schoolType,
+        location: data.location,
+        studentCount: data.studentCount,
+        status: "review",
+        plan: "community",
+        healthScore: 0,
+        adminId: user.uid,
+        createdAt: serverTimestamp(),
+      });
 
-    await setDoc(doc(db, "users", user.uid), {
-      email: data.email,
-      displayName: data.fullName,
-      role: "school_admin" as UserRole,
-      schoolId: schoolRef.id,
-      roleDesignation: data.roleDesignation,
-      contactNumber: data.contactNumber,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    });
+      await setDoc(doc(db, "users", user.uid), {
+        email: data.email,
+        displayName: data.fullName,
+        role: "school_admin" as UserRole,
+        schoolId: schoolRef.id,
+        roleDesignation: data.roleDesignation,
+        contactNumber: data.contactNumber,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
 
-    const idToken = await user.getIdToken();
-    await setClaimsFromProfile(idToken);
-    const freshToken = await user.getIdToken(true);
-    await setSessionCookie(freshToken);
-    return { user, schoolId: schoolRef.id };
+      const idToken = await user.getIdToken();
+      await setClaimsFromProfile(idToken);
+      const freshToken = await user.getIdToken(true);
+      await setSessionCookie(freshToken);
+      return { user, schoolId: schoolRef.id };
+    } catch (error) {
+      // If any step after user creation fails, sign out to prevent inconsistent state.
+      await firebaseSignOut(auth);
+      await clearSessionCookie();
+      throw error;
+    }
   }
 
   async function studentVerify(code: string, firstName: string) {
@@ -242,30 +254,7 @@ export function useAuth() {
     return cred.user;
   }
 
-  async function signInWithGoogle() {
-    const cred = await signInWithPopup(auth, googleProvider);
-    const user = cred.user;
 
-    const userDocRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userDocRef);
-
-    if (!userDoc.exists()) {
-      await setDoc(userDocRef, {
-        email: user.email,
-        displayName: user.displayName,
-        role: "teacher" as UserRole,
-        schoolId: null,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
-    }
-
-    const idToken = await user.getIdToken();
-    await setClaimsFromProfile(idToken);
-    const freshToken = await user.getIdToken(true);
-    await setSessionCookie(freshToken);
-    return cred;
-  }
 
   /** Re-mints the server session cookie from the current Firebase token. */
   async function refreshSession(): Promise<boolean> {
@@ -291,7 +280,6 @@ export function useAuth() {
     studentLogin,
     registerTeacher,
     onboardSchool,
-    signInWithGoogle,
     refreshSession,
     signOut,
   };
