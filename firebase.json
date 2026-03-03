@@ -8,7 +8,10 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "predeploy": ["npm run build"],
     "frameworksBackend": {
-      "region": "us-central1"
+      "region": "us-central1",
+      "secrets": [
+        "RESEND_API_KEY"
+      ]
     }
   }
 }
