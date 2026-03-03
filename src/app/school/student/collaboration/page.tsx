@@ -3,13 +3,7 @@
 import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import {
-  doc,
-  updateDoc,
-  deleteField,
-  serverTimestamp,
-  documentId,
-} from "firebase/firestore";
+import { doc, updateDoc, deleteField, serverTimestamp, documentId } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument, useCollection, useCreateDoc } from "@/hooks/useFirestore";
@@ -56,14 +50,7 @@ interface MemberUser {
 // Helpers
 // ---------------------------------------------------------------------------
 
-const MEMBER_COLORS = [
-  "#13eca4",
-  "#60a5fa",
-  "#f59e0b",
-  "#a78bfa",
-  "#f472b6",
-  "#34d399",
-];
+const MEMBER_COLORS = ["#13eca4", "#60a5fa", "#f59e0b", "#a78bfa", "#f472b6", "#34d399"];
 
 function memberColor(index: number) {
   return MEMBER_COLORS[index % MEMBER_COLORS.length];
@@ -90,15 +77,7 @@ function formatTime(ts: { seconds: number } | null): string {
 // Loading / empty states
 // ---------------------------------------------------------------------------
 
-function CentreState({
-  icon,
-  title,
-  body,
-}: {
-  icon: string;
-  title: string;
-  body?: string;
-}) {
+function CentreState({ icon, title, body }: { icon: string; title: string; body?: string }) {
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
       <span className="material-symbols-outlined text-5xl text-slate-600">{icon}</span>
@@ -127,18 +106,13 @@ function CollaborationContent() {
   const chatBottomRef = useRef<HTMLDivElement>(null);
 
   // ── Fetch group doc (real-time) ──────────────────────────────────────────
-  const { data: group, loading: groupLoading } = useDocument<Group>(
-    "groups",
-    groupId
-  );
+  const { data: group, loading: groupLoading } = useDocument<Group>("groups", groupId);
 
   // ── Fetch member user docs ───────────────────────────────────────────────
   const memberIds = group?.studentIds ?? [];
   const { data: memberUsers } = useCollection<MemberUser>(
     "users",
-    memberIds.length > 0
-      ? [where(documentId(), "in", memberIds.slice(0, 10))]
-      : [],
+    memberIds.length > 0 ? [where(documentId(), "in", memberIds.slice(0, 10))] : [],
     memberIds.length > 0
   );
 
@@ -229,11 +203,7 @@ function CollaborationContent() {
 
   if (!group.studentIds.includes(uid)) {
     return (
-      <CentreState
-        icon="lock"
-        title="Access Denied"
-        body="You are not a member of this group."
-      />
+      <CentreState icon="lock" title="Access Denied" body="You are not a member of this group." />
     );
   }
 
@@ -241,13 +211,10 @@ function CollaborationContent() {
   const presence = group.presence ?? {};
   const currentStep = group.currentStep ?? 1;
   const totalSteps = group.totalSteps ?? 5;
-  const progress =
-    group.progress ?? Math.round(((currentStep - 1) / totalSteps) * 100);
+  const progress = group.progress ?? Math.round(((currentStep - 1) / totalSteps) * 100);
 
   const members = memberIds.map((id, idx) => {
-    const userDoc = memberUsers.find(
-      (u) => (u as MemberUser & { id: string }).id === id
-    );
+    const userDoc = memberUsers.find((u) => (u as MemberUser & { id: string }).id === id);
     const name = id === uid ? "You" : (userDoc?.displayName ?? "Member");
     const pres = presence[id];
     return {
@@ -275,9 +242,7 @@ function CollaborationContent() {
         {/* Header */}
         <div className="px-4 py-4 border-b border-[rgba(19,236,164,0.1)]">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold text-white uppercase tracking-widest">
-              Team Chat
-            </h2>
+            <h2 className="text-sm font-bold text-white uppercase tracking-widest">Team Chat</h2>
             <span className="flex items-center gap-1.5 text-[10px] text-slate-400">
               <span className="size-1.5 rounded-full bg-[#13eca4]" />
               {onlineCount} online
@@ -311,18 +276,14 @@ function CollaborationContent() {
           {messages.map((msg) => {
             const isSelf = msg.authorId === uid;
             const senderIdx = memberIds.indexOf(msg.authorId);
-            const color =
-              senderIdx >= 0 ? memberColor(senderIdx) : "#94a3b8";
+            const color = senderIdx >= 0 ? memberColor(senderIdx) : "#94a3b8";
             return (
-              <div
-                key={msg.id}
-                className={`flex gap-2 ${isSelf ? "flex-row-reverse" : ""}`}
-              >
+              <div key={msg.id} className={`flex gap-2 ${isSelf ? "flex-row-reverse" : ""}`}>
                 <div
                   className="size-7 rounded-full flex items-center justify-center text-[9px] font-bold shrink-0 text-[#0d1f1a]"
                   style={{ backgroundColor: isSelf ? "#60a5fa" : color }}
                 >
-                  {initials(isSelf ? "You" : (msg.authorName || "?"))}
+                  {initials(isSelf ? "You" : msg.authorName || "?")}
                 </div>
                 <div
                   className={`max-w-45 flex flex-col gap-0.5 ${isSelf ? "items-end" : "items-start"}`}
@@ -341,9 +302,7 @@ function CollaborationContent() {
                   >
                     {msg.text}
                   </div>
-                  <span className="text-[9px] text-slate-500">
-                    {formatTime(msg.createdAt)}
-                  </span>
+                  <span className="text-[9px] text-slate-500">{formatTime(msg.createdAt)}</span>
                 </div>
               </div>
             );
@@ -385,34 +344,23 @@ function CollaborationContent() {
             >
               Dashboard
             </Link>
-            <span className="material-symbols-outlined text-[14px]">
-              chevron_right
-            </span>
-            <span className="text-slate-400">
-              {classroom?.name ?? "Project"}
-            </span>
-            <span className="material-symbols-outlined text-[14px]">
-              chevron_right
-            </span>
+            <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+            <span className="text-slate-400">{classroom?.name ?? "Project"}</span>
+            <span className="material-symbols-outlined text-[14px]">chevron_right</span>
             <span className="text-[#13eca4] font-semibold">{group.name}</span>
           </nav>
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-400">Auto-saved</span>
-            <span className="material-symbols-outlined text-[#13eca4] text-lg">
-              cloud_done
-            </span>
+            <span className="material-symbols-outlined text-[#13eca4] text-lg">cloud_done</span>
           </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-6">
           {/* Title */}
           <div className="mb-6">
-            <h1 className="text-2xl font-black text-white tracking-tight">
-              {group.name}
-            </h1>
+            <h1 className="text-2xl font-black text-white tracking-tight">{group.name}</h1>
             <p className="text-sm text-slate-400 mt-1">
-              {classroom?.subject ?? "Group Project"} · Step {currentStep} of{" "}
-              {totalSteps}
+              {classroom?.subject ?? "Group Project"} · Step {currentStep} of {totalSteps}
             </p>
           </div>
 
@@ -422,9 +370,7 @@ function CollaborationContent() {
               <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
                 Team Progress
               </span>
-              <span className="text-sm font-bold text-[#13eca4]">
-                {progress}%
-              </span>
+              <span className="text-sm font-bold text-[#13eca4]">{progress}%</span>
             </div>
             <div className="w-full h-2 bg-[#1a2e30] rounded-full overflow-hidden">
               <div
@@ -473,11 +419,7 @@ function CollaborationContent() {
                                 : "text-slate-500"
                           }`}
                         >
-                          {isCompleted
-                            ? "check_circle"
-                            : isActive
-                              ? "edit"
-                              : "lock"}
+                          {isCompleted ? "check_circle" : isActive ? "edit" : "lock"}
                         </span>
                       </div>
                       <div>
@@ -491,11 +433,7 @@ function CollaborationContent() {
                           }`}
                         >
                           Step {stepNum} ·{" "}
-                          {isCompleted
-                            ? "Completed"
-                            : isActive
-                              ? "Active"
-                              : "Upcoming"}
+                          {isCompleted ? "Completed" : isActive ? "Active" : "Upcoming"}
                         </p>
                         <h3
                           className={`text-sm font-bold ${isLocked ? "text-slate-500" : "text-white"}`}
@@ -539,9 +477,7 @@ function CollaborationContent() {
       {/* ── RIGHT: Collaborator Activity ────────────────────────────────── */}
       <aside className="w-80 shrink-0 flex flex-col bg-[#0d1f1a] border-l border-[rgba(19,236,164,0.1)] h-full overflow-y-auto">
         <div className="px-4 py-4 border-b border-[rgba(19,236,164,0.1)]">
-          <h2 className="text-sm font-bold text-white uppercase tracking-widest">
-            Collaborators
-          </h2>
+          <h2 className="text-sm font-bold text-white uppercase tracking-widest">Collaborators</h2>
         </div>
 
         <div className="flex-1 px-4 py-4 flex flex-col gap-6">
@@ -554,9 +490,7 @@ function CollaborationContent() {
                 )}
                 <div
                   className={`size-9 rounded-full flex items-center justify-center text-[11px] font-bold text-[#0d1f1a] shrink-0 z-10 border-2 ${
-                    m.status === "editing"
-                      ? "border-[#13eca4]"
-                      : "border-transparent"
+                    m.status === "editing" ? "border-[#13eca4]" : "border-transparent"
                   } ${!m.online ? "opacity-40 grayscale" : ""}`}
                   style={{ backgroundColor: m.color }}
                 >
@@ -566,12 +500,7 @@ function CollaborationContent() {
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-bold text-white truncate">
                       {m.name}
-                      {m.isSelf && (
-                        <span className="text-slate-500 font-normal">
-                          {" "}
-                          (you)
-                        </span>
-                      )}
+                      {m.isSelf && <span className="text-slate-500 font-normal"> (you)</span>}
                     </p>
                     {m.online && m.status === "editing" && (
                       <span className="size-2 rounded-full bg-[#13eca4] animate-pulse" />
@@ -613,10 +542,7 @@ function CollaborationContent() {
                   accent: true,
                 },
               ].map((row) => (
-                <div
-                  key={row.label}
-                  className="flex items-center justify-between"
-                >
+                <div key={row.label} className="flex items-center justify-between">
                   <span className="text-xs text-slate-400">{row.label}</span>
                   <span
                     className={`text-xs font-bold ${row.accent ? "text-[#13eca4]" : "text-white"}`}

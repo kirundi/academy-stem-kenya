@@ -20,7 +20,9 @@ export default function SchoolsManagementPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
-  const [rejectModal, setRejectModal] = useState<{ schoolId: string; schoolName: string } | null>(null);
+  const [rejectModal, setRejectModal] = useState<{ schoolId: string; schoolName: string } | null>(
+    null
+  );
   const [rejectReason, setRejectReason] = useState("");
   const { schools, loading } = useGlobalAdminData();
   const { update } = useUpdateDoc("schools");
@@ -238,10 +240,10 @@ export default function SchoolsManagementPage() {
                             s.status === "active"
                               ? "text-emerald-500"
                               : s.status === "review"
-                              ? "text-amber-500"
-                              : s.status === "rejected"
-                              ? "text-red-400"
-                              : "text-slate-400"
+                                ? "text-amber-500"
+                                : s.status === "rejected"
+                                  ? "text-red-400"
+                                  : "text-slate-400"
                           }`}
                         >
                           {s.status}
@@ -309,9 +311,7 @@ export default function SchoolsManagementPage() {
           <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-[rgba(255,77,77,0.12)] flex items-center justify-center">
-                <span className="material-symbols-outlined text-red-400 text-[22px]">
-                  cancel
-                </span>
+                <span className="material-symbols-outlined text-red-400 text-[22px]">cancel</span>
               </div>
               <div>
                 <h2 className="text-white font-bold text-base">Reject Application</h2>
@@ -331,9 +331,7 @@ export default function SchoolsManagementPage() {
               placeholder="e.g. Incomplete documentation provided. Please resubmit with your school registration certificate."
               className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(255,77,77,0.5)] resize-none mb-1"
             />
-            <p className="text-slate-600 text-xs text-right mb-5">
-              {rejectReason.length}/300
-            </p>
+            <p className="text-slate-600 text-xs text-right mb-5">{rejectReason.length}/300</p>
 
             <div className="flex gap-3">
               <button
@@ -343,11 +341,15 @@ export default function SchoolsManagementPage() {
                 Cancel
               </button>
               <button
-                disabled={!rejectReason.trim() || actionLoading === rejectModal.schoolId + "_reject"}
+                disabled={
+                  !rejectReason.trim() || actionLoading === rejectModal.schoolId + "_reject"
+                }
                 onClick={handleRejectSubmit}
                 className="flex-1 py-2.5 rounded-xl text-sm font-bold bg-red-500 text-white hover:bg-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                {actionLoading === rejectModal.schoolId + "_reject" ? "Rejecting…" : "Reject Application"}
+                {actionLoading === rejectModal.schoolId + "_reject"
+                  ? "Rejecting…"
+                  : "Reject Application"}
               </button>
             </div>
           </div>

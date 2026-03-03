@@ -3,12 +3,7 @@
 import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTeacherData } from "@/hooks/useTeacherData";
-import {
-  useCollection,
-  useCreateDoc,
-  useUpdateDoc,
-  useDeleteDoc,
-} from "@/hooks/useFirestore";
+import { useCollection, useCreateDoc, useUpdateDoc, useDeleteDoc } from "@/hooks/useFirestore";
 import { where, documentId } from "firebase/firestore";
 import { logActivity } from "@/lib/activity-logger";
 import type { Enrollment, AppUser } from "@/lib/types";
@@ -47,21 +42,16 @@ export default function TeacherGroupsPage() {
     !!primaryClassroom
   );
 
-  const allStudentIds = Array.from(
-    new Set(enrollments.map((e) => e.studentId))
-  );
+  const allStudentIds = Array.from(new Set(enrollments.map((e) => e.studentId)));
 
   const { data: studentUsers } = useCollection<AppUser>(
     "users",
-    allStudentIds.length > 0
-      ? [where(documentId(), "in", allStudentIds.slice(0, 10))]
-      : [],
+    allStudentIds.length > 0 ? [where(documentId(), "in", allStudentIds.slice(0, 10))] : [],
     allStudentIds.length > 0
   );
 
   // ── Mutations ─────────────────────────────────────────────────────────────
-  const { create: createGroup, loading: creatingGroup } =
-    useCreateDoc("groups");
+  const { create: createGroup, loading: creatingGroup } = useCreateDoc("groups");
   const { update: updateGroup } = useUpdateDoc("groups");
   const { remove: deleteGroup } = useDeleteDoc("groups");
 
@@ -85,29 +75,20 @@ export default function TeacherGroupsPage() {
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   const getStudentName = (studentId: string) => {
-    const user = studentUsers.find(
-      (u) => (u as AppUser & { id: string }).id === studentId
-    );
+    const user = studentUsers.find((u) => (u as AppUser & { id: string }).id === studentId);
     return user?.displayName ?? studentId;
   };
 
-  const assignedStudentIds = new Set(
-    groups.flatMap((g) => g.studentIds ?? [])
-  );
+  const assignedStudentIds = new Set(groups.flatMap((g) => g.studentIds ?? []));
   const unassignedStudents = allStudentIds
     .filter((id) => !assignedStudentIds.has(id))
     .map((id) => ({ id, name: getStudentName(id) }))
     .filter((s) => s.name.toLowerCase().includes(search.toLowerCase()));
 
   const activeGroup =
-    (selectedGroupId
-      ? groups.find((g) => g.id === selectedGroupId)
-      : groups[0]) ?? null;
+    (selectedGroupId ? groups.find((g) => g.id === selectedGroupId) : groups[0]) ?? null;
 
-  const totalGroupStudents = groups.reduce(
-    (a, g) => a + (g.studentIds?.length ?? 0),
-    0
-  );
+  const totalGroupStudents = groups.reduce((a, g) => a + (g.studentIds?.length ?? 0), 0);
 
   // ── Handlers ──────────────────────────────────────────────────────────────
   const handleCreateGroup = async () => {
@@ -152,8 +133,7 @@ export default function TeacherGroupsPage() {
   };
 
   const handleCopyLink = (groupId: string) => {
-    const origin =
-      typeof window !== "undefined" ? window.location.origin : "";
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
     const url = `${origin}/school/student/collaboration?groupId=${groupId}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopiedId(groupId);
@@ -167,9 +147,7 @@ export default function TeacherGroupsPage() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">
-            Classroom Group Manager
-          </h1>
+          <h1 className="text-xl font-bold text-white">Classroom Group Manager</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             {primaryClassroom?.name ?? "No classroom"} · {groups.length} group
             {groups.length !== 1 ? "s" : ""} · {totalGroupStudents} student
@@ -191,9 +169,7 @@ export default function TeacherGroupsPage() {
         <div className="flex-1 overflow-y-auto p-8">
           {groups.length === 0 && !creatingGroup ? (
             <div className="flex flex-col items-center justify-center h-64 gap-4">
-              <span className="material-symbols-outlined text-5xl text-slate-600">
-                group_work
-              </span>
+              <span className="material-symbols-outlined text-5xl text-slate-600">group_work</span>
               <p className="text-slate-400 text-sm">No groups yet.</p>
               <button
                 onClick={handleCreateGroup}
@@ -259,9 +235,7 @@ export default function TeacherGroupsPage() {
                           className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400"
                           title="Remove from group"
                         >
-                          <span className="material-symbols-outlined text-[16px]">
-                            close
-                          </span>
+                          <span className="material-symbols-outlined text-[16px]">close</span>
                         </button>
                       </div>
                     ))}
@@ -287,9 +261,7 @@ export default function TeacherGroupsPage() {
                     {/* Delete group */}
                     {confirmDeleteId === g.id ? (
                       <div className="flex items-center gap-1.5 ml-auto">
-                        <span className="text-[10px] text-red-400">
-                          Delete group?
-                        </span>
+                        <span className="text-[10px] text-red-400">Delete group?</span>
                         <button
                           onClick={() => handleDeleteGroup(g.id)}
                           className="text-[10px] font-bold text-red-400 hover:text-red-300 px-2 py-1 rounded border border-red-500/30"
@@ -309,9 +281,7 @@ export default function TeacherGroupsPage() {
                         className="ml-auto text-slate-600 hover:text-red-400 transition-colors"
                         title="Delete group"
                       >
-                        <span className="material-symbols-outlined text-[18px]">
-                          delete
-                        </span>
+                        <span className="material-symbols-outlined text-[18px]">delete</span>
                       </button>
                     )}
                   </div>
@@ -339,13 +309,10 @@ export default function TeacherGroupsPage() {
         {/* ── RIGHT: Unassigned students ────────────────────────────────── */}
         <div className="w-72 bg-[#0d1f1a] border-l border-[rgba(19,236,164,0.08)] flex flex-col">
           <div className="p-5 border-b border-[rgba(19,236,164,0.08)]">
-            <h2 className="text-white font-bold text-sm mb-1">
-              Unassigned Students
-            </h2>
+            <h2 className="text-white font-bold text-sm mb-1">Unassigned Students</h2>
             {activeGroup && (
               <p className="text-slate-500 text-xs mb-3">
-                Click a student to add to{" "}
-                <span className="text-[#13eca4]">{activeGroup.name}</span>
+                Click a student to add to <span className="text-[#13eca4]">{activeGroup.name}</span>
               </p>
             )}
             <div className="relative">
@@ -369,9 +336,7 @@ export default function TeacherGroupsPage() {
               </p>
             )}
             {activeGroup && unassignedStudents.length === 0 && (
-              <p className="text-slate-600 text-xs text-center py-4">
-                All students are assigned
-              </p>
+              <p className="text-slate-600 text-xs text-center py-4">All students are assigned</p>
             )}
             {activeGroup &&
               unassignedStudents.map((s) => (

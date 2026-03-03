@@ -31,10 +31,7 @@ export async function DELETE(request: NextRequest) {
       // Revoke all refresh tokens — every device gets kicked out.
       await adminAuth.revokeRefreshTokens(uid);
       // Delete all session records for this user.
-      const snap = await adminDb
-        .collection("sessions")
-        .where("uid", "==", uid)
-        .get();
+      const snap = await adminDb.collection("sessions").where("uid", "==", uid).get();
       const batch = adminDb.batch();
       snap.docs.forEach((d) => batch.delete(d.ref));
       await batch.commit();

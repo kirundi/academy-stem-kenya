@@ -57,7 +57,10 @@ export default function SchoolAnalyticsPage() {
           rank: i + 1,
           name: s.name,
           dept: s.plan ?? s.type,
-          teacher: schoolTeachers > 0 ? `${schoolTeachers} teacher${schoolTeachers !== 1 ? "s" : ""}` : s.location,
+          teacher:
+            schoolTeachers > 0
+              ? `${schoolTeachers} teacher${schoolTeachers !== 1 ? "s" : ""}`
+              : s.location,
           score: s.healthScore ?? 0,
           rankColor: RANK_COLORS[i] ?? RANK_COLORS[3],
         };
@@ -153,7 +156,9 @@ export default function SchoolAnalyticsPage() {
             <div className="flex justify-between items-center mb-6">
               <div>
                 <h3 className="text-white font-bold text-lg">Student Engagement Trends</h3>
-                <p className="text-slate-500 text-xs mt-0.5">Illustrative — requires analytics pipeline</p>
+                <p className="text-slate-500 text-xs mt-0.5">
+                  Illustrative — requires analytics pipeline
+                </p>
               </div>
             </div>
             <div className="h-56 flex items-end gap-2 relative">
@@ -242,10 +247,7 @@ export default function SchoolAnalyticsPage() {
                 </thead>
                 <tbody className="divide-y divide-[rgba(255,255,255,0.04)] text-sm">
                   {topSchools.map((c) => (
-                    <tr
-                      key={c.name}
-                      className="hover:bg-[rgba(19,236,164,0.02)] transition-colors"
-                    >
+                    <tr key={c.name} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
                       <td className="px-6 py-4">
                         <div
                           className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${c.rankColor}`}

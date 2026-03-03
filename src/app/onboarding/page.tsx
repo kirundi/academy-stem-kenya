@@ -82,11 +82,17 @@ export default function OnboardingPage() {
     setError("");
     if (step === 1) {
       const err = validateStep1();
-      if (err) { setError(err); return; }
+      if (err) {
+        setError(err);
+        return;
+      }
       setStep(2);
     } else if (step === 2) {
       const err = validateStep2();
-      if (err) { setError(err); return; }
+      if (err) {
+        setError(err);
+        return;
+      }
       setStep(3);
     }
   };
@@ -115,7 +121,11 @@ export default function OnboardingPage() {
       fetch("/api/email/welcome", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ to: formData.email, schoolName: formData.schoolName, adminName: formData.fullName }),
+        body: JSON.stringify({
+          to: formData.email,
+          schoolName: formData.schoolName,
+          adminName: formData.fullName,
+        }),
       }).catch((err) => console.error("Welcome email failed:", err));
       fetch("/api/admin/notify-new-school", { method: "POST" }).catch((err) =>
         console.error("Admin new-school notification failed:", err)
@@ -226,7 +236,6 @@ export default function OnboardingPage() {
       <div className="flex items-start justify-center p-8">
         <div className="fixed inset-0 dot-pattern opacity-30" />
         <div className="relative w-full max-w-2xl">
-
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
@@ -244,7 +253,11 @@ export default function OnboardingPage() {
                 <span
                   key={label}
                   className={`text-xs font-semibold ${
-                    i + 1 < step ? "text-[#13eca4]" : i + 1 === step ? "text-white" : "text-slate-600"
+                    i + 1 < step
+                      ? "text-[#13eca4]"
+                      : i + 1 === step
+                        ? "text-white"
+                        : "text-slate-600"
                   }`}
                 >
                   {label}
@@ -262,20 +275,23 @@ export default function OnboardingPage() {
           )}
 
           <div className="bg-[#1a2e27] rounded-3xl border border-[rgba(19,236,164,0.12)] shadow-2xl shadow-black/50 overflow-hidden">
-
             {/* Step 1 */}
             {step === 1 && (
               <div className="p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-1.5 h-10 bg-[#13eca4] rounded-full" />
                   <div>
-                    <p className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">Step 01</p>
+                    <p className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
+                      Step 01
+                    </p>
                     <h2 className="text-xl font-bold text-white">School Details</h2>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="col-span-2">
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">School Name *</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      School Name *
+                    </label>
                     <input
                       className="form-input"
                       placeholder="e.g. Nairobi Junior Academy"
@@ -284,7 +300,9 @@ export default function OnboardingPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">School Type</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      School Type
+                    </label>
                     <select
                       className="form-input"
                       value={formData.schoolType}
@@ -299,7 +317,9 @@ export default function OnboardingPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Campus Location</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Campus Location
+                    </label>
                     <input
                       className="form-input"
                       placeholder="e.g. Nairobi, Kenya"
@@ -308,7 +328,9 @@ export default function OnboardingPage() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Estimated Student Count</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Estimated Student Count
+                    </label>
                     <select
                       className="form-input"
                       value={formData.studentCount}
@@ -331,13 +353,17 @@ export default function OnboardingPage() {
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-1.5 h-10 bg-red-500 rounded-full" />
                   <div>
-                    <p className="text-red-400 text-xs font-bold uppercase tracking-widest">Step 02</p>
+                    <p className="text-red-400 text-xs font-bold uppercase tracking-widest">
+                      Step 02
+                    </p>
                     <h2 className="text-xl font-bold text-white">Administrator Account</h2>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Full Name *</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Full Name *
+                    </label>
                     <input
                       className="form-input"
                       placeholder="Your full name"
@@ -346,26 +372,36 @@ export default function OnboardingPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Role / Designation</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Role / Designation
+                    </label>
                     <input
                       className="form-input"
                       placeholder="e.g. STEM Coordinator"
                       value={formData.roleDesignation}
-                      onChange={(e) => setFormData((p) => ({ ...p, roleDesignation: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, roleDesignation: e.target.value }))
+                      }
                     />
                   </div>
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Contact Number</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Contact Number
+                    </label>
                     <input
                       type="tel"
                       className="form-input"
                       placeholder="+254 7xx xxx xxx"
                       value={formData.contactNumber}
-                      onChange={(e) => setFormData((p) => ({ ...p, contactNumber: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, contactNumber: e.target.value }))
+                      }
                     />
                   </div>
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Email Address *</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Email Address *
+                    </label>
                     <input
                       type="email"
                       className="form-input"
@@ -375,7 +411,9 @@ export default function OnboardingPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Password *</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Password *
+                    </label>
                     <input
                       type="password"
                       className="form-input"
@@ -385,13 +423,17 @@ export default function OnboardingPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">Confirm Password *</label>
+                    <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                      Confirm Password *
+                    </label>
                     <input
                       type="password"
                       className="form-input"
                       placeholder="Repeat your password"
                       value={formData.confirmPassword}
-                      onChange={(e) => setFormData((p) => ({ ...p, confirmPassword: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((p) => ({ ...p, confirmPassword: e.target.value }))
+                      }
                     />
                   </div>
                 </div>
@@ -404,7 +446,9 @@ export default function OnboardingPage() {
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-1.5 h-10 bg-blue-500 rounded-full" />
                   <div>
-                    <p className="text-blue-400 text-xs font-bold uppercase tracking-widest">Step 03</p>
+                    <p className="text-blue-400 text-xs font-bold uppercase tracking-widest">
+                      Step 03
+                    </p>
                     <h2 className="text-xl font-bold text-white">Review & Submit</h2>
                   </div>
                 </div>
@@ -469,7 +513,9 @@ export default function OnboardingPage() {
                   className="flex-1 py-3.5 rounded-xl bg-[#13eca4] text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {loading ? (
-                    <span className="material-symbols-outlined animate-spin text-sm">progress_activity</span>
+                    <span className="material-symbols-outlined animate-spin text-sm">
+                      progress_activity
+                    </span>
                   ) : (
                     <>
                       Submit Application
@@ -494,9 +540,14 @@ export default function OnboardingPage() {
               <p className="text-slate-400 text-xs leading-relaxed">
                 Your information is encrypted and stored securely. By submitting this form you agree
                 to STEM Impact Academy&apos;s{" "}
-                <a href="/terms" className="text-[#13eca4] underline">Terms of Service</a>{" "}
+                <a href="/terms" className="text-[#13eca4] underline">
+                  Terms of Service
+                </a>{" "}
                 and{" "}
-                <a href="/privacy" className="text-[#13eca4] underline">Privacy Policy</a>.
+                <a href="/privacy" className="text-[#13eca4] underline">
+                  Privacy Policy
+                </a>
+                .
               </p>
             </div>
           </div>

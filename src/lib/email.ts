@@ -206,7 +206,9 @@ export async function sendSchoolDecisionEmail(
         </div>
         <div style="background: #f8fafb; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0;">
           <h2 style="color: #10221c; font-size: 20px; margin: 0 0 12px;">Hello, ${adminName}</h2>
-          ${isApproved ? `
+          ${
+            isApproved
+              ? `
             <div style="background: #ecfdf5; border-radius: 8px; padding: 16px; border: 1px solid #a7f3d0; margin-bottom: 20px;">
               <p style="color: #065f46; font-size: 15px; font-weight: 600; margin: 0;">
                 🎉 Your school has been approved!
@@ -219,7 +221,8 @@ export async function sendSchoolDecisionEmail(
             <a href="${PLATFORM_URL}/login" style="display: inline-block; background: #13eca4; color: #10221c; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 8px; text-decoration: none;">
               Access Your Dashboard
             </a>
-          ` : `
+          `
+              : `
             <div style="background: #fef2f2; border-radius: 8px; padding: 16px; border: 1px solid #fecaca; margin-bottom: 20px;">
               <p style="color: #991b1b; font-size: 15px; font-weight: 600; margin: 0;">
                 Application Not Approved
@@ -228,19 +231,24 @@ export async function sendSchoolDecisionEmail(
             <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 16px;">
               We were unable to approve the application for <strong>${schoolName}</strong> at this time.
             </p>
-            ${reason ? `
+            ${
+              reason
+                ? `
             <div style="background: #fff; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
               <p style="color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 6px;">Reason</p>
               <p style="color: #10221c; font-size: 14px; margin: 0;">${reason}</p>
             </div>
-            ` : ""}
+            `
+                : ""
+            }
             <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 20px;">
               If you have questions or wish to re-apply, please contact our team.
             </p>
             <a href="mailto:support@stemimpactcenterkenya.org" style="display: inline-block; background: #10221c; color: #fff; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 8px; text-decoration: none;">
               Contact Support
             </a>
-          `}
+          `
+          }
         </div>
         <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 32px;">
           &copy; ${new Date().getFullYear()} STEM Impact Center Kenya &middot; stemimpactcenterkenya.org

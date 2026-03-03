@@ -41,7 +41,12 @@ function LeaderboardInner() {
   const { data: schoolStudents, loading: schoolLoading } = useCollection<AppUser>(
     "users",
     schoolId
-      ? [where("schoolId", "==", schoolId), where("role", "==", "student"), orderBy("xp", "desc"), limit(20)]
+      ? [
+          where("schoolId", "==", schoolId),
+          where("role", "==", "student"),
+          orderBy("xp", "desc"),
+          limit(20),
+        ]
       : [],
     !!schoolId
   );
@@ -49,9 +54,7 @@ function LeaderboardInner() {
   // Global top students (for global filter)
   const { data: globalStudents, loading: globalLoading } = useCollection<AppUser>(
     "users",
-    filter === "global"
-      ? [where("role", "==", "student"), orderBy("xp", "desc"), limit(20)]
-      : [],
+    filter === "global" ? [where("role", "==", "student"), orderBy("xp", "desc"), limit(20)] : [],
     filter === "global"
   );
 
@@ -148,11 +151,7 @@ function LeaderboardInner() {
               {/* Podium */}
               {podium.length > 0 && (
                 <div className="flex items-end justify-center gap-4 py-4">
-                  {[
-                    podium[1] ?? null,
-                    podium[0] ?? null,
-                    podium[2] ?? null,
-                  ].map((student, i) => {
+                  {[podium[1] ?? null, podium[0] ?? null, podium[2] ?? null].map((student, i) => {
                     if (!student) return null;
                     const originalRank = i === 0 ? 2 : i === 1 ? 1 : 3;
                     const style = medalStyle[originalRank - 1];
@@ -172,7 +171,10 @@ function LeaderboardInner() {
                           <p className="font-black text-sm leading-tight">
                             {student.displayName ?? "Student"}
                             {isMe && (
-                              <span className="ml-1 text-[10px] font-bold text-[#13eca4]"> (You)</span>
+                              <span className="ml-1 text-[10px] font-bold text-[#13eca4]">
+                                {" "}
+                                (You)
+                              </span>
                             )}
                           </p>
                         </div>
@@ -285,7 +287,9 @@ function LeaderboardInner() {
                 </div>
                 <div>
                   <p className="font-bold text-white">{appUser.displayName}</p>
-                  <p className="text-sm text-slate-400">{(appUser.xp ?? 0).toLocaleString()} XP total</p>
+                  <p className="text-sm text-slate-400">
+                    {(appUser.xp ?? 0).toLocaleString()} XP total
+                  </p>
                 </div>
               </div>
             </div>

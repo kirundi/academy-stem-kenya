@@ -21,7 +21,6 @@ function useCountdownToMs(targetMs: number | null) {
   return { display: `${pad(h)}:${pad(m)}:${pad(sec)}`, expired: remaining === 0 };
 }
 
-
 type Tab = "prompt" | "resources" | "guidelines";
 
 const milestones = [

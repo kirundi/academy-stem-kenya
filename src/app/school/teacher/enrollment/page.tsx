@@ -252,7 +252,11 @@ export default function TeacherEnrollmentPage() {
                   disabled={resettingCode}
                   className="flex items-center gap-1 text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors border border-[rgba(255,255,255,0.08)] hover:border-[rgba(19,236,164,0.2)] px-3 py-2.5 rounded-xl disabled:opacity-50"
                 >
-                  <span className={`material-symbols-outlined text-[16px] ${resettingCode ? "animate-spin" : ""}`}>refresh</span>
+                  <span
+                    className={`material-symbols-outlined text-[16px] ${resettingCode ? "animate-spin" : ""}`}
+                  >
+                    refresh
+                  </span>
                   {resettingCode ? "Resetting…" : "Reset"}
                 </button>
               </div>
@@ -403,7 +407,9 @@ export default function TeacherEnrollmentPage() {
                                 title="Remove Student"
                               >
                                 <span className="material-symbols-outlined text-[16px]">
-                                  {removingStudentId === s.enrollmentId ? "hourglass_empty" : "person_remove"}
+                                  {removingStudentId === s.enrollmentId
+                                    ? "hourglass_empty"
+                                    : "person_remove"}
                                 </span>
                               </button>
                             </div>

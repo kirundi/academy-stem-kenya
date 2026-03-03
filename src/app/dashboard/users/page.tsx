@@ -251,9 +251,7 @@ export default function UsersManagementPage() {
   };
 
   const togglePermission = (p: Permission) => {
-    setPermChecked((prev) =>
-      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]
-    );
+    setPermChecked((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
     setPermCustomized(true);
   };
 
@@ -797,7 +795,9 @@ export default function UsersManagementPage() {
                   <div className="border-t border-[rgba(255,255,255,0.06)] pt-4">
                     <label className="text-slate-400 text-xs font-medium block mb-2">
                       School Scope
-                      <span className="text-slate-600 ml-1">(leave empty for unrestricted access)</span>
+                      <span className="text-slate-600 ml-1">
+                        (leave empty for unrestricted access)
+                      </span>
                     </label>
                     <div className="space-y-1.5 max-h-40 overflow-y-auto">
                       {schools.map((s) => (

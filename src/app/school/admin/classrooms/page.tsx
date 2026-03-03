@@ -35,7 +35,9 @@ export default function ClassroomsPage() {
     );
   }
 
-  const teacherMap = new Map(teachers.map((t) => [t.uid ?? (t as { id?: string }).id ?? "", t.displayName]));
+  const teacherMap = new Map(
+    teachers.map((t) => [t.uid ?? (t as { id?: string }).id ?? "", t.displayName])
+  );
 
   const filtered = classrooms.filter(
     (c) =>
@@ -83,7 +85,8 @@ export default function ClassroomsPage() {
     setCreateLoading(true);
     setCreateError("");
     try {
-      const teacherId = createForm.teacherId || (teachers[0]?.uid ?? (teachers[0] as { id?: string })?.id ?? "");
+      const teacherId =
+        createForm.teacherId || (teachers[0]?.uid ?? (teachers[0] as { id?: string })?.id ?? "");
       const teacherName = teacherMap.get(teacherId) ?? "";
       await create({
         name: createForm.name.trim(),
@@ -253,7 +256,9 @@ export default function ClassroomsPage() {
                 {filtered.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
-                      {classrooms.length === 0 ? "No classrooms yet. Create one above." : "No classrooms found."}
+                      {classrooms.length === 0
+                        ? "No classrooms yet. Create one above."
+                        : "No classrooms found."}
                     </td>
                   </tr>
                 ) : (
@@ -338,7 +343,9 @@ export default function ClassroomsPage() {
                             className="text-slate-400 hover:text-[#13eca4] transition-colors"
                             title="Copy code"
                           >
-                            <span className="material-symbols-outlined text-base">content_copy</span>
+                            <span className="material-symbols-outlined text-base">
+                              content_copy
+                            </span>
                           </button>
                         </td>
                       </tr>

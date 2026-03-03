@@ -92,13 +92,16 @@ export default function StudentChallengesHub() {
           <div>
             <h2 className="text-4xl font-black tracking-tight mb-2">CHALLENGES HUB</h2>
             <p className="text-slate-400 max-w-lg text-sm">
-              Conquer time-bound challenges, build high-impact solutions, and rise through the ranks.
+              Conquer time-bound challenges, build high-impact solutions, and rise through the
+              ranks.
             </p>
           </div>
           <div className="flex items-center gap-4">
             <div className="bg-[#1a2e30] border border-[rgba(19,236,164,0.2)] rounded-xl px-4 py-2 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#13eca4] text-lg">toll</span>
-              <span className="font-bold text-[#13eca4]">{(appUser?.xp ?? 0).toLocaleString()} XP</span>
+              <span className="font-bold text-[#13eca4]">
+                {(appUser?.xp ?? 0).toLocaleString()} XP
+              </span>
             </div>
             {heroChallenge && (
               <Link
@@ -117,7 +120,9 @@ export default function StudentChallengesHub() {
             <div className="text-center py-24 text-slate-500">
               <span className="material-symbols-outlined text-[64px] mb-4 block">emoji_events</span>
               <p className="text-lg font-semibold">No challenges available yet.</p>
-              <p className="text-sm mt-2">Your teacher will enroll your class in upcoming challenges.</p>
+              <p className="text-sm mt-2">
+                Your teacher will enroll your class in upcoming challenges.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-12 gap-8">
@@ -290,14 +295,16 @@ export default function StudentChallengesHub() {
                   </section>
                 )}
 
-                {liveChallenges.length === 0 && upcomingChallenges.length === 0 && challenges.length > 0 && (
-                  <div className="text-center py-16 text-slate-500">
-                    <span className="material-symbols-outlined text-[48px] mb-3 block">
-                      emoji_events
-                    </span>
-                    <p>All challenges have ended. Check back soon for new ones!</p>
-                  </div>
-                )}
+                {liveChallenges.length === 0 &&
+                  upcomingChallenges.length === 0 &&
+                  challenges.length > 0 && (
+                    <div className="text-center py-16 text-slate-500">
+                      <span className="material-symbols-outlined text-[48px] mb-3 block">
+                        emoji_events
+                      </span>
+                      <p>All challenges have ended. Check back soon for new ones!</p>
+                    </div>
+                  )}
               </div>
 
               {/* Right 4 cols: leaderboard placeholder */}

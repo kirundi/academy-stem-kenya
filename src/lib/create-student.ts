@@ -30,23 +30,26 @@ export async function createStudentUser(params: CreateStudentParams) {
   const uid = userRecord.uid;
   const schoolId = params.schoolId || null;
 
-  await adminDb.collection("users").doc(uid).set({
-    email: params.email || null,
-    displayName: params.displayName,
-    role: "student" as UserRole,
-    schoolId,
-    studentCode,
-    googleId: params.googleId || null,
-    age: params.age ?? null,
-    grade: params.grade ?? null,
-    classroomIds: [params.classroomId],
-    createdBy: params.createdBy,
-    xp: 0,
-    level: 1,
-    badges: [],
-    createdAt: FieldValue.serverTimestamp(),
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await adminDb
+    .collection("users")
+    .doc(uid)
+    .set({
+      email: params.email || null,
+      displayName: params.displayName,
+      role: "student" as UserRole,
+      schoolId,
+      studentCode,
+      googleId: params.googleId || null,
+      age: params.age ?? null,
+      grade: params.grade ?? null,
+      classroomIds: [params.classroomId],
+      createdBy: params.createdBy,
+      xp: 0,
+      level: 1,
+      badges: [],
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    });
 
   await setUserClaims(uid, { role: "student", schoolId });
 

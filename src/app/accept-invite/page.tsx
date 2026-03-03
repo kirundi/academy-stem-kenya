@@ -140,7 +140,6 @@ function AcceptInviteContent() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14">
         <div className="max-w-md w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-10 rounded-3xl shadow-2xl">
-
           {/* Loading state */}
           {validating && (
             <div className="flex flex-col items-center py-8 gap-4">
@@ -183,7 +182,9 @@ function AcceptInviteContent() {
                     Invitation
                   </span>
                 </div>
-                <h1 className="text-2xl font-bold text-white mb-1">Welcome, {invite.displayName}!</h1>
+                <h1 className="text-2xl font-bold text-white mb-1">
+                  Welcome, {invite.displayName}!
+                </h1>
                 <p className="text-slate-400 text-sm">
                   <strong>{invite.invitedByName}</strong> invited you as{" "}
                   <strong className="text-white">{ROLE_LABELS[invite.role] ?? invite.role}</strong>
@@ -279,13 +280,13 @@ function AcceptInviteContent() {
 
                 <button
                   type="submit"
-                  disabled={
-                    submitting || password.length < 8 || password !== confirmPassword
-                  }
+                  disabled={submitting || password.length < 8 || password !== confirmPassword}
                   className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
-                    <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                    <span className="material-symbols-outlined animate-spin">
+                      progress_activity
+                    </span>
                   ) : (
                     <>
                       <span className="material-symbols-outlined text-[20px]">check_circle</span>

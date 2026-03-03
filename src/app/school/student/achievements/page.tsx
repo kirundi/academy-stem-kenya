@@ -195,7 +195,8 @@ export default function StudentAchievementsPage() {
                       <div
                         className="h-full bg-[#ef4444] rounded-full"
                         style={{
-                          width: rareTotal > 0 ? `${Math.round((rareEarned / rareTotal) * 100)}%` : "0%",
+                          width:
+                            rareTotal > 0 ? `${Math.round((rareEarned / rareTotal) * 100)}%` : "0%",
                         }}
                       />
                     </div>
@@ -278,7 +279,9 @@ export default function StudentAchievementsPage() {
                       className="relative p-6 bg-[#1a2e30]/50 border-2 border-dashed border-[#2d4548] rounded-2xl flex flex-col items-center justify-center text-center opacity-40"
                     >
                       <div className="w-24 h-24 mb-4 bg-[#102022] rounded-full flex items-center justify-center border border-[#2d4548]">
-                        <span className="material-symbols-outlined text-5xl text-slate-600">lock</span>
+                        <span className="material-symbols-outlined text-5xl text-slate-600">
+                          lock
+                        </span>
                       </div>
                       <p className="text-sm font-bold text-slate-500">???</p>
                       <p className="text-xs text-slate-600 mt-1">Earn more badges</p>
@@ -381,9 +384,7 @@ export default function StudentAchievementsPage() {
                 {skillMilestones.length === 0 ? (
                   <div className="bg-[#1a2e30]/50 border border-dashed border-[#2d4548] rounded-xl p-10 text-center text-slate-500">
                     <span className="material-symbols-outlined text-4xl mb-2 block">stars</span>
-                    <p className="text-sm">
-                      Complete lessons to unlock skill milestones!
-                    </p>
+                    <p className="text-sm">Complete lessons to unlock skill milestones!</p>
                   </div>
                 ) : (
                   <div className="space-y-4">
@@ -465,8 +466,8 @@ export default function StudentAchievementsPage() {
                 <span className="capitalize">{selectedBadge.rarity}</span>
               </p>
               <p className="text-xs text-slate-400">
-                <span className="font-bold text-slate-200">XP Value:</span>{" "}
-                {selectedBadge.xpValue} XP
+                <span className="font-bold text-slate-200">XP Value:</span> {selectedBadge.xpValue}{" "}
+                XP
               </p>
             </div>
             <button

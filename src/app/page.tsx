@@ -71,7 +71,9 @@ function CtaSection() {
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-slate-500">First Name *</label>
+                    <label className="text-xs font-bold uppercase text-slate-500">
+                      First Name *
+                    </label>
                     <input
                       required
                       className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
@@ -104,7 +106,9 @@ function CtaSection() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase text-slate-500">School Name *</label>
+                  <label className="text-xs font-bold uppercase text-slate-500">
+                    School Name *
+                  </label>
                   <input
                     required
                     className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"

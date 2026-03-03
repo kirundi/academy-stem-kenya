@@ -208,7 +208,11 @@ export default function LoginPage() {
           : "/dashboard";
       router.push(dest);
     } catch (err) {
-      try { await signOut(); } catch { /* ignore */ }
+      try {
+        await signOut();
+      } catch {
+        /* ignore */
+      }
       setError(friendlyFirebaseError(err));
     } finally {
       setLoading(false);
@@ -269,7 +273,6 @@ export default function LoginPage() {
       {/* Main */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14 relative">
         <div className="max-w-130 w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-12 rounded-3xl shadow-2xl">
-
           {/* Mode tab toggle — no URL param, no fragile query string */}
           <div className="flex rounded-xl bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] p-1 mb-8">
             <button
@@ -285,9 +288,7 @@ export default function LoginPage() {
             <button
               onClick={() => switchMode(true)}
               className={`flex-1 h-10 rounded-lg text-sm font-bold transition-all ${
-                emailMode
-                  ? "bg-[#13eca4] text-[#10221c] shadow"
-                  : "text-slate-400 hover:text-white"
+                emailMode ? "bg-[#13eca4] text-[#10221c] shadow" : "text-slate-400 hover:text-white"
               }`}
             >
               Email Login
@@ -458,7 +459,13 @@ export default function LoginPage() {
           {/* STAFF FORM                                                          */}
           {/* ------------------------------------------------------------------ */}
           {emailMode && (
-            <form onSubmit={(e) => { e.preventDefault(); handleEmailLogin(); }} className="space-y-5">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleEmailLogin();
+              }}
+              className="space-y-5"
+            >
               {/* Email */}
               <div>
                 <label className="block text-sm font-semibold text-slate-300 mb-2">
@@ -532,7 +539,10 @@ export default function LoginPage() {
               {/* Register link */}
               <p className="text-center text-sm text-slate-500">
                 New here?{" "}
-                <Link href="/register/teacher" className="text-[#13eca4] font-semibold hover:underline">
+                <Link
+                  href="/register/teacher"
+                  className="text-[#13eca4] font-semibold hover:underline"
+                >
                   Register as a teacher
                 </Link>
               </p>

@@ -168,7 +168,9 @@ export default function ChangePasswordPage() {
 
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">error</span>
+              <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">
+                error
+              </span>
               <p className="text-[#ff4d4d] text-sm">{error}</p>
             </div>
           )}

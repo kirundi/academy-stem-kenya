@@ -279,9 +279,7 @@ export default function TeacherCoursesPage() {
 
             {classrooms.length === 0 ? (
               <div className="text-center py-8 text-slate-500">
-                <span className="material-symbols-outlined text-[36px] mb-2 block">
-                  co_present
-                </span>
+                <span className="material-symbols-outlined text-[36px] mb-2 block">co_present</span>
                 <p className="text-sm">No classrooms yet. Create one first.</p>
               </div>
             ) : (

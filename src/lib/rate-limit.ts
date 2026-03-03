@@ -52,5 +52,9 @@ export async function checkRateLimit(
  * Resets a rate limit bucket (call after a successful login).
  */
 export async function resetRateLimit(key: string): Promise<void> {
-  await adminDb.collection("rateLimits").doc(key).delete().catch(() => {});
+  await adminDb
+    .collection("rateLimits")
+    .doc(key)
+    .delete()
+    .catch(() => {});
 }

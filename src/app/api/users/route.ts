@@ -62,7 +62,15 @@ export async function PUT(request: NextRequest) {
   }
 
   // Users without manage_users cannot modify protected fields
-  const protectedFields = ["role", "schoolId", "createdAt", "createdBy", "studentCode", "permissions", "schoolIds"];
+  const protectedFields = [
+    "role",
+    "schoolId",
+    "createdAt",
+    "createdBy",
+    "studentCode",
+    "permissions",
+    "schoolIds",
+  ];
   for (const field of protectedFields) {
     if (!canManageUsers && field in updates) {
       return NextResponse.json({ error: `Cannot modify ${field}` }, { status: 403 });

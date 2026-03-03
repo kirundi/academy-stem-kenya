@@ -19,7 +19,9 @@ export async function POST() {
     // Fetch caller's school details so we can include the name in the notification
     const schoolId = caller.schoolId;
     const schoolName = schoolId
-      ? ((await adminDb.collection("schools").doc(schoolId).get()).data()?.name as string | undefined) ?? "A new school"
+      ? (((await adminDb.collection("schools").doc(schoolId).get()).data()?.name as
+          | string
+          | undefined) ?? "A new school")
       : "A new school";
 
     // Find all platform admins

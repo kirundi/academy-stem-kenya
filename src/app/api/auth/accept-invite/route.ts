@@ -31,9 +31,7 @@ export async function GET(request: NextRequest) {
   }
 
   const expiresAt: Date =
-    invite.expiresAt instanceof Date
-      ? invite.expiresAt
-      : invite.expiresAt.toDate();
+    invite.expiresAt instanceof Date ? invite.expiresAt : invite.expiresAt.toDate();
 
   if (expiresAt < new Date()) {
     await docRef.update({ status: "expired" });
@@ -61,10 +59,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid invite token." }, { status: 400 });
   }
   if (!password || typeof password !== "string" || password.length < 8) {
-    return NextResponse.json(
-      { error: "Password must be at least 8 characters." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "Password must be at least 8 characters." }, { status: 400 });
   }
 
   const docRef = adminDb.collection("invites").doc(hashToken(token));
@@ -84,9 +79,7 @@ export async function POST(request: NextRequest) {
   }
 
   const expiresAt: Date =
-    invite.expiresAt instanceof Date
-      ? invite.expiresAt
-      : invite.expiresAt.toDate();
+    invite.expiresAt instanceof Date ? invite.expiresAt : invite.expiresAt.toDate();
 
   if (expiresAt < new Date()) {
     await docRef.update({ status: "expired" });

@@ -33,7 +33,9 @@ export default function TeacherManagementPage() {
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteName, setInviteName] = useState("");
   const [inviteLoading, setInviteLoading] = useState(false);
-  const [inviteResult, setInviteResult] = useState<{ email: string; inviteLink: string } | null>(null);
+  const [inviteResult, setInviteResult] = useState<{ email: string; inviteLink: string } | null>(
+    null
+  );
   const [inviteError, setInviteError] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -56,7 +58,11 @@ export default function TeacherManagementPage() {
       const res = await fetch("/api/admin/invite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: inviteEmail.trim(), displayName: inviteName.trim(), role: "teacher" }),
+        body: JSON.stringify({
+          email: inviteEmail.trim(),
+          displayName: inviteName.trim(),
+          role: "teacher",
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to send invite");
@@ -107,19 +113,31 @@ export default function TeacherManagementPage() {
             <span className="text-white font-bold">STEM Academy</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="/dashboard" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/dashboard"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Dashboard
             </a>
             <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">
               Staff Management
             </span>
-            <a href="/dashboard/content" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/dashboard/content"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Curriculum
             </a>
-            <a href="/dashboard/users" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/dashboard/users"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Students
             </a>
-            <a href="/dashboard/analytics" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/dashboard/analytics"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Analytics
             </a>
           </nav>
@@ -158,7 +176,8 @@ export default function TeacherManagementPage() {
               onClick={() => setShowInvite(true)}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity"
             >
-              <span className="material-symbols-outlined text-[18px]">person_add</span>Invite Teachers
+              <span className="material-symbols-outlined text-[18px]">person_add</span>Invite
+              Teachers
             </button>
           </div>
         </section>
@@ -266,7 +285,10 @@ export default function TeacherManagementPage() {
                     const deptColor = deptColors[dept] ?? deptColors.default;
                     const status = t.requiresPasswordChange ? "invited" : "active";
                     return (
-                      <tr key={t.uid} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                      <tr
+                        key={t.uid}
+                        className="hover:bg-[rgba(19,236,164,0.02)] transition-colors"
+                      >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm bg-[rgba(19,236,164,0.1)] text-[#13eca4]">
@@ -291,7 +313,9 @@ export default function TeacherManagementPage() {
                         </td>
                         <td className="px-6 py-4">
                           <div className={`flex items-center gap-2 ${statusBadge[status]}`}>
-                            <span className={`w-2 h-2 rounded-full ${statusDot[status]} ${status === "invited" ? "animate-pulse" : ""}`} />
+                            <span
+                              className={`w-2 h-2 rounded-full ${statusDot[status]} ${status === "invited" ? "animate-pulse" : ""}`}
+                            />
                             <span className="text-xs font-bold capitalize">{status}</span>
                           </div>
                         </td>
@@ -392,10 +416,13 @@ export default function TeacherManagementPage() {
                 </div>
                 <h2 className="text-white font-bold text-lg mb-1">Invite Sent!</h2>
                 <p className="text-slate-400 text-sm mb-5">
-                  Invite link for <span className="text-white font-semibold">{inviteResult.email}</span>
+                  Invite link for{" "}
+                  <span className="text-white font-semibold">{inviteResult.email}</span>
                 </p>
                 <div className="bg-[#0d1f1a] border border-dashed border-[rgba(19,236,164,0.3)] rounded-xl p-4 mb-5 text-left">
-                  <p className="text-xs font-mono text-[#13eca4] break-all">{inviteResult.inviteLink}</p>
+                  <p className="text-xs font-mono text-[#13eca4] break-all">
+                    {inviteResult.inviteLink}
+                  </p>
                 </div>
                 <div className="flex gap-3">
                   <button

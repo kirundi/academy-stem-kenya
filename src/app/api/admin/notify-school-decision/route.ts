@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  const { schoolId, decision, reason } = await request.json() as {
+  const { schoolId, decision, reason } = (await request.json()) as {
     schoolId: string;
     decision: "approved" | "rejected";
     reason?: string;
@@ -69,7 +69,13 @@ export async function POST(request: NextRequest) {
       const adminName: string | undefined = adminSnap.data()?.displayName;
 
       if (adminEmail) {
-        await sendSchoolDecisionEmail(adminEmail, schoolName, adminName ?? "Administrator", decision, reason);
+        await sendSchoolDecisionEmail(
+          adminEmail,
+          schoolName,
+          adminName ?? "Administrator",
+          decision,
+          reason
+        );
       }
     }
 

@@ -11,8 +11,14 @@ const PRIMARY = "#13eca4";
 
 function timeLabel(challenge: Challenge): string {
   const now = Date.now();
-  const start = challenge.startsAt instanceof Date ? challenge.startsAt.getTime() : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
-  const end = challenge.endsAt instanceof Date ? challenge.endsAt.getTime() : (challenge.endsAt as unknown as { seconds: number }).seconds * 1000;
+  const start =
+    challenge.startsAt instanceof Date
+      ? challenge.startsAt.getTime()
+      : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
+  const end =
+    challenge.endsAt instanceof Date
+      ? challenge.endsAt.getTime()
+      : (challenge.endsAt as unknown as { seconds: number }).seconds * 1000;
 
   if (now < start) {
     const diff = Math.ceil((start - now) / (1000 * 60 * 60 * 24));
@@ -27,14 +33,23 @@ function timeLabel(challenge: Challenge): string {
 }
 
 function isUpcoming(challenge: Challenge): boolean {
-  const start = challenge.startsAt instanceof Date ? challenge.startsAt.getTime() : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
+  const start =
+    challenge.startsAt instanceof Date
+      ? challenge.startsAt.getTime()
+      : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
   return Date.now() < start;
 }
 
 function isLive(challenge: Challenge): boolean {
   const now = Date.now();
-  const start = challenge.startsAt instanceof Date ? challenge.startsAt.getTime() : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
-  const end = challenge.endsAt instanceof Date ? challenge.endsAt.getTime() : (challenge.endsAt as unknown as { seconds: number }).seconds * 1000;
+  const start =
+    challenge.startsAt instanceof Date
+      ? challenge.startsAt.getTime()
+      : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
+  const end =
+    challenge.endsAt instanceof Date
+      ? challenge.endsAt.getTime()
+      : (challenge.endsAt as unknown as { seconds: number }).seconds * 1000;
   return now >= start && now <= end;
 }
 
@@ -79,9 +94,7 @@ export default function TeacherChallengesPage() {
   const filters = ["All Themes", ...allThemes];
 
   const filtered =
-    activeFilter === "All Themes"
-      ? challenges
-      : challenges.filter((c) => c.theme === activeFilter);
+    activeFilter === "All Themes" ? challenges : challenges.filter((c) => c.theme === activeFilter);
 
   const liveCount = challenges.filter(isLive).length;
   const upcomingCount = challenges.filter(isUpcoming).length;
@@ -261,10 +274,7 @@ export default function TeacherChallengesPage() {
                             </span>
                           </div>
                           {myEnrolls.map((enr) => (
-                            <div
-                              key={enr.id}
-                              className="flex items-center justify-between text-xs"
-                            >
+                            <div key={enr.id} className="flex items-center justify-between text-xs">
                               <span className="text-slate-300">{enr.classroomName}</span>
                               <div className="flex items-center gap-2">
                                 <span className="text-[10px] text-slate-500">Late</span>
@@ -317,9 +327,7 @@ export default function TeacherChallengesPage() {
                                 }
                                 className="px-3 border border-[rgba(19,236,164,0.2)] text-slate-400 rounded-lg hover:bg-[#142a25]"
                               >
-                                <span className="material-symbols-outlined text-sm pt-1">
-                                  add
-                                </span>
+                                <span className="material-symbols-outlined text-sm pt-1">add</span>
                               </button>
                             </>
                           ) : upcoming ? (

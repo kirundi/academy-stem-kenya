@@ -121,9 +121,7 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
 
   // Count down to endsAt when live, to startsAt when upcoming
   const targetMs =
-    status === "live"
-      ? getTimestampMs(challenge.endsAt)
-      : getTimestampMs(challenge.startsAt);
+    status === "live" ? getTimestampMs(challenge.endsAt) : getTimestampMs(challenge.startsAt);
   const { days, hours, minutes } = useCountdown(targetMs);
 
   const countdownLabel = status === "live" ? "Ends in" : status === "ended" ? "Ended" : "Starts in";
@@ -195,10 +193,9 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
 export default function ChallengesPage() {
   const [activeFilter, setActiveFilter] = useState("all");
 
-  const { data: challenges, loading } = useCollection<Challenge>(
-    "challenges",
-    [where("scope", "==", "global")]
-  );
+  const { data: challenges, loading } = useCollection<Challenge>("challenges", [
+    where("scope", "==", "global"),
+  ]);
 
   const filters = [
     { val: "all", label: "All" },

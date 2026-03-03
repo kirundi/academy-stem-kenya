@@ -49,10 +49,7 @@ export const ROLE_DEFAULT_PERMISSIONS: Record<string, Permission[]> = {
 };
 
 /** Resolve a user's effective permissions from explicit overrides or role defaults. */
-export function resolvePermissions(
-  role: string,
-  explicit?: Permission[]
-): Permission[] {
+export function resolvePermissions(role: string, explicit?: Permission[]): Permission[] {
   return explicit ?? ROLE_DEFAULT_PERMISSIONS[role] ?? [];
 }
 

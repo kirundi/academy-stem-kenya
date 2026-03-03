@@ -56,7 +56,7 @@ async function setSessionCookie(
     }
     const data = await res.json();
     return {
-      role: null,                       // caller fills this from token claims
+      role: null, // caller fills this from token claims
       requiresPasswordChange: (data.requiresPasswordChange as boolean) ?? false,
     };
   };
@@ -111,11 +111,7 @@ export function useAuth() {
    * Fast path (new users): claims already embedded in token → 2 round trips.
    * Fallback path (legacy users): set-claims on first login → 3 round trips.
    */
-  async function signIn(
-    email: string,
-    password: string,
-    remember = false
-  ): Promise<ClaimsResult> {
+  async function signIn(email: string, password: string, remember = false): Promise<ClaimsResult> {
     const cred = await signInWithEmailAndPassword(auth, email, password);
 
     try {

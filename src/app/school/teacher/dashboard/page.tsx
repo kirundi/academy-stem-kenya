@@ -274,7 +274,12 @@ export default function TeacherDashboard() {
                     href: "/school/teacher/analytics",
                     color: "#3b82f6",
                   },
-                  { icon: "sync", label: "Sync Google Classroom", href: "/school/teacher/classroom", color: "#f59e0b" },
+                  {
+                    icon: "sync",
+                    label: "Sync Google Classroom",
+                    href: "/school/teacher/classroom",
+                    color: "#f59e0b",
+                  },
                 ].map(({ icon, label, href, color }) => (
                   <Link
                     key={label}

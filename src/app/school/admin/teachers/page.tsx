@@ -38,7 +38,9 @@ export default function TeacherManagementPage() {
   const [inviteName, setInviteName] = useState("");
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteLoading, setInviteLoading] = useState(false);
-  const [inviteResult, setInviteResult] = useState<{ email: string; inviteLink: string } | null>(null);
+  const [inviteResult, setInviteResult] = useState<{ email: string; inviteLink: string } | null>(
+    null
+  );
   const [inviteError, setInviteError] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -110,19 +112,31 @@ export default function TeacherManagementPage() {
             <span className="text-white font-bold">STEM Academy</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="/school/admin" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/school/admin"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Dashboard
             </a>
             <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">
               Staff Management
             </span>
-            <a href="/school/admin/classrooms" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/school/admin/classrooms"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Curriculum
             </a>
-            <a href="/school/admin/students" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/school/admin/students"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Students
             </a>
-            <a href="/school/admin/analytics" className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors">
+            <a
+              href="/school/admin/analytics"
+              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+            >
               Analytics
             </a>
           </nav>
@@ -150,7 +164,8 @@ export default function TeacherManagementPage() {
             </div>
             <h1 className="text-white text-4xl font-black leading-tight">Teacher Management</h1>
             <p className="text-slate-400 mt-1 max-w-2xl">
-              Manage your educational staff, oversee department performance, and invite new educators.
+              Manage your educational staff, oversee department performance, and invite new
+              educators.
             </p>
           </div>
           <div className="flex gap-3">
@@ -161,7 +176,8 @@ export default function TeacherManagementPage() {
               onClick={() => setShowInvite(true)}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity"
             >
-              <span className="material-symbols-outlined text-[18px]">person_add</span>Invite Teachers
+              <span className="material-symbols-outlined text-[18px]">person_add</span>Invite
+              Teachers
             </button>
           </div>
         </section>
@@ -411,7 +427,9 @@ export default function TeacherManagementPage() {
                   <span className="text-white font-semibold">{inviteResult.email}</span>
                 </p>
                 <div className="bg-[#0d1f1a] border border-dashed border-[rgba(19,236,164,0.3)] rounded-xl p-4 mb-5 text-left">
-                  <p className="text-xs font-mono text-[#13eca4] break-all">{inviteResult.inviteLink}</p>
+                  <p className="text-xs font-mono text-[#13eca4] break-all">
+                    {inviteResult.inviteLink}
+                  </p>
                 </div>
                 <div className="flex gap-3">
                   <button

@@ -11,11 +11,21 @@ const PLATFORM_URL =
 export async function POST(request: NextRequest) {
   const caller = await requirePermission("invite_users");
   if (!caller) {
-    return NextResponse.json({ error: "Unauthorized — invite permission required" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Unauthorized — invite permission required" },
+      { status: 403 }
+    );
   }
 
   const body = await request.json();
-  const { email, displayName, role, schoolId, permissions: invitePermissions, schoolIds: inviteSchoolIds } = body;
+  const {
+    email,
+    displayName,
+    role,
+    schoolId,
+    permissions: invitePermissions,
+    schoolIds: inviteSchoolIds,
+  } = body;
 
   if (!email || !displayName || !role) {
     return NextResponse.json(
@@ -127,7 +137,10 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   const caller = await requirePermission("manage_users");
   if (!caller) {
-    return NextResponse.json({ error: "Unauthorized — manage_users permission required" }, { status: 403 });
+    return NextResponse.json(
+      { error: "Unauthorized — manage_users permission required" },
+      { status: 403 }
+    );
   }
 
   const snap = await adminDb

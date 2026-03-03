@@ -39,10 +39,7 @@ export async function PUT(request: NextRequest) {
   const targetRole = targetData.role as string;
 
   // Only super_admin can modify another super_admin or admin
-  if (
-    (targetRole === "super_admin" || targetRole === "admin") &&
-    caller.role !== "super_admin"
-  ) {
+  if ((targetRole === "super_admin" || targetRole === "admin") && caller.role !== "super_admin") {
     return NextResponse.json(
       { error: "Only super_admin can modify admin permissions" },
       { status: 403 }
@@ -53,10 +50,7 @@ export async function PUT(request: NextRequest) {
   if (permissions) {
     for (const p of permissions) {
       if (!ALL_PERMISSIONS.includes(p)) {
-        return NextResponse.json(
-          { error: `Unknown permission: ${p}` },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: `Unknown permission: ${p}` }, { status: 400 });
       }
     }
 

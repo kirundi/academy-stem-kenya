@@ -116,7 +116,9 @@ function WinnerInner() {
             Milestone Achieved
           </span>
           <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-3">Challenge Winner!</h1>
-          <p className="text-[#13eca4] text-xl font-bold tracking-wide">{challengeTitle} Champion</p>
+          <p className="text-[#13eca4] text-xl font-bold tracking-wide">
+            {challengeTitle} Champion
+          </p>
         </div>
 
         {/* Main Content: Badge + Certificate */}
@@ -253,7 +255,9 @@ function WinnerInner() {
                     disabled={printing}
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-[#13eca4]/15 text-[#13eca4] border border-[#13eca4]/30 rounded-lg text-xs font-bold hover:bg-[#13eca4]/25 transition-colors disabled:opacity-60"
                   >
-                    <span className={`material-symbols-outlined text-sm ${printing ? "animate-spin" : ""}`}>
+                    <span
+                      className={`material-symbols-outlined text-sm ${printing ? "animate-spin" : ""}`}
+                    >
                       {printing ? "progress_activity" : "download"}
                     </span>
                     {printing ? "Preparing…" : "Download PDF Certificate"}

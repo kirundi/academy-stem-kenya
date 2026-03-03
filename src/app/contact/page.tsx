@@ -175,9 +175,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                {status === "error" && (
-                  <p className="text-red-400 text-sm">{errorMsg}</p>
-                )}
+                {status === "error" && <p className="text-red-400 text-sm">{errorMsg}</p>}
 
                 <button
                   type="submit"

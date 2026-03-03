@@ -75,12 +75,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setError(null);
       } else {
         // Handle the case where the user document doesn't exist.
-        console.error(
-          `Authentication error: No Firestore document for user ${user.uid}.`
-        );
-        setError(
-          "Your user profile is missing or corrupt. Please contact support for assistance."
-        );
+        console.error(`Authentication error: No Firestore document for user ${user.uid}.`);
+        setError("Your user profile is missing or corrupt. Please contact support for assistance.");
         setAppUser(null);
       }
     } catch (err) {
@@ -141,9 +137,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(id);
   }, [firebaseUser]);
 
-  const effectivePermissions = appUser
-    ? resolvePermissions(appUser.role, appUser.permissions)
-    : [];
+  const effectivePermissions = appUser ? resolvePermissions(appUser.role, appUser.permissions) : [];
 
   const checkPermission = (p: Permission): boolean => {
     if (!appUser) return false;

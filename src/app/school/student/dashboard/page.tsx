@@ -93,7 +93,8 @@ export default function StudentDashboard() {
   const [courseFilter, setCourseFilter] = useState("All");
 
   const filteredCourses = useMemo(() => {
-    if (courseFilter === "In Progress") return mergedCourses.filter((c) => c.progress > 0 && c.progress < 100);
+    if (courseFilter === "In Progress")
+      return mergedCourses.filter((c) => c.progress > 0 && c.progress < 100);
     if (courseFilter === "Not Started") return mergedCourses.filter((c) => c.progress === 0);
     if (courseFilter === "Completed") return mergedCourses.filter((c) => c.completed);
     return mergedCourses;

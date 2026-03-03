@@ -3,8 +3,8 @@ import { adminAuth, adminDb } from "@/lib/firebase-admin";
 
 // Session durations
 const DURATION_PERSISTENT = 60 * 60 * 24 * 14 * 1000; // 14 days (Firebase max for session cookies)
-const DURATION_SESSION    = 60 * 60 * 24 * 1 * 1000;  // 24 hours (browser session)
-const DURATION_STUDENT    = 60 * 60 * 24 * 7 * 1000;  // 7 days (students, no choice)
+const DURATION_SESSION = 60 * 60 * 24 * 1 * 1000; // 24 hours (browser session)
+const DURATION_STUDENT = 60 * 60 * 24 * 7 * 1000; // 7 days (students, no choice)
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,14 +49,17 @@ export async function POST(request: NextRequest) {
         sessionId = crypto.randomUUID();
         const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
         const device = request.headers.get("user-agent") ?? "unknown";
-        await adminDb.collection("sessions").doc(sessionId).set({
-          uid,
-          createdAt: new Date(),
-          expiresAt: new Date(Date.now() + expiresIn),
-          lastSeenAt: new Date(),
-          ip,
-          device,
-        });
+        await adminDb
+          .collection("sessions")
+          .doc(sessionId)
+          .set({
+            uid,
+            createdAt: new Date(),
+            expiresAt: new Date(Date.now() + expiresIn),
+            lastSeenAt: new Date(),
+            ip,
+            device,
+          });
       } catch {
         // Non-fatal — session cookie is still set even if record write fails.
       }
@@ -101,7 +104,11 @@ export async function DELETE(request: NextRequest) {
     // Clean up the session record if we have the sessionId.
     const sessionId = request.cookies.get("__session_id")?.value;
     if (sessionId) {
-      await adminDb.collection("sessions").doc(sessionId).delete().catch(() => {});
+      await adminDb
+        .collection("sessions")
+        .doc(sessionId)
+        .delete()
+        .catch(() => {});
     }
 
     const response = NextResponse.json({ status: "success" });

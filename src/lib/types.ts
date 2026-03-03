@@ -171,12 +171,12 @@ export interface Notification {
 }
 
 export interface InviteRecord {
-  id: string;          // Firestore doc ID = sha256(token)
+  id: string; // Firestore doc ID = sha256(token)
   email: string;
   displayName: string;
   role: UserRole;
   schoolId: string | null;
-  invitedBy: string;   // UID of admin who sent it
+  invitedBy: string; // UID of admin who sent it
   invitedAt: Date;
   expiresAt: Date;
   status: "pending" | "accepted" | "expired";

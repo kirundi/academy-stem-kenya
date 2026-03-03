@@ -20,7 +20,10 @@ export default function SchoolAdminSettingsPage() {
 
   const currentSessionId =
     typeof document !== "undefined"
-      ? document.cookie.split(";").find((c) => c.trim().startsWith("__session_id="))?.split("=")[1]
+      ? document.cookie
+          .split(";")
+          .find((c) => c.trim().startsWith("__session_id="))
+          ?.split("=")[1]
       : undefined;
 
   const fetchSessions = useCallback(async () => {
@@ -28,12 +31,16 @@ export default function SchoolAdminSettingsPage() {
     try {
       const res = await fetch("/api/auth/revoke-session");
       if (res.ok) setSessions(await res.json());
-    } catch { /* ignore */ } finally {
+    } catch {
+      /* ignore */
+    } finally {
       setSessionsLoading(false);
     }
   }, []);
 
-  useEffect(() => { fetchSessions(); }, [fetchSessions]);
+  useEffect(() => {
+    fetchSessions();
+  }, [fetchSessions]);
 
   const revokeSession = async (sessionId: string) => {
     setRevoking(sessionId);
@@ -44,7 +51,9 @@ export default function SchoolAdminSettingsPage() {
         body: JSON.stringify({ sessionId }),
       });
       setSessions((prev) => prev.filter((s) => s.id !== sessionId));
-    } catch { /* ignore */ } finally {
+    } catch {
+      /* ignore */
+    } finally {
       setRevoking(null);
     }
   };
@@ -58,7 +67,9 @@ export default function SchoolAdminSettingsPage() {
         body: JSON.stringify({ all: true }),
       });
       window.location.replace("/login");
-    } catch { setRevoking(null); }
+    } catch {
+      setRevoking(null);
+    }
   };
 
   return (
@@ -124,14 +135,14 @@ export default function SchoolAdminSettingsPage() {
                 </span>
               </div>
             ) : sessions.length === 0 ? (
-              <p className="text-slate-500 text-sm text-center py-6">
-                No active sessions found.
-              </p>
+              <p className="text-slate-500 text-sm text-center py-6">No active sessions found.</p>
             ) : (
               <div className="space-y-3">
                 {sessions.map((s) => {
                   const isCurrent = s.id === currentSessionId;
-                  const created = s.createdAt ? new Date(s.createdAt).toLocaleDateString() : "unknown";
+                  const created = s.createdAt
+                    ? new Date(s.createdAt).toLocaleDateString()
+                    : "unknown";
                   const device = s.device.length > 60 ? s.device.slice(0, 60) + "…" : s.device;
                   return (
                     <div
