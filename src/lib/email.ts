@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 
 const FROM_EMAIL = "STEM Impact Academy <noreply@stemimpactcenterkenya.org>";
+const BCC_EMAIL = "executivedirector@stemimpactcenterkenya.org";
 const PLATFORM_URL = "https://academy.stemimpactcenterkenya.org";
 
 function getResend() {
@@ -25,6 +26,7 @@ export async function sendInviteTokenEmail(params: {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: params.to,
+    bcc: BCC_EMAIL,
     subject: `You've been invited to STEM Impact Academy as ${roleLabel}`,
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
@@ -71,6 +73,7 @@ export async function sendInviteEmail(params: {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: params.to,
+    bcc: BCC_EMAIL,
     subject: `You've been invited to STEM Impact Academy as ${roleLabel}`,
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
@@ -112,6 +115,7 @@ export async function sendSetupCredentialsEmail(params: {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: params.to,
+    bcc: BCC_EMAIL,
     subject: "Your STEM Impact Academy Super Admin Credentials",
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
@@ -153,6 +157,7 @@ export async function sendPasswordResetEmail(params: { to: string; oobCode: stri
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: params.to,
+    bcc: BCC_EMAIL,
     subject: "Reset your STEM Impact Academy password",
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
@@ -195,6 +200,7 @@ export async function sendSchoolDecisionEmail(
   await getResend().emails.send({
     from: FROM_EMAIL,
     to,
+    bcc: BCC_EMAIL,
     subject: isApproved
       ? `${schoolName} has been approved — STEM Impact Academy`
       : `Update on your ${schoolName} application`,
@@ -266,6 +272,7 @@ export async function sendWelcomeEmail(params: {
   await getResend().emails.send({
     from: FROM_EMAIL,
     to: params.to,
+    bcc: BCC_EMAIL,
     subject: `Welcome to STEM Impact Academy — ${params.schoolName}`,
     html: `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">

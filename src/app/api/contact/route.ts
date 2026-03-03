@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const CONTACT_EMAIL = "programs@stemimpactcenterkenya.org";
+const BCC_EMAIL = "executivedirector@stemimpactcenterkenya.org";
 const FROM_EMAIL = "STEM Impact Academy <noreply@stemimpactcenterkenya.org>";
 
 export async function POST(request: NextRequest) {
@@ -28,6 +29,7 @@ export async function POST(request: NextRequest) {
   await resend.emails.send({
     from: FROM_EMAIL,
     to: CONTACT_EMAIL,
+    bcc: BCC_EMAIL,
     replyTo: email,
     subject: `Contact Form: ${subject}`,
     html: `
