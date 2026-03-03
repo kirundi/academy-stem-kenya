@@ -103,11 +103,19 @@ export default function LoginPage() {
   useEffect(() => {
     if (authLoading || loading || redirected.current || error) return;
     if (!appUser?.role) return;
+    // If ?from= is present, the middleware bounced us back because the server
+    // session cookie is expired while Firebase client still has stale auth.
+    // Sign out the client to break the redirect loop and show the login form.
+    if (new URLSearchParams(window.location.search).has("from")) {
+      signOut().catch(() => {});
+      router.replace("/login");
+      return;
+    }
     const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
     if (!dest) return;
     redirected.current = true;
     router.replace(dest);
-  }, [appUser, authLoading, error, loading, router]);
+  }, [appUser, authLoading, error, loading, router, signOut]);
 
   // ---------------------------------------------------------------------------
   // Student handlers
