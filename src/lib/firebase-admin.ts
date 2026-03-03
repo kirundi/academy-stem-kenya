@@ -1,6 +1,8 @@
 import { initializeApp, getApps, cert, applicationDefault } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
+import type { Permission } from "@/lib/permissions";
+import { resolvePermissions } from "@/lib/permissions";
 
 function getCredential() {
   if (process.env.FIREBASE_PRIVATE_KEY) {
@@ -18,9 +20,6 @@ const adminApp =
 
 const adminAuth = getAuth(adminApp);
 const adminDb = getFirestore(adminApp);
-
-import type { Permission } from "@/lib/permissions";
-import { resolvePermissions } from "@/lib/permissions";
 
 /** Set role, schoolId, permissions, and schoolIds as Firebase custom claims. */
 export async function setUserClaims(
