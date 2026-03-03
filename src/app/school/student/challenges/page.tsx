@@ -9,10 +9,12 @@ import { where } from "firebase/firestore";
 import type { Challenge, ChallengeEnrollment } from "@/lib/types";
 
 function useCountdown(targetMs: number | null) {
-  const [remaining, setRemaining] = useState(targetMs ? Math.max(0, targetMs - Date.now()) : 0);
+  const [remaining, setRemaining] = useState(0);
   useEffect(() => {
     if (!targetMs) return;
-    const id = setInterval(() => setRemaining(Math.max(0, targetMs - Date.now())), 1000);
+    const tick = () => setRemaining(Math.max(0, targetMs - Date.now()));
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, [targetMs]);
   const totalSec = Math.floor(remaining / 1000);

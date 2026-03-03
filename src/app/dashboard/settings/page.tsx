@@ -27,7 +27,7 @@ export default function PlatformSettingsPage() {
     if (!authLoading && !hasPermission("manage_settings")) {
       router.replace("/dashboard");
     }
-  }, [appUser, authLoading, router]);
+  }, [appUser, authLoading, router, hasPermission]);
 
   useEffect(() => {
     if (!hasPermission("manage_settings")) return;
@@ -38,7 +38,7 @@ export default function PlatformSettingsPage() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [appUser]);
+  }, [appUser, hasPermission]);
 
   const handleSave = async () => {
     if (!settings) return;

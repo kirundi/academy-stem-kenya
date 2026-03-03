@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import SchoolAdminSidebar from "@/components/SchoolAdminSidebar";
-import { useAuthContext } from "@/contexts/AuthContext";
-
 interface SessionRecord {
   id: string;
   createdAt: string | null;
@@ -13,7 +11,6 @@ interface SessionRecord {
 }
 
 export default function SchoolAdminSettingsPage() {
-  const { appUser } = useAuthContext();
   const [sessions, setSessions] = useState<SessionRecord[]>([]);
   const [sessionsLoading, setSessionsLoading] = useState(false);
   const [revoking, setRevoking] = useState<string | null>(null);

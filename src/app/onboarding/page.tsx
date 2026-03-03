@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import StemLogo from "@/components/StemLogo";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -202,13 +203,13 @@ export default function OnboardingPage() {
             </div>
           </div>
           <div className="mt-8 flex items-center justify-center gap-6">
-            <a
+            <Link
               href="/#curriculum"
               className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors py-2 px-4 rounded-lg text-sm"
             >
               <span className="material-symbols-outlined text-xl">book_5</span>
               Browse Curriculum
-            </a>
+            </Link>
             <button
               onClick={handleSignOut}
               className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors py-2 px-4 rounded-lg text-sm"

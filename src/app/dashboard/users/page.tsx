@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { formatTimestamp } from "@/lib/timestamps";

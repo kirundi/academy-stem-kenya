@@ -7,10 +7,12 @@ import { useDocument } from "@/hooks/useFirestore";
 import type { Challenge } from "@/lib/types";
 
 function useCountdownToMs(targetMs: number | null) {
-  const [remaining, setRemaining] = useState(targetMs ? Math.max(0, targetMs - Date.now()) : 0);
+  const [remaining, setRemaining] = useState(0);
   useEffect(() => {
     if (!targetMs) return;
-    const id = setInterval(() => setRemaining(Math.max(0, targetMs - Date.now())), 1000);
+    const tick = () => setRemaining(Math.max(0, targetMs - Date.now()));
+    tick();
+    const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, [targetMs]);
   const total = Math.floor(remaining / 1000);

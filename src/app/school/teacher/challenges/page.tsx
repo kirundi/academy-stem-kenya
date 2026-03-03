@@ -7,8 +7,6 @@ import { useCollection, useCreateDoc, useUpdateDoc, useDeleteDoc } from "@/hooks
 import { where } from "firebase/firestore";
 import type { Challenge, ChallengeEnrollment } from "@/lib/types";
 
-const PRIMARY = "#13eca4";
-
 function timeLabel(challenge: Challenge): string {
   const now = Date.now();
   const start =

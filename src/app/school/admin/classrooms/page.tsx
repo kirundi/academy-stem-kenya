@@ -9,7 +9,7 @@ import { generateJoinCode } from "@/lib/client-code";
 export default function ClassroomsPage() {
   const { appUser } = useAuthContext();
   const [search, setSearch] = useState("");
-  const [prefix, setPrefix] = useState("TECH-");
+  const [, setPrefix] = useState("TECH-");
   const [pendingPrefix, setPendingPrefix] = useState("TECH-");
   const [codeMode, setCodeMode] = useState("Alphanumeric (8 chars)");
   const [editedCodes, setEditedCodes] = useState<Record<string, string>>({});

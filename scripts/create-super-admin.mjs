@@ -47,13 +47,11 @@ const displayName = "Alex Magu";
 const tempPassword = crypto.randomBytes(6).toString("base64url");
 
 let uid;
-let passwordReset = false;
 
 try {
   const existing = await auth.getUserByEmail(email);
   uid = existing.uid;
   await auth.updateUser(uid, { password: tempPassword, displayName });
-  passwordReset = true;
   console.log("Existing Firebase Auth user found — password reset.");
 } catch {
   const user = await auth.createUser({ email, password: tempPassword, displayName });
