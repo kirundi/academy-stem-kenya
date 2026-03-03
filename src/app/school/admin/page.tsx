@@ -1,6 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import { useSchoolAdminData } from "@/hooks/useAdminData";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { formatTimestamp } from "@/lib/timestamps";
@@ -9,6 +12,61 @@ export default function SchoolAdminDashboard() {
   const [dismissed, setDismissed] = useState(false);
   const { appUser } = useAuthContext();
   const { teachers, students, classrooms, activities, loading } = useSchoolAdminData();
+  const router = useRouter();
+
+  // Invite modal state
+  const [showInvite, setShowInvite] = useState(false);
+  const [inviteForm, setInviteForm] = useState({ displayName: "", email: "" });
+  const [inviteLoading, setInviteLoading] = useState(false);
+  const [inviteResult, setInviteResult] = useState<{ inviteLink: string; email: string } | null>(
+    null
+  );
+  const [inviteError, setInviteError] = useState("");
+
+  // Redirect to pending page if the school is not yet active.
+  useEffect(() => {
+    if (!appUser?.schoolId) return;
+    getDoc(doc(db, "schools", appUser.schoolId)).then((snap) => {
+      if (!snap.exists()) return;
+      const status = snap.data()?.status;
+      if (status !== "active") {
+        router.replace("/school/admin/pending");
+      }
+    });
+  }, [appUser?.schoolId, router]);
+
+  async function handleInvite(e: React.FormEvent) {
+    e.preventDefault();
+    if (!inviteForm.displayName.trim() || !inviteForm.email.trim()) return;
+    setInviteLoading(true);
+    setInviteError("");
+    try {
+      const res = await fetch("/api/admin/invite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: inviteForm.email.trim(),
+          displayName: inviteForm.displayName.trim(),
+          role: "teacher",
+          schoolId: appUser?.schoolId ?? "",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Failed to send invite");
+      setInviteResult({ inviteLink: data.inviteLink, email: data.email });
+    } catch (err: unknown) {
+      setInviteError(err instanceof Error ? err.message : "Failed to send invite");
+    } finally {
+      setInviteLoading(false);
+    }
+  }
+
+  function closeInviteModal() {
+    setShowInvite(false);
+    setInviteForm({ displayName: "", email: "" });
+    setInviteResult(null);
+    setInviteError("");
+  }
 
   if (loading) {
     return (
@@ -70,7 +128,10 @@ export default function SchoolAdminDashboard() {
           <button className="p-2 text-slate-400 hover:bg-[rgba(255,255,255,0.06)] rounded-lg">
             <span className="material-symbols-outlined">help</span>
           </button>
-          <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
+          <button
+            onClick={() => setShowInvite(true)}
+            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+          >
             <span className="material-symbols-outlined text-[18px]">person_add</span>
             Invite Teacher
           </button>
@@ -195,6 +256,121 @@ export default function SchoolAdminDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Invite Teacher Modal */}
+      {showInvite && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            {inviteResult ? (
+              /* Success state */
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] mb-4">
+                  <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                    mark_email_read
+                  </span>
+                </div>
+                <h2 className="text-white font-bold text-lg mb-1">Invite Sent!</h2>
+                <p className="text-slate-400 text-sm mb-5">
+                  An invitation email has been sent to{" "}
+                  <span className="text-white font-semibold">{inviteResult.email}</span>. They can
+                  also use the link below.
+                </p>
+                <div className="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 mb-5">
+                  <p className="text-xs text-slate-500 mb-1 text-left">Invite link (valid 48h)</p>
+                  <p className="text-[#13eca4] text-xs font-mono break-all text-left">
+                    {inviteResult.inviteLink}
+                  </p>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(inviteResult.inviteLink)}
+                    className="mt-2 text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[14px]">content_copy</span>
+                    Copy link
+                  </button>
+                </div>
+                <button
+                  onClick={closeInviteModal}
+                  className="w-full py-2.5 rounded-xl bg-[rgba(255,255,255,0.06)] text-slate-300 font-semibold text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                >
+                  Done
+                </button>
+              </div>
+            ) : (
+              /* Form state */
+              <>
+                <div className="flex items-center justify-between mb-5">
+                  <div>
+                    <h2 className="text-white font-bold text-base">Invite Teacher</h2>
+                    <p className="text-slate-400 text-xs mt-0.5">
+                      They&apos;ll receive a secure link to set their own password.
+                    </p>
+                  </div>
+                  <button
+                    onClick={closeInviteModal}
+                    className="text-slate-500 hover:text-white transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[22px]">close</span>
+                  </button>
+                </div>
+
+                <form onSubmit={handleInvite} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-400 mb-1.5">
+                      Full Name
+                    </label>
+                    <input
+                      type="text"
+                      value={inviteForm.displayName}
+                      onChange={(e) =>
+                        setInviteForm((p) => ({ ...p, displayName: e.target.value }))
+                      }
+                      placeholder="Jane Kamau"
+                      required
+                      className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-400 mb-1.5">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      value={inviteForm.email}
+                      onChange={(e) => setInviteForm((p) => ({ ...p, email: e.target.value }))}
+                      placeholder="jane@school.ac.ke"
+                      required
+                      className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                    />
+                  </div>
+
+                  {inviteError && (
+                    <p className="text-red-400 text-xs bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-3 py-2">
+                      {inviteError}
+                    </p>
+                  )}
+
+                  <div className="flex gap-3 pt-1">
+                    <button
+                      type="button"
+                      onClick={closeInviteModal}
+                      className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={inviteLoading}
+                      className="flex-1 py-2.5 rounded-xl text-sm font-bold bg-[#13eca4] text-[#10221c] hover:opacity-90 transition-opacity disabled:opacity-50"
+                    >
+                      {inviteLoading ? "Sending…" : "Send Invite"}
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

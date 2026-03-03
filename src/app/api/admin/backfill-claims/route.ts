@@ -32,6 +32,8 @@ export async function POST() {
       await setUserClaims(doc.id, {
         role: data.role,
         schoolId: data.schoolId ?? null,
+        permissions: data.permissions,
+        schoolIds: data.schoolIds ?? null,
       });
       updated++;
     } catch {

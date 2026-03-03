@@ -1,18 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
-import { cookies } from "next/headers";
+import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
-
-async function getAuthUser() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("__session")?.value;
-  if (!session) return null;
-  try {
-    return await adminAuth.verifySessionCookie(session, true);
-  } catch {
-    return null;
-  }
-}
+import { getAuthUser } from "@/lib/api-auth";
 
 export async function GET(request: NextRequest) {
   const user = await getAuthUser();
@@ -25,9 +14,32 @@ export async function GET(request: NextRequest) {
 
   let ref = adminDb.collection("submissions") as FirebaseFirestore.Query;
 
-  if (studentId) ref = ref.where("studentId", "==", studentId);
-  if (status) ref = ref.where("status", "==", status);
-  if (classroomId) ref = ref.where("classroomId", "==", classroomId);
+  if (user.role === "student") {
+    // Students can only see their own submissions
+    ref = ref.where("studentId", "==", user.uid);
+    if (status) ref = ref.where("status", "==", status);
+  } else if (user.role === "teacher" || user.role === "school_admin") {
+    // School staff must scope to a classroom they own
+    if (!classroomId) {
+      return NextResponse.json({ error: "classroomId required for school staff" }, { status: 400 });
+    }
+    // Verify the classroom belongs to this user's school
+    const clsSnap = await adminDb.collection("classrooms").doc(classroomId).get();
+    if (!clsSnap.exists) {
+      return NextResponse.json({ error: "Classroom not found" }, { status: 404 });
+    }
+    if (clsSnap.data()?.schoolId !== user.schoolId) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    ref = ref.where("classroomId", "==", classroomId);
+    if (studentId) ref = ref.where("studentId", "==", studentId);
+    if (status) ref = ref.where("status", "==", status);
+  } else {
+    // admin / super_admin — unrestricted
+    if (studentId) ref = ref.where("studentId", "==", studentId);
+    if (status) ref = ref.where("status", "==", status);
+    if (classroomId) ref = ref.where("classroomId", "==", classroomId);
+  }
 
   ref = ref.orderBy("submittedAt", "desc").limit(50);
 
@@ -40,6 +52,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Only students can create submissions
+  if (user.role !== "student") {
+    return NextResponse.json({ error: "Only students can submit work" }, { status: 403 });
+  }
 
   const body = await request.json();
 

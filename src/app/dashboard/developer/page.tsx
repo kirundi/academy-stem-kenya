@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 type DocSection =
   | "getting-started"
@@ -293,11 +294,11 @@ export default function DeveloperPortalPage() {
           <div className="max-w-5xl mx-auto">
             {/* Breadcrumbs */}
             <nav className="flex items-center gap-2 text-sm text-slate-500 mb-6">
-              <button onClick={() => {}} className="hover:text-[#13daec]">
+              <Link href="/dashboard/developer" className="hover:text-[#13daec] transition-colors">
                 Developer Portal
-              </button>
+              </Link>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
-              <button className="hover:text-[#13daec]">Documentation</button>
+              <span className="text-slate-400">Documentation</span>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
               <span className="text-slate-100">Google Classroom Sync</span>
             </nav>

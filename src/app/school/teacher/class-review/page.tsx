@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTeacherData } from "@/hooks/useTeacherData";
 import { useCollection } from "@/hooks/useFirestore";
@@ -39,16 +39,20 @@ export default function ClassReviewPage() {
   const [finishing, setFinishing] = useState(false);
 
   // Initialize authorized state when courses load
-  if (courses.length > 0 && authorized.length !== courses.length) {
-    setAuthorized(courses.map(() => true));
-  }
+  useEffect(() => {
+    if (courses.length > 0) {
+      setAuthorized(courses.map(() => true));
+    }
+  }, [courses]);
 
-  // Initialize message when user data is available
-  if (appUser && !msg) {
-    setMsg(
-      `Hello Class! \n\nI'm excited to be your instructor. Looking forward to a great learning experience together.\n\nOver the next few weeks, we will work through the curriculum together. Feel free to reach out if you have any questions.\n\nBest,\n${appUser.displayName}`
-    );
-  }
+  // Initialize message once when user data is available
+  useEffect(() => {
+    if (appUser?.displayName) {
+      setMsg(
+        `Hello Class! \n\nI'm excited to be your instructor. Looking forward to a great learning experience together.\n\nOver the next few weeks, we will work through the curriculum together. Feel free to reach out if you have any questions.\n\nBest,\n${appUser.displayName}`
+      );
+    }
+  }, [appUser?.displayName]);
 
   const loading = teacherLoading || coursesLoading;
 

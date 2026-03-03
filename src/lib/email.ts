@@ -9,6 +9,57 @@ function getResend() {
   return new Resend(key);
 }
 
+/**
+ * Sends a secure invite link (no password in email).
+ * The recipient sets their own password at /accept-invite.
+ */
+export async function sendInviteTokenEmail(params: {
+  to: string;
+  name: string;
+  role: string;
+  inviteLink: string;
+  inviterName: string;
+}) {
+  const roleLabel = params.role.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+
+  await getResend().emails.send({
+    from: FROM_EMAIL,
+    to: params.to,
+    subject: `You've been invited to STEM Impact Academy as ${roleLabel}`,
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <h1 style="color: #10221c; font-size: 24px; margin: 0;">STEM Impact Academy</h1>
+          <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Kenya</p>
+        </div>
+        <div style="background: #f8fafb; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0;">
+          <h2 style="color: #10221c; font-size: 20px; margin: 0 0 8px;">Hello, ${params.name}!</h2>
+          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 8px;">
+            <strong>${params.inviterName}</strong> has invited you to join the STEM Impact Academy platform as a <strong>${roleLabel}</strong>.
+          </p>
+          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 24px;">
+            Click the button below to accept your invitation and set your own password. This link expires in <strong>48 hours</strong>.
+          </p>
+          <a href="${params.inviteLink}" style="display: inline-block; background: #13eca4; color: #10221c; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 8px; text-decoration: none;">
+            Accept Invitation
+          </a>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 20px;">
+            If the button doesn't work, copy and paste this link:<br/>
+            <span style="color: #475569; font-size: 12px; font-family: monospace; word-break: break-all;">${params.inviteLink}</span>
+          </p>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 12px;">
+            If you weren't expecting this invitation, you can safely ignore this email.
+          </p>
+        </div>
+        <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 32px;">
+          &copy; ${new Date().getFullYear()} STEM Impact Center Kenya &middot; stemimpactcenterkenya.org
+        </p>
+      </div>
+    `,
+  });
+}
+
+/** @deprecated Use sendInviteTokenEmail instead. Kept for the super-admin setup flow only. */
 export async function sendInviteEmail(params: {
   to: string;
   name: string;
@@ -120,6 +171,76 @@ export async function sendPasswordResetEmail(params: { to: string; oobCode: stri
           <p style="color: #94a3b8; font-size: 13px; margin-top: 20px;">
             This link will expire in 1 hour. If you didn't request a password reset, you can safely ignore this email.
           </p>
+        </div>
+        <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 32px;">
+          &copy; ${new Date().getFullYear()} STEM Impact Center Kenya &middot; stemimpactcenterkenya.org
+        </p>
+      </div>
+    `,
+  });
+}
+
+/**
+ * Emails the school admin when their application is approved or rejected.
+ */
+export async function sendSchoolDecisionEmail(
+  to: string,
+  schoolName: string,
+  adminName: string,
+  decision: "approved" | "rejected",
+  reason?: string
+) {
+  const isApproved = decision === "approved";
+
+  await getResend().emails.send({
+    from: FROM_EMAIL,
+    to,
+    subject: isApproved
+      ? `${schoolName} has been approved — STEM Impact Academy`
+      : `Update on your ${schoolName} application`,
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <h1 style="color: #10221c; font-size: 24px; margin: 0;">STEM Impact Academy</h1>
+          <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Kenya</p>
+        </div>
+        <div style="background: #f8fafb; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0;">
+          <h2 style="color: #10221c; font-size: 20px; margin: 0 0 12px;">Hello, ${adminName}</h2>
+          ${isApproved ? `
+            <div style="background: #ecfdf5; border-radius: 8px; padding: 16px; border: 1px solid #a7f3d0; margin-bottom: 20px;">
+              <p style="color: #065f46; font-size: 15px; font-weight: 600; margin: 0;">
+                🎉 Your school has been approved!
+              </p>
+            </div>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 20px;">
+              <strong>${schoolName}</strong> has been approved and your administrator account is now active.
+              Sign in to access your dashboard and start inviting teachers.
+            </p>
+            <a href="${PLATFORM_URL}/login" style="display: inline-block; background: #13eca4; color: #10221c; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 8px; text-decoration: none;">
+              Access Your Dashboard
+            </a>
+          ` : `
+            <div style="background: #fef2f2; border-radius: 8px; padding: 16px; border: 1px solid #fecaca; margin-bottom: 20px;">
+              <p style="color: #991b1b; font-size: 15px; font-weight: 600; margin: 0;">
+                Application Not Approved
+              </p>
+            </div>
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 16px;">
+              We were unable to approve the application for <strong>${schoolName}</strong> at this time.
+            </p>
+            ${reason ? `
+            <div style="background: #fff; border-radius: 8px; padding: 16px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+              <p style="color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 6px;">Reason</p>
+              <p style="color: #10221c; font-size: 14px; margin: 0;">${reason}</p>
+            </div>
+            ` : ""}
+            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 20px;">
+              If you have questions or wish to re-apply, please contact our team.
+            </p>
+            <a href="mailto:support@stemimpactcenterkenya.org" style="display: inline-block; background: #10221c; color: #fff; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 8px; text-decoration: none;">
+              Contact Support
+            </a>
+          `}
         </div>
         <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 32px;">
           &copy; ${new Date().getFullYear()} STEM Impact Center Kenya &middot; stemimpactcenterkenya.org

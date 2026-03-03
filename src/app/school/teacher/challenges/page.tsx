@@ -1,90 +1,128 @@
 "use client";
 
 import { useState } from "react";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useTeacherData } from "@/hooks/useTeacherData";
+import { useCollection, useCreateDoc, useUpdateDoc, useDeleteDoc } from "@/hooks/useFirestore";
+import { where } from "firebase/firestore";
+import type { Challenge, ChallengeEnrollment } from "@/lib/types";
 
 const PRIMARY = "#13eca4";
 
-type Filter = "All Themes" | "Renewable Energy" | "Robotics" | "Space Tech";
+function timeLabel(challenge: Challenge): string {
+  const now = Date.now();
+  const start = challenge.startsAt instanceof Date ? challenge.startsAt.getTime() : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
+  const end = challenge.endsAt instanceof Date ? challenge.endsAt.getTime() : (challenge.endsAt as unknown as { seconds: number }).seconds * 1000;
 
-const challenges = [
-  {
-    id: "solar",
-    title: "Solar Future Hackathon",
-    icon: "wb_sunny",
-    theme: "Renewable Energy",
-    tags: [
-      { label: "Live", color: "bg-emerald-500" },
-      { label: "Global", color: "bg-slate-700/80" },
-    ],
-    desc: "Design a sustainable energy microgrid for a rural community using only renewable resources.",
-    timeLabel: "Ends in: 4d 12h",
-    enrolled: false,
-    upcoming: false,
-  },
-  {
-    id: "automation",
-    title: "Automation Pioneers",
-    icon: "precision_manufacturing",
-    theme: "Robotics",
-    tags: [
-      { label: "Live", color: "bg-emerald-500" },
-      { label: "School", color: "bg-[#13eca4] text-[#0d1f1a]" },
-    ],
-    desc: null,
-    timeLabel: "Ends in: 2d 6h",
-    enrolled: true,
-    activeStudents: 24,
-    totalStudents: 28,
-    submitted: 18,
-    lateAccess: true,
-    upcoming: false,
-  },
-  {
-    id: "mars",
-    title: "Mars Colony Logistics",
-    icon: "rocket",
-    theme: "Space Tech",
-    tags: [
-      { label: "Upcoming", color: "bg-amber-500" },
-      { label: "Global", color: "bg-slate-700/80" },
-    ],
-    desc: "Calculate supply chain requirements for a 100-person base on the Martian surface over one year.",
-    timeLabel: "Opens in: 2 days",
-    enrolled: false,
-    upcoming: true,
-  },
-];
+  if (now < start) {
+    const diff = Math.ceil((start - now) / (1000 * 60 * 60 * 24));
+    return `Opens in: ${diff} day${diff !== 1 ? "s" : ""}`;
+  }
+  if (now > end) return "Ended";
+  const hoursLeft = Math.ceil((end - now) / (1000 * 60 * 60));
+  if (hoursLeft < 24) return `Ends in: ${hoursLeft}h`;
+  const daysLeft = Math.floor(hoursLeft / 24);
+  const hours = hoursLeft % 24;
+  return `Ends in: ${daysLeft}d ${hours}h`;
+}
 
-const enrollments = [
-  {
-    group: "Advanced Physics - Grade 11",
-    students: 28,
-    challenge: "Automation Pioneers",
-    progress: 85,
-    submitted: "18 / 28",
-    lateAccess: true,
-  },
-  {
-    group: "Intro to Robotics - Grade 9",
-    students: 22,
-    challenge: "Automation Pioneers",
-    progress: 40,
-    submitted: "4 / 22",
-    lateAccess: false,
-  },
-];
+function isUpcoming(challenge: Challenge): boolean {
+  const start = challenge.startsAt instanceof Date ? challenge.startsAt.getTime() : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
+  return Date.now() < start;
+}
+
+function isLive(challenge: Challenge): boolean {
+  const now = Date.now();
+  const start = challenge.startsAt instanceof Date ? challenge.startsAt.getTime() : (challenge.startsAt as unknown as { seconds: number }).seconds * 1000;
+  const end = challenge.endsAt instanceof Date ? challenge.endsAt.getTime() : (challenge.endsAt as unknown as { seconds: number }).seconds * 1000;
+  return now >= start && now <= end;
+}
+
+interface EnrollModalState {
+  challengeId: string;
+  challengeTitle: string;
+}
 
 export default function TeacherChallengesPage() {
-  const [activeFilter, setActiveFilter] = useState<Filter>("All Themes");
-  const [lateAccess, setLateAccess] = useState<Record<string, boolean>>({
-    "Advanced Physics - Grade 11": true,
-    "Intro to Robotics - Grade 9": false,
-  });
-  const [enrolledIds, setEnrolledIds] = useState<Set<string>>(new Set(["automation"]));
+  const { appUser } = useAuthContext();
+  const { classrooms } = useTeacherData();
 
-  const filters: Filter[] = ["All Themes", "Renewable Energy", "Robotics", "Space Tech"];
+  const { data: challenges, loading: challengesLoading } = useCollection<Challenge>("challenges");
+
+  const { data: myEnrollments, loading: enrollmentsLoading } = useCollection<ChallengeEnrollment>(
+    "challengeEnrollments",
+    appUser ? [where("enrolledBy", "==", appUser.uid)] : [],
+    !!appUser
+  );
+
+  const { create: createEnrollment } = useCreateDoc("challengeEnrollments");
+  const { update: updateEnrollment } = useUpdateDoc("challengeEnrollments");
+  const { remove: removeEnrollment } = useDeleteDoc("challengeEnrollments");
+
+  const [activeFilter, setActiveFilter] = useState("All Themes");
+  const [enrollModal, setEnrollModal] = useState<EnrollModalState | null>(null);
+  const [selectedClassroomId, setSelectedClassroomId] = useState("");
+  const [enrolling, setEnrolling] = useState(false);
+
+  const loading = challengesLoading || enrollmentsLoading;
+
+  // Build a map: challengeId → my enrollments for that challenge
+  const enrollmentsByChallengeId = new Map<string, ChallengeEnrollment[]>();
+  myEnrollments.forEach((e) => {
+    if (!enrollmentsByChallengeId.has(e.challengeId))
+      enrollmentsByChallengeId.set(e.challengeId, []);
+    enrollmentsByChallengeId.get(e.challengeId)!.push(e);
+  });
+
+  // Collect all unique themes for filter pills
+  const allThemes = Array.from(new Set(challenges.map((c) => c.theme).filter(Boolean)));
+  const filters = ["All Themes", ...allThemes];
+
   const filtered =
-    activeFilter === "All Themes" ? challenges : challenges.filter((c) => c.theme === activeFilter);
+    activeFilter === "All Themes"
+      ? challenges
+      : challenges.filter((c) => c.theme === activeFilter);
+
+  const liveCount = challenges.filter(isLive).length;
+  const upcomingCount = challenges.filter(isUpcoming).length;
+
+  async function handleEnroll() {
+    if (!enrollModal || !selectedClassroomId || !appUser) return;
+    const classroom = classrooms.find((c) => c.id === selectedClassroomId);
+    if (!classroom) return;
+    setEnrolling(true);
+    try {
+      await createEnrollment({
+        challengeId: enrollModal.challengeId,
+        classroomId: selectedClassroomId,
+        classroomName: classroom.name,
+        enrolledBy: appUser.uid,
+        lateAccess: false,
+      });
+      setEnrollModal(null);
+      setSelectedClassroomId("");
+    } finally {
+      setEnrolling(false);
+    }
+  }
+
+  async function handleUnenroll(enrollmentId: string) {
+    await removeEnrollment(enrollmentId);
+  }
+
+  async function toggleLateAccess(enrollmentId: string, current: boolean) {
+    await updateEnrollment(enrollmentId, { lateAccess: !current });
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          progress_activity
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0a1a16] text-white">
@@ -92,15 +130,6 @@ export default function TeacherChallengesPage() {
       <header className="h-16 border-b border-[rgba(19,236,164,0.1)] flex items-center justify-between px-8 shrink-0 bg-[#0d1f1a]">
         <div className="flex items-center gap-4">
           <h2 className="text-base font-bold">Teacher Challenge Manager</h2>
-          <div className="h-4 w-px bg-slate-700" />
-          <div className="flex gap-4">
-            <button className="text-sm font-medium text-[#13eca4] border-b-2 border-[#13eca4] pb-4 mt-4">
-              Browse Challenges
-            </button>
-            <button className="text-sm font-medium text-slate-500 hover:text-white transition-colors pb-4 mt-4">
-              Management View
-            </button>
-          </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -109,13 +138,9 @@ export default function TeacherChallengesPage() {
             </span>
             <input
               className="pl-10 pr-4 py-2 bg-[#1a2e30] border border-[rgba(19,236,164,0.15)] rounded-lg text-sm w-56 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#13eca4]/50"
-              placeholder="Find hackathons..."
+              placeholder="Find challenges..."
             />
           </div>
-          <button className="bg-[#13eca4] text-[#0d1f1a] px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2 hover:brightness-105 transition-all">
-            <span className="material-symbols-outlined text-sm">add</span>
-            Create School Challenge
-          </button>
         </div>
       </header>
 
@@ -142,239 +167,316 @@ export default function TeacherChallengesPage() {
             <div className="flex gap-5 text-sm">
               <div className="flex items-center gap-2">
                 <span className="size-2 rounded-full bg-emerald-500" />
-                <span className="text-slate-400">12 Live Challenges</span>
+                <span className="text-slate-400">{liveCount} Live</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2 rounded-full bg-amber-500" />
-                <span className="text-slate-400">4 Upcoming</span>
+                <span className="text-slate-400">{upcomingCount} Upcoming</span>
               </div>
             </div>
           </div>
 
           {/* Challenge Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filtered.map((c) => (
-              <div
-                key={c.id}
-                className={`bg-[#0d1f1a] border rounded-xl overflow-hidden transition-all group ${
-                  c.enrolled
-                    ? "border-[#13eca4]/40 shadow-lg shadow-[#13eca4]/5"
-                    : c.upcoming
-                      ? "border-slate-700/50 opacity-80"
-                      : "border-[rgba(19,236,164,0.15)] hover:shadow-xl hover:shadow-[#13eca4]/5"
-                }`}
-              >
-                {/* Card header banner */}
-                <div className="h-32 bg-linear-to-br from-[#13eca4]/25 to-[#102022] relative">
-                  {c.upcoming && <div className="absolute inset-0 bg-[#102022]/60 grayscale" />}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-15">
-                    <span
-                      className="material-symbols-outlined text-[#13eca4]"
-                      style={{ fontSize: "90px" }}
-                    >
-                      {c.icon}
-                    </span>
-                  </div>
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    {c.tags.map((tag) => (
-                      <span
-                        key={tag.label}
-                        className={`${tag.color} text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider`}
-                      >
-                        {tag.label}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+          {filtered.length === 0 ? (
+            <div className="text-center py-16 text-slate-500">
+              <span className="material-symbols-outlined text-[48px] mb-3 block">emoji_events</span>
+              <p>No challenges available yet. Check back soon.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {filtered.map((c) => {
+                const upcoming = isUpcoming(c);
+                const live = isLive(c);
+                const myEnrolls = enrollmentsByChallengeId.get(c.id) ?? [];
+                const enrolled = myEnrolls.length > 0;
 
-                <div className="p-5">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3
-                      className={`font-bold text-base ${!c.upcoming ? "group-hover:text-[#13eca4] transition-colors" : ""}`}
-                    >
-                      {c.title}
-                    </h3>
-                    <span className="material-symbols-outlined text-[#13eca4] text-xl">
-                      {c.icon}
-                    </span>
-                  </div>
-
-                  {c.enrolled ? (
-                    /* Management view */
-                    <div className="bg-[#142a25] rounded-lg p-4 mb-4">
-                      <div className="flex justify-between items-center mb-3">
-                        <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">
-                          Management View
+                return (
+                  <div
+                    key={c.id}
+                    className={`bg-[#0d1f1a] border rounded-xl overflow-hidden transition-all group ${
+                      enrolled
+                        ? "border-[#13eca4]/40 shadow-lg shadow-[#13eca4]/5"
+                        : upcoming
+                          ? "border-slate-700/50 opacity-80"
+                          : "border-[rgba(19,236,164,0.15)] hover:shadow-xl hover:shadow-[#13eca4]/5"
+                    }`}
+                  >
+                    {/* Card header banner */}
+                    <div className="h-28 bg-linear-to-br from-[#13eca4]/25 to-[#102022] relative">
+                      {upcoming && <div className="absolute inset-0 bg-[#102022]/60 grayscale" />}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-15">
+                        <span
+                          className="material-symbols-outlined text-[#13eca4]"
+                          style={{ fontSize: "80px" }}
+                        >
+                          {c.icon || "emoji_events"}
                         </span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] text-slate-500">Late Submissions</span>
-                          <button
-                            onClick={() => {}}
-                            className={`w-8 h-4 rounded-full relative transition-colors ${c.lateAccess ? "bg-[#13eca4]" : "bg-slate-600"}`}
-                          >
-                            <div
-                              className={`absolute top-0.5 size-3 bg-white rounded-full transition-transform ${c.lateAccess ? "right-0.5" : "left-0.5"}`}
-                            />
-                          </button>
-                        </div>
                       </div>
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-500">Active Students</span>
-                          <span className="font-bold">
-                            {c.activeStudents} / {c.totalStudents}
+                      <div className="absolute top-3 left-3 flex gap-2">
+                        {live && (
+                          <span className="bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                            Live
+                          </span>
+                        )}
+                        {upcoming && (
+                          <span className="bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                            Upcoming
+                          </span>
+                        )}
+                        {!live && !upcoming && (
+                          <span className="bg-slate-700 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                            Ended
+                          </span>
+                        )}
+                        <span
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
+                            c.scope === "school"
+                              ? "bg-[#13eca4] text-[#0d1f1a]"
+                              : "bg-slate-700/80 text-white"
+                          }`}
+                        >
+                          {c.scope === "school" ? "School" : "Global"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-5">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3
+                          className={`font-bold text-base ${!upcoming ? "group-hover:text-[#13eca4] transition-colors" : ""}`}
+                        >
+                          {c.title}
+                        </h3>
+                        <span className="material-symbols-outlined text-[#13eca4] text-xl">
+                          {c.icon || "emoji_events"}
+                        </span>
+                      </div>
+
+                      {enrolled ? (
+                        /* Management view for enrolled challenges */
+                        <div className="bg-[#142a25] rounded-lg p-4 mb-4 space-y-2">
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">
+                              Enrolled Classes
+                            </span>
+                          </div>
+                          {myEnrolls.map((enr) => (
+                            <div
+                              key={enr.id}
+                              className="flex items-center justify-between text-xs"
+                            >
+                              <span className="text-slate-300">{enr.classroomName}</span>
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] text-slate-500">Late</span>
+                                <button
+                                  onClick={() => toggleLateAccess(enr.id, enr.lateAccess)}
+                                  className={`w-8 h-4 rounded-full relative transition-colors ${enr.lateAccess ? "bg-[#13eca4]" : "bg-slate-600"}`}
+                                >
+                                  <div
+                                    className={`absolute top-0.5 size-3 bg-white rounded-full transition-transform ${enr.lateAccess ? "right-0.5" : "left-0.5"}`}
+                                  />
+                                </button>
+                                <button
+                                  onClick={() => handleUnenroll(enr.id)}
+                                  className="text-red-400 hover:opacity-70 transition-opacity"
+                                >
+                                  <span className="material-symbols-outlined text-[14px]">
+                                    close
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        c.description && (
+                          <p className="text-sm text-slate-400 mb-5 line-clamp-2">
+                            {c.description}
+                          </p>
+                        )
+                      )}
+
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between text-xs border-t border-[rgba(19,236,164,0.08)] pt-3">
+                          <span className="text-slate-500 italic">Theme: {c.theme}</span>
+                          <span
+                            className={`font-medium ${upcoming ? "text-amber-400" : live ? "text-white" : "text-slate-500"}`}
+                          >
+                            {timeLabel(c)}
                           </span>
                         </div>
-                        <div className="w-full bg-[#0d1f1a] h-1.5 rounded-full overflow-hidden">
-                          <div
-                            className="bg-[#13eca4] h-full rounded-full"
-                            style={{
-                              width: `${((c.activeStudents ?? 0) / (c.totalStudents ?? 1)) * 100}%`,
-                            }}
-                          />
-                        </div>
-                        <div className="flex justify-between text-xs">
-                          <span className="text-slate-500">Started Project</span>
-                          <span className="font-bold">{c.submitted} Submitted</span>
+                        <div className="flex gap-2">
+                          {enrolled ? (
+                            <>
+                              <button className="flex-1 bg-[#1a2e30] text-white py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                                View Student Work
+                              </button>
+                              <button
+                                onClick={() =>
+                                  setEnrollModal({ challengeId: c.id, challengeTitle: c.title })
+                                }
+                                className="px-3 border border-[rgba(19,236,164,0.2)] text-slate-400 rounded-lg hover:bg-[#142a25]"
+                              >
+                                <span className="material-symbols-outlined text-sm pt-1">
+                                  add
+                                </span>
+                              </button>
+                            </>
+                          ) : upcoming ? (
+                            <button className="flex-1 bg-[#1a2e30] text-slate-500 py-2 rounded-lg text-sm font-bold cursor-not-allowed">
+                              Not Yet Open
+                            </button>
+                          ) : live ? (
+                            <>
+                              <button
+                                onClick={() =>
+                                  setEnrollModal({
+                                    challengeId: c.id,
+                                    challengeTitle: c.title,
+                                  })
+                                }
+                                className="flex-1 bg-[#13eca4] text-[#0d1f1a] py-2 rounded-lg text-sm font-bold hover:brightness-105 transition-all"
+                              >
+                                Enroll a Class
+                              </button>
+                              <button className="px-3 bg-[#1a2e30] text-slate-400 rounded-lg hover:bg-slate-700">
+                                <span className="material-symbols-outlined text-sm pt-1">
+                                  visibility
+                                </span>
+                              </button>
+                            </>
+                          ) : (
+                            <button className="flex-1 bg-[#1a2e30] text-slate-500 py-2 rounded-lg text-sm font-bold cursor-not-allowed">
+                              Challenge Ended
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
-                  ) : (
-                    c.desc && <p className="text-sm text-slate-400 mb-5 line-clamp-2">{c.desc}</p>
-                  )}
-
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-xs border-t border-[rgba(19,236,164,0.08)] pt-3">
-                      <span className="text-slate-500 italic">Theme: {c.theme}</span>
-                      <span
-                        className={`font-medium ${c.upcoming ? "text-amber-400" : "text-white"}`}
-                      >
-                        {c.timeLabel}
-                      </span>
-                    </div>
-                    <div className="flex gap-2">
-                      {c.enrolled ? (
-                        <>
-                          <button className="flex-1 bg-[#1a2e30] text-white py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
-                            View Student Work
-                          </button>
-                          <button className="px-3 border border-[rgba(19,236,164,0.2)] text-slate-400 rounded-lg hover:bg-[#142a25]">
-                            <span className="material-symbols-outlined text-sm pt-1">settings</span>
-                          </button>
-                        </>
-                      ) : c.upcoming ? (
-                        <>
-                          <button className="flex-1 bg-[#1a2e30] text-slate-500 py-2 rounded-lg text-sm font-bold cursor-not-allowed">
-                            Pre-enroll Closed
-                          </button>
-                          <button className="px-3 border border-slate-700 text-slate-500 rounded-lg">
-                            <span className="material-symbols-outlined text-sm pt-1">
-                              notifications
-                            </span>
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            onClick={() =>
-                              setEnrolledIds((prev) => {
-                                const n = new Set(prev);
-                                n.add(c.id);
-                                return n;
-                              })
-                            }
-                            className="flex-1 bg-[#13eca4] text-[#0d1f1a] py-2 rounded-lg text-sm font-bold hover:brightness-105 transition-all"
-                          >
-                            {enrolledIds.has(c.id) ? "Enrolled ✓" : "Enroll Class"}
-                          </button>
-                          <button className="px-3 bg-[#1a2e30] text-slate-400 rounded-lg hover:bg-slate-700">
-                            <span className="material-symbols-outlined text-sm pt-1">
-                              visibility
-                            </span>
-                          </button>
-                        </>
-                      )}
-                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
 
-          {/* Enrollment Management Table */}
-          <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.08)] flex items-center justify-between">
-              <h3 className="font-bold text-sm">Active Enrollments Management</h3>
-              <button className="text-[#13eca4] text-xs font-bold hover:underline">
-                Download Report
-              </button>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="bg-[#142a25]/50 text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
-                    {[
-                      "Student Group / Class",
-                      "Challenge",
-                      "Progress",
-                      "Submissions",
-                      "Late Access",
-                      "Action",
-                    ].map((h) => (
-                      <th key={h} className="px-6 py-3">
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[rgba(19,236,164,0.06)]">
-                  {enrollments.map((e) => (
-                    <tr key={e.group}>
-                      <td className="px-6 py-4">
-                        <div className="font-medium text-white">{e.group}</div>
-                        <div className="text-xs text-slate-400">{e.students} Students</div>
-                      </td>
-                      <td className="px-6 py-4 text-slate-300">{e.challenge}</td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-24 bg-[#1a2e30] h-1.5 rounded-full overflow-hidden">
-                            <div
-                              className="h-full rounded-full"
-                              style={{
-                                width: `${e.progress}%`,
-                                backgroundColor: e.progress >= 70 ? PRIMARY : "#f59e0b",
-                              }}
-                            />
-                          </div>
-                          <span className="text-[10px] font-bold text-white">{e.progress}%</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-slate-300">{e.submitted}</td>
-                      <td className="px-6 py-4">
-                        <button
-                          onClick={() =>
-                            setLateAccess((prev) => ({ ...prev, [e.group]: !prev[e.group] }))
-                          }
-                          className={`w-10 h-5 rounded-full relative transition-colors ${lateAccess[e.group] ? "bg-[#13eca4]" : "bg-slate-600"}`}
-                        >
-                          <div
-                            className={`absolute top-0.5 size-4 bg-white rounded-full transition-transform ${lateAccess[e.group] ? "right-0.5" : "left-0.5"}`}
-                          />
-                        </button>
-                      </td>
-                      <td className="px-6 py-4">
-                        <button className="text-[#13eca4] hover:opacity-80 material-symbols-outlined text-lg">
-                          edit_square
-                        </button>
-                      </td>
+          {/* Active Enrollments Table */}
+          {myEnrollments.length > 0 && (
+            <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-xl overflow-hidden">
+              <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.08)] flex items-center justify-between">
+                <h3 className="font-bold text-sm">My Challenge Enrollments</h3>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="bg-[#142a25]/50 text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+                      {["Classroom", "Challenge", "Late Access", "Action"].map((h) => (
+                        <th key={h} className="px-6 py-3">
+                          {h}
+                        </th>
+                      ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-[rgba(19,236,164,0.06)]">
+                    {myEnrollments.map((e) => {
+                      const challenge = challenges.find((c) => c.id === e.challengeId);
+                      return (
+                        <tr key={e.id}>
+                          <td className="px-6 py-4">
+                            <div className="font-medium text-white">{e.classroomName}</div>
+                          </td>
+                          <td className="px-6 py-4 text-slate-300">
+                            {challenge?.title ?? e.challengeId}
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => toggleLateAccess(e.id, e.lateAccess)}
+                              className={`w-10 h-5 rounded-full relative transition-colors ${e.lateAccess ? "bg-[#13eca4]" : "bg-slate-600"}`}
+                            >
+                              <div
+                                className={`absolute top-0.5 size-4 bg-white rounded-full transition-transform ${e.lateAccess ? "right-0.5" : "left-0.5"}`}
+                              />
+                            </button>
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => handleUnenroll(e.id)}
+                              className="text-red-400 text-xs font-bold hover:opacity-70 transition-opacity"
+                            >
+                              Unenroll
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
+
+      {/* Enroll Class Modal */}
+      {enrollModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <h2 className="text-white font-bold text-base">Enroll a Class</h2>
+                <p className="text-slate-400 text-xs mt-0.5">{enrollModal.challengeTitle}</p>
+              </div>
+              <button
+                onClick={() => {
+                  setEnrollModal(null);
+                  setSelectedClassroomId("");
+                }}
+                className="text-slate-500 hover:text-white"
+              >
+                <span className="material-symbols-outlined text-[22px]">close</span>
+              </button>
+            </div>
+
+            {classrooms.length === 0 ? (
+              <p className="text-slate-500 text-sm text-center py-4">
+                No classrooms yet. Create one first.
+              </p>
+            ) : (
+              <>
+                <select
+                  value={selectedClassroomId}
+                  onChange={(e) => setSelectedClassroomId(e.target.value)}
+                  className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white mb-4 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                >
+                  <option value="">Select a classroom…</option>
+                  {classrooms.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} · Grade {c.grade}
+                    </option>
+                  ))}
+                </select>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setEnrollModal(null);
+                      setSelectedClassroomId("");
+                    }}
+                    className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    disabled={!selectedClassroomId || enrolling}
+                    onClick={handleEnroll}
+                    className="flex-1 py-2.5 rounded-xl text-sm font-bold bg-[#13eca4] text-[#10221c] hover:opacity-90 transition-opacity disabled:opacity-50"
+                  >
+                    {enrolling ? "Enrolling…" : "Enroll"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

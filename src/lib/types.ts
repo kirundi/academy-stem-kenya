@@ -1,3 +1,5 @@
+import type { Permission } from "@/lib/permissions";
+
 export type UserRole = "student" | "teacher" | "school_admin" | "admin" | "super_admin";
 
 export interface AppUser {
@@ -9,6 +11,9 @@ export interface AppUser {
   requiresPasswordChange?: boolean;
   createdAt: Date;
   updatedAt: Date;
+  // Permissions & multi-school scoping
+  permissions?: Permission[];
+  schoolIds?: string[];
   // Student-specific
   studentCode?: string;
   age?: number;
@@ -29,7 +34,7 @@ export interface School {
   type: string;
   location: string;
   studentCount: number;
-  status: "active" | "pending" | "review";
+  status: "active" | "pending" | "review" | "rejected" | "suspended";
   plan: "premium" | "standard" | "community";
   healthScore: number;
   adminId: string;
@@ -122,6 +127,30 @@ export interface Badge {
   requirement: string;
 }
 
+export interface Challenge {
+  id: string;
+  title: string;
+  description: string;
+  theme: string;
+  icon: string;
+  scope: "global" | "school";
+  schoolId: string | null;
+  createdBy: string;
+  startsAt: Date;
+  endsAt: Date;
+  createdAt: Date;
+}
+
+export interface ChallengeEnrollment {
+  id: string;
+  challengeId: string;
+  classroomId: string;
+  classroomName: string;
+  enrolledBy: string; // teacher uid
+  lateAccess: boolean;
+  enrolledAt: Date;
+}
+
 export interface Activity {
   id: string;
   userId: string;
@@ -139,6 +168,30 @@ export interface Notification {
   read: boolean;
   createdAt: Date;
   type: string;
+}
+
+export interface InviteRecord {
+  id: string;          // Firestore doc ID = sha256(token)
+  email: string;
+  displayName: string;
+  role: UserRole;
+  schoolId: string | null;
+  invitedBy: string;   // UID of admin who sent it
+  invitedAt: Date;
+  expiresAt: Date;
+  status: "pending" | "accepted" | "expired";
+  permissions?: Permission[];
+  schoolIds?: string[];
+}
+
+export interface SessionRecord {
+  id: string;
+  uid: string;
+  createdAt: Date;
+  expiresAt: Date;
+  lastSeenAt: Date;
+  ip: string;
+  device: string;
 }
 
 export interface PlatformSettings {

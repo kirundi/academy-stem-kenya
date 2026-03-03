@@ -1,40 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb, setUserClaims } from "@/lib/firebase-admin";
-import { cookies } from "next/headers";
+import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
-import { generateUniqueStudentCode } from "@/lib/student-code";
-
-async function getCallerProfile(): Promise<{
-  uid: string;
-  role: string;
-  schoolId: string | null;
-  [key: string]: unknown;
-} | null> {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("__session")?.value;
-  if (!session) return null;
-
-  try {
-    const decoded = await adminAuth.verifySessionCookie(session, true);
-    const userDoc = await adminDb.collection("users").doc(decoded.uid).get();
-    const data = userDoc.data();
-    if (!data) return null;
-    if (!["teacher", "school_admin", "admin", "super_admin"].includes(data.role)) {
-      return null;
-    }
-    return {
-      uid: decoded.uid,
-      role: data.role as string,
-      schoolId: (data.schoolId as string) || null,
-      ...data,
-    };
-  } catch {
-    return null;
-  }
-}
+import { requirePermission } from "@/lib/api-auth";
+import { createStudentUser } from "@/lib/create-student";
 
 export async function POST(request: NextRequest) {
-  const caller = await getCallerProfile();
+  const caller = await requirePermission("manage_students");
   if (!caller) {
     return NextResponse.json(
       { error: "Unauthorized — teacher or admin access required" },
@@ -72,43 +43,23 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const studentCode = await generateUniqueStudentCode(adminDb);
-
-    const userRecord = await adminAuth.createUser({
-      displayName: displayName.trim(),
-    });
-
     const schoolId = classroomData.schoolId || caller.schoolId || null;
 
-    await adminDb
-      .collection("users")
-      .doc(userRecord.uid)
-      .set({
-        email: null,
-        displayName: displayName.trim(),
-        role: "student",
-        schoolId,
-        studentCode,
-        age: age ? parseInt(age) : null,
-        grade: grade || null,
-        classroomIds: [classroomId],
-        createdBy: caller.uid,
-        xp: 0,
-        level: 1,
-        badges: [],
-        createdAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp(),
-      });
-
-    // Embed role + schoolId in the Firebase Auth token as custom claims
-    await setUserClaims(userRecord.uid, { role: "student", schoolId });
+    const { uid, studentCode } = await createStudentUser({
+      displayName: displayName.trim(),
+      schoolId,
+      classroomId,
+      createdBy: caller.uid,
+      age: age ? parseInt(age) : null,
+      grade: grade || null,
+    });
 
     const courseIds: string[] = classroomData.courseIds || [];
     const batch = adminDb.batch();
     for (const courseId of courseIds) {
       const enrollmentRef = adminDb.collection("enrollments").doc();
       batch.set(enrollmentRef, {
-        studentId: userRecord.uid,
+        studentId: uid,
         classroomId,
         courseId,
         progress: 0,
@@ -126,7 +77,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         student: {
-          uid: userRecord.uid,
+          uid,
           displayName: displayName.trim(),
           studentCode,
           age: age ? parseInt(age) : null,
@@ -145,7 +96,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const caller = await getCallerProfile();
+  const caller = await requirePermission("manage_students");
   if (!caller) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

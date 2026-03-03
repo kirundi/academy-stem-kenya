@@ -1,22 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb } from "@/lib/firebase-admin";
-import { cookies } from "next/headers";
+import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
-
-async function getAuthUser() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("__session")?.value;
-  if (!session) return null;
-  try {
-    return await adminAuth.verifySessionCookie(session, true);
-  } catch {
-    return null;
-  }
-}
+import { generateClassroomJoinCode } from "@/lib/student-code";
+import { requirePermission } from "@/lib/api-auth";
+import { createStudentUser } from "@/lib/create-student";
 
 export async function POST(request: NextRequest) {
-  const user = await getAuthUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const teacher = await requirePermission("sync_google");
+  if (!teacher) {
+    return NextResponse.json(
+      { error: "Unauthorized — sync_google permission required" },
+      { status: 403 }
+    );
+  }
 
   const { accessToken } = await request.json();
 
@@ -41,7 +37,13 @@ export async function POST(request: NextRequest) {
     const coursesData = await coursesRes.json();
     const gCourses = coursesData.courses || [];
 
-    const synced = [];
+    const synced: {
+      name: string;
+      classroomId: string;
+      studentsAdded?: number;
+      students?: { displayName: string; email: string; studentCode: string }[];
+    }[] = [];
+    const errors: string[] = [];
 
     for (const gc of gCourses) {
       // Check if classroom already exists for this Google course
@@ -51,6 +53,7 @@ export async function POST(request: NextRequest) {
         .get();
 
       let classroomId: string;
+      let courseIds: string[] = [];
 
       if (existing.empty) {
         // Create new classroom
@@ -58,10 +61,10 @@ export async function POST(request: NextRequest) {
           name: gc.name,
           subject: gc.section || "",
           grade: "",
-          joinCode: Math.random().toString(36).substring(2, 8).toUpperCase(),
-          schoolId: "",
-          teacherId: user.uid,
-          teacherName: user.name || "",
+          joinCode: generateClassroomJoinCode(),
+          schoolId: teacher.schoolId || "",
+          teacherId: teacher.uid,
+          teacherName: teacher.displayName || "",
           enrolled: 0,
           capacity: 30,
           avgProgress: 0,
@@ -73,6 +76,7 @@ export async function POST(request: NextRequest) {
         classroomId = ref.id;
       } else {
         classroomId = existing.docs[0].id;
+        courseIds = existing.docs[0].data().courseIds || [];
       }
 
       // Fetch students from this Google Classroom course
@@ -81,37 +85,81 @@ export async function POST(request: NextRequest) {
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
 
-      if (studentsRes.ok) {
-        const studentsData = await studentsRes.json();
-        const gStudents = studentsData.students || [];
+      if (!studentsRes.ok) {
+        synced.push({ name: gc.name, classroomId });
+        continue;
+      }
 
-        for (const gs of gStudents) {
-          // Check if student user exists by email
+      const studentsData = await studentsRes.json();
+      const gStudents = studentsData.students || [];
+      let newEnrollments = 0;
+      const newStudents: { displayName: string; email: string; studentCode: string }[] = [];
+
+      for (const gs of gStudents) {
+        try {
           const profile = gs.profile;
           const email = profile?.emailAddress;
+          const displayName = profile?.name?.fullName || email || "Student";
 
-          if (email) {
-            const userSnap = await adminDb.collection("users").where("email", "==", email).get();
+          if (!email) continue;
 
-            if (userSnap.empty) {
-              // Create student user record
-              const studentRef = await adminDb.collection("users").add({
-                email,
-                displayName: profile.name?.fullName || email,
-                role: "student",
-                schoolId: "",
-                googleId: profile.id,
-                xp: 0,
-                level: 1,
-                badges: [],
-                skills: {},
-                createdAt: FieldValue.serverTimestamp(),
+          // Check if student already exists by email
+          const userSnap = await adminDb.collection("users").where("email", "==", email).get();
+
+          let studentUid: string;
+
+          if (userSnap.empty) {
+            const { uid, studentCode } = await createStudentUser({
+              displayName,
+              email,
+              schoolId: teacher.schoolId,
+              classroomId,
+              createdBy: teacher.uid,
+              googleId: profile.id || null,
+            });
+            studentUid = uid;
+            newStudents.push({ displayName, email, studentCode });
+          } else {
+            // Student exists — add this classroom if not already linked
+            const existingDoc = userSnap.docs[0];
+            studentUid = existingDoc.id;
+            const existingClassrooms: string[] = existingDoc.data().classroomIds || [];
+            if (!existingClassrooms.includes(classroomId)) {
+              await existingDoc.ref.update({
+                classroomIds: FieldValue.arrayUnion(classroomId),
                 updatedAt: FieldValue.serverTimestamp(),
               });
+            }
+          }
 
-              // Create enrollment
-              await adminDb.collection("enrollments").add({
-                studentId: studentRef.id,
+          // Create enrollments if they don't already exist
+          const enrollmentSnap = await adminDb
+            .collection("enrollments")
+            .where("studentId", "==", studentUid)
+            .where("classroomId", "==", classroomId)
+            .limit(1)
+            .get();
+
+          if (enrollmentSnap.empty) {
+            // Create per-course enrollments in a batch (matching /api/students pattern)
+            const batch = adminDb.batch();
+            if (courseIds.length > 0) {
+              for (const courseId of courseIds) {
+                const enrollRef = adminDb.collection("enrollments").doc();
+                batch.set(enrollRef, {
+                  studentId: studentUid,
+                  classroomId,
+                  courseId,
+                  progress: 0,
+                  completedLessons: 0,
+                  startedAt: FieldValue.serverTimestamp(),
+                });
+              }
+            } else {
+              // No courses assigned yet — create a placeholder enrollment
+              const enrollRef = adminDb.collection("enrollments").doc();
+              batch.set(enrollRef, {
+                studentId: studentUid,
                 classroomId,
                 courseId: "",
                 progress: 0,
@@ -119,14 +167,33 @@ export async function POST(request: NextRequest) {
                 startedAt: FieldValue.serverTimestamp(),
               });
             }
+            batch.update(adminDb.collection("classrooms").doc(classroomId), {
+              enrolled: FieldValue.increment(1),
+              updatedAt: FieldValue.serverTimestamp(),
+            });
+            await batch.commit();
+            newEnrollments++;
           }
+        } catch (err) {
+          const email = gs.profile?.emailAddress || "unknown";
+          console.error(`Failed to sync student ${email}:`, err);
+          errors.push(email);
         }
       }
 
-      synced.push({ name: gc.name, classroomId });
+      synced.push({
+        name: gc.name,
+        classroomId,
+        studentsAdded: newEnrollments,
+        ...(newStudents.length > 0 && { students: newStudents }),
+      });
     }
 
-    return NextResponse.json({ synced, count: synced.length });
+    return NextResponse.json({
+      synced,
+      count: synced.length,
+      ...(errors.length > 0 && { errors }),
+    });
   } catch (error) {
     console.error("Google Classroom sync error:", error);
     return NextResponse.json({ error: "Sync failed" }, { status: 500 });

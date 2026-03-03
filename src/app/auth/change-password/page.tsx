@@ -6,12 +6,12 @@ import { updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { RoleDashboardMap } from "@/lib/constants";
 import StemLogo from "@/components/StemLogo";
 
 export default function ChangePasswordPage() {
   const router = useRouter();
-  const { firebaseUser, loading } = useAuthContext();
-  // Tracks whether handleSubmit has taken ownership of the redirect.
+  const { firebaseUser, appUser, loading } = useAuthContext();
   // Prevents the unauthenticated useEffect from firing after updatePassword()
   // briefly triggers an auth state change.
   const passwordChanged = useRef(false);
@@ -25,8 +25,8 @@ export default function ChangePasswordPage() {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // Only redirect unauthenticated users. Never auto-redirect to /dashboard here —
-  // that would race against handleSubmit's session refresh and land on the wrong page.
+  // Redirect unauthenticated users. Never auto-redirect authenticated users
+  // away from this page — that would race against handleSubmit's session refresh.
   useEffect(() => {
     if (loading) return;
     if (!firebaseUser && !passwordChanged.current) {
@@ -68,26 +68,23 @@ export default function ChangePasswordPage() {
 
     setSubmitting(true);
     try {
-      // 1. Re-authenticate with the current (temp) password before changing
+      // 1. Re-authenticate with the current (temp) password before changing.
       const credential = EmailAuthProvider.credential(firebaseUser.email, currentPassword);
       await reauthenticateWithCredential(firebaseUser, credential);
 
-      // 2. Update the password in Firebase Auth (this invalidates the old token)
+      // 2. Update the password in Firebase Auth (invalidates the old token).
       await updatePassword(firebaseUser, newPassword);
 
-      // 3. Immediately get a fresh token reflecting the new password.
-      //    This must happen before anything else can trigger a redirect (e.g.
-      //    AuthContext re-fetching Firestore after onAuthStateChanged fires).
+      // 3. Get a fresh token immediately — must happen before any redirect triggers.
       const freshToken = await firebaseUser.getIdToken(true);
 
-      // 4. Clear the requiresPasswordChange flag in Firestore first.
-      //    This prevents a race condition where AuthContext might re-fetch
-      //    the user profile and re-trigger the password change redirect.
+      // 4. Clear requiresPasswordChange in Firestore before refreshing the session.
+      //    This prevents AuthContext from re-triggering the redirect race.
       await updateDoc(doc(db, "users", firebaseUser.uid), {
         requiresPasswordChange: false,
       });
 
-      // 5. Create a new session cookie with the fresh token.
+      // 5. Refresh the session cookie with the new token.
       const sessionRes = await fetch("/api/auth/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -98,17 +95,13 @@ export default function ChangePasswordPage() {
         throw new Error(data.error || "Failed to refresh session");
       }
 
-      // 6. Clear the requiresPasswordChange flag in Firestore.
-      //    AuthContext will re-fetch here, but the session is already valid.
-      await updateDoc(doc(db, "users", firebaseUser.uid), {
-        requiresPasswordChange: false,
-      });
-
-      // 7. Block the unauthenticated useEffect from firing a spurious redirect.
+      // 6. Block the unauthenticated useEffect from firing a spurious redirect.
       passwordChanged.current = true;
 
-      // 8. Navigate to the dashboard.
-      router.replace("/dashboard");
+      // 7. Navigate to the role-specific dashboard — not a hardcoded path.
+      const role = appUser?.role;
+      const dest = role ? RoleDashboardMap[role as keyof typeof RoleDashboardMap] : "/login";
+      router.replace(dest);
     } catch (err: unknown) {
       const code = (err as { code?: string }).code;
       if (code === "auth/wrong-password" || code === "auth/invalid-credential") {
@@ -139,20 +132,17 @@ export default function ChangePasswordPage() {
 
   return (
     <div className="min-h-screen bg-[#10221c] text-white flex flex-col relative overflow-hidden">
-      {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[rgba(19,236,164,0.06)] rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-[rgba(255,77,77,0.05)] rounded-full blur-[120px]" />
       </div>
 
-      {/* Navbar */}
       <header className="flex items-center justify-between px-6 md:px-20 py-4 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
         <StemLogo />
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14">
         <div className="max-w-md w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-10 rounded-3xl shadow-2xl">
-          {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] mb-4">
               <span className="material-symbols-outlined text-[#13eca4] text-2xl">lock_reset</span>
@@ -176,18 +166,14 @@ export default function ChangePasswordPage() {
             )}
           </div>
 
-          {/* Error */}
           {error && (
             <div className="mb-5 p-3.5 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">
-                error
-              </span>
+              <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">error</span>
               <p className="text-[#ff4d4d] text-sm">{error}</p>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Current (temp) password */}
             <div>
               <label className="block text-sm font-semibold text-slate-300 mb-2">
                 Current (Temporary) Password
@@ -214,7 +200,6 @@ export default function ChangePasswordPage() {
               </div>
             </div>
 
-            {/* New password */}
             <div>
               <label className="block text-sm font-semibold text-slate-300 mb-2">
                 New Password
@@ -239,7 +224,6 @@ export default function ChangePasswordPage() {
                   </span>
                 </button>
               </div>
-              {/* Strength bar */}
               {newPassword.length > 0 && (
                 <div className="mt-2">
                   <div className="h-1 w-full bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
@@ -255,7 +239,6 @@ export default function ChangePasswordPage() {
               )}
             </div>
 
-            {/* Confirm password */}
             <div>
               <label className="block text-sm font-semibold text-slate-300 mb-2">
                 Confirm New Password
@@ -280,7 +263,6 @@ export default function ChangePasswordPage() {
                   </span>
                 </button>
               </div>
-              {/* Match indicator */}
               {confirmPassword.length > 0 && (
                 <p
                   className={`text-xs mt-1 font-medium ${newPassword === confirmPassword ? "text-[#13eca4]" : "text-[#ff4d4d]"}`}
@@ -290,7 +272,6 @@ export default function ChangePasswordPage() {
               )}
             </div>
 
-            {/* Requirements */}
             <ul className="space-y-1.5 text-xs text-slate-500 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-xl p-4">
               {[
                 { label: "At least 8 characters", met: newPassword.length >= 8 },

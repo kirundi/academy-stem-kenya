@@ -3,19 +3,54 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import PublicNavbar from "@/components/PublicNavbar";
+import { useCollection } from "@/hooks/useFirestore";
+import { where } from "firebase/firestore";
+import type { Challenge } from "@/lib/types";
 
-interface Challenge {
-  slug: string;
-  title: string;
-  category: string;
-  categoryColor: string;
-  description: string;
-  targetDate: Date;
-  status: "upcoming" | "live" | "ended";
-  prize: string;
-  teamSize: string;
-  bgGradient: string;
-  icon: string;
+// Map Firestore theme → visual styling
+const THEME_META: Record<string, { categoryColor: string; bgGradient: string }> = {
+  sustainability: {
+    categoryColor: "bg-emerald-500 text-white",
+    bgGradient: "from-emerald-900/60 to-[#102022]",
+  },
+  robotics: {
+    categoryColor: "bg-[#13daec] text-[#102022]",
+    bgGradient: "from-[#13daec]/20 to-[#102022]",
+  },
+  "healthcare ai": {
+    categoryColor: "bg-violet-500 text-white",
+    bgGradient: "from-violet-900/40 to-[#102022]",
+  },
+  "data science": {
+    categoryColor: "bg-amber-500 text-[#102022]",
+    bgGradient: "from-amber-900/40 to-[#102022]",
+  },
+  default: {
+    categoryColor: "bg-slate-600 text-white",
+    bgGradient: "from-slate-900/40 to-[#102022]",
+  },
+};
+
+function getThemeMeta(theme: string) {
+  return THEME_META[theme.toLowerCase()] ?? THEME_META.default;
+}
+
+function getTimestampMs(val: unknown): number {
+  if (!val) return 0;
+  if (val instanceof Date) return val.getTime();
+  if (typeof val === "object" && val !== null && "seconds" in val) {
+    return (val as { seconds: number }).seconds * 1000;
+  }
+  return 0;
+}
+
+function getChallengeStatus(challenge: Challenge): "upcoming" | "live" | "ended" {
+  const now = Date.now();
+  const startMs = getTimestampMs(challenge.startsAt);
+  const endMs = getTimestampMs(challenge.endsAt);
+  if (endMs && now > endMs) return "ended";
+  if (startMs && now >= startMs) return "live";
+  return "upcoming";
 }
 
 interface Winner {
@@ -26,69 +61,6 @@ interface Winner {
   initials: string;
   color: string;
 }
-
-const CHALLENGES: Challenge[] = [
-  {
-    slug: "eco-hack-2024",
-    title: "Eco-Hack 2024",
-    category: "Sustainability",
-    categoryColor: "bg-emerald-500 text-white",
-    description:
-      "Build software solutions for environmental sustainability. Focus on carbon tracking, renewable energy management apps, and smart urban systems.",
-    targetDate: new Date(
-      Date.now() + 5 * 24 * 60 * 60 * 1000 + 12 * 60 * 60 * 1000 + 30 * 60 * 1000
-    ),
-    status: "upcoming",
-    prize: "$2,000",
-    teamSize: "2–4 students",
-    bgGradient: "from-emerald-900/60 to-[#102022]",
-    icon: "eco",
-  },
-  {
-    slug: "robo-race-2024",
-    title: "Robo-Race 2024",
-    category: "Robotics",
-    categoryColor: "bg-[#13daec] text-[#102022]",
-    description:
-      "Design and program the fastest autonomous robot. Optimise sensors and motor controls to navigate complex obstacle courses under 48-hour conditions.",
-    targetDate: new Date(
-      Date.now() + 12 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000 + 15 * 60 * 1000
-    ),
-    status: "upcoming",
-    prize: "$1,500",
-    teamSize: "2–3 students",
-    bgGradient: "from-[#13daec]/20 to-[#102022]",
-    icon: "smart_toy",
-  },
-  {
-    slug: "ai-health-sprint",
-    title: "AI Health Sprint",
-    category: "Healthcare AI",
-    categoryColor: "bg-violet-500 text-white",
-    description:
-      "Create AI-powered tools that improve patient outcomes, triage efficiency, or health monitoring for underserved communities across Africa.",
-    targetDate: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000),
-    status: "upcoming",
-    prize: "$3,000",
-    teamSize: "2–5 students",
-    bgGradient: "from-violet-900/40 to-[#102022]",
-    icon: "health_and_safety",
-  },
-  {
-    slug: "data-dive-2024",
-    title: "Data Dive 2024",
-    category: "Data Science",
-    categoryColor: "bg-amber-500 text-[#102022]",
-    description:
-      "Use real Kenyan census and climate datasets to build predictive models for agricultural yield, urban planning, or education access.",
-    targetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-    status: "upcoming",
-    prize: "$1,200",
-    teamSize: "1–4 students",
-    bgGradient: "from-amber-900/40 to-[#102022]",
-    icon: "bar_chart",
-  },
-];
 
 const WINNERS: Winner[] = [
   {
@@ -125,9 +97,9 @@ const WINNERS: Winner[] = [
   },
 ];
 
-function useCountdown(targetDate: Date) {
+function useCountdown(targetMs: number) {
   const calc = () => {
-    const diff = Math.max(0, targetDate.getTime() - Date.now());
+    const diff = Math.max(0, targetMs - Date.now());
     return {
       days: Math.floor(diff / (1000 * 60 * 60 * 24)),
       hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -143,26 +115,42 @@ function useCountdown(targetDate: Date) {
   return time;
 }
 
-function ChallengeCard({ challenge }: { challenge: Challenge }) {
-  const { days, hours, minutes } = useCountdown(challenge.targetDate);
+function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } }) {
+  const status = getChallengeStatus(challenge);
+  const { categoryColor, bgGradient } = getThemeMeta(challenge.theme);
+
+  // Count down to endsAt when live, to startsAt when upcoming
+  const targetMs =
+    status === "live"
+      ? getTimestampMs(challenge.endsAt)
+      : getTimestampMs(challenge.startsAt);
+  const { days, hours, minutes } = useCountdown(targetMs);
+
+  const countdownLabel = status === "live" ? "Ends in" : status === "ended" ? "Ended" : "Starts in";
+
   return (
     <div className="group flex flex-col bg-[#1a2e30] rounded-2xl overflow-hidden border border-[#2d4548] hover:border-[#13daec]/50 transition-all shadow-xl">
       {/* Card header gradient */}
       <div
-        className={`relative h-44 bg-linear-to-br ${challenge.bgGradient} flex items-center justify-center overflow-hidden`}
+        className={`relative h-44 bg-linear-to-br ${bgGradient} flex items-center justify-center overflow-hidden`}
       >
         <span className="material-symbols-outlined text-[80px] text-[#13daec]/20 group-hover:text-[#13daec]/30 transition-all">
-          {challenge.icon}
+          {challenge.icon || "bolt"}
         </span>
         <span
-          className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${challenge.categoryColor}`}
+          className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${categoryColor}`}
         >
-          {challenge.category}
+          {challenge.theme}
         </span>
-        {challenge.status === "live" && (
+        {status === "live" && (
           <span className="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-rose-500/20 border border-rose-500/40 text-rose-400 rounded-full text-[10px] font-bold uppercase">
-            <span className="size-1.5 rounded-full bg-rose-400 animate-pulse"></span>
+            <span className="size-1.5 rounded-full bg-rose-400 animate-pulse" />
             Live
+          </span>
+        )}
+        {status === "ended" && (
+          <span className="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-slate-500/20 border border-slate-500/40 text-slate-400 rounded-full text-[10px] font-bold uppercase">
+            Ended
           </span>
         )}
       </div>
@@ -173,40 +161,31 @@ function ChallengeCard({ challenge }: { challenge: Challenge }) {
           <div className="flex items-center gap-2 text-[#13daec] mb-3">
             <span className="material-symbols-outlined text-sm">timer</span>
             <p className="text-xs font-bold uppercase tracking-widest">
-              Starts in: {String(days).padStart(2, "0")}d {String(hours).padStart(2, "0")}h{" "}
-              {String(minutes).padStart(2, "0")}m
+              {status === "ended"
+                ? "Challenge ended"
+                : `${countdownLabel}: ${String(days).padStart(2, "0")}d ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m`}
             </p>
           </div>
           <h3 className="text-xl font-bold text-white mb-2">{challenge.title}</h3>
           <p className="text-slate-400 text-sm leading-relaxed">{challenge.description}</p>
         </div>
 
-        {/* Meta row */}
-        <div className="flex items-center gap-4 text-xs text-slate-500">
-          <span className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-sm">emoji_events</span>
-            Prize: <span className="text-[#13daec] font-bold ml-1">{challenge.prize}</span>
-          </span>
-          <span className="flex items-center gap-1">
-            <span className="material-symbols-outlined text-sm">group</span>
-            {challenge.teamSize}
-          </span>
-        </div>
-
         <div className="flex gap-3">
           <Link
-            href={`/challenges/${challenge.slug}`}
+            href={`/challenges/${challenge.id}`}
             className="flex-1 rounded-lg h-10 border border-[#2d4548] text-slate-300 text-sm font-bold flex items-center justify-center hover:border-[#13daec] hover:text-[#13daec] transition-all"
           >
             View Brief
           </Link>
-          <Link
-            href={`/challenges/${challenge.slug}#enroll`}
-            className="flex-1 rounded-lg h-10 bg-[#13daec] text-[#102022] text-sm font-bold flex items-center justify-center gap-1.5 hover:brightness-110 transition-all"
-          >
-            <span className="material-symbols-outlined text-base">group_add</span>
-            Register Team
-          </Link>
+          {status !== "ended" && (
+            <Link
+              href={`/challenges/${challenge.id}#enroll`}
+              className="flex-1 rounded-lg h-10 bg-[#13daec] text-[#102022] text-sm font-bold flex items-center justify-center gap-1.5 hover:brightness-110 transition-all"
+            >
+              <span className="material-symbols-outlined text-base">group_add</span>
+              Register Team
+            </Link>
+          )}
         </div>
       </div>
     </div>
@@ -216,6 +195,11 @@ function ChallengeCard({ challenge }: { challenge: Challenge }) {
 export default function ChallengesPage() {
   const [activeFilter, setActiveFilter] = useState("all");
 
+  const { data: challenges, loading } = useCollection<Challenge>(
+    "challenges",
+    [where("scope", "==", "global")]
+  );
+
   const filters = [
     { val: "all", label: "All" },
     { val: "upcoming", label: "Upcoming" },
@@ -223,6 +207,13 @@ export default function ChallengesPage() {
     { val: "robotics", label: "Robotics" },
     { val: "sustainability", label: "Sustainability" },
   ];
+
+  const filteredChallenges = challenges.filter((c) => {
+    if (activeFilter === "all") return true;
+    if (activeFilter === "live") return getChallengeStatus(c) === "live";
+    if (activeFilter === "upcoming") return getChallengeStatus(c) === "upcoming";
+    return c.theme.toLowerCase() === activeFilter.toLowerCase();
+  });
 
   return (
     <div className="min-h-screen bg-[#102022] text-slate-100 antialiased overflow-x-hidden">
@@ -331,11 +322,24 @@ export default function ChallengesPage() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {CHALLENGES.map((c) => (
-              <ChallengeCard key={c.slug} challenge={c} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex items-center justify-center h-48">
+              <span className="material-symbols-outlined animate-spin text-4xl text-[#13daec]">
+                progress_activity
+              </span>
+            </div>
+          ) : filteredChallenges.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-48 gap-3 text-slate-500">
+              <span className="material-symbols-outlined text-5xl">search_off</span>
+              <p className="text-sm">No challenges found for this filter.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+              {filteredChallenges.map((c) => (
+                <ChallengeCard key={c.id} challenge={c} />
+              ))}
+            </div>
+          )}
         </section>
 
         {/* ── How Challenges Work ── */}
@@ -551,10 +555,15 @@ export default function ChallengesPage() {
                 Quick Links
               </h4>
               <ul className="space-y-3">
-                {["Curriculum", "Hackathons", "School Partnership", "Scholarships"].map((item) => (
+                {[
+                  ["Curriculum", "/educators"],
+                  ["Hackathons", "/challenges"],
+                  ["School Partnership", "/about"],
+                  ["Scholarships", "/contact"],
+                ].map(([item, href]) => (
                   <li key={item}>
                     <Link
-                      href="#"
+                      href={href}
                       className="text-slate-400 hover:text-[#13daec] transition-colors text-sm"
                     >
                       {item}
@@ -572,7 +581,7 @@ export default function ChallengesPage() {
                   ["Help Center", "/help"],
                   ["Rules & Terms", "/terms"],
                   ["Privacy Policy", "/privacy"],
-                  ["Safety Guidelines", "#"],
+                  ["Safety Guidelines", "/terms"],
                 ].map(([item, href]) => (
                   <li key={item}>
                     <Link

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import CourseCard from "@/components/CourseCard";
 import { useAuthContext } from "@/contexts/AuthContext";
@@ -89,6 +89,15 @@ export default function StudentDashboard() {
   const completedCourse = useMemo(() => {
     return mergedCourses.find((c) => c.completed);
   }, [mergedCourses]);
+
+  const [courseFilter, setCourseFilter] = useState("All");
+
+  const filteredCourses = useMemo(() => {
+    if (courseFilter === "In Progress") return mergedCourses.filter((c) => c.progress > 0 && c.progress < 100);
+    if (courseFilter === "Not Started") return mergedCourses.filter((c) => c.progress === 0);
+    if (courseFilter === "Completed") return mergedCourses.filter((c) => c.completed);
+    return mergedCourses;
+  }, [mergedCourses, courseFilter]);
 
   const displayName = appUser?.displayName ?? "Student";
   const firstName = displayName.split(" ")[0];
@@ -245,11 +254,12 @@ export default function StudentDashboard() {
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-bold text-white">My Authorized Courses</h2>
               <div className="flex gap-2">
-                {["All", "In Progress", "Not Started", "Completed"].map((tab, i) => (
+                {["All", "In Progress", "Not Started", "Completed"].map((tab) => (
                   <button
                     key={tab}
+                    onClick={() => setCourseFilter(tab)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                      i === 0
+                      courseFilter === tab
                         ? "bg-[#13eca4] text-[#10221c]"
                         : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-white"
                     }`}
@@ -260,8 +270,8 @@ export default function StudentDashboard() {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-              {mergedCourses.length > 0 ? (
-                mergedCourses.map((course) => <CourseCard key={course.id} {...course} />)
+              {filteredCourses.length > 0 ? (
+                filteredCourses.map((course) => <CourseCard key={course.id} {...course} />)
               ) : (
                 <div className="col-span-full text-center py-12">
                   <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3 block">

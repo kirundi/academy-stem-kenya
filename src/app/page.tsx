@@ -1,5 +1,146 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import PublicNavbar from "@/components/PublicNavbar";
+
+function CtaSection() {
+  const router = useRouter();
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    schoolName: "",
+    role: "School Administrator",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.firstName || !form.email || !form.schoolName) return;
+    localStorage.setItem(
+      "stemimpact_prefill",
+      JSON.stringify({
+        fullName: `${form.firstName} ${form.lastName}`.trim(),
+        email: form.email,
+        schoolName: form.schoolName,
+        roleDesignation: form.role,
+      })
+    );
+    router.push("/onboarding");
+  };
+
+  return (
+    <section id="about" className="py-24 px-6 relative overflow-hidden">
+      <div className="mx-auto max-w-5xl rounded-3xl bg-[#13daec] px-8 py-16 lg:px-20 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern height="40" id="cta-grid" patternUnits="userSpaceOnUse" width="40">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="black" strokeWidth="1" />
+              </pattern>
+            </defs>
+            <rect fill="url(#cta-grid)" height="100%" width="100%" />
+          </svg>
+        </div>
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-4xl font-black text-[#102022] leading-tight">
+              Bring STEM Impact to Your School
+            </h2>
+            <p className="mt-6 text-[#102022]/80 text-lg leading-relaxed font-medium">
+              Join 500+ forward-thinking schools transforming their curriculum with our
+              project-based learning framework.
+            </p>
+            <ul className="mt-8 space-y-4">
+              {[
+                "Administrator Dashboard",
+                "Standard-Aligned Curriculum",
+                "Teacher Training & Support",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-3 text-[#102022] font-bold">
+                  <span className="material-symbols-outlined font-bold">check_circle</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-2xl bg-[rgba(16,32,34,0.1)] p-1 backdrop-blur-sm">
+            <div className="rounded-xl bg-slate-100 p-8 shadow-2xl text-slate-900">
+              <h3 className="text-xl font-bold mb-6">School Registration</h3>
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase text-slate-500">First Name *</label>
+                    <input
+                      required
+                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                      placeholder="Jane"
+                      type="text"
+                      value={form.firstName}
+                      onChange={(e) => setForm((p) => ({ ...p, firstName: e.target.value }))}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold uppercase text-slate-500">Last Name</label>
+                    <input
+                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                      placeholder="Doe"
+                      type="text"
+                      value={form.lastName}
+                      onChange={(e) => setForm((p) => ({ ...p, lastName: e.target.value }))}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold uppercase text-slate-500">Work Email *</label>
+                  <input
+                    required
+                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                    placeholder="jane@school.edu"
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold uppercase text-slate-500">School Name *</label>
+                  <input
+                    required
+                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                    placeholder="West Valley Academy"
+                    type="text"
+                    value={form.schoolName}
+                    onChange={(e) => setForm((p) => ({ ...p, schoolName: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold uppercase text-slate-500">Role</label>
+                  <select
+                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                    value={form.role}
+                    onChange={(e) => setForm((p) => ({ ...p, role: e.target.value }))}
+                  >
+                    <option>School Administrator</option>
+                    <option>Department Head</option>
+                    <option>Teacher</option>
+                    <option>District Official</option>
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  className="mt-4 w-full rounded-lg bg-[#102022] py-4 font-bold text-white shadow-lg hover:brightness-125 transition-all text-center block"
+                >
+                  Register Your School
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function HomePage() {
   return (
@@ -36,10 +177,10 @@ export default function HomePage() {
                     Join the Academy
                   </Link>
                   <Link
-                    href="/onboarding"
+                    href="#about"
                     className="rounded-lg border border-[#283739] bg-[#1a2e30] px-8 py-4 text-lg font-bold hover:bg-[#283739] transition-colors"
                   >
-                    View Impact Report
+                    Register Your School
                   </Link>
                 </div>
               </div>
@@ -467,107 +608,7 @@ export default function HomePage() {
         </section>
 
         {/* School Registration CTA */}
-        <section id="about" className="py-24 px-6 relative overflow-hidden">
-          <div className="mx-auto max-w-5xl rounded-3xl bg-[#13daec] px-8 py-16 lg:px-20 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <pattern height="40" id="cta-grid" patternUnits="userSpaceOnUse" width="40">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="black" strokeWidth="1" />
-                  </pattern>
-                </defs>
-                <rect fill="url(#cta-grid)" height="100%" width="100%" />
-              </svg>
-            </div>
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-4xl font-black text-[#102022] leading-tight">
-                  Bring STEM Impact to Your School
-                </h2>
-                <p className="mt-6 text-[#102022]/80 text-lg leading-relaxed font-medium">
-                  Join 500+ forward-thinking schools transforming their curriculum with our
-                  project-based learning framework.
-                </p>
-                <ul className="mt-8 space-y-4">
-                  {[
-                    "Administrator Dashboard",
-                    "Standard-Aligned Curriculum",
-                    "Teacher Training & Support",
-                  ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-[#102022] font-bold">
-                      <span className="material-symbols-outlined font-bold">check_circle</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="rounded-2xl bg-[rgba(16,32,34,0.1)] p-1 backdrop-blur-sm">
-                <div className="rounded-xl bg-slate-100 p-8 shadow-2xl text-slate-900">
-                  <h3 className="text-xl font-bold mb-6">School Registration</h3>
-                  <form className="space-y-4">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase text-slate-500">
-                          First Name
-                        </label>
-                        <input
-                          className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
-                          placeholder="Jane"
-                          type="text"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold uppercase text-slate-500">
-                          Last Name
-                        </label>
-                        <input
-                          className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
-                          placeholder="Doe"
-                          type="text"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold uppercase text-slate-500">
-                        Work Email
-                      </label>
-                      <input
-                        className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
-                        placeholder="jane@school.edu"
-                        type="email"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold uppercase text-slate-500">
-                        School Name
-                      </label>
-                      <input
-                        className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
-                        placeholder="West Valley Academy"
-                        type="text"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold uppercase text-slate-500">Role</label>
-                      <select className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]">
-                        <option>School Administrator</option>
-                        <option>Department Head</option>
-                        <option>Teacher</option>
-                        <option>District Official</option>
-                      </select>
-                    </div>
-                    <Link
-                      href="/onboarding"
-                      className="mt-4 w-full rounded-lg bg-[#102022] py-4 font-bold text-white shadow-lg hover:brightness-125 transition-all text-center block"
-                    >
-                      Request Demo Access
-                    </Link>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CtaSection />
       </main>
 
       {/* Footer */}
@@ -629,7 +670,7 @@ export default function HomePage() {
           </div>
           <div className="mt-12 border-t border-[#283739] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-xs text-slate-600">
-              &copy; 2024 STEM Impact Academy. All rights reserved.
+              &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
             </p>
             <div className="flex gap-4">
               <a

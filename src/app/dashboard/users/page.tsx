@@ -1,9 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { formatTimestamp } from "@/lib/timestamps";
+import {
+  ALL_PERMISSIONS,
+  PERMISSION_LABELS,
+  PERMISSION_DESCRIPTIONS,
+  ROLE_DEFAULT_PERMISSIONS,
+} from "@/lib/permissions";
+import type { Permission } from "@/lib/permissions";
 
 const roleColors: Record<string, string> = {
   student: "#3b82f6",
@@ -35,9 +42,10 @@ export default function UsersManagementPage() {
   const [roleFilter, setRoleFilter] = useState("all");
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const { allUsers, schools, loading } = useGlobalAdminData();
-  const { appUser } = useAuthContext();
+  const { appUser, hasPermission: ctxHasPermission } = useAuthContext();
 
   const isSuperAdmin = appUser?.role === "super_admin";
+  const canManageUsers = ctxHasPermission("manage_users");
 
   // Invite modal state
   const [showInvite, setShowInvite] = useState(false);
@@ -46,14 +54,25 @@ export default function UsersManagementPage() {
   const [inviteRole, setInviteRole] = useState<InviteRole>("teacher");
   const [inviteSchoolId, setInviteSchoolId] = useState("");
   const [inviteLoading, setInviteLoading] = useState(false);
-  const [inviteResult, setInviteResult] = useState<{ email: string; tempPassword: string } | null>(
+  const [inviteResult, setInviteResult] = useState<{ email: string; inviteLink: string } | null>(
     null
   );
   const [inviteError, setInviteError] = useState("");
+  const [inviteShowAdvanced, setInviteShowAdvanced] = useState(false);
+  const [invitePermissions, setInvitePermissions] = useState<Permission[]>([]);
+  const [inviteSchoolIds, setInviteSchoolIds] = useState<string[]>([]);
 
   // Confirm dialog state
   const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
+
+  // Permissions modal state
+  const [permUser, setPermUser] = useState<{ id: string; name: string; role: string } | null>(null);
+  const [permLoading, setPermLoading] = useState(false);
+  const [permSaving, setPermSaving] = useState(false);
+  const [permChecked, setPermChecked] = useState<Permission[]>([]);
+  const [permSchoolIds, setPermSchoolIds] = useState<string[]>([]);
+  const [permCustomized, setPermCustomized] = useState(false);
 
   if (loading) {
     return (
@@ -95,21 +114,28 @@ export default function UsersManagementPage() {
     setInviteLoading(true);
     setInviteError("");
     try {
+      const inviteBody: Record<string, unknown> = {
+        email: inviteEmail,
+        displayName: inviteName,
+        role: inviteRole,
+        schoolId: inviteSchoolId || null,
+      };
+      if (inviteShowAdvanced && invitePermissions.length > 0) {
+        inviteBody.permissions = invitePermissions;
+      }
+      if (inviteShowAdvanced && inviteSchoolIds.length > 0) {
+        inviteBody.schoolIds = inviteSchoolIds;
+      }
       const res = await fetch("/api/admin/invite", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: inviteEmail,
-          displayName: inviteName,
-          role: inviteRole,
-          schoolId: inviteSchoolId || null,
-        }),
+        body: JSON.stringify(inviteBody),
       });
       const data = await res.json();
       if (!res.ok) {
         setInviteError(data.error || "Failed to invite user");
       } else {
-        setInviteResult({ email: data.email, tempPassword: data.tempPassword });
+        setInviteResult({ email: data.email, inviteLink: data.inviteLink });
       }
     } catch {
       setInviteError("Network error");
@@ -126,6 +152,9 @@ export default function UsersManagementPage() {
     setInviteSchoolId("");
     setInviteResult(null);
     setInviteError("");
+    setInviteShowAdvanced(false);
+    setInvitePermissions([]);
+    setInviteSchoolIds([]);
   };
 
   const handleRoleChange = (userId: string, userName: string, newRole: string) => {
@@ -169,6 +198,63 @@ export default function UsersManagementPage() {
     if (targetRole === "super_admin") return false; // Nobody can modify super_admin
     if (!isSuperAdmin && targetRole === "admin") return false; // Only super_admin can modify admins
     return true;
+  };
+
+  // Open permissions modal for a user
+  const openPermissions = async (userId: string, userName: string, role: string) => {
+    setOpenMenu(null);
+    setPermUser({ id: userId, name: userName, role });
+    setPermLoading(true);
+    try {
+      const res = await fetch(`/api/admin/permissions?userId=${userId}`);
+      const data = await res.json();
+      if (res.ok) {
+        setPermChecked(data.permissions || []);
+        setPermSchoolIds(data.schoolIds || []);
+        setPermCustomized(data.customized || false);
+      }
+    } catch {
+      // Use role defaults on error
+      setPermChecked([...(ROLE_DEFAULT_PERMISSIONS[role] || [])]);
+      setPermSchoolIds([]);
+      setPermCustomized(false);
+    } finally {
+      setPermLoading(false);
+    }
+  };
+
+  const savePermissions = async () => {
+    if (!permUser) return;
+    setPermSaving(true);
+    try {
+      await fetch("/api/admin/permissions", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: permUser.id,
+          permissions: permChecked,
+          schoolIds: permSchoolIds.length > 0 ? permSchoolIds : null,
+        }),
+      });
+      setPermUser(null);
+    } catch {
+      // Keep modal open on error
+    } finally {
+      setPermSaving(false);
+    }
+  };
+
+  const resetToDefaults = () => {
+    if (!permUser) return;
+    setPermChecked([...(ROLE_DEFAULT_PERMISSIONS[permUser.role] || [])]);
+    setPermCustomized(false);
+  };
+
+  const togglePermission = (p: Permission) => {
+    setPermChecked((prev) =>
+      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]
+    );
+    setPermCustomized(true);
   };
 
   return (
@@ -350,6 +436,19 @@ export default function UsersManagementPage() {
                                       )}
                                     </button>
                                   ))}
+                                  {canManageUsers && (
+                                    <div className="border-t border-[rgba(255,255,255,0.05)]">
+                                      <button
+                                        onClick={() => openPermissions(u.id, u.displayName, u.role)}
+                                        className="w-full text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-[rgba(255,255,255,0.05)] transition-colors flex items-center gap-2"
+                                      >
+                                        <span className="material-symbols-outlined text-[16px]">
+                                          admin_panel_settings
+                                        </span>
+                                        Manage Permissions
+                                      </button>
+                                    </div>
+                                  )}
                                   <div className="border-t border-[rgba(255,255,255,0.05)]">
                                     <button
                                       onClick={() => handleDelete(u.id, u.displayName)}
@@ -392,7 +491,7 @@ export default function UsersManagementPage() {
               <div>
                 <h2 className="text-white font-bold text-lg">Invite User</h2>
                 <p className="text-slate-400 text-xs mt-0.5">
-                  Create a new account with a temporary password
+                  They&apos;ll receive a secure link to set their own password.
                 </p>
               </div>
               <button
@@ -408,34 +507,29 @@ export default function UsersManagementPage() {
                 <div className="text-center mb-5">
                   <div className="w-12 h-12 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-3">
                     <span className="material-symbols-outlined text-2xl text-[#13eca4]">
-                      check_circle
+                      mark_email_read
                     </span>
                   </div>
-                  <p className="text-white font-bold">Account Created</p>
+                  <p className="text-white font-bold">Invite Sent!</p>
+                  <p className="text-slate-400 text-xs mt-1">
+                    Email delivered to{" "}
+                    <span className="text-white font-semibold">{inviteResult.email}</span>
+                  </p>
                 </div>
-                <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-xl p-4 space-y-3">
-                  <div>
-                    <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
-                      Email
-                    </label>
-                    <p className="text-white text-sm font-mono mt-0.5">{inviteResult.email}</p>
-                  </div>
-                  <div>
-                    <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
-                      Temporary Password
-                    </label>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <p className="text-[#13eca4] font-mono font-bold tracking-wider">
-                        {inviteResult.tempPassword}
-                      </p>
-                      <button
-                        onClick={() => navigator.clipboard.writeText(inviteResult.tempPassword)}
-                        className="p-1 hover:bg-[rgba(19,236,164,0.08)] rounded text-slate-400 hover:text-[#13eca4] transition-colors"
-                      >
-                        <span className="material-symbols-outlined text-[16px]">content_copy</span>
-                      </button>
-                    </div>
-                  </div>
+                <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-xl p-4">
+                  <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
+                    Invite link (valid 48h)
+                  </label>
+                  <p className="text-[#13eca4] text-xs font-mono break-all mt-1">
+                    {inviteResult.inviteLink}
+                  </p>
+                  <button
+                    onClick={() => navigator.clipboard.writeText(inviteResult.inviteLink)}
+                    className="mt-2 text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                  >
+                    <span className="material-symbols-outlined text-[14px]">content_copy</span>
+                    Copy link
+                  </button>
                 </div>
                 <button
                   onClick={closeInviteModal}
@@ -485,7 +579,7 @@ export default function UsersManagementPage() {
                     ))}
                   </div>
                 </div>
-                {inviteRole === "school_admin" && (
+                {(inviteRole === "school_admin" || inviteRole === "teacher") && (
                   <div>
                     <label className="text-slate-400 text-xs font-medium block mb-1.5">
                       School
@@ -502,6 +596,89 @@ export default function UsersManagementPage() {
                         </option>
                       ))}
                     </select>
+                  </div>
+                )}
+
+                {/* Advanced: custom permissions & school scope for admin invites */}
+                {inviteRole === "admin" && isSuperAdmin && (
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setInviteShowAdvanced(!inviteShowAdvanced);
+                        if (!inviteShowAdvanced && invitePermissions.length === 0) {
+                          setInvitePermissions([...(ROLE_DEFAULT_PERMISSIONS.admin || [])]);
+                        }
+                      }}
+                      className="text-slate-400 text-xs font-medium hover:text-[#13eca4] transition-colors flex items-center gap-1"
+                    >
+                      <span className="material-symbols-outlined text-[14px]">
+                        {inviteShowAdvanced ? "expand_less" : "expand_more"}
+                      </span>
+                      {inviteShowAdvanced ? "Hide" : "Customize"} permissions &amp; school scope
+                    </button>
+
+                    {inviteShowAdvanced && (
+                      <div className="mt-3 space-y-3">
+                        <div className="space-y-1.5 max-h-48 overflow-y-auto">
+                          {ALL_PERMISSIONS.map((p) => {
+                            const callerHas = ctxHasPermission(p);
+                            return (
+                              <label
+                                key={p}
+                                className={`flex items-center gap-2 p-2 rounded-lg border transition-colors cursor-pointer ${
+                                  invitePermissions.includes(p)
+                                    ? "border-[rgba(19,236,164,0.15)] bg-[rgba(19,236,164,0.03)]"
+                                    : "border-transparent"
+                                } ${!callerHas ? "opacity-40 cursor-not-allowed" : ""}`}
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={invitePermissions.includes(p)}
+                                  disabled={!callerHas}
+                                  onChange={() =>
+                                    setInvitePermissions((prev) =>
+                                      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]
+                                    )
+                                  }
+                                  className="accent-[#13eca4]"
+                                />
+                                <span className="text-white text-xs">{PERMISSION_LABELS[p]}</span>
+                              </label>
+                            );
+                          })}
+                        </div>
+
+                        <div>
+                          <label className="text-slate-400 text-xs font-medium block mb-1.5">
+                            Restrict to schools
+                            <span className="text-slate-600 ml-1">(optional)</span>
+                          </label>
+                          <div className="space-y-1 max-h-32 overflow-y-auto">
+                            {schools.map((s) => (
+                              <label
+                                key={s.id}
+                                className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-[rgba(255,255,255,0.03)] cursor-pointer"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={inviteSchoolIds.includes(s.id)}
+                                  onChange={() =>
+                                    setInviteSchoolIds((prev) =>
+                                      prev.includes(s.id)
+                                        ? prev.filter((id) => id !== s.id)
+                                        : [...prev, s.id]
+                                    )
+                                  }
+                                  className="accent-[#13eca4]"
+                                />
+                                <span className="text-white text-xs">{s.name}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -523,10 +700,154 @@ export default function UsersManagementPage() {
                   ) : (
                     <span className="material-symbols-outlined text-[18px]">person_add</span>
                   )}
-                  {inviteLoading ? "Creating..." : "Create Account"}
+                  {inviteLoading ? "Sending..." : "Send Invite"}
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Permissions Modal */}
+      {permUser && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+          onClick={() => setPermUser(null)}
+        >
+          <div
+            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+              <div>
+                <h2 className="text-white font-bold text-lg">Manage Permissions</h2>
+                <p className="text-slate-400 text-xs mt-0.5">
+                  {permUser.name} — {roleBadge[permUser.role] || permUser.role}
+                  {permCustomized && (
+                    <span className="ml-2 text-amber-400 text-[10px] font-bold uppercase">
+                      Customized
+                    </span>
+                  )}
+                </p>
+              </div>
+              <button
+                onClick={() => setPermUser(null)}
+                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            {permLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <span className="material-symbols-outlined animate-spin text-3xl text-[#13eca4]">
+                  progress_activity
+                </span>
+              </div>
+            ) : (
+              <div className="px-6 py-5 space-y-4 max-h-[60vh] overflow-y-auto">
+                <div className="space-y-2">
+                  {ALL_PERMISSIONS.map((p) => {
+                    const isDefault = (ROLE_DEFAULT_PERMISSIONS[permUser.role] || []).includes(p);
+                    const isChecked = permChecked.includes(p);
+                    const callerHas = ctxHasPermission(p);
+                    return (
+                      <label
+                        key={p}
+                        className={`flex items-start gap-3 p-3 rounded-xl border transition-colors cursor-pointer ${
+                          isChecked
+                            ? "border-[rgba(19,236,164,0.2)] bg-[rgba(19,236,164,0.04)]"
+                            : "border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.1)]"
+                        } ${!callerHas ? "opacity-40 cursor-not-allowed" : ""}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          disabled={!callerHas}
+                          onChange={() => togglePermission(p)}
+                          className="mt-0.5 accent-[#13eca4]"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-white text-sm font-semibold">
+                              {PERMISSION_LABELS[p]}
+                            </span>
+                            {isDefault && !permCustomized && (
+                              <span className="text-[10px] text-slate-500 font-medium">
+                                default
+                              </span>
+                            )}
+                            {permCustomized && isChecked !== isDefault && (
+                              <span className="text-[10px] text-amber-400 font-bold">
+                                {isChecked ? "added" : "removed"}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-slate-500 text-xs mt-0.5">
+                            {PERMISSION_DESCRIPTIONS[p]}
+                          </p>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+
+                {/* School Scope */}
+                {(permUser.role === "admin" || permUser.role === "school_admin") && (
+                  <div className="border-t border-[rgba(255,255,255,0.06)] pt-4">
+                    <label className="text-slate-400 text-xs font-medium block mb-2">
+                      School Scope
+                      <span className="text-slate-600 ml-1">(leave empty for unrestricted access)</span>
+                    </label>
+                    <div className="space-y-1.5 max-h-40 overflow-y-auto">
+                      {schools.map((s) => (
+                        <label
+                          key={s.id}
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-[rgba(255,255,255,0.03)] cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={permSchoolIds.includes(s.id)}
+                            onChange={() =>
+                              setPermSchoolIds((prev) =>
+                                prev.includes(s.id)
+                                  ? prev.filter((id) => id !== s.id)
+                                  : [...prev, s.id]
+                              )
+                            }
+                            className="accent-[#13eca4]"
+                          />
+                          <span className="text-white text-sm">{s.name}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center gap-3">
+              <button
+                onClick={resetToDefaults}
+                className="text-slate-400 text-xs font-medium hover:text-white transition-colors"
+              >
+                Reset to Defaults
+              </button>
+              <div className="flex-1" />
+              <button
+                onClick={() => setPermUser(null)}
+                className="border border-[rgba(255,255,255,0.1)] text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={savePermissions}
+                disabled={permSaving}
+                className="bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {permSaving ? "Saving..." : "Save Permissions"}
+              </button>
+            </div>
           </div>
         </div>
       )}

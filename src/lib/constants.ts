@@ -12,6 +12,9 @@ export const Collections = {
   NOTIFICATIONS: "notifications",
   ACTIVITIES: "activities",
   SETTINGS: "settings",
+  INVITES: "invites",
+  SESSIONS: "sessions",
+  RATE_LIMITS: "rateLimits",
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -22,6 +25,9 @@ export const Routes = {
   LOGIN: "/login",
   ONBOARDING: "/onboarding",
   REGISTER_TEACHER: "/register/teacher",
+  AUTH_CHANGE_PASSWORD: "/auth/change-password",
+  ACCEPT_INVITE: "/accept-invite",
+  SCHOOL_ADMIN_PENDING: "/school/admin/pending",
 
   // Student
   STUDENT_DASHBOARD: "/school/student/dashboard",
@@ -55,6 +61,7 @@ export const Routes = {
 
   // School Admin
   SCHOOL_ADMIN: "/school/admin",
+  SCHOOL_ADMIN_SETTINGS: "/school/admin/settings",
   SCHOOL_ADMIN_STUDENTS: "/school/admin/students",
   SCHOOL_ADMIN_TEACHERS: "/school/admin/teachers",
   SCHOOL_ADMIN_CLASSROOMS: "/school/admin/classrooms",

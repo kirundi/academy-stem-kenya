@@ -1,18 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth } from "@/lib/firebase-admin";
-import { cookies } from "next/headers";
 import { getStorage } from "firebase-admin/storage";
-
-async function getAuthUser() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("__session")?.value;
-  if (!session) return null;
-  try {
-    return await adminAuth.verifySessionCookie(session, true);
-  } catch {
-    return null;
-  }
-}
+import { getAuthUser } from "@/lib/api-auth";
 
 export async function POST(request: NextRequest) {
   const user = await getAuthUser();

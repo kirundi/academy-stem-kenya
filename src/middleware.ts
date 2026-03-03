@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { decodeJWTPayload } from "@/lib/jwt";
 
 const publicPaths = [
   "/",
@@ -8,23 +9,9 @@ const publicPaths = [
   "/admin/setup",
   "/forgot-password",
   "/reset-password",
+  "/auth",
+  "/accept-invite",
 ];
-
-/** Decode a JWT payload without verification (lightweight, Edge-safe). */
-function decodeJWTPayload(token: string): Record<string, unknown> | null {
-  try {
-    const parts = token.split(".");
-    if (parts.length !== 3) return null;
-    // atob requires standard base64 — Firebase uses base64url, so swap chars.
-    const b64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
-    // Pad to a multiple of 4
-    const padded = b64 + "=".repeat((4 - (b64.length % 4)) % 4);
-    const payload = atob(padded);
-    return JSON.parse(payload);
-  } catch {
-    return null;
-  }
-}
 
 /** Map route prefixes to the roles allowed to access them. */
 const routeRoleMap: Record<string, string[]> = {
@@ -107,6 +94,8 @@ export function middleware(request: NextRequest) {
   headers.set("x-user-uid", (payload.sub || payload.user_id || "") as string);
   headers.set("x-user-role", role);
   headers.set("x-user-school", (payload.schoolId || "") as string);
+  headers.set("x-user-permissions", JSON.stringify(payload.permissions || []));
+  headers.set("x-user-school-ids", JSON.stringify(payload.schoolIds ?? null));
 
   return NextResponse.next({ request: { headers } });
 }

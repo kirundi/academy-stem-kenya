@@ -1,34 +1,83 @@
 "use client";
 
+import { Suspense, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useDocument } from "@/hooks/useFirestore";
+import type { Challenge } from "@/lib/types";
+
+function getTimestamp(val: Date | { seconds: number } | null): number | null {
+  if (!val) return null;
+  if (val instanceof Date) return val.getTime();
+  if (typeof (val as { seconds: number }).seconds === "number")
+    return (val as { seconds: number }).seconds * 1000;
+  return null;
+}
 
 const stars = [1, 2, 3, 4, 5];
 
-const stats = [
-  { icon: "auto_awesome", label: "Skill Boost", value: "+500 XP", sub: "Added to your profile" },
-  { icon: "leaderboard", label: "Community Rank", value: "Top 1%", sub: "Global participant rank" },
-  {
-    icon: "celebration",
-    label: "Exclusive Perk",
-    value: "2025 Summit",
-    sub: "STEM Summit access granted",
-  },
-];
+function WinnerInner() {
+  const searchParams = useSearchParams();
+  const challengeId = searchParams.get("id") ?? null;
+  const { appUser } = useAuthContext();
 
-export default function ChallengeWinnerPage() {
-  const handleDownload = () => {
-    // In a real app, this would trigger a PDF generation endpoint
-    alert("Certificate download triggered. Connecting to PDF service…");
-  };
+  const { data: challenge } = useDocument<Challenge>("challenges", challengeId);
+
+  const [copied, setCopied] = useState(false);
+  const [printing, setPrinting] = useState(false);
+
+  const displayName = appUser?.displayName ?? "Champion";
+  const challengeTitle = challenge?.title ?? "STEM Challenge";
+  const endMs = getTimestamp(challenge?.endsAt ?? null);
+  const dateAwarded = endMs
+    ? new Date(endMs).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      })
+    : new Date().toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+
+  const verifyId = `STEM-${new Date().getFullYear()}-${(challengeId ?? appUser?.uid ?? "XXXX").slice(0, 4).toUpperCase()}`;
 
   const handleShare = () => {
     if (navigator.share) {
-      navigator.share({ title: "I won Eco-Hack 2024!", url: window.location.href });
+      navigator.share({ title: `I won ${challengeTitle}!`, url: window.location.href });
     } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert("Share link copied to clipboard!");
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+      });
     }
   };
+
+  const handleDownload = () => {
+    setPrinting(true);
+    setTimeout(() => {
+      window.print();
+      setPrinting(false);
+    }, 200);
+  };
+
+  const stats = [
+    { icon: "auto_awesome", label: "Skill Boost", value: "+500 XP", sub: "Added to your profile" },
+    {
+      icon: "leaderboard",
+      label: "Community Rank",
+      value: "Top 1%",
+      sub: "Global participant rank",
+    },
+    {
+      icon: "celebration",
+      label: "Exclusive Perk",
+      value: "2025 Summit",
+      sub: "STEM Summit access granted",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-[#0a1a16] text-white relative overflow-hidden">
@@ -50,7 +99,7 @@ export default function ChallengeWinnerPage() {
             Challenges
           </Link>
           <div className="h-4 w-px bg-[rgba(19,236,164,0.2)]" />
-          <span className="text-sm font-semibold text-slate-300">Eco-Hack 2024</span>
+          <span className="text-sm font-semibold text-slate-300">{challengeTitle}</span>
           <Link
             href="/school/student/challenges/leaderboard"
             className="ml-auto text-sm font-semibold text-[#13eca4] hover:brightness-110 transition-all flex items-center gap-1"
@@ -67,7 +116,7 @@ export default function ChallengeWinnerPage() {
             Milestone Achieved
           </span>
           <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-3">Challenge Winner!</h1>
-          <p className="text-[#13eca4] text-xl font-bold tracking-wide">Eco-Hack 2024 Champion</p>
+          <p className="text-[#13eca4] text-xl font-bold tracking-wide">{challengeTitle} Champion</p>
         </div>
 
         {/* Main Content: Badge + Certificate */}
@@ -94,10 +143,8 @@ export default function ChallengeWinnerPage() {
                   <span className="material-symbols-outlined text-[7rem] text-yellow-400 drop-shadow-[0_0_24px_rgba(250,204,21,0.6)] relative z-10">
                     emoji_events
                   </span>
-                  <p className="text-base font-black tracking-[0.2em] text-yellow-400 relative z-10 leading-tight text-center px-4">
-                    ECO-HACK
-                    <br />
-                    CHAMPION 2024
+                  <p className="text-base font-black tracking-[0.2em] text-yellow-400 relative z-10 leading-tight text-center px-4 uppercase">
+                    {challengeTitle.length > 20 ? "STEM CHAMPION" : challengeTitle}
                   </p>
                   {/* Outer ring glow */}
                   <div className="absolute inset-2 rounded-full border border-yellow-400/20 pointer-events-none" />
@@ -120,13 +167,18 @@ export default function ChallengeWinnerPage() {
                   onClick={handleShare}
                   className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#13eca4] text-[#0d1f1a] rounded-xl font-bold text-sm hover:brightness-105 transition-all"
                 >
-                  <span className="material-symbols-outlined text-base">share</span>
-                  Post to Social
+                  <span className="material-symbols-outlined text-base">
+                    {copied ? "check" : "share"}
+                  </span>
+                  {copied ? "Link Copied!" : "Post to Social"}
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#1a2e30] border border-[rgba(19,236,164,0.2)] text-white rounded-xl font-bold text-sm hover:bg-[#243d40] transition-colors">
+                <Link
+                  href="/school/student/portfolio"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#1a2e30] border border-[rgba(19,236,164,0.2)] text-white rounded-xl font-bold text-sm hover:bg-[#243d40] transition-colors"
+                >
                   <span className="material-symbols-outlined text-base">work</span>
                   Portfolio
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -160,21 +212,21 @@ export default function ChallengeWinnerPage() {
                     This is to certify that
                   </p>
                   <p className="text-2xl font-black tracking-tight border-b border-[#13eca4]/40 pb-1 mb-3">
-                    Alex Rivera
+                    {displayName}
                   </p>
 
                   <p className="text-xs text-slate-400 text-center leading-relaxed max-w-xs mb-2">
                     has demonstrated exceptional innovation and technical excellence in the
                   </p>
                   <p className="text-sm font-bold text-[#13eca4] text-center mb-6">
-                    Eco-Hack 2024 Sustainability Challenge
+                    {challengeTitle}
                   </p>
 
                   {/* Bottom row */}
                   <div className="w-full grid grid-cols-3 items-end gap-4 mt-auto">
                     <div className="text-center">
                       <p className="text-[10px] text-slate-500 mb-1">Date Awarded</p>
-                      <p className="text-xs font-bold">November 15, 2024</p>
+                      <p className="text-xs font-bold">{dateAwarded}</p>
                     </div>
                     <div className="flex flex-col items-center">
                       <div className="size-10 rounded-full bg-[#13eca4]/20 border border-[#13eca4]/40 flex items-center justify-center">
@@ -185,7 +237,7 @@ export default function ChallengeWinnerPage() {
                       <p className="text-[9px] text-slate-500 mt-1">Academy Seal</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-xs font-bold italic">Dr. Elena Vance</p>
+                      <p className="text-xs font-bold italic">STEM Impact Center</p>
                       <p className="text-[10px] text-slate-500">Global Admin</p>
                     </div>
                   </div>
@@ -194,14 +246,17 @@ export default function ChallengeWinnerPage() {
                 {/* Footer bar with verify ID */}
                 <div className="absolute bottom-0 left-0 right-0 h-12 bg-[#0a1a16]/80 border-t border-[rgba(19,236,164,0.12)] flex items-center justify-between px-6">
                   <span className="text-[10px] text-slate-500 font-mono">
-                    Verify ID: STEM-2024-EH-00192
+                    Verify ID: {verifyId}
                   </span>
                   <button
                     onClick={handleDownload}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#13eca4]/15 text-[#13eca4] border border-[#13eca4]/30 rounded-lg text-xs font-bold hover:bg-[#13eca4]/25 transition-colors"
+                    disabled={printing}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#13eca4]/15 text-[#13eca4] border border-[#13eca4]/30 rounded-lg text-xs font-bold hover:bg-[#13eca4]/25 transition-colors disabled:opacity-60"
                   >
-                    <span className="material-symbols-outlined text-sm">download</span>
-                    Download PDF Certificate
+                    <span className={`material-symbols-outlined text-sm ${printing ? "animate-spin" : ""}`}>
+                      {printing ? "progress_activity" : "download"}
+                    </span>
+                    {printing ? "Preparing…" : "Download PDF Certificate"}
                   </button>
                 </div>
               </div>
@@ -231,5 +286,21 @@ export default function ChallengeWinnerPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ChallengeWinnerPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen bg-[#0a1a16]">
+          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+            progress_activity
+          </span>
+        </div>
+      }
+    >
+      <WinnerInner />
+    </Suspense>
   );
 }

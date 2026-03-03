@@ -37,7 +37,7 @@ export default function StudentSidebar() {
   const initials = getInitials(displayName);
   const level = appUser?.level ?? 1;
   const xp = appUser?.xp ?? 0;
-  const xpForNextLevel = Math.ceil((level + 1) / 1) * 1000; // each level = 1000 XP threshold
+  const xpForNextLevel = level * 1000; // each level requires level × 1000 XP
   const xpPercent = xpForNextLevel > 0 ? Math.min(100, Math.round((xp / xpForNextLevel) * 100)) : 0;
 
   const handleSignOut = async () => {

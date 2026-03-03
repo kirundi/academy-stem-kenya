@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { checkRateLimit, resetRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -9,6 +10,24 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { error: "A valid 6-character student code is required" },
       { status: 400 }
+    );
+  }
+
+  // Rate limit: 10 attempts per IP per 15 minutes.
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const rateLimitKey = `slr_${ip}`;
+  const limit = await checkRateLimit(rateLimitKey, 10, 15 * 60 * 1000);
+  if (!limit.allowed) {
+    const retryAfterSec = Math.ceil((limit.resetAt - Date.now()) / 1000);
+    return NextResponse.json(
+      { error: "Too many attempts. Please wait before trying again." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(retryAfterSec),
+          "X-RateLimit-Reset": String(limit.resetAt),
+        },
+      }
     );
   }
 
@@ -32,7 +51,7 @@ export async function POST(request: NextRequest) {
   const studentData = studentDoc.data();
   const uid = studentDoc.id;
 
-  // Fetch school name for display
+  // Fetch school name for display.
   let schoolName = "School";
   if (studentData.schoolId) {
     const schoolDoc = await adminDb.collection("schools").doc(studentData.schoolId).get();
@@ -41,13 +60,13 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Shared name verification
+  // Shared name verification.
   const storedFirstName = (studentData.displayName || "").split(" ")[0].toLowerCase();
   const providedFirstName = (firstName || "").trim().toLowerCase();
   const nameProvided = firstName && typeof firstName === "string" && firstName.trim();
   const nameMatches = nameProvided && storedFirstName === providedFirstName;
 
-  // Step 1: verify code + firstName → return student profile (no auth token)
+  // Step 1: verify code + firstName → return student profile (no auth token).
   if (!confirm) {
     if (!nameProvided) {
       return NextResponse.json({ error: "First name is required." }, { status: 400 });
@@ -68,11 +87,10 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  // Step 2: verify first name and generate custom token
+  // Step 2: verify first name and issue custom token.
   if (!nameProvided) {
     return NextResponse.json({ error: "First name is required to log in." }, { status: 400 });
   }
-
   if (!nameMatches) {
     return NextResponse.json(
       { error: "That name doesn't match this code. Try again or ask your teacher." },
@@ -81,10 +99,10 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Note: The `requiresPasswordChange` flag is intentionally not checked here.
-    // Student accounts are passwordless (they use codes + names to log in),
-    // so the password change flow is not applicable to them.
     const customToken = await adminAuth.createCustomToken(uid);
+
+    // Successful login — reset the rate limit bucket for this IP.
+    await resetRateLimit(rateLimitKey);
 
     return NextResponse.json({
       found: true,

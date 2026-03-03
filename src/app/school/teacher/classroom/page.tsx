@@ -5,8 +5,11 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useTeacherData } from "@/hooks/useTeacherData";
 import { useCreateDoc, useCollection } from "@/hooks/useFirestore";
 import { where } from "firebase/firestore";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import { logActivity } from "@/lib/activity-logger";
 import type { Course, Enrollment } from "@/lib/types";
+import { generateJoinCode } from "@/lib/client-code";
 
 interface RosterStudent {
   id: string;
@@ -78,7 +81,21 @@ export default function TeacherClassroomPage() {
   const handleSyncGoogleClassroom = async () => {
     setSyncing(true);
     try {
-      const res = await fetch("/api/google-classroom/sync", { method: "POST" });
+      // Trigger Google OAuth to get a fresh access token scoped to Classroom
+      const provider = new GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/classroom.rosters.readonly");
+      provider.addScope("https://www.googleapis.com/auth/classroom.courses.readonly");
+      const result = await signInWithPopup(auth, provider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const accessToken = credential?.accessToken;
+
+      if (!accessToken) throw new Error("Could not obtain Google access token");
+
+      const res = await fetch("/api/google-classroom/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken }),
+      });
       if (!res.ok) throw new Error("Sync failed");
       if (appUser) {
         await logActivity(appUser.uid, "sync", "Synced Google Classroom data");
@@ -93,10 +110,7 @@ export default function TeacherClassroomPage() {
 
   const handleCreateClassroom = async () => {
     if (!appUser || !newClassName.trim()) return;
-    const joinCode =
-      newClassName.trim().substring(0, 4).toUpperCase() +
-      "-" +
-      Math.random().toString(36).substring(2, 5).toUpperCase();
+    const joinCode = generateJoinCode();
     await createClassroom({
       name: newClassName.trim(),
       subject: newClassSubject.trim() || "STEM",

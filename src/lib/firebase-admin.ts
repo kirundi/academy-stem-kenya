@@ -19,12 +19,28 @@ const adminApp =
 const adminAuth = getAuth(adminApp);
 const adminDb = getFirestore(adminApp);
 
-/** Set role & schoolId as Firebase custom claims on the user's token. */
+import type { Permission } from "@/lib/permissions";
+import { resolvePermissions } from "@/lib/permissions";
+
+/** Set role, schoolId, permissions, and schoolIds as Firebase custom claims. */
 export async function setUserClaims(
   uid: string,
-  claims: { role: string; schoolId: string | null }
+  claims: {
+    role: string;
+    schoolId: string | null;
+    permissions?: Permission[];
+    schoolIds?: string[] | null;
+  }
 ) {
-  await adminAuth.setCustomUserClaims(uid, claims);
+  const customClaims: Record<string, unknown> = {
+    role: claims.role,
+    schoolId: claims.schoolId,
+    permissions: resolvePermissions(claims.role, claims.permissions),
+  };
+  if (claims.schoolIds != null) {
+    customClaims.schoolIds = claims.schoolIds;
+  }
+  await adminAuth.setCustomUserClaims(uid, customClaims);
 }
 
 export { adminApp, adminAuth, adminDb };

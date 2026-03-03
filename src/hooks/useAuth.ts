@@ -9,7 +9,6 @@ import {
 } from "firebase/auth";
 import {
   doc,
-  getDoc,
   setDoc,
   serverTimestamp,
   query,
@@ -20,42 +19,15 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { UserRole } from "@/lib/types";
+import { decodeJWTPayload } from "@/lib/jwt";
 
-/**
- * Creates the server-side session cookie from a Firebase ID token.
- * Retries once with a fresh token if the first attempt fails, to handle
- * transient network errors or token edge cases.
- */
-async function setSessionCookie(idToken: string): Promise<void> {
-  const attempt = async (token: string) => {
-    const res = await fetch("/api/auth/session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idToken: token }),
-    });
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error(data.error || "Failed to create session");
-    }
-  };
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
 
-  try {
-    await attempt(idToken);
-  } catch (firstError) {
-    // Retry once with a force-refreshed token
-    try {
-      const user = auth.currentUser;
-      if (!user) throw firstError;
-      const freshToken = await user.getIdToken(true);
-      await attempt(freshToken);
-    } catch {
-      throw firstError; // surface the original error
-    }
-  }
-}
-
-async function clearSessionCookie() {
-  await fetch("/api/auth/session", { method: "DELETE" });
+interface SessionOptions {
+  remember?: boolean;
+  isStudent?: boolean;
 }
 
 interface ClaimsResult {
@@ -64,9 +36,52 @@ interface ClaimsResult {
 }
 
 /**
- * Asks the server to set custom claims from the user's Firestore profile.
- * Returns the role and whether a password change is required.
- * @throws Will throw an error if the API call fails.
+ * Creates the server-side session cookie from a Firebase ID token.
+ * Retries once with a fresh token on transient failures.
+ * Returns requiresPasswordChange so callers can redirect without an extra call.
+ */
+async function setSessionCookie(
+  idToken: string,
+  options: SessionOptions = {}
+): Promise<ClaimsResult> {
+  const attempt = async (token: string): Promise<ClaimsResult> => {
+    const res = await fetch("/api/auth/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken: token, ...options }),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || "Failed to create session");
+    }
+    const data = await res.json();
+    return {
+      role: null,                       // caller fills this from token claims
+      requiresPasswordChange: (data.requiresPasswordChange as boolean) ?? false,
+    };
+  };
+
+  try {
+    return await attempt(idToken);
+  } catch (firstError) {
+    try {
+      const user = auth.currentUser;
+      if (!user) throw firstError;
+      const freshToken = await user.getIdToken(true);
+      return await attempt(freshToken);
+    } catch {
+      throw firstError;
+    }
+  }
+}
+
+async function clearSessionCookie() {
+  await fetch("/api/auth/session", { method: "DELETE" });
+}
+
+/**
+ * Sets Firebase custom claims from the user's Firestore profile.
+ * Used as a fallback for legacy users whose claims were never written at creation.
  */
 async function setClaimsFromProfile(idToken: string): Promise<ClaimsResult> {
   const res = await fetch("/api/auth/set-claims", {
@@ -74,14 +89,10 @@ async function setClaimsFromProfile(idToken: string): Promise<ClaimsResult> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ idToken }),
   });
-
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));
-    const errorMessage = data.error || "Failed to set custom claims";
-    console.error("set-claims API call failed:", errorMessage);
-    throw new Error(errorMessage);
+    throw new Error(data.error || "Failed to set custom claims");
   }
-
   const data = await res.json();
   return {
     role: (data.role as string) ?? null,
@@ -89,30 +100,50 @@ async function setClaimsFromProfile(idToken: string): Promise<ClaimsResult> {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Public hook
+// ---------------------------------------------------------------------------
+
 export function useAuth() {
   /**
    * Email + password sign-in for staff and admins.
-   * Returns the user's role so the caller can redirect immediately
-   * without waiting for an additional Firestore read.
+   *
+   * Fast path (new users): claims already embedded in token → 2 round trips.
+   * Fallback path (legacy users): set-claims on first login → 3 round trips.
    */
-  async function signIn(email: string, password: string): Promise<ClaimsResult> {
+  async function signIn(
+    email: string,
+    password: string,
+    remember = false
+  ): Promise<ClaimsResult> {
     const cred = await signInWithEmailAndPassword(auth, email, password);
 
     try {
-      // Set custom claims on the Auth user from the Firestore profile.
-      const idToken = await cred.user.getIdToken();
-      const claims = await setClaimsFromProfile(idToken);
+      // Force-refresh to pick up any claims written at account creation.
+      const idToken = await cred.user.getIdToken(true);
+      const payload = decodeJWTPayload(idToken);
+      const existingRole = payload?.role as string | undefined;
 
-      // Force-refresh so the new token carries the freshly written claims,
-      // then create the server session cookie with that token.
-      const freshToken = await cred.user.getIdToken(true);
-      await setSessionCookie(freshToken);
+      let role: string | null;
+      let requiresPasswordChange: boolean;
 
-      return claims;
+      if (existingRole) {
+        // Claims already present — skip set-claims entirely.
+        const sessionResult = await setSessionCookie(idToken, { remember });
+        role = existingRole;
+        requiresPasswordChange = sessionResult.requiresPasswordChange;
+      } else {
+        // Legacy user: set claims first, then force-refresh and create session.
+        const claims = await setClaimsFromProfile(idToken);
+        const freshToken = await cred.user.getIdToken(true);
+        const sessionResult = await setSessionCookie(freshToken, { remember });
+        role = claims.role;
+        requiresPasswordChange = sessionResult.requiresPasswordChange;
+      }
+
+      return { role, requiresPasswordChange };
     } catch (error) {
-      // If setting claims or session fails, sign out to prevent inconsistent state.
       await firebaseSignOut(auth);
-      // Ensure the client-side session is also cleared.
       await clearSessionCookie();
       throw error;
     }
@@ -136,7 +167,6 @@ export function useAuth() {
         displayName: `${data.firstName} ${data.lastName}`,
       });
 
-      // Find or reference the school
       let schoolId: string | null = null;
       const schoolQuery = query(collection(db, "schools"), where("name", "==", data.school));
       const schoolSnap = await getDocs(schoolQuery);
@@ -144,7 +174,6 @@ export function useAuth() {
         schoolId = schoolSnap.docs[0].id;
       }
 
-      // Create user document
       await setDoc(doc(db, "users", user.uid), {
         email: data.email,
         displayName: `${data.firstName} ${data.lastName}`,
@@ -158,13 +187,13 @@ export function useAuth() {
         updatedAt: serverTimestamp(),
       });
 
+      // Claims set server-side via set-claims (Firestore doc must exist first).
       const idToken = await user.getIdToken();
       await setClaimsFromProfile(idToken);
       const freshToken = await user.getIdToken(true);
       await setSessionCookie(freshToken);
       return user;
     } catch (error) {
-      // If any step after user creation fails, sign out to prevent inconsistent state.
       await firebaseSignOut(auth);
       await clearSessionCookie();
       throw error;
@@ -217,7 +246,6 @@ export function useAuth() {
       await setSessionCookie(freshToken);
       return { user, schoolId: schoolRef.id };
     } catch (error) {
-      // If any step after user creation fails, sign out to prevent inconsistent state.
       await firebaseSignOut(auth);
       await clearSessionCookie();
       throw error;
@@ -250,11 +278,10 @@ export function useAuth() {
 
     const cred = await signInWithCustomToken(auth, data.customToken);
     const idToken = await cred.user.getIdToken();
-    await setSessionCookie(idToken);
+    // Students always get a 7-day session.
+    await setSessionCookie(idToken, { isStudent: true });
     return cred.user;
   }
-
-
 
   /** Re-mints the server session cookie from the current Firebase token. */
   async function refreshSession(): Promise<boolean> {

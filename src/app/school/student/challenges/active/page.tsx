@@ -1,20 +1,26 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useDocument } from "@/hooks/useFirestore";
+import type { Challenge } from "@/lib/types";
 
-function useCountdown(initial: number) {
-  const [s, setS] = useState(initial);
+function useCountdownToMs(targetMs: number | null) {
+  const [remaining, setRemaining] = useState(targetMs ? Math.max(0, targetMs - Date.now()) : 0);
   useEffect(() => {
-    const id = setInterval(() => setS((v) => Math.max(0, v - 1)), 1000);
+    if (!targetMs) return;
+    const id = setInterval(() => setRemaining(Math.max(0, targetMs - Date.now())), 1000);
     return () => clearInterval(id);
-  }, []);
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const sec = s % 60;
+  }, [targetMs]);
+  const total = Math.floor(remaining / 1000);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const sec = total % 60;
   const pad = (n: number) => String(n).padStart(2, "0");
-  return { display: `${pad(h)}:${pad(m)}:${pad(sec)}`, expired: s === 0 };
+  return { display: `${pad(h)}:${pad(m)}:${pad(sec)}`, expired: remaining === 0 };
 }
+
 
 type Tab = "prompt" | "resources" | "guidelines";
 
@@ -42,11 +48,27 @@ const rules = [
   "Late submissions (up to 15 mins) will face a 10% point penalty.",
 ];
 
-export default function StudentActiveChallengeWorkspace() {
+function WorkspaceInner() {
+  const searchParams = useSearchParams();
+  const challengeId = searchParams.get("id") ?? null;
+
+  const { data: challenge } = useDocument<Challenge>("challenges", challengeId);
+
   const [activeTab, setActiveTab] = useState<Tab>("prompt");
+  const switchToResources = () => setActiveTab("resources");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const timer = useCountdown(42 * 60 + 18);
+
+  function getEndMs(c: Challenge | null): number | null {
+    if (!c) return null;
+    if (c.endsAt instanceof Date) return c.endsAt.getTime();
+    if (typeof (c.endsAt as unknown as { seconds: number }).seconds === "number")
+      return (c.endsAt as unknown as { seconds: number }).seconds * 1000;
+    return null;
+  }
+
+  const endMs = getEndMs(challenge);
+  const timer = useCountdownToMs(endMs);
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -75,12 +97,12 @@ export default function StudentActiveChallengeWorkspace() {
               Dashboard
             </Link>
             <span className="text-sm font-medium text-[#13eca4]">Active Challenge</span>
-            <Link
-              href="#"
+            <button
+              onClick={switchToResources}
               className="text-sm font-medium text-slate-400 hover:text-[#13eca4] transition-colors"
             >
               Resources
-            </Link>
+            </button>
           </nav>
         </div>
 
@@ -192,13 +214,14 @@ export default function StudentActiveChallengeWorkspace() {
           <div className="mb-8">
             <div className="flex items-center gap-2 text-[#13eca4] mb-2">
               <span className="text-xs font-bold uppercase tracking-widest">
-                Active Challenge #42
+                {challenge?.theme ?? "Active Challenge"}
               </span>
             </div>
-            <h1 className="text-4xl font-black tracking-tight mb-4">Sustainable Energy Model</h1>
+            <h1 className="text-4xl font-black tracking-tight mb-4">
+              {challenge?.title ?? "Loading…"}
+            </h1>
             <p className="text-slate-400 text-base leading-relaxed">
-              Your mission is to design a resilient and renewable energy grid for a simulated
-              coastal city of 50,000 residents. Balance cost, efficiency, and environmental impact.
+              {challenge?.description ?? ""}
             </p>
           </div>
 
@@ -233,9 +256,7 @@ export default function StudentActiveChallengeWorkspace() {
                   The Problem
                 </h2>
                 <p className="text-slate-400 leading-relaxed mb-6">
-                  Current power grids rely heavily on non-renewable sources that are vulnerable to
-                  extreme weather events. In this hackathon, you must incorporate at least three
-                  different types of renewable energy sources (Wind, Solar, Hydro, or Geothermal).
+                  {challenge?.description ?? "Challenge details are loading…"}
                 </p>
                 <div className="aspect-video w-full rounded-xl bg-[#1a2e30] border border-[rgba(19,236,164,0.1)] overflow-hidden relative group flex items-center justify-center">
                   <div className="absolute inset-0 bg-linear-to-br from-[#13eca4]/10 to-transparent" />
@@ -243,7 +264,7 @@ export default function StudentActiveChallengeWorkspace() {
                     <span className="material-symbols-outlined text-4xl">play_arrow</span>
                   </button>
                   <div className="absolute bottom-4 left-4 bg-[#0d1f1a]/80 px-3 py-1 rounded text-xs font-medium border border-[rgba(19,236,164,0.2)] text-[#13eca4]">
-                    Reference: Smart Grid Fundamentals
+                    Reference: {challenge?.title ?? "Challenge Reference"}
                   </div>
                 </div>
               </section>
@@ -378,5 +399,13 @@ export default function StudentActiveChallengeWorkspace() {
         </aside>
       </div>
     </div>
+  );
+}
+
+export default function StudentActiveChallengeWorkspace() {
+  return (
+    <Suspense>
+      <WorkspaceInner />
+    </Suspense>
   );
 }

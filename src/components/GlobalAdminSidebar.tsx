@@ -23,15 +23,15 @@ const baseNavItems = [
 export default function GlobalAdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { appUser } = useAuthContext();
+  const { appUser, hasPermission } = useAuthContext();
   const { signOut } = useAuth();
 
   const isSuperAdmin = appUser?.role === "super_admin";
   const badgeLabel = isSuperAdmin ? "Super Admin" : "Admin";
   const badgeColor = isSuperAdmin ? "#f59e0b" : "#ff4d4d";
 
-  // Only super_admin sees Settings
-  const navItems = isSuperAdmin
+  // Show Settings to anyone with manage_settings permission
+  const navItems = hasPermission("manage_settings")
     ? [...baseNavItems, { href: "/dashboard/settings", icon: "settings", label: "Settings" }]
     : baseNavItems;
 

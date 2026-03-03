@@ -5,13 +5,22 @@ import type { Firestore } from "firebase-admin/firestore";
 const ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const CODE_LENGTH = 6;
 
-export function generateStudentCode(): string {
-  const bytes = crypto.randomBytes(CODE_LENGTH);
+/** Generates a random code of the given length using crypto-safe randomness. */
+function generateCode(length = CODE_LENGTH): string {
+  const bytes = crypto.randomBytes(length);
   let code = "";
-  for (let i = 0; i < CODE_LENGTH; i++) {
+  for (let i = 0; i < length; i++) {
     code += ALPHABET[bytes[i] % ALPHABET.length];
   }
   return code;
+}
+
+export function generateStudentCode(): string {
+  return generateCode();
+}
+
+export function generateClassroomJoinCode(): string {
+  return generateCode();
 }
 
 export async function generateUniqueStudentCode(db: Firestore, maxAttempts = 5): Promise<string> {

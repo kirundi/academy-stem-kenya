@@ -19,6 +19,9 @@ const healthColor = (h: number) => {
 export default function SchoolsManagementPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
+  const [rejectModal, setRejectModal] = useState<{ schoolId: string; schoolName: string } | null>(null);
+  const [rejectReason, setRejectReason] = useState("");
   const { schools, loading } = useGlobalAdminData();
   const { update } = useUpdateDoc("schools");
 
@@ -41,6 +44,40 @@ export default function SchoolsManagementPage() {
   });
 
   const needsAttention = schools.filter((s) => (s.healthScore ?? 0) < 60);
+
+  async function handleApprove(schoolId: string) {
+    setActionLoading(schoolId + "_approve");
+    try {
+      await update(schoolId, { status: "active" });
+      await fetch("/api/admin/notify-school-decision", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ schoolId, decision: "approved" }),
+      });
+    } finally {
+      setActionLoading(null);
+    }
+  }
+
+  async function handleRejectSubmit() {
+    if (!rejectModal || !rejectReason.trim()) return;
+    setActionLoading(rejectModal.schoolId + "_reject");
+    try {
+      await fetch("/api/admin/notify-school-decision", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          schoolId: rejectModal.schoolId,
+          decision: "rejected",
+          reason: rejectReason.trim(),
+        }),
+      });
+      setRejectModal(null);
+      setRejectReason("");
+    } finally {
+      setActionLoading(null);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#10221c]">
@@ -119,7 +156,7 @@ export default function SchoolsManagementPage() {
             />
           </div>
           <div className="flex gap-2">
-            {["all", "active", "review", "pending"].map((s) => (
+            {["all", "active", "review", "pending", "rejected"].map((s) => (
               <button
                 key={s}
                 onClick={() => setStatusFilter(s)}
@@ -161,6 +198,8 @@ export default function SchoolsManagementPage() {
                     (s.plan ?? "community").charAt(0).toUpperCase() +
                     (s.plan ?? "community").slice(1);
                   const hc = healthColor(s.healthScore ?? 0);
+                  const isApproving = actionLoading === s.id + "_approve";
+                  const isRejecting = actionLoading === s.id + "_reject";
                   return (
                     <tr
                       key={s.id}
@@ -195,7 +234,15 @@ export default function SchoolsManagementPage() {
                       </td>
                       <td className="px-4 py-4 text-center">
                         <span
-                          className={`text-xs font-bold capitalize ${s.status === "active" ? "text-emerald-500" : s.status === "review" ? "text-amber-500" : "text-slate-400"}`}
+                          className={`text-xs font-bold capitalize ${
+                            s.status === "active"
+                              ? "text-emerald-500"
+                              : s.status === "review"
+                              ? "text-amber-500"
+                              : s.status === "rejected"
+                              ? "text-red-400"
+                              : "text-slate-400"
+                          }`}
                         >
                           {s.status}
                         </span>
@@ -215,12 +262,25 @@ export default function SchoolsManagementPage() {
                       </td>
                       <td className="px-4 py-4 text-right">
                         {s.status === "review" && (
-                          <button
-                            onClick={() => update(s.id, { status: "active" })}
-                            className="text-[#13eca4] hover:opacity-80 transition-colors text-xs font-semibold mr-3"
-                          >
-                            Approve
-                          </button>
+                          <>
+                            <button
+                              disabled={isApproving || isRejecting}
+                              onClick={() => handleApprove(s.id)}
+                              className="text-[#13eca4] hover:opacity-80 transition-colors text-xs font-semibold mr-3 disabled:opacity-40"
+                            >
+                              {isApproving ? "Approving…" : "Approve"}
+                            </button>
+                            <button
+                              disabled={isApproving || isRejecting}
+                              onClick={() => {
+                                setRejectModal({ schoolId: s.id, schoolName: s.name });
+                                setRejectReason("");
+                              }}
+                              className="text-red-400 hover:opacity-80 transition-colors text-xs font-semibold mr-3 disabled:opacity-40"
+                            >
+                              Reject
+                            </button>
+                          </>
                         )}
                         <button className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
                           Audit
@@ -242,6 +302,57 @@ export default function SchoolsManagementPage() {
           </div>
         </div>
       </div>
+
+      {/* Reject Modal */}
+      {rejectModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-[rgba(255,77,77,0.12)] flex items-center justify-center">
+                <span className="material-symbols-outlined text-red-400 text-[22px]">
+                  cancel
+                </span>
+              </div>
+              <div>
+                <h2 className="text-white font-bold text-base">Reject Application</h2>
+                <p className="text-slate-400 text-xs">{rejectModal.schoolName}</p>
+              </div>
+            </div>
+
+            <p className="text-slate-400 text-sm mb-4">
+              Please provide a reason for rejection. This will be shared with the school admin.
+            </p>
+
+            <textarea
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              maxLength={300}
+              rows={4}
+              placeholder="e.g. Incomplete documentation provided. Please resubmit with your school registration certificate."
+              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(255,77,77,0.5)] resize-none mb-1"
+            />
+            <p className="text-slate-600 text-xs text-right mb-5">
+              {rejectReason.length}/300
+            </p>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setRejectModal(null)}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={!rejectReason.trim() || actionLoading === rejectModal.schoolId + "_reject"}
+                onClick={handleRejectSubmit}
+                className="flex-1 py-2.5 rounded-xl text-sm font-bold bg-red-500 text-white hover:bg-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {actionLoading === rejectModal.schoolId + "_reject" ? "Rejecting…" : "Reject Application"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

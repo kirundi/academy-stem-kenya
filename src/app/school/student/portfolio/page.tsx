@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useStudentData } from "@/hooks/useStudentData";
 import { useCollection } from "@/hooks/useFirestore";
@@ -90,6 +90,15 @@ export default function PortfolioPage() {
     });
   }, [submissions, courseMap]);
 
+  const [filter, setFilter] = useState("All Projects");
+
+  const filteredProjects = useMemo(() => {
+    if (filter === "Graded") return projects.filter((p) => p.status === "graded");
+    if (filter === "Under Review") return projects.filter((p) => p.status === "pending");
+    if (filter === "Drafts") return projects.filter((p) => p.status === "draft");
+    return projects;
+  }, [projects, filter]);
+
   // Compute stats
   const totalSubmitted = projects.length;
   const gradedCount = projects.filter((p) => p.status === "graded").length;
@@ -173,11 +182,12 @@ export default function PortfolioPage() {
 
         {/* Filter */}
         <div className="flex items-center gap-3 mb-6">
-          {["All Projects", "Graded", "Under Review", "Drafts"].map((f, i) => (
+          {["All Projects", "Graded", "Under Review", "Drafts"].map((f) => (
             <button
               key={f}
+              onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                i === 0
+                filter === f
                   ? "bg-[#13eca4] text-[#10221c]"
                   : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-white"
               }`}
@@ -188,9 +198,9 @@ export default function PortfolioPage() {
         </div>
 
         {/* Projects Grid */}
-        {projects.length > 0 ? (
+        {filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {projects.map((project) => {
+            {filteredProjects.map((project) => {
               const statusStyle = statusStyles[project.status] ?? statusStyles.draft;
               const statusLabel = statusLabels[project.status] ?? project.status;
               return (

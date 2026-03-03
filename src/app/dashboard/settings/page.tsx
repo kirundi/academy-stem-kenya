@@ -16,7 +16,7 @@ interface Settings {
 }
 
 export default function PlatformSettingsPage() {
-  const { appUser, loading: authLoading } = useAuthContext();
+  const { appUser, loading: authLoading, hasPermission } = useAuthContext();
   const router = useRouter();
   const [settings, setSettings] = useState<Settings | null>(null);
   const [loading, setLoading] = useState(true);
@@ -24,13 +24,13 @@ export default function PlatformSettingsPage() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (!authLoading && appUser?.role !== "super_admin") {
+    if (!authLoading && !hasPermission("manage_settings")) {
       router.replace("/dashboard");
     }
   }, [appUser, authLoading, router]);
 
   useEffect(() => {
-    if (appUser?.role !== "super_admin") return;
+    if (!hasPermission("manage_settings")) return;
     fetch("/api/settings")
       .then((r) => r.json())
       .then((data) => {
@@ -67,7 +67,7 @@ export default function PlatformSettingsPage() {
     });
   };
 
-  if (authLoading || appUser?.role !== "super_admin") {
+  if (authLoading || !hasPermission("manage_settings")) {
     return (
       <div className="flex items-center justify-center h-64">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">

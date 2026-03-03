@@ -25,7 +25,12 @@ export async function POST(request: NextRequest) {
     const schoolId = (data.schoolId as string) ?? null;
     const requiresPasswordChange = (data.requiresPasswordChange as boolean) ?? false;
 
-    await setUserClaims(decoded.uid, { role, schoolId });
+    await setUserClaims(decoded.uid, {
+      role,
+      schoolId,
+      permissions: data.permissions,
+      schoolIds: data.schoolIds ?? null,
+    });
 
     return NextResponse.json({ status: "success", role, schoolId, requiresPasswordChange });
   } catch (error) {

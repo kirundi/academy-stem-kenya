@@ -3,13 +3,23 @@
 import { useState } from "react";
 import { useTeacherData } from "@/hooks/useTeacherData";
 import { useCollection } from "@/hooks/useFirestore";
-import { where } from "firebase/firestore";
+import { where, arrayUnion, arrayRemove, updateDoc, doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import type { Enrollment } from "@/lib/types";
+
+interface AssignModal {
+  courseId: string;
+  courseTitle: string;
+  courseColor: string;
+}
 
 export default function TeacherCoursesPage() {
   const { allCourses, classrooms, loading } = useTeacherData();
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [assignModal, setAssignModal] = useState<AssignModal | null>(null);
+  const [selections, setSelections] = useState<Record<string, boolean>>({});
+  const [assignSaving, setAssignSaving] = useState(false);
 
   // Get all courseIds assigned to teacher's classrooms
   const assignedCourseIds = new Set(classrooms.flatMap((c) => c.courseIds ?? []));
@@ -28,6 +38,41 @@ export default function TeacherCoursesPage() {
     if (!studentsPerCourse.has(e.courseId)) studentsPerCourse.set(e.courseId, new Set());
     studentsPerCourse.get(e.courseId)!.add(e.studentId);
   });
+
+  function openAssignModal(courseId: string, courseTitle: string, courseColor: string) {
+    // Pre-populate selections from current classroom state
+    const initial: Record<string, boolean> = {};
+    classrooms.forEach((c) => {
+      initial[c.id] = (c.courseIds ?? []).includes(courseId);
+    });
+    setSelections(initial);
+    setAssignModal({ courseId, courseTitle, courseColor });
+  }
+
+  async function saveAssignments() {
+    if (!assignModal) return;
+    setAssignSaving(true);
+    try {
+      await Promise.all(
+        classrooms.map(async (c) => {
+          const wasAssigned = (c.courseIds ?? []).includes(assignModal.courseId);
+          const nowAssigned = selections[c.id] ?? false;
+          if (nowAssigned && !wasAssigned) {
+            await updateDoc(doc(db, "classrooms", c.id), {
+              courseIds: arrayUnion(assignModal.courseId),
+            });
+          } else if (!nowAssigned && wasAssigned) {
+            await updateDoc(doc(db, "classrooms", c.id), {
+              courseIds: arrayRemove(assignModal.courseId),
+            });
+          }
+        })
+      );
+      setAssignModal(null);
+    } finally {
+      setAssignSaving(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -183,12 +228,20 @@ export default function TeacherCoursesPage() {
 
                 <div className="mt-auto">
                   {course.assigned ? (
-                    <button className="w-full flex items-center justify-center gap-2 py-2.5 bg-[rgba(255,255,255,0.06)] text-slate-300 rounded-xl text-sm font-semibold hover:bg-[rgba(255,255,255,0.1)] transition-colors">
+                    <button
+                      onClick={() =>
+                        openAssignModal(course.id, course.title, course.color || "#13eca4")
+                      }
+                      className="w-full flex items-center justify-center gap-2 py-2.5 bg-[rgba(255,255,255,0.06)] text-slate-300 rounded-xl text-sm font-semibold hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                    >
                       <span className="material-symbols-outlined text-[18px]">settings</span>
                       Manage Assignment
                     </button>
                   ) : (
                     <button
+                      onClick={() =>
+                        openAssignModal(course.id, course.title, course.color || "#13eca4")
+                      }
                       className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all hover:opacity-90 shadow-lg"
                       style={{
                         background: course.color || "#13eca4",
@@ -206,6 +259,82 @@ export default function TeacherCoursesPage() {
           ))}
         </div>
       </div>
+
+      {/* Assign to Classroom Modal */}
+      {assignModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <h2 className="text-white font-bold text-base">Assign to Classrooms</h2>
+                <p className="text-slate-400 text-xs mt-0.5">{assignModal.courseTitle}</p>
+              </div>
+              <button
+                onClick={() => setAssignModal(null)}
+                className="text-slate-500 hover:text-white transition-colors"
+              >
+                <span className="material-symbols-outlined text-[22px]">close</span>
+              </button>
+            </div>
+
+            {classrooms.length === 0 ? (
+              <div className="text-center py-8 text-slate-500">
+                <span className="material-symbols-outlined text-[36px] mb-2 block">
+                  co_present
+                </span>
+                <p className="text-sm">No classrooms yet. Create one first.</p>
+              </div>
+            ) : (
+              <div className="space-y-2 mb-6 max-h-64 overflow-y-auto">
+                {classrooms.map((c) => {
+                  const checked = selections[c.id] ?? false;
+                  return (
+                    <label
+                      key={c.id}
+                      className="flex items-center gap-3 p-3 rounded-xl cursor-pointer hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        onChange={(e) =>
+                          setSelections((prev) => ({ ...prev, [c.id]: e.target.checked }))
+                        }
+                        className="w-4 h-4 accent-[#13eca4]"
+                      />
+                      <div className="flex-1">
+                        <p className="text-white text-sm font-semibold">{c.name}</p>
+                        <p className="text-slate-500 text-xs">
+                          {c.subject} · Grade {c.grade} · {c.enrolled ?? 0} students
+                        </p>
+                      </div>
+                      {checked && (
+                        <span className="text-[#13eca4] text-xs font-bold">Assigned</span>
+                      )}
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setAssignModal(null)}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={assignSaving || classrooms.length === 0}
+                onClick={saveAssignments}
+                className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-opacity hover:opacity-90 disabled:opacity-50"
+                style={{ background: assignModal.courseColor, color: "#10221c" }}
+              >
+                {assignSaving ? "Saving…" : "Save"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

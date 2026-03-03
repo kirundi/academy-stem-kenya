@@ -5,6 +5,9 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { AppUser, UserRole } from "@/lib/types";
+import { decodeJWTPayload } from "@/lib/jwt";
+import type { Permission } from "@/lib/permissions";
+import { resolvePermissions } from "@/lib/permissions";
 
 interface AuthContextType {
   firebaseUser: User | null;
@@ -12,6 +15,8 @@ interface AuthContextType {
   loading: boolean;
   error: string | null;
   role: UserRole | null;
+  permissions: Permission[];
+  hasPermission: (p: Permission) => boolean;
   refreshUser: () => Promise<void>;
 }
 
@@ -21,6 +26,8 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
   error: null,
   role: null,
+  permissions: [],
+  hasPermission: () => false,
   refreshUser: async () => {},
 });
 
@@ -52,6 +59,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           requiresPasswordChange: data.requiresPasswordChange ?? false,
           createdAt: data.createdAt?.toDate?.() ?? new Date(),
           updatedAt: data.updatedAt?.toDate?.() ?? new Date(),
+          permissions: data.permissions,
+          schoolIds: data.schoolIds,
           studentCode: data.studentCode,
           age: data.age,
           grade: data.grade,
@@ -101,6 +110,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => unsubscribe();
   }, []);
 
+  // Silent session refresh: check once on auth state change, then hourly.
+  // If the session cookie expires within 24 hours, re-mint it silently so
+  // the user is never kicked out mid-session.
+  useEffect(() => {
+    if (!firebaseUser) return;
+
+    const refresh = async () => {
+      try {
+        const token = await firebaseUser.getIdToken();
+        const payload = decodeJWTPayload(token);
+        if (!payload) return;
+        const expMs = (payload.exp as number) * 1000;
+        const hoursLeft = (expMs - Date.now()) / 3_600_000;
+        if (hoursLeft > 0 && hoursLeft < 24) {
+          const freshToken = await firebaseUser.getIdToken(true);
+          await fetch("/api/auth/session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ idToken: freshToken }),
+          });
+        }
+      } catch {
+        // Non-fatal — the user will be redirected to login when the cookie expires.
+      }
+    };
+
+    refresh();
+    const id = setInterval(refresh, 60 * 60 * 1000); // check every hour
+    return () => clearInterval(id);
+  }, [firebaseUser]);
+
+  const effectivePermissions = appUser
+    ? resolvePermissions(appUser.role, appUser.permissions)
+    : [];
+
+  const checkPermission = (p: Permission): boolean => {
+    if (!appUser) return false;
+    if (appUser.role === "super_admin") return true;
+    return effectivePermissions.includes(p);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -109,6 +159,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         loading,
         error,
         role: appUser?.role ?? null,
+        permissions: effectivePermissions,
+        hasPermission: checkPermission,
         refreshUser,
       }}
     >

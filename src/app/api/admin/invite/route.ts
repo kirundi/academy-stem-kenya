@@ -1,40 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminAuth, adminDb, setUserClaims } from "@/lib/firebase-admin";
-import { cookies } from "next/headers";
+import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import crypto from "crypto";
-import { sendInviteEmail } from "@/lib/email";
+import { sendInviteTokenEmail } from "@/lib/email";
+import { requirePermission, hasPermission } from "@/lib/api-auth";
 
-async function getAuthUser() {
-  const cookieStore = await cookies();
-  const session = cookieStore.get("__session")?.value;
-  if (!session) return null;
-  try {
-    return await adminAuth.verifySessionCookie(session, true);
-  } catch {
-    return null;
-  }
-}
-
-async function requireAdmin() {
-  const user = await getAuthUser();
-  if (!user) return null;
-
-  const userDoc = await adminDb.collection("users").doc(user.uid).get();
-  const userData = userDoc.data();
-  if (!userData || (userData.role !== "super_admin" && userData.role !== "admin")) return null;
-
-  return { ...user, appUser: userData };
-}
+const PLATFORM_URL =
+  process.env.NEXT_PUBLIC_PLATFORM_URL ?? "https://academy.stemimpactcenterkenya.org";
 
 export async function POST(request: NextRequest) {
-  const caller = await requireAdmin();
+  const caller = await requirePermission("invite_users");
   if (!caller) {
-    return NextResponse.json({ error: "Unauthorized — admin access required" }, { status: 403 });
+    return NextResponse.json({ error: "Unauthorized — invite permission required" }, { status: 403 });
   }
 
   const body = await request.json();
-  const { email, displayName, role, schoolId } = body;
+  const { email, displayName, role, schoolId, permissions: invitePermissions, schoolIds: inviteSchoolIds } = body;
 
   if (!email || !displayName || !role) {
     return NextResponse.json(
@@ -43,12 +24,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Permission tiers: super_admin can invite anyone, admin can only invite teacher/school_admin
-  const callerRole = caller.appUser.role;
-  const superAdminRoles = ["admin", "school_admin", "teacher"];
-  const adminRoles = ["school_admin", "teacher"];
-
-  const allowedRoles = callerRole === "super_admin" ? superAdminRoles : adminRoles;
+  // Permission tiers: super_admin can invite anyone; admin can only invite teacher/school_admin.
+  const callerRole = caller.role;
+  const allowedRoles =
+    callerRole === "super_admin"
+      ? ["admin", "school_admin", "teacher"]
+      : ["school_admin", "teacher"];
 
   if (!allowedRoles.includes(role)) {
     return NextResponse.json(
@@ -57,62 +38,96 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const tempPassword = crypto.randomBytes(6).toString("base64url");
+  // Cannot grant permissions the caller themselves don't have
+  if (invitePermissions && Array.isArray(invitePermissions)) {
+    for (const p of invitePermissions) {
+      if (!hasPermission(caller, p)) {
+        return NextResponse.json(
+          { error: `Cannot grant permission you don't have: ${p}` },
+          { status: 403 }
+        );
+      }
+    }
+  }
+
+  // Check for an existing pending invite to avoid duplicates.
+  const existingSnap = await adminDb
+    .collection("invites")
+    .where("email", "==", email)
+    .where("status", "==", "pending")
+    .limit(1)
+    .get();
+
+  if (!existingSnap.empty) {
+    return NextResponse.json(
+      { error: "A pending invite already exists for this email address." },
+      { status: 409 }
+    );
+  }
+
+  // Generate a cryptographically secure token.
+  const token = crypto.randomBytes(32).toString("hex");
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+  const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 hours
 
   try {
-    const userRecord = await adminAuth.createUser({
+    // Store the invite record (keyed by token hash — plaintext never stored).
+    const inviteDoc: Record<string, unknown> = {
       email,
-      password: tempPassword,
       displayName,
-    });
+      role,
+      schoolId: schoolId || null,
+      invitedBy: caller.uid,
+      invitedByName: caller.displayName ?? "Administrator",
+      invitedAt: FieldValue.serverTimestamp(),
+      expiresAt,
+      status: "pending",
+    };
+    if (invitePermissions) inviteDoc.permissions = invitePermissions;
+    if (inviteSchoolIds) inviteDoc.schoolIds = inviteSchoolIds;
+    await adminDb.collection("invites").doc(tokenHash).set(inviteDoc);
 
-    await adminDb
-      .collection("users")
-      .doc(userRecord.uid)
-      .set({
-        email,
-        displayName,
-        role,
-        schoolId: schoolId || null,
-        createdAt: FieldValue.serverTimestamp(),
-        updatedAt: FieldValue.serverTimestamp(),
-      });
-
-    // Embed role + schoolId in the Firebase Auth token as custom claims
-    await setUserClaims(userRecord.uid, { role, schoolId: schoolId || null });
-
+    // Log the activity.
     await adminDb.collection("activities").add({
       userId: caller.uid,
       type: "admin_invite",
-      description: `Invited ${displayName} (${email}) as ${role}`,
+      description: `Sent invite to ${displayName} (${email}) for role: ${role}`,
       timestamp: FieldValue.serverTimestamp(),
     });
 
-    // Send invite email via Resend
+    const inviteLink = `${PLATFORM_URL}/accept-invite?token=${token}`;
+
+    // Send invite email with the link (no password in email).
     try {
-      await sendInviteEmail({ to: email, name: displayName, role, tempPassword });
+      await sendInviteTokenEmail({
+        to: email,
+        name: displayName,
+        role,
+        inviteLink,
+        inviterName: caller.displayName ?? "Administrator",
+      });
     } catch (emailErr) {
       console.error("Failed to send invite email:", emailErr);
+      // Non-fatal — admin can share the link manually.
     }
 
     return NextResponse.json({
       success: true,
-      uid: userRecord.uid,
       email,
-      tempPassword,
       role,
-      message: `${role} account created for ${email}`,
+      inviteLink,
+      message: `Invite sent to ${email}`,
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Failed to create user";
+    const message = err instanceof Error ? err.message : "Failed to create invite";
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
 export async function GET() {
-  const caller = await requireAdmin();
+  const caller = await requirePermission("manage_users");
   if (!caller) {
-    return NextResponse.json({ error: "Unauthorized — admin access required" }, { status: 403 });
+    return NextResponse.json({ error: "Unauthorized — manage_users permission required" }, { status: 403 });
   }
 
   const snap = await adminDb
@@ -120,11 +135,6 @@ export async function GET() {
     .where("role", "in", ["super_admin", "admin", "school_admin"])
     .get();
 
-  const admins = snap.docs.map((d) => ({
-    id: d.id,
-    ...d.data(),
-    password: undefined,
-  }));
-
+  const admins = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
   return NextResponse.json(admins);
 }

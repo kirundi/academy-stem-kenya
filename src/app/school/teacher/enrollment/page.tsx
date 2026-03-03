@@ -3,10 +3,11 @@
 import { useState, useCallback } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTeacherData } from "@/hooks/useTeacherData";
-import { useCollection } from "@/hooks/useFirestore";
+import { useCollection, useUpdateDoc, useDeleteDoc } from "@/hooks/useFirestore";
 import { where } from "firebase/firestore";
 import { logActivity } from "@/lib/activity-logger";
 import type { Enrollment, AppUser } from "@/lib/types";
+import { generateJoinCode } from "@/lib/client-code";
 
 type Tab = "roster" | "curriculum" | "insights";
 
@@ -25,6 +26,11 @@ export default function TeacherEnrollmentPage() {
   const [addStudentError, setAddStudentError] = useState("");
   const [createdStudentCode, setCreatedStudentCode] = useState("");
   const [codeCopiedStudent, setCodeCopiedStudent] = useState<string | null>(null);
+  const [resettingCode, setResettingCode] = useState(false);
+  const [removingStudentId, setRemovingStudentId] = useState<string | null>(null);
+
+  const { update: updateClassroom } = useUpdateDoc("classrooms");
+  const { remove: removeEnrollment } = useDeleteDoc("enrollments");
 
   const cls = classrooms[activeClassroomIdx] ?? null;
 
@@ -53,6 +59,7 @@ export default function TeacherEnrollmentPage() {
     const enrollment = enrollments.find((e) => e.studentId === sid);
     return {
       id: sid,
+      enrollmentId: enrollment?.id ?? null,
       name: user?.displayName ?? sid,
       studentCode: user?.studentCode ?? null,
       grade: user?.grade ?? null,
@@ -121,6 +128,31 @@ export default function TeacherEnrollmentPage() {
     setCodeCopiedStudent(code);
     setTimeout(() => setCodeCopiedStudent(null), 2000);
   };
+
+  const handleResetCode = useCallback(async () => {
+    if (!cls) return;
+    setResettingCode(true);
+    try {
+      const newCode = generateJoinCode();
+      await updateClassroom(cls.id, { joinCode: newCode });
+    } finally {
+      setResettingCode(false);
+    }
+  }, [cls, updateClassroom]);
+
+  const handleRemoveStudent = useCallback(
+    async (enrollmentId: string | null, studentName: string) => {
+      if (!enrollmentId) return;
+      if (!confirm(`Remove ${studentName} from ${cls?.name ?? "this class"}?`)) return;
+      setRemovingStudentId(enrollmentId);
+      try {
+        await removeEnrollment(enrollmentId);
+      } finally {
+        setRemovingStudentId(null);
+      }
+    },
+    [cls, removeEnrollment]
+  );
 
   if (loading) {
     return (
@@ -215,9 +247,13 @@ export default function TeacherEnrollmentPage() {
                     </span>
                   </button>
                 </div>
-                <button className="flex items-center gap-1 text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors border border-[rgba(255,255,255,0.08)] hover:border-[rgba(19,236,164,0.2)] px-3 py-2.5 rounded-xl">
-                  <span className="material-symbols-outlined text-[16px]">refresh</span>
-                  Reset
+                <button
+                  onClick={handleResetCode}
+                  disabled={resettingCode}
+                  className="flex items-center gap-1 text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors border border-[rgba(255,255,255,0.08)] hover:border-[rgba(19,236,164,0.2)] px-3 py-2.5 rounded-xl disabled:opacity-50"
+                >
+                  <span className={`material-symbols-outlined text-[16px] ${resettingCode ? "animate-spin" : ""}`}>refresh</span>
+                  {resettingCode ? "Resetting…" : "Reset"}
                 </button>
               </div>
             </div>
@@ -361,11 +397,13 @@ export default function TeacherEnrollmentPage() {
                                 </span>
                               </button>
                               <button
-                                className="text-slate-500 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-[rgba(255,77,77,0.08)]"
+                                onClick={() => handleRemoveStudent(s.enrollmentId, s.name)}
+                                disabled={removingStudentId === s.enrollmentId}
+                                className="text-slate-500 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-[rgba(255,77,77,0.08)] disabled:opacity-50"
                                 title="Remove Student"
                               >
                                 <span className="material-symbols-outlined text-[16px]">
-                                  person_remove
+                                  {removingStudentId === s.enrollmentId ? "hourglass_empty" : "person_remove"}
                                 </span>
                               </button>
                             </div>

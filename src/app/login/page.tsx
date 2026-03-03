@@ -1,13 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import StemLogo from "@/components/StemLogo";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { RoleDashboardMap } from "@/lib/constants";
 import { FirebaseError } from "firebase/app";
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
 function friendlyFirebaseError(err: unknown): string {
   if (err instanceof FirebaseError) {
@@ -24,12 +28,6 @@ function friendlyFirebaseError(err: unknown): string {
         return "Too many failed attempts. Please wait a moment and try again.";
       case "auth/network-request-failed":
         return "Network error. Check your internet connection and try again.";
-      case "auth/popup-closed-by-user":
-        return "Sign-in was cancelled. Please try again.";
-      case "auth/popup-blocked":
-        return "Pop-up blocked by your browser. Please allow pop-ups and try again.";
-      case "auth/account-exists-with-different-credential":
-        return "An account already exists with this email using a different sign-in method.";
       default:
         return "Something went wrong. Please try again.";
     }
@@ -38,20 +36,50 @@ function friendlyFirebaseError(err: unknown): string {
   return "Something went wrong. Please try again.";
 }
 
-function LoginContent() {
+const LOGIN_MODE_COOKIE = "__login_mode";
+
+function readLoginModeCookie(): boolean {
+  if (typeof document === "undefined") return false;
+  return document.cookie.split(";").some((c) => c.trim().startsWith(LOGIN_MODE_COOKIE + "=email"));
+}
+
+function setLoginModeCookie(email: boolean) {
+  if (typeof document === "undefined") return;
+  if (email) {
+    document.cookie = `${LOGIN_MODE_COOKIE}=email; path=/; samesite=lax`;
+  } else {
+    document.cookie = `${LOGIN_MODE_COOKIE}=; path=/; max-age=0; samesite=lax`;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Page component
+// ---------------------------------------------------------------------------
+
+export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { signIn, studentVerify, studentLogin, signOut } = useAuth();
   const { appUser, loading: authLoading } = useAuthContext();
 
-  // Login mode driven by URL — survives redirects and page reloads
-  const emailMode = searchParams.get("mode") === "email";
+  // Mode: false = student (code + name), true = staff (email + password).
+  // Persisted in a cookie so bookmarks and email client link-stripping don't
+  // dump staff on the student form.
+  const [emailMode, setEmailMode] = useState(false);
+  useEffect(() => {
+    if (readLoginModeCookie()) setEmailMode(true);
+  }, []);
 
+  const switchMode = (toEmail: boolean) => {
+    setEmailMode(toEmail);
+    setLoginModeCookie(toEmail);
+    setError("");
+    setClassCode(["", "", "", "", "", ""]);
+    setFirstName("");
+    setVerifiedStudent(null);
+  };
+
+  // Student form state
   const [classCode, setClassCode] = useState(["", "", "", "", "", ""]);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [verifiedStudent, setVerifiedStudent] = useState<{
     displayName: string;
@@ -60,37 +88,49 @@ function LoginContent() {
   } | null>(null);
   const [verifying, setVerifying] = useState(false);
 
-  // Track whether we've already triggered a redirect so we don't loop.
+  // Staff form state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Shared state
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const redirected = useRef(false);
 
-  // Redirect already-authenticated users to their dashboard.
-  // This only runs on initial page load when a session cookie already exists.
-  // Post-login redirects are handled directly in the submit handlers below.
-  // The `error` guard prevents a redirect when signIn() failed — client-side
-  // Firebase auth may be set but there is no valid server session cookie yet.
+  // Auto-redirect already-authenticated users to their dashboard.
   useEffect(() => {
     if (authLoading || loading || redirected.current || error) return;
     if (!appUser?.role) return;
-
     const dest = RoleDashboardMap[appUser.role as keyof typeof RoleDashboardMap];
     if (!dest) return;
-
     redirected.current = true;
     router.replace(dest);
   }, [appUser, authLoading, error, loading, router]);
+
+  // ---------------------------------------------------------------------------
+  // Student handlers
+  // ---------------------------------------------------------------------------
 
   const codeStr = classCode.join("");
   const codeComplete = codeStr.length === 6;
   const formReady = codeComplete && firstName.trim().length > 0;
 
+  // Auto-verify student when code is complete and name is filled
+  useEffect(() => {
+    if (emailMode || !formReady || verifiedStudent || verifying) return;
+    handleVerifyStudent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formReady, emailMode]);
+
   const handleCodeInput = (index: number, val: string) => {
     const next = [...classCode];
     next[index] = val.slice(-1).toUpperCase();
     setClassCode(next);
-    if (val && index < 5) {
-      document.getElementById(`code-${index + 1}`)?.focus();
-    }
+    if (val && index < 5) document.getElementById(`code-${index + 1}`)?.focus();
     if (verifiedStudent) setVerifiedStudent(null);
+    if (error) setError("");
   };
 
   const handleCodeKeyDown = (index: number, e: React.KeyboardEvent) => {
@@ -108,12 +148,9 @@ function LoginContent() {
       .slice(0, 6);
     if (!pasted) return;
     const next = ["", "", "", "", "", ""];
-    for (let i = 0; i < pasted.length && i < 6; i++) {
-      next[i] = pasted[i];
-    }
+    for (let i = 0; i < pasted.length && i < 6; i++) next[i] = pasted[i];
     setClassCode(next);
-    const focusIdx = Math.min(pasted.length, 5);
-    document.getElementById(`code-${focusIdx}`)?.focus();
+    document.getElementById(`code-${Math.min(pasted.length, 5)}`)?.focus();
     if (verifiedStudent) setVerifiedStudent(null);
   };
 
@@ -124,9 +161,8 @@ function LoginContent() {
     try {
       const student = await studentVerify(codeStr, firstName.trim());
       setVerifiedStudent(student);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to verify";
-      setError(message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to verify");
       setVerifiedStudent(null);
     } finally {
       setVerifying(false);
@@ -141,13 +177,16 @@ function LoginContent() {
       await studentLogin(codeStr, firstName.trim());
       redirected.current = true;
       router.push("/school/student/dashboard");
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to log in";
-      setError(message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to log in");
     } finally {
       setLoading(false);
     }
   };
+
+  // ---------------------------------------------------------------------------
+  // Staff handlers
+  // ---------------------------------------------------------------------------
 
   const handleEmailLogin = async () => {
     if (!email || !password) {
@@ -157,33 +196,28 @@ function LoginContent() {
     setLoading(true);
     setError("");
     try {
-      // signIn() creates the session cookie AND returns the role + whether
-      // a password change is required. We redirect directly here.
-      const { role, requiresPasswordChange } = await signIn(email, password);
-
+      const { role, requiresPasswordChange } = await signIn(email, password, remember);
       redirected.current = true;
-
       if (requiresPasswordChange) {
-        router.push("/dashboard/change-password");
+        router.push("/auth/change-password");
         return;
       }
-
       const dest =
         role && role in RoleDashboardMap
           ? RoleDashboardMap[role as keyof typeof RoleDashboardMap]
           : "/dashboard";
-
       router.push(dest);
-    } catch (err: unknown) {
-      // If session cookie creation failed, signInWithEmailAndPassword may have
-      // already set client-side Firebase auth state. Sign out here so the
-      // auto-redirect useEffect doesn't loop to /dashboard with no session cookie.
+    } catch (err) {
       try { await signOut(); } catch { /* ignore */ }
       setError(friendlyFirebaseError(err));
     } finally {
       setLoading(false);
     }
   };
+
+  // ---------------------------------------------------------------------------
+  // Render
+  // ---------------------------------------------------------------------------
 
   return (
     <div className="min-h-screen bg-[#10221c] text-white flex flex-col relative overflow-hidden">
@@ -235,13 +269,33 @@ function LoginContent() {
       {/* Main */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14 relative">
         <div className="max-w-130 w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-12 rounded-3xl shadow-2xl">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.15)] rounded-full px-4 py-1.5 mb-4">
-              <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-              <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
-                {emailMode ? "Staff Login" : "Student Portal"}
-              </span>
-            </div>
+
+          {/* Mode tab toggle — no URL param, no fragile query string */}
+          <div className="flex rounded-xl bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] p-1 mb-8">
+            <button
+              onClick={() => switchMode(false)}
+              className={`flex-1 h-10 rounded-lg text-sm font-bold transition-all ${
+                !emailMode
+                  ? "bg-[#13eca4] text-[#10221c] shadow"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Student Code
+            </button>
+            <button
+              onClick={() => switchMode(true)}
+              className={`flex-1 h-10 rounded-lg text-sm font-bold transition-all ${
+                emailMode
+                  ? "bg-[#13eca4] text-[#10221c] shadow"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Email Login
+            </button>
+          </div>
+
+          {/* Header */}
+          <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">
               {emailMode ? "Sign In to Your Account" : "Welcome to STEM Learning"}
             </h1>
@@ -252,7 +306,7 @@ function LoginContent() {
             </p>
           </div>
 
-          {/* Error display */}
+          {/* Error */}
           {error && (
             <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
               <span className="material-symbols-outlined text-[#ff4d4d] text-lg">error</span>
@@ -260,222 +314,229 @@ function LoginContent() {
             </div>
           )}
 
-          {!emailMode ? (
-            <>
-              {/* Student Code + Name Login */}
-              <div className="mb-8">
-                {/* Code Input */}
-                <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-5 text-center">
-                  Your Student Code
+          {/* ------------------------------------------------------------------ */}
+          {/* STUDENT FORM                                                        */}
+          {/* ------------------------------------------------------------------ */}
+          {!emailMode && (
+            <div className="mb-8">
+              <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-1 text-center">
+                Your Student Code
+              </label>
+              <p className="text-slate-500 text-xs text-center mb-5">
+                Your teacher will give you this code
+              </p>
+              <div className="flex justify-center gap-2 md:gap-3 mb-6">
+                {classCode.map((val, i) => (
+                  <span key={i} className="flex items-center">
+                    {i === 3 && (
+                      <span className="text-slate-500 font-bold mr-2 md:mr-3 text-xl select-none">
+                        —
+                      </span>
+                    )}
+                    <input
+                      id={`code-${i}`}
+                      type="text"
+                      maxLength={1}
+                      value={val}
+                      onChange={(e) => handleCodeInput(i, e.target.value)}
+                      onKeyDown={(e) => handleCodeKeyDown(i, e)}
+                      onPaste={handleCodePaste}
+                      placeholder="·"
+                      className={`w-12 md:w-14 h-16 text-center bg-[rgba(255,255,255,0.06)] border-2 text-2xl font-bold text-white rounded-xl transition-all outline-none placeholder-slate-600 ${
+                        val
+                          ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
+                          : "border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
+                      }`}
+                    />
+                  </span>
+                ))}
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-2 text-center">
+                  Your First Name
                 </label>
-                <div className="flex justify-center gap-2 md:gap-3 mb-6">
-                  {classCode.map((val, i) => (
-                    <span key={i} className="flex items-center">
-                      {i === 3 && (
-                        <span className="text-slate-500 font-bold mr-2 md:mr-3 text-xl select-none">
-                          —
-                        </span>
-                      )}
-                      <input
-                        id={`code-${i}`}
-                        type="text"
-                        maxLength={1}
-                        value={val}
-                        onChange={(e) => handleCodeInput(i, e.target.value)}
-                        onKeyDown={(e) => handleCodeKeyDown(i, e)}
-                        onPaste={handleCodePaste}
-                        placeholder="·"
-                        className={`w-12 md:w-14 h-16 text-center bg-[rgba(255,255,255,0.06)] border-2 text-2xl font-bold text-white rounded-xl transition-all outline-none placeholder-slate-600 ${
-                          val
-                            ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
-                            : "border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
-                        }`}
-                      />
-                    </span>
-                  ))}
-                </div>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    if (verifiedStudent) setVerifiedStudent(null);
+                    if (error) setError("");
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      if (verifiedStudent) handleStudentLogin();
+                      else if (formReady) handleVerifyStudent();
+                    }
+                  }}
+                  placeholder="Enter your first name"
+                  autoComplete="given-name"
+                  className={`w-full h-14 bg-[rgba(255,255,255,0.06)] border-2 rounded-xl px-4 text-lg font-medium text-white placeholder-slate-600 outline-none transition-all ${
+                    firstName.trim()
+                      ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
+                      : "border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
+                  }`}
+                />
+              </div>
 
-                {/* First Name Input */}
-                <div className="mb-6">
-                  <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-2 text-center">
-                    Your First Name
-                  </label>
-                  <input
-                    type="text"
-                    value={firstName}
-                    onChange={(e) => {
-                      setFirstName(e.target.value);
-                      if (verifiedStudent) setVerifiedStudent(null);
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        if (verifiedStudent) handleStudentLogin();
-                        else if (formReady) handleVerifyStudent();
-                      }
-                    }}
-                    placeholder="Enter your first name"
-                    autoComplete="given-name"
-                    className={`w-full h-14 bg-[rgba(255,255,255,0.06)] border-2 rounded-xl px-4 text-lg font-medium text-white placeholder-slate-600 outline-none transition-all ${
-                      firstName.trim()
-                        ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
-                        : "border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
-                    }`}
-                  />
-                </div>
-
-                {/* Verified Student Profile Card */}
-                {verifiedStudent && (
-                  <div className="rounded-xl p-4 mb-6 border bg-[rgba(19,236,164,0.05)] border-[rgba(19,236,164,0.2)]">
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
-                        <span className="text-[#13eca4] text-sm font-bold">
-                          {verifiedStudent.displayName
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")
-                            .toUpperCase()
-                            .slice(0, 2)}
-                        </span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">
-                          Welcome back!
-                        </p>
-                        <p className="text-white font-bold text-lg">
-                          {verifiedStudent.displayName}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1">
-                          {verifiedStudent.grade && (
-                            <>
-                              <span className="text-slate-400 text-xs">
-                                {verifiedStudent.grade}
-                              </span>
-                              <span className="text-slate-600 text-xs">·</span>
-                            </>
-                          )}
-                          <span className="text-slate-500 text-xs">
-                            {verifiedStudent.schoolName}
-                          </span>
-                        </div>
+              {verifiedStudent && (
+                <div className="rounded-xl p-4 mb-6 border bg-[rgba(19,236,164,0.05)] border-[rgba(19,236,164,0.2)]">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
+                      <span className="text-[#13eca4] text-sm font-bold">
+                        {verifiedStudent.displayName
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase()
+                          .slice(0, 2)}
+                      </span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">
+                        Welcome back!
+                      </p>
+                      <p className="text-white font-bold text-lg">{verifiedStudent.displayName}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        {verifiedStudent.grade && (
+                          <>
+                            <span className="text-slate-400 text-xs">{verifiedStudent.grade}</span>
+                            <span className="text-slate-600 text-xs">·</span>
+                          </>
+                        )}
+                        <span className="text-slate-500 text-xs">{verifiedStudent.schoolName}</span>
                       </div>
                     </div>
                   </div>
-                )}
-
-                {/* Action Button */}
-                {verifiedStudent ? (
-                  <button
-                    onClick={handleStudentLogin}
-                    disabled={loading}
-                    className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
-                  >
-                    {loading ? (
-                      <span className="material-symbols-outlined animate-spin text-[#10221c]">
-                        progress_activity
-                      </span>
-                    ) : (
-                      <>
-                        <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
-                        Start Learning
-                      </>
-                    )}
-                  </button>
-                ) : (
-                  <button
-                    onClick={handleVerifyStudent}
-                    disabled={verifying || !formReady}
-                    className={`w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
-                      formReady
-                        ? "bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)]"
-                        : "bg-[#13eca4]/30 text-[#10221c]/50 cursor-not-allowed"
-                    }`}
-                  >
-                    {verifying ? (
-                      <span className="material-symbols-outlined animate-spin text-[#10221c]">
-                        progress_activity
-                      </span>
-                    ) : (
-                      <>
-                        <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
-                        Start Learning!
-                      </>
-                    )}
-                  </button>
-                )}
-              </div>
-
-              {/* Teacher/Admin login link — uses URL param so mode survives redirects */}
-              <div className="mt-8 text-center">
-                <Link
-                  href="/login?mode=email"
-                  className="text-slate-500 hover:text-[#13eca4] text-sm font-semibold inline-flex items-center justify-center gap-2 group transition-colors"
-                >
-                  <span className="material-symbols-outlined text-lg">admin_panel_settings</span>
-                  Login with Email (Teachers &amp; Admins)
-                </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Email Login */}
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="teacher@school.edu"
-                    className="form-input"
-                    onKeyDown={(e) => e.key === "Enter" && handleEmailLogin()}
-                  />
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">
-                    Password
-                  </label>
+              )}
+
+              {verifiedStudent ? (
+                <button
+                  onClick={handleStudentLogin}
+                  disabled={loading}
+                  className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
+                >
+                  {loading ? (
+                    <span className="material-symbols-outlined animate-spin text-[#10221c]">
+                      progress_activity
+                    </span>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
+                      Start Learning
+                    </>
+                  )}
+                </button>
+              ) : (
+                <button
+                  onClick={handleVerifyStudent}
+                  disabled={verifying || !formReady}
+                  className={`w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
+                    formReady
+                      ? "bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)]"
+                      : "bg-[#13eca4]/30 text-[#10221c]/50 cursor-not-allowed"
+                  }`}
+                >
+                  {verifying ? (
+                    <span className="material-symbols-outlined animate-spin text-[#10221c]">
+                      progress_activity
+                    </span>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
+                      Start Learning
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* ------------------------------------------------------------------ */}
+          {/* STAFF FORM                                                          */}
+          {/* ------------------------------------------------------------------ */}
+          {emailMode && (
+            <form onSubmit={(e) => { e.preventDefault(); handleEmailLogin(); }} className="space-y-5">
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  className="form-input"
+                />
+              </div>
+
+              {/* Password */}
+              <div>
+                <label className="block text-sm font-semibold text-slate-300 mb-2">Password</label>
+                <div className="relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="form-input"
-                    onKeyDown={(e) => e.key === "Enter" && handleEmailLogin()}
+                    autoComplete="current-password"
+                    className="form-input pr-11"
                   />
-                </div>
-                <div className="flex items-center justify-end">
-                  <Link href="/forgot-password" className="text-[#13eca4] text-sm hover:underline">
-                    Forgot password?
-                  </Link>
-                </div>
-                <div className="flex flex-col gap-3 pt-2">
                   <button
-                    onClick={handleEmailLogin}
-                    disabled={loading}
-                    className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
                   >
-                    {loading ? (
-                      <span className="material-symbols-outlined animate-spin">
-                        progress_activity
-                      </span>
-                    ) : (
-                      "Sign In"
-                    )}
+                    <span className="material-symbols-outlined text-[20px]">
+                      {showPassword ? "visibility_off" : "visibility"}
+                    </span>
                   </button>
                 </div>
-                <div className="pt-2 text-center">
-                  <Link
-                    href="/login"
-                    className="text-slate-500 hover:text-slate-300 text-sm transition-colors inline-flex items-center gap-1"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">arrow_back</span>
-                    Back to student login
-                  </Link>
-                </div>
               </div>
-            </>
+
+              {/* Remember me + Forgot password */}
+              <div className="flex items-center justify-between">
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={remember}
+                    onChange={(e) => setRemember(e.target.checked)}
+                    className="w-4 h-4 rounded border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] accent-[#13eca4] cursor-pointer"
+                  />
+                  <span className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors select-none">
+                    Remember this device
+                  </span>
+                </label>
+                <Link href="/forgot-password" className="text-[#13eca4] text-sm hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
+
+              {/* Sign In */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {loading ? (
+                  <span className="material-symbols-outlined animate-spin">progress_activity</span>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+
+              {/* Register link */}
+              <p className="text-center text-sm text-slate-500">
+                New here?{" "}
+                <Link href="/register/teacher" className="text-[#13eca4] font-semibold hover:underline">
+                  Register as a teacher
+                </Link>
+              </p>
+            </form>
           )}
         </div>
 
@@ -493,13 +554,5 @@ function LoginContent() {
         </div>
       </main>
     </div>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense>
-      <LoginContent />
-    </Suspense>
   );
 }

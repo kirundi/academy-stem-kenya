@@ -3,8 +3,13 @@
 import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTeacherData } from "@/hooks/useTeacherData";
-import { useCollection, useCreateDoc } from "@/hooks/useFirestore";
-import { where } from "firebase/firestore";
+import {
+  useCollection,
+  useCreateDoc,
+  useUpdateDoc,
+  useDeleteDoc,
+} from "@/hooks/useFirestore";
+import { where, documentId } from "firebase/firestore";
 import { logActivity } from "@/lib/activity-logger";
 import type { Enrollment, AppUser } from "@/lib/types";
 
@@ -17,43 +22,54 @@ interface Group {
   courseIds: string[];
   classroomId: string;
   teacherId: string;
+  currentStep?: number;
+  totalSteps?: number;
 }
+
+const GROUP_COLORS = ["#13eca4", "#f59e0b", "#ff4d4d", "#3b82f6", "#8b5cf6"];
 
 export default function TeacherGroupsPage() {
   const { appUser } = useAuthContext();
   const { classrooms, loading: teacherLoading } = useTeacherData();
 
-  // Use first classroom by default for groups context
   const primaryClassroom = classrooms[0] ?? null;
 
-  // Fetch groups for teacher
+  // ── Data ──────────────────────────────────────────────────────────────────
   const { data: groups, loading: groupsLoading } = useCollection<Group>(
     "groups",
     appUser ? [where("teacherId", "==", appUser.uid)] : [],
     !!appUser
   );
 
-  // Fetch enrollments for primary classroom to find unassigned students
   const { data: enrollments } = useCollection<Enrollment>(
     "enrollments",
     primaryClassroom ? [where("classroomId", "==", primaryClassroom.id)] : [],
     !!primaryClassroom
   );
 
-  // Get all student IDs from enrollments
-  const allStudentIds = Array.from(new Set(enrollments.map((e) => e.studentId)));
+  const allStudentIds = Array.from(
+    new Set(enrollments.map((e) => e.studentId))
+  );
 
-  // Fetch user data for students
   const { data: studentUsers } = useCollection<AppUser>(
     "users",
-    allStudentIds.length > 0 ? [where("__name__", "in", allStudentIds.slice(0, 10))] : [],
+    allStudentIds.length > 0
+      ? [where(documentId(), "in", allStudentIds.slice(0, 10))]
+      : [],
     allStudentIds.length > 0
   );
 
-  const { create: createGroup, loading: creatingGroup } = useCreateDoc("groups");
+  // ── Mutations ─────────────────────────────────────────────────────────────
+  const { create: createGroup, loading: creatingGroup } =
+    useCreateDoc("groups");
+  const { update: updateGroup } = useUpdateDoc("groups");
+  const { remove: deleteGroup } = useDeleteDoc("groups");
 
-  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
+  // ── Local state ───────────────────────────────────────────────────────────
+  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   const loading = teacherLoading || groupsLoading;
 
@@ -67,40 +83,48 @@ export default function TeacherGroupsPage() {
     );
   }
 
-  // Determine which students are assigned to groups
-  const assignedStudentIds = new Set(groups.flatMap((g) => g.studentIds ?? []));
-  const unassignedStudentIds = allStudentIds.filter((id) => !assignedStudentIds.has(id));
-  const unassignedStudents = unassignedStudentIds.map((id) => {
-    const user = studentUsers.find(
-      (u) => (u as AppUser & { id: string }).id === id || u.uid === id
-    );
-    return { id, name: user?.displayName ?? id };
-  });
-
-  // Helper to get student name
+  // ── Helpers ───────────────────────────────────────────────────────────────
   const getStudentName = (studentId: string) => {
     const user = studentUsers.find(
-      (u) => (u as AppUser & { id: string }).id === studentId || u.uid === studentId
+      (u) => (u as AppUser & { id: string }).id === studentId
     );
     return user?.displayName ?? studentId;
   };
 
-  const activeGroup = selectedGroup ? groups.find((g) => g.id === selectedGroup) : groups[0];
-  const totalGroupStudents = groups.reduce((a, g) => a + (g.studentIds?.length ?? 0), 0);
+  const assignedStudentIds = new Set(
+    groups.flatMap((g) => g.studentIds ?? [])
+  );
+  const unassignedStudents = allStudentIds
+    .filter((id) => !assignedStudentIds.has(id))
+    .map((id) => ({ id, name: getStudentName(id) }))
+    .filter((s) => s.name.toLowerCase().includes(search.toLowerCase()));
 
+  const activeGroup =
+    (selectedGroupId
+      ? groups.find((g) => g.id === selectedGroupId)
+      : groups[0]) ?? null;
+
+  const totalGroupStudents = groups.reduce(
+    (a, g) => a + (g.studentIds?.length ?? 0),
+    0
+  );
+
+  // ── Handlers ──────────────────────────────────────────────────────────────
   const handleCreateGroup = async () => {
     if (!appUser || !primaryClassroom) return;
     const groupNum = groups.length + 1;
-    const colors = ["#13eca4", "#f59e0b", "#ff4d4d", "#3b82f6", "#8b5cf6"];
-    await createGroup({
+    const id = await createGroup({
       name: `Group ${String.fromCharCode(64 + groupNum)}`,
       levelNum: 1,
-      levelColor: colors[groupNum % colors.length],
+      levelColor: GROUP_COLORS[groupNum % GROUP_COLORS.length],
       studentIds: [],
       courseIds: [],
       classroomId: primaryClassroom.id,
       teacherId: appUser.uid,
+      currentStep: 1,
+      totalSteps: 5,
     });
+    if (id) setSelectedGroupId(id);
     await logActivity(
       appUser.uid,
       "create_group",
@@ -108,123 +132,222 @@ export default function TeacherGroupsPage() {
     );
   };
 
+  const handleAssignStudent = async (studentId: string) => {
+    if (!activeGroup) return;
+    const updated = [...(activeGroup.studentIds ?? []), studentId];
+    await updateGroup(activeGroup.id, { studentIds: updated });
+  };
+
+  const handleRemoveStudent = async (groupId: string, studentId: string) => {
+    const group = groups.find((g) => g.id === groupId);
+    if (!group) return;
+    const updated = (group.studentIds ?? []).filter((id) => id !== studentId);
+    await updateGroup(groupId, { studentIds: updated });
+  };
+
+  const handleDeleteGroup = async (groupId: string) => {
+    await deleteGroup(groupId);
+    if (selectedGroupId === groupId) setSelectedGroupId(null);
+    setConfirmDeleteId(null);
+  };
+
+  const handleCopyLink = (groupId: string) => {
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "";
+    const url = `${origin}/school/student/collaboration?groupId=${groupId}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedId(groupId);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
+
+  // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#10221c]">
+      {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Classroom Group Manager</h1>
+          <h1 className="text-xl font-bold text-white">
+            Classroom Group Manager
+          </h1>
           <p className="text-slate-400 text-xs mt-0.5">
-            {primaryClassroom?.name ?? "No classroom"} · Managing {groups.length} group
-            {groups.length !== 1 ? "s" : ""} and {totalGroupStudents} student
-            {totalGroupStudents !== 1 ? "s" : ""}
+            {primaryClassroom?.name ?? "No classroom"} · {groups.length} group
+            {groups.length !== 1 ? "s" : ""} · {totalGroupStudents} student
+            {totalGroupStudents !== 1 ? "s" : ""} assigned
           </p>
         </div>
         <button
           onClick={handleCreateGroup}
-          disabled={creatingGroup}
+          disabled={creatingGroup || !primaryClassroom}
           className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
-          {creatingGroup ? "Creating..." : "Add New Group"}
+          {creatingGroup ? "Creating…" : "New Group"}
         </button>
       </header>
 
       <div className="flex h-[calc(100vh-64px)]">
-        {/* Left -- Groups Panel */}
+        {/* ── LEFT: Groups grid ─────────────────────────────────────────── */}
         <div className="flex-1 overflow-y-auto p-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
-            {groups.map((g) => (
-              <div
-                key={g.id}
-                onClick={() => setSelectedGroup(g.id)}
-                className={`bg-[#1a2e27] rounded-2xl border transition-all cursor-pointer ${
-                  activeGroup?.id === g.id
-                    ? "border-[rgba(19,236,164,0.4)] shadow-lg shadow-[rgba(19,236,164,0.06)]"
-                    : "border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.2)]"
-                }`}
+          {groups.length === 0 && !creatingGroup ? (
+            <div className="flex flex-col items-center justify-center h-64 gap-4">
+              <span className="material-symbols-outlined text-5xl text-slate-600">
+                group_work
+              </span>
+              <p className="text-slate-400 text-sm">No groups yet.</p>
+              <button
+                onClick={handleCreateGroup}
+                disabled={!primaryClassroom}
+                className="text-[#13eca4] text-sm hover:underline disabled:opacity-40"
               >
-                {/* Card header */}
-                <div className="p-5 border-b border-[rgba(255,255,255,0.04)]">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-white font-bold">{g.name}</h3>
-                    <span
-                      className="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
-                      style={{ color: g.levelColor, background: `${g.levelColor}18` }}
-                    >
-                      Level {g.levelNum}
-                    </span>
+                Create your first group →
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+              {groups.map((g) => (
+                <div
+                  key={g.id}
+                  onClick={() => setSelectedGroupId(g.id)}
+                  className={`bg-[#1a2e27] rounded-2xl border transition-all cursor-pointer ${
+                    activeGroup?.id === g.id
+                      ? "border-[rgba(19,236,164,0.4)] shadow-lg shadow-[rgba(19,236,164,0.06)]"
+                      : "border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.2)]"
+                  }`}
+                >
+                  {/* Card header */}
+                  <div className="p-5 border-b border-[rgba(255,255,255,0.04)]">
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="text-white font-bold">{g.name}</h3>
+                      <span
+                        className="text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wide"
+                        style={{
+                          color: g.levelColor,
+                          background: `${g.levelColor}18`,
+                        }}
+                      >
+                        Level {g.levelNum}
+                      </span>
+                    </div>
+                    <p className="text-slate-500 text-xs">
+                      {(g.studentIds ?? []).length} student
+                      {(g.studentIds ?? []).length !== 1 ? "s" : ""}
+                    </p>
                   </div>
-                  <p className="text-slate-500 text-xs">
-                    {(g.studentIds ?? []).length} student
-                    {(g.studentIds ?? []).length !== 1 ? "s" : ""} enrolled
-                  </p>
-                </div>
 
-                {/* Students list */}
-                <div className="p-4 space-y-2 max-h-44 overflow-y-auto">
-                  {(g.studentIds ?? []).length === 0 && (
-                    <p className="text-slate-600 text-xs text-center py-2">No students assigned</p>
-                  )}
-                  {(g.studentIds ?? []).map((sid) => {
-                    const name = getStudentName(sid);
-                    return (
+                  {/* Student list */}
+                  <div className="p-4 space-y-2 max-h-44 overflow-y-auto">
+                    {(g.studentIds ?? []).length === 0 && (
+                      <p className="text-slate-600 text-xs text-center py-2">
+                        No students — click unassigned students to add
+                      </p>
+                    )}
+                    {(g.studentIds ?? []).map((sid) => (
                       <div
                         key={sid}
-                        className="flex items-center gap-3 p-2 rounded-lg bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] group cursor-grab"
+                        className="flex items-center gap-3 p-2 rounded-lg bg-[rgba(255,255,255,0.03)] group"
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        <span className="material-symbols-outlined text-[16px] text-slate-600 group-hover:text-slate-400">
-                          drag_indicator
-                        </span>
-                        <div className="w-6 h-6 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[10px] font-bold text-[#13eca4]">
-                          {name[0]}
+                        <div className="w-6 h-6 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[10px] font-bold text-[#13eca4] shrink-0">
+                          {getStudentName(sid)[0]}
                         </div>
-                        <span className="text-slate-300 text-sm">{name}</span>
+                        <span className="text-slate-300 text-sm flex-1 truncate">
+                          {getStudentName(sid)}
+                        </span>
+                        <button
+                          onClick={() => handleRemoveStudent(g.id, sid)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-red-400"
+                          title="Remove from group"
+                        >
+                          <span className="material-symbols-outlined text-[16px]">
+                            close
+                          </span>
+                        </button>
                       </div>
-                    );
-                  })}
-                </div>
+                    ))}
+                  </div>
 
-                {/* Courses */}
-                <div className="p-4 pt-0 flex flex-wrap gap-1.5">
-                  {(g.courseIds ?? []).map((c) => (
-                    <span
-                      key={c}
-                      className="flex items-center gap-1 text-xs bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.08)] text-slate-400 px-2 py-0.5 rounded-full"
+                  {/* Actions row */}
+                  <div
+                    className="p-4 pt-0 flex items-center gap-2 border-t border-[rgba(255,255,255,0.04)] mt-2"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Copy link */}
+                    <button
+                      onClick={() => handleCopyLink(g.id)}
+                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-[rgba(19,236,164,0.25)] text-[#13eca4] hover:bg-[#13eca4]/10 transition-colors"
+                      title="Copy student collaboration link"
                     >
-                      {c}
-                      <span className="material-symbols-outlined text-[12px] hover:text-[#ff4d4d] cursor-pointer">
-                        close
+                      <span className="material-symbols-outlined text-[14px]">
+                        {copiedId === g.id ? "check" : "link"}
                       </span>
-                    </span>
-                  ))}
-                  <button className="text-xs text-[#13eca4] hover:underline flex items-center gap-0.5">
-                    <span className="material-symbols-outlined text-[14px]">add</span> Add course
-                  </button>
-                </div>
-              </div>
-            ))}
+                      {copiedId === g.id ? "Copied!" : "Copy Link"}
+                    </button>
 
-            {/* Create New Group Card */}
-            <div
-              onClick={handleCreateGroup}
-              className="bg-[rgba(255,255,255,0.02)] border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 h-40 hover:border-[rgba(19,236,164,0.3)] hover:bg-[rgba(19,236,164,0.02)] transition-all cursor-pointer group"
-            >
-              <div className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.05)] group-hover:bg-[rgba(19,236,164,0.1)] flex items-center justify-center transition-colors">
-                <span className="material-symbols-outlined text-[22px] text-slate-500 group-hover:text-[#13eca4]">
-                  add
+                    {/* Delete group */}
+                    {confirmDeleteId === g.id ? (
+                      <div className="flex items-center gap-1.5 ml-auto">
+                        <span className="text-[10px] text-red-400">
+                          Delete group?
+                        </span>
+                        <button
+                          onClick={() => handleDeleteGroup(g.id)}
+                          className="text-[10px] font-bold text-red-400 hover:text-red-300 px-2 py-1 rounded border border-red-500/30"
+                        >
+                          Yes
+                        </button>
+                        <button
+                          onClick={() => setConfirmDeleteId(null)}
+                          className="text-[10px] text-slate-400 hover:text-white"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setConfirmDeleteId(g.id)}
+                        className="ml-auto text-slate-600 hover:text-red-400 transition-colors"
+                        title="Delete group"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">
+                          delete
+                        </span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {/* Create new group card */}
+              <div
+                onClick={handleCreateGroup}
+                className="bg-[rgba(255,255,255,0.02)] border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 h-40 hover:border-[rgba(19,236,164,0.3)] hover:bg-[rgba(19,236,164,0.02)] transition-all cursor-pointer group"
+              >
+                <div className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.05)] group-hover:bg-[rgba(19,236,164,0.1)] flex items-center justify-center transition-colors">
+                  <span className="material-symbols-outlined text-[22px] text-slate-500 group-hover:text-[#13eca4]">
+                    add
+                  </span>
+                </div>
+                <span className="text-slate-500 group-hover:text-[#13eca4] text-sm font-semibold transition-colors">
+                  Create New Group
                 </span>
               </div>
-              <span className="text-slate-500 group-hover:text-[#13eca4] text-sm font-semibold transition-colors">
-                Create New Group
-              </span>
             </div>
-          </div>
+          )}
         </div>
 
-        {/* Right -- Unassigned Students Sidebar */}
+        {/* ── RIGHT: Unassigned students ────────────────────────────────── */}
         <div className="w-72 bg-[#0d1f1a] border-l border-[rgba(19,236,164,0.08)] flex flex-col">
           <div className="p-5 border-b border-[rgba(19,236,164,0.08)]">
-            <h2 className="text-white font-bold text-sm mb-3">Unassigned Students</h2>
+            <h2 className="text-white font-bold text-sm mb-1">
+              Unassigned Students
+            </h2>
+            {activeGroup && (
+              <p className="text-slate-500 text-xs mb-3">
+                Click a student to add to{" "}
+                <span className="text-[#13eca4]">{activeGroup.name}</span>
+              </p>
+            )}
             <div className="relative">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">
                 search
@@ -233,37 +356,48 @@ export default function TeacherGroupsPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search students..."
+                placeholder="Search students…"
                 className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] text-white placeholder-slate-600 rounded-xl px-3 py-2 pl-9 text-sm focus:outline-none focus:border-[#13eca4]"
               />
             </div>
           </div>
+
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {unassignedStudents.length === 0 && (
-              <p className="text-slate-600 text-xs text-center py-4">No unassigned students</p>
+            {!activeGroup && (
+              <p className="text-slate-600 text-xs text-center py-4 px-2">
+                Select a group card first, then click students to assign them.
+              </p>
             )}
-            {unassignedStudents
-              .filter((s) => s.name.toLowerCase().includes(search.toLowerCase()))
-              .map((s) => (
-                <div
+            {activeGroup && unassignedStudents.length === 0 && (
+              <p className="text-slate-600 text-xs text-center py-4">
+                All students are assigned
+              </p>
+            )}
+            {activeGroup &&
+              unassignedStudents.map((s) => (
+                <button
                   key={s.id}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] group cursor-grab"
+                  onClick={() => handleAssignStudent(s.id)}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.2)] border border-transparent transition-all text-left group"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-slate-600 group-hover:text-slate-400">
-                    drag_indicator
-                  </span>
-                  <div className="w-7 h-7 rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center text-xs font-bold text-slate-400">
+                  <div className="w-7 h-7 rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center text-xs font-bold text-slate-400 group-hover:bg-[rgba(19,236,164,0.15)] group-hover:text-[#13eca4] transition-colors shrink-0">
                     {s.name[0]}
                   </div>
-                  <span className="text-slate-400 text-sm font-medium">{s.name}</span>
-                </div>
+                  <span className="text-slate-400 text-sm font-medium group-hover:text-white transition-colors flex-1 truncate">
+                    {s.name}
+                  </span>
+                  <span className="material-symbols-outlined text-[16px] text-slate-600 group-hover:text-[#13eca4] transition-colors">
+                    add
+                  </span>
+                </button>
               ))}
           </div>
+
           <div className="p-3 border-t border-[rgba(19,236,164,0.08)]">
-            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[rgba(255,255,255,0.1)] text-slate-400 text-sm font-semibold hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
-              <span className="material-symbols-outlined text-[18px]">upload_file</span>
-              Import Roster (CSV)
-            </button>
+            <p className="text-slate-600 text-[10px] text-center">
+              {allStudentIds.length} total enrolled ·{" "}
+              {allStudentIds.length - assignedStudentIds.size} unassigned
+            </p>
           </div>
         </div>
       </div>

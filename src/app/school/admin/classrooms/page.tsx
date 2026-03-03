@@ -2,14 +2,28 @@
 
 import { useState } from "react";
 import { useSchoolAdminData } from "@/hooks/useAdminData";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useCreateDoc, useUpdateDoc } from "@/hooks/useFirestore";
+import { generateJoinCode } from "@/lib/client-code";
 
 export default function ClassroomsPage() {
+  const { appUser } = useAuthContext();
   const [search, setSearch] = useState("");
   const [prefix, setPrefix] = useState("TECH-");
   const [pendingPrefix, setPendingPrefix] = useState("TECH-");
   const [codeMode, setCodeMode] = useState("Alphanumeric (8 chars)");
   const [editedCodes, setEditedCodes] = useState<Record<string, string>>({});
+  const [savingCode, setSavingCode] = useState<string | null>(null);
+
+  // Create class modal
+  const [showCreate, setShowCreate] = useState(false);
+  const [createForm, setCreateForm] = useState({ name: "", subject: "", grade: "", teacherId: "" });
+  const [createLoading, setCreateLoading] = useState(false);
+  const [createError, setCreateError] = useState("");
+
   const { classrooms, teachers, loading } = useSchoolAdminData();
+  const { create } = useCreateDoc("classrooms");
+  const { update } = useUpdateDoc("classrooms");
 
   if (loading) {
     return (
@@ -21,7 +35,7 @@ export default function ClassroomsPage() {
     );
   }
 
-  const teacherMap = new Map(teachers.map((t) => [t.id, t.displayName]));
+  const teacherMap = new Map(teachers.map((t) => [t.uid ?? (t as { id?: string }).id ?? "", t.displayName]));
 
   const filtered = classrooms.filter(
     (c) =>
@@ -37,10 +51,60 @@ export default function ClassroomsPage() {
     editedCodes[id] !== undefined ? editedCodes[id] : defaultCode;
 
   const regenerateCode = (id: string) => {
-    setEditedCodes((prev) => {
-      const code = prefix + crypto.randomUUID().substring(0, 4).toUpperCase();
-      return { ...prev, [id]: code };
-    });
+    const code = generateJoinCode();
+    setEditedCodes((prev) => ({ ...prev, [id]: code }));
+  };
+
+  const saveCode = async (id: string) => {
+    const code = editedCodes[id];
+    if (!code) return;
+    setSavingCode(id);
+    try {
+      await update(id, { joinCode: code });
+      setEditedCodes((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+    } finally {
+      setSavingCode(null);
+    }
+  };
+
+  const handleBulkGenerate = async () => {
+    for (const c of classrooms) {
+      const code = generateJoinCode();
+      await update(c.id, { joinCode: code });
+    }
+  };
+
+  const handleCreateClass = async () => {
+    if (!createForm.name.trim()) return;
+    setCreateLoading(true);
+    setCreateError("");
+    try {
+      const teacherId = createForm.teacherId || (teachers[0]?.uid ?? (teachers[0] as { id?: string })?.id ?? "");
+      const teacherName = teacherMap.get(teacherId) ?? "";
+      await create({
+        name: createForm.name.trim(),
+        subject: createForm.subject.trim(),
+        grade: createForm.grade.trim(),
+        teacherId,
+        teacherName,
+        schoolId: appUser?.schoolId ?? "",
+        joinCode: generateJoinCode(),
+        enrolled: 0,
+        capacity: 30,
+        avgProgress: 0,
+        courseIds: [],
+      });
+      setShowCreate(false);
+      setCreateForm({ name: "", subject: "", grade: "", teacherId: "" });
+    } catch (err) {
+      setCreateError(err instanceof Error ? err.message : "Failed to create class");
+    } finally {
+      setCreateLoading(false);
+    }
   };
 
   return (
@@ -61,7 +125,10 @@ export default function ClassroomsPage() {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2 rounded-lg hover:opacity-90 transition-opacity">
+          <button
+            onClick={() => setShowCreate(true)}
+            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2 rounded-lg hover:opacity-90 transition-opacity"
+          >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create Class
           </button>
@@ -84,10 +151,6 @@ export default function ClassroomsPage() {
           <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] p-6 rounded-xl">
             <p className="text-slate-400 text-sm font-medium mb-1">Total Classrooms</p>
             <p className="text-3xl font-bold text-white">{classrooms.length}</p>
-            <div className="mt-2 text-xs text-[#13eca4] flex items-center gap-1">
-              <span className="material-symbols-outlined text-xs">trending_up</span>
-              +4 this month
-            </div>
           </div>
           <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] p-6 rounded-xl">
             <p className="text-slate-400 text-sm font-medium mb-1">Active Codes</p>
@@ -158,7 +221,10 @@ export default function ClassroomsPage() {
               </select>
             </div>
             <div className="flex items-end pb-1">
-              <button className="w-full bg-[#13eca4] text-[#10221c] h-10 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+              <button
+                onClick={handleBulkGenerate}
+                className="w-full bg-[#13eca4] text-[#10221c] h-10 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+              >
                 <span className="material-symbols-outlined text-base">bolt</span>
                 Bulk Generate Codes
               </button>
@@ -170,16 +236,6 @@ export default function ClassroomsPage() {
         <section className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] rounded-xl overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
             <h3 className="font-bold text-white">Classrooms &amp; Code Registry</h3>
-            <div className="flex gap-2">
-              <button className="bg-[#10221c] p-2 rounded-lg border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.3)] transition-colors">
-                <span className="material-symbols-outlined text-base text-slate-400">
-                  filter_list
-                </span>
-              </button>
-              <button className="bg-[#10221c] p-2 rounded-lg border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.3)] transition-colors">
-                <span className="material-symbols-outlined text-base text-slate-400">download</span>
-              </button>
-            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
@@ -197,7 +253,7 @@ export default function ClassroomsPage() {
                 {filtered.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
-                      No classrooms found
+                      {classrooms.length === 0 ? "No classrooms yet. Create one above." : "No classrooms found."}
                     </td>
                   </tr>
                 ) : (
@@ -214,6 +270,7 @@ export default function ClassroomsPage() {
                             .toUpperCase()
                             .slice(0, 2)
                         : "?";
+                    const hasUnsavedCode = editedCodes[c.id] !== undefined;
 
                     return (
                       <tr key={c.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
@@ -248,8 +305,18 @@ export default function ClassroomsPage() {
                               <button
                                 onClick={() => regenerateCode(c.id)}
                                 className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-[#13eca4]"
+                                title="Regenerate code"
                               >
                                 <span className="material-symbols-outlined text-base">refresh</span>
+                              </button>
+                            )}
+                            {hasUnsavedCode && (
+                              <button
+                                onClick={() => saveCode(c.id)}
+                                disabled={savingCode === c.id}
+                                className="text-xs font-bold text-[#13eca4] border border-[rgba(19,236,164,0.3)] px-2 py-0.5 rounded hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                              >
+                                {savingCode === c.id ? "..." : "Save"}
                               </button>
                             )}
                           </div>
@@ -266,8 +333,12 @@ export default function ClassroomsPage() {
                           )}
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button className="text-slate-400 hover:text-[#13eca4] transition-colors">
-                            <span className="material-symbols-outlined">more_vert</span>
+                          <button
+                            onClick={() => navigator.clipboard.writeText(code)}
+                            className="text-slate-400 hover:text-[#13eca4] transition-colors"
+                            title="Copy code"
+                          >
+                            <span className="material-symbols-outlined text-base">content_copy</span>
                           </button>
                         </td>
                       </tr>
@@ -278,33 +349,112 @@ export default function ClassroomsPage() {
             </table>
           </div>
 
-          {/* Pagination */}
+          {/* Pagination info */}
           <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between text-xs text-slate-400">
             <span>
               Showing {filtered.length} of {classrooms.length} classrooms
             </span>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span>Rows per page:</span>
-                <select className="bg-[#10221c] border border-[rgba(19,236,164,0.1)] rounded px-1.5 py-0.5 text-xs text-slate-300">
-                  <option>10</option>
-                  <option defaultValue="20">20</option>
-                  <option>50</option>
-                </select>
-              </div>
-              <div className="flex items-center gap-2">
-                <button className="w-6 h-6 flex items-center justify-center rounded border border-[rgba(19,236,164,0.1)] hover:bg-[#1a2e27] transition-colors">
-                  <span className="material-symbols-outlined text-sm">chevron_left</span>
-                </button>
-                <span className="font-medium text-slate-200">1</span>
-                <button className="w-6 h-6 flex items-center justify-center rounded border border-[rgba(19,236,164,0.1)] hover:bg-[#1a2e27] transition-colors">
-                  <span className="material-symbols-outlined text-sm">chevron_right</span>
-                </button>
-              </div>
-            </div>
           </div>
         </section>
       </main>
+
+      {/* Create Class Modal */}
+      {showCreate && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.12)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h2 className="text-white font-bold text-lg mb-1">Create New Classroom</h2>
+            <p className="text-slate-400 text-sm mb-5">
+              A join code will be automatically generated.
+            </p>
+            {createError && (
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">
+                {createError}
+              </div>
+            )}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  Class Name <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Robotics 101-A"
+                  value={createForm.name}
+                  onChange={(e) => setCreateForm((f) => ({ ...f, name: e.target.value }))}
+                  className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Robotics"
+                    value={createForm.subject}
+                    onChange={(e) => setCreateForm((f) => ({ ...f, subject: e.target.value }))}
+                    className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    Grade
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Grade 8"
+                    value={createForm.grade}
+                    onChange={(e) => setCreateForm((f) => ({ ...f, grade: e.target.value }))}
+                    className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                  />
+                </div>
+              </div>
+              {teachers.length > 0 && (
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    Assign Teacher
+                  </label>
+                  <select
+                    value={createForm.teacherId}
+                    onChange={(e) => setCreateForm((f) => ({ ...f, teacherId: e.target.value }))}
+                    className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)]"
+                  >
+                    <option value="">Select a teacher...</option>
+                    {teachers.map((t) => {
+                      const tid = t.uid ?? (t as { id?: string }).id ?? "";
+                      return (
+                        <option key={tid} value={tid}>
+                          {t.displayName}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              )}
+            </div>
+            <div className="flex gap-3 mt-5">
+              <button
+                onClick={() => {
+                  setShowCreate(false);
+                  setCreateForm({ name: "", subject: "", grade: "", teacherId: "" });
+                  setCreateError("");
+                }}
+                className="flex-1 border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-semibold py-2.5 rounded-xl hover:border-[rgba(255,255,255,0.2)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreateClass}
+                disabled={createLoading || !createForm.name.trim()}
+                className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
+              >
+                {createLoading ? "Creating..." : "Create Classroom"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
