@@ -1,16 +1,223 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // All collections: authenticated users can read and write.
-    // Fine-grained authorization is enforced in server-side API routes
-    // (which use the Admin SDK and bypass these rules entirely).
-    match /{collection}/{docId} {
-      allow read, write: if request.auth != null;
+
+    // ─── Helper functions ────────────────────────────────────────────────
+
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
-    // Subcollections (e.g. lessons under courses)
-    match /{collection}/{docId}/{sub}/{subId} {
-      allow read, write: if request.auth != null;
+    function isOwner(uid) {
+      return request.auth.uid == uid;
     }
+
+    function hasRole(role) {
+      return request.auth.token.role == role;
+    }
+
+    function hasAnyRole(roles) {
+      return request.auth.token.role in roles;
+    }
+
+    // ─── Admin SDK only — block all client access ────────────────────────
+    // These collections are only ever written/read by server-side API routes
+    // using the Firebase Admin SDK, which bypasses Firestore rules entirely.
+
+    match /sessions/{docId} {
+      allow read, write: if false;
+    }
+
+    match /rateLimits/{docId} {
+      allow read, write: if false;
+    }
+
+    match /invites/{docId} {
+      allow read, write: if false;
+    }
+
+    match /settings/{docId} {
+      allow read, write: if false;
+    }
+
+    // ─── users ───────────────────────────────────────────────────────────
+    // Each user can read and write their own document only.
+    // Sensitive fields (role, schoolId, permissions) cannot be self-modified
+    // — those are always set by Admin SDK routes (e.g. onboarding, invite acceptance).
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && isOwner(userId);
+
+      // Allow initial document creation (registration flow writes the user doc).
+      allow create: if isAuthenticated() && isOwner(userId);
+
+      // Allow profile updates but prevent self-elevation of privilege fields.
+      allow update: if isAuthenticated() && isOwner(userId)
+        && !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['role', 'schoolId', 'schoolIds', 'permissions']);
+    }
+
+    // ─── schools ─────────────────────────────────────────────────────────
+    // All authenticated users can read schools (needed for teacher registration
+    // school lookup). Only admins can create/update/delete schools.
+    // School creation during /onboarding is handled via Admin SDK route, but
+    // we allow create for school_admin+ in case of direct client calls.
+
+    match /schools/{schoolId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated()
+        && hasAnyRole(['school_admin', 'admin', 'super_admin']);
+      allow update: if isAuthenticated()
+        && hasAnyRole(['admin', 'super_admin']);
+      allow delete: if isAuthenticated() && hasRole('super_admin');
+    }
+
+    // ─── notifications ───────────────────────────────────────────────────
+    // Users can read their own notifications and mark them as read.
+    // Creating and deleting notifications is Admin SDK only.
+
+    match /notifications/{notifId} {
+      allow read: if isAuthenticated()
+        && resource.data.userId == request.auth.uid;
+      // Only allow flipping the `read` boolean — nothing else.
+      allow update: if isAuthenticated()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow create, delete: if false;
+    }
+
+    // ─── activities ──────────────────────────────────────────────────────
+    // Client-side activity logger creates records; no client reads.
+    // All reads and updates go through Admin SDK analytics routes.
+
+    match /activities/{activityId} {
+      allow create: if isAuthenticated()
+        && request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if false;
+    }
+
+    // ─── enrollments ─────────────────────────────────────────────────────
+    // Students see their own enrollments; staff see all.
+    // Enrollment creation/deletion is Admin SDK only (prevents self-enrollment).
+
+    match /enrollments/{enrollmentId} {
+      allow read: if isAuthenticated() && (
+        (hasRole('student') && resource.data.studentId == request.auth.uid) ||
+        hasAnyRole(['teacher', 'school_admin', 'admin', 'super_admin'])
+      );
+      allow write: if false;
+    }
+
+    // ─── submissions ─────────────────────────────────────────────────────
+    // Students can read/create their own submissions.
+    // Teachers and admins can read all and grade (update) submissions.
+
+    match /submissions/{submissionId} {
+      allow read: if isAuthenticated() && (
+        (hasRole('student') && resource.data.studentId == request.auth.uid) ||
+        hasAnyRole(['teacher', 'school_admin', 'admin', 'super_admin'])
+      );
+      allow create: if isAuthenticated()
+        && hasRole('student')
+        && request.resource.data.studentId == request.auth.uid;
+      allow update: if isAuthenticated()
+        && hasAnyRole(['teacher', 'admin', 'super_admin']);
+      allow delete: if false;
+    }
+
+    // ─── classrooms ──────────────────────────────────────────────────────
+    // Teachers manage their own classrooms; school admins see their school's;
+    // global admins see all. Students do not have direct classroom access.
+
+    match /classrooms/{classroomId} {
+      allow read: if isAuthenticated() && (
+        hasAnyRole(['admin', 'super_admin']) ||
+        (hasRole('teacher') && resource.data.teacherId == request.auth.uid) ||
+        (hasRole('school_admin') && resource.data.schoolId == request.auth.token.schoolId)
+      );
+      allow create: if isAuthenticated()
+        && hasAnyRole(['teacher', 'admin', 'super_admin'])
+        && (hasAnyRole(['admin', 'super_admin'])
+            || request.resource.data.teacherId == request.auth.uid);
+      allow update: if isAuthenticated() && (
+        (hasRole('teacher') && resource.data.teacherId == request.auth.uid) ||
+        hasAnyRole(['admin', 'super_admin'])
+      );
+      allow delete: if isAuthenticated()
+        && hasAnyRole(['admin', 'super_admin']);
+    }
+
+    // ─── courses ─────────────────────────────────────────────────────────
+    // All authenticated users can read courses and their lessons.
+    // Only super admins can create/update/delete courses or lessons.
+
+    match /courses/{courseId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && hasRole('super_admin');
+
+      match /lessons/{lessonId} {
+        allow read: if isAuthenticated();
+        allow write: if isAuthenticated() && hasRole('super_admin');
+      }
+    }
+
+    // ─── badges ──────────────────────────────────────────────────────────
+    // Public catalogue — any authenticated user can browse badges.
+    // Badge awards are written only by Admin SDK.
+
+    match /badges/{badgeId} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
+    // ─── challenges ──────────────────────────────────────────────────────
+    // Any authenticated user can read challenges.
+    // Admins can create/update challenges.
+
+    match /challenges/{challengeId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated()
+        && hasAnyRole(['admin', 'super_admin']);
+      allow delete: if isAuthenticated() && hasRole('super_admin');
+    }
+
+    // ─── challengeEnrollments ────────────────────────────────────────────
+    // Students can enroll themselves and read their own challenge enrollments.
+    // Staff can read all enrollments.
+
+    match /challengeEnrollments/{enrollmentId} {
+      allow read: if isAuthenticated() && (
+        (hasRole('student') && resource.data.studentId == request.auth.uid) ||
+        hasAnyRole(['teacher', 'school_admin', 'admin', 'super_admin'])
+      );
+      allow create: if isAuthenticated()
+        && hasRole('student')
+        && request.resource.data.studentId == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // ─── groups ──────────────────────────────────────────────────────────
+    // Collaboration groups: any authenticated user can read; members can post.
+    // Group creation open to students and above; deletion requires admin.
+
+    match /groups/{groupId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (
+        resource.data.createdBy == request.auth.uid ||
+        hasAnyRole(['admin', 'super_admin'])
+      );
+      allow delete: if isAuthenticated()
+        && hasAnyRole(['admin', 'super_admin']);
+
+      match /messages/{messageId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated()
+          && request.resource.data.senderId == request.auth.uid;
+        allow update, delete: if isAuthenticated()
+          && resource.data.senderId == request.auth.uid;
+      }
+    }
+
   }
 }

@@ -1,0 +1,13 @@
+{
+  "name": "firebase-admin-a14c8a5423a75469",
+  "version": "1.0.0",
+  "description": "Shim for Firebase Hosting's Turbopack mangling of firebase-admin. Turbopack renames 'firebase-admin' to 'firebase-admin-a14c8a5423a75469' in the bundle. This package intercepts that require and delegates to the real firebase-admin.",
+  "main": "index.js",
+  "exports": {
+    ".": { "require": "./index.js", "default": "./index.js" },
+    "./app": { "require": "./app.js", "default": "./app.js" },
+    "./auth": { "require": "./auth.js", "default": "./auth.js" },
+    "./firestore": { "require": "./firestore.js", "default": "./firestore.js" },
+    "./storage": { "require": "./storage.js", "default": "./storage.js" }
+  }
+}

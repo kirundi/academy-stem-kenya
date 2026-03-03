@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     "firebase-admin/app",
     "firebase-admin/auth",
     "firebase-admin/firestore",
+    "firebase-admin/storage",
   ],
   images: {
     remotePatterns: [
