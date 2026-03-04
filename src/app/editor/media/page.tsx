@@ -13,7 +13,7 @@ export default function EditorMediaPage() {
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(236,72,153,0.1)] px-8 h-16 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-(--text-base)">Media Library</h1>
-            <p className="text-slate-400 text-xs mt-0.5">Images and assets for your courses</p>
+            <p className="text-(--text-muted) text-xs mt-0.5">Images and assets for your courses</p>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(236,72,153,0.12)] border border-[rgba(236,72,153,0.2)]">
             <span className="material-symbols-outlined text-[#ec4899] text-[16px]">
@@ -31,7 +31,7 @@ export default function EditorMediaPage() {
             </div>
             <div>
               <p className="text-(--text-base) font-semibold text-sm mb-1">Media uploads not yet available</p>
-              <p className="text-slate-400 text-sm leading-relaxed">
+              <p className="text-(--text-muted) text-sm leading-relaxed">
                 Media uploads are not yet available. Course thumbnail images can be added via URL
                 when creating a course.
               </p>
@@ -70,7 +70,7 @@ export default function EditorMediaPage() {
             </div>
             <div>
               <p className="text-(--text-base) font-semibold text-sm mb-1">Need a specific image?</p>
-              <p className="text-slate-400 text-sm leading-relaxed">
+              <p className="text-(--text-muted) text-sm leading-relaxed">
                 Contact the platform admin to upload media assets. Once uploaded, image URLs
                 can be used in your course thumbnails and lesson content.
               </p>

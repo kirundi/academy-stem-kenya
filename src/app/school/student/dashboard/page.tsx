@@ -110,7 +110,7 @@ export default function StudentDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -123,15 +123,15 @@ export default function StudentDashboard() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">My Courses</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="p-2 rounded-full bg-[rgba(19,236,164,0.08)] text-[#13eca4] hover:bg-[rgba(19,236,164,0.15)] transition-colors">
+          <button className="p-2 rounded-full bg-primary-green/8 text-primary-green hover:bg-primary-green/15 transition-colors">
             <span className="material-symbols-outlined text-[22px]">notifications</span>
           </button>
-          <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-[#10221c] font-bold text-sm">
+          <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-(--text-base) font-bold text-sm">
             {initials}
           </div>
         </div>
@@ -143,11 +143,11 @@ export default function StudentDashboard() {
           <div className="absolute right-0 top-0 w-64 h-full bg-linear-to-l from-[rgba(19,236,164,0.03)] to-transparent" />
           <div className="absolute -right-10 -bottom-10 w-48 h-48 border-2 border-[rgba(19,236,164,0.1)] rounded-full" />
           <div className="relative z-10">
-            <p className="text-[#13eca4] font-semibold text-sm mb-2 uppercase tracking-widest">
+            <p className="text-primary-green font-semibold text-sm mb-2 uppercase tracking-widest">
               Welcome back
             </p>
             <h2 className="text-3xl font-bold text-(--text-base) mb-2">Hi, {firstName}!</h2>
-            <p className="text-slate-400 mb-6 max-w-md">
+            <p className="text-(--text-muted) mb-6 max-w-md">
               You have{" "}
               <span className="text-(--text-base) font-semibold">
                 {mergedCourses.filter((c) => !c.completed && c.progress > 0).length} courses in
@@ -203,16 +203,16 @@ export default function StudentDashboard() {
                 campaign
               </span>
               <div className="flex items-start gap-4 relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[20px] text-[#13eca4]">
+                <div className="w-10 h-10 rounded-xl bg-primary-green/10 flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[20px] text-primary-green">
                     campaign
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-0.5">
+                  <p className="text-(--text-muted) text-xs font-bold uppercase tracking-widest mb-0.5">
                     Teacher&apos;s Message
                   </p>
-                  <p className="text-slate-200 text-sm leading-relaxed italic">
+                  <p className="text-(--text-base) text-sm leading-relaxed italic">
                     &ldquo;Welcome to your courses! Keep up the great work and don&rsquo;t hesitate
                     to reach out if you need help.&rdquo;
                   </p>
@@ -261,8 +261,8 @@ export default function StudentDashboard() {
                     onClick={() => setCourseFilter(tab)}
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                       courseFilter === tab
-                        ? "bg-[#13eca4] text-[#10221c]"
-                        : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-(--text-base)"
+                        ? "bg-primary-green text-white"
+                        : "bg-[rgba(255,255,255,0.05)] text-(--text-muted) hover:text-(--text-base)"
                     }`}
                   >
                     {tab}
@@ -278,7 +278,7 @@ export default function StudentDashboard() {
                   <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3 block">
                     school
                   </span>
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-(--text-muted) text-sm">
                     No courses enrolled yet. Ask your teacher for a classroom code!
                   </p>
                 </div>
@@ -337,18 +337,18 @@ export default function StudentDashboard() {
             {/* Weekly goal */}
             <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
               <h3 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+                <span className="material-symbols-outlined text-primary-green text-[20px]">
                   trending_up
                 </span>
                 Weekly Goal
               </h3>
               <div className="mb-3">
                 <div className="flex justify-between text-xs mb-2">
-                  <span className="text-slate-400">
+                  <span className="text-(--text-muted)">
                     {mergedCourses.filter((c) => c.completed).length} of {mergedCourses.length}{" "}
                     courses completed
                   </span>
-                  <span className="text-[#13eca4] font-bold">
+                  <span className="text-primary-green font-bold">
                     {mergedCourses.length > 0
                       ? Math.round(
                           (mergedCourses.filter((c) => c.completed).length / mergedCourses.length) *
@@ -367,7 +367,7 @@ export default function StudentDashboard() {
                   />
                 </div>
               </div>
-              <p className="text-slate-400 text-xs">Keep learning to reach your goals!</p>
+              <p className="text-(--text-muted) text-xs">Keep learning to reach your goals!</p>
             </div>
 
             {/* Recent Activity */}
@@ -391,7 +391,7 @@ export default function StudentDashboard() {
                           </span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-slate-300 text-xs leading-snug">{item.description}</p>
+                          <p className="text-(--text-muted) text-xs leading-snug">{item.description}</p>
                           <p className="text-slate-500 text-xs mt-0.5">{timeAgo(item.timestamp)}</p>
                         </div>
                       </div>
@@ -435,10 +435,10 @@ export default function StudentDashboard() {
                     <span className="material-symbols-outlined text-[20px]" style={{ color }}>
                       {icon}
                     </span>
-                    <span className="text-slate-300 text-sm font-medium group-hover:text-(--text-base) transition-colors">
+                    <span className="text-(--text-muted) text-sm font-medium group-hover:text-(--text-base) transition-colors">
                       {label}
                     </span>
-                    <span className="material-symbols-outlined text-slate-600 text-[16px] ml-auto group-hover:text-[#13eca4] transition-colors">
+                    <span className="material-symbols-outlined text-slate-600 text-[16px] ml-auto group-hover:text-primary-green transition-colors">
                       arrow_forward
                     </span>
                   </Link>

@@ -128,7 +128,7 @@ export default function MentorSubmissionsPage() {
             </span>
             Submissions
           </h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Grading queue for your assigned challenges
           </p>
         </div>
@@ -171,7 +171,7 @@ export default function MentorSubmissionsPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -185,7 +185,7 @@ export default function MentorSubmissionsPage() {
               onClick={() => setActiveTab(tab.key)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                 activeTab === tab.key
-                  ? "bg-[#10b981] text-[#10221c]"
+                  ? "bg-[#10b981] text-(--text-base)"
                   : "bg-[rgba(16,185,129,0.08)] text-[#10b981] border border-[rgba(16,185,129,0.15)] hover:bg-[rgba(16,185,129,0.15)]"
               }`}
             >
@@ -193,7 +193,7 @@ export default function MentorSubmissionsPage() {
               <span
                 className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                   activeTab === tab.key
-                    ? "bg-[rgba(0,0,0,0.15)] text-[#10221c]"
+                    ? "bg-[rgba(0,0,0,0.15)] text-(--text-base)"
                     : "bg-[rgba(16,185,129,0.15)] text-[#10b981]"
                 }`}
               >
@@ -212,7 +212,7 @@ export default function MentorSubmissionsPage() {
             <p className="text-(--text-base) font-semibold text-lg mb-2">
               {activeTab === "pending" ? "All caught up!" : "No submissions yet"}
             </p>
-            <p className="text-slate-400 text-sm">
+            <p className="text-(--text-muted) text-sm">
               {activeTab === "pending"
                 ? "No submissions awaiting grades."
                 : "Submissions will appear here once students participate."}
@@ -240,21 +240,21 @@ export default function MentorSubmissionsPage() {
                     <div className="w-8 h-8 rounded-full bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-[#10b981] text-[11px] font-bold shrink-0">
                       {sub.studentId.slice(0, 2).toUpperCase()}
                     </div>
-                    <span className="text-slate-300 text-xs font-mono truncate">
+                    <span className="text-(--text-muted) text-xs font-mono truncate">
                       {sub.studentId.slice(0, 14)}&hellip;
                     </span>
                   </div>
 
                   {/* Challenge */}
                   <div className="col-span-4 min-w-0">
-                    <p className="text-slate-200 text-sm font-medium truncate">
+                    <p className="text-(--text-base) text-sm font-medium truncate">
                       {challengeMap[sub.challengeId] ?? "Unknown Challenge"}
                     </p>
                   </div>
 
                   {/* Submitted date */}
                   <div className="col-span-2">
-                    <span className="text-slate-400 text-xs">{formatDate(sub.submittedAt)}</span>
+                    <span className="text-(--text-muted) text-xs">{formatDate(sub.submittedAt)}</span>
                   </div>
 
                   {/* Score */}

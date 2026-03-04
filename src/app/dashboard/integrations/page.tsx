@@ -152,8 +152,8 @@ export default function IntegrationsPage() {
     <div className="min-h-screen bg-(--bg-page)">
       {/* Live Feed Badge */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
-        <div className="px-4 py-2 bg-(--bg-card)/90 backdrop-blur border border-[#13daec]/20 rounded-full flex items-center gap-2 shadow-2xl">
-          <span className="size-2 rounded-full bg-[#13daec] animate-pulse"></span>
+        <div className="px-4 py-2 bg-(--bg-card)/90 backdrop-blur border border-primary/20 rounded-full flex items-center gap-2 shadow-2xl">
+          <span className="size-2 rounded-full bg-primary animate-pulse"></span>
           <span className="text-[10px] font-bold text-(--text-muted) tracking-wider uppercase">
             Live System Feed Active
           </span>
@@ -209,7 +209,7 @@ export default function IntegrationsPage() {
               onClick={() => setActiveSection(item.section)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeSection === item.section
-                  ? "bg-[#13daec]/10 text-[#13daec] border border-[#13daec]/20"
+                  ? "bg-primary/10 text-primary border border-primary/20"
                   : "text-(--text-muted) hover:bg-(--bg-card)"
               }`}
             >
@@ -234,11 +234,11 @@ export default function IntegrationsPage() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-xs text-(--text-muted)">Schools Active</span>
-                <span className="text-xs text-[#13daec] font-bold">142</span>
+                <span className="text-xs text-primary font-bold">142</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-xs text-(--text-muted)">Today&apos;s Syncs</span>
-                <span className="text-xs text-[#13daec] font-bold">1,204</span>
+                <span className="text-xs text-primary font-bold">1,204</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-xs text-(--text-muted)">Error Rate</span>
@@ -272,7 +272,7 @@ export default function IntegrationsPage() {
           {/* API Config Panel */}
           <section className="bg-(--bg-card)/40 border border-(--border) rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-6">
-              <span className="material-symbols-outlined text-[#13daec]">
+              <span className="material-symbols-outlined text-primary">
                 settings_input_component
               </span>
               <h2 className="text-(--text-base) text-lg font-bold">Google Cloud API Configuration</h2>
@@ -288,11 +288,11 @@ export default function IntegrationsPage() {
                     readOnly
                     value={clientId}
                     onChange={(e) => setClientId(e.target.value)}
-                    className="w-full rounded-lg bg-(--bg-card) border border-(--border) text-(--text-base) focus:ring-[#13daec] focus:border-[#13daec] h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
+                    className="w-full rounded-lg bg-(--bg-card) border border-(--border) text-(--text-base) focus:ring-[#13daec] focus:border-primary h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
                   />
                   <button
                     onClick={() => handleCopy(clientId, "clientId")}
-                    className="absolute right-3 top-3 text-(--text-faint) hover:text-[#13daec] transition-colors"
+                    className="absolute right-3 top-3 text-(--text-faint) hover:text-primary transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">
                       {copiedField === "clientId" ? "check" : "content_copy"}
@@ -309,11 +309,11 @@ export default function IntegrationsPage() {
                     type={showSecret ? "text" : "password"}
                     value={clientSecret}
                     onChange={(e) => setClientSecret(e.target.value)}
-                    className="w-full rounded-lg bg-(--bg-card) border border-(--border) text-(--text-base) focus:ring-[#13daec] focus:border-[#13daec] h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
+                    className="w-full rounded-lg bg-(--bg-card) border border-(--border) text-(--text-base) focus:ring-[#13daec] focus:border-primary h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
                   />
                   <button
                     onClick={() => setShowSecret(!showSecret)}
-                    className="absolute right-3 top-3 text-(--text-faint) hover:text-[#13daec] transition-colors"
+                    className="absolute right-3 top-3 text-(--text-faint) hover:text-primary transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">
                       {showSecret ? "visibility_off" : "visibility"}
@@ -330,8 +330,8 @@ export default function IntegrationsPage() {
                   key={env}
                   className={`px-4 py-2 rounded-lg text-sm font-bold border transition-all ${
                     i === 0
-                      ? "bg-[#13daec] text-[#102022] border-[#13daec]"
-                      : "border-(--border) text-(--text-muted) hover:border-[#13daec] hover:text-[#13daec]"
+                      ? "bg-primary text-white border-primary"
+                      : "border-(--border) text-(--text-muted) hover:border-primary hover:text-primary"
                   }`}
                 >
                   {env}
@@ -345,7 +345,7 @@ export default function IntegrationsPage() {
               </button>
               <button
                 onClick={handleSave}
-                className="px-6 py-2 bg-[#13daec] text-[#102022] font-bold rounded-lg text-sm hover:brightness-110 transition-all"
+                className="px-6 py-2 bg-primary text-white font-bold rounded-lg text-sm hover:brightness-110 transition-all"
               >
                 Save Global Settings
               </button>
@@ -370,7 +370,7 @@ export default function IntegrationsPage() {
                       onClick={() => setFilterStatus(val)}
                       className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
                         filterStatus === val
-                          ? "bg-[#13daec] text-[#102022]"
+                          ? "bg-primary text-white"
                           : "text-(--text-muted) hover:text-(--text-base)"
                       }`}
                     >
@@ -378,7 +378,7 @@ export default function IntegrationsPage() {
                     </button>
                   ))}
                 </div>
-                <span className="text-xs px-2 py-1 rounded bg-[#13daec]/20 text-[#13daec] font-bold">
+                <span className="text-xs px-2 py-1 rounded bg-primary/20 text-primary font-bold">
                   12 New Syncs Today
                 </span>
               </div>
@@ -398,7 +398,7 @@ export default function IntegrationsPage() {
                   {filteredSchools.map((school) => {
                     const cfg = STATUS_CONFIG[school.status];
                     return (
-                      <tr key={school.id} className="hover:bg-[#13daec]/5 transition-colors group">
+                      <tr key={school.id} className="hover:bg-primary/5 transition-colors group">
                         <td className="px-6 py-4">
                           <div className="flex flex-col">
                             <span className="text-sm font-bold text-(--text-base)">{school.name}</span>
@@ -423,10 +423,10 @@ export default function IntegrationsPage() {
                         </td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button className="p-1.5 rounded hover:bg-[#13daec]/10 text-(--text-faint) hover:text-[#13daec] transition-colors">
+                            <button className="p-1.5 rounded hover:bg-primary/10 text-(--text-faint) hover:text-primary transition-colors">
                               <span className="material-symbols-outlined text-lg">sync</span>
                             </button>
-                            <button className="p-1.5 rounded hover:bg-[#13daec]/10 text-(--text-faint) hover:text-[#13daec] transition-colors">
+                            <button className="p-1.5 rounded hover:bg-primary/10 text-(--text-faint) hover:text-primary transition-colors">
                               <span className="material-symbols-outlined text-lg">settings</span>
                             </button>
                           </div>
@@ -471,7 +471,7 @@ export default function IntegrationsPage() {
                 <div key={label} className="p-3 bg-(--bg-page) border border-(--border) rounded-xl">
                   <p className="text-[10px] text-(--text-faint) font-bold">{label}</p>
                   <p
-                    className={`text-lg font-black ${highlight ? "text-[#13daec]" : "text-amber-400"}`}
+                    className={`text-lg font-black ${highlight ? "text-primary" : "text-amber-400"}`}
                   >
                     {value}
                   </p>
@@ -492,7 +492,7 @@ export default function IntegrationsPage() {
                   </div>
                   <div className="h-1.5 bg-(--bg-page) rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${pct > 80 ? "bg-rose-500" : pct > 60 ? "bg-amber-400" : "bg-[#13daec]"}`}
+                      className={`h-full rounded-full ${pct > 80 ? "bg-rose-500" : pct > 60 ? "bg-amber-400" : "bg-primary"}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -516,7 +516,7 @@ export default function IntegrationsPage() {
                   className={`p-3 rounded-r-lg border-l-2 ${
                     err.severity === "error"
                       ? "bg-rose-500/5 border-rose-500"
-                      : "bg-slate-800/30 border-slate-600"
+                      : "bg-(--bg-elevated)/30 border-slate-600"
                   }`}
                 >
                   <div className="flex justify-between items-start mb-1">
@@ -533,7 +533,7 @@ export default function IntegrationsPage() {
                 </div>
               ))}
             </div>
-            <button className="w-full py-3 bg-(--bg-card) border-t border-(--border) text-xs font-bold text-[#13daec] hover:bg-[#13daec]/10 transition-colors uppercase tracking-widest">
+            <button className="w-full py-3 bg-(--bg-card) border-t border-(--border) text-xs font-bold text-primary hover:bg-primary/10 transition-colors uppercase tracking-widest">
               View All Logs
             </button>
           </div>

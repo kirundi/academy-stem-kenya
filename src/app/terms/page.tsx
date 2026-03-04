@@ -88,13 +88,13 @@ export default function TermsPage() {
               <h2 className="text-xl font-bold text-(--text-base) mb-3">8. Contact</h2>
               <p>
                 For questions about these Terms, please visit our{" "}
-                <Link href="/contact" className="text-[#13eca4] hover:underline">
+                <Link href="/contact" className="text-primary-green hover:underline">
                   contact page
                 </Link>{" "}
                 or email{" "}
                 <a
                   href="mailto:legal@stemimpactcenterkenya.org"
-                  className="text-[#13eca4] hover:underline"
+                  className="text-primary-green hover:underline"
                 >
                   legal@stemimpactcenterkenya.org
                 </a>

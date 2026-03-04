@@ -70,19 +70,19 @@ export default function ForgotPasswordPage() {
         <div className="flex items-center gap-6">
           <Link
             href="/#curriculum"
-            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-primary-green transition-colors"
           >
             Courses
           </Link>
           <Link
             href="/help"
-            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-primary-green transition-colors"
           >
             Help Center
           </Link>
           <Link
             href="/login"
-            className="bg-[#13eca4] text-[#10221c] text-sm font-bold px-5 h-10 flex items-center rounded-lg hover:opacity-90 transition-opacity"
+            className="bg-primary-green text-white text-sm font-bold px-5 h-10 flex items-center rounded-lg hover:opacity-90 transition-opacity"
           >
             Sign In
           </Link>
@@ -95,9 +95,9 @@ export default function ForgotPasswordPage() {
           {!sent ? (
             <>
               <div className="text-center mb-10">
-                <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-(--border-medium) rounded-full px-4 py-1.5 mb-4">
-                  <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-                  <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2 bg-primary-green/8 border border-(--border-medium) rounded-full px-4 py-1.5 mb-4">
+                  <span className="w-2 h-2 bg-primary-green rounded-full animate-pulse" />
+                  <span className="text-primary-green text-xs font-bold uppercase tracking-widest">
                     Account Recovery
                   </span>
                 </div>
@@ -111,9 +111,9 @@ export default function ForgotPasswordPage() {
               </div>
 
               {error && (
-                <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border-l-4 border-[#ff4d4d] flex items-start gap-3">
+                <div className="mb-6 p-4 rounded-xl bg-accent-red/10 border-l-4 border-accent-red flex items-start gap-3">
                   <svg
-                    className="w-5 h-5 text-[#ff4d4d] shrink-0 mt-0.5"
+                    className="w-5 h-5 text-accent-red shrink-0 mt-0.5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
                       d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
                     />
                   </svg>
-                  <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
+                  <p className="text-accent-red text-sm font-medium">{error}</p>
                 </div>
               )}
 
@@ -143,14 +143,14 @@ export default function ForgotPasswordPage() {
                       if (error) setError("");
                     }}
                     placeholder="you@example.com"
-                    className={`form-input ${error ? "!border-[#ff4d4d]" : ""}`}
+                    className={`form-input ${error ? "!border-accent-red" : ""}`}
                     onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
                   />
                 </div>
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
+                  className="w-full bg-primary-green text-white h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
                   {loading ? (
                     <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -184,9 +184,9 @@ export default function ForgotPasswordPage() {
             </>
           ) : (
             <div className="text-center py-6">
-              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-primary-green/12 flex items-center justify-center">
                 <svg
-                  className="w-8 h-8 text-[#13eca4]"
+                  className="w-8 h-8 text-primary-green"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -209,14 +209,14 @@ export default function ForgotPasswordPage() {
               </p>
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center bg-[#13eca4] text-[#10221c] h-14 px-8 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity"
+                className="inline-flex items-center justify-center bg-primary-green text-white h-14 px-8 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity"
               >
                 Back to Login
               </Link>
               <div className="mt-6">
                 <button
                   onClick={() => setSent(false)}
-                  className="text-(--text-faint) hover:text-[#13eca4] text-sm transition-colors"
+                  className="text-(--text-faint) hover:text-primary-green text-sm transition-colors"
                 >
                   Didn&apos;t receive the email? Try again
                 </button>

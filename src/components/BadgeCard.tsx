@@ -74,7 +74,7 @@ export default function BadgeCard({
       <div className="flex items-center gap-3 w-full justify-center">
         <span
           className="text-xs font-bold px-2 py-0.5 rounded"
-          style={{ background: "rgba(19,236,164,0.1)", color: "#13eca4" }}
+          style={{ background: "var(--hover-medium)", color: "var(--primary-green)" }}
         >
           +{xpValue} XP
         </span>

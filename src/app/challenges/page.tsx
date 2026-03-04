@@ -14,7 +14,7 @@ const THEME_META: Record<string, { categoryColor: string; bgGradient: string }> 
     bgGradient: "from-emerald-900/60 to-[#102022]",
   },
   robotics: {
-    categoryColor: "bg-[#13daec] text-[#102022]",
+    categoryColor: "bg-primary text-white",
     bgGradient: "from-[#13daec]/20 to-[#102022]",
   },
   "healthcare ai": {
@@ -127,12 +127,12 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
   const countdownLabel = status === "live" ? "Ends in" : status === "ended" ? "Ended" : "Starts in";
 
   return (
-    <div className="group flex flex-col bg-(--bg-card) rounded-2xl overflow-hidden border border-(--border) hover:border-[#13daec]/50 transition-all shadow-xl">
+    <div className="group flex flex-col bg-(--bg-card) rounded-2xl overflow-hidden border border-(--border) hover:border-primary/50 transition-all shadow-xl">
       {/* Card header gradient */}
       <div
         className={`relative h-44 bg-linear-to-br ${bgGradient} flex items-center justify-center overflow-hidden`}
       >
-        <span className="material-symbols-outlined text-[80px] text-[#13daec]/20 group-hover:text-[#13daec]/30 transition-all">
+        <span className="material-symbols-outlined text-[80px] text-primary/20 group-hover:text-primary/30 transition-all">
           {challenge.icon || "bolt"}
         </span>
         <span
@@ -156,7 +156,7 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
       <div className="flex-1 p-6 flex flex-col justify-between gap-4">
         <div>
           {/* Countdown */}
-          <div className="flex items-center gap-2 text-[#13daec] mb-3">
+          <div className="flex items-center gap-2 text-primary mb-3">
             <span className="material-symbols-outlined text-sm">timer</span>
             <p className="text-xs font-bold uppercase tracking-widest">
               {status === "ended"
@@ -171,14 +171,14 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
         <div className="flex gap-3">
           <Link
             href={`/challenges/${challenge.id}`}
-            className="flex-1 rounded-lg h-10 border border-(--border) text-(--text-muted) text-sm font-bold flex items-center justify-center hover:border-[#13daec] hover:text-[#13daec] transition-all"
+            className="flex-1 rounded-lg h-10 border border-(--border) text-(--text-muted) text-sm font-bold flex items-center justify-center hover:border-primary hover:text-primary transition-all"
           >
             View Brief
           </Link>
           {status !== "ended" && (
             <Link
               href={`/challenges/${challenge.id}#enroll`}
-              className="flex-1 rounded-lg h-10 bg-[#13daec] text-[#102022] text-sm font-bold flex items-center justify-center gap-1.5 hover:brightness-110 transition-all"
+              className="flex-1 rounded-lg h-10 bg-primary text-white text-sm font-bold flex items-center justify-center gap-1.5 hover:brightness-110 transition-all"
             >
               <span className="material-symbols-outlined text-base">group_add</span>
               Register Team
@@ -230,16 +230,16 @@ export default function ChallengesPage() {
             }}
           />
           {/* Glow orbs */}
-          <div className="absolute top-20 left-1/4 size-72 bg-[#13daec]/10 rounded-full blur-3xl" />
+          <div className="absolute top-20 left-1/4 size-72 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-10 right-1/4 size-56 bg-violet-500/10 rounded-full blur-3xl" />
 
           <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[#13daec]/10 border border-[#13daec]/20 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#13daec] mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary mb-6">
               <span className="material-symbols-outlined text-sm">bolt</span>
               High-Stakes STEM Competition
             </div>
             <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tighter mb-6 text-(--text-base)">
-              Explore Our <span className="text-[#13daec]">Hackathons</span>
+              Explore Our <span className="text-primary">Hackathons</span>
             </h1>
             <p className="text-(--text-muted) text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
               Empowering the next generation of innovators through high-energy STEM challenges and
@@ -248,14 +248,14 @@ export default function ChallengesPage() {
             <div className="flex flex-wrap justify-center gap-4">
               <a
                 href="#challenges"
-                className="rounded-xl h-14 px-8 bg-[#13daec] text-[#102022] text-base font-black hover:shadow-[0_0_24px_rgba(19,218,236,0.4)] transition-all flex items-center gap-2"
+                className="rounded-xl h-14 px-8 bg-primary text-white text-base font-black hover:shadow-lg transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined">rocket_launch</span>
                 View All Challenges
               </a>
               <Link
                 href="/about"
-                className="rounded-xl h-14 px-8 border-2 border-[#13daec]/50 text-[#13daec] text-base font-black hover:bg-[#13daec]/10 transition-all flex items-center gap-2"
+                className="rounded-xl h-14 px-8 border-2 border-primary/50 text-primary text-base font-black hover:bg-primary/10 transition-all flex items-center gap-2"
               >
                 <span className="material-symbols-outlined">school</span>
                 School Partnership
@@ -274,7 +274,7 @@ export default function ChallengesPage() {
               { value: "48h", label: "Hacking Window", icon: "timer" },
             ].map(({ value, label, icon }) => (
               <div key={label} className="px-6 first:pl-0 last:pr-0 flex items-center gap-3">
-                <span className="material-symbols-outlined text-[#13daec] text-2xl">{icon}</span>
+                <span className="material-symbols-outlined text-primary text-2xl">{icon}</span>
                 <div>
                   <p className="text-xl font-black text-(--text-base)">{value}</p>
                   <p className="text-xs text-(--text-faint)">{label}</p>
@@ -291,11 +291,11 @@ export default function ChallengesPage() {
               <h2 className="text-3xl md:text-4xl font-black text-(--text-base)">
                 Active &amp; Upcoming Challenges
               </h2>
-              <div className="h-1 w-20 bg-[#13daec] mt-3" />
+              <div className="h-1 w-20 bg-primary mt-3" />
             </div>
             <a
               href="#schedule"
-              className="text-[#13daec] font-bold flex items-center gap-1 text-sm hover:underline"
+              className="text-primary font-bold flex items-center gap-1 text-sm hover:underline"
             >
               View Schedule{" "}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
@@ -310,8 +310,8 @@ export default function ChallengesPage() {
                 onClick={() => setActiveFilter(f.val)}
                 className={`px-4 py-1.5 rounded-full text-sm font-bold border transition-all ${
                   activeFilter === f.val
-                    ? "bg-[#13daec] text-[#102022] border-[#13daec]"
-                    : "border-(--border) text-(--text-muted) hover:border-[#13daec] hover:text-[#13daec]"
+                    ? "bg-primary text-white border-primary"
+                    : "border-(--border) text-(--text-muted) hover:border-primary hover:text-primary"
                 }`}
               >
                 {f.label}
@@ -321,7 +321,7 @@ export default function ChallengesPage() {
 
           {loading ? (
             <div className="flex items-center justify-center h-48">
-              <span className="material-symbols-outlined animate-spin text-4xl text-[#13daec]">
+              <span className="material-symbols-outlined animate-spin text-4xl text-primary">
                 progress_activity
               </span>
             </div>
@@ -353,7 +353,7 @@ export default function ChallengesPage() {
 
             <div className="relative grid grid-cols-1 md:grid-cols-3 gap-16">
               {/* Connector line */}
-              <div className="hidden md:block absolute top-9.5 left-[20%] right-[20%] h-px bg-[#13daec]/20 z-0" />
+              <div className="hidden md:block absolute top-9.5 left-[20%] right-[20%] h-px bg-primary/20 z-0" />
 
               {[
                 {
@@ -380,12 +380,12 @@ export default function ChallengesPage() {
                   className="relative z-10 flex flex-col items-center text-center group"
                 >
                   <div className="relative">
-                    <div className="size-20 bg-(--bg-page) border-4 border-[#13daec]/20 group-hover:border-[#13daec] flex items-center justify-center rounded-full mb-5 transition-all shadow-[0_0_20px_rgba(19,218,236,0.08)] group-hover:shadow-[0_0_24px_rgba(19,218,236,0.25)]">
-                      <span className="material-symbols-outlined text-[#13daec] text-4xl">
+                    <div className="size-20 bg-(--bg-page) border-4 border-primary/20 group-hover:border-primary flex items-center justify-center rounded-full mb-5 transition-all shadow-[0_0_20px_rgba(19,218,236,0.08)] group-hover:shadow-[0_0_24px_rgba(19,218,236,0.25)]">
+                      <span className="material-symbols-outlined text-primary text-4xl">
                         {icon}
                       </span>
                     </div>
-                    <span className="absolute -top-2 -right-2 size-6 rounded-full bg-[#13daec] text-[#102022] text-[10px] font-black flex items-center justify-center">
+                    <span className="absolute -top-2 -right-2 size-6 rounded-full bg-primary text-white text-[10px] font-black flex items-center justify-center">
                       {step}
                     </span>
                   </div>
@@ -420,9 +420,9 @@ export default function ChallengesPage() {
                   ))}
                 </ul>
               </div>
-              <div className="p-6 rounded-2xl bg-[#13daec]/5 border border-[#13daec]/30">
+              <div className="p-6 rounded-2xl bg-primary/5 border border-primary/30">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="material-symbols-outlined text-[#13daec] text-2xl">bolt</span>
+                  <span className="material-symbols-outlined text-primary text-2xl">bolt</span>
                   <h4 className="font-bold text-(--text-base) text-lg">Hackathon Challenges</h4>
                 </div>
                 <ul className="space-y-2 text-sm text-(--text-muted)">
@@ -433,7 +433,7 @@ export default function ChallengesPage() {
                     "Cash prizes + Hall of Fame glory",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[#13daec] text-base">
+                      <span className="material-symbols-outlined text-primary text-base">
                         check_circle
                       </span>
                       {item}
@@ -449,7 +449,7 @@ export default function ChallengesPage() {
         <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-black text-(--text-base) mb-4 flex items-center justify-center gap-3">
-              <span className="material-symbols-outlined text-[#13daec] text-4xl">
+              <span className="material-symbols-outlined text-primary text-4xl">
                 workspace_premium
               </span>
               Hall of Fame
@@ -463,10 +463,10 @@ export default function ChallengesPage() {
             {WINNERS.map((winner) => (
               <div
                 key={winner.name}
-                className="bg-(--bg-card) p-6 rounded-2xl border border-(--border) hover:border-[#13daec]/40 flex flex-col items-center text-center relative overflow-hidden group transition-all"
+                className="bg-(--bg-card) p-6 rounded-2xl border border-(--border) hover:border-primary/40 flex flex-col items-center text-center relative overflow-hidden group transition-all"
               >
                 {/* Glow orb */}
-                <div className="absolute -top-4 -right-4 size-20 bg-[#13daec]/10 rounded-full blur-2xl group-hover:bg-[#13daec]/20 transition-all" />
+                <div className="absolute -top-4 -right-4 size-20 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all" />
 
                 {/* Avatar */}
                 <div
@@ -477,7 +477,7 @@ export default function ChallengesPage() {
                 </div>
 
                 <h4 className="font-bold text-lg text-(--text-base) mb-0.5">{winner.name}</h4>
-                <p className="text-[#13daec] text-xs font-bold uppercase tracking-widest mb-4">
+                <p className="text-primary text-xs font-bold uppercase tracking-widest mb-4">
                   {winner.school}
                 </p>
 
@@ -496,7 +496,7 @@ export default function ChallengesPage() {
           <div className="mt-10 text-center">
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 text-[#13daec] font-bold hover:underline text-sm"
+              className="inline-flex items-center gap-2 text-primary font-bold hover:underline text-sm"
             >
               View full leaderboard{" "}
               <span className="material-symbols-outlined text-base">arrow_forward</span>
@@ -505,7 +505,7 @@ export default function ChallengesPage() {
         </section>
 
         {/* ── CTA Section ── */}
-        <section className="py-20 bg-[#13daec] px-6">
+        <section className="py-20 bg-primary px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-[#102022] text-4xl md:text-5xl font-black mb-6">
               Bring the Challenge to Your School
@@ -537,9 +537,9 @@ export default function ChallengesPage() {
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
             <div className="md:col-span-2">
               <Link href="/" className="flex items-center gap-3 mb-5">
-                <span className="material-symbols-outlined text-3xl text-[#13daec]">token</span>
+                <span className="material-symbols-outlined text-3xl text-primary">token</span>
                 <span className="text-xl font-bold tracking-tight text-(--text-base) uppercase italic">
-                  STEM Impact <span className="text-[#ff4d4d]">Academy</span>
+                  STEM Impact <span className="text-accent-red">Academy</span>
                 </span>
               </Link>
               <p className="text-(--text-muted) max-w-sm text-sm leading-relaxed mb-5">
@@ -561,7 +561,7 @@ export default function ChallengesPage() {
                   <li key={item}>
                     <Link
                       href={href}
-                      className="text-(--text-muted) hover:text-[#13daec] transition-colors text-sm"
+                      className="text-(--text-muted) hover:text-primary transition-colors text-sm"
                     >
                       {item}
                     </Link>
@@ -583,7 +583,7 @@ export default function ChallengesPage() {
                   <li key={item}>
                     <Link
                       href={href}
-                      className="text-(--text-muted) hover:text-[#13daec] transition-colors text-sm"
+                      className="text-(--text-muted) hover:text-primary transition-colors text-sm"
                     >
                       {item}
                     </Link>

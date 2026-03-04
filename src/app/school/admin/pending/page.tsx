@@ -49,7 +49,7 @@ export default function SchoolAdminPendingPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
-        <span className="material-symbols-outlined animate-spin text-[#13eca4] text-4xl">
+        <span className="material-symbols-outlined animate-spin text-primary-green text-4xl">
           progress_activity
         </span>
       </div>
@@ -86,7 +86,7 @@ export default function SchoolAdminPendingPage() {
         {/* ── REJECTED ── */}
         {schoolStatus === "rejected" && (
           <div className="max-w-lg w-full text-center">
-            <div className="inline-flex items-center gap-2 bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.25)] rounded-full px-5 py-2 mb-8">
+            <div className="inline-flex items-center gap-2 bg-accent-red/10 border border-[rgba(255,77,77,0.25)] rounded-full px-5 py-2 mb-8">
               <span className="w-2 h-2 bg-red-400 rounded-full" />
               <span className="text-red-400 text-xs font-bold uppercase tracking-widest">
                 Application Not Approved
@@ -122,7 +122,7 @@ export default function SchoolAdminPendingPage() {
               </a>
               <a
                 href="/onboarding"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#13eca4] text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary-green text-white font-bold text-sm hover:opacity-90 transition-opacity"
               >
                 <span className="material-symbols-outlined text-[18px]">refresh</span>
                 Resubmit Application
@@ -153,7 +153,7 @@ export default function SchoolAdminPendingPage() {
 
             <a
               href="mailto:support@stemimpactcenterkenya.org"
-              className="inline-flex items-center gap-2 text-[#13eca4] text-sm font-semibold hover:underline"
+              className="inline-flex items-center gap-2 text-primary-green text-sm font-semibold hover:underline"
             >
               <span className="material-symbols-outlined text-[16px]">mail</span>
               Contact support to restore access
@@ -171,8 +171,8 @@ export default function SchoolAdminPendingPage() {
               </span>
             </div>
 
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[rgba(19,236,164,0.08)] border border-(--border-medium) mb-6">
-              <span className="material-symbols-outlined text-[#13eca4] text-4xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-primary-green/8 border border-(--border-medium) mb-6">
+              <span className="material-symbols-outlined text-primary-green text-4xl">
                 hourglass_top
               </span>
             </div>
@@ -187,7 +187,7 @@ export default function SchoolAdminPendingPage() {
               {[
                 {
                   icon: "check_circle",
-                  color: "text-[#13eca4]",
+                  color: "text-primary-green",
                   label: "Application submitted",
                   detail: "We received your registration",
                   done: true,
@@ -230,7 +230,7 @@ export default function SchoolAdminPendingPage() {
 
             <a
               href="mailto:support@stemimpactcenterkenya.org"
-              className="text-[#13eca4] text-sm font-semibold hover:underline inline-flex items-center gap-1.5"
+              className="text-primary-green text-sm font-semibold hover:underline inline-flex items-center gap-1.5"
             >
               <span className="material-symbols-outlined text-[16px]">mail</span>
               Contact support if you have questions

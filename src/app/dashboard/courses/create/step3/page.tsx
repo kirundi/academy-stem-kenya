@@ -142,7 +142,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
           <p className="text-(--text-muted) mb-4">No course ID provided.</p>
           <Link
             href="/dashboard/courses/create/step1"
-            className="text-[#13eca4] hover:underline font-bold"
+            className="text-primary-green hover:underline font-bold"
           >
             Go back to Step 1
           </Link>
@@ -156,7 +156,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
       {/* Sticky Header */}
       <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[rgba(255,255,255,0.07)] bg-[rgba(16,34,28,0.9)] backdrop-blur-md px-6 lg:px-10 py-3">
         <div className="flex items-center gap-8">
-          <div className="flex items-center gap-3 text-[#13eca4]">
+          <div className="flex items-center gap-3 text-primary-green">
             <span className="material-symbols-outlined text-3xl">token</span>
             <h2 className="text-(--text-base) text-lg font-bold tracking-tight">STEM Lab Creator</h2>
           </div>
@@ -180,7 +180,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
               <a
                 key={item.label}
                 href={item.href}
-                className="text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
+                className="text-(--text-muted) text-sm font-medium hover:text-primary-green transition-colors"
               >
                 {item.label}
               </a>
@@ -189,7 +189,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
           <button
             onClick={handleSaveNotes}
             disabled={isLoading}
-            className="flex items-center justify-center h-10 px-4 rounded-lg bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center h-10 px-4 rounded-lg bg-primary-green text-white text-sm font-bold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {savingNotes ? (
               <div className="flex items-center gap-2">
@@ -200,7 +200,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
               "Save Course"
             )}
           </button>
-          <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border border-(--border-strong) flex items-center justify-center text-[#13eca4] font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-primary-green/15 border border-(--border-strong) flex items-center justify-center text-primary-green font-bold text-sm">
             {appUser?.displayName?.slice(0, 2).toUpperCase() || "TM"}
           </div>
         </div>
@@ -210,13 +210,13 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
         {/* Title Area */}
         <div className="px-6 lg:px-10 py-6 border-b border-[rgba(255,255,255,0.07)]">
           <nav className="flex flex-wrap gap-2 mb-4 text-sm">
-            <a href="/dashboard/content" className="text-(--text-faint) hover:text-[#13eca4]">
+            <a href="/dashboard/content" className="text-(--text-faint) hover:text-primary-green">
               My Courses
             </a>
             <span className="text-(--text-faint)">/</span>
             <a
               href={`/dashboard/courses/create/step1?courseId=${courseId}`}
-              className="text-(--text-faint) hover:text-[#13eca4]"
+              className="text-(--text-faint) hover:text-primary-green"
             >
               {course?.title || "Course"}
             </a>
@@ -248,7 +248,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
               className={`mt-4 p-3 rounded-lg text-sm flex items-center gap-2 ${
                 saveStatus.startsWith("Error")
                   ? "bg-red-500/10 border border-red-500/30 text-red-400"
-                  : "bg-[rgba(19,236,164,0.1)] border border-(--border-strong) text-[#13eca4]"
+                  : "bg-primary-green/10 border border-(--border-strong) text-primary-green"
               }`}
             >
               <span className="material-symbols-outlined text-lg">
@@ -280,14 +280,14 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                 href={tab.href}
                 className={`flex items-center gap-2 pb-3 font-bold text-sm transition-all border-b-2 ${
                   tab.active
-                    ? "border-[#13eca4] text-[#13eca4]"
+                    ? "border-primary-green text-primary-green"
                     : "border-transparent text-(--text-faint) hover:text-(--text-base)"
                 }`}
               >
                 <span
                   className={`text-xs flex items-center justify-center w-5 h-5 rounded-full font-bold ${
                     tab.active
-                      ? "bg-[#13eca4] text-[#10221c]"
+                      ? "bg-primary-green text-white"
                       : "bg-(--bg-elevated) text-(--text-muted)"
                   }`}
                 >
@@ -330,9 +330,9 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                 {course?.description ||
                   "In this step, students will connect the microcontroller to the motor driver. Ensure that all power is disconnected before starting the wiring process. Use the color-coded jumper wires as shown in the diagram."}
               </p>
-              <div className="bg-[rgba(19,236,164,0.06)] border-l-4 border-[#13eca4] p-4 rounded-r-lg mb-6">
+              <div className="bg-[rgba(19,236,164,0.06)] border-l-4 border-primary-green p-4 rounded-r-lg mb-6">
                 <div className="flex items-start gap-3">
-                  <span className="material-symbols-outlined text-[#13eca4]">warning</span>
+                  <span className="material-symbols-outlined text-primary-green">warning</span>
                   <div>
                     <p className="font-bold text-(--text-base) text-sm">Safety Check</p>
                     <p className="text-sm text-(--text-muted)">
@@ -343,7 +343,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 border border-(--border-subtle) rounded-lg bg-(--bg-card)">
-                  <span className="material-symbols-outlined text-[#13eca4] mb-2 block">
+                  <span className="material-symbols-outlined text-primary-green mb-2 block">
                     inventory_2
                   </span>
                   <p className="font-bold text-sm">Required Materials</p>
@@ -354,7 +354,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                   </ul>
                 </div>
                 <div className="p-4 border border-(--border-subtle) rounded-lg bg-(--bg-card)">
-                  <span className="material-symbols-outlined text-[#13eca4] mb-2 block">timer</span>
+                  <span className="material-symbols-outlined text-primary-green mb-2 block">timer</span>
                   <p className="font-bold text-sm">Estimated Time</p>
                   <p className="text-xs text-(--text-faint) mt-2">
                     {course?.estimatedDuration || "15-20 Minutes"}
@@ -367,7 +367,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
           {/* Right: Teacher Notes */}
           <section className="flex-1 flex flex-col bg-(--bg-page) overflow-y-auto">
             <div className="sticky top-0 z-10 p-4 border-b border-[rgba(255,255,255,0.07)] bg-[rgba(16,34,28,0.9)] flex justify-between items-center">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#13eca4] flex items-center gap-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-primary-green flex items-center gap-2">
                 <span className="material-symbols-outlined text-sm">edit_note</span>
                 Teacher Facilitation Notes
               </h3>
@@ -375,8 +375,8 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                 <span className="text-[10px] font-bold text-(--text-faint) uppercase">
                   Visibility: Private
                 </span>
-                <div className="w-10 h-5 bg-[rgba(19,236,164,0.15)] rounded-full relative cursor-pointer border border-(--border-strong)">
-                  <div className="absolute top-0.5 left-5 w-3.5 h-3.5 bg-[#13eca4] rounded-full" />
+                <div className="w-10 h-5 bg-primary-green/15 rounded-full relative cursor-pointer border border-(--border-strong)">
+                  <div className="absolute top-0.5 left-5 w-3.5 h-3.5 bg-primary-green rounded-full" />
                 </div>
               </div>
             </div>
@@ -442,7 +442,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                     {uploading ? (
                       <>
                         <div className="w-10 h-10 border-3 border-(--border-accent) border-t-[#13eca4] rounded-full animate-spin" />
-                        <p className="text-sm font-bold text-[#13eca4]">{progress}%</p>
+                        <p className="text-sm font-bold text-primary-green">{progress}%</p>
                         <p className="text-[10px] text-(--text-faint)">Uploading...</p>
                       </>
                     ) : (
@@ -466,7 +466,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                           key={i}
                           className="flex items-center gap-3 p-2 rounded-lg bg-[rgba(19,236,164,0.04)] border border-(--border-subtle)"
                         >
-                          <span className="material-symbols-outlined text-[#13eca4] text-sm">
+                          <span className="material-symbols-outlined text-primary-green text-sm">
                             description
                           </span>
                           <div className="flex-1 min-w-0">
@@ -477,7 +477,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                             href={res.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#13eca4] hover:underline text-[10px] font-bold"
+                            className="text-primary-green hover:underline text-[10px] font-bold"
                           >
                             View
                           </a>
@@ -493,7 +493,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
                     Collaborator Notes
                   </p>
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-[rgba(19,236,164,0.04)] border border-(--border-subtle)">
-                    <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] font-bold text-xs shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-primary-green/15 flex items-center justify-center text-primary-green font-bold text-xs shrink-0">
                       JK
                     </div>
                     <div>
@@ -532,7 +532,7 @@ Keep some extra jumper wires ready, as the tips often break if students are too 
           </Link>
           <Link
             href={`/dashboard/courses/create/step4?courseId=${courseId}`}
-            className="px-8 py-2 rounded-lg bg-[#13eca4] text-[#10221c] font-black text-sm shadow-lg shadow-[rgba(19,236,164,0.15)] hover:opacity-90 transition-opacity"
+            className="px-8 py-2 rounded-lg bg-primary-green text-white font-black text-sm shadow-lg shadow-[rgba(19,236,164,0.15)] hover:opacity-90 transition-opacity"
           >
             Next: Review &amp; Publish
           </Link>

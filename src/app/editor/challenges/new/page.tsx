@@ -59,7 +59,7 @@ export default function EditorNewChallengePage() {
         <div className="flex items-center gap-3">
           <Link
             href="/editor/challenges"
-            className="text-slate-400 hover:text-(--text-base) transition-colors flex items-center gap-1 text-sm"
+            className="text-(--text-muted) hover:text-(--text-base) transition-colors flex items-center gap-1 text-sm"
           >
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             Challenges
@@ -71,7 +71,7 @@ export default function EditorNewChallengePage() {
           <button
             onClick={() => handleSave("draft")}
             disabled={saving}
-            className="px-4 py-2 rounded-xl text-sm font-semibold border border-slate-700 text-slate-300 hover:bg-[rgba(255,255,255,0.05)] transition-colors disabled:opacity-50"
+            className="px-4 py-2 rounded-xl text-sm font-semibold border border-(--border) text-(--text-muted) hover:bg-[rgba(255,255,255,0.05)] transition-colors disabled:opacity-50"
           >
             Save as Draft
           </button>
@@ -95,19 +95,19 @@ export default function EditorNewChallengePage() {
         )}
 
         <div>
-          <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+          <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
             Challenge Title *
           </label>
           <input
             value={form.title}
             onChange={(e) => update("title", e.target.value)}
             placeholder="e.g. Eco-Hack 2025: Sustainable Cities"
-            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
         <div>
-          <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+          <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
             Description
           </label>
           <textarea
@@ -115,30 +115,30 @@ export default function EditorNewChallengePage() {
             onChange={(e) => update("description", e.target.value)}
             placeholder="Describe the challenge objectives and expected outcomes…"
             rows={4}
-            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
               Theme
             </label>
             <input
               value={form.theme}
               onChange={(e) => update("theme", e.target.value)}
               placeholder="e.g. Sustainability, AI, Robotics"
-              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
-            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
               Scope
             </label>
             <select
               value={form.scope}
               onChange={(e) => update("scope", e.target.value)}
-              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
+              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
             >
               <option value="global">Global</option>
               <option value="national">National</option>
@@ -149,29 +149,29 @@ export default function EditorNewChallengePage() {
 
         <div className="grid grid-cols-3 gap-6">
           <div>
-            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
               Start Date
             </label>
             <input
               type="date"
               value={form.date}
               onChange={(e) => update("date", e.target.value)}
-              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
-            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
               Start Time
             </label>
             <input
               type="time"
               value={form.time}
               onChange={(e) => update("time", e.target.value)}
-              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
-            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
               Duration (days)
             </label>
             <input
@@ -179,7 +179,7 @@ export default function EditorNewChallengePage() {
               min="1"
               value={form.duration}
               onChange={(e) => update("duration", Number(e.target.value) || 1)}
-              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
         </div>

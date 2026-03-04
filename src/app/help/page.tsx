@@ -79,8 +79,8 @@ export default function HelpPage() {
                 className="rounded-xl bg-(--bg-card) p-6 border border-(--border-subtle) hover:border-(--border-accent) transition-all"
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-[rgba(19,236,164,0.1)] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[#13eca4]">{icon}</span>
+                  <div className="w-10 h-10 rounded-lg bg-primary-green/10 flex items-center justify-center">
+                    <span className="material-symbols-outlined text-primary-green">{icon}</span>
                   </div>
                   <h3 className="font-bold">{title}</h3>
                 </div>
@@ -100,7 +100,7 @@ export default function HelpPage() {
 
           {/* Still need help? */}
           <div className="rounded-2xl bg-[rgba(19,236,164,0.05)] border border-(--border-medium) p-8 md:p-12 text-center">
-            <span className="material-symbols-outlined text-[#13eca4] text-4xl mb-4">
+            <span className="material-symbols-outlined text-primary-green text-4xl mb-4">
               support_agent
             </span>
             <h2 className="text-2xl font-bold mb-3">Still Need Help?</h2>
@@ -109,7 +109,7 @@ export default function HelpPage() {
             </p>
             <Link
               href="/contact"
-              className="inline-block rounded-xl bg-[#13eca4] px-8 py-3 font-bold text-[#10221c] hover:opacity-90 transition-opacity"
+              className="inline-block rounded-xl bg-primary-green px-8 py-3 font-bold text-(--text-base) hover:opacity-90 transition-opacity"
             >
               Contact Support
             </Link>

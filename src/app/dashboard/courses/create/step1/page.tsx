@@ -130,7 +130,7 @@ export default function CourseCreatorStep1Page() {
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[rgba(255,255,255,0.07)] bg-[rgba(16,34,28,0.9)] backdrop-blur-md px-6 lg:px-10 py-3">
         <div className="flex items-center gap-8">
-          <div className="flex items-center gap-3 text-[#13eca4]">
+          <div className="flex items-center gap-3 text-primary-green">
             <span className="material-symbols-outlined text-3xl">account_tree</span>
             <h2 className="text-(--text-base) text-lg font-bold tracking-tight">STEM Learn</h2>
           </div>
@@ -144,7 +144,7 @@ export default function CourseCreatorStep1Page() {
               <a
                 key={item.label}
                 href={item.href}
-                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-(--text-muted) hover:text-[#13eca4]"}`}
+                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-primary-green border-b-2 border-primary-green pb-1" : "text-(--text-muted) hover:text-primary-green"}`}
               >
                 {item.label}
               </a>
@@ -152,13 +152,13 @@ export default function CourseCreatorStep1Page() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-(--input-bg) text-(--text-muted) hover:bg-[rgba(19,236,164,0.1)] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-(--input-bg) text-(--text-muted) hover:bg-primary-green/10 hover:text-primary-green transition-colors">
             <span className="material-symbols-outlined">notifications</span>
           </button>
-          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-(--input-bg) text-(--text-muted) hover:bg-[rgba(19,236,164,0.1)] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-(--input-bg) text-(--text-muted) hover:bg-primary-green/10 hover:text-primary-green transition-colors">
             <span className="material-symbols-outlined">settings</span>
           </button>
-          <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border-2 border-(--border-strong) flex items-center justify-center text-[#13eca4] font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-primary-green/15 border-2 border-(--border-strong) flex items-center justify-center text-primary-green font-bold text-sm">
             {appUser?.displayName?.slice(0, 2).toUpperCase() || "TM"}
           </div>
         </div>
@@ -168,18 +168,18 @@ export default function CourseCreatorStep1Page() {
         <div className="w-full max-w-240">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap gap-2 mb-5 text-sm">
-            <a href="/dashboard" className="text-(--text-faint) hover:text-[#13eca4] transition-colors">
+            <a href="/dashboard" className="text-(--text-faint) hover:text-primary-green transition-colors">
               Dashboard
             </a>
             <span className="text-(--text-faint)">/</span>
             <a
               href="/dashboard/content"
-              className="text-(--text-faint) hover:text-[#13eca4] transition-colors"
+              className="text-(--text-faint) hover:text-primary-green transition-colors"
             >
               Course Creator
             </a>
             <span className="text-(--text-faint)">/</span>
-            <span className="text-[#13eca4] font-medium">New Course</span>
+            <span className="text-primary-green font-medium">New Course</span>
           </div>
 
           {/* Title */}
@@ -200,17 +200,17 @@ export default function CourseCreatorStep1Page() {
             ].map((s, i) => (
               <div key={i} className="flex flex-col gap-2">
                 <div
-                  className={`h-1.5 w-full rounded-full ${s.active ? "bg-[#13eca4]" : "bg-(--bg-elevated)"}`}
+                  className={`h-1.5 w-full rounded-full ${s.active ? "bg-primary-green" : "bg-(--bg-elevated)"}`}
                 />
                 <div className="flex items-center gap-2">
                   <span
-                    className={`material-symbols-outlined text-xl ${s.active ? "text-[#13eca4]" : "text-(--text-faint)"}`}
+                    className={`material-symbols-outlined text-xl ${s.active ? "text-primary-green" : "text-(--text-faint)"}`}
                     style={s.active ? { fontVariationSettings: "'FILL' 1" } : {}}
                   >
                     {s.active ? "check_circle" : "radio_button_unchecked"}
                   </span>
                   <p
-                    className={`text-sm font-medium ${s.active ? "text-[#13eca4] font-bold" : "text-(--text-faint)"}`}
+                    className={`text-sm font-medium ${s.active ? "text-primary-green font-bold" : "text-(--text-faint)"}`}
                   >
                     {s.label}
                   </p>
@@ -234,7 +234,7 @@ export default function CourseCreatorStep1Page() {
               {/* Cover Image */}
               <div>
                 <h3 className="text-(--text-base) text-lg font-bold mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4]">image</span>
+                  <span className="material-symbols-outlined text-primary-green">image</span>
                   Cover Image
                 </h3>
                 <input
@@ -252,7 +252,7 @@ export default function CourseCreatorStep1Page() {
                     <Image src={coverPreview} alt="Cover preview" fill className="object-cover" />
                   ) : (
                     <div className="text-center p-6">
-                      <span className="material-symbols-outlined text-(--text-faint) text-5xl mb-2 group-hover:text-[#13eca4] transition-colors block">
+                      <span className="material-symbols-outlined text-(--text-faint) text-5xl mb-2 group-hover:text-primary-green transition-colors block">
                         cloud_upload
                       </span>
                       <p className="text-sm text-(--text-muted) font-medium">
@@ -264,7 +264,7 @@ export default function CourseCreatorStep1Page() {
                   {uploading && (
                     <div className="absolute inset-0 bg-[rgba(16,34,28,0.8)] flex flex-col items-center justify-center">
                       <div className="w-16 h-16 border-4 border-(--border-accent) border-t-[#13eca4] rounded-full animate-spin mb-3" />
-                      <p className="text-sm text-[#13eca4] font-bold">{progress}%</p>
+                      <p className="text-sm text-primary-green font-bold">{progress}%</p>
                     </div>
                   )}
                 </div>
@@ -273,7 +273,7 @@ export default function CourseCreatorStep1Page() {
               {/* Badge Selection */}
               <div>
                 <h3 className="text-(--text-base) text-lg font-bold mb-1 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4]">
+                  <span className="material-symbols-outlined text-primary-green">
                     workspace_premium
                   </span>
                   Completion Badge
@@ -288,12 +288,12 @@ export default function CourseCreatorStep1Page() {
                       onClick={() => setSelectedBadge(i)}
                       className={`aspect-square rounded-xl bg-(--bg-card) flex items-center justify-center border-2 transition-all ${
                         selectedBadge === i
-                          ? "border-[#13eca4] shadow-[0_0_15px_rgba(19,236,164,0.2)]"
+                          ? "border-primary-green shadow-[0_0_15px_rgba(19,236,164,0.2)]"
                           : "border-transparent hover:border-(--border-accent)"
                       }`}
                     >
                       <span
-                        className={`material-symbols-outlined text-4xl ${selectedBadge === i ? "text-[#13eca4]" : "text-(--text-faint)"}`}
+                        className={`material-symbols-outlined text-4xl ${selectedBadge === i ? "text-primary-green" : "text-(--text-faint)"}`}
                       >
                         {b.icon}
                       </span>
@@ -343,8 +343,8 @@ export default function CourseCreatorStep1Page() {
                         onClick={() => setDifficulty(d)}
                         className={`flex-1 rounded-lg text-xs font-bold transition-all ${
                           difficulty === d
-                            ? "bg-[#13eca4] text-[#10221c] border border-[#13eca4]"
-                            : "bg-(--bg-card) text-(--text-muted) border border-(--border-subtle) hover:border-[rgba(19,236,164,0.4)] hover:text-[#13eca4]"
+                            ? "bg-primary-green text-white border border-primary-green"
+                            : "bg-(--bg-card) text-(--text-muted) border border-(--border-subtle) hover:border-[rgba(19,236,164,0.4)] hover:text-primary-green"
                         }`}
                       >
                         {d}
@@ -379,8 +379,8 @@ export default function CourseCreatorStep1Page() {
                         onClick={() => setTargetGrade(g)}
                         className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
                           targetGrade === g
-                            ? "border-[#13eca4] text-[#13eca4] bg-[rgba(19,236,164,0.1)]"
-                            : "border-(--border-subtle) text-(--text-muted) hover:border-[#13eca4] hover:text-[#13eca4]"
+                            ? "border-primary-green text-primary-green bg-primary-green/10"
+                            : "border-(--border-subtle) text-(--text-muted) hover:border-primary-green hover:text-primary-green"
                         }`}
                       >
                         {g}
@@ -426,7 +426,7 @@ export default function CourseCreatorStep1Page() {
                 <button
                   onClick={() => handleSave(false)}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-8 py-3 rounded-lg bg-[#13eca4] text-[#10221c] font-black hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center gap-2 px-8 py-3 rounded-lg bg-primary-green text-white font-black hover:opacity-90 transition-opacity shadow-lg shadow-primary-green/20 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <>

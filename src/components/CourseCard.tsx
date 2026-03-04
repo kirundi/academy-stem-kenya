@@ -123,7 +123,7 @@ export default function CourseCard({
         >
           {category}
         </span>
-        <span className="absolute top-3 right-3 text-xs font-semibold px-2 py-0.5 rounded bg-black/60 text-slate-300">
+        <span className="absolute top-3 right-3 text-xs font-semibold px-2 py-0.5 rounded bg-black/60 text-slate-200">
           {difficulty}
         </span>
         {completed && grade && (
@@ -139,7 +139,7 @@ export default function CourseCard({
       {/* Content */}
       <div className="p-5 flex-1 flex flex-col">
         <h3
-          className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-(--text-base) group-hover:text-[#13eca4]"}`}
+          className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-(--text-base) group-hover:text-primary-green"}`}
         >
           {title}
         </h3>
@@ -202,7 +202,7 @@ export default function CourseCard({
         ) : (
           <Link
             href={linkHref}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#13eca4] text-[#10221c] font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] group/btn"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-primary-green text-white font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary-green/20 group/btn"
           >
             {progress > 0 ? (
               <>

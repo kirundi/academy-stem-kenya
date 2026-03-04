@@ -39,7 +39,7 @@ const SHARED_CURRICULUM = [
 const RECENT_ACTIVITY = [
   {
     icon: "grading",
-    color: "text-[#13eca4]",
+    color: "text-primary-green",
     text: "Graded 8 submissions in Python for Robotics",
     time: "2h ago",
   },
@@ -96,7 +96,7 @@ export default function TeacherProfilePage() {
       <div className="flex h-screen bg-(--bg-page)">
         <TeacherSidebar />
         <main className="ml-60 flex-1 flex items-center justify-center">
-          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
             progress_activity
           </span>
         </main>
@@ -121,7 +121,7 @@ export default function TeacherProfilePage() {
             {["Dashboard", "Curriculum", "Students", "Profile"].map((item) => (
               <span
                 key={item}
-                className={`text-sm cursor-pointer transition-colors ${item === "Profile" ? "text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5" : "text-(--text-muted) hover:text-[#13eca4]"}`}
+                className={`text-sm cursor-pointer transition-colors ${item === "Profile" ? "text-primary-green font-semibold border-b-2 border-primary-green pb-0.5" : "text-(--text-muted) hover:text-primary-green"}`}
               >
                 {item}
               </span>
@@ -135,17 +135,17 @@ export default function TeacherProfilePage() {
             <div className="flex w-full flex-col gap-6 md:flex-row md:justify-between md:items-end bg-[rgba(19,236,164,0.05)] p-7 rounded-xl border border-(--border-subtle)">
               <div className="flex flex-col sm:flex-row gap-6">
                 {/* Avatar */}
-                <div className="w-32 h-32 rounded-xl bg-[rgba(19,236,164,0.15)] border-4 border-[#10221c] shadow-xl flex items-center justify-center text-[#13eca4] text-4xl font-bold shrink-0">
+                <div className="w-32 h-32 rounded-xl bg-primary-green/15 border-4 border-[#10221c] shadow-xl flex items-center justify-center text-primary-green text-4xl font-bold shrink-0">
                   {initials}
                 </div>
                 <div className="flex flex-col justify-end">
                   <div className="flex items-center gap-3">
                     <h1 className="text-(--text-base) text-3xl font-bold tracking-tight">{displayName}</h1>
-                    <span className="bg-[rgba(19,236,164,0.2)] text-[#13eca4] text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                    <span className="bg-[rgba(19,236,164,0.2)] text-primary-green text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                       Expert Educator
                     </span>
                   </div>
-                  <p className="text-[#13eca4] text-lg font-medium mt-1">
+                  <p className="text-primary-green text-lg font-medium mt-1">
                     {department} ·{" "}
                     {((appUser as unknown as Record<string, unknown>)?.schoolName as string) ??
                       "Your School"}
@@ -154,7 +154,7 @@ export default function TeacherProfilePage() {
                     {subjects.slice(0, 4).map((subj) => (
                       <span
                         key={subj}
-                        className="flex items-center gap-1.5 px-3 py-1 bg-slate-800 rounded-full text-xs font-medium text-(--text-muted)"
+                        className="flex items-center gap-1.5 px-3 py-1 bg-(--bg-elevated) rounded-full text-xs font-medium text-(--text-muted)"
                       >
                         <span className="material-symbols-outlined text-sm">
                           {subjectIcons[subj] ?? "school"}
@@ -168,11 +168,11 @@ export default function TeacherProfilePage() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setEditMode(!editMode)}
-                  className="flex-1 md:flex-none min-w-30 flex items-center justify-center rounded-lg h-11 px-5 bg-slate-800 text-(--text-base) text-sm font-bold transition-all hover:bg-slate-700"
+                  className="flex-1 md:flex-none min-w-30 flex items-center justify-center rounded-lg h-11 px-5 bg-(--bg-elevated) text-(--text-base) text-sm font-bold transition-all hover:bg-slate-700"
                 >
                   {editMode ? "Cancel" : "Edit Profile"}
                 </button>
-                <button className="flex-1 md:flex-none min-w-30 flex items-center justify-center rounded-lg h-11 px-5 bg-[#13eca4] text-[#10221c] text-sm font-bold shadow-[0_0_20px_rgba(19,236,164,0.3)] transition-all hover:opacity-90">
+                <button className="flex-1 md:flex-none min-w-30 flex items-center justify-center rounded-lg h-11 px-5 bg-primary-green text-white text-sm font-bold shadow-[0_0_20px_rgba(19,236,164,0.3)] transition-all hover:opacity-90">
                   Share Profile
                 </button>
               </div>
@@ -212,7 +212,7 @@ export default function TeacherProfilePage() {
                   <p className="text-(--text-muted) text-sm font-medium uppercase tracking-wider">
                     {stat.label}
                   </p>
-                  <span className="material-symbols-outlined text-[#13eca4]">{stat.icon}</span>
+                  <span className="material-symbols-outlined text-primary-green">{stat.icon}</span>
                 </div>
                 <p className="text-(--text-base) text-3xl font-bold mt-1">{stat.value}</p>
                 {stat.trendUp !== null ? (
@@ -237,10 +237,10 @@ export default function TeacherProfilePage() {
             <div className="lg:col-span-8 flex flex-col">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-(--text-base) text-xl font-bold flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4]">library_books</span>
+                  <span className="material-symbols-outlined text-primary-green">library_books</span>
                   My Shared Curriculum
                 </h2>
-                <button className="text-[#13eca4] text-sm font-semibold hover:underline">
+                <button className="text-primary-green text-sm font-semibold hover:underline">
                   View All
                 </button>
               </div>
@@ -248,17 +248,17 @@ export default function TeacherProfilePage() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
                     <thead>
-                      <tr className="bg-[rgba(19,236,164,0.1)]">
-                        <th className="px-5 py-4 text-slate-200 text-sm font-bold uppercase tracking-wider">
+                      <tr className="bg-primary-green/10">
+                        <th className="px-5 py-4 text-(--text-base) text-sm font-bold uppercase tracking-wider">
                           Course Name
                         </th>
-                        <th className="px-5 py-4 text-slate-200 text-sm font-bold uppercase tracking-wider">
+                        <th className="px-5 py-4 text-(--text-base) text-sm font-bold uppercase tracking-wider">
                           Grade
                         </th>
-                        <th className="px-5 py-4 text-slate-200 text-sm font-bold uppercase tracking-wider text-center">
+                        <th className="px-5 py-4 text-(--text-base) text-sm font-bold uppercase tracking-wider text-center">
                           Impact
                         </th>
-                        <th className="px-5 py-4 text-slate-200 text-sm font-bold uppercase tracking-wider text-right">
+                        <th className="px-5 py-4 text-(--text-base) text-sm font-bold uppercase tracking-wider text-right">
                           Status
                         </th>
                       </tr>
@@ -283,7 +283,7 @@ export default function TeacherProfilePage() {
                             </div>
                           </td>
                           <td className="px-5 py-4">
-                            <span className="px-2.5 py-1 rounded bg-slate-800 text-xs font-semibold text-(--text-muted)">
+                            <span className="px-2.5 py-1 rounded bg-(--bg-elevated) text-xs font-semibold text-(--text-muted)">
                               {course.grade}
                             </span>
                           </td>
@@ -319,7 +319,7 @@ export default function TeacherProfilePage() {
               {/* Recent Activity */}
               <div className="bg-[rgba(19,236,164,0.05)] border border-(--border-subtle) rounded-xl p-6">
                 <h3 className="text-(--text-base) font-bold text-lg mb-5 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4]">bolt</span>
+                  <span className="material-symbols-outlined text-primary-green">bolt</span>
                   Recent Activity
                 </h3>
                 <div className="space-y-4">
@@ -342,12 +342,12 @@ export default function TeacherProfilePage() {
               {/* About / Bio */}
               <div className="bg-[rgba(19,236,164,0.05)] border border-(--border-subtle) rounded-xl p-6">
                 <h3 className="text-(--text-base) font-bold text-lg mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4]">info</span>
+                  <span className="material-symbols-outlined text-primary-green">info</span>
                   About
                 </h3>
                 {editMode ? (
                   <textarea
-                    className="w-full bg-(--bg-page) border border-(--border-accent) rounded-lg text-(--text-muted) px-4 py-3 text-sm focus:border-[#13eca4] outline-none transition-all resize-none min-h-25"
+                    className="w-full bg-(--bg-page) border border-(--border-accent) rounded-lg text-(--text-muted) px-4 py-3 text-sm focus:border-primary-green outline-none transition-all resize-none min-h-25"
                     defaultValue="Passionate STEM educator with a focus on hands-on learning and real-world applications. Dedicated to inspiring the next generation of scientists and engineers."
                   />
                 ) : (
@@ -359,13 +359,13 @@ export default function TeacherProfilePage() {
                 )}
                 <div className="mt-4 pt-4 border-t border-(--border-subtle) space-y-2">
                   <p className="text-xs text-(--text-muted) flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
+                    <span className="material-symbols-outlined text-primary-green text-[16px]">
                       mail
                     </span>
                     {appUser?.email ?? "teacher@school.edu"}
                   </p>
                   <p className="text-xs text-(--text-muted) flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
+                    <span className="material-symbols-outlined text-primary-green text-[16px]">
                       calendar_today
                     </span>
                     Member since Jan 2022

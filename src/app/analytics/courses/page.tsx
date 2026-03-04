@@ -72,7 +72,7 @@ export default function AnalyticsCoursesPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Courses Analytics</h1>
-          <p className="text-slate-400 text-xs mt-0.5">{allCourses.length} total · {published.length} published</p>
+          <p className="text-(--text-muted) text-xs mt-0.5">{allCourses.length} total · {published.length} published</p>
         </div>
       </header>
 
@@ -91,7 +91,7 @@ export default function AnalyticsCoursesPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -109,7 +109,7 @@ export default function AnalyticsCoursesPage() {
                 const pct = allCourses.length > 0 ? (count / allCourses.length) * 100 : 0;
                 return (
                   <div key={cat} className="flex items-center gap-4">
-                    <div className="w-36 text-xs text-slate-400 text-right shrink-0 truncate">{cat}</div>
+                    <div className="w-36 text-xs text-(--text-muted) text-right shrink-0 truncate">{cat}</div>
                     <div className="flex-1 h-5 bg-(--bg-page) rounded-full overflow-hidden">
                       <div className="h-full rounded-full bg-[#a855f7] transition-all" style={{ width: `${Math.max(pct, 1)}%` }} />
                     </div>
@@ -157,7 +157,7 @@ export default function AnalyticsCoursesPage() {
             {filtered.length === 0 ? (
               <div className="py-12 text-center">
                 <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">library_books</span>
-                <p className="text-slate-400 text-sm">No courses match your filter.</p>
+                <p className="text-(--text-muted) text-sm">No courses match your filter.</p>
               </div>
             ) : (
               filtered.slice(0, visibleCount).map((course) => {

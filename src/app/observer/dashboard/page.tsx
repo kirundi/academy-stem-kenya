@@ -63,7 +63,7 @@ export default function ObserverDashboard() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">School Overview</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Observer · Read-only</p>
+          <p className="text-(--text-muted) text-xs mt-0.5">Observer · Read-only</p>
         </div>
         <div className="w-9 h-9 rounded-full bg-[rgba(6,182,212,0.2)] flex items-center justify-center text-[#06b6d4] font-bold text-sm">
           {getInitials(displayName)}
@@ -77,7 +77,7 @@ export default function ObserverDashboard() {
           <div className="relative z-10">
             <p className="text-[#06b6d4] font-semibold text-sm mb-2 uppercase tracking-widest">Observer Dashboard</p>
             <h2 className="text-2xl font-bold text-(--text-base) mb-1">Welcome, {displayName.split(" ")[0]}</h2>
-            <p className="text-slate-400 text-sm mb-6 max-w-md">
+            <p className="text-(--text-muted) text-sm mb-6 max-w-md">
               You have visibility into {schoolIds.length} assigned {schoolIds.length === 1 ? "school" : "schools"}.
               This is a read-only view — no data can be modified.
             </p>
@@ -105,7 +105,7 @@ export default function ObserverDashboard() {
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">domain_disabled</span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No schools assigned</p>
-            <p className="text-slate-400 text-sm max-w-sm">
+            <p className="text-(--text-muted) text-sm max-w-sm">
               Contact a platform administrator to assign schools to your observer account.
             </p>
           </div>
@@ -139,7 +139,7 @@ export default function ObserverDashboard() {
                   {/* Health score */}
                   <div className="mb-4">
                     <div className="flex justify-between text-xs mb-1.5">
-                      <span className="text-slate-400">Platform Health</span>
+                      <span className="text-(--text-muted)">Platform Health</span>
                       <span className="font-bold" style={{ color: hColor }}>{school.healthScore ?? 0}%</span>
                     </div>
                     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">

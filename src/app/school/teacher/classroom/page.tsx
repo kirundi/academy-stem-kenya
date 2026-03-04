@@ -192,7 +192,7 @@ export default function TeacherClassroomPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -210,7 +210,7 @@ export default function TeacherClassroomPage() {
             </span>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="flex items-center gap-1 text-xs font-bold text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-1 rounded-lg hover:bg-[rgba(19,236,164,0.2)] transition-colors"
+              className="flex items-center gap-1 text-xs font-bold text-primary-green bg-primary-green/10 px-2 py-1 rounded-lg hover:bg-[rgba(19,236,164,0.2)] transition-colors"
             >
               <span className="material-symbols-outlined text-sm">add</span>
               New
@@ -242,12 +242,12 @@ export default function TeacherClassroomPage() {
               }}
               className={`w-full text-left p-3.5 rounded-xl transition-all ${
                 selectedIdx === idx
-                  ? "bg-[rgba(19,236,164,0.1)] border border-(--border-accent)"
+                  ? "bg-primary-green/10 border border-(--border-accent)"
                   : "bg-[rgba(255,255,255,0.02)] border border-transparent hover:border-(--border-subtle)"
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[#13eca4] text-[10px] font-bold uppercase tracking-widest truncate max-w-30">
+                <span className="text-primary-green text-[10px] font-bold uppercase tracking-widest truncate max-w-30">
                   {cls.subject}
                 </span>
                 <span className="text-[10px] font-bold text-(--text-faint) shrink-0">
@@ -280,7 +280,7 @@ export default function TeacherClassroomPage() {
             <div className="flex flex-wrap justify-between items-start gap-6 mb-8">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
-                  <span className="material-symbols-outlined text-[#13eca4] text-4xl">
+                  <span className="material-symbols-outlined text-primary-green text-4xl">
                     smart_toy
                   </span>
                   <h1 className="text-(--text-base) text-3xl font-black leading-tight tracking-tight">
@@ -292,12 +292,12 @@ export default function TeacherClassroomPage() {
                     {/* Join Code Display */}
                     <div className="flex items-center gap-2 text-(--text-muted) bg-(--bg-card) px-3 py-1.5 rounded-lg w-fit border border-(--border-subtle)">
                       <span className="text-xs font-bold uppercase tracking-wider">Join Code:</span>
-                      <span className="text-[#13eca4] font-mono font-bold tracking-widest text-lg">
+                      <span className="text-primary-green font-mono font-bold tracking-widest text-lg">
                         {selectedClassroom.joinCode}
                       </span>
                       <button
                         onClick={() => copyCode(selectedClassroom.joinCode)}
-                        className="ml-2 hover:text-[#13eca4] transition-colors"
+                        className="ml-2 hover:text-primary-green transition-colors"
                         title="Copy Code"
                       >
                         <span className="material-symbols-outlined text-sm">
@@ -324,7 +324,7 @@ export default function TeacherClassroomPage() {
                 <button
                   onClick={handleSyncGoogleClassroom}
                   disabled={syncing}
-                  className="flex items-center justify-center gap-2 rounded-lg h-11 px-5 bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-all shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 rounded-lg h-11 px-5 bg-primary-green text-white text-sm font-bold hover:opacity-90 transition-all shadow-lg shadow-primary-green/20 disabled:opacity-50"
                 >
                   <span
                     className={`material-symbols-outlined text-lg ${syncing ? "animate-spin" : ""}`}
@@ -363,7 +363,7 @@ export default function TeacherClassroomPage() {
                       onClick={() => setActiveTab(tab)}
                       className={`flex items-center gap-2 pb-3 pt-2 border-b-2 transition-all text-sm font-bold ${
                         activeTab === tab
-                          ? "border-[#13eca4] text-[#13eca4]"
+                          ? "border-primary-green text-primary-green"
                           : "border-transparent text-(--text-faint) hover:text-(--text-muted) hover:border-slate-600"
                       }`}
                     >
@@ -387,7 +387,7 @@ export default function TeacherClassroomPage() {
                   </h3>
                   <button
                     onClick={() => setShowAddStudentModal(true)}
-                    className="flex items-center gap-2 text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-4 py-2 rounded-lg text-sm font-bold hover:bg-[rgba(19,236,164,0.2)] transition-all"
+                    className="flex items-center gap-2 text-primary-green bg-primary-green/10 px-4 py-2 rounded-lg text-sm font-bold hover:bg-[rgba(19,236,164,0.2)] transition-all"
                   >
                     <span className="material-symbols-outlined">person_add</span>
                     Add Student
@@ -423,7 +423,7 @@ export default function TeacherClassroomPage() {
                               colSpan={5}
                               className="px-6 py-10 text-center text-(--text-faint) text-sm"
                             >
-                              <span className="material-symbols-outlined animate-spin text-2xl text-[#13eca4]">
+                              <span className="material-symbols-outlined animate-spin text-2xl text-primary-green">
                                 progress_activity
                               </span>
                             </td>
@@ -452,7 +452,7 @@ export default function TeacherClassroomPage() {
                               >
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
+                                    <div className="w-8 h-8 rounded-full bg-primary-green/15 flex items-center justify-center text-primary-green font-bold text-xs">
                                       {initials}
                                     </div>
                                     <span className="text-(--text-base) font-medium">
@@ -462,12 +462,12 @@ export default function TeacherClassroomPage() {
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="flex items-center gap-2">
-                                    <span className="text-[#13eca4] font-mono font-bold tracking-wider text-sm">
+                                    <span className="text-primary-green font-mono font-bold tracking-wider text-sm">
                                       {student.studentCode}
                                     </span>
                                     <button
                                       onClick={() => copyCode(student.studentCode)}
-                                      className="text-(--text-faint) hover:text-[#13eca4] transition-colors"
+                                      className="text-(--text-faint) hover:text-primary-green transition-colors"
                                     >
                                       <span className="material-symbols-outlined text-sm">
                                         {copied === student.studentCode ? "check" : "content_copy"}
@@ -492,7 +492,7 @@ export default function TeacherClassroomPage() {
                                 <td className="px-6 py-4 whitespace-nowrap text-right">
                                   <button
                                     onClick={() => copyCode(student.studentCode)}
-                                    className="text-[#13eca4] hover:text-[#13eca4]/80 text-sm font-bold tracking-wide"
+                                    className="text-primary-green hover:text-primary-green/80 text-sm font-bold tracking-wide"
                                   >
                                     Copy Code
                                   </button>
@@ -510,7 +510,7 @@ export default function TeacherClassroomPage() {
                               >
                                 <td className="px-6 py-4 whitespace-nowrap">
                                   <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
+                                    <div className="w-8 h-8 rounded-full bg-primary-green/15 flex items-center justify-center text-primary-green font-bold text-xs">
                                       {initials}
                                     </div>
                                     <span className="text-(--text-base) font-medium">
@@ -547,7 +547,7 @@ export default function TeacherClassroomPage() {
                   <div className="bg-(--bg-card) rounded-xl p-6 border border-(--border-subtle)">
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="text-base font-bold text-(--text-base)">Curriculum Visibility</h4>
-                      <span className="material-symbols-outlined text-[#13eca4]">visibility</span>
+                      <span className="material-symbols-outlined text-primary-green">visibility</span>
                     </div>
                     <div className="space-y-4">
                       {classroomCourses.length === 0 ? (
@@ -560,7 +560,7 @@ export default function TeacherClassroomPage() {
                             <span className="text-sm text-(--text-muted) truncate max-w-32.5">
                               {course.title}
                             </span>
-                            <label className="relative inline-flex h-6 w-11 items-center rounded-full bg-[#13eca4] cursor-pointer shrink-0">
+                            <label className="relative inline-flex h-6 w-11 items-center rounded-full bg-primary-green cursor-pointer shrink-0">
                               <input type="checkbox" defaultChecked className="sr-only peer" />
                               <span className="inline-block h-4 w-4 translate-x-6 rounded-full bg-white transition peer-checked:translate-x-6" />
                             </label>
@@ -574,7 +574,7 @@ export default function TeacherClassroomPage() {
                   <div className="bg-(--bg-card) rounded-xl p-6 border border-(--border-subtle)">
                     <div className="flex items-center justify-between mb-4">
                       <h4 className="text-base font-bold text-(--text-base)">Class Average</h4>
-                      <span className="material-symbols-outlined text-[#13eca4]">analytics</span>
+                      <span className="material-symbols-outlined text-primary-green">analytics</span>
                     </div>
                     <div className="flex items-end justify-center gap-2 h-24 mb-4">
                       {[60, 75, 85, 95, 50].map((h, i) => (
@@ -589,7 +589,7 @@ export default function TeacherClassroomPage() {
                       ))}
                     </div>
                     <div className="text-center">
-                      <span className="text-2xl font-black text-[#13eca4]">
+                      <span className="text-2xl font-black text-primary-green">
                         {selectedClassroom.avgProgress ?? 0}%
                       </span>
                       <p className="text-xs text-(--text-faint) uppercase font-bold tracking-widest mt-1">
@@ -611,7 +611,7 @@ export default function TeacherClassroomPage() {
                     <div className="mt-4">
                       <div className="w-full bg-white/10 rounded-full h-2">
                         <div
-                          className="bg-[#13eca4] h-2 rounded-full"
+                          className="bg-primary-green h-2 rounded-full"
                           style={{ width: `${selectedClassroom.avgProgress ?? 0}%` }}
                         />
                       </div>
@@ -630,7 +630,7 @@ export default function TeacherClassroomPage() {
               <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) overflow-hidden">
                 <div className="px-6 py-4 border-b border-(--border-subtle) flex items-center justify-between">
                   <h3 className="text-(--text-base) font-bold">Course Access Control</h3>
-                  <button className="flex items-center gap-2 text-sm font-semibold text-[#13eca4] hover:underline">
+                  <button className="flex items-center gap-2 text-sm font-semibold text-primary-green hover:underline">
                     <span className="material-symbols-outlined text-[18px]">add_circle</span>
                     Add Course
                   </button>
@@ -657,7 +657,7 @@ export default function TeacherClassroomPage() {
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" defaultChecked className="sr-only peer" />
-                        <div className="w-11 h-6 bg-[rgba(255,255,255,0.1)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#13eca4]" />
+                        <div className="w-11 h-6 bg-[rgba(255,255,255,0.1)] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-green" />
                       </label>
                     </div>
                   ))}
@@ -686,7 +686,7 @@ export default function TeacherClassroomPage() {
                       <div key={label}>
                         <div className="flex justify-between text-sm mb-1.5">
                           <span className="text-(--text-muted)">{label}</span>
-                          <span className="text-[#13eca4] font-bold">
+                          <span className="text-primary-green font-bold">
                             {value} / {max}
                           </span>
                         </div>
@@ -715,7 +715,7 @@ export default function TeacherClassroomPage() {
                             {course.title.substring(0, 2).toUpperCase()}
                           </div>
                           <span className="text-sm text-(--text-muted) truncate">{course.title}</span>
-                          <span className="ml-auto text-[10px] font-bold uppercase text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-0.5 rounded shrink-0">
+                          <span className="ml-auto text-[10px] font-bold uppercase text-primary-green bg-primary-green/10 px-2 py-0.5 rounded shrink-0">
                             Active
                           </span>
                         </div>
@@ -775,7 +775,7 @@ export default function TeacherClassroomPage() {
               <button
                 onClick={handleCreateClassroom}
                 disabled={creating || !newClassName.trim()}
-                className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
+                className="flex-1 bg-primary-green text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
               >
                 {creating ? "Creating..." : "Create Classroom"}
               </button>
@@ -851,7 +851,7 @@ export default function TeacherClassroomPage() {
                   <button
                     onClick={handleAddStudent}
                     disabled={addingStudent || !newStudentName.trim()}
-                    className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
+                    className="flex-1 bg-primary-green text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
                   >
                     {addingStudent ? "Creating..." : "Create Student"}
                   </button>
@@ -860,8 +860,8 @@ export default function TeacherClassroomPage() {
             ) : (
               <>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-[rgba(19,236,164,0.15)] rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                  <div className="w-16 h-16 bg-primary-green/15 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="material-symbols-outlined text-primary-green text-3xl">
                       check_circle
                     </span>
                   </div>
@@ -874,14 +874,14 @@ export default function TeacherClassroomPage() {
                     <p className="text-xs font-bold text-(--text-faint) uppercase tracking-widest mb-2">
                       Student Login Code
                     </p>
-                    <p className="text-[#13eca4] font-mono font-black text-4xl tracking-[0.3em]">
+                    <p className="text-primary-green font-mono font-black text-4xl tracking-[0.3em]">
                       {createdStudentCode}
                     </p>
                   </div>
                   <div className="flex gap-3">
                     <button
                       onClick={() => copyCode(createdStudentCode)}
-                      className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-primary-green text-sm font-bold py-2.5 rounded-xl hover:bg-primary-green/10 transition-colors"
                     >
                       <span className="material-symbols-outlined text-sm">
                         {copied === createdStudentCode ? "check" : "content_copy"}
@@ -890,7 +890,7 @@ export default function TeacherClassroomPage() {
                     </button>
                     <button
                       onClick={resetAddStudentModal}
-                      className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors"
+                      className="flex-1 bg-primary-green text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors"
                     >
                       Done
                     </button>

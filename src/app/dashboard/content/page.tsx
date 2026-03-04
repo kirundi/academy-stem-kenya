@@ -24,7 +24,7 @@ export default function ContentManagementPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -56,14 +56,14 @@ export default function ContentManagementPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Content Management</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {allCourses.length} courses across the platform
           </p>
         </div>
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/courses/create/step1"
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 bg-primary-green text-white font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create Course
@@ -81,16 +81,16 @@ export default function ContentManagementPage() {
               </div>
               <div>
                 <h3 className="text-(--text-base) font-bold">Delete Course</h3>
-                <p className="text-slate-400 text-xs">This action cannot be undone.</p>
+                <p className="text-(--text-muted) text-xs">This action cannot be undone.</p>
               </div>
             </div>
-            <p className="text-slate-300 text-sm mb-6">
+            <p className="text-(--text-muted) text-sm mb-6">
               Are you sure you want to permanently delete &ldquo;{allCourses.find((c) => c.id === confirmDeleteId)?.title}&rdquo;?
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setConfirmDeleteId(null)}
-                className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 border border-slate-700 hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-(--text-muted) border border-(--border) hover:bg-[rgba(255,255,255,0.05)] transition-colors"
               >
                 Cancel
               </button>
@@ -109,7 +109,7 @@ export default function ContentManagementPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)">
-            <span className="text-slate-400 text-sm font-medium">Total Courses</span>
+            <span className="text-(--text-muted) text-sm font-medium">Total Courses</span>
             <p className="text-(--text-base) text-3xl font-bold mt-2">{allCourses.length}</p>
           </div>
           {diffBreakdown.map((d) => (
@@ -117,7 +117,7 @@ export default function ContentManagementPage() {
               key={d.level}
               className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)"
             >
-              <span className="text-slate-400 text-sm font-medium">{d.level}</span>
+              <span className="text-(--text-muted) text-sm font-medium">{d.level}</span>
               <p className="text-3xl font-bold mt-2" style={{ color: d.color }}>
                 {d.count}
               </p>
@@ -128,7 +128,7 @@ export default function ContentManagementPage() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="relative flex-1 max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
               search
             </span>
             <input
@@ -145,8 +145,8 @@ export default function ContentManagementPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                   selectedCategory === cat
-                    ? "bg-[#13eca4] text-[#10221c]"
-                    : "bg-(--input-bg) text-slate-400 hover:text-(--text-base)"
+                    ? "bg-primary-green text-white"
+                    : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
                 }`}
               >
                 {cat}
@@ -201,7 +201,7 @@ export default function ContentManagementPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-center text-slate-300 text-xs">
+                    <td className="px-4 py-4 text-center text-(--text-muted) text-xs">
                       {c.category ?? "--"}
                     </td>
                     <td className="px-4 py-4 text-center">
@@ -223,13 +223,13 @@ export default function ContentManagementPage() {
                         onClick={() =>
                           router.push(`/dashboard/courses/create/step1?courseId=${c.id}`)
                         }
-                        className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3"
+                        className="text-(--text-muted) hover:text-primary-green transition-colors text-xs font-semibold mr-3"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => setConfirmDeleteId(c.id)}
-                        className="text-slate-400 hover:text-red-400 transition-colors text-xs font-semibold"
+                        className="text-(--text-muted) hover:text-red-400 transition-colors text-xs font-semibold"
                       >
                         Delete
                       </button>

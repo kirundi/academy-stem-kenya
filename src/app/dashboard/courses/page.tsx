@@ -33,7 +33,7 @@ export default function AdminCoursesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -69,7 +69,7 @@ export default function AdminCoursesPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Courses</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {courses.length} total · {published.length} published
           </p>
         </div>
@@ -115,7 +115,7 @@ export default function AdminCoursesPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -131,7 +131,7 @@ export default function AdminCoursesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title or category…"
-              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
+              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
             />
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -164,7 +164,7 @@ export default function AdminCoursesPage() {
                 library_books
               </span>
               <p className="text-(--text-base) font-semibold mb-1">No courses found</p>
-              <p className="text-slate-400 text-sm mb-4">
+              <p className="text-(--text-muted) text-sm mb-4">
                 {searchQuery || filterStatus !== "all"
                   ? "Try adjusting your filters."
                   : "No courses have been created yet."}
@@ -206,7 +206,7 @@ export default function AdminCoursesPage() {
                         {course.difficulty}
                       </span>
                     </div>
-                    <p className="text-slate-400 text-xs mt-0.5 line-clamp-1">
+                    <p className="text-(--text-muted) text-xs mt-0.5 line-clamp-1">
                       {course.description}
                     </p>
                     <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
@@ -238,14 +238,14 @@ export default function AdminCoursesPage() {
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Link
                         href={`/dashboard/courses/create/step1?edit=${course.id}`}
-                        className="p-2 rounded-lg text-slate-400 hover:text-[#13eca4] hover:bg-[rgba(19,236,164,0.08)] transition-colors"
+                        className="p-2 rounded-lg text-(--text-muted) hover:text-primary-green hover:bg-primary-green/8 transition-colors"
                         title="Edit course"
                       >
                         <span className="material-symbols-outlined text-[18px]">edit</span>
                       </Link>
                       <Link
                         href={`/dashboard/courses/create/preview?id=${course.id}`}
-                        className="p-2 rounded-lg text-slate-400 hover:text-(--text-base) hover:bg-slate-800 transition-colors"
+                        className="p-2 rounded-lg text-(--text-muted) hover:text-(--text-base) hover:bg-(--bg-elevated) transition-colors"
                         title="Preview"
                       >
                         <span className="material-symbols-outlined text-[18px]">visibility</span>

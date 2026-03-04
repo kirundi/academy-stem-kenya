@@ -68,7 +68,7 @@ export default function SchoolAdminIntegrationsPage() {
             <div className="flex items-center gap-2 text-(--text-faint) text-sm">
               <span>Integrations</span>
               <span className="material-symbols-outlined text-sm">chevron_right</span>
-              <span className="text-[#13daec]">Google Classroom</span>
+              <span className="text-primary">Google Classroom</span>
             </div>
             <h2 className="text-3xl font-black text-(--text-base) tracking-tight">
               Google Classroom Integration
@@ -80,8 +80,8 @@ export default function SchoolAdminIntegrationsPage() {
           </div>
 
           {/* Integration Card */}
-          <section className="bg-[#1a2e31] border border-slate-800 rounded-xl overflow-hidden shadow-sm">
-            <div className="p-5 border-b border-slate-800 flex items-center justify-between bg-[rgba(19,218,236,0.05)]">
+          <section className="bg-(--bg-card) border border-(--border-subtle) rounded-xl overflow-hidden shadow-sm">
+            <div className="p-5 border-b border-(--border-subtle) flex items-center justify-between bg-[rgba(19,218,236,0.05)]">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center p-2 shadow-sm border border-slate-200">
                   <span className="material-symbols-outlined text-2xl text-blue-600">
@@ -104,7 +104,7 @@ export default function SchoolAdminIntegrationsPage() {
                 <span className="text-sm font-medium text-(--text-base)">Enable Integration</span>
                 <button
                   onClick={() => setIntegrationEnabled(!integrationEnabled)}
-                  className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${integrationEnabled ? "bg-[#13daec]" : "bg-slate-700"}`}
+                  className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${integrationEnabled ? "bg-primary" : "bg-slate-700"}`}
                 >
                   <span
                     className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${integrationEnabled ? "translate-x-6" : "translate-x-1"}`}
@@ -135,7 +135,7 @@ export default function SchoolAdminIntegrationsPage() {
                           opt.enabled
                             ? opt.danger
                               ? "translate-x-6 bg-white shadow-[0_0_8px_rgba(239,68,68,0.5)]"
-                              : "translate-x-6 bg-[#13daec]"
+                              : "translate-x-6 bg-primary"
                             : "translate-x-1 bg-slate-300"
                         }`}
                       />
@@ -151,10 +151,10 @@ export default function SchoolAdminIntegrationsPage() {
           {/* Security & Data Privacy */}
           <section className="flex flex-col gap-4">
             <div className="flex items-center gap-2 px-2">
-              <span className="material-symbols-outlined text-[#13daec]">security</span>
+              <span className="material-symbols-outlined text-primary">security</span>
               <h3 className="text-xl font-bold text-(--text-base)">Security &amp; Data Privacy</h3>
             </div>
-            <div className="bg-[#1a2e31]/50 border border-slate-800 rounded-xl p-6">
+            <div className="bg-(--bg-card)/50 border border-(--border-subtle) rounded-xl p-6">
               <p className="text-sm text-(--text-muted) mb-5">
                 STEM Impact Academy follows the Student Data Privacy Consortium (SDPC) standards.
                 Below is the list of data shared with Google Classroom:
@@ -177,15 +177,15 @@ export default function SchoolAdminIntegrationsPage() {
                   },
                   {
                     icon: "visibility",
-                    color: "text-[#13daec]",
-                    bg: "bg-[rgba(19,218,236,0.1)]",
+                    color: "text-primary",
+                    bg: "bg-primary/10",
                     title: "Performance Data",
                     desc: "Assignment titles and numeric scores are shared. No detailed diagnostic data or student notes are exported.",
                   },
                 ].map((item) => (
                   <div
                     key={item.title}
-                    className="flex items-start gap-4 p-3 bg-(--bg-page)/50 rounded-lg border border-slate-800"
+                    className="flex items-start gap-4 p-3 bg-(--bg-page)/50 rounded-lg border border-(--border-subtle)"
                   >
                     <div
                       className={`w-8 h-8 rounded-full ${item.bg} flex items-center justify-center shrink-0`}
@@ -207,7 +207,7 @@ export default function SchoolAdminIntegrationsPage() {
                 </button>
                 <button
                   onClick={handleSave}
-                  className="px-6 py-2 bg-[#13daec] text-[#102022] font-bold rounded-lg text-sm hover:opacity-90 transition-opacity"
+                  className="px-6 py-2 bg-primary text-white font-bold rounded-lg text-sm hover:opacity-90 transition-opacity"
                 >
                   {saved ? "✓ Saved!" : "Save Configuration"}
                 </button>
@@ -218,13 +218,13 @@ export default function SchoolAdminIntegrationsPage() {
           {/* Connected Teachers Table */}
           <section className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#13daec]">group</span>
+              <span className="material-symbols-outlined text-primary">group</span>
               <h3 className="text-xl font-bold text-(--text-base)">Connected Teacher Accounts</h3>
             </div>
-            <div className="overflow-hidden rounded-xl border border-slate-800 bg-[#1a2e31]">
+            <div className="overflow-hidden rounded-xl border border-(--border-subtle) bg-(--bg-card)">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="bg-(--bg-page)/50 border-b border-slate-800">
+                  <tr className="bg-(--bg-page)/50 border-b border-(--border-subtle)">
                     <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-(--text-muted)">
                       Teacher
                     </th>

@@ -68,7 +68,7 @@ function ChildAchievementsCard({ child }: { child: ChildProgress }) {
                 Grade {student.grade}
               </span>
             )}
-            <span className="text-[#13eca4] text-xs font-medium">
+            <span className="text-primary-green text-xs font-medium">
               Level {student.level} &middot; {levelLabel(student.level)}
             </span>
           </div>
@@ -101,7 +101,7 @@ function ChildAchievementsCard({ child }: { child: ChildProgress }) {
             <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3">
               emoji_events
             </span>
-            <p className="text-slate-300 font-semibold mb-1">No badges earned yet</p>
+            <p className="text-(--text-muted) font-semibold mb-1">No badges earned yet</p>
             <p className="text-slate-500 text-sm">
               Keep learning! Badges are awarded for completing courses and challenges.
             </p>
@@ -126,7 +126,7 @@ function ChildAchievementsCard({ child }: { child: ChildProgress }) {
                       {icon}
                     </span>
                   </div>
-                  <p className="text-slate-200 text-xs font-semibold leading-tight">{label}</p>
+                  <p className="text-(--text-base) text-xs font-semibold leading-tight">{label}</p>
                 </div>
               );
             })}
@@ -137,7 +137,7 @@ function ChildAchievementsCard({ child }: { child: ChildProgress }) {
       {/* School contact note if no achievement data */}
       {student.badges.length === 0 && (
         <div className="mx-6 mb-5 p-3 rounded-xl bg-[rgba(139,92,246,0.06)] border border-[rgba(139,92,246,0.12)]">
-          <p className="text-slate-400 text-xs leading-relaxed">
+          <p className="text-(--text-muted) text-xs leading-relaxed">
             <span className="text-[#8b5cf6] font-semibold">Tip:</span> If you believe your child
             has earned badges that are not showing here, please contact their school for assistance.
           </p>
@@ -187,7 +187,7 @@ export default function ParentAchievementsPage() {
             </span>
             Achievements
           </h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Celebrate your children&apos;s accomplishments
           </p>
         </div>
@@ -211,7 +211,7 @@ export default function ParentAchievementsPage() {
               emoji_events
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No children linked yet</p>
-            <p className="text-slate-400 text-sm max-w-sm text-center">
+            <p className="text-(--text-muted) text-sm max-w-sm text-center">
               Ask your child&apos;s teacher or school administrator to connect your account.
             </p>
           </div>

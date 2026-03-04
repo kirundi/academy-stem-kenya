@@ -8,7 +8,7 @@ export default function SchoolAnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -67,38 +67,38 @@ export default function SchoolAnalyticsPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-14 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#13eca4] text-[18px]">
+            <div className="w-8 h-8 bg-primary-green/10 rounded-lg flex items-center justify-center">
+              <span className="material-symbols-outlined text-primary-green text-[18px]">
                 analytics
               </span>
             </div>
             <span className="text-(--text-base) font-bold">STEM Learn Admin</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">
+            <span className="text-primary-green font-semibold border-b-2 border-primary-green pb-0.5">
               Dashboard
             </span>
             <a
               href="/school/admin"
-              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-primary-green transition-colors font-medium"
             >
               Overview
             </a>
             <a
               href="/school/admin/classrooms"
-              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-primary-green transition-colors font-medium"
             >
               Classrooms
             </a>
             <a
               href="/school/admin/teachers"
-              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-primary-green transition-colors font-medium"
             >
               Teachers
             </a>
             <a
               href="/school/admin/students"
-              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-primary-green transition-colors font-medium"
             >
               Students
             </a>
@@ -118,7 +118,7 @@ export default function SchoolAnalyticsPage() {
           <button className="w-10 h-10 rounded-lg bg-(--input-bg) flex items-center justify-center text-(--text-muted) hover:text-(--text-base)">
             <span className="material-symbols-outlined text-[20px]">settings</span>
           </button>
-          <div className="w-9 h-9 rounded-full bg-[rgba(19,236,164,0.1)] border-2 border-(--border-accent)" />
+          <div className="w-9 h-9 rounded-full bg-primary-green/10 border-2 border-(--border-accent)" />
         </div>
       </header>
 
@@ -140,7 +140,7 @@ export default function SchoolAnalyticsPage() {
                 href={item.href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   item.active
-                    ? "bg-[rgba(19,236,164,0.1)] text-[#13eca4]"
+                    ? "bg-primary-green/10 text-primary-green"
                     : "text-(--text-muted) hover:bg-(--glass-bg) hover:text-(--text-base)"
                 }`}
               >
@@ -150,7 +150,7 @@ export default function SchoolAnalyticsPage() {
             ))}
           </div>
           <div className="mt-auto p-4 rounded-xl bg-[rgba(19,236,164,0.05)] border border-(--border-medium)">
-            <p className="text-[#13eca4] text-xs font-bold mb-1">PRO TIP</p>
+            <p className="text-primary-green text-xs font-bold mb-1">PRO TIP</p>
             <p className="text-(--text-muted) text-xs leading-relaxed">
               Monthly board reports are ready to export. Check the summary tab.
             </p>
@@ -175,7 +175,7 @@ export default function SchoolAnalyticsPage() {
                 <span className="material-symbols-outlined text-[18px]">calendar_today</span>Last 30
                 Days
               </button>
-              <button className="flex items-center gap-2 h-11 px-6 rounded-xl bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity">
+              <button className="flex items-center gap-2 h-11 px-6 rounded-xl bg-primary-green text-white text-sm font-bold hover:opacity-90 transition-opacity">
                 <span className="material-symbols-outlined text-[18px]">download</span>Export Report
               </button>
             </div>
@@ -219,7 +219,7 @@ export default function SchoolAnalyticsPage() {
                   className="bg-(--bg-card) rounded-2xl p-5 border border-(--border-subtle) flex flex-col gap-2"
                 >
                   <div className="flex justify-between items-start">
-                    <span className="material-symbols-outlined p-2 bg-[rgba(19,236,164,0.08)] text-[#13eca4] rounded-lg text-[20px]">
+                    <span className="material-symbols-outlined p-2 bg-primary-green/8 text-primary-green rounded-lg text-[20px]">
                       {s.icon}
                     </span>
                     <span
@@ -256,11 +256,11 @@ export default function SchoolAnalyticsPage() {
                       className="flex-1 flex flex-col gap-1 items-center justify-end h-full"
                     >
                       <div
-                        className={`w-full rounded-t relative group ${i === 5 ? "bg-[rgba(19,236,164,0.4)]" : "bg-[rgba(19,236,164,0.15)]"}`}
+                        className={`w-full rounded-t relative group ${i === 5 ? "bg-[rgba(19,236,164,0.4)]" : "bg-primary-green/15"}`}
                         style={{ height: `${b.h}%` }}
                       >
                         <div
-                          className={`absolute bottom-0 w-full h-1 bg-[#13eca4] ${i === 5 ? "h-2" : ""}`}
+                          className={`absolute bottom-0 w-full h-1 bg-primary-green ${i === 5 ? "h-2" : ""}`}
                         />
                         {i === 5 && (
                           <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-(--bg-page) border border-(--border-strong) text-(--text-base) text-[10px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap z-10">
@@ -322,7 +322,7 @@ export default function SchoolAnalyticsPage() {
                 <h3 className="text-(--text-base) font-bold text-lg">Top Performing Classrooms</h3>
                 <a
                   href="/school/admin/classrooms"
-                  className="text-[#13eca4] text-sm font-semibold hover:underline"
+                  className="text-primary-green text-sm font-semibold hover:underline"
                 >
                   View All
                 </a>
@@ -378,7 +378,7 @@ export default function SchoolAnalyticsPage() {
                                 <span className="text-(--text-base) font-bold">{c.avgProgress ?? 0}%</span>
                                 <div className="w-12 bg-(--input-bg) h-1.5 rounded-full">
                                   <div
-                                    className="bg-[#13eca4] h-full rounded-full"
+                                    className="bg-primary-green h-full rounded-full"
                                     style={{ width: `${c.avgProgress ?? 0}%` }}
                                   />
                                 </div>

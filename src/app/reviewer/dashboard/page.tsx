@@ -86,7 +86,7 @@ export default function ReviewerDashboard() {
       {toast && (
         <div
           className={`fixed top-5 right-5 z-50 px-5 py-3 rounded-xl font-semibold text-sm shadow-xl flex items-center gap-2 ${
-            toast.ok ? "bg-[#10b981] text-[#10221c]" : "bg-[#ef4444] text-(--text-base)"
+            toast.ok ? "bg-[#10b981] text-(--text-base)" : "bg-[#ef4444] text-(--text-base)"
           }`}
         >
           <span className="material-symbols-outlined text-[18px]">
@@ -146,7 +146,7 @@ export default function ReviewerDashboard() {
           <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">pending</span>
           Pending Review
           {pending.length > 0 && (
-            <span className="bg-[#f59e0b] text-[#10221c] text-xs font-bold px-2 py-0.5 rounded-full">
+            <span className="bg-[#f59e0b] text-(--text-base) text-xs font-bold px-2 py-0.5 rounded-full">
               {pending.length}
             </span>
           )}
@@ -232,7 +232,7 @@ export default function ReviewerDashboard() {
                           <button
                             onClick={() => { setActionCourseId(course.id); handleReview(course.id, "approve"); }}
                             disabled={submitting && isActing}
-                            className="flex-1 py-2.5 rounded-xl bg-[#10b981] text-[#10221c] font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-opacity flex items-center justify-center gap-2"
+                            className="flex-1 py-2.5 rounded-xl bg-[#10b981] text-(--text-base) font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-opacity flex items-center justify-center gap-2"
                           >
                             {submitting && isActing ? (
                               <span className="material-symbols-outlined animate-spin text-[18px]">progress_activity</span>

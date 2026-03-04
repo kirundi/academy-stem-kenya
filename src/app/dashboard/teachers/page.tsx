@@ -87,7 +87,7 @@ export default function TeacherManagementPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -108,36 +108,36 @@ export default function TeacherManagementPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-14 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
-              <span className="material-symbols-outlined text-[#13eca4] text-[18px]">school</span>
+            <div className="w-8 h-8 bg-primary-green/10 rounded-lg flex items-center justify-center">
+              <span className="material-symbols-outlined text-primary-green text-[18px]">school</span>
             </div>
             <span className="text-(--text-base) font-bold">STEM Academy</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a
               href="/dashboard"
-              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-primary-green font-medium transition-colors"
             >
               Dashboard
             </a>
-            <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">
+            <span className="text-primary-green font-semibold border-b-2 border-primary-green pb-0.5">
               Staff Management
             </span>
             <a
               href="/dashboard/content"
-              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-primary-green font-medium transition-colors"
             >
               Curriculum
             </a>
             <a
               href="/dashboard/users"
-              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-primary-green font-medium transition-colors"
             >
               Students
             </a>
             <a
               href="/dashboard/analytics"
-              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-primary-green font-medium transition-colors"
             >
               Analytics
             </a>
@@ -160,7 +160,7 @@ export default function TeacherManagementPage() {
         {/* Page Title */}
         <section className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 text-[#13eca4] mb-1">
+            <div className="flex items-center gap-2 text-primary-green mb-1">
               <span className="material-symbols-outlined text-[16px]">group</span>
               <span className="text-xs font-bold uppercase tracking-wider">Administration</span>
             </div>
@@ -183,7 +183,7 @@ export default function TeacherManagementPage() {
             </button>
             <button
               onClick={() => setShowInvite(true)}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-green text-white text-sm font-bold hover:opacity-90 transition-opacity"
             >
               <span className="material-symbols-outlined text-[18px]">person_add</span>Invite
               Teachers
@@ -234,7 +234,7 @@ export default function TeacherManagementPage() {
               <div className="flex items-center justify-between mb-4">
                 <span className="text-(--text-muted) text-sm font-medium">{s.label}</span>
                 <span
-                  className="material-symbols-outlined p-2 rounded-lg bg-[rgba(19,236,164,0.08)] text-[20px]"
+                  className="material-symbols-outlined p-2 rounded-lg bg-primary-green/8 text-[20px]"
                   style={{ color: s.iconColor }}
                 >
                   {s.icon}
@@ -300,7 +300,7 @@ export default function TeacherManagementPage() {
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm bg-[rgba(19,236,164,0.1)] text-[#13eca4]">
+                            <div className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm bg-primary-green/10 text-primary-green">
                               <span className="material-symbols-outlined text-[18px]">person</span>
                             </div>
                             <div>
@@ -333,7 +333,7 @@ export default function TeacherManagementPage() {
                             <div className="relative">
                               <button
                                 onClick={() => setOpenMenu(openMenu === t.uid ? null : t.uid)}
-                                className="p-2 hover:bg-(--input-bg) rounded-lg text-(--text-muted) hover:text-slate-200 transition-colors"
+                                className="p-2 hover:bg-(--input-bg) rounded-lg text-(--text-muted) hover:text-(--text-base) transition-colors"
                               >
                                 <span className="material-symbols-outlined text-[18px]">
                                   more_vert
@@ -410,7 +410,7 @@ export default function TeacherManagementPage() {
                   <button
                     onClick={handleInvite}
                     disabled={inviteLoading || !inviteEmail.trim() || !inviteName.trim()}
-                    className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
+                    className="flex-1 bg-primary-green text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
                   >
                     {inviteLoading ? "Sending..." : "Send Invite"}
                   </button>
@@ -418,8 +418,8 @@ export default function TeacherManagementPage() {
               </>
             ) : (
               <div className="text-center">
-                <div className="w-16 h-16 bg-[rgba(19,236,164,0.15)] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                <div className="w-16 h-16 bg-primary-green/15 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-primary-green text-3xl">
                     check_circle
                   </span>
                 </div>
@@ -429,7 +429,7 @@ export default function TeacherManagementPage() {
                   <span className="text-(--text-base) font-semibold">{inviteResult.email}</span>
                 </p>
                 <div className="bg-(--bg-page) border border-dashed border-(--border-strong) rounded-xl p-4 mb-5 text-left">
-                  <p className="text-xs font-mono text-[#13eca4] break-all">
+                  <p className="text-xs font-mono text-primary-green break-all">
                     {inviteResult.inviteLink}
                   </p>
                 </div>
@@ -440,7 +440,7 @@ export default function TeacherManagementPage() {
                       setCopied(true);
                       setTimeout(() => setCopied(false), 2000);
                     }}
-                    className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-primary-green text-sm font-bold py-2.5 rounded-xl hover:bg-primary-green/10 transition-colors"
                   >
                     <span className="material-symbols-outlined text-sm">
                       {copied ? "check" : "content_copy"}
@@ -449,7 +449,7 @@ export default function TeacherManagementPage() {
                   </button>
                   <button
                     onClick={resetInviteModal}
-                    className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors"
+                    className="flex-1 bg-primary-green text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors"
                   >
                     Done
                   </button>

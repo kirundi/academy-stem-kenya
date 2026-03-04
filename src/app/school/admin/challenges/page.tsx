@@ -74,7 +74,7 @@ export default function SchoolChallengesPage() {
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-(--text-base)">School Challenges</h1>
-            <p className="text-slate-400 text-xs mt-0.5">
+            <p className="text-(--text-muted) text-xs mt-0.5">
               Note: Global challenges are also visible to students. Create challenges from the Admin
               dashboard.
             </p>
@@ -84,12 +84,12 @@ export default function SchoolChallengesPage() {
         <div className="px-8 py-8 space-y-6">
           {/* Info banner */}
           <div className="flex items-start gap-3 p-4 rounded-xl bg-[rgba(19,236,164,0.06)] border border-[rgba(19,236,164,0.15)]">
-            <span className="material-symbols-outlined text-[#13eca4] text-[20px] shrink-0 mt-0.5">
+            <span className="material-symbols-outlined text-primary-green text-[20px] shrink-0 mt-0.5">
               info
             </span>
-            <p className="text-sm text-slate-300">
+            <p className="text-sm text-(--text-muted)">
               Challenge creation is managed from the{" "}
-              <span className="font-semibold text-[#13eca4]">Admin dashboard → Challenges</span>.
+              <span className="font-semibold text-primary-green">Admin dashboard → Challenges</span>.
               This page shows all challenges scoped to your school.
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function SchoolChallengesPage() {
           {/* Stats */}
           {loading ? (
             <div className="flex items-center justify-center h-40">
-              <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+              <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
                 progress_activity
               </span>
             </div>
@@ -147,7 +147,7 @@ export default function SchoolChallengesPage() {
                     </div>
                     <div>
                       <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                      <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                      <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
                     </div>
                   </div>
                 ))}
@@ -162,7 +162,7 @@ export default function SchoolChallengesPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by title, theme, or description…"
-                  className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
+                  className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                 />
               </div>
 
@@ -174,7 +174,7 @@ export default function SchoolChallengesPage() {
                       emoji_events
                     </span>
                     <p className="text-(--text-base) font-semibold mb-1">No school challenges found</p>
-                    <p className="text-slate-400 text-sm">
+                    <p className="text-(--text-muted) text-sm">
                       {searchQuery
                         ? "Try adjusting your search."
                         : "No challenges have been created for your school yet."}
@@ -199,7 +199,7 @@ export default function SchoolChallengesPage() {
                               school
                             </span>
                           </div>
-                          <p className="text-slate-400 text-xs mt-0.5 line-clamp-1">
+                          <p className="text-(--text-muted) text-xs mt-0.5 line-clamp-1">
                             {challenge.description}
                           </p>
                           <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">

@@ -10,7 +10,7 @@ import type { Course } from "@/lib/types";
 const statusStyles: Record<string, { bg: string; text: string; dot: string }> = {
   graded: { bg: "bg-emerald-500/10", text: "text-emerald-400", dot: "bg-emerald-400" },
   pending: { bg: "bg-blue-500/10", text: "text-blue-400", dot: "bg-blue-400" },
-  draft: { bg: "bg-slate-700", text: "text-slate-400", dot: "bg-slate-500" },
+  draft: { bg: "bg-slate-700", text: "text-(--text-muted)", dot: "bg-slate-500" },
 };
 
 const statusLabels: Record<string, string> = {
@@ -115,7 +115,7 @@ export default function PortfolioPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -128,11 +128,11 @@ export default function PortfolioPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">My Portfolio</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {totalSubmitted} total projects &middot; {gradedCount} graded
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)]">
+        <button className="flex items-center gap-2 bg-primary-green text-white font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary-green/20">
           <span className="material-symbols-outlined text-[18px]">share</span>
           Share Portfolio
         </button>
@@ -174,7 +174,7 @@ export default function PortfolioPage() {
                   {icon}
                 </span>
               </div>
-              <p className="text-slate-400 text-xs font-medium mb-1">{label}</p>
+              <p className="text-(--text-muted) text-xs font-medium mb-1">{label}</p>
               <p className="text-(--text-base) font-bold text-2xl">{value}</p>
             </div>
           ))}
@@ -188,8 +188,8 @@ export default function PortfolioPage() {
               onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 filter === f
-                  ? "bg-[#13eca4] text-[#10221c]"
-                  : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-(--text-base)"
+                  ? "bg-primary-green text-white"
+                  : "bg-[rgba(255,255,255,0.05)] text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
               {f}
@@ -235,17 +235,17 @@ export default function PortfolioPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
+                    <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-primary-green transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-[#13eca4] text-xs font-semibold mb-2">{project.course}</p>
-                    <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-4">
+                    <p className="text-primary-green text-xs font-semibold mb-2">{project.course}</p>
+                    <p className="text-(--text-muted) text-sm leading-relaxed flex-1 mb-4">
                       {project.description}
                     </p>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      <span className="text-xs px-2 py-0.5 rounded bg-(--input-bg) text-slate-400">
+                      <span className="text-xs px-2 py-0.5 rounded bg-(--input-bg) text-(--text-muted)">
                         {project.category}
                       </span>
                     </div>
@@ -276,7 +276,7 @@ export default function PortfolioPage() {
                       <div className="flex gap-2">
                         <Link
                           href={`/school/student/project/${project.id}`}
-                          className="p-2 rounded-lg bg-(--input-bg) text-slate-400 hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.1)] transition-all"
+                          className="p-2 rounded-lg bg-(--input-bg) text-(--text-muted) hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.1)] transition-all"
                           title="View project"
                         >
                           <span className="material-symbols-outlined text-[18px]">open_in_new</span>
@@ -284,7 +284,7 @@ export default function PortfolioPage() {
                         {project.status === "graded" && (
                           <Link
                             href={`/school/student/project/${project.id}/feedback`}
-                            className="p-2 rounded-lg bg-[rgba(19,236,164,0.1)] text-[#13eca4] hover:bg-[rgba(19,236,164,0.2)] transition-all"
+                            className="p-2 rounded-lg bg-primary-green/10 text-primary-green hover:bg-[rgba(19,236,164,0.2)] transition-all"
                             title="View feedback"
                           >
                             <span className="material-symbols-outlined text-[18px]">feedback</span>
@@ -302,7 +302,7 @@ export default function PortfolioPage() {
             <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3 block">
               grid_view
             </span>
-            <p className="text-slate-400 text-sm">
+            <p className="text-(--text-muted) text-sm">
               No submissions yet. Complete course lessons and submit your work!
             </p>
           </div>

@@ -79,7 +79,7 @@ export default function ReviewerSidebar() {
           <ThemeToggle />
           <NotificationBell />
           <button onClick={handleSignOut} title="Sign out">
-            <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
+            <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-accent-red transition-colors">
               logout
             </span>
           </button>

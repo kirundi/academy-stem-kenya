@@ -18,7 +18,7 @@ export default function GlobalAdminLayout({ children }: { children: React.ReactN
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-(--bg-page)">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
@@ -28,7 +28,7 @@ export default function GlobalAdminLayout({ children }: { children: React.ReactN
   if (!appUser || (appUser.role !== "super_admin" && appUser.role !== "admin")) {
     return (
       <div className="flex items-center justify-center h-screen bg-(--bg-page)">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
           progress_activity
         </span>
       </div>
