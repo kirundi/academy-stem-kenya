@@ -1,40 +1,7 @@
 @import "tailwindcss";
 
-/* ─── Light theme (default) ─────────────────────────────── */
+/* ─── Dark theme (default) — matched to stemimpactcenterkenya.org ── */
 :root {
-  --bg-page:      #f0f2f5;
-  --bg-sidebar:   #f3f5f7;
-  --bg-card:      #ffffff;
-  --bg-surface:   #f7f9fb;
-  --bg-card-alt:  #eef1f4;
-  --bg-elevated:  #e8ecf0;
-
-  --text-base:    #0f172a;
-  --text-muted:   #475569;
-  --text-faint:   #94a3b8;
-
-  --border:         #e2e8f0;
-  --border-subtle:  rgba(0, 0, 0, 0.06);
-  --border-medium:  rgba(26, 75, 132, 0.15);
-  --border-accent:  rgba(26, 75, 132, 0.25);
-  --border-strong:  rgba(26, 75, 132, 0.35);
-
-  --hover-subtle:   rgba(26, 75, 132, 0.06);
-  --hover-medium:   rgba(26, 75, 132, 0.10);
-
-  --input-bg:     #ffffff;
-  --glass-bg:     rgba(255, 255, 255, 0.70);
-
-  /* Brand colors — matched to stemimpactcenterkenya.org */
-  --primary:            #1a4b84;
-  --primary-dark:       #1e3a5f;
-  --primary-green:      #20b2aa;
-  --primary-green-dark: #1a9690;
-  --accent-red:         #ff6b35;
-}
-
-/* ─── Dark theme ─────────────────────────────────────────── */
-.dark {
   --bg-page:      #0f172a;
   --bg-sidebar:   #0c1322;
   --bg-card:      #1e293b;
@@ -58,11 +25,44 @@
   --input-bg:     rgba(255, 255, 255, 0.05);
   --glass-bg:     rgba(255, 255, 255, 0.04);
 
+  /* Brand colors — matched to stemimpactcenterkenya.org */
   --primary:            #5b9bd5;
   --primary-dark:       #4a8bc5;
   --primary-green:      #2dd4bf;
   --primary-green-dark: #20b2aa;
   --accent-red:         #fb923c;
+}
+
+/* ─── Light theme — Cool Slate (toggle option) ─────────── */
+.light {
+  --bg-page:      #d5dbe3;
+  --bg-sidebar:   #c8d0da;
+  --bg-card:      #e4e9ef;
+  --bg-surface:   #dce2ea;
+  --bg-card-alt:  #d0d8e2;
+  --bg-elevated:  #bcc5d1;
+
+  --text-base:    #1a2332;
+  --text-muted:   #4a5568;
+  --text-faint:   #718096;
+
+  --border:         #a8b5c4;
+  --border-subtle:  rgba(0, 0, 0, 0.08);
+  --border-medium:  rgba(26, 75, 132, 0.18);
+  --border-accent:  rgba(26, 75, 132, 0.28);
+  --border-strong:  rgba(26, 75, 132, 0.38);
+
+  --hover-subtle:   rgba(26, 75, 132, 0.08);
+  --hover-medium:   rgba(26, 75, 132, 0.14);
+
+  --input-bg:     #e4e9ef;
+  --glass-bg:     rgba(255, 255, 255, 0.40);
+
+  --primary:            #1a4b84;
+  --primary-dark:       #1e3a5f;
+  --primary-green:      #1a9690;
+  --primary-green-dark: #168078;
+  --accent-red:         #ff6b35;
 }
 
 @theme inline {
