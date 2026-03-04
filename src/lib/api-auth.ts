@@ -16,11 +16,22 @@ export interface AuthenticatedUser {
   schoolIds: string[] | null;
 }
 
+// All roles that represent a legitimate authenticated platform user.
+// Use requireAuth() for "is this a known platform user" checks.
+// Use requireStaff() only when you specifically mean platform staff/educators.
+const ALL_PLATFORM_ROLES: UserRole[] = [
+  "student", "teacher", "school_admin", "editor",
+  "content_reviewer", "analytics_viewer", "support", "observer", "mentor",
+  "parent", "admin", "super_admin",
+];
+
+// Platform staff/employees — excludes student and parent.
 const STAFF_ROLES: UserRole[] = [
   "teacher", "school_admin", "editor",
   "content_reviewer", "analytics_viewer", "support", "observer", "mentor",
   "admin", "super_admin",
 ];
+
 const ADMIN_ROLES: UserRole[] = ["admin", "super_admin"];
 
 /**
@@ -112,7 +123,19 @@ export function canManageSchool(user: AuthenticatedUser, schoolId: string): bool
 }
 
 /**
+ * Returns the authenticated user if they hold any recognised platform role.
+ * Use this as the broadest auth gate — parent, student, mentor, observer, etc.
+ * all pass. Only truly unauthenticated requests are rejected.
+ */
+export async function requireAuth(): Promise<AuthenticatedUser | null> {
+  const user = await getAuthUser();
+  if (!user || !hasRole(user, ALL_PLATFORM_ROLES)) return null;
+  return user;
+}
+
+/**
  * Returns the authenticated user if they are staff (teacher, school_admin, admin, super_admin).
+ * Does NOT include student or parent — use requireAuth() for those.
  */
 export async function requireStaff(): Promise<AuthenticatedUser | null> {
   const user = await getAuthUser();

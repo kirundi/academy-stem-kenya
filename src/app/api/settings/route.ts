@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import { requirePermission } from "@/lib/api-auth";
+import { validateCsrf } from "@/lib/csrf";
 
 const SETTINGS_DOC = "settings/platform";
 
@@ -31,6 +32,7 @@ export async function GET() {
 }
 
 export async function PUT(request: NextRequest) {
+  if (!validateCsrf(request)) return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 });
   const caller = await requirePermission("manage_settings");
   if (!caller) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });

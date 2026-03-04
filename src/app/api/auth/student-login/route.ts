@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
-import { checkRateLimit, resetRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, resetRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -14,7 +14,8 @@ export async function POST(request: NextRequest) {
   }
 
   // Rate limit: 10 attempts per IP per 15 minutes.
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  // Use last X-Forwarded-For entry (Google LB appends real IP — not forgeable by clients).
+  const ip = getClientIp(request);
   const rateLimitKey = `slr_${ip}`;
   const limit = await checkRateLimit(rateLimitKey, 10, 15 * 60 * 1000);
   if (!limit.allowed) {

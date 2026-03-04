@@ -3,6 +3,7 @@ import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAuthUser, hasPermission } from "@/lib/api-auth";
 import { generateClassroomJoinCode } from "@/lib/student-code";
+import { validateCsrf } from "@/lib/csrf";
 
 export async function GET(request: NextRequest) {
   const user = await getAuthUser();
@@ -44,6 +45,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  if (!validateCsrf(request)) return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 });
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   if (!hasPermission(user, "manage_classrooms")) {

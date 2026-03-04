@@ -4,11 +4,13 @@ import { FieldValue } from "firebase-admin/firestore";
 import crypto from "crypto";
 import { sendInviteTokenEmail } from "@/lib/email";
 import { requirePermission, hasPermission } from "@/lib/api-auth";
+import { validateCsrf } from "@/lib/csrf";
 
 const PLATFORM_URL =
   process.env.NEXT_PUBLIC_PLATFORM_URL ?? "https://academy.stemimpactcenterkenya.org";
 
 export async function POST(request: NextRequest) {
+  if (!validateCsrf(request)) return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 });
   const caller = await requirePermission("invite_users");
   if (!caller) {
     return NextResponse.json(
@@ -164,6 +166,7 @@ export async function GET() {
  * Requires invite_users permission.
  */
 export async function PUT(request: NextRequest) {
+  if (!validateCsrf(request)) return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 });
   const caller = await requirePermission("invite_users");
   if (!caller) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });

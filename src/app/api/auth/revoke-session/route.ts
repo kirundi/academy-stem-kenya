@@ -39,18 +39,29 @@ export async function DELETE(request: NextRequest) {
     }
 
     if (body.sessionId) {
-      // Delete a single session record (does NOT revoke Firebase credentials).
       const docRef = adminDb.collection("sessions").doc(body.sessionId);
       const snap = await docRef.get();
       if (!snap.exists) {
         return NextResponse.json({ error: "Session not found" }, { status: 404 });
       }
-      // Verify ownership before deleting.
+      // Verify ownership before revoking.
       if (snap.data()?.uid !== uid) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
       }
-      await docRef.delete();
-      return NextResponse.json({ status: "revoked" });
+
+      // Firebase has no per-session-cookie revocation API — revokeRefreshTokens()
+      // invalidates ALL credentials for this user. We revoke all, then delete all
+      // session records (they are all now invalid). The user must re-login on every device.
+      await adminAuth.revokeRefreshTokens(uid);
+      const allSnap = await adminDb.collection("sessions").where("uid", "==", uid).get();
+      const batch = adminDb.batch();
+      allSnap.docs.forEach((d) => batch.delete(d.ref));
+      await batch.commit();
+
+      return NextResponse.json({
+        status: "revoked",
+        note: "All sessions invalidated — Firebase does not support per-session revocation.",
+      });
     }
 
     return NextResponse.json({ error: "Specify all:true or sessionId" }, { status: 400 });

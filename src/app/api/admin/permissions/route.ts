@@ -4,6 +4,7 @@ import { FieldValue } from "firebase-admin/firestore";
 import { requirePermission, hasPermission } from "@/lib/api-auth";
 import type { Permission } from "@/lib/permissions";
 import { ALL_PERMISSIONS, resolvePermissions } from "@/lib/permissions";
+import { validateCsrf } from "@/lib/csrf";
 
 /**
  * PUT /api/admin/permissions
@@ -13,6 +14,7 @@ import { ALL_PERMISSIONS, resolvePermissions } from "@/lib/permissions";
  * Requires "manage_users" permission.
  */
 export async function PUT(request: NextRequest) {
+  if (!validateCsrf(request)) return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 });
   const caller = await requirePermission("manage_users");
   if (!caller) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });

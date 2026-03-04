@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
-import { checkRateLimit, resetRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, resetRateLimit, getClientIp } from "@/lib/rate-limit";
 import { generateCsrfToken } from "@/lib/csrf";
 
 // Session durations
@@ -8,14 +8,16 @@ const DURATION_PERSISTENT = 60 * 60 * 24 * 14 * 1000; // 14 days (Firebase max f
 const DURATION_SESSION = 60 * 60 * 24 * 1 * 1000; // 24 hours (browser session)
 const DURATION_STUDENT = 60 * 60 * 24 * 7 * 1000; // 7 days (students, no choice)
 
-// 20 session-creation attempts per IP per 15 minutes.
-// Resets on success so legitimate multi-tab opens don't lock users out.
-const RL_MAX = 20;
+// Per-IP: 30 attempts per 15 minutes (covers a school lab on shared NAT).
+// Per-UID: 10 attempts per 15 minutes (stops brute-force against a specific account).
+const RL_IP_MAX = 30;
+const RL_UID_MAX = 10;
 const RL_WINDOW_MS = 15 * 60 * 1000;
 
 export async function POST(request: NextRequest) {
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  const { allowed, resetAt } = await checkRateLimit(`session_${ip}`, RL_MAX, RL_WINDOW_MS);
+  // Use last IP in X-Forwarded-For (appended by Google's LB — not spoofable by clients).
+  const ip = getClientIp(request);
+  const { allowed, resetAt } = await checkRateLimit(`session_${ip}`, RL_IP_MAX, RL_WINDOW_MS);
 
   if (!allowed) {
     return NextResponse.json(
@@ -45,22 +47,42 @@ export async function POST(request: NextRequest) {
       expiresIn = DURATION_SESSION;
     }
 
-    // createSessionCookie verifies the token internally.
-    const sessionCookie = await adminAuth.createSessionCookie(idToken, { expiresIn });
-
-    // Decode the ID token once to get uid + check requiresPasswordChange.
+    // Decode the token first to get uid for per-user rate limiting.
+    // verifyIdToken also validates signature + expiry before we spend a session cookie.
     let requiresPasswordChange = false;
     let uid: string | null = null;
     try {
       const decoded = await adminAuth.verifyIdToken(idToken);
       uid = decoded.uid;
+
+      // Per-UID rate limit — prevents brute-forcing a specific account even from
+      // different IPs (e.g. distributed attack). School NAT won't trigger this.
+      const uidLimit = await checkRateLimit(`session_uid_${uid}`, RL_UID_MAX, RL_WINDOW_MS);
+      if (!uidLimit.allowed) {
+        return NextResponse.json(
+          { error: "Too many requests. Please try again later." },
+          {
+            status: 429,
+            headers: { "Retry-After": String(Math.ceil((uidLimit.resetAt - Date.now()) / 1000)) },
+          }
+        );
+      }
+
       const userDoc = await adminDb.collection("users").doc(uid).get();
       if (userDoc.exists) {
         requiresPasswordChange = userDoc.data()?.requiresPasswordChange ?? false;
       }
-    } catch {
-      // Non-fatal — session is still valid, change-password check is best-effort.
+    } catch (err) {
+      const e = err as { code?: string };
+      // If token verification fails outright, reject immediately.
+      if (e.code?.startsWith("auth/")) {
+        return NextResponse.json({ error: "Invalid ID token", code: e.code }, { status: 401 });
+      }
+      // Other errors (Firestore read failure) are non-fatal.
     }
+
+    // createSessionCookie verifies the token internally (second check — belt and braces).
+    const sessionCookie = await adminAuth.createSessionCookie(idToken, { expiresIn });
 
     // Write a session record for the session management UI.
     let sessionId: string | null = null;
@@ -86,6 +108,7 @@ export async function POST(request: NextRequest) {
 
     // Successful login — clear the rate-limit bucket so the user isn't penalised for future logins.
     await resetRateLimit(`session_${ip}`);
+    if (uid) await resetRateLimit(`session_uid_${uid}`);
 
     const csrfToken = generateCsrfToken();
     const response = NextResponse.json({ status: "success", requiresPasswordChange });

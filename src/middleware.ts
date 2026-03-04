@@ -14,6 +14,10 @@ const publicPaths = [
   "/accept-invite",
 ];
 
+// Pages a user who must change their password can still reach.
+const CHANGE_PASSWORD_PATHS = ["/change-password", "/api/auth/session"];
+
+
 /** Map route prefixes to the roles allowed to access them. */
 const routeRoleMap: Record<string, string[]> = {
   "/school/student": ["student"],
@@ -120,6 +124,20 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // ── Password-change gate ─────────────────────────────────────────────────
+  // If the JWT carries requiresPasswordChange: true (set by setUserClaims after
+  // an admin-provisioned account is created), lock the user to the change-password
+  // page. This is a server-side enforcement — client-side redirects alone are bypassable.
+  const mustChangePassword = payload.requiresPasswordChange as boolean | undefined;
+  if (mustChangePassword) {
+    const allowed = CHANGE_PASSWORD_PATHS.some(
+      (p) => pathname === p || pathname.startsWith(p + "/")
+    );
+    if (!allowed) {
+      return NextResponse.redirect(new URL("/change-password", request.url));
+    }
+  }
+
   // All roles the user holds (primary + secondary).
   const allUserRoles = [role, ...additionalRoles];
 
@@ -159,5 +177,6 @@ export const config = {
     "/mentor", "/mentor/:path*",
     "/parent", "/parent/:path*",
     "/admin/:path*",
+    "/change-password",
   ],
 };

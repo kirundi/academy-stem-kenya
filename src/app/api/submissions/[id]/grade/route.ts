@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAuthUser, hasRole } from "@/lib/api-auth";
+import { validateCsrf } from "@/lib/csrf";
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (!validateCsrf(request)) return NextResponse.json({ error: "Invalid CSRF token" }, { status: 403 });
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 

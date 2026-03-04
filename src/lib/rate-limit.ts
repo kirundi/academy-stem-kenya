@@ -1,4 +1,23 @@
+import type { NextRequest } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
+
+/**
+ * Extract the real client IP from an incoming request.
+ *
+ * On Firebase Hosting + Cloud Run the request flows through Google's load
+ * balancer, which APPENDS the real client IP to X-Forwarded-For.
+ * Taking the LAST entry prevents clients from spoofing the header by sending
+ * a forged leading IP (e.g. "X-Forwarded-For: fake-ip" → LB appends real IP
+ * so the header becomes "fake-ip, real-ip" — we take the last one).
+ */
+export function getClientIp(request: NextRequest): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) {
+    const ips = forwarded.split(",").map((s) => s.trim()).filter(Boolean);
+    if (ips.length > 0) return ips[ips.length - 1];
+  }
+  return "unknown";
+}
 
 export interface RateLimitResult {
   allowed: boolean;

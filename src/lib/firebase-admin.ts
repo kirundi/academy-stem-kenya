@@ -21,7 +21,7 @@ const adminApp =
 const adminAuth = getAuth(adminApp);
 const adminDb = getFirestore(adminApp);
 
-/** Set role, schoolId, permissions, schoolIds, and additionalRoles as Firebase custom claims. */
+/** Set role, schoolId, permissions, schoolIds, additionalRoles, and requiresPasswordChange as Firebase custom claims. */
 export async function setUserClaims(
   uid: string,
   claims: {
@@ -30,6 +30,7 @@ export async function setUserClaims(
     permissions?: Permission[];
     schoolIds?: string[] | null;
     additionalRoles?: string[];
+    requiresPasswordChange?: boolean;
   }
 ) {
   const customClaims: Record<string, unknown> = {
@@ -42,6 +43,10 @@ export async function setUserClaims(
   }
   if (claims.additionalRoles && claims.additionalRoles.length > 0) {
     customClaims.additionalRoles = claims.additionalRoles;
+  }
+  // Store in JWT so Edge middleware can enforce redirect without an Admin SDK call.
+  if (claims.requiresPasswordChange != null) {
+    customClaims.requiresPasswordChange = claims.requiresPasswordChange;
   }
   await adminAuth.setCustomUserClaims(uid, customClaims);
 }
