@@ -15,6 +15,7 @@ const baseNavItems = [
   { href: "/dashboard/content", icon: "library_books", label: "Content" },
   { href: "/dashboard/audit", icon: "fact_check", label: "Audit" },
   { href: "/dashboard/users", icon: "manage_accounts", label: "Users" },
+  { href: "/dashboard/communications", icon: "campaign", label: "Communications" },
   { href: "/dashboard/reports", icon: "bar_chart", label: "Reports" },
   { href: "/dashboard/api-monitor", icon: "monitor_heart", label: "API Monitor" },
   { href: "/dashboard/webhooks", icon: "webhook", label: "Webhooks" },

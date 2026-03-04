@@ -99,7 +99,7 @@ export function baseTemplate(body: string): string {
 // Reusable HTML snippets
 // ---------------------------------------------------------------------------
 
-function ctaButton(href: string, label: string, color = "#13eca4", textColor = "#10221c") {
+export function ctaButton(href: string, label: string, color = "#13eca4", textColor = "#10221c") {
   return `<a href="${href}" style="display:inline-block;background:${color};color:${textColor};font-weight:700;font-size:14px;padding:14px 32px;border-radius:8px;text-decoration:none;margin-top:4px;">${label}</a>`;
 }
 
