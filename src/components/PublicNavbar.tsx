@@ -22,15 +22,17 @@ export default function PublicNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-(--border) bg-(--bg-sidebar)/90 backdrop-blur-md px-6 lg:px-20 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link href="/" className="flex items-center outline-none focus:ring-2 focus:ring-[#13daec] rounded-md">
-          <Image
-            src="/images/logo/sic-logo.png"
-            alt="STEM Impact Academy"
-            height={36}
-            width={180}
-            style={{ height: "36px", width: "auto" }}
-            priority
-          />
+        <Link href="/" className="outline-none focus:ring-2 focus:ring-[#13daec] rounded-lg inline-flex">
+          <span className="bg-white rounded-lg px-3 py-1.5 inline-flex items-center">
+            <Image
+              src="/images/logo/sic-academy.png"
+              alt="STEM Impact Academy"
+              height={36}
+              width={180}
+              style={{ height: "36px", width: "auto" }}
+              priority
+            />
+          </span>
         </Link>
 
         {/* Desktop nav */}

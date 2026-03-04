@@ -172,7 +172,7 @@ export default function SupportActivityPage() {
                           >
                             {label}
                           </span>
-                          <span className="text-slate-500 text-xs font-mono truncate max-w-[200px]">
+                          <span className="text-slate-500 text-xs font-mono truncate max-w-50">
                             {a.userId ? a.userId.slice(0, 16) + "…" : "system"}
                           </span>
                         </div>

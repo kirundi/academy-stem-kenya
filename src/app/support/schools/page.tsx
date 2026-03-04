@@ -74,7 +74,7 @@ export default function SupportSchoolsPage() {
 
       <div className="px-8 py-8 max-w-5xl mx-auto">
         {/* Hero */}
-        <div className="relative bg-gradient-to-r from-[#1a2e27] to-[#162820] rounded-2xl p-8 mb-8 border border-[rgba(59,130,246,0.15)] overflow-hidden">
+        <div className="relative bg-linear-to-r from-[#1a2e27] to-[#162820] rounded-2xl p-8 mb-8 border border-[rgba(59,130,246,0.15)] overflow-hidden">
           <div className="absolute -right-10 -bottom-10 w-48 h-48 border-2 border-[rgba(59,130,246,0.08)] rounded-full" />
           <div className="relative z-10">
             <p className="text-[#3b82f6] font-semibold text-sm mb-2 uppercase tracking-widest">School Lookup</p>

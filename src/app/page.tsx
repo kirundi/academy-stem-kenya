@@ -621,14 +621,16 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12">
             <div className="max-w-xs">
-              <div className="mb-6">
-                <Image
-                  src="/images/logo/sic-logo.png"
-                  alt="STEM Impact Academy"
-                  height={36}
-                  width={180}
-                  style={{ height: "36px", width: "auto" }}
-                />
+              <div className="mb-6 inline-flex">
+                <span className="bg-white rounded-lg px-3 py-1.5 inline-flex items-center">
+                  <Image
+                    src="/images/logo/sic-academy.png"
+                    alt="STEM Impact Academy"
+                    height={36}
+                    width={180}
+                    style={{ height: "36px", width: "auto" }}
+                  />
+                </span>
               </div>
               <p className="text-sm text-(--text-faint)">
                 Driving global innovation through accessible, project-based STEM education for every

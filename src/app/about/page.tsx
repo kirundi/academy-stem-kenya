@@ -78,15 +78,25 @@ export default function AboutPage() {
             <p className="text-xs font-black uppercase tracking-widest text-(--text-faint) mb-10">
               Partners &amp; Affiliations
             </p>
-            <div className="flex justify-center items-center">
-              <Image
-                src="/images/logo/wro-logo.png"
-                alt="World Robot Olympiad"
-                height={64}
-                width={200}
-                style={{ height: "64px", width: "auto" }}
-                className="opacity-80 hover:opacity-100 transition-opacity"
-              />
+            <div className="flex justify-center items-center gap-8 flex-wrap">
+              <div className="bg-white rounded-xl px-6 py-4 shadow-sm hover:shadow-md transition-shadow inline-flex items-center">
+                <Image
+                  src="/images/logo/sic-logo.png"
+                  alt="STEM Impact Center Kenya"
+                  height={56}
+                  width={220}
+                  style={{ height: "56px", width: "auto" }}
+                />
+              </div>
+              <div className="bg-white rounded-xl px-6 py-4 shadow-sm hover:shadow-md transition-shadow inline-flex items-center">
+                <Image
+                  src="/images/logo/wro-logo.png"
+                  alt="World Robot Olympiad Kenya"
+                  height={56}
+                  width={220}
+                  style={{ height: "56px", width: "auto" }}
+                />
+              </div>
             </div>
           </div>
         </section>
