@@ -54,7 +54,7 @@ export default function AdminSetupPage() {
         <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-8">
           {status === "checking" && (
             <div className="text-center py-8">
-              <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+              <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
                 progress_activity
               </span>
               <p className="text-(--text-muted) text-sm mt-4">Checking platform status...</p>
@@ -63,8 +63,8 @@ export default function AdminSetupPage() {
 
           {status === "already_initialized" && (
             <div className="text-center py-8">
-              <div className="w-16 h-16 rounded-full bg-primary-green/10 flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-3xl text-primary-green">
+              <div className="w-16 h-16 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-4">
+                <span className="material-symbols-outlined text-3xl text-[#13eca4]">
                   check_circle
                 </span>
               </div>
@@ -72,7 +72,7 @@ export default function AdminSetupPage() {
               <p className="text-(--text-muted) text-sm mt-2">A global admin account already exists.</p>
               <button
                 onClick={() => router.push("/login")}
-                className="mt-6 bg-primary-green text-white font-bold text-sm px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
+                className="mt-6 bg-[#13eca4] text-[#10221c] font-bold text-sm px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
               >
                 Go to Login
               </button>
@@ -81,8 +81,8 @@ export default function AdminSetupPage() {
 
           {status === "ready" && (
             <div className="text-center py-4">
-              <div className="w-16 h-16 rounded-full bg-accent-red/10 flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-3xl text-accent-red">
+              <div className="w-16 h-16 rounded-full bg-[rgba(255,77,77,0.1)] flex items-center justify-center mx-auto mb-4">
+                <span className="material-symbols-outlined text-3xl text-[#ff4d4d]">
                   admin_panel_settings
                 </span>
               </div>
@@ -90,19 +90,19 @@ export default function AdminSetupPage() {
               <p className="text-(--text-muted) text-sm mt-2 mb-1">
                 This will create the global super admin account for:
               </p>
-              <p className="text-primary-green font-mono text-sm font-bold">
+              <p className="text-[#13eca4] font-mono text-sm font-bold">
                 magu@stemimpactcenterkenya.org
               </p>
 
               {error && (
                 <div className="mt-4 bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-4 py-3">
-                  <p className="text-accent-red text-sm">{error}</p>
+                  <p className="text-[#ff4d4d] text-sm">{error}</p>
                 </div>
               )}
 
               <button
                 onClick={handleSetup}
-                className="mt-6 bg-accent-red text-(--text-base) font-bold text-sm px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
+                className="mt-6 bg-[#ff4d4d] text-(--text-base) font-bold text-sm px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
               >
                 Initialize Platform
               </button>
@@ -111,7 +111,7 @@ export default function AdminSetupPage() {
 
           {status === "loading" && (
             <div className="text-center py-8">
-              <span className="material-symbols-outlined animate-spin text-4xl text-accent-red">
+              <span className="material-symbols-outlined animate-spin text-4xl text-[#ff4d4d]">
                 progress_activity
               </span>
               <p className="text-(--text-muted) text-sm mt-4">Creating super admin account...</p>
@@ -121,8 +121,8 @@ export default function AdminSetupPage() {
           {status === "done" && credentials && (
             <div className="py-4">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-primary-green/10 flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-3xl text-primary-green">
+                <div className="w-16 h-16 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-3xl text-[#13eca4]">
                     verified
                   </span>
                 </div>
@@ -144,12 +144,12 @@ export default function AdminSetupPage() {
                     Temporary Password
                   </label>
                   <div className="flex items-center gap-2 mt-1">
-                    <p className="text-primary-green font-mono text-lg font-bold tracking-wider">
+                    <p className="text-[#13eca4] font-mono text-lg font-bold tracking-wider">
                       {credentials.tempPassword}
                     </p>
                     <button
                       onClick={() => navigator.clipboard.writeText(credentials.tempPassword)}
-                      className="p-1.5 hover:bg-(--hover-subtle) rounded-lg text-(--text-muted) hover:text-primary-green transition-colors"
+                      className="p-1.5 hover:bg-(--hover-subtle) rounded-lg text-(--text-muted) hover:text-[#13eca4] transition-colors"
                       title="Copy password"
                     >
                       <span className="material-symbols-outlined text-[18px]">content_copy</span>
@@ -167,7 +167,7 @@ export default function AdminSetupPage() {
 
               <button
                 onClick={() => router.push("/login")}
-                className="mt-6 w-full bg-primary-green text-white font-bold text-sm py-3 rounded-lg hover:opacity-90 transition-opacity"
+                className="mt-6 w-full bg-[#13eca4] text-[#10221c] font-bold text-sm py-3 rounded-lg hover:opacity-90 transition-opacity"
               >
                 Go to Login
               </button>

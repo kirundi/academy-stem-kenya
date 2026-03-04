@@ -28,7 +28,7 @@ export default function CourseLibraryPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -62,7 +62,7 @@ export default function CourseLibraryPage() {
 
       <main className="max-w-7xl mx-auto px-8 py-8 space-y-8">
         <section>
-          <div className="flex items-center gap-2 text-primary-green mb-1">
+          <div className="flex items-center gap-2 text-[#13eca4] mb-1">
             <span className="material-symbols-outlined text-[16px]">library_books</span>
             <span className="text-xs font-bold uppercase tracking-wider">Curriculum</span>
           </div>
@@ -92,7 +92,7 @@ export default function CourseLibraryPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                   selectedCategory === cat
-                    ? "bg-primary-green text-white"
+                    ? "bg-[#13eca4] text-[#10221c]"
                     : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
                 }`}
               >
@@ -140,7 +140,7 @@ export default function CourseLibraryPage() {
                       </span>
                     )}
                   </div>
-                  <h3 className="text-(--text-base) font-bold text-lg mb-1 group-hover:text-primary-green transition-colors">
+                  <h3 className="text-(--text-base) font-bold text-lg mb-1 group-hover:text-[#13eca4] transition-colors">
                     {course.title}
                   </h3>
                   <p className="text-(--text-muted) text-sm line-clamp-2">

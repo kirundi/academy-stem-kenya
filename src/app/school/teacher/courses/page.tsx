@@ -77,7 +77,7 @@ export default function TeacherCoursesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -140,7 +140,7 @@ export default function TeacherCoursesPage() {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                 activeCategory === cat
-                  ? "bg-primary-green text-white"
+                  ? "bg-[#13eca4] text-[#10221c]"
                   : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base) border border-(--border-subtle)"
               }`}
             >
@@ -185,13 +185,13 @@ export default function TeacherCoursesPage() {
                     </span>
                   </div>
                   {course.assigned && (
-                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-primary-green/10 text-primary-green">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-[rgba(19,236,164,0.1)] text-[#13eca4]">
                       Assigned
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-primary-green transition-colors">
+                <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
                   {course.title}
                 </h3>
                 <p
@@ -297,7 +297,7 @@ export default function TeacherCoursesPage() {
                         onChange={(e) =>
                           setSelections((prev) => ({ ...prev, [c.id]: e.target.checked }))
                         }
-                        className="w-4 h-4 accent-primary-green"
+                        className="w-4 h-4 accent-[#13eca4]"
                       />
                       <div className="flex-1">
                         <p className="text-(--text-base) text-sm font-semibold">{c.name}</p>
@@ -306,7 +306,7 @@ export default function TeacherCoursesPage() {
                         </p>
                       </div>
                       {checked && (
-                        <span className="text-primary-green text-xs font-bold">Assigned</span>
+                        <span className="text-[#13eca4] text-xs font-bold">Assigned</span>
                       )}
                     </label>
                   );

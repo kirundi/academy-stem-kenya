@@ -97,7 +97,7 @@ export default function StudentAchievementsPage() {
       <div className="flex h-screen bg-(--bg-page)">
         <StudentSidebar />
         <main className="ml-60 flex-1 flex items-center justify-center">
-          <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
             progress_activity
           </span>
         </main>
@@ -122,7 +122,7 @@ export default function StudentAchievementsPage() {
             <div className="hidden md:flex items-center bg-(--bg-card) rounded-lg px-3 py-1.5 border border-(--border)">
               <span className="material-symbols-outlined text-(--text-muted) text-sm">search</span>
               <input
-                className="bg-transparent border-none focus:ring-0 text-sm text-(--text-base) placeholder:text-(--text-faint) w-44 ml-2 outline-none"
+                className="bg-transparent border-none focus:ring-0 text-sm text-slate-200 placeholder:text-(--text-faint) w-44 ml-2 outline-none"
                 placeholder="Search achievements..."
               />
             </div>
@@ -146,8 +146,8 @@ export default function StudentAchievementsPage() {
                       onClick={() => setActiveTab(tab)}
                       className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg font-medium transition-all text-left ${
                         activeTab === tab
-                          ? "bg-primary/10 text-primary"
-                          : "text-(--text-muted) hover:text-(--text-base) hover:bg-(--hover-subtle)"
+                          ? "bg-[rgba(19,218,236,0.1)] text-[#13daec]"
+                          : "text-(--text-muted) hover:text-(--text-base) hover:bg-slate-800/50"
                       }`}
                     >
                       <span className="material-symbols-outlined">{config.icon}</span>
@@ -157,7 +157,7 @@ export default function StudentAchievementsPage() {
                 })}
                 <Link
                   href="/school/student/settings"
-                  className="flex items-center gap-3 w-full px-4 py-3 text-(--text-muted) hover:text-(--text-base) hover:bg-(--hover-subtle) rounded-lg font-medium transition-all"
+                  className="flex items-center gap-3 w-full px-4 py-3 text-(--text-muted) hover:text-(--text-base) hover:bg-slate-800/50 rounded-lg font-medium transition-all"
                 >
                   <span className="material-symbols-outlined">settings</span>
                   Settings
@@ -173,13 +173,13 @@ export default function StudentAchievementsPage() {
                   <div>
                     <div className="flex justify-between text-xs mb-1">
                       <span className="text-(--text-muted)">Badges Collected</span>
-                      <span className="text-primary">
+                      <span className="text-[#13daec]">
                         {collected}/{Math.max(total, 1)}
                       </span>
                     </div>
                     <div className="w-full h-1.5 bg-(--bg-page) rounded-full">
                       <div
-                        className="h-full bg-primary rounded-full transition-all"
+                        className="h-full bg-[#13daec] rounded-full transition-all"
                         style={{ width: `${collectedPct}%` }}
                       />
                     </div>
@@ -230,7 +230,7 @@ export default function StudentAchievementsPage() {
             {/* Trophy Case */}
             <section>
               <div className="flex items-center gap-3 mb-5">
-                <span className="material-symbols-outlined text-primary">emoji_events</span>
+                <span className="material-symbols-outlined text-[#13daec]">emoji_events</span>
                 <h2 className="text-2xl font-bold text-(--text-base)">Trophy Case</h2>
                 <span className="ml-auto text-xs font-bold text-(--text-faint) uppercase tracking-widest">
                   Top 3 Rarest
@@ -332,7 +332,7 @@ export default function StudentAchievementsPage() {
                             </span>
                           </div>
                         </div>
-                        <h4 className="text-sm font-bold text-(--text-base)">{badge.name}</h4>
+                        <h4 className="text-sm font-bold text-slate-200">{badge.name}</h4>
                         <p className="text-[10px] text-(--text-faint) uppercase font-bold mt-1">
                           {badge.rarity}
                         </p>
@@ -378,7 +378,7 @@ export default function StudentAchievementsPage() {
             {(activeTab === "milestones" || activeTab === "overview") && (
               <section>
                 <div className="flex items-center gap-3 mb-6">
-                  <span className="material-symbols-outlined text-primary">stars</span>
+                  <span className="material-symbols-outlined text-[#13daec]">stars</span>
                   <h2 className="text-xl font-bold text-(--text-base)">Skill Milestones</h2>
                 </div>
                 {skillMilestones.length === 0 ? (
@@ -421,7 +421,7 @@ export default function StudentAchievementsPage() {
                         </div>
                         {m.progress >= 100 && (
                           <span
-                            className="material-symbols-outlined text-primary shrink-0"
+                            className="material-symbols-outlined text-[#13daec] shrink-0"
                             style={{ fontVariationSettings: "'FILL' 1" }}
                           >
                             verified
@@ -459,20 +459,20 @@ export default function StudentAchievementsPage() {
             <p className="text-sm text-(--text-muted) mb-6">{selectedBadge.requirement}</p>
             <div className="p-4 bg-(--bg-page) rounded-xl text-left space-y-2 mb-6">
               <p className="text-xs text-(--text-muted)">
-                <span className="font-bold text-(--text-base)">Category:</span> Project Badge
+                <span className="font-bold text-slate-200">Category:</span> Project Badge
               </p>
               <p className="text-xs text-(--text-muted)">
-                <span className="font-bold text-(--text-base)">Rarity:</span>{" "}
+                <span className="font-bold text-slate-200">Rarity:</span>{" "}
                 <span className="capitalize">{selectedBadge.rarity}</span>
               </p>
               <p className="text-xs text-(--text-muted)">
-                <span className="font-bold text-(--text-base)">XP Value:</span> {selectedBadge.xpValue}{" "}
+                <span className="font-bold text-slate-200">XP Value:</span> {selectedBadge.xpValue}{" "}
                 XP
               </p>
             </div>
             <button
               onClick={() => setSelectedBadge(null)}
-              className="w-full py-2.5 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition-opacity"
+              className="w-full py-2.5 bg-[#13daec] text-[#102022] font-bold rounded-lg hover:opacity-90 transition-opacity"
             >
               Close
             </button>

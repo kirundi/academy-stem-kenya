@@ -144,10 +144,10 @@ export default function CommunicationsPage() {
 
       {/* Success banner */}
       {sendState === "done" && (
-        <div className="mb-6 flex items-start gap-3 rounded-xl bg-primary-green/8 border border-[rgba(19,236,164,0.2)] px-5 py-4">
-          <span className="material-symbols-outlined text-primary-green text-xl mt-0.5">check_circle</span>
+        <div className="mb-6 flex items-start gap-3 rounded-xl bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.2)] px-5 py-4">
+          <span className="material-symbols-outlined text-[#13eca4] text-xl mt-0.5">check_circle</span>
           <div className="flex-1">
-            <p className="text-primary-green font-semibold text-sm">{resultMsg}</p>
+            <p className="text-[#13eca4] font-semibold text-sm">{resultMsg}</p>
           </div>
           <button onClick={reset} className="text-(--text-faint) hover:text-(--text-muted) transition-colors">
             <span className="material-symbols-outlined text-base">close</span>
@@ -158,7 +158,7 @@ export default function CommunicationsPage() {
       {/* Compose card */}
       <div className="rounded-2xl bg-(--bg-card) border border-(--border-subtle) p-6 mb-8">
         <h2 className="text-base font-bold text-(--text-base) mb-5 flex items-center gap-2">
-          <span className="material-symbols-outlined text-[18px] text-primary-green">edit_note</span>
+          <span className="material-symbols-outlined text-[18px] text-[#13eca4]">edit_note</span>
           Compose Message
         </h2>
 
@@ -173,7 +173,7 @@ export default function CommunicationsPage() {
             onChange={(e) => setSubject(e.target.value)}
             disabled={sendState !== "idle" && sendState !== "done"}
             placeholder="e.g. Welcome to STEM Impact Academy!"
-            className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-primary-green transition-colors disabled:opacity-50"
+            className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4] transition-colors disabled:opacity-50"
           />
         </div>
 
@@ -188,7 +188,7 @@ export default function CommunicationsPage() {
             onChange={(e) => setMessage(e.target.value)}
             disabled={sendState !== "idle" && sendState !== "done"}
             placeholder="Write your message here. This will be rendered in the branded STEM Impact Academy email template."
-            className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-primary-green transition-colors resize-y disabled:opacity-50"
+            className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4] transition-colors resize-y disabled:opacity-50"
           />
           <p className="text-(--text-faint) text-xs mt-1.5">
             Plain text only — line breaks are preserved. The branded header, footer and logo are added automatically.
@@ -207,7 +207,7 @@ export default function CommunicationsPage() {
             disabled={sendState !== "idle" && sendState !== "done"}
             className={`mb-4 flex items-center gap-2.5 px-4 py-2.5 rounded-lg border text-sm font-semibold transition-all disabled:opacity-50 ${
               allUsers
-                ? "bg-primary-green/10 border-[rgba(19,236,164,0.3)] text-primary-green"
+                ? "bg-[rgba(19,236,164,0.1)] border-[rgba(19,236,164,0.3)] text-[#13eca4]"
                 : "bg-(--bg-elevated) border-(--border-subtle) text-(--text-muted) hover:border-(--border-medium)"
             }`}
           >
@@ -253,7 +253,7 @@ export default function CommunicationsPage() {
 
         {/* Error */}
         {errorMsg && (
-          <div className="mt-4 flex items-center gap-2 text-accent-red text-sm">
+          <div className="mt-4 flex items-center gap-2 text-[#ff4d4d] text-sm">
             <span className="material-symbols-outlined text-base">error</span>
             {errorMsg}
           </div>
@@ -336,7 +336,7 @@ export default function CommunicationsPage() {
             )}
 
             {errorMsg && (
-              <div className="flex items-center gap-2 text-accent-red text-sm mb-4">
+              <div className="flex items-center gap-2 text-[#ff4d4d] text-sm mb-4">
                 <span className="material-symbols-outlined text-base">error</span>
                 {errorMsg}
               </div>
@@ -353,7 +353,7 @@ export default function CommunicationsPage() {
               <button
                 onClick={handleSend}
                 disabled={isSending}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-primary-green text-white text-sm font-bold hover:brightness-110 transition-all disabled:opacity-50"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#13eca4] text-[#10221c] text-sm font-bold hover:brightness-110 transition-all disabled:opacity-50"
               >
                 {isSending ? (
                   <>
@@ -381,7 +381,7 @@ export default function CommunicationsPage() {
           </h2>
           <button
             onClick={fetchLogs}
-            className="text-(--text-faint) hover:text-primary-green transition-colors"
+            className="text-(--text-faint) hover:text-[#13eca4] transition-colors"
             title="Refresh"
           >
             <span className="material-symbols-outlined text-base">refresh</span>
@@ -390,7 +390,7 @@ export default function CommunicationsPage() {
 
         {logsLoading ? (
           <div className="flex justify-center py-12">
-            <span className="material-symbols-outlined animate-spin text-3xl text-primary-green">
+            <span className="material-symbols-outlined animate-spin text-3xl text-[#13eca4]">
               progress_activity
             </span>
           </div>
@@ -426,7 +426,7 @@ export default function CommunicationsPage() {
                           ))}
                         </div>
                       ) : (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary-green/10 text-primary-green uppercase">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(19,236,164,0.1)] text-[#13eca4] uppercase">
                           All Users
                         </span>
                       )}
@@ -434,14 +434,14 @@ export default function CommunicationsPage() {
                   </div>
                   <div className="text-right shrink-0">
                     <div className="flex items-center gap-1.5 justify-end mb-1">
-                      <span className="material-symbols-outlined text-[14px] text-primary-green">check_circle</span>
-                      <span className="text-sm font-bold text-primary-green">{log.recipientCount}</span>
+                      <span className="material-symbols-outlined text-[14px] text-[#13eca4]">check_circle</span>
+                      <span className="text-sm font-bold text-[#13eca4]">{log.recipientCount}</span>
                       <span className="text-xs text-(--text-faint)">sent</span>
                     </div>
                     {log.errorCount > 0 && (
                       <div className="flex items-center gap-1.5 justify-end mb-1">
-                        <span className="material-symbols-outlined text-[14px] text-accent-red">error</span>
-                        <span className="text-sm font-bold text-accent-red">{log.errorCount}</span>
+                        <span className="material-symbols-outlined text-[14px] text-[#ff4d4d]">error</span>
+                        <span className="text-sm font-bold text-[#ff4d4d]">{log.errorCount}</span>
                         <span className="text-xs text-(--text-faint)">failed</span>
                       </div>
                     )}

@@ -12,7 +12,7 @@ export default function AuditLogPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -53,7 +53,7 @@ export default function AuditLogPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Audit Log</h1>
-          <p className="text-(--text-muted) text-xs mt-0.5">
+          <p className="text-slate-400 text-xs mt-0.5">
             Platform-wide activity trail · {activities.length} events
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function AuditLogPage() {
               { key: "user", label: "User" }, { key: "type", label: "Type" },
               { key: "description", label: "Description" }, { key: "timestamp", label: "Timestamp" },
             ])}
-            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-primary-green hover:text-primary-green transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Logs
@@ -76,7 +76,7 @@ export default function AuditLogPage() {
       <div className="px-8 py-8 space-y-6">
         {/* Search */}
         <div className="relative max-w-md">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
             search
           </span>
           <input
@@ -119,7 +119,7 @@ export default function AuditLogPage() {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-(--text-muted)">
+                      <p className="text-sm text-slate-300">
                         <span className="font-bold text-(--text-base)">{userName}</span> {a.description}
                       </p>
                       <div className="flex items-center gap-3 mt-1">

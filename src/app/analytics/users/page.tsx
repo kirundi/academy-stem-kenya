@@ -89,7 +89,7 @@ export default function AnalyticsUsersPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Users Analytics</h1>
-          <p className="text-(--text-muted) text-xs mt-0.5">{allUsers.length} total users across all roles</p>
+          <p className="text-slate-400 text-xs mt-0.5">{allUsers.length} total users across all roles</p>
         </div>
       </header>
 
@@ -108,7 +108,7 @@ export default function AnalyticsUsersPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
+                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -126,7 +126,7 @@ export default function AnalyticsUsersPage() {
               const pct = allUsers.length > 0 ? (count / allUsers.length) * 100 : 0;
               return (
                 <div key={role} className="flex items-center gap-4">
-                  <div className="w-32 text-xs text-(--text-muted) text-right shrink-0">{ROLE_LABELS[role] ?? role}</div>
+                  <div className="w-32 text-xs text-slate-400 text-right shrink-0">{ROLE_LABELS[role] ?? role}</div>
                   <div className="flex-1 h-6 bg-(--bg-page) rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
@@ -179,10 +179,10 @@ export default function AnalyticsUsersPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-(--border-subtle)">
-                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">User</th>
-                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">Role</th>
-                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">School</th>
-                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">Joined</th>
+                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">User</th>
+                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">Role</th>
+                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">School</th>
+                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">Joined</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[rgba(255,255,255,0.03)]">
@@ -206,10 +206,10 @@ export default function AnalyticsUsersPage() {
                           {ROLE_LABELS[u.role] ?? u.role}
                         </span>
                       </td>
-                      <td className="px-6 py-3 text-(--text-muted) text-xs font-mono">
+                      <td className="px-6 py-3 text-slate-400 text-xs font-mono">
                         {u.schoolId ? u.schoolId.slice(0, 12) + "…" : "—"}
                       </td>
-                      <td className="px-6 py-3 text-(--text-muted) text-xs">
+                      <td className="px-6 py-3 text-slate-400 text-xs">
                         {formatDate((u as unknown as Record<string, unknown>).createdAt)}
                       </td>
                     </tr>
@@ -231,7 +231,7 @@ export default function AnalyticsUsersPage() {
             {filtered.length === 0 && (
               <div className="py-12 text-center">
                 <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">person_off</span>
-                <p className="text-(--text-muted) text-sm">No users match your filter.</p>
+                <p className="text-slate-400 text-sm">No users match your filter.</p>
               </div>
             )}
           </div>

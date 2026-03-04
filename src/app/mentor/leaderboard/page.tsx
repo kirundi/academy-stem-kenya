@@ -68,7 +68,7 @@ function RankBadge({ rank }: { rank: number }) {
   }
   return (
     <div className="w-9 h-9 rounded-full bg-[rgba(16,185,129,0.08)] flex items-center justify-center shrink-0">
-      <span className="text-(--text-muted) text-sm font-bold">{rank}</span>
+      <span className="text-slate-400 text-sm font-bold">{rank}</span>
     </div>
   );
 }
@@ -98,7 +98,7 @@ function ChallengeLeaderboard({
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(16,185,129,0.15)] text-[#10b981]">
               {challenge.scope}
             </span>
-            <span className="text-(--text-muted) text-xs">{challenge.theme}</span>
+            <span className="text-slate-400 text-xs">{challenge.theme}</span>
             <span className="text-slate-500 text-xs">{entries.length} ranked</span>
           </div>
         </div>
@@ -114,7 +114,7 @@ function ChallengeLeaderboard({
               <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3">
                 leaderboard
               </span>
-              <p className="text-(--text-muted) font-semibold mb-1">No graded submissions yet</p>
+              <p className="text-slate-300 font-semibold mb-1">No graded submissions yet</p>
               <p className="text-slate-500 text-sm">
                 Scores will appear here once submissions are graded.
               </p>
@@ -144,7 +144,7 @@ function ChallengeLeaderboard({
                     <div className="w-8 h-8 rounded-full bg-[rgba(16,185,129,0.12)] flex items-center justify-center text-[#10b981] text-[11px] font-bold shrink-0">
                       {entry.studentId.slice(0, 2).toUpperCase()}
                     </div>
-                    <span className="text-(--text-muted) text-xs font-mono truncate">
+                    <span className="text-slate-300 text-xs font-mono truncate">
                       {entry.studentId.slice(0, 14)}&hellip;
                     </span>
                   </div>
@@ -282,7 +282,7 @@ export default function MentorLeaderboardPage() {
             <span className="material-symbols-outlined text-[#10b981] text-[22px]">leaderboard</span>
             Leaderboard
           </h1>
-          <p className="text-(--text-muted) text-xs mt-0.5">
+          <p className="text-slate-400 text-xs mt-0.5">
             Top performers across your challenges
           </p>
         </div>
@@ -302,7 +302,7 @@ export default function MentorLeaderboardPage() {
               leaderboard
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No challenges assigned yet</p>
-            <p className="text-(--text-muted) text-sm max-w-sm text-center">
+            <p className="text-slate-400 text-sm max-w-sm text-center">
               Contact a platform administrator to be assigned as a judge for a challenge.
             </p>
           </div>

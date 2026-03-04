@@ -84,7 +84,7 @@ export default function EditorNewCoursePage() {
         <div className="flex items-center gap-3">
           <Link
             href="/editor/courses"
-            className="text-(--text-muted) hover:text-(--text-base) transition-colors flex items-center gap-1 text-sm"
+            className="text-slate-400 hover:text-(--text-base) transition-colors flex items-center gap-1 text-sm"
           >
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             Courses
@@ -96,7 +96,7 @@ export default function EditorNewCoursePage() {
           <button
             onClick={() => handleSave("draft")}
             disabled={saving}
-            className="px-4 py-2 rounded-xl text-sm font-semibold border border-(--border) text-(--text-muted) hover:bg-[rgba(255,255,255,0.05)] transition-colors disabled:opacity-50"
+            className="px-4 py-2 rounded-xl text-sm font-semibold border border-slate-700 text-slate-300 hover:bg-[rgba(255,255,255,0.05)] transition-colors disabled:opacity-50"
           >
             Save as Draft
           </button>
@@ -121,20 +121,20 @@ export default function EditorNewCoursePage() {
 
         {/* Title */}
         <div>
-          <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+          <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
             Course Title *
           </label>
           <input
             value={form.title}
             onChange={(e) => update("title", e.target.value)}
             placeholder="e.g. Introduction to Python Programming"
-            className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
         {/* Description */}
         <div>
-          <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+          <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
             Description
           </label>
           <textarea
@@ -142,20 +142,20 @@ export default function EditorNewCoursePage() {
             onChange={(e) => update("description", e.target.value)}
             placeholder="Describe what students will learn in this course…"
             rows={4}
-            className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
         {/* Category + Difficulty */}
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
               Category *
             </label>
             <select
               value={form.category}
               onChange={(e) => update("category", e.target.value)}
-              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
             >
               <option value="">Select category</option>
               {CATEGORIES.map((c) => (
@@ -164,13 +164,13 @@ export default function EditorNewCoursePage() {
             </select>
           </div>
           <div>
-            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
               Difficulty
             </label>
             <select
               value={form.difficulty}
               onChange={(e) => update("difficulty", e.target.value)}
-              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
             >
               {DIFFICULTIES.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -182,29 +182,29 @@ export default function EditorNewCoursePage() {
         {/* Grade + Duration + Lessons */}
         <div className="grid grid-cols-3 gap-6">
           <div>
-            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
               Target Grade
             </label>
             <input
               value={form.targetGrade}
               onChange={(e) => update("targetGrade", e.target.value)}
               placeholder="e.g. 9-12"
-              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
-            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
               Estimated Duration
             </label>
             <input
               value={form.estimatedDuration}
               onChange={(e) => update("estimatedDuration", e.target.value)}
               placeholder="e.g. 6 weeks"
-              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
-            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
               Total Lessons
             </label>
             <input
@@ -212,7 +212,7 @@ export default function EditorNewCoursePage() {
               min="0"
               value={form.totalLessons}
               onChange={(e) => update("totalLessons", Number(e.target.value) || 0)}
-              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
         </div>
@@ -220,17 +220,17 @@ export default function EditorNewCoursePage() {
         {/* Icon + Color */}
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
               Course Icon (emoji)
             </label>
             <input
               value={form.icon}
               onChange={(e) => update("icon", e.target.value)}
-              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-2xl focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-2xl focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
-            <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
+            <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
               Accent Color
             </label>
             <div className="flex items-center gap-3">
@@ -238,9 +238,9 @@ export default function EditorNewCoursePage() {
                 type="color"
                 value={form.color}
                 onChange={(e) => update("color", e.target.value)}
-                className="w-12 h-12 rounded-xl border border-(--border-subtle) bg-transparent cursor-pointer"
+                className="w-12 h-12 rounded-xl border border-slate-800 bg-transparent cursor-pointer"
               />
-              <span className="text-(--text-muted) text-sm font-mono">{form.color}</span>
+              <span className="text-slate-400 text-sm font-mono">{form.color}</span>
             </div>
           </div>
         </div>

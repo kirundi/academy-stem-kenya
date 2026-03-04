@@ -140,7 +140,7 @@ export default function AnalyticsReportsPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Reports &amp; Exports</h1>
-          <p className="text-(--text-muted) text-xs mt-0.5">Download platform data as CSV files</p>
+          <p className="text-slate-400 text-xs mt-0.5">Download platform data as CSV files</p>
         </div>
       </header>
 
@@ -164,7 +164,7 @@ export default function AnalyticsReportsPage() {
                   </p>
                 </div>
               </div>
-              <p className="text-(--text-muted) text-xs leading-relaxed flex-1">{card.description}</p>
+              <p className="text-slate-400 text-xs leading-relaxed flex-1">{card.description}</p>
               <button
                 onClick={card.onDownload}
                 disabled={card.count === 0}
@@ -182,7 +182,7 @@ export default function AnalyticsReportsPage() {
           <span className="material-symbols-outlined text-[#a855f7] text-[20px] shrink-0 mt-0.5">
             info
           </span>
-          <p className="text-(--text-muted) text-sm leading-relaxed">
+          <p className="text-slate-400 text-sm leading-relaxed">
             All exports include only the data visible to your analytics role. Sensitive fields such as
             passwords and session tokens are never included. Files are generated client-side and are
             not stored on the server.

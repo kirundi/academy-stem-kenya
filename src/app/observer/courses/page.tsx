@@ -72,7 +72,7 @@ export default function ObserverCoursesPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Course Library</h1>
-          <p className="text-(--text-muted) text-xs mt-0.5">
+          <p className="text-slate-400 text-xs mt-0.5">
             Platform courses available to your schools
           </p>
         </div>
@@ -104,7 +104,7 @@ export default function ObserverCoursesPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
+                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -150,7 +150,7 @@ export default function ObserverCoursesPage() {
                 <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">
                   library_books
                 </span>
-                <p className="text-(--text-muted) text-sm">No courses match your search.</p>
+                <p className="text-slate-400 text-sm">No courses match your search.</p>
               </div>
             ) : (
               filtered.map((course) => {

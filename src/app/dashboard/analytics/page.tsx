@@ -72,7 +72,7 @@ export default function SchoolAnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 bg-(--bg-page)">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -111,7 +111,7 @@ export default function SchoolAnalyticsPage() {
               { key: "plan", label: "Plan" }, { key: "healthScore", label: "Health" },
               { key: "students", label: "Students" },
             ])}
-            className="flex items-center gap-2 h-11 px-6 rounded-xl bg-primary-green text-white text-sm font-bold hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 h-11 px-6 rounded-xl bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>Export Report
           </button>
@@ -156,7 +156,7 @@ export default function SchoolAnalyticsPage() {
               className="bg-(--bg-card) rounded-2xl p-5 border border-(--border-subtle) flex flex-col gap-2"
             >
               <div className="flex justify-between items-start">
-                <span className="material-symbols-outlined p-2 bg-primary-green/8 text-primary-green rounded-lg text-[20px]">
+                <span className="material-symbols-outlined p-2 bg-[rgba(19,236,164,0.08)] text-[#13eca4] rounded-lg text-[20px]">
                   {s.icon}
                 </span>
               </div>
@@ -185,11 +185,11 @@ export default function SchoolAnalyticsPage() {
                   className="flex-1 flex flex-col gap-1 items-center justify-end h-full"
                 >
                   <div
-                    className={`w-full rounded-t relative group ${i === 5 ? "bg-[rgba(19,236,164,0.4)]" : "bg-primary-green/15"}`}
+                    className={`w-full rounded-t relative group ${i === 5 ? "bg-[rgba(19,236,164,0.4)]" : "bg-[rgba(19,236,164,0.15)]"}`}
                     style={{ height: `${b.h}%` }}
                   >
                     <div
-                      className={`absolute bottom-0 w-full h-1 bg-primary-green ${i === 5 ? "h-2" : ""}`}
+                      className={`absolute bottom-0 w-full h-1 bg-[#13eca4] ${i === 5 ? "h-2" : ""}`}
                     />
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function SchoolAnalyticsPage() {
             <h3 className="text-(--text-base) font-bold text-lg">Top Performing Schools</h3>
             <a
               href="/dashboard/schools"
-              className="text-primary-green text-sm font-semibold hover:underline"
+              className="text-[#13eca4] text-sm font-semibold hover:underline"
             >
               View All
             </a>
@@ -282,7 +282,7 @@ export default function SchoolAnalyticsPage() {
                           <span className="text-(--text-base) font-bold">{c.score}</span>
                           <div className="w-12 bg-(--input-bg) h-1.5 rounded-full">
                             <div
-                              className="bg-primary-green h-full rounded-full"
+                              className="bg-[#13eca4] h-full rounded-full"
                               style={{ width: `${Math.min(c.score, 100)}%` }}
                             />
                           </div>

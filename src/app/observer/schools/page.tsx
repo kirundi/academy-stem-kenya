@@ -36,7 +36,7 @@ export default function ObserverSchoolsPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">My Schools</h1>
-          <p className="text-(--text-muted) text-xs mt-0.5">
+          <p className="text-slate-400 text-xs mt-0.5">
             Schools assigned to your observer account
           </p>
         </div>
@@ -49,7 +49,7 @@ export default function ObserverSchoolsPage() {
               domain_disabled
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No schools assigned</p>
-            <p className="text-(--text-muted) text-sm max-w-sm">
+            <p className="text-slate-400 text-sm max-w-sm">
               Contact a platform administrator to assign schools to your observer account.
             </p>
           </div>
@@ -59,7 +59,7 @@ export default function ObserverSchoolsPage() {
               hourglass_empty
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">Loading schools…</p>
-            <p className="text-(--text-muted) text-sm max-w-sm">
+            <p className="text-slate-400 text-sm max-w-sm">
               Your assigned schools are being fetched. If this persists, contact support.
             </p>
           </div>

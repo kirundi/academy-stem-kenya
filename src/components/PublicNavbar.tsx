@@ -22,7 +22,7 @@ export default function PublicNavbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-(--border) bg-(--bg-sidebar)/90 backdrop-blur-md px-6 lg:px-20 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link href="/" className="outline-none focus:ring-2 focus:ring-primary rounded-lg inline-flex">
+        <Link href="/" className="outline-none focus:ring-2 focus:ring-[#13daec] rounded-lg inline-flex">
           <span className="bg-white rounded-lg px-3 py-1.5 inline-flex items-center">
             <Image
               src="/images/logo/sic-academy.png"
@@ -41,7 +41,7 @@ export default function PublicNavbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-(--text-muted) hover:text-primary transition-colors"
+              className="text-sm font-medium text-(--text-muted) hover:text-[#13daec] transition-colors"
             >
               {link.label}
             </Link>
@@ -53,13 +53,13 @@ export default function PublicNavbar() {
           <ThemeToggle />
           <Link
             href="/login"
-            className="text-sm font-medium px-4 py-2 text-(--text-muted) hover:text-primary transition-colors"
+            className="text-sm font-medium px-4 py-2 text-(--text-muted) hover:text-[#13daec] transition-colors"
           >
             Login
           </Link>
           <Link
             href="/login"
-            className="rounded-lg bg-accent-orange px-6 py-2 text-sm font-bold text-white hover:brightness-110 transition-all"
+            className="rounded-lg bg-[#13daec] px-6 py-2 text-sm font-bold text-[#102022] hover:brightness-110 transition-all"
           >
             Get Started
           </Link>
@@ -69,7 +69,7 @@ export default function PublicNavbar() {
         <div className="md:hidden flex items-center gap-2">
           <ThemeToggle />
           <button
-            className="text-(--text-muted) hover:text-primary transition-colors p-2"
+            className="text-(--text-muted) hover:text-[#13daec] transition-colors p-2"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -85,7 +85,7 @@ export default function PublicNavbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="block px-3 py-2.5 text-(--text-muted) font-medium text-sm hover:text-primary hover:bg-(--hover-subtle) rounded-lg transition-all"
+              className="block px-3 py-2.5 text-(--text-muted) font-medium text-sm hover:text-[#13daec] hover:bg-(--hover-subtle) rounded-lg transition-all"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}
@@ -94,7 +94,7 @@ export default function PublicNavbar() {
           <div className="pt-2 pb-1 flex flex-col gap-2">
             <Link
               href="/login"
-              className="block text-center bg-accent-orange text-white font-bold py-3 rounded-lg text-sm"
+              className="block text-center bg-[#13daec] text-[#102022] font-bold py-3 rounded-lg text-sm"
               onClick={() => setMobileOpen(false)}
             >
               Get Started

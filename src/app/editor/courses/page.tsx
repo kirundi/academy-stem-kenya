@@ -100,7 +100,7 @@ export default function EditorCoursesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title or category…"
-              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -194,7 +194,7 @@ export default function EditorCoursesPage() {
                       </Link>
                       <Link
                         href={`/editor/courses/${course.id}/preview`}
-                        className="p-2 rounded-lg text-(--text-muted) hover:text-(--text-base) hover:bg-(--bg-elevated) transition-colors"
+                        className="p-2 rounded-lg text-(--text-muted) hover:text-(--text-base) hover:bg-slate-800 transition-colors"
                         title="Preview"
                       >
                         <span className="material-symbols-outlined text-[18px]">visibility</span>

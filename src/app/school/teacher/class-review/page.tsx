@@ -59,7 +59,7 @@ export default function ClassReviewPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -104,8 +104,8 @@ export default function ClassReviewPage() {
       <div className="fixed top-0 left-60 right-0 z-20 bg-[rgba(16,34,28,0.95)] backdrop-blur-md border-b border-(--border-subtle) h-14 flex items-center justify-between px-8">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 bg-primary-green/10 rounded-lg flex items-center justify-center">
-              <span className="material-symbols-outlined text-primary-green text-[16px]">
+            <div className="w-7 h-7 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
+              <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
                 account_tree
               </span>
             </div>
@@ -123,19 +123,19 @@ export default function ClassReviewPage() {
           <nav className="hidden md:flex items-center gap-5 text-sm">
             <a
               href="/school/teacher/classroom"
-              className="text-(--text-muted) hover:text-primary-green transition-colors"
+              className="text-(--text-muted) hover:text-[#13eca4] transition-colors"
             >
               Classrooms
             </a>
             <a
               href="/school/teacher/courses"
-              className="text-(--text-muted) hover:text-primary-green transition-colors"
+              className="text-(--text-muted) hover:text-[#13eca4] transition-colors"
             >
               Curriculum
             </a>
             <a
               href="/school/teacher/grading"
-              className="text-(--text-muted) hover:text-primary-green transition-colors"
+              className="text-(--text-muted) hover:text-[#13eca4] transition-colors"
             >
               Grades
             </a>
@@ -143,11 +143,11 @@ export default function ClassReviewPage() {
           <button
             onClick={handleFinishReview}
             disabled={finishing}
-            className="px-5 h-9 bg-primary-green text-white text-sm font-bold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="px-5 h-9 bg-[#13eca4] text-[#10221c] text-sm font-bold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {finishing ? "Saving..." : "Finish Review"}
           </button>
-          <div className="w-9 h-9 rounded-full bg-(--bg-elevated) border-2 border-(--border-subtle) flex items-center justify-center text-xs font-bold text-primary-green">
+          <div className="w-9 h-9 rounded-full bg-(--bg-elevated) border-2 border-(--border-subtle) flex items-center justify-center text-xs font-bold text-[#13eca4]">
             {appUser?.displayName?.[0] ?? "?"}
           </div>
         </div>
@@ -164,14 +164,14 @@ export default function ClassReviewPage() {
             </h3>
             <div className="flex flex-col gap-1">
               <div className="flex justify-between items-end mb-2">
-                <span className="text-primary-green text-2xl font-bold">{progress}%</span>
+                <span className="text-[#13eca4] text-2xl font-bold">{progress}%</span>
                 <span className="text-(--text-faint) text-xs mb-1">
                   {checklist.filter(Boolean).length} of {checklist.length} Tasks
                 </span>
               </div>
               <div className="w-full bg-(--input-bg) h-2 rounded-full overflow-hidden">
                 <div
-                  className="bg-primary-green h-full rounded-full transition-all"
+                  className="bg-[#13eca4] h-full rounded-full transition-all"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -212,10 +212,10 @@ export default function ClassReviewPage() {
                       next[i] = !next[i];
                       setChecklist(next);
                     }}
-                    className="w-5 h-5 rounded border-slate-600 bg-transparent text-primary-green focus:ring-0 cursor-pointer"
+                    className="w-5 h-5 rounded border-slate-600 bg-transparent text-[#13eca4] focus:ring-0 cursor-pointer"
                   />
                   <div className="flex flex-col">
-                    <span className="text-(--text-base) text-sm font-medium group-hover:text-primary-green transition-colors">
+                    <span className="text-(--text-base) text-sm font-medium group-hover:text-[#13eca4] transition-colors">
                       {item.label}
                     </span>
                     <span className={`${item.subColor} text-xs flex items-center gap-1`}>
@@ -244,7 +244,7 @@ export default function ClassReviewPage() {
           <div className="max-w-4xl mx-auto space-y-10">
             {/* Hero */}
             <div>
-              <div className="flex items-center gap-2 text-primary-green text-sm font-medium mb-2">
+              <div className="flex items-center gap-2 text-[#13eca4] text-sm font-medium mb-2">
                 <span className="material-symbols-outlined text-[16px]">folder_shared</span>
                 Classroom ID: {reviewClassroom.id.slice(0, 12)}
               </div>
@@ -252,7 +252,7 @@ export default function ClassReviewPage() {
                 Classroom Review
               </h1>
               <p className="text-(--text-muted) text-lg">
-                Class: <span className="text-(--text-base)">{reviewClassroom.name}</span> (
+                Class: <span className="text-slate-200">{reviewClassroom.name}</span> (
                 {reviewClassroom.subject} · {reviewClassroom.grade})
               </p>
             </div>
@@ -286,10 +286,10 @@ export default function ClassReviewPage() {
                     >
                       <div className="flex justify-between items-start">
                         <div
-                          className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDeprecated ? "bg-(--glass-bg)" : "bg-primary-green/10"}`}
+                          className={`w-12 h-12 rounded-xl flex items-center justify-center ${isDeprecated ? "bg-(--glass-bg)" : "bg-[rgba(19,236,164,0.1)]"}`}
                         >
                           <span
-                            className={`material-symbols-outlined text-[28px] ${isDeprecated ? "text-(--text-muted)" : "text-primary-green"}`}
+                            className={`material-symbols-outlined text-[28px] ${isDeprecated ? "text-(--text-muted)" : "text-[#13eca4]"}`}
                           >
                             {c.icon || "menu_book"}
                           </span>
@@ -305,7 +305,7 @@ export default function ClassReviewPage() {
                               next[i] = !next[i];
                               setAuthorized(next);
                             }}
-                            className={`w-10 h-6 rounded-full relative flex items-center px-1 transition-colors ${authorized[i] ? "bg-primary-green" : "bg-[rgba(255,255,255,0.1)]"}`}
+                            className={`w-10 h-6 rounded-full relative flex items-center px-1 transition-colors ${authorized[i] ? "bg-[#13eca4]" : "bg-[rgba(255,255,255,0.1)]"}`}
                           >
                             <div
                               className={`w-4 h-4 bg-(--bg-page) rounded-full shadow transition-transform ${authorized[i] ? "translate-x-4" : "translate-x-0"}`}
@@ -334,10 +334,10 @@ export default function ClassReviewPage() {
                 })}
                 {/* Add Module */}
                 <button className="border-2 border-dashed border-(--border-subtle) rounded-2xl p-5 flex flex-col items-center justify-center gap-3 hover:border-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.03)] transition-all group">
-                  <div className="w-10 h-10 rounded-full bg-(--glass-bg) flex items-center justify-center text-(--text-muted) group-hover:text-primary-green group-hover:bg-primary-green/10 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-(--glass-bg) flex items-center justify-center text-(--text-muted) group-hover:text-[#13eca4] group-hover:bg-[rgba(19,236,164,0.1)] transition-colors">
                     <span className="material-symbols-outlined">add</span>
                   </div>
-                  <p className="text-(--text-muted) font-medium group-hover:text-primary-green transition-colors">
+                  <p className="text-(--text-muted) font-medium group-hover:text-[#13eca4] transition-colors">
                     Add New Module
                   </p>
                 </button>
@@ -375,14 +375,14 @@ export default function ClassReviewPage() {
                 </div>
                 <div className="flex justify-between items-center px-6 py-4 bg-[rgba(13,31,26,0.3)] border-t border-(--border-subtle)">
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary-green text-[16px]">
+                    <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
                       check_circle
                     </span>
                     <span className="text-(--text-faint) text-xs">Autosaved</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-(--text-muted) text-xs mr-2">Markdown supported</span>
-                    <span className="w-2 h-2 rounded-full bg-primary-green animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-[#13eca4] animate-pulse" />
                   </div>
                 </div>
               </div>

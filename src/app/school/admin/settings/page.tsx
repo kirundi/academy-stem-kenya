@@ -82,16 +82,16 @@ export default function SchoolAdminSettingsPage() {
           </div>
 
           {/* Password */}
-          <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7 mb-6">
+          <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7 mb-6">
             <h2 className="text-lg font-bold text-(--text-base) mb-4">Password</h2>
-            <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-(--border)">
+            <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700">
               <div>
                 <p className="font-bold text-(--text-base) text-sm">Account Password</p>
                 <p className="text-xs text-(--text-muted)">Change your login password</p>
               </div>
               <a
                 href="/auth/change-password"
-                className="px-4 py-2 bg-(--bg-card) border border-(--border) text-(--text-base) text-sm font-bold rounded-lg hover:border-[rgba(19,236,164,0.5)] transition-colors"
+                className="px-4 py-2 bg-[#1a2e31] border border-slate-700 text-(--text-base) text-sm font-bold rounded-lg hover:border-[rgba(19,236,164,0.5)] transition-colors"
               >
                 Change Password
               </a>
@@ -99,7 +99,7 @@ export default function SchoolAdminSettingsPage() {
           </div>
 
           {/* Active sessions */}
-          <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
+          <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-lg font-bold text-(--text-base)">Active Sessions</h2>
@@ -118,7 +118,7 @@ export default function SchoolAdminSettingsPage() {
                 <button
                   onClick={revokeAll}
                   disabled={revoking === "all"}
-                  className="px-4 py-2 bg-accent-red/10 border border-[rgba(255,77,77,0.3)] text-accent-red text-sm font-bold rounded-lg hover:bg-[rgba(255,77,77,0.2)] transition-colors disabled:opacity-50"
+                  className="px-4 py-2 bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.3)] text-[#ff4d4d] text-sm font-bold rounded-lg hover:bg-[rgba(255,77,77,0.2)] transition-colors disabled:opacity-50"
                 >
                   {revoking === "all" ? "Signing out..." : "Log Out All Devices"}
                 </button>
@@ -127,7 +127,7 @@ export default function SchoolAdminSettingsPage() {
 
             {sessionsLoading ? (
               <div className="flex items-center justify-center py-8">
-                <span className="material-symbols-outlined animate-spin text-primary-green text-2xl">
+                <span className="material-symbols-outlined animate-spin text-[#13eca4] text-2xl">
                   progress_activity
                 </span>
               </div>
@@ -147,7 +147,7 @@ export default function SchoolAdminSettingsPage() {
                       className={`flex items-center justify-between p-4 rounded-xl border ${
                         isCurrent
                           ? "bg-[rgba(19,236,164,0.04)] border-(--border-accent)"
-                          : "bg-(--bg-page)/50 border-(--border)"
+                          : "bg-(--bg-page)/50 border-slate-700"
                       }`}
                     >
                       <div className="flex items-start gap-3 min-w-0">
@@ -159,7 +159,7 @@ export default function SchoolAdminSettingsPage() {
                           <p className="text-(--text-faint) text-xs mt-0.5">
                             IP {s.ip} &middot; Created {created}
                             {isCurrent && (
-                              <span className="ml-2 text-primary-green font-semibold">
+                              <span className="ml-2 text-[#13eca4] font-semibold">
                                 (this device)
                               </span>
                             )}
@@ -170,7 +170,7 @@ export default function SchoolAdminSettingsPage() {
                         <button
                           onClick={() => revokeSession(s.id)}
                           disabled={revoking === s.id}
-                          className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-(--border) rounded-lg hover:text-accent-red hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
+                          className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-slate-700 rounded-lg hover:text-[#ff4d4d] hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
                         >
                           {revoking === s.id ? "..." : "Revoke"}
                         </button>

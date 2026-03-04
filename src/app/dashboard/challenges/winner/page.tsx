@@ -167,7 +167,7 @@ export default function ChallengeWinnerPage() {
         <div className="no-print relative z-20 px-6 pt-6">
           <a
             href="/dashboard/challenges"
-            className="inline-flex items-center gap-1.5 text-sm text-(--text-muted) hover:text-primary-green transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-(--text-muted) hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Back to Challenges
@@ -535,8 +535,8 @@ export default function ChallengeWinnerPage() {
 
                     <p className="text-(--text-muted) text-sm pt-3 leading-relaxed max-w-lg mx-auto">
                       has demonstrated{" "}
-                      <span className="text-primary-green font-semibold">exceptional innovation</span>{" "}
-                      and <span className="text-primary-green font-semibold">technical excellence</span>
+                      <span className="text-[#13eca4] font-semibold">exceptional innovation</span>{" "}
+                      and <span className="text-[#13eca4] font-semibold">technical excellence</span>
                       , earning
                       <span className="text-(--text-base) font-bold"> 1st Place</span> in the
                     </p>

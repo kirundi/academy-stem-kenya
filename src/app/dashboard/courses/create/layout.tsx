@@ -17,7 +17,7 @@ export default function CourseCreatorLayout({ children }: { children: React.Reac
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-(--bg-page)">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -27,7 +27,7 @@ export default function CourseCreatorLayout({ children }: { children: React.Reac
   if (!appUser || (role !== "admin" && role !== "super_admin")) {
     return (
       <div className="flex items-center justify-center h-screen bg-(--bg-page)">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>

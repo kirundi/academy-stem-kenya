@@ -33,7 +33,7 @@ function CtaSection() {
 
   return (
     <section id="about" className="py-24 px-6 relative overflow-hidden">
-      <div className="mx-auto max-w-5xl rounded-3xl bg-primary px-8 py-16 lg:px-20 relative overflow-hidden">
+      <div className="mx-auto max-w-5xl rounded-3xl bg-[#13daec] px-8 py-16 lg:px-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -49,7 +49,7 @@ function CtaSection() {
             <h2 className="text-4xl font-black text-[#102022] leading-tight">
               Bring STEM Impact to Your School
             </h2>
-            <p className="mt-6 text-(--text-base)/80 text-lg leading-relaxed font-medium">
+            <p className="mt-6 text-[#102022]/80 text-lg leading-relaxed font-medium">
               Join 500+ forward-thinking schools transforming their curriculum with our
               project-based learning framework.
             </p>
@@ -66,7 +66,7 @@ function CtaSection() {
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl bg-(--bg-surface)/10 p-1 backdrop-blur-sm">
+          <div className="rounded-2xl bg-[rgba(16,32,34,0.1)] p-1 backdrop-blur-sm">
             <div className="rounded-xl bg-slate-100 p-8 shadow-2xl text-slate-900">
               <h3 className="text-xl font-bold mb-6">School Registration</h3>
               <form className="space-y-4" onSubmit={handleSubmit}>
@@ -77,7 +77,7 @@ function CtaSection() {
                     </label>
                     <input
                       required
-                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-primary"
+                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
                       placeholder="Jane"
                       type="text"
                       value={form.firstName}
@@ -87,7 +87,7 @@ function CtaSection() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold uppercase text-(--text-faint)">Last Name</label>
                     <input
-                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-primary"
+                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
                       placeholder="Doe"
                       type="text"
                       value={form.lastName}
@@ -99,7 +99,7 @@ function CtaSection() {
                   <label className="text-xs font-bold uppercase text-(--text-faint)">Work Email *</label>
                   <input
                     required
-                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-primary"
+                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
                     placeholder="jane@school.edu"
                     type="email"
                     value={form.email}
@@ -112,7 +112,7 @@ function CtaSection() {
                   </label>
                   <input
                     required
-                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-primary"
+                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
                     placeholder="West Valley Academy"
                     type="text"
                     value={form.schoolName}
@@ -122,7 +122,7 @@ function CtaSection() {
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase text-(--text-faint)">Role</label>
                   <select
-                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-primary"
+                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
                     value={form.role}
                     onChange={(e) => setForm((p) => ({ ...p, role: e.target.value }))}
                   >
@@ -159,16 +159,16 @@ export default function HomePage() {
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
               {/* Left */}
               <div className="flex flex-col gap-8">
-                <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary w-fit">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(19,218,236,0.1)] border border-[rgba(19,218,236,0.2)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#13daec] w-fit">
                   <span className="material-symbols-outlined text-sm">verified</span>
                   Impact-Driven Education
                 </div>
                 <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-7xl text-(--text-base)">
                   Build Projects.
                   <br />
-                  <span className="text-primary">Earn Badges.</span>
+                  <span className="text-[#13daec]">Earn Badges.</span>
                   <br />
-                  Make an <span className="text-accent-red italic">Impact.</span>
+                  Make an <span className="text-[#ff4d4d] italic">Impact.</span>
                 </h1>
                 <p className="max-w-xl text-lg text-(--text-muted)">
                   Empowering the next generation of innovators through project-based STEM learning
@@ -177,13 +177,13 @@ export default function HomePage() {
                 <div className="flex flex-wrap gap-4">
                   <Link
                     href="/login"
-                    className="rounded-lg bg-accent-orange px-8 py-4 text-lg font-bold text-white shadow-lg shadow-[rgba(249,115,22,0.25)] hover:scale-[1.02] transition-transform"
+                    className="rounded-lg bg-[#13daec] px-8 py-4 text-lg font-bold text-[#102022] shadow-lg shadow-[rgba(19,218,236,0.2)] hover:scale-[1.02] transition-transform"
                   >
                     Join the Academy
                   </Link>
                   <Link
                     href="#about"
-                    className="rounded-lg border border-(--border) bg-(--bg-card) px-8 py-4 text-lg font-bold hover:bg-(--bg-elevated) transition-colors"
+                    className="rounded-lg border border-[#283739] bg-(--bg-card) px-8 py-4 text-lg font-bold hover:bg-(--bg-elevated) transition-colors"
                   >
                     Register Your School
                   </Link>
@@ -192,10 +192,10 @@ export default function HomePage() {
 
               {/* Right — Skills Mastery Card */}
               <div className="relative">
-                <div className="relative z-10 rounded-2xl border border-(--border) bg-(--bg-card) p-6 shadow-2xl">
-                  <div className="flex items-center justify-between border-b border-(--border) pb-4">
+                <div className="relative z-10 rounded-2xl border border-[#283739] bg-(--bg-card) p-6 shadow-2xl">
+                  <div className="flex items-center justify-between border-b border-[#283739] pb-4">
                     <h3 className="font-bold text-(--text-base)">Student Skills Mastery</h3>
-                    <span className="text-primary font-bold">85% Global Avg</span>
+                    <span className="text-[#13daec] font-bold">85% Global Avg</span>
                   </div>
                   <div className="py-6">
                     <svg className="mx-auto" height="300" viewBox="0 0 100 100" width="300">
@@ -258,7 +258,7 @@ export default function HomePage() {
         </section>
 
         {/* Simple 3-Step Implementation */}
-        <section id="solutions" className="py-24 px-6 bg-(--bg-surface) relative">
+        <section id="solutions" className="py-24 px-6 bg-[rgba(26,46,48,0.2)] relative">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-black text-(--text-base)">Simple 3-Step Implementation</h2>
@@ -322,9 +322,9 @@ export default function HomePage() {
                 Step-by-step guidance for complex project-based learning.
               </p>
             </div>
-            <div className="relative max-w-5xl mx-auto rounded-2xl border border-(--border) bg-(--bg-card) overflow-hidden shadow-2xl">
+            <div className="relative max-w-5xl mx-auto rounded-2xl border border-[#283739] bg-(--bg-card) overflow-hidden shadow-2xl">
               {/* Window chrome */}
-              <div className="bg-[rgba(40,55,57,0.5)] px-6 py-3 flex items-center justify-between border-b border-(--border)">
+              <div className="bg-[rgba(40,55,57,0.5)] px-6 py-3 flex items-center justify-between border-b border-[#283739]">
                 <div className="flex items-center gap-4">
                   <div className="flex gap-1.5">
                     <div className="w-3 h-3 rounded-full bg-red-500/50" />
@@ -342,16 +342,16 @@ export default function HomePage() {
               </div>
               <div className="flex flex-col lg:flex-row">
                 {/* Main content */}
-                <div className="flex-1 p-8 lg:p-12 border-r border-(--border)">
+                <div className="flex-1 p-8 lg:p-12 border-r border-[#283739]">
                   <div className="mb-8">
-                    <div className="inline-block px-3 py-1 bg-accent-red/15 text-accent-red text-[10px] font-black uppercase tracking-widest rounded mb-4">
+                    <div className="inline-block px-3 py-1 bg-[rgba(255,77,77,0.15)] text-[#ff4d4d] text-[10px] font-black uppercase tracking-widest rounded mb-4">
                       Step 03: Response Logic
                     </div>
                     <h4 className="text-3xl font-bold text-(--text-base) mb-6">
                       Building the Reply Engine
                     </h4>
-                    <div className="w-full rounded-xl bg-(--bg-sidebar) border border-(--border) overflow-hidden font-mono text-sm">
-                      <div className="flex items-center gap-2 px-4 py-2 bg-(--bg-elevated)/50 border-b border-(--border)">
+                    <div className="w-full rounded-xl bg-[#0d1b1e] border border-[#283739] overflow-hidden font-mono text-sm">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-(--bg-elevated)/50 border-b border-[#283739]">
                         <span className="material-symbols-outlined text-yellow-400 text-sm">
                           javascript
                         </span>
@@ -417,23 +417,23 @@ export default function HomePage() {
                   <p className="text-(--text-muted) leading-relaxed mb-6">
                     Create a function that reads the user&apos;s message and returns a matching
                     reply. Use{" "}
-                    <code className="text-primary bg-primary/10 px-1.5 py-0.5 rounded text-xs">
+                    <code className="text-[#13daec] bg-[#13daec]/10 px-1.5 py-0.5 rounded text-xs">
                       includes()
                     </code>{" "}
                     to check for keywords and build branching logic that gives your chatbot
                     personality.
                   </p>
                   <div className="flex gap-4">
-                    <button className="px-6 py-2 bg-(--bg-elevated) text-(--text-base) font-bold rounded-lg text-sm hover:bg-(--bg-elevated) transition-colors">
+                    <button className="px-6 py-2 bg-(--bg-elevated) text-(--text-base) font-bold rounded-lg text-sm hover:bg-slate-700 transition-colors">
                       Previous Step
                     </button>
-                    <button className="px-6 py-2 bg-primary-green text-white font-bold rounded-lg text-sm hover:brightness-110 transition-all">
+                    <button className="px-6 py-2 bg-[#13daec] text-[#102022] font-bold rounded-lg text-sm hover:brightness-110 transition-all">
                       Mark as Complete
                     </button>
                   </div>
                 </div>
                 {/* Sidebar navigation */}
-                <div className="w-full lg:w-72 bg-(--bg-surface)/30 p-6">
+                <div className="w-full lg:w-72 bg-[rgba(16,32,34,0.3)] p-6">
                   <h5 className="text-xs font-black uppercase text-(--text-faint) tracking-widest mb-6">
                     Course Navigation
                   </h5>
@@ -443,7 +443,7 @@ export default function HomePage() {
                       { num: "02", label: "HTML Chat UI" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3 opacity-50">
-                        <span className="material-symbols-outlined text-primary text-sm">
+                        <span className="material-symbols-outlined text-[#13daec] text-sm">
                           check_circle
                         </span>
                         <div className="text-xs text-(--text-muted)">
@@ -452,7 +452,7 @@ export default function HomePage() {
                       </div>
                     ))}
                     <div className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full border border-accent-red flex items-center justify-center text-[10px] text-accent-red font-bold shrink-0">
+                      <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold shrink-0">
                         03
                       </span>
                       <div className="text-xs text-(--text-base) font-bold">Response Logic</div>
@@ -463,18 +463,18 @@ export default function HomePage() {
                       { num: "06", label: "Deploy & Share" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full border border-(--border) flex items-center justify-center text-[10px] text-(--text-faint) font-bold shrink-0">
+                        <span className="w-5 h-5 rounded-full border border-[#283739] flex items-center justify-center text-[10px] text-(--text-faint) font-bold shrink-0">
                           {num}
                         </span>
                         <div className="text-xs text-(--text-faint)">{label}</div>
                       </div>
                     ))}
-                    <div className="pt-6 border-t border-(--border) mt-6">
-                      <div className="p-4 rounded-lg bg-(--bg-card) border border-(--border) text-center">
-                        <div className="text-[10px] font-black uppercase text-primary mb-2">
+                    <div className="pt-6 border-t border-[#283739] mt-6">
+                      <div className="p-4 rounded-lg bg-(--bg-card) border border-[#283739] text-center">
+                        <div className="text-[10px] font-black uppercase text-[#13daec] mb-2">
                           Next Badge
                         </div>
-                        <div className="text-xs font-bold text-(--text-base)">JS Developer I</div>
+                        <div className="text-xs font-bold text-slate-200">JS Developer I</div>
                       </div>
                     </div>
                   </div>
@@ -485,13 +485,13 @@ export default function HomePage() {
         </section>
 
         {/* Google Classroom Integration */}
-        <section className="py-24 px-6 bg-(--bg-card-alt) border-y border-(--border)">
+        <section className="py-24 px-6 bg-[rgba(26,46,48,0.4)] border-y border-[#283739]">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               {/* Left — animated sync visual */}
               <div className="order-2 lg:order-1 relative">
-                <div className="relative bg-(--bg-page) rounded-3xl p-8 border border-(--border) shadow-2xl overflow-hidden">
-                  <div className="absolute inset-0 bg-primary/5" />
+                <div className="relative bg-(--bg-page) rounded-3xl p-8 border border-[#283739] shadow-2xl overflow-hidden">
+                  <div className="absolute inset-0 bg-[rgba(19,218,236,0.05)]" />
                   <div className="relative z-10 flex flex-col items-center">
                     <div className="flex items-center gap-12 mb-12">
                       <div className="w-20 h-20 rounded-2xl bg-white p-3 shadow-xl flex items-center justify-center">
@@ -501,25 +501,25 @@ export default function HomePage() {
                       </div>
                       <div className="flex flex-col items-center">
                         <div className="w-12 h-0.5 bg-(--bg-elevated) relative">
-                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/40">
+                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#13daec] flex items-center justify-center shadow-lg shadow-[rgba(19,218,236,0.4)]">
                             <span className="material-symbols-outlined text-xs font-bold text-[#102022]">
                               sync
                             </span>
                           </div>
                         </div>
                       </div>
-                      <div className="w-20 h-20 rounded-2xl bg-(--bg-card) border border-primary p-4 shadow-xl flex items-center justify-center">
-                        <span className="material-symbols-outlined text-primary text-3xl">
+                      <div className="w-20 h-20 rounded-2xl bg-(--bg-card) border border-[#13daec] p-4 shadow-xl flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[#13daec] text-3xl">
                           token
                         </span>
                       </div>
                     </div>
                     <div className="w-full space-y-4">
-                      <div className="h-10 w-full rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
-                      <div className="h-10 w-3/4 rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
-                      <div className="h-10 w-full rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
+                      <div className="h-10 w-full rounded-lg bg-[rgba(40,55,57,0.3)] animate-pulse" />
+                      <div className="h-10 w-3/4 rounded-lg bg-[rgba(40,55,57,0.3)] animate-pulse" />
+                      <div className="h-10 w-full rounded-lg bg-[rgba(40,55,57,0.3)] animate-pulse" />
                     </div>
-                    <button className="mt-8 px-8 py-3 bg-primary text-white font-black rounded-xl shadow-lg shadow-primary/20 hover:scale-105 transition-transform flex items-center gap-3">
+                    <button className="mt-8 px-8 py-3 bg-[#13daec] text-[#102022] font-black rounded-xl shadow-lg shadow-[rgba(19,218,236,0.2)] hover:scale-105 transition-transform flex items-center gap-3">
                       <span className="material-symbols-outlined text-lg">touch_app</span>
                       One-click Sync
                     </button>
@@ -528,7 +528,7 @@ export default function HomePage() {
               </div>
               {/* Right — text */}
               <div className="order-1 lg:order-2 flex flex-col gap-6">
-                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+                <div className="w-12 h-12 rounded-xl bg-[rgba(19,218,236,0.2)] flex items-center justify-center text-[#13daec]">
                   <span className="material-symbols-outlined">sync_alt</span>
                 </div>
                 <h2 className="text-4xl font-black text-(--text-base)">
@@ -544,8 +544,8 @@ export default function HomePage() {
                     "Single Sign-On (SSO) Support",
                     "Direct Gradebook Export",
                   ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-(--text-base) font-bold">
-                      <span className="material-symbols-outlined text-primary">
+                    <li key={item} className="flex items-center gap-3 text-slate-200 font-bold">
+                      <span className="material-symbols-outlined text-[#13daec]">
                         verified_user
                       </span>
                       {item}
@@ -558,18 +558,18 @@ export default function HomePage() {
         </section>
 
         {/* Recognized Achievement System */}
-        <section className="bg-(--bg-surface) py-20 px-6">
+        <section className="bg-[rgba(26,46,48,0.3)] py-20 px-6">
           <div className="mx-auto max-w-7xl">
             <div className="mb-12 flex flex-col items-center text-center">
               <h2 className="text-3xl font-bold text-(--text-base)">Recognized Achievement System</h2>
-              <div className="mt-4 h-1 w-20 bg-primary" />
+              <div className="mt-4 h-1 w-20 bg-[#13daec]" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
                   icon: "code_blocks",
                   color: "#13daec",
-                  hoverBorder: "hover:border-primary/50",
+                  hoverBorder: "hover:border-[rgba(19,218,236,0.5)]",
                   title: "Master Architect",
                   desc: "Advanced proficiency in computational thinking and structural logic.",
                   count: "12,403 Earned",
@@ -577,7 +577,7 @@ export default function HomePage() {
                 {
                   icon: "eco",
                   color: "#ff4d4d",
-                  hoverBorder: "hover:border-accent-red/50",
+                  hoverBorder: "hover:border-[rgba(255,77,77,0.5)]",
                   title: "Green Innovator",
                   desc: "Demonstrated impact in sustainable engineering and environmental solutions.",
                   count: "8,912 Earned",
@@ -585,7 +585,7 @@ export default function HomePage() {
                 {
                   icon: "precision_manufacturing",
                   color: "#13daec",
-                  hoverBorder: "hover:border-primary/50",
+                  hoverBorder: "hover:border-[rgba(19,218,236,0.5)]",
                   title: "Robotics Lead",
                   desc: "Expertise in automated systems and mechanical design principles.",
                   count: "5,667 Earned",
@@ -593,7 +593,7 @@ export default function HomePage() {
               ].map(({ icon, color, hoverBorder, title, desc, count }) => (
                 <div
                   key={title}
-                  className={`flex flex-col items-center rounded-xl bg-(--bg-card) p-8 border border-(--border) text-center transition-all group ${hoverBorder}`}
+                  className={`flex flex-col items-center rounded-xl bg-(--bg-card) p-8 border border-[#283739] text-center transition-all group ${hoverBorder}`}
                 >
                   <div
                     className="mb-6 rounded-full p-4 group-hover:scale-110 transition-transform"
@@ -617,7 +617,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-(--border) bg-(--bg-page) px-6 py-12">
+      <footer className="border-t border-[#283739] bg-(--bg-page) px-6 py-12">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12">
             <div className="max-w-xs">
@@ -664,11 +664,11 @@ export default function HomePage() {
                 },
               ].map(({ heading, links }) => (
                 <div key={heading}>
-                  <h4 className="font-bold text-(--text-base) mb-4">{heading}</h4>
+                  <h4 className="font-bold text-slate-200 mb-4">{heading}</h4>
                   <ul className="space-y-2 text-sm text-(--text-faint)">
                     {links.map((link) => (
                       <li key={link.label}>
-                        <Link href={link.href} className="hover:text-primary transition-colors">
+                        <Link href={link.href} className="hover:text-[#13daec] transition-colors">
                           {link.label}
                         </Link>
                       </li>
@@ -678,7 +678,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div className="mt-12 border-t border-(--border) pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="mt-12 border-t border-[#283739] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-xs text-(--text-faint)">
               &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
             </p>
@@ -687,13 +687,13 @@ export default function HomePage() {
                 href="https://stemimpactcenterkenya.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-(--text-faint) hover:text-primary transition-colors"
+                className="text-(--text-faint) hover:text-[#13daec] transition-colors"
               >
                 <span className="material-symbols-outlined">public</span>
               </a>
               <Link
                 href="/contact"
-                className="text-(--text-faint) hover:text-primary transition-colors"
+                className="text-(--text-faint) hover:text-[#13daec] transition-colors"
               >
                 <span className="material-symbols-outlined">alternate_email</span>
               </Link>

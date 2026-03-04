@@ -123,7 +123,7 @@ export default function ChangePasswordPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
-        <span className="material-symbols-outlined animate-spin text-primary-green text-4xl">
+        <span className="material-symbols-outlined animate-spin text-[#13eca4] text-4xl">
           progress_activity
         </span>
       </div>
@@ -144,12 +144,12 @@ export default function ChangePasswordPage() {
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14">
         <div className="max-w-md w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-(--border-subtle) p-8 md:p-10 rounded-3xl shadow-2xl">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-green/10 border border-(--border-accent) mb-4">
-              <span className="material-symbols-outlined text-primary-green text-2xl">lock_reset</span>
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(19,236,164,0.1)] border border-(--border-accent) mb-4">
+              <span className="material-symbols-outlined text-[#13eca4] text-2xl">lock_reset</span>
             </div>
-            <div className="inline-flex items-center gap-2 bg-primary-green/8 border border-(--border-medium) rounded-full px-4 py-1.5 mb-3">
-              <span className="w-2 h-2 bg-primary-green rounded-full animate-pulse" />
-              <span className="text-primary-green text-xs font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-(--border-medium) rounded-full px-4 py-1.5 mb-3">
+              <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
+              <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
                 Security Setup
               </span>
             </div>
@@ -167,11 +167,11 @@ export default function ChangePasswordPage() {
           </div>
 
           {error && (
-            <div className="mb-5 p-3.5 rounded-xl bg-accent-red/10 border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-              <span className="material-symbols-outlined text-accent-red text-lg shrink-0">
+            <div className="mb-5 p-3.5 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">
                 error
               </span>
-              <p className="text-accent-red text-sm">{error}</p>
+              <p className="text-[#ff4d4d] text-sm">{error}</p>
             </div>
           )}
 
@@ -267,7 +267,7 @@ export default function ChangePasswordPage() {
               </div>
               {confirmPassword.length > 0 && (
                 <p
-                  className={`text-xs mt-1 font-medium ${newPassword === confirmPassword ? "text-primary-green" : "text-accent-red"}`}
+                  className={`text-xs mt-1 font-medium ${newPassword === confirmPassword ? "text-[#13eca4]" : "text-[#ff4d4d]"}`}
                 >
                   {newPassword === confirmPassword ? "Passwords match" : "Passwords do not match"}
                 </p>
@@ -283,7 +283,7 @@ export default function ChangePasswordPage() {
               ].map(({ label, met }) => (
                 <li
                   key={label}
-                  className={`flex items-center gap-2 transition-colors ${met ? "text-primary-green" : "text-(--text-faint)"}`}
+                  className={`flex items-center gap-2 transition-colors ${met ? "text-[#13eca4]" : "text-(--text-faint)"}`}
                 >
                   <span className="material-symbols-outlined text-[14px]">
                     {met ? "check_circle" : "radio_button_unchecked"}
@@ -301,7 +301,7 @@ export default function ChangePasswordPage() {
                 newPassword !== confirmPassword ||
                 !currentPassword
               }
-              className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all bg-primary-green text-white hover:opacity-90 shadow-lg shadow-primary-green/20 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {submitting ? (
                 <span className="material-symbols-outlined animate-spin">progress_activity</span>

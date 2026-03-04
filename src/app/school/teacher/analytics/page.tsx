@@ -43,7 +43,7 @@ export default function TeacherAnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -174,7 +174,7 @@ export default function TeacherAnalyticsPage() {
           <h1 className="text-xl font-bold text-(--text-base)">Classroom Analytics</h1>
           <p className="text-(--text-muted) text-xs mt-0.5">Engagement & performance insights</p>
         </div>
-        <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-primary-green hover:text-primary-green transition-colors">
+        <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
           <span className="material-symbols-outlined text-[18px]">download</span>
           Export Report
         </button>
@@ -189,7 +189,7 @@ export default function TeacherAnalyticsPage() {
               onClick={() => setActiveClassroom(i)}
               className={`shrink-0 px-5 py-3 rounded-xl text-sm font-semibold transition-all border ${
                 activeClassroom === i
-                  ? "bg-primary-green/10 border-(--border-strong) text-primary-green"
+                  ? "bg-[rgba(19,236,164,0.1)] border-(--border-strong) text-[#13eca4]"
                   : "bg-[rgba(255,255,255,0.03)] border-(--border-subtle) text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
@@ -245,7 +245,7 @@ export default function TeacherAnalyticsPage() {
             <div className="flex items-end gap-3 h-36">
               {weeklyActivity.map((d) => (
                 <div key={d.day} className="flex-1 flex flex-col items-center gap-1.5">
-                  <span className="text-primary-green text-xs font-bold">{d.submissions}</span>
+                  <span className="text-[#13eca4] text-xs font-bold">{d.submissions}</span>
                   <div
                     className="w-full rounded-t-lg transition-all hover:opacity-80 relative group"
                     style={{
@@ -327,7 +327,7 @@ export default function TeacherAnalyticsPage() {
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-primary-green/10 flex items-center justify-center text-primary-green font-bold text-xs">
+                        <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
                           {s.name[0]}
                         </div>
                         <span className="text-(--text-base) font-semibold">{s.name}</span>
@@ -335,7 +335,7 @@ export default function TeacherAnalyticsPage() {
                     </td>
                     <td className="px-4 py-4 text-(--text-muted) text-xs">{s.classroom}</td>
                     <td className="px-4 py-4 text-center">
-                      <span className="text-primary-green font-bold">{s.score}%</span>
+                      <span className="text-[#13eca4] font-bold">{s.score}%</span>
                     </td>
                     <td className="px-4 py-4 text-center text-(--text-base) font-semibold">{s.badges}</td>
                   </tr>

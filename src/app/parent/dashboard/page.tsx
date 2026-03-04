@@ -67,7 +67,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
                   {student.grade}
                 </span>
               )}
-              <span className="text-primary-green text-xs font-medium">
+              <span className="text-[#13eca4] text-xs font-medium">
                 Level {student.level} · {levelLabel(student.level)}
               </span>
             </div>
@@ -78,7 +78,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
         <div className="mt-3 relative">
           <div className="flex justify-between text-xs text-(--text-muted) mb-1.5">
             <span>XP Progress</span>
-            <span className="text-primary-green font-semibold">{student.xp} XP</span>
+            <span className="text-[#13eca4] font-semibold">{student.xp} XP</span>
           </div>
           <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div
@@ -168,7 +168,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
       <div className="p-4">
         <Link
           href={`/parent/child/${student.uid}`}
-          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-primary-green/8 hover:bg-primary-green/15 border border-(--border-medium) text-primary-green text-sm font-semibold transition-all group"
+          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[rgba(19,236,164,0.08)] hover:bg-[rgba(19,236,164,0.15)] border border-(--border-medium) text-[#13eca4] text-sm font-semibold transition-all group"
         >
           View Full Report
           <span className="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">
@@ -200,7 +200,7 @@ export default function ParentDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>

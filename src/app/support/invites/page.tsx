@@ -103,7 +103,7 @@ export default function SupportInvitesPage() {
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(59,130,246,0.1)] px-8 h-16 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-(--text-base)">Invites</h1>
-            <p className="text-(--text-muted) text-xs mt-0.5">Pending and sent invites (read-only)</p>
+            <p className="text-slate-400 text-xs mt-0.5">Pending and sent invites (read-only)</p>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(59,130,246,0.12)] border border-[rgba(59,130,246,0.2)]">
             <span className="material-symbols-outlined text-[#3b82f6] text-[16px]">mail</span>
@@ -126,7 +126,7 @@ export default function SupportInvitesPage() {
                 lock
               </span>
               <p className="text-(--text-base) font-semibold mb-1">Unable to load invites</p>
-              <p className="text-(--text-muted) text-sm text-center max-w-sm">{error}</p>
+              <p className="text-slate-400 text-sm text-center max-w-sm">{error}</p>
             </div>
           )}
 
@@ -161,7 +161,7 @@ export default function SupportInvitesPage() {
                     </div>
                     <div>
                       <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                      <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
+                      <p className="text-slate-400 text-xs mt-0.5">{label}</p>
                     </div>
                   </div>
                 ))}
@@ -185,32 +185,32 @@ export default function SupportInvitesPage() {
                       mail
                     </span>
                     <p className="text-(--text-base) font-semibold mb-1">No invites found</p>
-                    <p className="text-(--text-muted) text-sm">No invites have been sent yet.</p>
+                    <p className="text-slate-400 text-sm">No invites have been sent yet.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-(--border-subtle)">
-                          <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
+                          <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Name
                           </th>
-                          <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
+                          <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Email
                           </th>
-                          <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
+                          <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Role
                           </th>
-                          <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
+                          <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Invited By
                           </th>
-                          <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
+                          <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Sent
                           </th>
-                          <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
+                          <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Expires
                           </th>
-                          <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
+                          <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Status
                           </th>
                         </tr>
@@ -230,7 +230,7 @@ export default function SupportInvitesPage() {
                               <td className="px-6 py-3 text-(--text-base) font-medium text-xs">
                                 {invite.displayName}
                               </td>
-                              <td className="px-6 py-3 text-(--text-muted) text-xs">
+                              <td className="px-6 py-3 text-slate-400 text-xs">
                                 {invite.email}
                               </td>
                               <td className="px-6 py-3">
@@ -238,13 +238,13 @@ export default function SupportInvitesPage() {
                                   {ROLE_LABELS[invite.role] ?? invite.role}
                                 </span>
                               </td>
-                              <td className="px-6 py-3 text-(--text-muted) text-xs">
+                              <td className="px-6 py-3 text-slate-400 text-xs">
                                 {invite.invitedByName}
                               </td>
-                              <td className="px-6 py-3 text-(--text-muted) text-xs">
+                              <td className="px-6 py-3 text-slate-400 text-xs">
                                 {formatDate(invite.invitedAt)}
                               </td>
-                              <td className="px-6 py-3 text-(--text-muted) text-xs">
+                              <td className="px-6 py-3 text-slate-400 text-xs">
                                 {formatDate(invite.expiresAt)}
                               </td>
                               <td className="px-6 py-3">

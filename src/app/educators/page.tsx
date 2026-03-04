@@ -10,12 +10,12 @@ export default function EducatorsPage() {
         {/* Hero */}
         <section className="px-6 py-20 lg:py-28">
           <div className="mx-auto max-w-5xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary-green/10 border border-(--border-accent) px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary-green mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(19,236,164,0.1)] border border-(--border-accent) px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#13eca4] mb-6">
               <span className="material-symbols-outlined text-sm">school</span>
               For Educators
             </div>
             <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-6xl mb-6">
-              Empower Your Classroom with <span className="text-primary-green">STEM Impact</span>
+              Empower Your Classroom with <span className="text-[#13eca4]">STEM Impact</span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg text-(--text-muted) mb-10">
               Access project-based curriculum, facilitation guides, and real-time analytics to
@@ -24,7 +24,7 @@ export default function EducatorsPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/register/teacher"
-                className="rounded-xl bg-primary-green px-8 py-4 text-lg font-bold text-(--text-base) shadow-lg shadow-primary-green/20 hover:scale-[1.02] transition-transform"
+                className="rounded-xl bg-[#13eca4] px-8 py-4 text-lg font-bold text-[#10221c] shadow-lg shadow-[rgba(19,236,164,0.2)] hover:scale-[1.02] transition-transform"
               >
                 Get Started as an Educator
               </Link>
@@ -81,8 +81,8 @@ export default function EducatorsPage() {
                   key={title}
                   className="rounded-xl bg-(--bg-card) p-8 border border-(--border-subtle) hover:border-(--border-strong) transition-all"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-primary-green/10 flex items-center justify-center mb-4">
-                    <span className="material-symbols-outlined text-primary-green text-2xl">
+                  <div className="w-12 h-12 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center mb-4">
+                    <span className="material-symbols-outlined text-[#13eca4] text-2xl">
                       {icon}
                     </span>
                   </div>
@@ -104,7 +104,7 @@ export default function EducatorsPage() {
             </p>
             <Link
               href="/register/teacher"
-              className="inline-block rounded-xl bg-primary-green px-10 py-4 text-lg font-bold text-(--text-base) shadow-lg shadow-primary-green/20 hover:scale-[1.02] transition-transform"
+              className="inline-block rounded-xl bg-[#13eca4] px-10 py-4 text-lg font-bold text-[#10221c] shadow-lg shadow-[rgba(19,236,164,0.2)] hover:scale-[1.02] transition-transform"
             >
               Create Your Free Account
             </Link>

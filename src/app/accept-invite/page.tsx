@@ -143,7 +143,7 @@ function AcceptInviteContent() {
           {/* Loading state */}
           {validating && (
             <div className="flex flex-col items-center py-8 gap-4">
-              <span className="material-symbols-outlined animate-spin text-primary-green text-4xl">
+              <span className="material-symbols-outlined animate-spin text-[#13eca4] text-4xl">
                 progress_activity
               </span>
               <p className="text-(--text-muted) text-sm">Validating your invite...</p>
@@ -153,14 +153,14 @@ function AcceptInviteContent() {
           {/* Validation error */}
           {!validating && validationError && (
             <div className="text-center py-6">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-accent-red/10 border border-[rgba(255,77,77,0.2)] mb-4">
-                <span className="material-symbols-outlined text-accent-red text-2xl">link_off</span>
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] mb-4">
+                <span className="material-symbols-outlined text-[#ff4d4d] text-2xl">link_off</span>
               </div>
               <h1 className="text-xl font-bold text-(--text-base) mb-2">Invite Link Invalid</h1>
               <p className="text-(--text-muted) text-sm leading-relaxed">{validationError}</p>
               <a
                 href="/login"
-                className="mt-6 inline-block text-primary-green text-sm font-semibold hover:underline"
+                className="mt-6 inline-block text-[#13eca4] text-sm font-semibold hover:underline"
               >
                 Go to Login
               </a>
@@ -171,14 +171,14 @@ function AcceptInviteContent() {
           {!validating && invite && (
             <>
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-green/10 border border-(--border-accent) mb-4">
-                  <span className="material-symbols-outlined text-primary-green text-2xl">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(19,236,164,0.1)] border border-(--border-accent) mb-4">
+                  <span className="material-symbols-outlined text-[#13eca4] text-2xl">
                     mark_email_read
                   </span>
                 </div>
-                <div className="inline-flex items-center gap-2 bg-primary-green/8 border border-(--border-medium) rounded-full px-4 py-1.5 mb-3">
-                  <span className="w-2 h-2 bg-primary-green rounded-full animate-pulse" />
-                  <span className="text-primary-green text-xs font-bold uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-(--border-medium) rounded-full px-4 py-1.5 mb-3">
+                  <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
+                  <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
                     Invitation
                   </span>
                 </div>
@@ -195,11 +195,11 @@ function AcceptInviteContent() {
               </div>
 
               {error && (
-                <div className="mb-5 p-3.5 rounded-xl bg-accent-red/10 border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-                  <span className="material-symbols-outlined text-accent-red text-lg shrink-0">
+                <div className="mb-5 p-3.5 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
+                  <span className="material-symbols-outlined text-[#ff4d4d] text-lg shrink-0">
                     error
                   </span>
-                  <p className="text-accent-red text-sm">{error}</p>
+                  <p className="text-[#ff4d4d] text-sm">{error}</p>
                 </div>
               )}
 
@@ -270,7 +270,7 @@ function AcceptInviteContent() {
                   {confirmPassword.length > 0 && (
                     <p
                       className={`text-xs mt-1 font-medium ${
-                        password === confirmPassword ? "text-primary-green" : "text-accent-red"
+                        password === confirmPassword ? "text-[#13eca4]" : "text-[#ff4d4d]"
                       }`}
                     >
                       {password === confirmPassword ? "Passwords match" : "Passwords do not match"}
@@ -281,7 +281,7 @@ function AcceptInviteContent() {
                 <button
                   type="submit"
                   disabled={submitting || password.length < 8 || password !== confirmPassword}
-                  className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all bg-primary-green text-white hover:opacity-90 shadow-lg shadow-primary-green/20 disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {submitting ? (
                     <span className="material-symbols-outlined animate-spin">

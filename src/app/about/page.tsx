@@ -12,7 +12,7 @@ export default function AboutPage() {
         <section className="px-6 py-20 lg:py-28">
           <div className="mx-auto max-w-5xl text-center">
             <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-6xl mb-6">
-              About <span className="text-primary-green">STEM Impact</span> Academy
+              About <span className="text-[#13eca4]">STEM Impact</span> Academy
             </h1>
             <p className="max-w-2xl mx-auto text-lg text-(--text-muted)">
               We are on a mission to empower the next generation of African innovators through
@@ -25,8 +25,8 @@ export default function AboutPage() {
         <section className="py-20 px-6 bg-[rgba(26,46,39,0.3)]">
           <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="rounded-xl bg-(--bg-card) p-8 border border-(--border-subtle)">
-              <div className="w-12 h-12 rounded-xl bg-primary-green/10 flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-primary-green text-2xl">flag</span>
+              <div className="w-12 h-12 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#13eca4] text-2xl">flag</span>
               </div>
               <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
               <p className="text-(--text-muted) leading-relaxed">
@@ -37,8 +37,8 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="rounded-xl bg-(--bg-card) p-8 border border-(--border-subtle)">
-              <div className="w-12 h-12 rounded-xl bg-accent-red/10 flex items-center justify-center mb-4">
-                <span className="material-symbols-outlined text-accent-red text-2xl">
+              <div className="w-12 h-12 rounded-xl bg-[rgba(255,77,77,0.1)] flex items-center justify-center mb-4">
+                <span className="material-symbols-outlined text-[#ff4d4d] text-2xl">
                   visibility
                 </span>
               </div>
@@ -64,7 +64,7 @@ export default function AboutPage() {
                 { num: "27,000+", label: "Badges Earned" },
               ].map(({ num, label }) => (
                 <div key={label}>
-                  <p className="text-4xl font-black text-primary-green">{num}</p>
+                  <p className="text-4xl font-black text-[#13eca4]">{num}</p>
                   <p className="text-sm text-(--text-muted) mt-2 font-medium">{label}</p>
                 </div>
               ))}
@@ -112,7 +112,7 @@ export default function AboutPage() {
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/onboarding"
-                className="rounded-xl bg-primary-green px-8 py-4 text-lg font-bold text-(--text-base) shadow-lg shadow-primary-green/20 hover:scale-[1.02] transition-transform"
+                className="rounded-xl bg-[#13eca4] px-8 py-4 text-lg font-bold text-[#10221c] shadow-lg shadow-[rgba(19,236,164,0.2)] hover:scale-[1.02] transition-transform"
               >
                 Register Your School
               </Link>

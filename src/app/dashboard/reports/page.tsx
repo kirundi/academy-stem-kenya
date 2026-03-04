@@ -8,7 +8,7 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -69,11 +69,11 @@ export default function ReportsPage() {
           <p className="text-(--text-muted) text-xs mt-0.5">Platform analytics and insights</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-primary-green hover:text-primary-green transition-colors">
+          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Full Report
           </button>
-          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-primary-green hover:text-primary-green transition-colors">
+          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
             <span className="material-symbols-outlined text-[18px]">print</span>
             Print
           </button>
@@ -208,7 +208,7 @@ export default function ReportsPage() {
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <span className="material-symbols-outlined text-primary-green text-[18px]">
+                          <span className="material-symbols-outlined text-[#13eca4] text-[18px]">
                             location_on
                           </span>
                           <span className="text-(--text-base) font-semibold">{region}</span>
@@ -224,11 +224,11 @@ export default function ReportsPage() {
                         <div className="flex items-center gap-2 justify-center">
                           <div className="flex-1 h-1.5 bg-(--input-bg) rounded-full max-w-15">
                             <div
-                              className="h-1.5 rounded-full bg-primary-green"
+                              className="h-1.5 rounded-full bg-[#13eca4]"
                               style={{ width: `${pct}%` }}
                             />
                           </div>
-                          <span className="text-xs font-bold text-primary-green">{pct}%</span>
+                          <span className="text-xs font-bold text-[#13eca4]">{pct}%</span>
                         </div>
                       </td>
                     </tr>

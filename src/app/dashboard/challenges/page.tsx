@@ -91,7 +91,7 @@ export default function AdminChallengeCreator() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`px-4 py-1.5 rounded text-sm font-semibold transition-colors ${item.label === "Challenges" ? "bg-primary-green/20 text-primary-green" : "text-(--text-muted) hover:text-(--text-base)"}`}
+                className={`px-4 py-1.5 rounded text-sm font-semibold transition-colors ${item.label === "Challenges" ? "bg-[#13eca4]/20 text-[#13eca4]" : "text-(--text-muted) hover:text-(--text-base)"}`}
               >
                 {item.label}
               </Link>
@@ -104,7 +104,7 @@ export default function AdminChallengeCreator() {
           className={`flex items-center gap-2 px-5 py-2 rounded-lg font-bold text-sm transition-all disabled:opacity-50 ${
             published
               ? "bg-green-600/30 border border-green-500/30 text-green-400"
-              : "bg-primary-green text-[#0d1f1a] hover:brightness-105"
+              : "bg-[#13eca4] text-[#0d1f1a] hover:brightness-105"
           }`}
         >
           {isPublishing ? (
@@ -127,7 +127,7 @@ export default function AdminChallengeCreator() {
           <div className="col-span-12 lg:col-span-8 space-y-8">
             <section className="bg-(--bg-page) rounded-2xl border border-(--border-subtle) p-8">
               <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary-green">info</span>
+                <span className="material-symbols-outlined text-[#13eca4]">info</span>
                 Challenge Details
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -135,33 +135,33 @@ export default function AdminChallengeCreator() {
                   <label className="block text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-2">
                     Challenge Title <span className="text-red-400">*</span>
                   </label>
-                  <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-primary-green/60 transition-colors" placeholder="e.g. Climate Action 2024" />
+                  <input value={title} onChange={(e) => setTitle(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]/60 transition-colors" placeholder="e.g. Climate Action 2024" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-2">Hackathon Theme</label>
-                  <input value={theme} onChange={(e) => setTheme(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-primary-green/60 transition-colors" placeholder="e.g. Renewable Energy" />
+                  <input value={theme} onChange={(e) => setTheme(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]/60 transition-colors" placeholder="e.g. Renewable Energy" />
                 </div>
               </div>
             </section>
 
             <section className="bg-(--bg-page) rounded-2xl border border-(--border-subtle) p-8">
               <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary-green">timer</span>
+                <span className="material-symbols-outlined text-[#13eca4]">timer</span>
                 Timer Configuration
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-2">Start Date</label>
-                  <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) focus:outline-none focus:border-primary-green/60 transition-colors" />
+                  <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) focus:outline-none focus:border-[#13eca4]/60 transition-colors" />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-2">Start Time</label>
-                  <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) focus:outline-none focus:border-primary-green/60 transition-colors" />
+                  <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} className="w-full bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) focus:outline-none focus:border-[#13eca4]/60 transition-colors" />
                 </div>
               </div>
               <div className="mb-6">
                 <label className="block text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-2">Duration (Hours)</label>
-                <input type="number" min={1} max={168} value={duration} onChange={(e) => setDuration(e.target.value)} className="w-full md:w-48 bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) focus:outline-none focus:border-primary-green/60 transition-colors" />
+                <input type="number" min={1} max={168} value={duration} onChange={(e) => setDuration(e.target.value)} className="w-full md:w-48 bg-(--bg-card) border border-(--border-medium) rounded-lg px-4 py-3 text-sm text-(--text-base) focus:outline-none focus:border-[#13eca4]/60 transition-colors" />
               </div>
               <div className="flex items-start gap-6 p-4 bg-(--bg-card) rounded-xl border border-(--border-subtle)">
                 <div className="flex-1">
@@ -174,7 +174,7 @@ export default function AdminChallengeCreator() {
                     </p>
                   )}
                 </div>
-                <button onClick={() => setLateSubmissions(!lateSubmissions)} className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${lateSubmissions ? "bg-primary-green" : "bg-slate-600"}`}>
+                <button onClick={() => setLateSubmissions(!lateSubmissions)} className={`relative w-12 h-7 rounded-full transition-colors shrink-0 ${lateSubmissions ? "bg-[#13eca4]" : "bg-slate-600"}`}>
                   <span className={`absolute top-1 size-5 bg-white rounded-full shadow transition-all ${lateSubmissions ? "left-6" : "left-1"}`} />
                 </button>
               </div>
@@ -182,7 +182,7 @@ export default function AdminChallengeCreator() {
 
             <section className="bg-(--bg-page) rounded-2xl border border-(--border-subtle) p-8">
               <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
-                <span className="material-symbols-outlined text-primary-green">article</span>
+                <span className="material-symbols-outlined text-[#13eca4]">article</span>
                 Challenge Brief &amp; Resources
               </h2>
               <textarea
@@ -190,7 +190,7 @@ export default function AdminChallengeCreator() {
                 value={brief}
                 onChange={(e) => setBrief(e.target.value)}
                 placeholder="Describe the challenge problem, requirements, and evaluation criteria..."
-                className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-lg px-4 py-4 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-primary-green/40 transition-colors resize-none leading-relaxed"
+                className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-lg px-4 py-4 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]/40 transition-colors resize-none leading-relaxed"
               />
             </section>
           </div>
@@ -203,23 +203,23 @@ export default function AdminChallengeCreator() {
                 <div className="space-y-3">
                   {scopeOptions.map((opt) => (
                     <div key={opt.key}>
-                      <button onClick={() => setScope(opt.key)} className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all ${scope === opt.key ? "border-primary-green/50 bg-primary-green/10 text-(--text-base)" : "border-(--border-subtle) text-(--text-muted) hover:border-(--border-accent) hover:text-(--text-muted)"}`}>
-                        <div className={`p-1.5 rounded-lg shrink-0 ${scope === opt.key ? "bg-primary-green/20 text-primary-green" : "bg-(--bg-card)"}`}>
+                      <button onClick={() => setScope(opt.key)} className={`w-full flex items-center gap-3 p-3 rounded-xl border transition-all ${scope === opt.key ? "border-[#13eca4]/50 bg-[#13eca4]/10 text-(--text-base)" : "border-(--border-subtle) text-(--text-muted) hover:border-(--border-accent) hover:text-(--text-muted)"}`}>
+                        <div className={`p-1.5 rounded-lg shrink-0 ${scope === opt.key ? "bg-[#13eca4]/20 text-[#13eca4]" : "bg-(--bg-card)"}`}>
                           <span className="material-symbols-outlined text-base">{opt.icon}</span>
                         </div>
                         <div className="text-left flex-1">
                           <p className="text-sm font-semibold leading-none mb-0.5">{opt.label}</p>
                           <p className="text-xs text-(--text-faint)">{opt.sub}</p>
                         </div>
-                        {scope === opt.key && <span className="material-symbols-outlined text-primary-green shrink-0">check_circle</span>}
+                        {scope === opt.key && <span className="material-symbols-outlined text-[#13eca4] shrink-0">check_circle</span>}
                       </button>
                       {scope === "school" && opt.key === "school" && (
                         <div className="mt-2 ml-2 p-3 bg-(--bg-card) rounded-lg border border-(--border-subtle)">
-                          <input value={schoolSearch} onChange={(e) => setSchoolSearch(e.target.value)} placeholder="Search schools..." className="w-full bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-xs text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-primary-green/50 mb-3" />
+                          <input value={schoolSearch} onChange={(e) => setSchoolSearch(e.target.value)} placeholder="Search schools..." className="w-full bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-xs text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]/50 mb-3" />
                           <div className="space-y-1.5 max-h-40 overflow-y-auto">
                             {filteredSchools.map((s) => (
                               <label key={s.id} className="flex items-center gap-2 cursor-pointer group">
-                                <div className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center transition-colors ${selectedSchools.includes(s.id) ? "bg-primary-green border-primary-green" : "border-slate-500 group-hover:border-primary-green/50"}`} onClick={() => toggleSchool(s.id)}>
+                                <div className={`w-4 h-4 rounded border shrink-0 flex items-center justify-center transition-colors ${selectedSchools.includes(s.id) ? "bg-[#13eca4] border-[#13eca4]" : "border-slate-500 group-hover:border-[#13eca4]/50"}`} onClick={() => toggleSchool(s.id)}>
                                   {selectedSchools.includes(s.id) && <span className="material-symbols-outlined text-[#0d1f1a] text-[10px]">check</span>}
                                 </div>
                                 <span className="text-xs text-(--text-muted)">{s.name}</span>
@@ -233,7 +233,7 @@ export default function AdminChallengeCreator() {
                   ))}
                 </div>
                 <div className="mt-6 space-y-3 pt-4 border-t border-(--border-subtle)">
-                  <button onClick={() => saveChallenge("published")} disabled={isPublishing || published || !title.trim()} className={`w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 ${published ? "bg-green-600/30 text-green-400" : "bg-primary-green text-[#0d1f1a] hover:brightness-105"}`}>
+                  <button onClick={() => saveChallenge("published")} disabled={isPublishing || published || !title.trim()} className={`w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 disabled:opacity-50 ${published ? "bg-green-600/30 text-green-400" : "bg-[#13eca4] text-[#0d1f1a] hover:brightness-105"}`}>
                     {published ? "Published!" : "Create Challenge"}
                   </button>
                   <button onClick={() => saveChallenge("draft")} disabled={isSaving || !title.trim()} className="w-full py-3 rounded-xl font-bold text-sm text-(--text-muted) border border-(--border-subtle) hover:bg-(--bg-card) transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
@@ -247,10 +247,10 @@ export default function AdminChallengeCreator() {
                 <h4 className="text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-3">Live Preview</h4>
                 <div className="rounded-xl bg-(--bg-card) overflow-hidden border border-(--border-subtle)">
                   <div className="h-20 bg-linear-to-r from-[#13eca4]/30 to-[#1a2e30] flex items-center px-4">
-                    <span className="material-symbols-outlined text-primary-green text-3xl">filter_drama</span>
+                    <span className="material-symbols-outlined text-[#13eca4] text-3xl">filter_drama</span>
                   </div>
                   <div className="p-4">
-                    <p className="text-xs text-primary-green font-bold uppercase mb-1">{theme || "Hackathon Theme"}</p>
+                    <p className="text-xs text-[#13eca4] font-bold uppercase mb-1">{theme || "Hackathon Theme"}</p>
                     <p className="font-bold text-sm mb-3">{title || "Challenge Title"}</p>
                     <div className="flex justify-between text-[10px] text-(--text-faint)">
                       <span>Starts {startDate || "TBD"}</span>

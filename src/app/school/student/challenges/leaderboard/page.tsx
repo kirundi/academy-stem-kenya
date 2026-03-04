@@ -80,15 +80,15 @@ function LeaderboardInner() {
         <nav className="flex items-center gap-6">
           <Link
             href="/school/student/challenges"
-            className="text-sm font-semibold text-(--text-muted) hover:text-primary-green transition-colors"
+            className="text-sm font-semibold text-(--text-muted) hover:text-[#13eca4] transition-colors"
           >
             Challenges
           </Link>
-          <span className="text-sm font-semibold text-primary-green">Leaderboard</span>
+          <span className="text-sm font-semibold text-[#13eca4]">Leaderboard</span>
         </nav>
         <Link
           href="/school/student/challenges"
-          className="flex items-center gap-2 px-4 py-2 bg-primary-green text-[#0d1f1a] rounded-lg font-bold text-sm hover:brightness-105 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-[#13eca4] text-[#0d1f1a] rounded-lg font-bold text-sm hover:brightness-105 transition-all"
         >
           <span className="material-symbols-outlined text-sm">send</span>
           View Challenges
@@ -98,10 +98,10 @@ function LeaderboardInner() {
       {/* Hero */}
       <div className="relative overflow-hidden bg-linear-to-b from-[#0d1f1a] to-[#0a1a16] px-8 pt-12 pb-8 border-b border-(--border-subtle)">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/3 w-96 h-96 rounded-full blur-[120px] opacity-10 bg-primary-green" />
+          <div className="absolute top-0 left-1/3 w-96 h-96 rounded-full blur-[120px] opacity-10 bg-[#13eca4]" />
         </div>
         <div className="max-w-3xl">
-          <p className="text-primary-green text-xs font-bold uppercase tracking-widest mb-2">
+          <p className="text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-2">
             Live Rankings
           </p>
           <h1 className="text-4xl font-black tracking-tight mb-4">Challenge Leaderboard</h1>
@@ -116,7 +116,7 @@ function LeaderboardInner() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wide transition-colors ${filter === f ? "bg-primary-green/20 text-primary-green" : "text-(--text-muted) hover:text-(--text-base)"}`}
+              className={`px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wide transition-colors ${filter === f ? "bg-[#13eca4]/20 text-[#13eca4]" : "text-(--text-muted) hover:text-(--text-base)"}`}
             >
               {f === "school" ? "My School" : "Global"}
             </button>
@@ -124,7 +124,7 @@ function LeaderboardInner() {
         </div>
         <div className="h-4 w-px bg-[rgba(19,236,164,0.2)]" />
         <div className="flex items-center gap-2 text-sm">
-          <span className="material-symbols-outlined text-primary-green text-base">group</span>
+          <span className="material-symbols-outlined text-[#13eca4] text-base">group</span>
           <span className="font-bold">{students.length}</span>
           <span className="text-(--text-faint)">Students Ranked</span>
         </div>
@@ -136,7 +136,7 @@ function LeaderboardInner() {
         <div className="col-span-12 lg:col-span-8 space-y-8">
           {loading ? (
             <div className="flex items-center justify-center py-24">
-              <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+              <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
                 progress_activity
               </span>
             </div>
@@ -171,7 +171,7 @@ function LeaderboardInner() {
                           <p className="font-black text-sm leading-tight">
                             {student.displayName ?? "Student"}
                             {isMe && (
-                              <span className="ml-1 text-[10px] font-bold text-primary-green">
+                              <span className="ml-1 text-[10px] font-bold text-[#13eca4]">
                                 {" "}
                                 (You)
                               </span>
@@ -203,12 +203,12 @@ function LeaderboardInner() {
                           key={student.uid}
                           className={`flex items-center gap-4 px-6 py-4 transition-colors ${
                             isMe
-                              ? "border-l-2 border-primary-green bg-primary-green/5"
+                              ? "border-l-2 border-[#13eca4] bg-[#13eca4]/5"
                               : "hover:bg-(--bg-card)/40"
                           }`}
                         >
                           <span
-                            className={`text-sm font-black w-6 shrink-0 ${isMe ? "text-primary-green" : "text-(--text-faint)"}`}
+                            className={`text-sm font-black w-6 shrink-0 ${isMe ? "text-[#13eca4]" : "text-(--text-faint)"}`}
                           >
                             {rank}
                           </span>
@@ -216,7 +216,7 @@ function LeaderboardInner() {
                             <p className="font-bold text-sm truncate">
                               {student.displayName ?? "Student"}
                               {isMe && (
-                                <span className="ml-2 text-[10px] font-bold text-primary-green bg-primary-green/15 rounded-full px-2 py-0.5">
+                                <span className="ml-2 text-[10px] font-bold text-[#13eca4] bg-[#13eca4]/15 rounded-full px-2 py-0.5">
                                   You
                                 </span>
                               )}
@@ -237,7 +237,7 @@ function LeaderboardInner() {
 
               {/* My rank if not in top 20 */}
               {myRank === -1 && appUser && (
-                <div className="p-4 bg-primary-green/5 border border-primary-green/20 rounded-xl text-sm text-(--text-muted)">
+                <div className="p-4 bg-[#13eca4]/5 border border-[#13eca4]/20 rounded-xl text-sm text-(--text-muted)">
                   Your rank will appear once you complete more challenges and earn XP.
                 </div>
               )}
@@ -265,7 +265,7 @@ function LeaderboardInner() {
                     </div>
                     <div className="w-full bg-(--bg-card) rounded-full h-2">
                       <div
-                        className="h-2 rounded-full bg-primary-green transition-all duration-1000"
+                        className="h-2 rounded-full bg-[#13eca4] transition-all duration-1000"
                         style={{ width: `${s.pct}%` }}
                       />
                     </div>
@@ -282,7 +282,7 @@ function LeaderboardInner() {
                 Your Position
               </h3>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary-green/20 border border-primary-green/30 flex items-center justify-center text-primary-green font-black text-lg">
+                <div className="w-12 h-12 rounded-full bg-[#13eca4]/20 border border-[#13eca4]/30 flex items-center justify-center text-[#13eca4] font-black text-lg">
                   {myRank >= 0 ? myRank + 1 : "—"}
                 </div>
                 <div>
@@ -301,7 +301,7 @@ function LeaderboardInner() {
               Regional Map
             </h3>
             <div className="aspect-video rounded-xl bg-(--bg-card) flex flex-col items-center justify-center gap-2 border border-(--border-subtle)">
-              <span className="material-symbols-outlined text-4xl text-primary-green/30">map</span>
+              <span className="material-symbols-outlined text-4xl text-[#13eca4]/30">map</span>
               <p className="text-xs text-(--text-faint)">Interactive map coming soon</p>
             </div>
           </div>
@@ -316,7 +316,7 @@ export default function HackathonLeaderboard() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-screen bg-[#0a1a16]">
-          <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
             progress_activity
           </span>
         </div>

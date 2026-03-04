@@ -112,7 +112,7 @@ export default function LessonPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -126,7 +126,7 @@ export default function LessonPage() {
         <p className="text-(--text-muted) text-sm">No lessons found for this course.</p>
         <Link
           href="/school/student/dashboard"
-          className="text-primary-green text-sm font-semibold hover:underline"
+          className="text-[#13eca4] text-sm font-semibold hover:underline"
         >
           Back to Courses
         </Link>
@@ -157,7 +157,7 @@ export default function LessonPage() {
               style={{ width: `${(completedCount / steps.length) * 100}%` }}
             />
           </div>
-          <span className="text-primary-green text-xs font-bold">
+          <span className="text-[#13eca4] text-xs font-bold">
             {completedCount}/{steps.length}
           </span>
         </div>
@@ -208,21 +208,21 @@ export default function LessonPage() {
                   onClick={() => setActiveStep(step.id)}
                   className={`flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                     isCurrent
-                      ? "bg-primary-green/10 border border-(--border-accent)"
+                      ? "bg-[rgba(19,236,164,0.1)] border border-(--border-accent)"
                       : "hover:bg-(--glass-bg)"
                   }`}
                 >
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
                       step.completed
-                        ? "bg-primary-green"
+                        ? "bg-[#13eca4]"
                         : isCurrent
-                          ? "bg-[rgba(19,236,164,0.2)] border-2 border-primary-green"
+                          ? "bg-[rgba(19,236,164,0.2)] border-2 border-[#13eca4]"
                           : "bg-white/10"
                     }`}
                   >
                     {step.completed ? (
-                      <span className="material-symbols-outlined text-[14px] text-(--text-base)">
+                      <span className="material-symbols-outlined text-[14px] text-[#10221c]">
                         check
                       </span>
                     ) : (
@@ -252,7 +252,7 @@ export default function LessonPage() {
 
           {/* Download Guide */}
           <div className="p-3">
-            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-(--border-accent) text-primary-green text-xs font-semibold hover:bg-[rgba(19,236,164,0.06)] transition-colors">
+            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-(--border-accent) text-[#13eca4] text-xs font-semibold hover:bg-[rgba(19,236,164,0.06)] transition-colors">
               <span className="material-symbols-outlined text-[16px]">download</span>
               Download Guide PDF
             </button>
@@ -267,7 +267,7 @@ export default function LessonPage() {
               <div className="flex items-start gap-3 mb-2 text-(--text-muted) text-sm">
                 <Link
                   href="/school/student/dashboard"
-                  className="hover:text-primary-green transition-colors"
+                  className="hover:text-[#13eca4] transition-colors"
                 >
                   My Courses
                 </Link>
@@ -343,7 +343,7 @@ export default function LessonPage() {
                             )}
                             {block.type === "task" && (
                               <div className="bg-[rgba(19,236,164,0.06)] border border-(--border-medium) rounded-xl p-5">
-                                <h3 className="text-primary-green font-bold flex items-center gap-2 mb-3">
+                                <h3 className="text-[#13eca4] font-bold flex items-center gap-2 mb-3">
                                   <span className="material-symbols-outlined text-[20px]">
                                     task_alt
                                   </span>
@@ -361,8 +361,8 @@ export default function LessonPage() {
                   </div>
                   <div className="border-t border-(--border-subtle) p-6 bg-[rgba(19,236,164,0.03)]">
                     <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-primary-green/15 flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-[22px] text-primary-green">
+                      <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-[22px] text-[#13eca4]">
                           task_alt
                         </span>
                       </div>
@@ -471,7 +471,7 @@ export default function LessonPage() {
                   <div className="bg-[rgba(19,236,164,0.04)] border border-(--border-medium) rounded-2xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <span
-                        className="material-symbols-outlined text-primary-green text-[24px]"
+                        className="material-symbols-outlined text-[#13eca4] text-[24px]"
                         style={{ fontVariationSettings: "'FILL' 1" }}
                       >
                         checklist
@@ -488,7 +488,7 @@ export default function LessonPage() {
                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
                           <input
                             type="checkbox"
-                            className="w-5 h-5 rounded accent-primary-green cursor-pointer"
+                            className="w-5 h-5 rounded accent-[#13eca4] cursor-pointer"
                           />
                           <span className="text-(--text-muted) text-sm group-hover:text-(--text-base) transition-colors">
                             {item}
@@ -531,7 +531,7 @@ export default function LessonPage() {
                     <button
                       onClick={handleSubmit}
                       disabled={submitting}
-                      className="w-full flex items-center justify-center gap-2 py-4 bg-primary-green text-white font-bold rounded-xl hover:shadow-[0_0_24px_rgba(19,236,164,0.4)] transition-all hover:scale-[1.01] text-base disabled:opacity-50"
+                      className="w-full flex items-center justify-center gap-2 py-4 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:shadow-[0_0_24px_rgba(19,236,164,0.4)] transition-all hover:scale-[1.01] text-base disabled:opacity-50"
                     >
                       <span className="material-symbols-outlined text-[22px]">
                         {submitting ? "progress_activity" : "upload_file"}
@@ -558,9 +558,9 @@ export default function LessonPage() {
                       key={s.id}
                       className={`h-2 rounded-full transition-all cursor-pointer ${
                         s.id === activeStep
-                          ? "w-6 bg-primary-green"
+                          ? "w-6 bg-[#13eca4]"
                           : s.completed
-                            ? "w-2 bg-primary-green/50"
+                            ? "w-2 bg-[#13eca4]/50"
                             : "w-2 bg-white/15"
                       }`}
                       onClick={() => setActiveStep(s.id)}
@@ -570,7 +570,7 @@ export default function LessonPage() {
                 {activeStep < steps.length ? (
                   <button
                     onClick={() => setActiveStep(activeStep + 1)}
-                    className="flex items-center gap-2 px-6 py-3 bg-primary-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary-green/20"
+                    className="flex items-center gap-2 px-6 py-3 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)]"
                   >
                     Next Step
                     <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
@@ -579,7 +579,7 @@ export default function LessonPage() {
                   <button
                     onClick={handleSubmit}
                     disabled={submitting}
-                    className="flex items-center gap-2 px-6 py-3 bg-primary-green text-white font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary-green/20 disabled:opacity-50"
+                    className="flex items-center gap-2 px-6 py-3 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
                   >
                     {submitting ? "Submitting..." : "Review & Submit"}
                     <span className="material-symbols-outlined text-[20px]">

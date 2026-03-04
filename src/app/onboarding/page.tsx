@@ -35,7 +35,7 @@ const EMPTY_FORM: FormData = {
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null;
   return (
-    <p className="mt-1 text-accent-red text-xs font-medium flex items-center gap-1">
+    <p className="mt-1 text-[#ff4d4d] text-xs font-medium flex items-center gap-1">
       <span className="material-symbols-outlined text-[14px]">error</span>
       {msg}
     </p>
@@ -203,14 +203,14 @@ function OnboardingContent() {
 
   // Helper for input class with error state
   const inputCls = (field: keyof FormData) =>
-    `form-input${fieldErrors[field] ? " !border-accent-red focus:!border-accent-red" : ""}`;
+    `form-input${fieldErrors[field] ? " !border-[#ff4d4d] focus:!border-[#ff4d4d]" : ""}`;
 
   // ── Resume loading screen ──────────────────────────────────────────────
   if (resumeLoading) {
     return (
       <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
         <div className="text-center">
-          <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
             progress_activity
           </span>
           <p className="text-(--text-muted) text-sm mt-4">Loading your saved application…</p>
@@ -323,7 +323,7 @@ function OnboardingContent() {
           {/* Progress Bar */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-primary-green text-sm font-bold">Step {step} of 3</span>
+              <span className="text-[#13eca4] text-sm font-bold">Step {step} of 3</span>
               <span className="text-(--text-muted) text-xs">{STEP_LABELS[step - 1]}</span>
             </div>
             <div className="h-2 bg-(--input-bg) rounded-full overflow-hidden">
@@ -338,7 +338,7 @@ function OnboardingContent() {
                   key={label}
                   className={`text-xs font-semibold ${
                     i + 1 < step
-                      ? "text-primary-green"
+                      ? "text-[#13eca4]"
                       : i + 1 === step
                         ? "text-(--text-base)"
                         : "text-(--text-faint)"
@@ -352,9 +352,9 @@ function OnboardingContent() {
 
           {/* Error Banner */}
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-accent-red/10 border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-              <span className="material-symbols-outlined text-accent-red text-lg">error</span>
-              <p className="text-accent-red text-sm font-medium">{error}</p>
+            <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#ff4d4d] text-lg">error</span>
+              <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
             </div>
           )}
 
@@ -363,9 +363,9 @@ function OnboardingContent() {
             {step === 1 && (
               <div className="p-8">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-1.5 h-10 bg-primary-green rounded-full" />
+                  <div className="w-1.5 h-10 bg-[#13eca4] rounded-full" />
                   <div>
-                    <p className="text-primary-green text-xs font-bold uppercase tracking-widest">
+                    <p className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
                       Step 01
                     </p>
                     <h2 className="text-xl font-bold text-(--text-base)">School Details</h2>
@@ -374,7 +374,7 @@ function OnboardingContent() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="col-span-2">
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      School Name <span className="text-accent-red">*</span>
+                      School Name <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <input
                       className={inputCls("schoolName")}
@@ -389,7 +389,7 @@ function OnboardingContent() {
                   </div>
                   <div>
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      School Type <span className="text-accent-red">*</span>
+                      School Type <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <select
                       className={inputCls("schoolType")}
@@ -410,7 +410,7 @@ function OnboardingContent() {
                   </div>
                   <div>
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      Campus Location <span className="text-accent-red">*</span>
+                      Campus Location <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <input
                       className={inputCls("location")}
@@ -425,7 +425,7 @@ function OnboardingContent() {
                   </div>
                   <div className="col-span-2">
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      Estimated Student Count <span className="text-accent-red">*</span>
+                      Estimated Student Count <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <select
                       className={inputCls("studentCount")}
@@ -462,7 +462,7 @@ function OnboardingContent() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      Full Name <span className="text-accent-red">*</span>
+                      Full Name <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <input
                       className={inputCls("fullName")}
@@ -477,7 +477,7 @@ function OnboardingContent() {
                   </div>
                   <div>
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      Role / Designation <span className="text-accent-red">*</span>
+                      Role / Designation <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <input
                       className={inputCls("roleDesignation")}
@@ -492,7 +492,7 @@ function OnboardingContent() {
                   </div>
                   <div>
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      Contact Number <span className="text-accent-red">*</span>
+                      Contact Number <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <input
                       type="tel"
@@ -508,7 +508,7 @@ function OnboardingContent() {
                   </div>
                   <div>
                     <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
-                      Email Address <span className="text-accent-red">*</span>
+                      Email Address <span className="text-[#ff4d4d]">*</span>
                     </label>
                     <input
                       type="email"
@@ -524,7 +524,7 @@ function OnboardingContent() {
                   </div>
                 </div>
                 <div className="mt-5 p-4 bg-[rgba(19,236,164,0.05)] border border-[rgba(19,236,164,0.15)] rounded-xl flex items-start gap-3">
-                  <span className="material-symbols-outlined text-primary-green text-[18px] mt-0.5 shrink-0">info</span>
+                  <span className="material-symbols-outlined text-[#13eca4] text-[18px] mt-0.5 shrink-0">info</span>
                   <p className="text-(--text-muted) text-xs leading-relaxed">
                     No password needed here. Once your application is approved, you&apos;ll receive
                     an email invite with a secure link to set your account password. We&apos;ll also
@@ -595,7 +595,7 @@ function OnboardingContent() {
               {step < 3 ? (
                 <button
                   onClick={handleNext}
-                  className="flex-1 py-3.5 rounded-xl bg-primary-green text-white font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                  className="flex-1 py-3.5 rounded-xl bg-[#13eca4] text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                 >
                   Next Step
                   <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -604,7 +604,7 @@ function OnboardingContent() {
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="flex-1 py-3.5 rounded-xl bg-primary-green text-white font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="flex-1 py-3.5 rounded-xl bg-[#13eca4] text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {loading ? (
                     <span className="material-symbols-outlined animate-spin text-sm">
@@ -634,11 +634,11 @@ function OnboardingContent() {
               <p className="text-(--text-muted) text-xs leading-relaxed">
                 Your information is encrypted and stored securely. By submitting this form you agree
                 to STEM Impact Academy&apos;s{" "}
-                <a href="/terms" className="text-primary-green underline">
+                <a href="/terms" className="text-[#13eca4] underline">
                   Terms of Service
                 </a>{" "}
                 and{" "}
-                <a href="/privacy" className="text-primary-green underline">
+                <a href="/privacy" className="text-[#13eca4] underline">
                   Privacy Policy
                 </a>
                 .
@@ -656,7 +656,7 @@ export default function OnboardingPage() {
     <Suspense
       fallback={
         <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
-          <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
             progress_activity
           </span>
         </div>

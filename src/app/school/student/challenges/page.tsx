@@ -79,7 +79,7 @@ export default function StudentChallengesHub() {
   if (challengesLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -100,15 +100,15 @@ export default function StudentChallengesHub() {
           </div>
           <div className="flex items-center gap-4">
             <div className="bg-(--bg-card) border border-(--border-accent) rounded-xl px-4 py-2 flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary-green text-lg">toll</span>
-              <span className="font-bold text-primary-green">
+              <span className="material-symbols-outlined text-[#13eca4] text-lg">toll</span>
+              <span className="font-bold text-[#13eca4]">
                 {(appUser?.xp ?? 0).toLocaleString()} XP
               </span>
             </div>
             {heroChallenge && (
               <Link
                 href={`/school/student/challenges/active?id=${heroChallenge.id}`}
-                className="bg-primary-green text-[#0d1f1a] font-bold px-6 py-2 rounded-xl hover:brightness-105 transition-all flex items-center gap-2 text-sm"
+                className="bg-[#13eca4] text-[#0d1f1a] font-bold px-6 py-2 rounded-xl hover:brightness-105 transition-all flex items-center gap-2 text-sm"
               >
                 <span className="material-symbols-outlined text-[18px]">bolt</span>
                 Quick Start
@@ -154,14 +154,14 @@ export default function StudentChallengesHub() {
                               <p className="text-(--text-muted) text-sm mb-6 leading-relaxed">
                                 {heroChallenge.description}
                               </p>
-                              <div className="flex items-center gap-3 text-xs font-mono text-primary-green mb-8">
-                                <div className="flex items-center gap-1.5 bg-primary-green/10 px-3 py-1.5 rounded-lg border border-primary-green/20">
+                              <div className="flex items-center gap-3 text-xs font-mono text-[#13eca4] mb-8">
+                                <div className="flex items-center gap-1.5 bg-[#13eca4]/10 px-3 py-1.5 rounded-lg border border-[#13eca4]/20">
                                   <span className="material-symbols-outlined text-[16px]">
                                     category
                                   </span>
                                   {heroChallenge.theme}
                                 </div>
-                                <div className="flex items-center gap-1.5 bg-primary-green/10 px-3 py-1.5 rounded-lg border border-primary-green/20">
+                                <div className="flex items-center gap-1.5 bg-[#13eca4]/10 px-3 py-1.5 rounded-lg border border-[#13eca4]/20">
                                   <span className="material-symbols-outlined text-[16px]">
                                     {heroChallenge.scope === "school" ? "domain" : "public"}
                                   </span>
@@ -183,7 +183,7 @@ export default function StudentChallengesHub() {
                                 ].map((t, i) => (
                                   <div key={i} className="flex flex-col items-center">
                                     <div
-                                      className={`w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 ${i === 1 ? "bg-(--bg-card) text-primary-green" : "bg-[#243d40]"}`}
+                                      className={`w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 ${i === 1 ? "bg-(--bg-card) text-[#13eca4]" : "bg-[#243d40]"}`}
                                     >
                                       <span className="text-xl font-bold text-(--text-base)">{t.v}</span>
                                     </div>
@@ -195,7 +195,7 @@ export default function StudentChallengesHub() {
                               </div>
                               <Link
                                 href={`/school/student/challenges/active?id=${heroChallenge.id}`}
-                                className="mt-4 w-full bg-primary-green text-[#0a1a16] font-black py-4 rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform text-sm"
+                                className="mt-4 w-full bg-[#13eca4] text-[#0a1a16] font-black py-4 rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform text-sm"
                               >
                                 JOIN CHALLENGE NOW
                                 <span className="material-symbols-outlined">trending_flat</span>
@@ -207,7 +207,7 @@ export default function StudentChallengesHub() {
                           <div className="relative min-h-72 bg-linear-to-br from-[#13eca4]/20 via-[#0d2420] to-[#102022]">
                             <div className="absolute inset-0 flex items-center justify-center opacity-20">
                               <span
-                                className="material-symbols-outlined text-primary-green"
+                                className="material-symbols-outlined text-[#13eca4]"
                                 style={{ fontSize: "180px" }}
                               >
                                 {heroChallenge.icon || "emoji_events"}
@@ -226,8 +226,8 @@ export default function StudentChallengesHub() {
                         className="mt-4 p-5 rounded-2xl bg-(--bg-card) border border-(--border-medium) flex items-center justify-between"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-xl bg-primary-green/10 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-primary-green">
+                          <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center">
+                            <span className="material-symbols-outlined text-[#13eca4]">
                               {c.icon || "emoji_events"}
                             </span>
                           </div>
@@ -238,7 +238,7 @@ export default function StudentChallengesHub() {
                         </div>
                         <Link
                           href={`/school/student/challenges/active?id=${c.id}`}
-                          className="px-4 py-2 bg-primary-green text-[#0d1f1a] rounded-lg text-sm font-bold hover:opacity-90 transition-opacity"
+                          className="px-4 py-2 bg-[#13eca4] text-[#0d1f1a] rounded-lg text-sm font-bold hover:opacity-90 transition-opacity"
                         >
                           Join
                         </Link>
@@ -315,7 +315,7 @@ export default function StudentChallengesHub() {
                   <div className="p-6 border-b border-white/5">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-bold flex items-center gap-2">
-                        <span className="material-symbols-outlined text-primary-green text-lg">
+                        <span className="material-symbols-outlined text-[#13eca4] text-lg">
                           stars
                         </span>
                         School Leaderboard
@@ -331,7 +331,7 @@ export default function StudentChallengesHub() {
                   <div className="p-4 text-center border-t border-white/5">
                     <Link
                       href="/school/student/challenges/leaderboard"
-                      className="text-[10px] text-primary-green font-bold hover:tracking-widest transition-all uppercase"
+                      className="text-[10px] text-[#13eca4] font-bold hover:tracking-widest transition-all uppercase"
                     >
                       See Full Rankings
                     </Link>

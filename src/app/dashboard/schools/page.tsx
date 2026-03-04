@@ -32,7 +32,7 @@ export default function SchoolsManagementPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -102,14 +102,14 @@ export default function SchoolsManagementPage() {
               { key: "status", label: "Status" }, { key: "healthScore", label: "Health" },
               { key: "students", label: "Students" },
             ])}
-            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-primary-green hover:text-primary-green transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export
           </button>
           <Link
             href="/onboarding"
-            className="flex items-center gap-2 bg-primary-green text-white font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Onboard School
@@ -148,7 +148,7 @@ export default function SchoolsManagementPage() {
               <div className="flex items-center justify-between mb-3">
                 <span className="text-(--text-muted) text-sm font-medium">{s.label}</span>
                 <span
-                  className="material-symbols-outlined p-2 rounded-lg bg-primary-green/8 text-[20px]"
+                  className="material-symbols-outlined p-2 rounded-lg bg-[rgba(19,236,164,0.08)] text-[20px]"
                   style={{ color: s.iconColor }}
                 >
                   {s.icon}
@@ -179,7 +179,7 @@ export default function SchoolsManagementPage() {
                 onClick={() => setStatusFilter(s)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-colors ${
                   statusFilter === s
-                    ? "bg-primary-green text-white"
+                    ? "bg-[#13eca4] text-[#10221c]"
                     : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
                 }`}
               >
@@ -224,8 +224,8 @@ export default function SchoolsManagementPage() {
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-primary-green/8 flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[18px] text-primary-green">
+                          <div className="w-9 h-9 rounded-xl bg-[rgba(19,236,164,0.08)] flex items-center justify-center">
+                            <span className="material-symbols-outlined text-[18px] text-[#13eca4]">
                               domain
                             </span>
                           </div>
@@ -283,7 +283,7 @@ export default function SchoolsManagementPage() {
                             <button
                               disabled={isApproving || isRejecting}
                               onClick={() => handleApprove(s.id)}
-                              className="text-primary-green hover:opacity-80 transition-colors text-xs font-semibold mr-3 disabled:opacity-40"
+                              className="text-[#13eca4] hover:opacity-80 transition-colors text-xs font-semibold mr-3 disabled:opacity-40"
                             >
                               {isApproving ? "Approving…" : "Approve"}
                             </button>
@@ -299,7 +299,7 @@ export default function SchoolsManagementPage() {
                             </button>
                           </>
                         )}
-                        <Link href="/dashboard/audit" className="text-(--text-muted) hover:text-primary-green transition-colors text-xs font-semibold mr-3">
+                        <Link href="/dashboard/audit" className="text-(--text-muted) hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
                           Audit
                         </Link>
                         <Link href="/dashboard/schools" className="text-(--text-muted) hover:text-(--text-base) transition-colors">

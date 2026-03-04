@@ -66,7 +66,7 @@ export default function TeacherGroupsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-primary-green">
+        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
       </div>
@@ -157,7 +157,7 @@ export default function TeacherGroupsPage() {
         <button
           onClick={handleCreateGroup}
           disabled={creatingGroup || !primaryClassroom}
-          className="flex items-center gap-2 bg-primary-green text-white font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           {creatingGroup ? "Creating…" : "New Group"}
@@ -174,7 +174,7 @@ export default function TeacherGroupsPage() {
               <button
                 onClick={handleCreateGroup}
                 disabled={!primaryClassroom}
-                className="text-primary-green text-sm hover:underline disabled:opacity-40"
+                className="text-[#13eca4] text-sm hover:underline disabled:opacity-40"
               >
                 Create your first group →
               </button>
@@ -224,7 +224,7 @@ export default function TeacherGroupsPage() {
                         className="flex items-center gap-3 p-2 rounded-lg bg-[rgba(255,255,255,0.03)] group"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="w-6 h-6 rounded-full bg-primary-green/10 flex items-center justify-center text-[10px] font-bold text-primary-green shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[10px] font-bold text-[#13eca4] shrink-0">
                           {getStudentName(sid)[0]}
                         </div>
                         <span className="text-(--text-muted) text-sm flex-1 truncate">
@@ -249,7 +249,7 @@ export default function TeacherGroupsPage() {
                     {/* Copy link */}
                     <button
                       onClick={() => handleCopyLink(g.id)}
-                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-[rgba(19,236,164,0.25)] text-primary-green hover:bg-primary-green/10 transition-colors"
+                      className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-[rgba(19,236,164,0.25)] text-[#13eca4] hover:bg-[#13eca4]/10 transition-colors"
                       title="Copy student collaboration link"
                     >
                       <span className="material-symbols-outlined text-[14px]">
@@ -293,12 +293,12 @@ export default function TeacherGroupsPage() {
                 onClick={handleCreateGroup}
                 className="bg-[rgba(255,255,255,0.02)] border-2 border-dashed border-(--border-subtle) rounded-2xl p-5 flex flex-col items-center justify-center gap-3 h-40 hover:border-(--border-strong) hover:bg-[rgba(19,236,164,0.02)] transition-all cursor-pointer group"
               >
-                <div className="w-10 h-10 rounded-full bg-(--input-bg) group-hover:bg-primary-green/10 flex items-center justify-center transition-colors">
-                  <span className="material-symbols-outlined text-[22px] text-(--text-faint) group-hover:text-primary-green">
+                <div className="w-10 h-10 rounded-full bg-(--input-bg) group-hover:bg-[rgba(19,236,164,0.1)] flex items-center justify-center transition-colors">
+                  <span className="material-symbols-outlined text-[22px] text-(--text-faint) group-hover:text-[#13eca4]">
                     add
                   </span>
                 </div>
-                <span className="text-(--text-faint) group-hover:text-primary-green text-sm font-semibold transition-colors">
+                <span className="text-(--text-faint) group-hover:text-[#13eca4] text-sm font-semibold transition-colors">
                   Create New Group
                 </span>
               </div>
@@ -312,7 +312,7 @@ export default function TeacherGroupsPage() {
             <h2 className="text-(--text-base) font-bold text-sm mb-1">Unassigned Students</h2>
             {activeGroup && (
               <p className="text-(--text-faint) text-xs mb-3">
-                Click a student to add to <span className="text-primary-green">{activeGroup.name}</span>
+                Click a student to add to <span className="text-[#13eca4]">{activeGroup.name}</span>
               </p>
             )}
             <div className="relative">
@@ -324,7 +324,7 @@ export default function TeacherGroupsPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search students…"
-                className="w-full bg-(--input-bg) border border-(--border-subtle) text-(--text-base) placeholder:text-(--text-faint) rounded-xl px-3 py-2 pl-9 text-sm focus:outline-none focus:border-primary-green"
+                className="w-full bg-(--input-bg) border border-(--border-subtle) text-(--text-base) placeholder:text-(--text-faint) rounded-xl px-3 py-2 pl-9 text-sm focus:outline-none focus:border-[#13eca4]"
               />
             </div>
           </div>
@@ -345,13 +345,13 @@ export default function TeacherGroupsPage() {
                   onClick={() => handleAssignStudent(s.id)}
                   className="w-full flex items-center gap-3 p-3 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-(--hover-subtle) hover:border-(--border-accent) border border-transparent transition-all text-left group"
                 >
-                  <div className="w-7 h-7 rounded-full bg-(--bg-elevated) flex items-center justify-center text-xs font-bold text-(--text-muted) group-hover:bg-primary-green/15 group-hover:text-primary-green transition-colors shrink-0">
+                  <div className="w-7 h-7 rounded-full bg-(--bg-elevated) flex items-center justify-center text-xs font-bold text-(--text-muted) group-hover:bg-[rgba(19,236,164,0.15)] group-hover:text-[#13eca4] transition-colors shrink-0">
                     {s.name[0]}
                   </div>
                   <span className="text-(--text-muted) text-sm font-medium group-hover:text-(--text-base) transition-colors flex-1 truncate">
                     {s.name}
                   </span>
-                  <span className="material-symbols-outlined text-[16px] text-(--text-faint) group-hover:text-primary-green transition-colors">
+                  <span className="material-symbols-outlined text-[16px] text-(--text-faint) group-hover:text-[#13eca4] transition-colors">
                     add
                   </span>
                 </button>
