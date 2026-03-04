@@ -10,6 +10,13 @@ function getResend() {
   return new Resend(key);
 }
 
+/** Resend v3+ returns { data, error } instead of throwing. Throw if error is present. */
+async function sendEmail(...args: Parameters<ReturnType<typeof getResend>["emails"]["send"]>) {
+  const { data, error } = await getResend().emails.send(...args);
+  if (error) throw new Error(`Resend error: ${error.message ?? JSON.stringify(error)}`);
+  return data;
+}
+
 /**
  * Sends a secure invite link (no password in email).
  * The recipient sets their own password at /accept-invite.
@@ -23,7 +30,7 @@ export async function sendInviteTokenEmail(params: {
 }) {
   const roleLabel = params.role.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-  await getResend().emails.send({
+  await sendEmail({
     from: FROM_EMAIL,
     to: params.to,
     bcc: BCC_EMAIL,
@@ -70,7 +77,7 @@ export async function sendInviteEmail(params: {
 }) {
   const roleLabel = params.role.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-  await getResend().emails.send({
+  await sendEmail({
     from: FROM_EMAIL,
     to: params.to,
     bcc: BCC_EMAIL,
@@ -112,7 +119,7 @@ export async function sendSetupCredentialsEmail(params: {
   name: string;
   tempPassword: string;
 }) {
-  await getResend().emails.send({
+  await sendEmail({
     from: FROM_EMAIL,
     to: params.to,
     bcc: BCC_EMAIL,
@@ -154,7 +161,7 @@ export async function sendSetupCredentialsEmail(params: {
 export async function sendPasswordResetEmail(params: { to: string; oobCode: string }) {
   const resetUrl = `${PLATFORM_URL}/reset-password?oobCode=${encodeURIComponent(params.oobCode)}`;
 
-  await getResend().emails.send({
+  await sendEmail({
     from: FROM_EMAIL,
     to: params.to,
     bcc: BCC_EMAIL,
@@ -197,7 +204,7 @@ export async function sendSchoolDecisionEmail(
 ) {
   const isApproved = decision === "approved";
 
-  await getResend().emails.send({
+  await sendEmail({
     from: FROM_EMAIL,
     to,
     bcc: BCC_EMAIL,
@@ -269,7 +276,7 @@ export async function sendWelcomeEmail(params: {
   schoolName: string;
   adminName: string;
 }) {
-  await getResend().emails.send({
+  await sendEmail({
     from: FROM_EMAIL,
     to: params.to,
     bcc: BCC_EMAIL,

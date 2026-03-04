@@ -25,27 +25,36 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ status: "ok" });
   }
 
+  // Escape HTML to prevent injection in the email body
+  const esc = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
   const resend = new Resend(key);
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: CONTACT_EMAIL,
     bcc: BCC_EMAIL,
     replyTo: email,
-    subject: `Contact Form: ${subject}`,
+    subject: `Contact Form: ${esc(subject)}`,
     html: `
       <div style="font-family: sans-serif; max-width: 560px; margin: 0 auto; padding: 32px 20px;">
         <h2 style="color: #10221c; margin: 0 0 16px;">New contact form submission</h2>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-          <tr><td style="padding: 8px 0; color: #64748b; width: 80px;">Name</td><td style="padding: 8px 0; color: #1e293b; font-weight: 600;">${name}</td></tr>
-          <tr><td style="padding: 8px 0; color: #64748b;">Email</td><td style="padding: 8px 0; color: #1e293b; font-weight: 600;"><a href="mailto:${email}">${email}</a></td></tr>
-          <tr><td style="padding: 8px 0; color: #64748b;">Subject</td><td style="padding: 8px 0; color: #1e293b; font-weight: 600;">${subject}</td></tr>
+          <tr><td style="padding: 8px 0; color: #64748b; width: 80px;">Name</td><td style="padding: 8px 0; color: #1e293b; font-weight: 600;">${esc(name)}</td></tr>
+          <tr><td style="padding: 8px 0; color: #64748b;">Email</td><td style="padding: 8px 0; color: #1e293b; font-weight: 600;"><a href="mailto:${esc(email)}">${esc(email)}</a></td></tr>
+          <tr><td style="padding: 8px 0; color: #64748b;">Subject</td><td style="padding: 8px 0; color: #1e293b; font-weight: 600;">${esc(subject)}</td></tr>
         </table>
         <div style="margin-top: 16px; padding: 16px; background: #f8fafb; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <p style="color: #475569; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${message}</p>
+          <p style="color: #475569; font-size: 14px; line-height: 1.6; margin: 0; white-space: pre-wrap;">${esc(message)}</p>
         </div>
       </div>
     `,
   });
+
+  if (error) {
+    console.error("Contact form email failed:", error);
+    return NextResponse.json({ error: "Failed to send message. Please try again." }, { status: 500 });
+  }
 
   return NextResponse.json({ status: "ok" });
 }
