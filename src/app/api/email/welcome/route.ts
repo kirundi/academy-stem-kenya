@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendWelcomeEmail } from "@/lib/email";
+import { requireAdmin } from "@/lib/api-auth";
 
 export async function POST(request: NextRequest) {
+  const caller = await requireAdmin();
+  if (!caller) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const { to, schoolName, adminName } = await request.json();
 

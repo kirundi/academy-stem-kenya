@@ -1,6 +1,19 @@
 import type { Permission } from "@/lib/permissions";
 
-export type UserRole = "student" | "teacher" | "school_admin" | "admin" | "super_admin";
+export type UserRole =
+  | "student"
+  | "teacher"
+  | "school_admin"
+  | "editor"
+  | "admin"
+  | "super_admin"
+  // Extended roles
+  | "parent"           // linked to one or more students; read-only child progress
+  | "support"          // platform helpdesk; read-only across all data
+  | "observer"         // external viewer (ministry/NGO); read-only on assigned schools
+  | "content_reviewer" // reviews & approves/rejects content before publishing
+  | "analytics_viewer" // read-only access to platform-wide analytics
+  | "mentor";          // challenge judge; reviews/grades submissions for assigned challenges
 
 export interface AppUser {
   uid: string;
@@ -26,6 +39,12 @@ export interface AppUser {
   // Teacher-specific
   subjects?: string[];
   department?: string;
+  // Multi-role: secondary roles granted in addition to the primary role
+  additionalRoles?: UserRole[];
+  // Parent-specific: UIDs of linked student accounts
+  childIds?: string[];
+  // Mentor-specific: challenge IDs this mentor is assigned to judge
+  assignedChallengeIds?: string[];
 }
 
 export interface School {
@@ -70,6 +89,11 @@ export interface Course {
   estimatedDuration?: string;
   coverImageUrl?: string;
   badgeId?: string;
+  // Content review workflow
+  status?: "draft" | "pending_review" | "published";
+  reviewedBy?: string;
+  reviewedAt?: Date;
+  reviewFeedback?: string;
 }
 
 export interface Lesson {

@@ -7,8 +7,8 @@ export async function GET() {
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Global admins see all courses; others see their school's + platform courses
-  if (hasRole(user, ["admin", "super_admin"])) {
+  // Global admins and editors see all courses; others see their school's + platform courses
+  if (hasRole(user, ["editor", "admin", "super_admin"])) {
     const snap = await adminDb.collection("courses").get();
     const courses = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
     return NextResponse.json(courses);
@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Only admins and teachers can create courses
-  if (!hasRole(user, ["admin", "super_admin", "teacher"])) {
+  // Admins, editors, and teachers can create courses
+  if (!hasRole(user, ["editor", "admin", "super_admin", "teacher"])) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

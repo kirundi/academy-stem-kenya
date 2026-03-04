@@ -21,7 +21,7 @@ const adminApp =
 const adminAuth = getAuth(adminApp);
 const adminDb = getFirestore(adminApp);
 
-/** Set role, schoolId, permissions, and schoolIds as Firebase custom claims. */
+/** Set role, schoolId, permissions, schoolIds, and additionalRoles as Firebase custom claims. */
 export async function setUserClaims(
   uid: string,
   claims: {
@@ -29,6 +29,7 @@ export async function setUserClaims(
     schoolId: string | null;
     permissions?: Permission[];
     schoolIds?: string[] | null;
+    additionalRoles?: string[];
   }
 ) {
   const customClaims: Record<string, unknown> = {
@@ -38,6 +39,9 @@ export async function setUserClaims(
   };
   if (claims.schoolIds != null) {
     customClaims.schoolIds = claims.schoolIds;
+  }
+  if (claims.additionalRoles && claims.additionalRoles.length > 0) {
+    customClaims.additionalRoles = claims.additionalRoles;
   }
   await adminAuth.setCustomUserClaims(uid, customClaims);
 }

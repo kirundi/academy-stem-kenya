@@ -1,12 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase-admin";
+import { checkRateLimit, resetRateLimit } from "@/lib/rate-limit";
+import { generateCsrfToken } from "@/lib/csrf";
 
 // Session durations
 const DURATION_PERSISTENT = 60 * 60 * 24 * 14 * 1000; // 14 days (Firebase max for session cookies)
 const DURATION_SESSION = 60 * 60 * 24 * 1 * 1000; // 24 hours (browser session)
 const DURATION_STUDENT = 60 * 60 * 24 * 7 * 1000; // 7 days (students, no choice)
 
+// 20 session-creation attempts per IP per 15 minutes.
+// Resets on success so legitimate multi-tab opens don't lock users out.
+const RL_MAX = 20;
+const RL_WINDOW_MS = 15 * 60 * 1000;
+
 export async function POST(request: NextRequest) {
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const { allowed, resetAt } = await checkRateLimit(`session_${ip}`, RL_MAX, RL_WINDOW_MS);
+
+  if (!allowed) {
+    return NextResponse.json(
+      { error: "Too many requests. Please try again later." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(Math.ceil((resetAt - Date.now()) / 1000)) },
+      }
+    );
+  }
+
   try {
     const body = await request.json();
     const { idToken, remember, isStudent } = body;
@@ -47,7 +67,6 @@ export async function POST(request: NextRequest) {
     if (uid) {
       try {
         sessionId = crypto.randomUUID();
-        const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
         const device = request.headers.get("user-agent") ?? "unknown";
         await adminDb
           .collection("sessions")
@@ -65,27 +84,43 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Successful login — clear the rate-limit bucket so the user isn't penalised for future logins.
+    await resetRateLimit(`session_${ip}`);
+
+    const csrfToken = generateCsrfToken();
     const response = NextResponse.json({ status: "success", requiresPasswordChange });
 
+    // sameSite: "strict" — the session cookie is never sent on cross-origin requests,
+    // which blocks the majority of CSRF attack vectors at the browser level.
     response.cookies.set("__session", sessionCookie, {
       maxAge: expiresIn / 1000,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      sameSite: "lax",
+      sameSite: "strict",
     });
 
     // Store sessionId in a separate readable cookie so the client can send it
-    // when revoking a specific session (P10). Not httpOnly so JS can read it.
+    // when revoking a specific session. Not httpOnly so JS can read it.
     if (sessionId) {
       response.cookies.set("__session_id", sessionId, {
         maxAge: expiresIn / 1000,
         httpOnly: false,
         secure: process.env.NODE_ENV === "production",
         path: "/",
-        sameSite: "lax",
+        sameSite: "strict",
       });
     }
+
+    // Double-submit CSRF token (non-httpOnly so client JS can read and echo it
+    // in the X-CSRF-Token header). Works as a second layer on top of sameSite: strict.
+    response.cookies.set("__csrf", csrfToken, {
+      maxAge: expiresIn / 1000,
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      sameSite: "strict",
+    });
 
     return response;
   } catch (error: unknown) {
@@ -112,20 +147,15 @@ export async function DELETE(request: NextRequest) {
     }
 
     const response = NextResponse.json({ status: "success" });
-    response.cookies.set("__session", "", {
+    const cookieBase = {
       maxAge: 0,
-      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      sameSite: "lax",
-    });
-    response.cookies.set("__session_id", "", {
-      maxAge: 0,
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      sameSite: "lax",
-    });
+      sameSite: "strict" as const,
+    };
+    response.cookies.set("__session", "", { ...cookieBase, httpOnly: true });
+    response.cookies.set("__session_id", "", { ...cookieBase, httpOnly: false });
+    response.cookies.set("__csrf", "", { ...cookieBase, httpOnly: false });
     return response;
   } catch (error) {
     console.error("Session deletion error:", error);

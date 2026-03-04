@@ -108,6 +108,23 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "classroomId is required" }, { status: 400 });
   }
 
+  // Verify the caller can access this classroom (same check as POST).
+  const classroomDoc = await adminDb.collection("classrooms").doc(classroomId).get();
+  if (!classroomDoc.exists) {
+    return NextResponse.json({ error: "Classroom not found" }, { status: 404 });
+  }
+  const classroomData = classroomDoc.data()!;
+  const isOwner = classroomData.teacherId === caller.uid;
+  const isSameSchoolAdmin =
+    ["school_admin", "admin", "super_admin"].includes(caller.role) &&
+    (classroomData.schoolId === caller.schoolId ||
+      caller.role === "super_admin" ||
+      (caller.role === "admin" && caller.schoolIds === null) ||
+      (caller.schoolIds && caller.schoolIds.includes(classroomData.schoolId)));
+  if (!isOwner && !isSameSchoolAdmin) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const enrollmentsSnap = await adminDb
     .collection("enrollments")
     .where("classroomId", "==", classroomId)

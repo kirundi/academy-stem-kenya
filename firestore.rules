@@ -46,7 +46,9 @@ service cloud.firestore {
     // — those are always set by Admin SDK routes (e.g. onboarding, invite acceptance).
 
     match /users/{userId} {
-      allow read: if isAuthenticated() && isOwner(userId);
+      allow read: if isAuthenticated() && (
+        isOwner(userId) || hasAnyRole(['support', 'admin', 'super_admin'])
+      );
 
       // Allow initial document creation (registration flow writes the user doc).
       allow create: if isAuthenticated() && isOwner(userId);
@@ -103,7 +105,8 @@ service cloud.firestore {
     match /enrollments/{enrollmentId} {
       allow read: if isAuthenticated() && (
         (hasRole('student') && resource.data.studentId == request.auth.uid) ||
-        hasAnyRole(['teacher', 'school_admin', 'admin', 'super_admin'])
+        hasAnyRole(['teacher', 'school_admin', 'admin', 'super_admin',
+                    'support', 'mentor', 'observer'])
       );
       allow write: if false;
     }
@@ -115,13 +118,14 @@ service cloud.firestore {
     match /submissions/{submissionId} {
       allow read: if isAuthenticated() && (
         (hasRole('student') && resource.data.studentId == request.auth.uid) ||
-        hasAnyRole(['teacher', 'school_admin', 'admin', 'super_admin'])
+        hasAnyRole(['teacher', 'school_admin', 'admin', 'super_admin',
+                    'support', 'mentor', 'content_reviewer'])
       );
       allow create: if isAuthenticated()
         && hasRole('student')
         && request.resource.data.studentId == request.auth.uid;
       allow update: if isAuthenticated()
-        && hasAnyRole(['teacher', 'admin', 'super_admin']);
+        && hasAnyRole(['teacher', 'mentor', 'admin', 'super_admin']);
       allow delete: if false;
     }
 
@@ -153,11 +157,11 @@ service cloud.firestore {
 
     match /courses/{courseId} {
       allow read: if isAuthenticated();
-      allow write: if isAuthenticated() && hasRole('super_admin');
+      allow write: if isAuthenticated() && hasAnyRole(['editor', 'admin', 'super_admin']);
 
       match /lessons/{lessonId} {
         allow read: if isAuthenticated();
-        allow write: if isAuthenticated() && hasRole('super_admin');
+        allow write: if isAuthenticated() && hasAnyRole(['editor', 'admin', 'super_admin']);
       }
     }
 
@@ -177,7 +181,7 @@ service cloud.firestore {
     match /challenges/{challengeId} {
       allow read: if isAuthenticated();
       allow create, update: if isAuthenticated()
-        && hasAnyRole(['admin', 'super_admin']);
+        && hasAnyRole(['editor', 'admin', 'super_admin']);
       allow delete: if isAuthenticated() && hasRole('super_admin');
     }
 

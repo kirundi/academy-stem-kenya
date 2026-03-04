@@ -8,6 +8,7 @@ import { AppUser, UserRole } from "@/lib/types";
 import { decodeJWTPayload } from "@/lib/jwt";
 import type { Permission } from "@/lib/permissions";
 import { resolvePermissions } from "@/lib/permissions";
+import { csrfFetch } from "@/lib/csrf";
 
 interface AuthContextType {
   firebaseUser: User | null;
@@ -55,6 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           email: data.email,
           displayName: data.displayName,
           role: data.role,
+          additionalRoles: data.additionalRoles ?? [],
           schoolId: data.schoolId ?? null,
           requiresPasswordChange: data.requiresPasswordChange ?? false,
           createdAt: data.createdAt?.toDate?.() ?? new Date(),
@@ -121,9 +123,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const hoursLeft = (expMs - Date.now()) / 3_600_000;
         if (hoursLeft > 0 && hoursLeft < 24) {
           const freshToken = await firebaseUser.getIdToken(true);
-          await fetch("/api/auth/session", {
+          await csrfFetch("/api/auth/session", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ idToken: freshToken }),
           });
         }

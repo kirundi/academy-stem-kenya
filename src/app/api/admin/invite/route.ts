@@ -34,12 +34,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Permission tiers: super_admin can invite anyone; admin can only invite teacher/school_admin.
+  // Permission tiers:
+  //   super_admin  → any role including other super_admins, support, analytics_viewer
+  //   admin        → editor, content_reviewer, analytics_viewer, observer, mentor, school_admin, teacher, parent
+  //   school_admin/others with invite_users → teacher, mentor, parent
   const callerRole = caller.role;
   const allowedRoles =
     callerRole === "super_admin"
-      ? ["admin", "school_admin", "teacher"]
-      : ["school_admin", "teacher"];
+      ? ["super_admin", "admin", "editor", "content_reviewer", "analytics_viewer", "support", "observer", "mentor", "school_admin", "teacher", "parent"]
+      : callerRole === "admin"
+      ? ["editor", "content_reviewer", "analytics_viewer", "observer", "mentor", "school_admin", "teacher", "parent"]
+      : ["teacher", "mentor", "parent"]; // school_admin + anyone else with invite_users
 
   if (!allowedRoles.includes(role)) {
     return NextResponse.json(

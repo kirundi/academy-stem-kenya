@@ -9,7 +9,7 @@ import { getAuthUser, hasRole } from "@/lib/api-auth";
  * - Others: course must be a platform course (schoolId=null) or belong to user's school
  */
 async function canAccessCourse(user: { role: string; schoolId: string | null }, courseId: string) {
-  if (hasRole(user as Parameters<typeof hasRole>[0], ["admin", "super_admin"])) return true;
+  if (hasRole(user as Parameters<typeof hasRole>[0], ["editor", "admin", "super_admin"])) return true;
 
   const courseDoc = await adminDb.collection("courses").doc(courseId).get();
   if (!courseDoc.exists) return false;
@@ -43,8 +43,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const user = await getAuthUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  // Only admins and teachers can create lessons
-  if (!hasRole(user, ["admin", "super_admin", "teacher"])) {
+  // Admins, editors, and teachers can create lessons
+  if (!hasRole(user, ["editor", "admin", "super_admin", "teacher"])) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 

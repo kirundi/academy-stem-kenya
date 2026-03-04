@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     // Notify the school admin via Firestore notification
     if (adminUid) {
       await adminDb.collection("notifications").add({
-        uid: adminUid,
+        userId: adminUid,
         type: `school_${decision}`,
         schoolId,
         message:

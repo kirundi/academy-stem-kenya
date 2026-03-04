@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { adminDb } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
-import { getAuthUser } from "@/lib/api-auth";
+import { getAuthUser, hasRole } from "@/lib/api-auth";
 
 /**
  * POST /api/admin/notify-new-school
@@ -13,6 +13,10 @@ export async function POST() {
   const caller = await getAuthUser();
   if (!caller) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  // Only school admins and above can trigger this notification (prevents spam from students/teachers).
+  if (!hasRole(caller, ["school_admin", "admin", "super_admin"])) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   try {
@@ -38,7 +42,7 @@ export async function POST() {
     for (const adminDoc of adminSnap.docs) {
       const notifRef = adminDb.collection("notifications").doc();
       batch.set(notifRef, {
-        uid: adminDoc.id,
+        userId: adminDoc.id,
         type: "new_school_application",
         schoolId: schoolId ?? null,
         message: `New school application: ${schoolName}`,

@@ -16,17 +16,42 @@ const roleColors: Record<string, string> = {
   student: "#3b82f6",
   teacher: "#13eca4",
   school_admin: "#f59e0b",
+  editor: "#ec4899",
   admin: "#ff4d4d",
   super_admin: "#f59e0b",
+  parent: "#8b5cf6",
+  support: "#3b82f6",
+  observer: "#06b6d4",
+  content_reviewer: "#f59e0b",
+  analytics_viewer: "#a855f7",
+  mentor: "#10b981",
 };
 
 const roleBadge: Record<string, string> = {
   student: "Student",
   teacher: "Teacher",
   school_admin: "School Admin",
+  editor: "Editor",
   admin: "Admin",
   super_admin: "Super Admin",
+  parent: "Parent",
+  support: "Support",
+  observer: "Observer",
+  content_reviewer: "Reviewer",
+  analytics_viewer: "Analytics",
+  mentor: "Mentor",
 };
+
+// Roles that can be granted as secondary roles (not admin/super_admin)
+const GRANTABLE_SECONDARY_ROLES = [
+  "teacher", "school_admin", "editor", "parent",
+  "support", "observer", "content_reviewer", "analytics_viewer", "mentor",
+] as const;
+
+// Incompatible combinations (shown as warnings in UI)
+const INCOMPATIBLE_PAIRS: [string, string][] = [
+  ["editor", "content_reviewer"],
+];
 
 type InviteRole = "admin" | "school_admin" | "teacher";
 
@@ -65,6 +90,13 @@ export default function UsersManagementPage() {
   // Confirm dialog state
   const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
   const [actionLoading, setActionLoading] = useState(false);
+
+  // Roles modal state
+  const [rolesUser, setRolesUser] = useState<{ id: string; name: string; primaryRole: string } | null>(null);
+  const [rolesChecked, setRolesChecked] = useState<string[]>([]);
+  const [rolesLoading, setRolesLoading] = useState(false);
+  const [rolesSaving, setRolesSaving] = useState(false);
+  const [rolesError, setRolesError] = useState("");
 
   // Permissions modal state
   const [permUser, setPermUser] = useState<{ id: string; name: string; role: string } | null>(null);
@@ -250,6 +282,61 @@ export default function UsersManagementPage() {
     setPermCustomized(false);
   };
 
+  const openRoles = async (userId: string, userName: string, primaryRole: string) => {
+    setOpenMenu(null);
+    setRolesUser({ id: userId, name: userName, primaryRole });
+    setRolesChecked([]);
+    setRolesError("");
+    setRolesLoading(true);
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/roles`);
+      const data = await res.json();
+      if (res.ok) setRolesChecked(data.additionalRoles ?? []);
+    } catch {
+      // Start with empty list on error
+    } finally {
+      setRolesLoading(false);
+    }
+  };
+
+  const saveRoles = async () => {
+    if (!rolesUser) return;
+    setRolesSaving(true);
+    setRolesError("");
+    try {
+      const res = await fetch(`/api/admin/users/${rolesUser.id}/roles`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ additionalRoles: rolesChecked }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRolesError(data.error || "Failed to update roles");
+      } else {
+        setRolesUser(null);
+      }
+    } catch {
+      setRolesError("Network error — please try again");
+    } finally {
+      setRolesSaving(false);
+    }
+  };
+
+  const toggleRole = (role: string) => {
+    setRolesError("");
+    setRolesChecked((prev) =>
+      prev.includes(role) ? prev.filter((r) => r !== role) : [...prev, role]
+    );
+  };
+
+  const getRoleConflict = (primaryRole: string, additional: string[]): string | null => {
+    for (const [a, b] of INCOMPATIBLE_PAIRS) {
+      const all = [primaryRole, ...additional];
+      if (all.includes(a) && all.includes(b)) return `"${roleBadge[a]}" and "${roleBadge[b]}" conflict`;
+    }
+    return null;
+  };
+
   const togglePermission = (p: Permission) => {
     setPermChecked((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
     setPermCustomized(true);
@@ -311,7 +398,10 @@ export default function UsersManagementPage() {
             />
           </div>
           <div className="flex gap-2 flex-wrap">
-            {["all", "student", "teacher", "school_admin", "admin", "super_admin"].map((r) => (
+            {[
+              "all", "student", "teacher", "school_admin", "editor", "admin", "super_admin",
+              "parent", "support", "observer", "content_reviewer", "analytics_viewer", "mentor",
+            ].map((r) => (
               <button
                 key={r}
                 onClick={() => setRoleFilter(r)}
@@ -376,12 +466,27 @@ export default function UsersManagementPage() {
                         </div>
                       </td>
                       <td className="px-4 py-4 text-center">
-                        <span
-                          className="text-xs font-bold px-2.5 py-1 rounded-full"
-                          style={{ color, background: `${color}18` }}
-                        >
-                          {roleBadge[u.role] ?? u.role}
-                        </span>
+                        <div className="flex items-center justify-center gap-1 flex-wrap">
+                          <span
+                            className="text-xs font-bold px-2.5 py-1 rounded-full"
+                            style={{ color, background: `${color}18` }}
+                          >
+                            {roleBadge[u.role] ?? u.role}
+                          </span>
+                          {(u.additionalRoles ?? []).map((r: string) => {
+                            const rc = roleColors[r] ?? "#64748b";
+                            return (
+                              <span
+                                key={r}
+                                className="text-[10px] font-bold px-1.5 py-0.5 rounded-full border"
+                                style={{ color: rc, borderColor: `${rc}40`, background: `${rc}10` }}
+                                title={`Secondary: ${roleBadge[r] ?? r}`}
+                              >
+                                +{roleBadge[r] ?? r}
+                              </span>
+                            );
+                          })}
+                        </div>
                       </td>
                       <td className="px-4 py-4 text-center text-slate-300 text-xs">
                         {u.schoolId ? (schoolMap.get(u.schoolId) ?? "Unknown") : "--"}
@@ -436,6 +541,15 @@ export default function UsersManagementPage() {
                                   ))}
                                   {canManageUsers && (
                                     <div className="border-t border-[rgba(255,255,255,0.05)]">
+                                      <button
+                                        onClick={() => openRoles(u.id, u.displayName, u.role)}
+                                        className="w-full text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-[rgba(255,255,255,0.05)] transition-colors flex items-center gap-2"
+                                      >
+                                        <span className="material-symbols-outlined text-[16px]">
+                                          manage_accounts
+                                        </span>
+                                        Manage Roles
+                                      </button>
                                       <button
                                         onClick={() => openPermissions(u.id, u.displayName, u.role)}
                                         className="w-full text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-[rgba(255,255,255,0.05)] transition-colors flex items-center gap-2"
@@ -702,6 +816,193 @@ export default function UsersManagementPage() {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Roles Modal */}
+      {rolesUser && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+          onClick={() => setRolesUser(null)}
+        >
+          <div
+            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+              <div>
+                <h2 className="text-white font-bold text-lg">Manage Roles</h2>
+                <p className="text-slate-400 text-xs mt-0.5">
+                  {rolesUser.name} — primary role:{" "}
+                  <span
+                    className="font-bold"
+                    style={{ color: roleColors[rolesUser.primaryRole] ?? "#13eca4" }}
+                  >
+                    {roleBadge[rolesUser.primaryRole] ?? rolesUser.primaryRole}
+                  </span>
+                </p>
+              </div>
+              <button
+                onClick={() => setRolesUser(null)}
+                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            {rolesLoading ? (
+              <div className="flex items-center justify-center py-16">
+                <span className="material-symbols-outlined animate-spin text-3xl text-[#13eca4]">
+                  progress_activity
+                </span>
+              </div>
+            ) : (
+              <div className="px-6 py-5">
+                <p className="text-slate-500 text-xs mb-4 leading-relaxed">
+                  Secondary roles grant access to additional portals without changing the user&apos;s
+                  primary dashboard. Changes take effect on their next login.
+                </p>
+
+                {/* Current primary role (locked) */}
+                <div className="mb-4 p-3 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.06)]">
+                  <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium mb-2">
+                    Primary Role (locked)
+                  </p>
+                  <span
+                    className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full"
+                    style={{
+                      color: roleColors[rolesUser.primaryRole] ?? "#13eca4",
+                      background: `${roleColors[rolesUser.primaryRole] ?? "#13eca4"}18`,
+                    }}
+                  >
+                    <span className="material-symbols-outlined text-[14px]">lock</span>
+                    {roleBadge[rolesUser.primaryRole] ?? rolesUser.primaryRole}
+                  </span>
+                </div>
+
+                {/* Secondary role checkboxes */}
+                <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium mb-3">
+                  Additional Roles
+                </p>
+                <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
+                  {GRANTABLE_SECONDARY_ROLES.filter((r) => r !== rolesUser.primaryRole).map((r) => {
+                    const isChecked = rolesChecked.includes(r);
+                    const rc = roleColors[r] ?? "#64748b";
+                    // Check if this role would create a conflict
+                    const wouldConflict = (() => {
+                      const testSet = isChecked
+                        ? rolesChecked.filter((x) => x !== r)
+                        : [...rolesChecked, r];
+                      return getRoleConflict(rolesUser.primaryRole, testSet) !== null;
+                    })();
+                    return (
+                      <label
+                        key={r}
+                        className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                          isChecked
+                            ? "border-[rgba(19,236,164,0.25)] bg-[rgba(19,236,164,0.05)]"
+                            : wouldConflict && !isChecked
+                            ? "border-[rgba(239,68,68,0.2)] opacity-50 cursor-not-allowed"
+                            : "border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.12)]"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          disabled={wouldConflict && !isChecked}
+                          onChange={() => toggleRole(r)}
+                          className="accent-[#13eca4] shrink-0"
+                        />
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div
+                            className="w-2 h-2 rounded-full shrink-0"
+                            style={{ background: rc }}
+                          />
+                          <div className="min-w-0">
+                            <p className="text-white text-xs font-semibold truncate">
+                              {roleBadge[r]}
+                            </p>
+                            <p className="text-slate-500 text-[10px] truncate">/{r.replace("_", "-")}</p>
+                          </div>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+
+                {/* Conflict warning */}
+                {(() => {
+                  const conflict = getRoleConflict(rolesUser.primaryRole, rolesChecked);
+                  return conflict ? (
+                    <div className="mt-3 flex items-center gap-2 p-3 rounded-xl bg-[rgba(239,68,68,0.08)] border border-[rgba(239,68,68,0.2)]">
+                      <span className="material-symbols-outlined text-red-400 text-[16px]">warning</span>
+                      <p className="text-red-400 text-xs">{conflict}</p>
+                    </div>
+                  ) : null;
+                })()}
+
+                {/* Current selection summary */}
+                {rolesChecked.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {rolesChecked.map((r) => {
+                      const rc = roleColors[r] ?? "#64748b";
+                      return (
+                        <span
+                          key={r}
+                          className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full"
+                          style={{ color: rc, background: `${rc}18` }}
+                        >
+                          {roleBadge[r] ?? r}
+                          <button
+                            onClick={() => toggleRole(r)}
+                            className="hover:opacity-70 transition-opacity"
+                          >
+                            <span className="material-symbols-outlined text-[11px]">close</span>
+                          </button>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {rolesError && (
+                  <div className="mt-3 bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-4 py-2.5">
+                    <p className="text-[#ff4d4d] text-sm">{rolesError}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center gap-3">
+              <button
+                onClick={() => { setRolesChecked([]); setRolesError(""); }}
+                className="text-slate-400 text-xs font-medium hover:text-white transition-colors"
+                disabled={rolesLoading}
+              >
+                Clear All
+              </button>
+              <div className="flex-1" />
+              <button
+                onClick={() => setRolesUser(null)}
+                className="border border-[rgba(255,255,255,0.1)] text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveRoles}
+                disabled={rolesSaving || rolesLoading || !!getRoleConflict(rolesUser.primaryRole, rolesChecked)}
+                className="bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center gap-2"
+              >
+                {rolesSaving && (
+                  <span className="material-symbols-outlined animate-spin text-[16px]">
+                    progress_activity
+                  </span>
+                )}
+                {rolesSaving ? "Saving…" : "Save Roles"}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -20,6 +20,7 @@ import {
 import { auth, db } from "@/lib/firebase";
 import { UserRole } from "@/lib/types";
 import { decodeJWTPayload } from "@/lib/jwt";
+import { csrfFetch } from "@/lib/csrf";
 
 // ---------------------------------------------------------------------------
 // Internal helpers
@@ -45,9 +46,8 @@ async function setSessionCookie(
   options: SessionOptions = {}
 ): Promise<ClaimsResult> {
   const attempt = async (token: string): Promise<ClaimsResult> => {
-    const res = await fetch("/api/auth/session", {
+    const res = await csrfFetch("/api/auth/session", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idToken: token, ...options }),
     });
     if (!res.ok) {
@@ -76,7 +76,7 @@ async function setSessionCookie(
 }
 
 async function clearSessionCookie() {
-  await fetch("/api/auth/session", { method: "DELETE" });
+  await csrfFetch("/api/auth/session", { method: "DELETE" });
 }
 
 /**

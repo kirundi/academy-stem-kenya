@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { useTeacherData } from "@/hooks/useTeacherData";
 import { useCollection } from "@/hooks/useFirestore";
-import { where, arrayUnion, arrayRemove, updateDoc, doc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { where } from "firebase/firestore";
 import type { Enrollment } from "@/lib/types";
 
 interface AssignModal {
@@ -57,13 +56,14 @@ export default function TeacherCoursesPage() {
         classrooms.map(async (c) => {
           const wasAssigned = (c.courseIds ?? []).includes(assignModal.courseId);
           const nowAssigned = selections[c.id] ?? false;
-          if (nowAssigned && !wasAssigned) {
-            await updateDoc(doc(db, "classrooms", c.id), {
-              courseIds: arrayUnion(assignModal.courseId),
-            });
-          } else if (!nowAssigned && wasAssigned) {
-            await updateDoc(doc(db, "classrooms", c.id), {
-              courseIds: arrayRemove(assignModal.courseId),
+          if (nowAssigned !== wasAssigned) {
+            await fetch(`/api/classrooms/${c.id}/courses`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                courseId: assignModal.courseId,
+                action: nowAssigned ? "add" : "remove",
+              }),
             });
           }
         })

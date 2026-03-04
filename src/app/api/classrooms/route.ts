@@ -9,16 +9,32 @@ export async function GET(request: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
-  const teacherId = searchParams.get("teacherId");
-  const schoolId = searchParams.get("schoolId");
 
   let ref = adminDb.collection("classrooms") as FirebaseFirestore.Query;
 
-  if (teacherId) {
-    ref = ref.where("teacherId", "==", teacherId);
-  }
-  if (schoolId) {
-    ref = ref.where("schoolId", "==", schoolId);
+  if (user.role === "student") {
+    // Students have no list access — they only see their enrolled classrooms via enrollments.
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  } else if (user.role === "teacher") {
+    // Teachers can only see their own classrooms, regardless of query params.
+    ref = ref.where("teacherId", "==", user.uid);
+  } else if (user.role === "school_admin") {
+    // School admins can only see their own school's classrooms.
+    if (!user.schoolId) return NextResponse.json([], { status: 200 });
+    ref = ref.where("schoolId", "==", user.schoolId);
+  } else if (user.role === "admin" && user.schoolIds !== null) {
+    // Scoped admins: filter to their assigned schools.
+    if (user.schoolIds && user.schoolIds.length > 0) {
+      ref = ref.where("schoolId", "in", user.schoolIds.slice(0, 10));
+    } else {
+      return NextResponse.json([], { status: 200 });
+    }
+  } else {
+    // super_admin and global admin (schoolIds === null): allow optional query param filtering.
+    const teacherId = searchParams.get("teacherId");
+    const schoolId = searchParams.get("schoolId");
+    if (teacherId) ref = ref.where("teacherId", "==", teacherId);
+    if (schoolId) ref = ref.where("schoolId", "==", schoolId);
   }
 
   const snap = await ref.get();
