@@ -30,7 +30,7 @@ export async function GET() {
   const submissionsSnap = await adminDb
     .collection("submissions")
     .where("challengeId", "in", challengeIds)
-    .where("status", "==", "submitted")
+    .where("status", "==", "pending")
     .orderBy("submittedAt", "desc")
     .limit(50)
     .get();

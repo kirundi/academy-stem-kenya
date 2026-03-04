@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
+import Link from "next/link";
 import StatCard from "@/components/StatCard";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
+import { exportToCsv } from "@/lib/csv-export";
 
 const planColors: Record<string, string> = {
   premium: "#13eca4",
@@ -18,6 +21,7 @@ const healthColor = (h: number) => {
 export default function GlobalAdminDashboard() {
   const { schools, allUsers, allCourses, teachers, students, loading, error } =
     useGlobalAdminData();
+  const [schoolSearch, setSchoolSearch] = useState("");
 
   if (loading) {
     return (
@@ -94,14 +98,26 @@ export default function GlobalAdminDashboard() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button
+            onClick={() => exportToCsv("platform-report", schools.map((s) => ({
+              name: s.name, location: s.location, plan: s.plan, status: s.status, healthScore: s.healthScore, students: s.studentCount,
+            })), [
+              { key: "name", label: "School" }, { key: "location", label: "Location" },
+              { key: "plan", label: "Plan" }, { key: "status", label: "Status" },
+              { key: "healthScore", label: "Health Score" }, { key: "students", label: "Students" },
+            ])}
+            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+          >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Report
           </button>
-          <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
+          <Link
+            href="/onboarding"
+            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+          >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Onboard School
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -233,6 +249,8 @@ export default function GlobalAdminDashboard() {
               )}
               <input
                 type="text"
+                value={schoolSearch}
+                onChange={(e) => setSchoolSearch(e.target.value)}
                 placeholder="Search schools..."
                 className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-white placeholder-slate-500 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#13eca4] w-44"
               />
@@ -256,7 +274,7 @@ export default function GlobalAdminDashboard() {
                   </td>
                 </tr>
               ) : (
-                schools.slice(0, 10).map((s, i) => {
+                schools.filter((s) => !schoolSearch || s.name.toLowerCase().includes(schoolSearch.toLowerCase()) || (s.location ?? "").toLowerCase().includes(schoolSearch.toLowerCase())).slice(0, 10).map((s, i) => {
                   const plan =
                     (s.plan ?? "community").charAt(0).toUpperCase() +
                     (s.plan ?? "community").slice(1);
@@ -311,12 +329,12 @@ export default function GlobalAdminDashboard() {
                         </div>
                       </td>
                       <td className="px-4 py-4 text-right">
-                        <button className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
+                        <Link href="/dashboard/audit" className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
                           Audit
-                        </button>
-                        <button className="text-slate-400 hover:text-white transition-colors">
+                        </Link>
+                        <Link href="/dashboard/schools" className="text-slate-400 hover:text-white transition-colors">
                           <span className="material-symbols-outlined text-[18px]">more_horiz</span>
-                        </button>
+                        </Link>
                       </td>
                     </tr>
                   );

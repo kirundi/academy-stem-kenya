@@ -48,6 +48,7 @@ export default function AnalyticsUsersPage() {
   const { allUsers, loading, error } = useGlobalAdminData();
   const [filterRole, setFilterRole] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [visibleCount, setVisibleCount] = useState(100);
 
   if (loading) {
     return (
@@ -185,7 +186,7 @@ export default function AnalyticsUsersPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[rgba(255,255,255,0.03)]">
-                {filtered.slice(0, 100).map((u) => {
+                {filtered.slice(0, visibleCount).map((u) => {
                   const color = ROLE_COLORS[u.role] ?? "#64748b";
                   return (
                     <tr key={u.id} className="hover:bg-[rgba(168,85,247,0.03)] transition-colors">
@@ -216,8 +217,16 @@ export default function AnalyticsUsersPage() {
                 })}
               </tbody>
             </table>
-            {filtered.length > 100 && (
-              <p className="text-slate-500 text-xs text-center py-3">Showing 100 of {filtered.length} users</p>
+            {filtered.length > visibleCount && (
+              <div className="text-center py-3">
+                <p className="text-slate-500 text-xs mb-2">Showing {visibleCount} of {filtered.length} users</p>
+                <button
+                  onClick={() => setVisibleCount((v) => v + 100)}
+                  className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[rgba(168,85,247,0.1)] text-[#a855f7] hover:bg-[rgba(168,85,247,0.2)] transition-colors"
+                >
+                  Load More
+                </button>
+              </div>
             )}
             {filtered.length === 0 && (
               <div className="py-12 text-center">

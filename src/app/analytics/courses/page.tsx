@@ -27,6 +27,7 @@ export default function AnalyticsCoursesPage() {
   const { allCourses, loading, error } = useGlobalAdminData();
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [visibleCount, setVisibleCount] = useState(50);
 
   if (loading) {
     return (
@@ -159,7 +160,7 @@ export default function AnalyticsCoursesPage() {
                 <p className="text-slate-400 text-sm">No courses match your filter.</p>
               </div>
             ) : (
-              filtered.slice(0, 50).map((course) => {
+              filtered.slice(0, visibleCount).map((course) => {
                 const status = getStatus(course);
                 const statusConfig = STATUS_CONFIG[status];
                 const diffColor = DIFFICULTY_COLOR[course.difficulty] ?? "#64748b";
@@ -189,8 +190,16 @@ export default function AnalyticsCoursesPage() {
               })
             )}
           </div>
-          {filtered.length > 50 && (
-            <p className="text-slate-500 text-xs text-center py-3">Showing 50 of {filtered.length} courses</p>
+          {filtered.length > visibleCount && (
+            <div className="text-center py-3">
+              <p className="text-slate-500 text-xs mb-2">Showing {visibleCount} of {filtered.length} courses</p>
+              <button
+                onClick={() => setVisibleCount((v) => v + 50)}
+                className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[rgba(168,85,247,0.1)] text-[#a855f7] hover:bg-[rgba(168,85,247,0.2)] transition-colors"
+              >
+                Load More
+              </button>
+            </div>
           )}
         </div>
       </div>

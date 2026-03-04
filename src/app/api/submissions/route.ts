@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
     courseId: body.courseId,
     lessonId: body.lessonId,
     classroomId: body.classroomId || "",
+    ...(body.challengeId ? { challengeId: body.challengeId } : {}),
     status: body.status || "pending",
     grade: null,
     score: null,

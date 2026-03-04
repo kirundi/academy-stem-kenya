@@ -23,7 +23,7 @@ const navItems = [
   { label: "Settings", href: "/school/teacher/settings", icon: "settings" },
 ];
 
-const bottomItems = [{ label: "Courses", href: "/school/teacher/courses", icon: "library_books" }];
+const bottomItems: typeof navItems = [];
 
 export default function TeacherSidebar() {
   const pathname = usePathname();

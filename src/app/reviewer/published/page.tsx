@@ -1,6 +1,7 @@
 "use client";
 
-import { useCollection } from "@/hooks/useFirestore";
+import { useState } from "react";
+import { useCollection, useUpdateDoc } from "@/hooks/useFirestore";
 import { where, orderBy } from "firebase/firestore";
 import type { Course } from "@/lib/types";
 
@@ -25,6 +26,18 @@ export default function ReviewerPublishedPage() {
     [where("status", "==", "published"), orderBy("updatedAt", "desc")],
     true
   );
+  const { update } = useUpdateDoc("courses");
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [revertingId, setRevertingId] = useState<string | null>(null);
+
+  async function handleRevertToDraft(courseId: string) {
+    setRevertingId(courseId);
+    try {
+      await update(courseId, { status: "draft", reviewedBy: null, reviewedAt: null, reviewFeedback: null });
+    } finally {
+      setRevertingId(null);
+    }
+  }
 
   if (loading) {
     return (
@@ -61,53 +74,79 @@ export default function ReviewerPublishedPage() {
               return (
                 <div
                   key={course.id}
-                  className="bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.1)] p-5 flex items-start gap-4 hover:border-[rgba(16,185,129,0.25)] transition-colors"
+                  className="bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.1)] p-5 hover:border-[rgba(16,185,129,0.25)] transition-colors"
                 >
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-2xl"
-                    style={{ background: `${course.color ?? "#13eca4"}18` }}
-                  >
-                    {course.icon ?? "📚"}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-white font-bold text-base">{course.title}</h3>
-                      <span
-                        className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                        style={{ background: `${diffColor}18`, color: diffColor }}
-                      >
-                        {course.difficulty}
-                      </span>
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(16,185,129,0.15)] text-[#10b981]">
-                        Published
-                      </span>
+                  <div className="flex items-start gap-4">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-2xl"
+                      style={{ background: `${course.color ?? "#13eca4"}18` }}
+                    >
+                      {course.icon ?? "📚"}
                     </div>
-                    <p className="text-slate-400 text-sm mt-1 line-clamp-1">{course.description}</p>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">category</span>
-                        {course.category}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">list</span>
-                        {course.totalLessons} lessons
-                      </span>
-                      {course.targetGrade && (
-                        <span className="flex items-center gap-1">
-                          <span className="material-symbols-outlined text-[14px]">grade</span>
-                          Grade {course.targetGrade}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-white font-bold text-base">{course.title}</h3>
+                        <span
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                          style={{ background: `${diffColor}18`, color: diffColor }}
+                        >
+                          {course.difficulty}
                         </span>
-                      )}
-                      <span className="flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">update</span>
-                        Updated {formatDate((course as unknown as Record<string, unknown>).updatedAt)}
-                      </span>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(16,185,129,0.15)] text-[#10b981]">
+                          Published
+                        </span>
+                      </div>
+                      <p className="text-slate-400 text-sm mt-1 line-clamp-1">{course.description}</p>
+                      <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
+                        <span className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px]">category</span>
+                          {course.category}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px]">list</span>
+                          {course.totalLessons} lessons
+                        </span>
+                        {course.targetGrade && (
+                          <span className="flex items-center gap-1">
+                            <span className="material-symbols-outlined text-[14px]">grade</span>
+                            Grade {course.targetGrade}
+                          </span>
+                        )}
+                        <span className="flex items-center gap-1">
+                          <span className="material-symbols-outlined text-[14px]">update</span>
+                          Updated {formatDate((course as unknown as Record<string, unknown>).updatedAt)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="shrink-0 flex items-center gap-2">
+                      <button
+                        onClick={() => setExpandedId(expandedId === course.id ? null : course.id)}
+                        className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+                        title="View details"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">{expandedId === course.id ? "expand_less" : "expand_more"}</span>
+                      </button>
+                      <button
+                        onClick={() => handleRevertToDraft(course.id)}
+                        disabled={revertingId === course.id}
+                        className="px-3 py-1.5 rounded-lg text-xs font-semibold text-amber-400 bg-[rgba(245,158,11,0.1)] hover:bg-[rgba(245,158,11,0.2)] transition-colors disabled:opacity-50"
+                        title="Revert to draft"
+                      >
+                        {revertingId === course.id ? "Reverting..." : "Revert to Draft"}
+                      </button>
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
+                      <span className="text-[#10b981] text-xs font-semibold">Live</span>
                     </div>
                   </div>
-                  <div className="shrink-0 flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]" />
-                    <span className="text-[#10b981] text-xs font-semibold">Live</span>
-                  </div>
+                  {expandedId === course.id && (
+                    <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.05)]">
+                      <p className="text-slate-300 text-sm">{course.description}</p>
+                      <div className="mt-2 flex items-center gap-4 text-xs text-slate-500">
+                        {course.estimatedDuration && <span>Duration: {course.estimatedDuration}</span>}
+                        {course.reviewedBy && <span>Reviewed by: {course.reviewedBy.slice(0, 12)}...</span>}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}

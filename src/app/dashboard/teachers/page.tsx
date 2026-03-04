@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
+import { exportToCsv } from "@/lib/csv-export";
 
 const statusBadge: Record<string, string> = {
   active: "text-emerald-500",
@@ -169,7 +170,15 @@ export default function TeacherManagementPage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-bold hover:bg-[rgba(255,255,255,0.05)] transition-colors">
+            <button
+              onClick={() => exportToCsv("teachers-report", teachers.map((t) => ({
+                name: t.displayName, email: t.email, department: t.department ?? "General", subjects: t.subjects?.join(", ") ?? "",
+              })), [
+                { key: "name", label: "Name" }, { key: "email", label: "Email" },
+                { key: "department", label: "Department" }, { key: "subjects", label: "Subjects" },
+              ])}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-bold hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+            >
               <span className="material-symbols-outlined text-[18px]">download</span>Export Report
             </button>
             <button

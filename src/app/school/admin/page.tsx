@@ -176,8 +176,8 @@ export default function SchoolAdminDashboard() {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-white font-bold text-xl">Recent Teacher Activity</h3>
-              <a href="/dashboard/audit" className="text-sm text-[#13eca4] hover:underline">
-                View all logs
+              <a href="/school/admin/analytics" className="text-sm text-[#13eca4] hover:underline">
+                View all activity
               </a>
             </div>
             <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden">

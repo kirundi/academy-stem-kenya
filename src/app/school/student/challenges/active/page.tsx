@@ -4,6 +4,8 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useDocument } from "@/hooks/useFirestore";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { getCsrfToken } from "@/lib/csrf";
 import type { Challenge } from "@/lib/types";
 
 function useCountdownToMs(targetMs: number | null) {
@@ -52,6 +54,7 @@ const rules = [
 function WorkspaceInner() {
   const searchParams = useSearchParams();
   const challengeId = searchParams.get("id") ?? null;
+  const { appUser } = useAuthContext();
 
   const { data: challenge } = useDocument<Challenge>("challenges", challengeId);
 
@@ -59,6 +62,8 @@ function WorkspaceInner() {
   const switchToResources = () => setActiveTab("resources");
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [workContent, setWorkContent] = useState("");
 
   function getEndMs(c: Challenge | null): number | null {
     if (!c) return null;
@@ -72,10 +77,32 @@ function WorkspaceInner() {
   const timer = useCountdownToMs(endMs);
 
   const handleSubmit = async () => {
+    if (!challengeId || !appUser) return;
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSubmitting(false);
-    setSubmitted(true);
+    setSubmitError(null);
+    try {
+      const res = await fetch("/api/submissions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": getCsrfToken(),
+        },
+        body: JSON.stringify({
+          challengeId,
+          courseId: "",
+          lessonId: "",
+          classroomId: "",
+          content: workContent,
+          status: "pending",
+        }),
+      });
+      if (!res.ok) throw new Error("Submission failed");
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Failed to submit. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (

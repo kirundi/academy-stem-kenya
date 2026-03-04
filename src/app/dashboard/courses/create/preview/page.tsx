@@ -89,9 +89,8 @@ function CourseCreatorPreview() {
         </div>
         <nav className="hidden md:flex items-center gap-8">
           {[
-            { label: "Editor", href: "/dashboard/content" },
-            { label: "Curriculum", href: "/dashboard/content" },
-            { label: "Resources", href: "/dashboard" },
+            { label: "Content", href: "/dashboard/content" },
+            { label: "Overview", href: "/dashboard" },
           ].map((item) => (
             <a
               key={item.label}

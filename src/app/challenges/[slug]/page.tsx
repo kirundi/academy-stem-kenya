@@ -447,10 +447,9 @@ export default function ChallengeBriefPage() {
 
             <div className="flex flex-col gap-3">
               {challenge.resources.map((res) => (
-                <a
+                <div
                   key={res.title}
-                  href="#"
-                  className="group flex items-center justify-between p-4 rounded-xl bg-[#102022]/60 border border-[#2d4548] hover:border-[#13daec] transition-all"
+                  className="group flex items-center justify-between p-4 rounded-xl bg-[#102022]/60 border border-[#2d4548] hover:border-[#13daec] transition-all cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-9 rounded-lg bg-[#13daec]/10 flex items-center justify-center shrink-0">
@@ -466,7 +465,7 @@ export default function ChallengeBriefPage() {
                   <span className="material-symbols-outlined text-slate-500 group-hover:text-[#13daec] transition-colors">
                     {ACTION_ICONS[res.action]}
                   </span>
-                </a>
+                </div>
               ))}
 
               {/* Inspirational quote */}

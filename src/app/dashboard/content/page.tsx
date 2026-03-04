@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { useDeleteDoc } from "@/hooks/useFirestore";
+import { exportToCsv } from "@/lib/csv-export";
 
 const difficultyColor: Record<string, string> = {
   Beginner: "#13eca4",
@@ -18,6 +19,7 @@ export default function ContentManagementPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const { allCourses, loading } = useGlobalAdminData();
   const { remove } = useDeleteDoc("courses");
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
 
   if (loading) {
     return (
@@ -68,6 +70,40 @@ export default function ContentManagementPage() {
           </Link>
         </div>
       </header>
+
+      {/* Delete confirmation modal */}
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(255,255,255,0.1)] p-6 w-full max-w-sm shadow-2xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center">
+                <span className="material-symbols-outlined text-red-400 text-[22px]">warning</span>
+              </div>
+              <div>
+                <h3 className="text-white font-bold">Delete Course</h3>
+                <p className="text-slate-400 text-xs">This action cannot be undone.</p>
+              </div>
+            </div>
+            <p className="text-slate-300 text-sm mb-6">
+              Are you sure you want to permanently delete &ldquo;{allCourses.find((c) => c.id === confirmDeleteId)?.title}&rdquo;?
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setConfirmDeleteId(null)}
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 border border-slate-700 hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => { remove(confirmDeleteId); setConfirmDeleteId(null); }}
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors"
+              >
+                Delete Permanently
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="px-8 py-8 space-y-6">
         {/* Stats */}
@@ -192,7 +228,7 @@ export default function ContentManagementPage() {
                         Edit
                       </button>
                       <button
-                        onClick={() => remove(c.id)}
+                        onClick={() => setConfirmDeleteId(c.id)}
                         className="text-slate-400 hover:text-red-400 transition-colors text-xs font-semibold"
                       >
                         Delete

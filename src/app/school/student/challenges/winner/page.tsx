@@ -42,7 +42,7 @@ function WinnerInner() {
         year: "numeric",
       });
 
-  const verifyId = `STEM-${new Date().getFullYear()}-${(challengeId ?? appUser?.uid ?? "XXXX").slice(0, 4).toUpperCase()}`;
+  const verifyId = `STEM-${new Date().getFullYear()}-${(challengeId || appUser?.uid || "0000").slice(0, 4).toUpperCase()}`;
 
   const handleShare = () => {
     if (navigator.share) {

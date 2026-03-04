@@ -14,13 +14,13 @@ export async function GET() {
     return NextResponse.json(courses);
   }
 
-  // School-scoped: own school courses + platform courses (schoolId == null)
+  // School-scoped: only published courses for non-editor/admin users
   const schoolId = user.schoolId;
   const [schoolSnap, platformSnap] = await Promise.all([
     schoolId
-      ? adminDb.collection("courses").where("schoolId", "==", schoolId).get()
+      ? adminDb.collection("courses").where("schoolId", "==", schoolId).where("status", "==", "published").get()
       : Promise.resolve({ docs: [] }),
-    adminDb.collection("courses").where("schoolId", "==", null).get(),
+    adminDb.collection("courses").where("schoolId", "==", null).where("status", "==", "published").get(),
   ]);
 
   const courses = [

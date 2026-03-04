@@ -35,11 +35,19 @@ export function useSchoolAdminData() {
     !!schoolId
   );
 
-  const { data: courses, loading: coursesLoading } = useCollection<Course>(
+  const { data: schoolCourses, loading: schoolCoursesLoading } = useCollection<Course>(
     "courses",
-    schoolId ? [where("schoolId", "in", [schoolId, null])] : [],
+    schoolId ? [where("schoolId", "==", schoolId)] : [],
     !!schoolId
   );
+
+  const { data: platformCourses, loading: platformCoursesLoading } = useCollection<Course>(
+    "courses",
+    schoolId ? [where("schoolId", "==", null)] : [],
+    !!schoolId
+  );
+
+  const courses = [...schoolCourses, ...platformCourses];
 
   return {
     teachers,
@@ -52,7 +60,8 @@ export function useSchoolAdminData() {
       studentsLoading ||
       classroomsLoading ||
       activitiesLoading ||
-      coursesLoading,
+      schoolCoursesLoading ||
+      platformCoursesLoading,
   };
 }
 

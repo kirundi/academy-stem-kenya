@@ -95,7 +95,7 @@ export default function PortfolioPage() {
   const filteredProjects = useMemo(() => {
     if (filter === "Graded") return projects.filter((p) => p.status === "graded");
     if (filter === "Under Review") return projects.filter((p) => p.status === "pending");
-    if (filter === "Drafts") return projects.filter((p) => p.status === "draft");
+
     return projects;
   }, [projects, filter]);
 
@@ -182,7 +182,7 @@ export default function PortfolioPage() {
 
         {/* Filter */}
         <div className="flex items-center gap-3 mb-6">
-          {["All Projects", "Graded", "Under Review", "Drafts"].map((f) => (
+          {["All Projects", "Graded", "Under Review"].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}

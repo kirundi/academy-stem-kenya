@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { formatTimestamp } from "@/lib/timestamps";
+import { exportToCsv } from "@/lib/csv-export";
 
 export default function AuditLogPage() {
   const [search, setSearch] = useState("");
@@ -57,7 +58,15 @@ export default function AuditLogPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button
+            onClick={() => exportToCsv("audit-log", filtered.map((a) => ({
+              user: userMap.get(a.userId) ?? "Unknown", type: a.type, description: a.description, timestamp: formatTimestamp(a.timestamp),
+            })), [
+              { key: "user", label: "User" }, { key: "type", label: "Type" },
+              { key: "description", label: "Description" }, { key: "timestamp", label: "Timestamp" },
+            ])}
+            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+          >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Logs
           </button>

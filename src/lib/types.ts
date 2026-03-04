@@ -129,7 +129,8 @@ export interface Submission {
   courseId: string;
   lessonId: string;
   classroomId: string;
-  status: "pending" | "graded" | "draft";
+  challengeId?: string;
+  status: "pending" | "graded";
   grade: string | null;
   score: number | null;
   content: string;

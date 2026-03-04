@@ -79,13 +79,20 @@ export const Routes = {
 // ---------------------------------------------------------------------------
 // Role-based redirect mapping
 // ---------------------------------------------------------------------------
-export const RoleDashboardMap = {
+export const RoleDashboardMap: Record<string, string> = {
   student: Routes.STUDENT_DASHBOARD,
   teacher: Routes.TEACHER_DASHBOARD,
   school_admin: Routes.SCHOOL_ADMIN,
+  editor: "/editor/dashboard",
+  content_reviewer: "/reviewer/dashboard",
+  analytics_viewer: "/analytics/dashboard",
+  support: "/support/dashboard",
+  observer: "/observer/dashboard",
+  mentor: "/mentor/dashboard",
+  parent: "/parent/dashboard",
   admin: Routes.GLOBAL_ADMIN,
   super_admin: Routes.GLOBAL_ADMIN,
-} as const;
+};
 
 // ---------------------------------------------------------------------------
 // Notification types

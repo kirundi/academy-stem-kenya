@@ -243,7 +243,7 @@ export default function StudentDashboard() {
                   </p>
                 </div>
                 <Link
-                  href="/school/student/submit-success"
+                  href={`/school/student/submit-success?course=${encodeURIComponent(completedCourse.title)}`}
                   className="text-[#0a1a18] text-xs font-bold px-4 py-2 rounded-lg shrink-0 hover:opacity-90 transition-opacity"
                   style={{ background: "#00f5d4" }}
                 >

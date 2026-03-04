@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendWelcomeEmail } from "@/lib/email";
-import { requireAdmin } from "@/lib/api-auth";
+import { requireStaff } from "@/lib/api-auth";
 
 export async function POST(request: NextRequest) {
-  const caller = await requireAdmin();
+  const caller = await requireStaff();
   if (!caller) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { useUpdateDoc } from "@/hooks/useFirestore";
+import { exportToCsv } from "@/lib/csv-export";
 
 const planColors: Record<string, string> = {
   premium: "#13eca4",
@@ -91,14 +93,27 @@ export default function SchoolsManagementPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button
+            onClick={() => exportToCsv("schools-export", schools.map((s) => ({
+              name: s.name, location: s.location, type: s.type, plan: s.plan, status: s.status, healthScore: s.healthScore, students: s.studentCount,
+            })), [
+              { key: "name", label: "School" }, { key: "location", label: "Location" },
+              { key: "type", label: "Type" }, { key: "plan", label: "Plan" },
+              { key: "status", label: "Status" }, { key: "healthScore", label: "Health" },
+              { key: "students", label: "Students" },
+            ])}
+            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+          >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export
           </button>
-          <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity">
+          <Link
+            href="/onboarding"
+            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+          >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Onboard School
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -284,12 +299,12 @@ export default function SchoolsManagementPage() {
                             </button>
                           </>
                         )}
-                        <button className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
+                        <Link href="/dashboard/audit" className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
                           Audit
-                        </button>
-                        <button className="text-slate-400 hover:text-white transition-colors">
+                        </Link>
+                        <Link href="/dashboard/schools" className="text-slate-400 hover:text-white transition-colors">
                           <span className="material-symbols-outlined text-[18px]">more_horiz</span>
-                        </button>
+                        </Link>
                       </td>
                     </tr>
                   );

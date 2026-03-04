@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
+import { exportToCsv } from "@/lib/csv-export";
 
 const DEPT_COLORS = ["#13eca4", "#3b82f6", "#8b5cf6", "#f59e0b", "#ec4899", "#06b6d4"];
 
@@ -24,6 +25,7 @@ const RANK_COLORS = [
 
 export default function SchoolAnalyticsPage() {
   const { schools, allCourses, teachers, students, loading } = useGlobalAdminData();
+  const [dateRange, setDateRange] = useState("30d");
 
   // Departments: group courses by category, show % of total courses
   const departments = useMemo(() => {
@@ -91,11 +93,26 @@ export default function SchoolAnalyticsPage() {
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="flex items-center gap-2 h-11 px-4 rounded-xl border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-bold hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-            <span className="material-symbols-outlined text-[18px]">calendar_today</span>Last 30
-            Days
-          </button>
-          <button className="flex items-center gap-2 h-11 px-6 rounded-xl bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity">
+          <select
+            value={dateRange}
+            onChange={(e) => setDateRange(e.target.value)}
+            className="h-11 px-4 rounded-xl border border-[rgba(255,255,255,0.1)] bg-transparent text-slate-300 text-sm font-bold hover:bg-[rgba(255,255,255,0.04)] transition-colors focus:outline-none"
+          >
+            <option value="7d">Last 7 Days</option>
+            <option value="30d">Last 30 Days</option>
+            <option value="90d">Last 90 Days</option>
+            <option value="all">All Time</option>
+          </select>
+          <button
+            onClick={() => exportToCsv("analytics-report", schools.map((s) => ({
+              name: s.name, location: s.location, plan: s.plan, healthScore: s.healthScore, students: s.studentCount,
+            })), [
+              { key: "name", label: "School" }, { key: "location", label: "Location" },
+              { key: "plan", label: "Plan" }, { key: "healthScore", label: "Health" },
+              { key: "students", label: "Students" },
+            ])}
+            className="flex items-center gap-2 h-11 px-6 rounded-xl bg-[#13eca4] text-[#10221c] text-sm font-bold hover:opacity-90 transition-opacity"
+          >
             <span className="material-symbols-outlined text-[18px]">download</span>Export Report
           </button>
         </div>

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase-admin";
+import { adminDb, adminAuth, setUserClaims } from "@/lib/firebase-admin";
 import { FieldValue } from "firebase-admin/firestore";
 import { getAuthUser, hasPermission } from "@/lib/api-auth";
 
@@ -84,6 +84,22 @@ export async function PUT(request: NextRequest) {
       ...updates,
       updatedAt: FieldValue.serverTimestamp(),
     });
+
+  // If role was changed, update Firebase custom claims and revoke sessions
+  if (updates.role) {
+    const userDoc = await adminDb.collection("users").doc(userId).get();
+    const userData = userDoc.data();
+    if (userData) {
+      await setUserClaims(userId, {
+        role: userData.role,
+        schoolId: userData.schoolId ?? null,
+        permissions: userData.permissions,
+        schoolIds: userData.schoolIds ?? null,
+        additionalRoles: userData.additionalRoles,
+      });
+      await adminAuth.revokeRefreshTokens(userId);
+    }
+  }
 
   return NextResponse.json({ status: "updated" });
 }

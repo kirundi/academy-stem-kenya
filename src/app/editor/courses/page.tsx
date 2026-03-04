@@ -59,7 +59,7 @@ export default function EditorCoursesPage() {
           <p className="text-slate-400 text-xs mt-0.5">{courses.length} total · {published.length} published</p>
         </div>
         <Link
-          href="/dashboard/courses/create/step1"
+          href="/editor/courses/new"
           className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm text-white transition-opacity hover:opacity-90"
           style={{ background: "#ec4899" }}
         >
@@ -131,7 +131,7 @@ export default function EditorCoursesPage() {
                 {searchQuery || filterStatus !== "all" ? "Try adjusting your filters." : "Create your first course to get started."}
               </p>
               <Link
-                href="/dashboard/courses/create/step1"
+                href="/editor/courses/new"
                 className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm text-white"
                 style={{ background: "#ec4899" }}
               >
@@ -186,14 +186,14 @@ export default function EditorCoursesPage() {
                     </span>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Link
-                        href={`/dashboard/courses/create/step1?edit=${course.id}`}
+                        href={`/editor/courses/${course.id}/edit`}
                         className="p-2 rounded-lg text-slate-400 hover:text-[#ec4899] hover:bg-[rgba(236,72,153,0.08)] transition-colors"
                         title="Edit course"
                       >
                         <span className="material-symbols-outlined text-[18px]">edit</span>
                       </Link>
                       <Link
-                        href={`/dashboard/courses/create/preview?id=${course.id}`}
+                        href={`/editor/courses/${course.id}/preview`}
                         className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
                         title="Preview"
                       >

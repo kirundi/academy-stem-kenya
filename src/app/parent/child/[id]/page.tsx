@@ -470,10 +470,17 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                 <span className="material-symbols-outlined text-[20px]">support_agent</span>
                 Need Help?
               </h3>
-              <p className="text-slate-400 text-xs leading-relaxed">
+              <p className="text-slate-400 text-xs leading-relaxed mb-3">
                 If you have concerns about {firstName}&apos;s progress, reach out to the school or
                 their teacher directly.
               </p>
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[rgba(139,92,246,0.12)] text-[#8b5cf6] text-xs font-semibold hover:bg-[rgba(139,92,246,0.2)] transition-colors"
+              >
+                <span className="material-symbols-outlined text-[16px]">mail</span>
+                Contact Support
+              </a>
             </div>
           </div>
         </div>

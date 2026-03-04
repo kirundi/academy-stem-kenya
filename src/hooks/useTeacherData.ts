@@ -33,17 +33,26 @@ export function useTeacherData() {
     classroomIds.length > 0
   );
 
-  // Scope courses to teacher's school (platform-wide courses have schoolId=null)
-  const { data: allCourses, loading: coursesLoading } = useCollection<Course>(
+  // Scope courses to teacher's school
+  const { data: schoolCourses, loading: schoolCoursesLoading } = useCollection<Course>(
     "courses",
-    schoolId ? [where("schoolId", "in", [schoolId, null])] : [],
+    schoolId ? [where("schoolId", "==", schoolId)] : [],
     !!schoolId
   );
+
+  // Platform-wide courses (schoolId=null)
+  const { data: platformCourses, loading: platformCoursesLoading } = useCollection<Course>(
+    "courses",
+    schoolId ? [where("schoolId", "==", null)] : [],
+    !!schoolId
+  );
+
+  const allCourses = [...schoolCourses, ...platformCourses];
 
   return {
     classrooms,
     pendingSubmissions,
     allCourses,
-    loading: classroomsLoading || submissionsLoading || coursesLoading,
+    loading: classroomsLoading || submissionsLoading || schoolCoursesLoading || platformCoursesLoading,
   };
 }

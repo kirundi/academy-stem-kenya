@@ -45,7 +45,6 @@ export default function EditorChallengesPage() {
   );
   const [filterScope, setFilterScope] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [showCreateHint, setShowCreateHint] = useState(false);
 
   if (loading) {
     return (
@@ -75,28 +74,15 @@ export default function EditorChallengesPage() {
           <h1 className="text-xl font-bold text-white">Challenges</h1>
           <p className="text-slate-400 text-xs mt-0.5">{challenges.length} total · {activeChallenges.length} active now</p>
         </div>
-        <button
-          onClick={() => setShowCreateHint(true)}
+        <a
+          href="/editor/challenges/new"
           className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm text-white transition-opacity hover:opacity-90"
           style={{ background: "#ec4899" }}
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
           New Challenge
-        </button>
+        </a>
       </header>
-
-      {showCreateHint && (
-        <div className="mx-8 mt-6 p-4 rounded-xl bg-[rgba(236,72,153,0.08)] border border-[rgba(236,72,153,0.2)] flex items-start gap-3">
-          <span className="material-symbols-outlined text-[#ec4899] text-[20px] mt-0.5 shrink-0">info</span>
-          <div className="flex-1">
-            <p className="text-[#ec4899] font-semibold text-sm">Challenge creation</p>
-            <p className="text-slate-400 text-xs mt-0.5">Challenge creation is managed from the Admin dashboard under Challenges. Go to <a href="/dashboard/challenges" className="text-[#ec4899] underline">Admin → Challenges</a> to create and manage competitions.</p>
-          </div>
-          <button onClick={() => setShowCreateHint(false)} className="text-slate-500 hover:text-white transition-colors">
-            <span className="material-symbols-outlined text-[18px]">close</span>
-          </button>
-        </div>
-      )}
 
       <div className="px-8 py-8 space-y-6">
         {/* Stats */}

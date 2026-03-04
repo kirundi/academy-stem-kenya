@@ -54,6 +54,8 @@ export default function MentorDashboard() {
   const [gradeForm, setGradeForm] = useState({ grade: "", score: "", feedback: "" });
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
+  const [gradedSubmissions, setGradedSubmissions] = useState<SubmissionData[]>([]);
+  const [showGraded, setShowGraded] = useState(false);
 
   const displayName = appUser?.displayName ?? "Mentor";
 
@@ -98,7 +100,11 @@ export default function MentorDashboard() {
       showToast("Submission graded successfully!", true);
       setGradingId(null);
       setGradeForm({ grade: "", score: "", feedback: "" });
-      // Remove the graded submission from the list
+      // Move graded submission to history
+      const graded = submissions.find((s) => s.id === submissionId);
+      if (graded) {
+        setGradedSubmissions((prev) => [{ ...graded, status: "graded", grade: gradeForm.grade || null, score: gradeForm.score ? Number(gradeForm.score) : null, feedback: gradeForm.feedback || null }, ...prev]);
+      }
       setSubmissions((prev) => prev.filter((s) => s.id !== submissionId));
       setChallenges((prev) =>
         prev.map((c) =>
@@ -132,7 +138,7 @@ export default function MentorDashboard() {
   }
 
   const challengeSubmissions = selectedChallenge
-    ? submissions.filter((s) => s.challengeId === selectedChallenge.id)
+    ? (showGraded ? gradedSubmissions : submissions).filter((s) => s.challengeId === selectedChallenge.id)
     : [];
 
   return (
@@ -165,13 +171,21 @@ export default function MentorDashboard() {
         </div>
         <div className="flex items-center gap-3">
           {selectedChallenge && (
-            <button
-              onClick={() => { setSelectedChallenge(null); setGradingId(null); }}
-              className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-sm"
-            >
-              <span className="material-symbols-outlined text-[18px]">arrow_back</span>
-              All Challenges
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => { setSelectedChallenge(null); setGradingId(null); setShowGraded(false); }}
+                className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-sm"
+              >
+                <span className="material-symbols-outlined text-[18px]">arrow_back</span>
+                All Challenges
+              </button>
+              <button
+                onClick={() => setShowGraded(!showGraded)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${showGraded ? "bg-[#10b981] text-[#10221c]" : "bg-[rgba(16,185,129,0.1)] text-[#10b981] border border-[rgba(16,185,129,0.2)]"}`}
+              >
+                {showGraded ? "Show Pending" : "Show Graded History"}
+              </button>
+            </div>
           )}
           <div className="w-9 h-9 rounded-full bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-[#10b981] font-bold text-sm">
             {getInitials(displayName)}

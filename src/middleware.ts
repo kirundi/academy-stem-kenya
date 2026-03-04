@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { decodeJWTPayload } from "@/lib/jwt";
+import { RoleDashboardMap } from "@/lib/constants";
 
 const publicPaths = [
   "/",
@@ -24,25 +25,12 @@ const routeRoleMap: Record<string, string[]> = {
   "/support": ["support", "admin", "super_admin"],
   "/observer": ["observer", "admin", "super_admin"],
   "/mentor": ["mentor", "admin", "super_admin"],
-  "/parent": ["parent"],
+  "/parent": ["parent", "admin", "super_admin"],
   "/dashboard": ["admin", "super_admin"],
 };
 
-/** Map roles to their default dashboard path. */
-const roleDashboardMap: Record<string, string> = {
-  student: "/school/student/dashboard",
-  teacher: "/school/teacher/dashboard",
-  school_admin: "/school/admin",
-  editor: "/editor/dashboard",
-  content_reviewer: "/reviewer/dashboard",
-  analytics_viewer: "/analytics/dashboard",
-  support: "/support/dashboard",
-  observer: "/observer/dashboard",
-  mentor: "/mentor/dashboard",
-  parent: "/parent/dashboard",
-  admin: "/dashboard",
-  super_admin: "/dashboard",
-};
+/** Role → default dashboard path (imported from constants). */
+const roleDashboardMap = RoleDashboardMap;
 
 // Roles the platform recognises — any other value is treated as a forged claim.
 const KNOWN_ROLES = new Set([

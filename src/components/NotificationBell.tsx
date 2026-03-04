@@ -139,8 +139,11 @@ export default function NotificationBell() {
           {/* Footer */}
           {notifications.length > 0 && (
             <div className="border-t border-[rgba(255,255,255,0.08)] px-4 py-2">
-              <button className="w-full text-center text-[#13eca4] text-xs font-bold py-1 hover:underline">
-                View All Notifications
+              <button
+                onClick={() => { setIsOpen(false); markAllAsRead(); }}
+                className="w-full text-center text-[#13eca4] text-xs font-bold py-1 hover:underline"
+              >
+                Mark All as Read &amp; Close
               </button>
             </div>
           )}

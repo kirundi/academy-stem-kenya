@@ -117,7 +117,8 @@ export default function ObserverDashboard() {
               const hColor = healthColor(school.healthScore ?? 0);
 
               return (
-                <div key={school.id} className="bg-[#1a2e27] rounded-2xl border border-[rgba(6,182,212,0.08)] hover:border-[rgba(6,182,212,0.2)] transition-all p-5">
+                <details key={school.id} className="bg-[#1a2e27] rounded-2xl border border-[rgba(6,182,212,0.08)] hover:border-[rgba(6,182,212,0.2)] transition-all p-5 cursor-pointer group [&_summary]:list-none">
+                  <summary className="[&::-webkit-details-marker]:hidden">
                   {/* School header */}
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-12 h-12 rounded-xl bg-[rgba(6,182,212,0.1)] flex items-center justify-center shrink-0 mr-3">
@@ -173,7 +174,20 @@ export default function ObserverDashboard() {
                       </div>
                     ))}
                   </div>
-                </div>
+                  </summary>
+                  <div className="mt-4 pt-4 border-t border-[rgba(6,182,212,0.08)]">
+                    <div className="grid grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="text-slate-500">Location</span>
+                        <p className="text-white font-medium">{school.location}</p>
+                      </div>
+                      <div>
+                        <span className="text-slate-500">Admin</span>
+                        <p className="text-white font-medium font-mono text-[11px]">{school.adminId?.slice(0, 12)}...</p>
+                      </div>
+                    </div>
+                  </div>
+                </details>
               );
             })}
           </div>

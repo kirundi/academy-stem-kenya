@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useCollection } from "@/hooks/useFirestore";
+import { useSchoolAdminData } from "@/hooks/useAdminData";
 import { where } from "firebase/firestore";
 import type { AppUser } from "@/lib/types";
 import SchoolAdminSidebar from "@/components/SchoolAdminSidebar";
@@ -19,11 +20,24 @@ function formatDate(d: unknown) {
 }
 
 export default function SchoolAdminParentsPage() {
-  const { data: parents, loading } = useCollection<AppUser>(
+  // First get students for this school, then find parents linked to them
+  const { students, loading: studentsLoading } = useSchoolAdminData();
+
+  const schoolStudentIds = useMemo(() => new Set(students.map((s) => s.id ?? s.uid)), [students]);
+
+  const { data: allParents, loading: parentsLoading } = useCollection<AppUser>(
     "users",
     [where("role", "==", "parent")],
     true
   );
+
+  // Filter parents to only those whose childIds overlap with this school's students
+  const parents = useMemo(
+    () => allParents.filter((p) => p.childIds?.some((cid) => schoolStudentIds.has(cid))),
+    [allParents, schoolStudentIds]
+  );
+
+  const loading = studentsLoading || parentsLoading;
 
   const [searchQuery, setSearchQuery] = useState("");
 
