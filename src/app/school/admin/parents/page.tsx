@@ -1,0 +1,168 @@
+"use client";
+
+import { useState } from "react";
+import { useCollection } from "@/hooks/useFirestore";
+import { where } from "firebase/firestore";
+import type { AppUser } from "@/lib/types";
+import SchoolAdminSidebar from "@/components/SchoolAdminSidebar";
+
+function formatDate(d: unknown) {
+  if (!d) return "—";
+  const date =
+    (d as { toDate?: () => Date })?.toDate?.() ??
+    (d instanceof Date ? d : null) ??
+    ((d as { seconds?: number })?.seconds
+      ? new Date((d as { seconds: number }).seconds * 1000)
+      : null);
+  if (!date) return "—";
+  return date.toLocaleDateString("en-KE", { year: "numeric", month: "short", day: "numeric" });
+}
+
+export default function SchoolAdminParentsPage() {
+  const { data: parents, loading } = useCollection<AppUser>(
+    "users",
+    [where("role", "==", "parent")],
+    true
+  );
+
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filtered = parents.filter(
+    (p) =>
+      !searchQuery ||
+      (p.displayName?.toLowerCase() ?? "").includes(searchQuery.toLowerCase()) ||
+      (p.email?.toLowerCase() ?? "").includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="flex h-screen bg-[#10221c]">
+      <SchoolAdminSidebar />
+      <main className="ml-60 flex-1 overflow-y-auto">
+        {/* Header */}
+        <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-white">Parents</h1>
+            <p className="text-slate-400 text-xs mt-0.5">
+              Parents linked to students in your school.
+            </p>
+          </div>
+        </header>
+
+        <div className="px-8 py-8 space-y-6">
+          {loading ? (
+            <div className="flex items-center justify-center h-40">
+              <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+                progress_activity
+              </span>
+            </div>
+          ) : (
+            <>
+              {/* Stat card */}
+              <div className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] max-w-xs">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-[rgba(19,236,164,0.12)]">
+                  <span className="material-symbols-outlined text-[22px] text-[#13eca4]">
+                    family_restroom
+                  </span>
+                </div>
+                <div>
+                  <p className="text-white font-bold text-2xl leading-none">{parents.length}</p>
+                  <p className="text-slate-400 text-xs mt-0.5">Total Parents</p>
+                </div>
+              </div>
+
+              {/* Search */}
+              <div className="relative max-w-sm">
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">
+                  search
+                </span>
+                <input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by name or email…"
+                  className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                />
+              </div>
+
+              {/* Table */}
+              {filtered.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-20 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)]">
+                  <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
+                    family_restroom
+                  </span>
+                  <p className="text-white font-semibold mb-1">No parents found</p>
+                  <p className="text-slate-400 text-sm">
+                    {searchQuery
+                      ? "Try adjusting your search."
+                      : "No parent accounts have been registered yet."}
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[rgba(19,236,164,0.08)]">
+                        <th className="text-left px-5 py-3.5 text-slate-400 font-semibold text-xs uppercase tracking-wider">
+                          Name
+                        </th>
+                        <th className="text-left px-5 py-3.5 text-slate-400 font-semibold text-xs uppercase tracking-wider">
+                          Email
+                        </th>
+                        <th className="text-left px-5 py-3.5 text-slate-400 font-semibold text-xs uppercase tracking-wider">
+                          Children
+                        </th>
+                        <th className="text-left px-5 py-3.5 text-slate-400 font-semibold text-xs uppercase tracking-wider">
+                          Joined
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[rgba(19,236,164,0.05)]">
+                      {filtered.map((parent) => {
+                        const initials = parent.displayName
+                          ? parent.displayName
+                              .split(" ")
+                              .map((w) => w[0])
+                              .join("")
+                              .toUpperCase()
+                              .slice(0, 2)
+                          : "?";
+                        return (
+                          <tr
+                            key={parent.uid}
+                            className="hover:bg-[rgba(19,236,164,0.03)] transition-colors"
+                          >
+                            <td className="px-5 py-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center text-[#13eca4] text-xs font-bold shrink-0">
+                                  {initials}
+                                </div>
+                                <span className="text-white font-medium">
+                                  {parent.displayName || "—"}
+                                </span>
+                              </div>
+                            </td>
+                            <td className="px-5 py-4 text-slate-400">{parent.email || "—"}</td>
+                            <td className="px-5 py-4">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-[rgba(19,236,164,0.10)] text-[#13eca4]">
+                                <span className="material-symbols-outlined text-[12px]">
+                                  person
+                                </span>
+                                {parent.childIds?.length ?? 0}
+                              </span>
+                            </td>
+                            <td className="px-5 py-4 text-slate-400 text-xs">
+                              {formatDate(parent.createdAt)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}

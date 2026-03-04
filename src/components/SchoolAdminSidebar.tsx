@@ -16,10 +16,15 @@ const navItems = [
   { label: "Classrooms", href: "/school/admin/classrooms", icon: "school" },
   { label: "Analytics", href: "/school/admin/analytics", icon: "analytics" },
   { label: "Course Library", href: "/school/admin/library", icon: "library_books" },
+  { label: "Challenges", href: "/school/admin/challenges", icon: "emoji_events" },
+  { label: "Parents", href: "/school/admin/parents", icon: "family_restroom" },
   { label: "Integrations", href: "/school/admin/integrations", icon: "hub" },
 ];
 
-const bottomItems = [{ label: "Onboarding", href: "/onboarding", icon: "rocket_launch" }];
+const bottomItems = [
+  { label: "Onboarding", href: "/onboarding", icon: "rocket_launch" },
+  { label: "Settings", href: "/school/admin/settings", icon: "settings" },
+];
 
 export default function SchoolAdminSidebar() {
   const pathname = usePathname();

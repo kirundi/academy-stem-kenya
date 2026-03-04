@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { formatTimestamp } from "@/lib/timestamps";
+import { exportToCsv } from "@/lib/csv-export";
 import {
   ALL_PERMISSIONS,
   PERMISSION_LABELS,
@@ -53,6 +54,26 @@ const INCOMPATIBLE_PAIRS: [string, string][] = [
   ["editor", "content_reviewer"],
 ];
 
+const USER_EXPORT_COLS = [
+  { key: "displayName", label: "Name" },
+  { key: "email", label: "Email" },
+  { key: "role", label: "Role" },
+  { key: "school", label: "School" },
+  { key: "createdAt", label: "Joined" },
+  { key: "updatedAt", label: "Last Active" },
+  { key: "additionalRoles", label: "Additional Roles" },
+];
+
+const INVITE_EXPORT_COLS = [
+  { key: "displayName", label: "Name" },
+  { key: "email", label: "Email" },
+  { key: "role", label: "Role" },
+  { key: "invitedByName", label: "Invited By" },
+  { key: "invitedAt", label: "Sent" },
+  { key: "expiresAt", label: "Expires" },
+  { key: "status", label: "Status" },
+];
+
 type InviteRole = "admin" | "school_admin" | "teacher";
 
 interface ConfirmAction {
@@ -60,6 +81,18 @@ interface ConfirmAction {
   userId: string;
   userName: string;
   newRole?: string;
+}
+
+interface InviteRecord {
+  id: string;
+  email: string;
+  displayName: string;
+  role: string;
+  schoolId?: string | null;
+  invitedByName: string;
+  invitedAt: { seconds: number } | null;
+  expiresAt: string | null;
+  status: "pending" | "expired" | "accepted";
 }
 
 export default function UsersManagementPage() {
@@ -105,6 +138,24 @@ export default function UsersManagementPage() {
   const [permChecked, setPermChecked] = useState<Permission[]>([]);
   const [permSchoolIds, setPermSchoolIds] = useState<string[]>([]);
   const [permCustomized, setPermCustomized] = useState(false);
+
+  // Export modal state
+  const [showExport, setShowExport] = useState(false);
+  const [exportDataset, setExportDataset] = useState<"users" | "invites" | "both">("users");
+  const [exportUserCols, setExportUserCols] = useState<string[]>(
+    USER_EXPORT_COLS.map((c) => c.key)
+  );
+  const [exportInviteCols, setExportInviteCols] = useState<string[]>(
+    INVITE_EXPORT_COLS.map((c) => c.key)
+  );
+  const [exportRoleFilter, setExportRoleFilter] = useState("all");
+
+  // Invites tab state
+  const [activeTab, setActiveTab] = useState<"users" | "invites">("users");
+  const [invites, setInvites] = useState<InviteRecord[]>([]);
+  const [invitesLoading, setInvitesLoading] = useState(false);
+  const [inviteActionId, setInviteActionId] = useState<string | null>(null);
+  const [inviteIs409, setInviteIs409] = useState(false);
 
   if (loading) {
     return (
@@ -165,6 +216,7 @@ export default function UsersManagementPage() {
       });
       const data = await res.json();
       if (!res.ok) {
+        if (res.status === 409) setInviteIs409(true);
         setInviteError(data.error || "Failed to invite user");
       } else {
         setInviteResult({ email: data.email, inviteLink: data.inviteLink });
@@ -184,6 +236,7 @@ export default function UsersManagementPage() {
     setInviteSchoolId("");
     setInviteResult(null);
     setInviteError("");
+    setInviteIs409(false);
     setInviteShowAdvanced(false);
     setInvitePermissions([]);
     setInviteSchoolIds([]);
@@ -337,6 +390,124 @@ export default function UsersManagementPage() {
     return null;
   };
 
+  const loadInvites = async () => {
+    setInvitesLoading(true);
+    try {
+      const res = await fetch("/api/admin/invites");
+      const data = await res.json();
+      if (res.ok) setInvites(Array.isArray(data) ? data : []);
+    } catch {
+      // silently fail
+    } finally {
+      setInvitesLoading(false);
+    }
+  };
+
+  const handleResendInvite = async (email: string) => {
+    setInviteActionId(email);
+    try {
+      const res = await fetch("/api/admin/invite", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) await loadInvites();
+    } catch {
+      // silently fail
+    } finally {
+      setInviteActionId(null);
+    }
+  };
+
+  const handleRevokeInvite = async (inviteId: string) => {
+    setInviteActionId(inviteId);
+    try {
+      const res = await fetch("/api/admin/invites", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ inviteId }),
+      });
+      if (res.ok) await loadInvites();
+    } catch {
+      // silently fail
+    } finally {
+      setInviteActionId(null);
+    }
+  };
+
+  const handleResendFrom409 = async () => {
+    setInviteLoading(true);
+    try {
+      const res = await fetch("/api/admin/invite", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: inviteEmail }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setInviteResult({ email: data.email, inviteLink: data.inviteLink });
+        setInviteError("");
+        setInviteIs409(false);
+      } else {
+        setInviteError(data.error || "Failed to resend invite");
+      }
+    } catch {
+      setInviteError("Network error");
+    } finally {
+      setInviteLoading(false);
+    }
+  };
+
+  const handleExport = async () => {
+    const ts = (v: unknown) => {
+      if (!v) return "";
+      const sec = (v as { seconds?: number })?.seconds;
+      if (sec) return new Date(sec * 1000).toLocaleDateString("en-KE");
+      if (v instanceof Date) return v.toLocaleDateString("en-KE");
+      if (typeof v === "string") return new Date(v).toLocaleDateString("en-KE");
+      return "";
+    };
+
+    if (exportDataset === "users" || exportDataset === "both") {
+      const roleFiltered = exportRoleFilter === "all"
+        ? allUsers
+        : allUsers.filter((u) => u.role === exportRoleFilter);
+      const rows = roleFiltered.map((u) => ({
+        displayName: u.displayName ?? "",
+        email: u.email ?? "",
+        role: roleBadge[u.role] ?? u.role,
+        school: u.schoolId ? (schoolMap.get(u.schoolId) ?? u.schoolId) : "",
+        createdAt: ts(u.createdAt),
+        updatedAt: ts((u as unknown as Record<string, unknown>).updatedAt),
+        additionalRoles: ((u.additionalRoles ?? []) as string[]).map((r) => roleBadge[r] ?? r).join("; "),
+      }));
+      const cols = USER_EXPORT_COLS.filter((c) => exportUserCols.includes(c.key));
+      exportToCsv("users", rows, cols);
+    }
+
+    if (exportDataset === "invites" || exportDataset === "both") {
+      let inviteRows = invites;
+      if (inviteRows.length === 0) {
+        const res = await fetch("/api/admin/invites");
+        const data = await res.json();
+        inviteRows = Array.isArray(data) ? data : [];
+      }
+      const rows = inviteRows.map((inv) => ({
+        displayName: inv.displayName ?? "",
+        email: inv.email ?? "",
+        role: roleBadge[inv.role] ?? inv.role,
+        invitedByName: inv.invitedByName ?? "",
+        invitedAt: inv.invitedAt ? ts(inv.invitedAt) : "",
+        expiresAt: inv.expiresAt ? new Date(inv.expiresAt).toLocaleDateString("en-KE") : "",
+        status: inv.status,
+      }));
+      const cols = INVITE_EXPORT_COLS.filter((c) => exportInviteCols.includes(c.key));
+      exportToCsv("invites", rows, cols);
+    }
+
+    setShowExport(false);
+  };
+
   const togglePermission = (p: Permission) => {
     setPermChecked((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]));
     setPermCustomized(true);
@@ -350,7 +521,13 @@ export default function UsersManagementPage() {
           <p className="text-slate-400 text-xs mt-0.5">{allUsers.length} users on the platform</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button
+            onClick={() => {
+              setExportDataset(activeTab === "invites" ? "invites" : "users");
+              setShowExport(true);
+            }}
+            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+          >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export
           </button>
@@ -384,8 +561,43 @@ export default function UsersManagementPage() {
           ))}
         </div>
 
+        {/* Tab Switcher */}
+        <div className="flex gap-1 bg-[#1a2e27] p-1 rounded-xl border border-[rgba(19,236,164,0.08)] self-start">
+          <button
+            onClick={() => setActiveTab("users")}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+              activeTab === "users"
+                ? "bg-[#13eca4] text-[#10221c]"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            Active Users
+            <span className="ml-2 text-xs opacity-70">({allUsers.length})</span>
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab("invites");
+              if (invites.length === 0) loadInvites();
+            }}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${
+              activeTab === "invites"
+                ? "bg-[#13eca4] text-[#10221c]"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            Invites
+            {invites.filter((i) => i.status === "pending").length > 0 && (
+              <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${
+                activeTab === "invites" ? "bg-[#10221c] text-[#13eca4]" : "bg-[rgba(19,236,164,0.15)] text-[#13eca4]"
+              }`}>
+                {invites.filter((i) => i.status === "pending").length}
+              </span>
+            )}
+          </button>
+        </div>
+
         {/* Filters */}
-        <div className="flex flex-wrap items-center gap-4">
+        <div className={`flex flex-wrap items-center gap-4 ${activeTab !== "users" ? "hidden" : ""}`}>
           <div className="relative flex-1 max-w-md">
             <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
               search
@@ -418,7 +630,7 @@ export default function UsersManagementPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+        <div className={`bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden ${activeTab !== "users" ? "hidden" : ""}`}>
           <table className="w-full text-sm">
             <thead>
               <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
@@ -426,13 +638,14 @@ export default function UsersManagementPage() {
                 <th className="px-4 py-3 text-center font-medium">Role</th>
                 <th className="px-4 py-3 text-center font-medium">School</th>
                 <th className="px-4 py-3 text-center font-medium">Joined</th>
+                <th className="px-4 py-3 text-center font-medium">Last Active</th>
                 <th className="px-4 py-3 text-right font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                     No users found
                   </td>
                 </tr>
@@ -440,6 +653,7 @@ export default function UsersManagementPage() {
                 filtered.map((u, i) => {
                   const color = roleColors[u.role] ?? "#13eca4";
                   const joined = formatTimestamp(u.createdAt, "--");
+                  const lastActive = formatTimestamp((u as unknown as Record<string, unknown>).updatedAt, "--");
                   const modifiable = canModifyUser(u.role);
                   return (
                     <tr
@@ -492,6 +706,7 @@ export default function UsersManagementPage() {
                         {u.schoolId ? (schoolMap.get(u.schoolId) ?? "Unknown") : "--"}
                       </td>
                       <td className="px-4 py-4 text-center text-slate-400 text-xs">{joined}</td>
+                      <td className="px-4 py-4 text-center text-slate-400 text-xs">{lastActive}</td>
                       <td className="px-4 py-4 text-right relative">
                         <div className="flex items-center justify-end gap-1">
                           <button className="p-2 hover:bg-[rgba(19,236,164,0.08)] rounded-lg text-slate-400 hover:text-[#13eca4] transition-colors">
@@ -587,6 +802,151 @@ export default function UsersManagementPage() {
             </p>
           </div>
         </div>
+
+        {/* Invites Panel */}
+        {activeTab === "invites" && (
+          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+            <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.05)] flex items-center justify-between">
+              <div>
+                <h2 className="text-white font-bold">Sent Invites</h2>
+                <p className="text-slate-500 text-xs mt-0.5">
+                  {invites.filter((i) => i.status === "pending").length} pending ·{" "}
+                  {invites.filter((i) => i.status === "expired").length} expired ·{" "}
+                  {invites.filter((i) => i.status === "accepted").length} accepted
+                </p>
+              </div>
+              <button
+                onClick={loadInvites}
+                disabled={invitesLoading}
+                className="p-2 rounded-lg text-slate-400 hover:text-[#13eca4] hover:bg-[rgba(19,236,164,0.08)] transition-colors disabled:opacity-50"
+                title="Refresh"
+              >
+                <span className={`material-symbols-outlined text-[18px] ${invitesLoading ? "animate-spin" : ""}`}>
+                  refresh
+                </span>
+              </button>
+            </div>
+
+            {invitesLoading && invites.length === 0 ? (
+              <div className="flex items-center justify-center py-16">
+                <span className="material-symbols-outlined animate-spin text-3xl text-[#13eca4]">progress_activity</span>
+              </div>
+            ) : invites.length === 0 ? (
+              <div className="py-16 text-center">
+                <span className="material-symbols-outlined text-[48px] text-slate-600 block mb-3">mark_email_unread</span>
+                <p className="text-white font-semibold mb-1">No invites sent yet</p>
+                <p className="text-slate-500 text-sm">Invite users with the button above.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+                      <th className="px-6 py-3 text-left font-medium">Invitee</th>
+                      <th className="px-4 py-3 text-center font-medium">Role</th>
+                      <th className="px-4 py-3 text-center font-medium">Invited By</th>
+                      <th className="px-4 py-3 text-center font-medium">Sent</th>
+                      <th className="px-4 py-3 text-center font-medium">Expires</th>
+                      <th className="px-4 py-3 text-center font-medium">Status</th>
+                      <th className="px-4 py-3 text-right font-medium">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invites.map((inv, i) => {
+                      const color = roleColors[inv.role] ?? "#13eca4";
+                      const sentTs = inv.invitedAt ? new Date((inv.invitedAt as { seconds: number }).seconds * 1000) : null;
+                      const expiresTs = inv.expiresAt ? new Date(inv.expiresAt) : null;
+                      const statusConfig = {
+                        pending: { label: "Pending", color: "#f59e0b", bg: "rgba(245,158,11,0.1)" },
+                        expired: { label: "Expired", color: "#64748b", bg: "rgba(100,116,139,0.1)" },
+                        accepted: { label: "Accepted", color: "#10b981", bg: "rgba(16,185,129,0.1)" },
+                      }[inv.status] ?? { label: inv.status, color: "#64748b", bg: "rgba(100,116,139,0.1)" };
+
+                      const isActioning = inviteActionId === inv.email || inviteActionId === inv.id;
+
+                      return (
+                        <tr
+                          key={inv.id}
+                          className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              <div
+                                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                                style={{ background: `${color}15`, color }}
+                              >
+                                {inv.displayName?.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2) ?? "?"}
+                              </div>
+                              <div>
+                                <p className="text-white font-semibold">{inv.displayName}</p>
+                                <p className="text-slate-500 text-xs">{inv.email}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 text-center">
+                            <span
+                              className="text-xs font-bold px-2.5 py-1 rounded-full"
+                              style={{ color, background: `${color}18` }}
+                            >
+                              {roleBadge[inv.role] ?? inv.role}
+                            </span>
+                          </td>
+                          <td className="px-4 py-4 text-center text-slate-400 text-xs">{inv.invitedByName}</td>
+                          <td className="px-4 py-4 text-center text-slate-400 text-xs">
+                            {sentTs ? sentTs.toLocaleDateString("en-KE", { month: "short", day: "numeric", year: "numeric" }) : "—"}
+                          </td>
+                          <td className="px-4 py-4 text-center text-slate-400 text-xs">
+                            {expiresTs ? expiresTs.toLocaleDateString("en-KE", { month: "short", day: "numeric", year: "numeric" }) : "—"}
+                          </td>
+                          <td className="px-4 py-4 text-center">
+                            <span
+                              className="text-xs font-bold px-2.5 py-1 rounded-full"
+                              style={{ color: statusConfig.color, background: statusConfig.bg }}
+                            >
+                              {statusConfig.label}
+                            </span>
+                          </td>
+                          <td className="px-4 py-4 text-right">
+                            <div className="flex items-center justify-end gap-1">
+                              {inv.status !== "accepted" && (
+                                <button
+                                  onClick={() => handleResendInvite(inv.email)}
+                                  disabled={isActioning}
+                                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#13eca4] hover:bg-[rgba(19,236,164,0.08)] transition-colors disabled:opacity-50"
+                                  title="Resend invite"
+                                >
+                                  {isActioning ? (
+                                    <span className="material-symbols-outlined animate-spin text-[14px]">progress_activity</span>
+                                  ) : (
+                                    <span className="material-symbols-outlined text-[14px]">forward_to_inbox</span>
+                                  )}
+                                  Resend
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleRevokeInvite(inv.id)}
+                                disabled={isActioning}
+                                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-400 hover:bg-[rgba(239,68,68,0.08)] transition-colors disabled:opacity-50"
+                                title="Revoke invite"
+                              >
+                                {isActioning ? (
+                                  <span className="material-symbols-outlined animate-spin text-[14px]">progress_activity</span>
+                                ) : (
+                                  <span className="material-symbols-outlined text-[14px]">delete</span>
+                                )}
+                                Revoke
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Invite Modal */}
@@ -795,8 +1155,22 @@ export default function UsersManagementPage() {
                 )}
 
                 {inviteError && (
-                  <div className="bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-4 py-2.5">
+                  <div className="bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.2)] rounded-lg px-4 py-3">
                     <p className="text-[#ff4d4d] text-sm">{inviteError}</p>
+                    {inviteIs409 && (
+                      <button
+                        onClick={handleResendFrom409}
+                        disabled={inviteLoading}
+                        className="mt-2 flex items-center gap-1.5 text-xs font-bold text-[#13eca4] hover:opacity-80 transition-opacity disabled:opacity-50"
+                      >
+                        {inviteLoading ? (
+                          <span className="material-symbols-outlined animate-spin text-[14px]">progress_activity</span>
+                        ) : (
+                          <span className="material-symbols-outlined text-[14px]">forward_to_inbox</span>
+                        )}
+                        Resend the existing invite instead
+                      </button>
+                    )}
                   </div>
                 )}
 
@@ -1209,6 +1583,193 @@ export default function UsersManagementPage() {
                   : confirmAction.type === "delete"
                     ? "Delete"
                     : "Confirm"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Export Modal */}
+      {showExport && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+          onClick={() => setShowExport(false)}
+        >
+          <div
+            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-md shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+              <div>
+                <h2 className="text-white font-bold text-lg">Export Data</h2>
+                <p className="text-slate-400 text-xs mt-0.5">Downloads a CSV file to your device.</p>
+              </div>
+              <button
+                onClick={() => setShowExport(false)}
+                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+              >
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            <div className="px-6 py-5 space-y-5">
+              {/* Dataset */}
+              <div>
+                <label className="text-slate-400 text-xs font-medium block mb-2">Dataset</label>
+                <div className="flex gap-2">
+                  {(["users", "invites", "both"] as const).map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setExportDataset(d)}
+                      className={`flex-1 px-3 py-2 rounded-lg text-xs font-bold transition-colors border ${
+                        exportDataset === d
+                          ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)] text-[#13eca4]"
+                          : "border-[rgba(255,255,255,0.08)] text-slate-400 hover:text-white"
+                      }`}
+                    >
+                      {d === "both" ? "Both" : d === "users" ? "Active Users" : "Invites"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Columns — Users */}
+              {(exportDataset === "users" || exportDataset === "both") && (
+                <div>
+                  <label className="text-slate-400 text-xs font-medium block mb-2">
+                    User Columns
+                    <button
+                      onClick={() =>
+                        setExportUserCols(
+                          exportUserCols.length === USER_EXPORT_COLS.length
+                            ? []
+                            : USER_EXPORT_COLS.map((c) => c.key)
+                        )
+                      }
+                      className="ml-2 text-[#13eca4] hover:opacity-70 transition-opacity"
+                    >
+                      {exportUserCols.length === USER_EXPORT_COLS.length ? "Deselect all" : "Select all"}
+                    </button>
+                  </label>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {USER_EXPORT_COLS.map((col) => (
+                      <label
+                        key={col.key}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
+                          exportUserCols.includes(col.key)
+                            ? "border-[rgba(19,236,164,0.2)] bg-[rgba(19,236,164,0.04)]"
+                            : "border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.12)]"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={exportUserCols.includes(col.key)}
+                          onChange={() =>
+                            setExportUserCols((prev) =>
+                              prev.includes(col.key) ? prev.filter((k) => k !== col.key) : [...prev, col.key]
+                            )
+                          }
+                          className="accent-[#13eca4]"
+                        />
+                        <span className="text-white text-xs">{col.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Columns — Invites */}
+              {(exportDataset === "invites" || exportDataset === "both") && (
+                <div>
+                  <label className="text-slate-400 text-xs font-medium block mb-2">
+                    Invite Columns
+                    <button
+                      onClick={() =>
+                        setExportInviteCols(
+                          exportInviteCols.length === INVITE_EXPORT_COLS.length
+                            ? []
+                            : INVITE_EXPORT_COLS.map((c) => c.key)
+                        )
+                      }
+                      className="ml-2 text-[#13eca4] hover:opacity-70 transition-opacity"
+                    >
+                      {exportInviteCols.length === INVITE_EXPORT_COLS.length ? "Deselect all" : "Select all"}
+                    </button>
+                  </label>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {INVITE_EXPORT_COLS.map((col) => (
+                      <label
+                        key={col.key}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
+                          exportInviteCols.includes(col.key)
+                            ? "border-[rgba(19,236,164,0.2)] bg-[rgba(19,236,164,0.04)]"
+                            : "border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.12)]"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={exportInviteCols.includes(col.key)}
+                          onChange={() =>
+                            setExportInviteCols((prev) =>
+                              prev.includes(col.key) ? prev.filter((k) => k !== col.key) : [...prev, col.key]
+                            )
+                          }
+                          className="accent-[#13eca4]"
+                        />
+                        <span className="text-white text-xs">{col.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Role filter */}
+              {(exportDataset === "users" || exportDataset === "both") && (
+                <div>
+                  <label className="text-slate-400 text-xs font-medium block mb-1.5">Filter by Role</label>
+                  <select
+                    value={exportRoleFilter}
+                    onChange={(e) => setExportRoleFilter(e.target.value)}
+                    className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                  >
+                    <option value="all">All roles</option>
+                    {Object.entries(roleBadge).map(([key, label]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Preview */}
+              <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] rounded-xl px-4 py-3 flex items-center gap-3">
+                <span className="material-symbols-outlined text-[#13eca4] text-[20px]">table_chart</span>
+                <div className="text-xs text-slate-400">
+                  {exportDataset === "users" && (
+                    <>Exporting <span className="text-white font-bold">{exportRoleFilter === "all" ? allUsers.length : allUsers.filter((u) => u.role === exportRoleFilter).length}</span> users · <span className="text-white font-bold">{exportUserCols.length}</span> columns → <span className="text-[#13eca4] font-mono">users.csv</span></>
+                  )}
+                  {exportDataset === "invites" && (
+                    <>Exporting <span className="text-white font-bold">{invites.length > 0 ? invites.length : "all"}</span> invites · <span className="text-white font-bold">{exportInviteCols.length}</span> columns → <span className="text-[#13eca4] font-mono">invites.csv</span></>
+                  )}
+                  {exportDataset === "both" && (
+                    <>Two files: <span className="text-[#13eca4] font-mono">users.csv</span> + <span className="text-[#13eca4] font-mono">invites.csv</span></>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center gap-3">
+              <button
+                onClick={() => setShowExport(false)}
+                className="border border-[rgba(255,255,255,0.1)] text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleExport}
+                disabled={(exportDataset !== "invites" && exportUserCols.length === 0) || (exportDataset !== "users" && exportInviteCols.length === 0 && exportDataset === "invites")}
+                className="flex-1 flex items-center justify-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm py-2 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                <span className="material-symbols-outlined text-[18px]">download</span>
+                Download CSV
               </button>
             </div>
           </div>

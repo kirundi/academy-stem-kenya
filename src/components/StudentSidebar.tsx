@@ -14,6 +14,8 @@ const navItems = [
   { label: "My Progress", href: "/school/student/progress", icon: "insights" },
   { label: "Achievements", href: "/school/student/achievements", icon: "emoji_events" },
   { label: "Challenges", href: "/school/student/challenges", icon: "trophy" },
+  { label: "Leaderboard", href: "/school/student/leaderboard", icon: "leaderboard" },
+  { label: "Calendar", href: "/school/student/calendar", icon: "calendar_month" },
   { label: "Collaboration", href: "/school/student/collaboration", icon: "groups" },
   { label: "Settings", href: "/school/student/settings", icon: "settings" },
 ];

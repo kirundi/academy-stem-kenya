@@ -10,6 +10,8 @@ import NotificationBell from "./NotificationBell";
 const navItems = [
   { label: "User Lookup", href: "/support/dashboard", icon: "manage_search" },
   { label: "Schools", href: "/support/schools", icon: "domain" },
+  { label: "Activity Log", href: "/support/activity", icon: "timeline" },
+  { label: "Invites", href: "/support/invites", icon: "mail" },
   { label: "Settings", href: "/support/settings", icon: "settings" },
 ];
 

@@ -11,6 +11,7 @@ const navItems = [
   { label: "Dashboard", href: "/editor/dashboard", icon: "dashboard" },
   { label: "Courses", href: "/editor/courses", icon: "school" },
   { label: "Challenges", href: "/editor/challenges", icon: "emoji_events" },
+  { label: "Media Library", href: "/editor/media", icon: "photo_library" },
   { label: "Settings", href: "/editor/settings", icon: "settings" },
 ];
 

@@ -9,6 +9,8 @@ import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { label: "My Children", href: "/parent/dashboard", icon: "family_restroom" },
+  { label: "Progress Reports", href: "/parent/reports", icon: "bar_chart" },
+  { label: "Achievements", href: "/parent/achievements", icon: "emoji_events" },
   { label: "Settings", href: "/parent/settings", icon: "settings" },
 ];
 

@@ -10,6 +10,7 @@ import NotificationBell from "./NotificationBell";
 const navItems = [
   { label: "Pending Review", href: "/reviewer/dashboard", icon: "rate_review" },
   { label: "Published", href: "/reviewer/published", icon: "check_circle" },
+  { label: "History", href: "/reviewer/history", icon: "history" },
   { label: "Settings", href: "/reviewer/settings", icon: "settings" },
 ];
 

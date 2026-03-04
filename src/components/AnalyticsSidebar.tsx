@@ -12,6 +12,8 @@ const navItems = [
   { label: "Schools", href: "/analytics/schools", icon: "domain" },
   { label: "Users", href: "/analytics/users", icon: "group" },
   { label: "Courses", href: "/analytics/courses", icon: "school" },
+  { label: "Challenges", href: "/analytics/challenges", icon: "emoji_events" },
+  { label: "Reports", href: "/analytics/reports", icon: "download" },
   { label: "Settings", href: "/analytics/settings", icon: "settings" },
 ];
 

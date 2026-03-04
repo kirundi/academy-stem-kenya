@@ -9,6 +9,9 @@ import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { label: "School Overview", href: "/observer/dashboard", icon: "domain" },
+  { label: "Schools", href: "/observer/schools", icon: "domain" },
+  { label: "Courses", href: "/observer/courses", icon: "library_books" },
+  { label: "Reports", href: "/observer/reports", icon: "bar_chart" },
   { label: "Settings", href: "/observer/settings", icon: "settings" },
 ];
 

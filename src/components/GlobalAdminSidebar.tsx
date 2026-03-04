@@ -9,6 +9,7 @@ import NotificationBell from "./NotificationBell";
 
 const baseNavItems = [
   { href: "/dashboard", icon: "dashboard", label: "Overview" },
+  { href: "/dashboard/courses", icon: "school", label: "Courses" },
   { href: "/dashboard/schools", icon: "domain", label: "Schools" },
   { href: "/dashboard/content", icon: "library_books", label: "Content" },
   { href: "/dashboard/audit", icon: "fact_check", label: "Audit" },
@@ -18,6 +19,8 @@ const baseNavItems = [
   { href: "/dashboard/webhooks", icon: "webhook", label: "Webhooks" },
   { href: "/dashboard/developer", icon: "code", label: "Developer" },
   { href: "/dashboard/integrations", icon: "hub", label: "Integrations" },
+  { href: "/dashboard/teachers", icon: "person_book", label: "Teachers" },
+  { href: "/dashboard/challenges", icon: "emoji_events", label: "Challenges" },
 ];
 
 export default function GlobalAdminSidebar() {
@@ -73,7 +76,9 @@ export default function GlobalAdminSidebar() {
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         {navItems.map((item) => {
-          const active = pathname === item.href;
+          const active = item.href === "/dashboard"
+            ? pathname === "/dashboard"
+            : pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}

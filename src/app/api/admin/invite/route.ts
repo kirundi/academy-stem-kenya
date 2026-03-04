@@ -156,3 +156,87 @@ export async function GET() {
   const admins = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
   return NextResponse.json(admins);
 }
+
+/**
+ * PUT /api/admin/invite
+ * Body: { email } — revokes the existing pending invite for this email
+ *   and issues a brand-new one (fresh token, fresh 48h expiry, re-sends email).
+ * Requires invite_users permission.
+ */
+export async function PUT(request: NextRequest) {
+  const caller = await requirePermission("invite_users");
+  if (!caller) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const { email } = await request.json();
+  if (!email) return NextResponse.json({ error: "email required" }, { status: 400 });
+
+  // Find the existing pending invite
+  const existingSnap = await adminDb
+    .collection("invites")
+    .where("email", "==", email)
+    .where("status", "==", "pending")
+    .limit(1)
+    .get();
+
+  if (existingSnap.empty) {
+    return NextResponse.json({ error: "No pending invite found for this email" }, { status: 404 });
+  }
+
+  const existingDoc = existingSnap.docs[0];
+  const existingData = existingDoc.data();
+
+  // Delete the old invite
+  await existingDoc.ref.delete();
+
+  // Issue a new token
+  const token = crypto.randomBytes(32).toString("hex");
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+  const expiresAt = new Date(Date.now() + 48 * 60 * 60 * 1000);
+
+  const inviteDoc: Record<string, unknown> = {
+    email: existingData.email,
+    displayName: existingData.displayName,
+    role: existingData.role,
+    schoolId: existingData.schoolId ?? null,
+    invitedBy: caller.uid,
+    invitedByName: caller.displayName ?? "Administrator",
+    invitedAt: FieldValue.serverTimestamp(),
+    expiresAt,
+    status: "pending",
+  };
+  if (existingData.permissions) inviteDoc.permissions = existingData.permissions;
+  if (existingData.schoolIds) inviteDoc.schoolIds = existingData.schoolIds;
+
+  await adminDb.collection("invites").doc(tokenHash).set(inviteDoc);
+
+  await adminDb.collection("activities").add({
+    userId: caller.uid,
+    type: "invite_resent",
+    description: `Resent invite to ${existingData.displayName} (${existingData.email})`,
+    timestamp: FieldValue.serverTimestamp(),
+  });
+
+  const inviteLink = `${PLATFORM_URL}/accept-invite?token=${token}`;
+
+  try {
+    await sendInviteTokenEmail({
+      to: existingData.email,
+      name: existingData.displayName,
+      role: existingData.role,
+      inviteLink,
+      inviterName: caller.displayName ?? "Administrator",
+    });
+  } catch (emailErr) {
+    console.error("Failed to send resend invite email:", emailErr);
+  }
+
+  return NextResponse.json({
+    success: true,
+    email: existingData.email,
+    role: existingData.role,
+    inviteLink,
+    message: `Invite resent to ${existingData.email}`,
+  });
+}

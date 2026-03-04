@@ -9,6 +9,8 @@ import NotificationBell from "./NotificationBell";
 
 const navItems = [
   { label: "My Challenges", href: "/mentor/dashboard", icon: "emoji_events" },
+  { label: "Submissions", href: "/mentor/submissions", icon: "assignment_turned_in" },
+  { label: "Leaderboard", href: "/mentor/leaderboard", icon: "leaderboard" },
   { label: "Settings", href: "/mentor/settings", icon: "settings" },
 ];
 
