@@ -200,23 +200,23 @@ export default function DeveloperPortalPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#102022] flex flex-col">
+    <div className="min-h-screen bg-(--bg-page) flex flex-col">
       {/* Page Header */}
-      <div className="flex items-center justify-between px-6 py-3 border-b border-[#2d4548] bg-[#102022]">
+      <div className="flex items-center justify-between px-6 py-3 border-b border-(--border) bg-(--bg-page)">
         <div className="flex items-center gap-3">
           <span className="material-symbols-outlined text-[#13daec]">code</span>
-          <h1 className="text-white font-bold text-base">Developer Portal</h1>
+          <h1 className="text-(--text-base) font-bold text-base">Developer Portal</h1>
           <span className="px-2 py-0.5 bg-[#13daec]/10 text-[#13daec] text-[10px] font-bold rounded uppercase tracking-wider">
             API v2.4.0
           </span>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-sm">
               search
             </span>
             <input
-              className="bg-[#1a2e30] border border-[#2d4548] rounded-lg pl-10 pr-4 py-2 text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-[#13daec] w-56"
+              className="bg-(--bg-card) border border-(--border) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:ring-1 focus:ring-[#13daec] w-56"
               placeholder="Search docs..."
             />
           </div>
@@ -224,7 +224,7 @@ export default function DeveloperPortalPage() {
             href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-3 py-1.5 bg-[#1a2e30] border border-[#2d4548] text-slate-300 rounded-lg text-sm hover:border-[#13daec] transition-all"
+            className="flex items-center gap-2 px-3 py-1.5 bg-(--bg-card) border border-(--border) text-(--text-muted) rounded-lg text-sm hover:border-[#13daec] transition-all"
           >
             <span className="material-symbols-outlined text-base">description</span>
             GitHub
@@ -234,12 +234,12 @@ export default function DeveloperPortalPage() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar: Docs Navigation */}
-        <aside className="w-64 border-r border-[#2d4548] bg-[#102022] flex flex-col overflow-y-auto shrink-0">
+        <aside className="w-64 border-r border-(--border) bg-(--bg-page) flex flex-col overflow-y-auto shrink-0">
           <div className="p-5">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <p className="text-slate-100 text-sm font-semibold">API Documentation</p>
-                <p className="text-slate-500 text-xs font-mono">v2.4.0-stable</p>
+                <p className="text-(--text-base) text-sm font-semibold">API Documentation</p>
+                <p className="text-(--text-faint) text-xs font-mono">v2.4.0-stable</p>
               </div>
               <span className="px-2 py-1 rounded bg-[#13daec]/10 text-[#13daec] text-[10px] font-bold uppercase tracking-wider">
                 Public
@@ -252,7 +252,7 @@ export default function DeveloperPortalPage() {
                 return (
                   <div key={item.section}>
                     {showGroup && (
-                      <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest px-3 mb-1 mt-5">
+                      <p className="text-(--text-faint) text-[10px] font-bold uppercase tracking-widest px-3 mb-1 mt-5">
                         {item.group}
                       </p>
                     )}
@@ -261,7 +261,7 @@ export default function DeveloperPortalPage() {
                       className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-left group ${
                         activeSection === item.section
                           ? "bg-[#13daec]/10 text-[#13daec] border border-[#13daec]/20"
-                          : "text-slate-400 hover:bg-[#1a2e30] hover:text-slate-100"
+                          : "text-(--text-muted) hover:bg-(--bg-card) hover:text-(--text-base)"
                       }`}
                     >
                       <span
@@ -281,8 +281,8 @@ export default function DeveloperPortalPage() {
             </nav>
           </div>
 
-          <div className="mt-auto p-5 border-t border-[#2d4548]">
-            <button className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-[#1a2e30] text-slate-100 text-sm font-bold rounded-lg hover:bg-slate-700 transition-colors">
+          <div className="mt-auto p-5 border-t border-(--border)">
+            <button className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-(--bg-card) text-(--text-base) text-sm font-bold rounded-lg hover:bg-slate-700 transition-colors">
               <span className="material-symbols-outlined text-lg">code</span>
               API Reference
             </button>
@@ -290,26 +290,26 @@ export default function DeveloperPortalPage() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto bg-[#102022] p-8">
+        <main className="flex-1 overflow-y-auto bg-(--bg-page) p-8">
           <div className="max-w-5xl mx-auto">
             {/* Breadcrumbs */}
-            <nav className="flex items-center gap-2 text-sm text-slate-500 mb-6">
+            <nav className="flex items-center gap-2 text-sm text-(--text-faint) mb-6">
               <Link href="/dashboard/developer" className="hover:text-[#13daec] transition-colors">
                 Developer Portal
               </Link>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
-              <span className="text-slate-400">Documentation</span>
+              <span className="text-(--text-muted)">Documentation</span>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
-              <span className="text-slate-100">Google Classroom Sync</span>
+              <span className="text-(--text-base)">Google Classroom Sync</span>
             </nav>
 
             {/* Hero */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-10 border-b border-[#2d4548]">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-10 border-b border-(--border)">
               <div className="space-y-3">
-                <h1 className="text-white text-4xl font-extrabold tracking-tight">
+                <h1 className="text-(--text-base) text-4xl font-extrabold tracking-tight">
                   Google Classroom Sync API
                 </h1>
-                <p className="text-slate-400 text-lg max-w-2xl leading-relaxed">
+                <p className="text-(--text-muted) text-lg max-w-2xl leading-relaxed">
                   The Sync API allows schools to automate the synchronization of rosters,
                   assignments, and grades between STEM Impact Academy and Google Classroom.
                 </p>
@@ -317,17 +317,17 @@ export default function DeveloperPortalPage() {
                   <span className="px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold border border-emerald-500/20">
                     Stable
                   </span>
-                  <span className="text-slate-500 text-xs">Last updated Jan 24, 2024</span>
+                  <span className="text-(--text-faint) text-xs">Last updated Jan 24, 2024</span>
                 </div>
               </div>
-              <button className="flex items-center gap-2 px-4 py-2 bg-[#1a2e30] border border-[#2d4548] text-slate-100 rounded-lg hover:border-[#13daec] transition-all text-sm font-bold shrink-0">
+              <button className="flex items-center gap-2 px-4 py-2 bg-(--bg-card) border border-(--border) text-(--text-base) rounded-lg hover:border-[#13daec] transition-all text-sm font-bold shrink-0">
                 <span className="material-symbols-outlined text-lg">description</span>
                 View on GitHub
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="flex border-b border-[#2d4548] mb-10">
+            <div className="flex border-b border-(--border) mb-10">
               {(["overview", "endpoints", "try-it-out", "changelog"] as ActiveTab[]).map((tab) => (
                 <button
                   key={tab}
@@ -335,7 +335,7 @@ export default function DeveloperPortalPage() {
                   className={`px-6 py-4 font-bold text-sm capitalize transition-colors border-b-2 ${
                     activeTab === tab
                       ? "text-[#13daec] border-[#13daec]"
-                      : "text-slate-500 hover:text-slate-300 border-transparent"
+                      : "text-(--text-faint) hover:text-(--text-muted) border-transparent"
                   }`}
                 >
                   {tab === "try-it-out" ? "Try it Out" : tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -366,23 +366,23 @@ export default function DeveloperPortalPage() {
                   ].map(({ icon, label, desc }) => (
                     <div
                       key={label}
-                      className="p-5 rounded-xl bg-[#1a2e30] border border-[#2d4548]"
+                      className="p-5 rounded-xl bg-(--bg-card) border border-(--border)"
                     >
                       <span className="material-symbols-outlined text-[#13daec] text-3xl mb-3 block">
                         {icon}
                       </span>
-                      <h3 className="text-white font-bold mb-2">{label}</h3>
-                      <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
+                      <h3 className="text-(--text-base) font-bold mb-2">{label}</h3>
+                      <p className="text-(--text-muted) text-sm leading-relaxed">{desc}</p>
                     </div>
                   ))}
                 </div>
-                <div className="p-6 rounded-xl bg-[#1a2e30] border border-[#2d4548]">
-                  <h3 className="text-white font-bold mb-3">Base URL</h3>
-                  <div className="flex items-center gap-3 bg-[#102022] rounded-lg p-3 font-mono text-sm text-[#13daec]">
+                <div className="p-6 rounded-xl bg-(--bg-card) border border-(--border)">
+                  <h3 className="text-(--text-base) font-bold mb-3">Base URL</h3>
+                  <div className="flex items-center gap-3 bg-(--bg-page) rounded-lg p-3 font-mono text-sm text-[#13daec]">
                     <span>https://api.stemimpactacademy.org/api/v2</span>
                     <button
                       onClick={() => handleCopy("https://api.stemimpactacademy.org/api/v2", "base")}
-                      className="ml-auto text-slate-500 hover:text-[#13daec]"
+                      className="ml-auto text-(--text-faint) hover:text-[#13daec]"
                     >
                       <span className="material-symbols-outlined text-base">
                         {copied === "base" ? "check" : "content_copy"}
@@ -400,19 +400,19 @@ export default function DeveloperPortalPage() {
                 <div className="lg:col-span-7 space-y-12">
                   {ENDPOINTS.map((endpoint, i) => (
                     <section key={i}>
-                      <h3 className="text-white text-xl font-bold mb-3">
+                      <h3 className="text-(--text-base) text-xl font-bold mb-3">
                         {endpoint.method === "GET"
                           ? "Fetch Sync Status"
                           : endpoint.method === "POST"
                             ? "Trigger Manual Sync"
                             : "Disconnect Integration"}
                       </h3>
-                      <p className="text-slate-400 mb-5 leading-relaxed text-sm">
+                      <p className="text-(--text-muted) mb-5 leading-relaxed text-sm">
                         {endpoint.description}
                       </p>
 
                       {/* Endpoint Tag */}
-                      <div className="flex items-center gap-3 bg-[#1a2e30] p-3 rounded-lg border border-[#2d4548] mb-5">
+                      <div className="flex items-center gap-3 bg-(--bg-card) p-3 rounded-lg border border-(--border) mb-5">
                         <span
                           className={`px-2 py-1 text-[10px] font-bold rounded uppercase ${METHOD_COLORS[endpoint.method]}`}
                         >
@@ -423,7 +423,7 @@ export default function DeveloperPortalPage() {
                         </code>
                         <button
                           onClick={() => handleCopy(endpoint.path, `path-${i}`)}
-                          className="ml-auto text-slate-500 hover:text-[#13daec] shrink-0"
+                          className="ml-auto text-(--text-faint) hover:text-[#13daec] shrink-0"
                         >
                           <span className="material-symbols-outlined text-base">
                             {copied === `path-${i}` ? "check" : "content_copy"}
@@ -432,12 +432,12 @@ export default function DeveloperPortalPage() {
                       </div>
 
                       {/* Params Table */}
-                      <h4 className="text-slate-100 text-xs font-bold uppercase tracking-widest mb-3">
+                      <h4 className="text-(--text-base) text-xs font-bold uppercase tracking-widest mb-3">
                         Parameters
                       </h4>
-                      <div className="overflow-hidden rounded-xl border border-[#2d4548]">
+                      <div className="overflow-hidden rounded-xl border border-(--border)">
                         <table className="w-full text-left text-sm">
-                          <thead className="bg-[#1a2e30]/50 text-slate-400 border-b border-[#2d4548]">
+                          <thead className="bg-(--bg-card)/50 text-(--text-muted) border-b border-(--border)">
                             <tr>
                               <th className="px-4 py-3 font-semibold">Parameter</th>
                               <th className="px-4 py-3 font-semibold">Type</th>
@@ -449,15 +449,15 @@ export default function DeveloperPortalPage() {
                             {endpoint.params.map((p) => (
                               <tr key={p.name}>
                                 <td className="px-4 py-3 text-[#13daec] font-mono">{p.name}</td>
-                                <td className="px-4 py-3 text-slate-500">{p.type}</td>
+                                <td className="px-4 py-3 text-(--text-faint)">{p.type}</td>
                                 <td className="px-4 py-3">
                                   <span
-                                    className={`text-xs font-bold px-2 py-0.5 rounded ${p.required ? "bg-rose-500/10 text-rose-400" : "bg-slate-700 text-slate-400"}`}
+                                    className={`text-xs font-bold px-2 py-0.5 rounded ${p.required ? "bg-rose-500/10 text-rose-400" : "bg-slate-700 text-(--text-muted)"}`}
                                   >
                                     {p.required ? "required" : "optional"}
                                   </span>
                                 </td>
-                                <td className="px-4 py-3 text-slate-400">{p.description}</td>
+                                <td className="px-4 py-3 text-(--text-muted)">{p.description}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -467,7 +467,7 @@ export default function DeveloperPortalPage() {
                       {/* Status Codes */}
                       {i === 0 && (
                         <>
-                          <h4 className="text-slate-100 text-xs font-bold uppercase tracking-widest mt-6 mb-3">
+                          <h4 className="text-(--text-base) text-xs font-bold uppercase tracking-widest mt-6 mb-3">
                             Response Status Codes
                           </h4>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -505,8 +505,8 @@ export default function DeveloperPortalPage() {
                                   {code}
                                 </span>
                                 <div>
-                                  <p className="text-slate-200 text-sm font-bold">{label}</p>
-                                  <p className="text-slate-500 text-xs">{desc}</p>
+                                  <p className="text-(--text-base) text-sm font-bold">{label}</p>
+                                  <p className="text-(--text-faint) text-xs">{desc}</p>
                                 </div>
                               </div>
                             ))}
@@ -522,15 +522,15 @@ export default function DeveloperPortalPage() {
                   {ENDPOINTS.map((endpoint, i) => (
                     <div
                       key={i}
-                      className="rounded-xl overflow-hidden bg-[#0a1516] border border-[#2d4548] shadow-2xl"
+                      className="rounded-xl overflow-hidden bg-[#0a1516] border border-(--border) shadow-2xl"
                     >
-                      <div className="flex items-center justify-between px-4 py-3 bg-[#1a2e30] border-b border-[#2d4548]">
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                      <div className="flex items-center justify-between px-4 py-3 bg-(--bg-card) border-b border-(--border)">
+                        <span className="text-xs font-bold text-(--text-muted) uppercase tracking-widest">
                           JSON Response Example
                         </span>
                         <button
                           onClick={() => handleCopy(endpoint.responseExample, `resp-${i}`)}
-                          className="text-slate-500 hover:text-[#13daec] transition-colors"
+                          className="text-(--text-faint) hover:text-[#13daec] transition-colors"
                         >
                           <span className="material-symbols-outlined text-lg">
                             {copied === `resp-${i}` ? "check" : "content_copy"}
@@ -538,7 +538,7 @@ export default function DeveloperPortalPage() {
                         </button>
                       </div>
                       <div className="p-5 overflow-x-auto">
-                        <pre className="text-sm font-mono leading-relaxed text-slate-300 whitespace-pre-wrap">
+                        <pre className="text-sm font-mono leading-relaxed text-(--text-muted) whitespace-pre-wrap">
                           {endpoint.responseExample}
                         </pre>
                       </div>
@@ -546,15 +546,15 @@ export default function DeveloperPortalPage() {
                   ))}
 
                   {/* Support Card */}
-                  <div className="p-5 rounded-xl bg-[#1a2e30] border border-[#2d4548] flex items-center gap-4">
+                  <div className="p-5 rounded-xl bg-(--bg-card) border border-(--border) flex items-center gap-4">
                     <div className="size-12 rounded-full bg-[#13daec]/10 flex items-center justify-center shrink-0">
                       <span className="material-symbols-outlined text-[#13daec] text-2xl">
                         support_agent
                       </span>
                     </div>
                     <div>
-                      <h5 className="text-white text-sm font-bold">Need help integrating?</h5>
-                      <p className="text-slate-500 text-xs">
+                      <h5 className="text-(--text-base) text-sm font-bold">Need help integrating?</h5>
+                      <p className="text-(--text-faint) text-xs">
                         Contact our specialized developer support team for dedicated assistance.
                       </p>
                     </div>
@@ -567,8 +567,8 @@ export default function DeveloperPortalPage() {
             {activeTab === "try-it-out" && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="space-y-5">
-                  <div className="p-5 rounded-xl bg-[#1a2e30] border border-[#2d4548]">
-                    <h3 className="text-white font-bold mb-1">Fetch Sync Status</h3>
+                  <div className="p-5 rounded-xl bg-(--bg-card) border border-(--border)">
+                    <h3 className="text-(--text-base) font-bold mb-1">Fetch Sync Status</h3>
                     <div className="flex items-center gap-2 mb-4">
                       <span className="px-2 py-0.5 bg-emerald-500 text-background-dark text-[10px] font-bold rounded uppercase">
                         GET
@@ -579,25 +579,25 @@ export default function DeveloperPortalPage() {
                     </div>
                     <div className="space-y-4">
                       <div>
-                        <label className="block text-slate-400 text-xs font-bold uppercase mb-1.5">
+                        <label className="block text-(--text-muted) text-xs font-bold uppercase mb-1.5">
                           school_id *
                         </label>
                         <input
                           type="text"
                           value={tryItSchoolId}
                           onChange={(e) => setTryItSchoolId(e.target.value)}
-                          className="w-full bg-[#102022] border border-[#2d4548] rounded-lg px-4 py-2 text-slate-100 text-sm focus:border-[#13daec] focus:outline-none"
+                          className="w-full bg-(--bg-page) border border-(--border) rounded-lg px-4 py-2 text-(--text-base) text-sm focus:border-[#13daec] focus:outline-none"
                         />
                       </div>
                       <div>
-                        <label className="block text-slate-400 text-xs font-bold uppercase mb-1.5">
+                        <label className="block text-(--text-muted) text-xs font-bold uppercase mb-1.5">
                           Authorization Header
                         </label>
                         <input
                           type="password"
                           value={tryItAuth}
                           onChange={(e) => setTryItAuth(e.target.value)}
-                          className="w-full bg-[#102022] border border-[#2d4548] rounded-lg px-4 py-2 text-slate-100 text-sm focus:border-[#13daec] focus:outline-none"
+                          className="w-full bg-(--bg-page) border border-(--border) rounded-lg px-4 py-2 text-(--text-base) text-sm focus:border-[#13daec] focus:outline-none"
                         />
                       </div>
                       <button
@@ -639,11 +639,11 @@ export default function DeveloperPortalPage() {
                   </div>
                   <div className="p-5 min-h-70">
                     {tryItOutput ? (
-                      <pre className="text-sm font-mono text-slate-300 leading-relaxed whitespace-pre-wrap">
+                      <pre className="text-sm font-mono text-(--text-muted) leading-relaxed whitespace-pre-wrap">
                         {tryItOutput}
                       </pre>
                     ) : tryItLoading ? (
-                      <div className="flex items-center justify-center h-48 gap-2 text-slate-500">
+                      <div className="flex items-center justify-center h-48 gap-2 text-(--text-faint)">
                         <span className="material-symbols-outlined animate-spin">
                           progress_activity
                         </span>
@@ -651,7 +651,7 @@ export default function DeveloperPortalPage() {
                       </div>
                     ) : (
                       <div className="flex items-center justify-center h-48">
-                        <p className="text-slate-500 text-sm italic">Waiting for request...</p>
+                        <p className="text-(--text-faint) text-sm italic">Waiting for request...</p>
                       </div>
                     )}
                   </div>
@@ -665,19 +665,19 @@ export default function DeveloperPortalPage() {
                 {CHANGELOG.map((entry) => (
                   <div
                     key={entry.version}
-                    className="p-6 rounded-xl bg-[#1a2e30] border border-[#2d4548]"
+                    className="p-6 rounded-xl bg-(--bg-card) border border-(--border)"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-3">
                         <span className="px-3 py-1 bg-[#13daec]/10 text-[#13daec] text-sm font-bold rounded-lg border border-[#13daec]/20">
                           {entry.version}
                         </span>
-                        <span className="text-slate-500 text-sm">{entry.date}</span>
+                        <span className="text-(--text-faint) text-sm">{entry.date}</span>
                       </div>
                     </div>
                     <ul className="space-y-2">
                       {entry.changes.map((change, i) => (
-                        <li key={i} className="flex items-start gap-2 text-slate-300 text-sm">
+                        <li key={i} className="flex items-start gap-2 text-(--text-muted) text-sm">
                           <span className="material-symbols-outlined text-[#13daec] text-base mt-0.5">
                             check_circle
                           </span>
@@ -691,17 +691,17 @@ export default function DeveloperPortalPage() {
             )}
 
             {/* Footer Navigation */}
-            <div className="mt-20 pt-10 border-t border-[#2d4548] flex justify-between items-center pb-8">
+            <div className="mt-20 pt-10 border-t border-(--border) flex justify-between items-center pb-8">
               <button className="group flex flex-col items-start gap-1 max-w-50">
-                <span className="text-slate-500 text-xs font-bold uppercase">Previous</span>
-                <div className="flex items-center gap-2 text-slate-400 group-hover:text-[#13daec] transition-colors">
+                <span className="text-(--text-faint) text-xs font-bold uppercase">Previous</span>
+                <div className="flex items-center gap-2 text-(--text-muted) group-hover:text-[#13daec] transition-colors">
                   <span className="material-symbols-outlined">arrow_back</span>
                   <span className="font-bold">Authentication</span>
                 </div>
               </button>
               <button className="group flex flex-col items-end gap-1 max-w-50 text-right">
-                <span className="text-slate-500 text-xs font-bold uppercase">Next</span>
-                <div className="flex items-center gap-2 text-slate-400 group-hover:text-[#13daec] transition-colors">
+                <span className="text-(--text-faint) text-xs font-bold uppercase">Next</span>
+                <div className="flex items-center gap-2 text-(--text-muted) group-hover:text-[#13daec] transition-colors">
                   <span className="font-bold">Webhooks</span>
                   <span className="material-symbols-outlined">arrow_forward</span>
                 </div>

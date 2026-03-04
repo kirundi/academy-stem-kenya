@@ -49,10 +49,10 @@ export default function AuditLogPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Audit Log</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Audit Log</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             Platform-wide activity trail · {activities.length} events
           </p>
@@ -65,7 +65,7 @@ export default function AuditLogPage() {
               { key: "user", label: "User" }, { key: "type", label: "Type" },
               { key: "description", label: "Description" }, { key: "timestamp", label: "Timestamp" },
             ])}
-            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Logs
@@ -83,14 +83,14 @@ export default function AuditLogPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by user, action, or description..."
-            className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+            className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
           />
         </div>
 
         {/* Activity Timeline */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.06)]">
-            <h2 className="text-white font-bold">Activity Timeline</h2>
+            <h2 className="text-(--text-base) font-bold">Activity Timeline</h2>
             <p className="text-slate-500 text-xs mt-0.5">
               Showing {filtered.length} of {activities.length} events
             </p>
@@ -120,7 +120,7 @@ export default function AuditLogPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-slate-300">
-                        <span className="font-bold text-white">{userName}</span> {a.description}
+                        <span className="font-bold text-(--text-base)">{userName}</span> {a.description}
                       </p>
                       <div className="flex items-center gap-3 mt-1">
                         <span

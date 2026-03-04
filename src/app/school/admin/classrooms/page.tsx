@@ -111,19 +111,19 @@ export default function ClassroomsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-14 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-14 flex items-center justify-between">
         <div className="flex items-center gap-4 flex-1">
           <div className="relative max-w-md w-full">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
               search
             </span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search teachers or classes..."
-              className="w-full bg-[#1a2e27] border-none rounded-lg py-1.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
+              className="w-full bg-(--bg-card) border-none rounded-lg py-1.5 pl-10 pr-4 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
             />
           </div>
         </div>
@@ -141,23 +141,23 @@ export default function ClassroomsPage() {
       <main className="max-w-7xl mx-auto px-8 py-8 space-y-8">
         {/* Page Title */}
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-white mb-2">
+          <h1 className="text-3xl font-black tracking-tight text-(--text-base) mb-2">
             Classroom Setup &amp; Code Configuration
           </h1>
-          <p className="text-slate-400 text-base">
+          <p className="text-(--text-muted) text-base">
             Manage and distribute unique access codes for teacher classrooms across the district.
           </p>
         </div>
 
         {/* Stats */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] p-6 rounded-xl">
-            <p className="text-slate-400 text-sm font-medium mb-1">Total Classrooms</p>
-            <p className="text-3xl font-bold text-white">{classrooms.length}</p>
+          <div className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-xl">
+            <p className="text-(--text-muted) text-sm font-medium mb-1">Total Classrooms</p>
+            <p className="text-3xl font-bold text-(--text-base)">{classrooms.length}</p>
           </div>
-          <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] p-6 rounded-xl">
-            <p className="text-slate-400 text-sm font-medium mb-1">Active Codes</p>
-            <p className="text-3xl font-bold text-white">{activeCodes}</p>
+          <div className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-xl">
+            <p className="text-(--text-muted) text-sm font-medium mb-1">Active Codes</p>
+            <p className="text-3xl font-bold text-(--text-base)">{activeCodes}</p>
             <div className="mt-2 text-xs text-[#13eca4] flex items-center gap-1">
               <span className="material-symbols-outlined text-xs">check_circle</span>
               {classrooms.length > 0
@@ -166,10 +166,10 @@ export default function ClassroomsPage() {
               utilization
             </div>
           </div>
-          <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] p-6 rounded-xl">
-            <p className="text-slate-400 text-sm font-medium mb-1">Expired Codes</p>
+          <div className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-xl">
+            <p className="text-(--text-muted) text-sm font-medium mb-1">Expired Codes</p>
             <p className="text-3xl font-bold text-red-400">{expiredCodes}</p>
-            <div className="mt-2 text-xs text-slate-500 flex items-center gap-1">
+            <div className="mt-2 text-xs text-(--text-faint) flex items-center gap-1">
               <span className="material-symbols-outlined text-xs">info</span>
               Renewal required
             </div>
@@ -177,9 +177,9 @@ export default function ClassroomsPage() {
         </section>
 
         {/* Global Configuration */}
-        <section className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] p-6 rounded-xl">
+        <section className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-xl">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <h2 className="text-lg font-bold text-(--text-base) flex items-center gap-2">
               <span className="material-symbols-outlined text-[#13eca4]">settings_suggest</span>
               Global Configuration
             </h2>
@@ -196,12 +196,12 @@ export default function ClassroomsPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300">Set Custom School Prefix</label>
+              <label className="text-sm font-medium text-(--text-muted)">Set Custom School Prefix</label>
               <div className="flex gap-2">
                 <input
                   value={pendingPrefix}
                   onChange={(e) => setPendingPrefix(e.target.value.toUpperCase())}
-                  className="flex-1 bg-[#10221c] border border-[rgba(19,236,164,0.15)] rounded-lg px-3 py-2 text-sm text-white uppercase focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
+                  className="flex-1 bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-sm text-(--text-base) uppercase focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
                 />
                 <button
                   onClick={() => setPrefix(pendingPrefix)}
@@ -212,11 +212,11 @@ export default function ClassroomsPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300">Auto-generation Mode</label>
+              <label className="text-sm font-medium text-(--text-muted)">Auto-generation Mode</label>
               <select
                 value={codeMode}
                 onChange={(e) => setCodeMode(e.target.value)}
-                className="w-full bg-[#10221c] border border-[rgba(19,236,164,0.15)] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
+                className="w-full bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-sm text-(--text-base) focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
               >
                 <option>Alphanumeric (8 chars)</option>
                 <option>Numeric (6 chars)</option>
@@ -236,14 +236,14 @@ export default function ClassroomsPage() {
         </section>
 
         {/* Table */}
-        <section className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
-            <h3 className="font-bold text-white">Classrooms &amp; Code Registry</h3>
+        <section className="bg-(--bg-card) border border-(--border-subtle) rounded-xl overflow-hidden">
+          <div className="px-6 py-4 border-b border-(--border-subtle) flex items-center justify-between">
+            <h3 className="font-bold text-(--text-base)">Classrooms &amp; Code Registry</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="text-xs font-semibold text-slate-400 uppercase bg-[rgba(0,0,0,0.2)]">
+                <tr className="text-xs font-semibold text-(--text-muted) uppercase bg-[rgba(0,0,0,0.2)]">
                   <th className="px-6 py-4">Teacher</th>
                   <th className="px-6 py-4">Classroom Name</th>
                   <th className="px-6 py-4">Grade</th>
@@ -255,7 +255,7 @@ export default function ClassroomsPage() {
               <tbody className="divide-y divide-[rgba(255,255,255,0.04)]">
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                    <td colSpan={6} className="px-6 py-12 text-center text-(--text-faint)">
                       {classrooms.length === 0
                         ? "No classrooms yet. Create one above."
                         : "No classrooms found."}
@@ -284,11 +284,11 @@ export default function ClassroomsPage() {
                             <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] text-xs font-bold shrink-0">
                               {teacherInitials}
                             </div>
-                            <span className="text-sm font-medium text-white">{teacherName}</span>
+                            <span className="text-sm font-medium text-(--text-base)">{teacherName}</span>
                           </div>
                         </td>
-                        <td className="px-6 py-4 text-sm text-slate-300">{c.name}</td>
-                        <td className="px-6 py-4 text-sm text-slate-400">{c.grade}</td>
+                        <td className="px-6 py-4 text-sm text-(--text-muted)">{c.name}</td>
+                        <td className="px-6 py-4 text-sm text-(--text-muted)">{c.grade}</td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2 group">
                             <input
@@ -309,7 +309,7 @@ export default function ClassroomsPage() {
                             ) : (
                               <button
                                 onClick={() => regenerateCode(c.id)}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-[#13eca4]"
+                                className="opacity-0 group-hover:opacity-100 transition-opacity text-(--text-muted) hover:text-[#13eca4]"
                                 title="Regenerate code"
                               >
                                 <span className="material-symbols-outlined text-base">refresh</span>
@@ -319,7 +319,7 @@ export default function ClassroomsPage() {
                               <button
                                 onClick={() => saveCode(c.id)}
                                 disabled={savingCode === c.id}
-                                className="text-xs font-bold text-[#13eca4] border border-[rgba(19,236,164,0.3)] px-2 py-0.5 rounded hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                                className="text-xs font-bold text-[#13eca4] border border-(--border-strong) px-2 py-0.5 rounded hover:bg-[rgba(19,236,164,0.1)] transition-colors"
                               >
                                 {savingCode === c.id ? "..." : "Save"}
                               </button>
@@ -340,7 +340,7 @@ export default function ClassroomsPage() {
                         <td className="px-6 py-4 text-right">
                           <button
                             onClick={() => navigator.clipboard.writeText(code)}
-                            className="text-slate-400 hover:text-[#13eca4] transition-colors"
+                            className="text-(--text-muted) hover:text-[#13eca4] transition-colors"
                             title="Copy code"
                           >
                             <span className="material-symbols-outlined text-base">
@@ -357,7 +357,7 @@ export default function ClassroomsPage() {
           </div>
 
           {/* Pagination info */}
-          <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between text-xs text-slate-400">
+          <div className="px-6 py-4 border-t border-(--border-subtle) flex items-center justify-between text-xs text-(--text-muted)">
             <span>
               Showing {filtered.length} of {classrooms.length} classrooms
             </span>
@@ -368,9 +368,9 @@ export default function ClassroomsPage() {
       {/* Create Class Modal */}
       {showCreate && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.12)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
-            <h2 className="text-white font-bold text-lg mb-1">Create New Classroom</h2>
-            <p className="text-slate-400 text-sm mb-5">
+          <div className="bg-(--bg-card) border border-(--border-medium) rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <h2 className="text-(--text-base) font-bold text-lg mb-1">Create New Classroom</h2>
+            <p className="text-(--text-muted) text-sm mb-5">
               A join code will be automatically generated.
             </p>
             {createError && (
@@ -380,7 +380,7 @@ export default function ClassroomsPage() {
             )}
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                   Class Name <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -388,12 +388,12 @@ export default function ClassroomsPage() {
                   placeholder="e.g. Robotics 101-A"
                   value={createForm.name}
                   onChange={(e) => setCreateForm((f) => ({ ...f, name: e.target.value }))}
-                  className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                  className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                     Subject
                   </label>
                   <input
@@ -401,11 +401,11 @@ export default function ClassroomsPage() {
                     placeholder="e.g. Robotics"
                     value={createForm.subject}
                     onChange={(e) => setCreateForm((f) => ({ ...f, subject: e.target.value }))}
-                    className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                    className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                     Grade
                   </label>
                   <input
@@ -413,19 +413,19 @@ export default function ClassroomsPage() {
                     placeholder="e.g. Grade 8"
                     value={createForm.grade}
                     onChange={(e) => setCreateForm((f) => ({ ...f, grade: e.target.value }))}
-                    className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                    className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                   />
                 </div>
               </div>
               {teachers.length > 0 && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                  <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                     Assign Teacher
                   </label>
                   <select
                     value={createForm.teacherId}
                     onChange={(e) => setCreateForm((f) => ({ ...f, teacherId: e.target.value }))}
-                    className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)]"
+                    className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong)"
                   >
                     <option value="">Select a teacher...</option>
                     {teachers.map((t) => {
@@ -447,7 +447,7 @@ export default function ClassroomsPage() {
                   setCreateForm({ name: "", subject: "", grade: "", teacherId: "" });
                   setCreateError("");
                 }}
-                className="flex-1 border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-semibold py-2.5 rounded-xl hover:border-[rgba(255,255,255,0.2)] transition-colors"
+                className="flex-1 border border-(--border-subtle) text-(--text-muted) text-sm font-semibold py-2.5 rounded-xl hover:border-(--border-accent) transition-colors"
               >
                 Cancel
               </button>

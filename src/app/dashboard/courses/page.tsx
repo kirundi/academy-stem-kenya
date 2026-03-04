@@ -65,17 +65,17 @@ export default function AdminCoursesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Courses</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Courses</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             {courses.length} total · {published.length} published
           </p>
         </div>
         <Link
           href="/dashboard/courses/create/step1"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm text-white transition-opacity hover:opacity-90"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm text-(--text-base) transition-opacity hover:opacity-90"
           style={{ background: "#13eca4", color: "#0d1f1a" }}
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
@@ -98,7 +98,7 @@ export default function AdminCoursesPage() {
           ].map(({ label, value, color, icon }) => (
             <div
               key={label}
-              className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] cursor-pointer hover:border-[rgba(19,236,164,0.2)] transition-colors"
+              className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] cursor-pointer hover:border-[rgba(19,236,164,0.2)] transition-colors"
               onClick={() =>
                 setFilterStatus(
                   Object.entries(STATUS_CONFIG).find(([, v]) => v.label === label)?.[0] ?? "all"
@@ -114,7 +114,7 @@ export default function AdminCoursesPage() {
                 </span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
@@ -131,7 +131,7 @@ export default function AdminCoursesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title or category…"
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
             />
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -159,11 +159,11 @@ export default function AdminCoursesPage() {
         {/* Course list */}
         <div className="space-y-3">
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)]">
+            <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)]">
               <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
                 library_books
               </span>
-              <p className="text-white font-semibold mb-1">No courses found</p>
+              <p className="text-(--text-base) font-semibold mb-1">No courses found</p>
               <p className="text-slate-400 text-sm mb-4">
                 {searchQuery || filterStatus !== "all"
                   ? "Try adjusting your filters."
@@ -187,7 +187,7 @@ export default function AdminCoursesPage() {
               return (
                 <div
                   key={course.id}
-                  className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(19,236,164,0.2)] transition-colors group"
+                  className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(19,236,164,0.2)] transition-colors group"
                 >
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-2xl"
@@ -198,7 +198,7 @@ export default function AdminCoursesPage() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-white font-bold text-sm">{course.title}</h3>
+                      <h3 className="text-(--text-base) font-bold text-sm">{course.title}</h3>
                       <span
                         className="text-[10px] font-bold px-2 py-0.5 rounded-full"
                         style={{ background: `${diffColor}18`, color: diffColor }}
@@ -245,7 +245,7 @@ export default function AdminCoursesPage() {
                       </Link>
                       <Link
                         href={`/dashboard/courses/create/preview?id=${course.id}`}
-                        className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                        className="p-2 rounded-lg text-slate-400 hover:text-(--text-base) hover:bg-slate-800 transition-colors"
                         title="Preview"
                       >
                         <span className="material-symbols-outlined text-[18px]">visibility</span>

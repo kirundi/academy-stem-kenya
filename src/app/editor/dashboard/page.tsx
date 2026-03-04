@@ -52,19 +52,19 @@ export default function EditorDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(236,72,153,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Content Dashboard</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">Content Dashboard</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {courses.length} total courses · {pendingReview.length} pending review
           </p>
         </div>
         <div className="flex items-center gap-3">
           <Link
             href="/editor/courses/new"
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#ec4899] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#ec4899] text-(--text-base) text-sm font-semibold hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             New Course
@@ -86,7 +86,7 @@ export default function EditorDashboard() {
           ].map(({ label, value, icon, color }) => (
             <div
               key={label}
-              className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(236,72,153,0.08)]"
+              className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(236,72,153,0.08)]"
             >
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -95,28 +95,28 @@ export default function EditorDashboard() {
                 <span className="material-symbols-outlined text-[22px]" style={{ color }}>{icon}</span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Quick action card */}
-        <div className="relative bg-[#1a2e27] rounded-2xl border border-[rgba(236,72,153,0.15)] p-6 mb-8 overflow-hidden">
+        <div className="relative bg-(--bg-card) rounded-2xl border border-[rgba(236,72,153,0.15)] p-6 mb-8 overflow-hidden">
           <div className="absolute -right-8 -bottom-8 w-40 h-40 border-2 border-[rgba(236,72,153,0.08)] rounded-full" />
           <div className="relative z-10 flex items-center justify-between">
             <div>
               <p className="text-[#ec4899] text-sm font-semibold mb-1 uppercase tracking-widest">Content Editor</p>
-              <h2 className="text-white font-bold text-xl mb-1">Welcome, {displayName.split(" ")[0]}</h2>
-              <p className="text-slate-400 text-sm max-w-md">
+              <h2 className="text-(--text-base) font-bold text-xl mb-1">Welcome, {displayName.split(" ")[0]}</h2>
+              <p className="text-(--text-muted) text-sm max-w-md">
                 You can create and manage platform-wide courses and challenges. Submit courses for review when they&apos;re ready to publish.
               </p>
             </div>
             <div className="flex gap-3 shrink-0">
               <Link
                 href="/editor/courses/new"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#ec4899] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#ec4899] text-(--text-base) text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 <span className="material-symbols-outlined text-[18px]">add</span>
                 New Course
@@ -133,9 +133,9 @@ export default function EditorDashboard() {
         </div>
 
         {/* Courses table */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(236,72,153,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(236,72,153,0.08)] overflow-hidden">
           <div className="px-6 py-4 border-b border-white/[0.05] flex items-center justify-between">
-            <h2 className="text-white font-bold text-sm flex items-center gap-2">
+            <h2 className="text-(--text-base) font-bold text-sm flex items-center gap-2">
               <span className="material-symbols-outlined text-[#ec4899] text-[18px]">school</span>
               All Courses
             </h2>
@@ -143,12 +143,12 @@ export default function EditorDashboard() {
 
           {courses.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16">
-              <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">school</span>
-              <p className="text-white font-semibold mb-1">No courses yet</p>
-              <p className="text-slate-400 text-sm mb-4">Create your first course to get started.</p>
+              <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-3">school</span>
+              <p className="text-(--text-base) font-semibold mb-1">No courses yet</p>
+              <p className="text-(--text-muted) text-sm mb-4">Create your first course to get started.</p>
               <Link
                 href="/editor/courses/new"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#ec4899] text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#ec4899] text-(--text-base) text-sm font-semibold hover:opacity-90 transition-opacity"
               >
                 <span className="material-symbols-outlined text-[18px]">add</span>
                 Create Course
@@ -174,7 +174,7 @@ export default function EditorDashboard() {
                     {/* Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="text-white font-medium text-sm truncate">{course.title}</p>
+                        <p className="text-(--text-base) font-medium text-sm truncate">{course.title}</p>
                         <span
                           className="text-[10px] font-bold px-1.5 py-0.5 rounded-full shrink-0"
                           style={{ background: `${diffColor}18`, color: diffColor }}
@@ -182,7 +182,7 @@ export default function EditorDashboard() {
                           {course.difficulty}
                         </span>
                       </div>
-                      <div className="flex items-center gap-3 mt-0.5 text-[11px] text-slate-500">
+                      <div className="flex items-center gap-3 mt-0.5 text-[11px] text-(--text-faint)">
                         <span>{course.category}</span>
                         <span>·</span>
                         <span>{course.totalLessons} lessons</span>
@@ -208,14 +208,14 @@ export default function EditorDashboard() {
                     <div className="flex items-center gap-2 shrink-0">
                       <Link
                         href={`/editor/courses/${course.id}`}
-                        className="p-2 rounded-lg bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(236,72,153,0.1)] text-slate-400 hover:text-[#ec4899] transition-all"
+                        className="p-2 rounded-lg bg-(--glass-bg) hover:bg-[rgba(236,72,153,0.1)] text-(--text-muted) hover:text-[#ec4899] transition-all"
                         title="Edit course"
                       >
                         <span className="material-symbols-outlined text-[16px]">edit</span>
                       </Link>
                       <Link
                         href={`/editor/courses/${course.id}/lessons`}
-                        className="p-2 rounded-lg bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(236,72,153,0.1)] text-slate-400 hover:text-[#ec4899] transition-all"
+                        className="p-2 rounded-lg bg-(--glass-bg) hover:bg-[rgba(236,72,153,0.1)] text-(--text-muted) hover:text-[#ec4899] transition-all"
                         title="Manage lessons"
                       >
                         <span className="material-symbols-outlined text-[16px]">list</span>

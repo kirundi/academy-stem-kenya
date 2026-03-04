@@ -54,12 +54,12 @@ export default function CourseCard({
 
   return (
     <div
-      className={`group bg-[#1a2e27] border rounded-2xl overflow-hidden transition-all duration-300 flex flex-col relative ${
+      className={`group bg-(--bg-card) border rounded-2xl overflow-hidden transition-all duration-300 flex flex-col relative ${
         locked
-          ? "border-[rgba(255,255,255,0.06)] opacity-75 hover:opacity-100"
+          ? "border-(--border-subtle) opacity-75 hover:opacity-100"
           : completed
             ? "border-[rgba(0,245,212,0.2)] hover:border-[rgba(0,245,212,0.4)] hover:shadow-xl hover:shadow-[rgba(0,245,212,0.06)]"
-            : "border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.3)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.06)]"
+            : "border-(--border-subtle) hover:border-[rgba(19,236,164,0.3)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.06)]"
       }`}
     >
       {/* Completed / Locked overlay badge */}
@@ -75,18 +75,18 @@ export default function CourseCard({
         </div>
       )}
       {locked && (
-        <div className="absolute inset-0 flex items-center justify-center z-10 bg-[#0d1f1a]/60 rounded-2xl">
+        <div className="absolute inset-0 flex items-center justify-center z-10 bg-(--bg-sidebar)/60 rounded-2xl">
           <div className="text-center">
-            <span className="material-symbols-outlined text-slate-500 text-[40px] block mb-2">
+            <span className="material-symbols-outlined text-(--text-faint) text-[40px] block mb-2">
               lock
             </span>
-            <p className="text-slate-500 text-xs font-semibold">Complete Prerequisites</p>
+            <p className="text-(--text-faint) text-xs font-semibold">Complete Prerequisites</p>
           </div>
         </div>
       )}
 
       {/* Image */}
-      <div className="relative h-44 overflow-hidden bg-[#0d1f1a]">
+      <div className="relative h-44 overflow-hidden bg-(--bg-sidebar)">
         {image ? (
           <Image
             src={image}
@@ -113,7 +113,7 @@ export default function CourseCard({
             style={{ background: `linear-gradient(135deg, ${completedColor}15, transparent)` }}
           />
         )}
-        <div className="absolute inset-0 bg-linear-to-t from-[#0d1f1a]/80 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 to-transparent" />
         <span
           className="absolute bottom-3 left-3 text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wider text-white"
           style={{
@@ -139,16 +139,16 @@ export default function CourseCard({
       {/* Content */}
       <div className="p-5 flex-1 flex flex-col">
         <h3
-          className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-white group-hover:text-[#13eca4]"}`}
+          className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-(--text-base) group-hover:text-[#13eca4]"}`}
         >
           {title}
         </h3>
-        <p className="text-slate-400 text-sm leading-relaxed mb-5 flex-1">{description}</p>
+        <p className="text-(--text-muted) text-sm leading-relaxed mb-5 flex-1">{description}</p>
 
         {/* Progress */}
         <div className="mb-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-slate-500">
+            <span className="text-xs font-semibold text-(--text-faint)">
               {completedLessons !== undefined && totalLessons !== undefined
                 ? `${completedLessons}/${totalLessons} lessons`
                 : "Progress"}
@@ -160,7 +160,7 @@ export default function CourseCard({
               {progress}%
             </span>
           </div>
-          <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-(--border) rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
@@ -176,7 +176,7 @@ export default function CourseCard({
         {locked ? (
           <button
             disabled
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[rgba(255,255,255,0.05)] text-slate-600 font-bold rounded-xl text-sm cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-(--bg-elevated) text-(--text-faint) font-bold rounded-xl text-sm cursor-not-allowed"
           >
             <span className="material-symbols-outlined text-[18px]">lock</span>
             Complete Prerequisites

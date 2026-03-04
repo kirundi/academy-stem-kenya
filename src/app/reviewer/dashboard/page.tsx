@@ -81,12 +81,12 @@ export default function ReviewerDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Toast */}
       {toast && (
         <div
           className={`fixed top-5 right-5 z-50 px-5 py-3 rounded-xl font-semibold text-sm shadow-xl flex items-center gap-2 ${
-            toast.ok ? "bg-[#10b981] text-[#10221c]" : "bg-[#ef4444] text-white"
+            toast.ok ? "bg-[#10b981] text-[#10221c]" : "bg-[#ef4444] text-(--text-base)"
           }`}
         >
           <span className="material-symbols-outlined text-[18px]">
@@ -98,8 +98,8 @@ export default function ReviewerDashboard() {
 
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(245,158,11,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Content Review Queue</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">Content Review Queue</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {pending.length} pending · {published.length} published
           </p>
         </div>
@@ -123,7 +123,7 @@ export default function ReviewerDashboard() {
           ].map(({ label, value, icon, color }) => (
             <div
               key={label}
-              className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(245,158,11,0.08)]"
+              className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-(--border-subtle)"
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
@@ -134,15 +134,15 @@ export default function ReviewerDashboard() {
                 </span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Pending queue */}
-        <h2 className="text-white font-bold text-base mb-4 flex items-center gap-2">
+        <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
           <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">pending</span>
           Pending Review
           {pending.length > 0 && (
@@ -153,10 +153,10 @@ export default function ReviewerDashboard() {
         </h2>
 
         {pending.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 bg-[#1a2e27] rounded-2xl border border-[rgba(245,158,11,0.08)] mb-8">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">task_alt</span>
-            <p className="text-white font-semibold mb-1">All clear!</p>
-            <p className="text-slate-400 text-sm">No courses are waiting for review.</p>
+          <div className="flex flex-col items-center justify-center py-16 bg-(--bg-card) rounded-2xl border border-(--border-subtle) mb-8">
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-3">task_alt</span>
+            <p className="text-(--text-base) font-semibold mb-1">All clear!</p>
+            <p className="text-(--text-muted) text-sm">No courses are waiting for review.</p>
           </div>
         ) : (
           <div className="space-y-4 mb-8">
@@ -168,7 +168,7 @@ export default function ReviewerDashboard() {
               return (
                 <div
                   key={course.id}
-                  className="bg-[#1a2e27] rounded-2xl border border-[rgba(245,158,11,0.12)] overflow-hidden"
+                  className="bg-(--bg-card) rounded-2xl border border-[rgba(245,158,11,0.12)] overflow-hidden"
                 >
                   <div className="p-5">
                     <div className="flex items-start gap-4">
@@ -177,7 +177,7 @@ export default function ReviewerDashboard() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="text-white font-bold text-base">{course.title}</h3>
+                          <h3 className="text-(--text-base) font-bold text-base">{course.title}</h3>
                           <span
                             className="text-[10px] font-bold px-2 py-0.5 rounded-full"
                             style={{ background: `${diffColor}18`, color: diffColor }}
@@ -188,8 +188,8 @@ export default function ReviewerDashboard() {
                             Pending Review
                           </span>
                         </div>
-                        <p className="text-slate-400 text-sm mt-1 line-clamp-2">{course.description}</p>
-                        <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
+                        <p className="text-(--text-muted) text-sm mt-1 line-clamp-2">{course.description}</p>
+                        <div className="flex items-center gap-4 mt-2 text-xs text-(--text-faint)">
                           <span className="flex items-center gap-1">
                             <span className="material-symbols-outlined text-[14px]">category</span>
                             {course.category}
@@ -218,7 +218,7 @@ export default function ReviewerDashboard() {
                     {/* Expanded review panel */}
                     {isExpanded && (
                       <div className="mt-5 pt-5 border-t border-[rgba(245,158,11,0.1)]">
-                        <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-2">
+                        <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-2">
                           Feedback for author (optional)
                         </label>
                         <textarea
@@ -226,7 +226,7 @@ export default function ReviewerDashboard() {
                           onChange={(e) => setFeedback(e.target.value)}
                           placeholder="Add review notes or feedback for the course author…"
                           rows={3}
-                          className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm resize-none focus:outline-none focus:border-[rgba(245,158,11,0.4)] transition-all mb-4"
+                          className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(245,158,11,0.4)] transition-all mb-4"
                         />
                         <div className="flex gap-3">
                           <button

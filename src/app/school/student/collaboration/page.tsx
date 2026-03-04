@@ -80,9 +80,9 @@ function formatTime(ts: { seconds: number } | null): string {
 function CentreState({ icon, title, body }: { icon: string; title: string; body?: string }) {
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
-      <span className="material-symbols-outlined text-5xl text-slate-600">{icon}</span>
-      <h2 className="text-white font-bold text-xl">{title}</h2>
-      {body && <p className="text-slate-400 text-sm max-w-sm">{body}</p>}
+      <span className="material-symbols-outlined text-5xl text-(--text-faint)">{icon}</span>
+      <h2 className="text-(--text-base) font-bold text-xl">{title}</h2>
+      {body && <p className="text-(--text-muted) text-sm max-w-sm">{body}</p>}
       <Link
         href="/school/student/dashboard"
         className="text-[#13eca4] text-sm hover:underline mt-2"
@@ -238,12 +238,12 @@ function CollaborationContent() {
   return (
     <div className="flex h-screen overflow-hidden bg-[#0a1a16]">
       {/* ── LEFT: Team Chat ─────────────────────────────────────────────── */}
-      <aside className="w-72 shrink-0 flex flex-col bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.1)] h-full">
+      <aside className="w-72 shrink-0 flex flex-col bg-(--bg-page) border-r border-(--border-subtle) h-full">
         {/* Header */}
-        <div className="px-4 py-4 border-b border-[rgba(19,236,164,0.1)]">
+        <div className="px-4 py-4 border-b border-(--border-subtle)">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold text-white uppercase tracking-widest">Team Chat</h2>
-            <span className="flex items-center gap-1.5 text-[10px] text-slate-400">
+            <h2 className="text-sm font-bold text-(--text-base) uppercase tracking-widest">Team Chat</h2>
+            <span className="flex items-center gap-1.5 text-[10px] text-(--text-muted)">
               <span className="size-1.5 rounded-full bg-[#13eca4]" />
               {onlineCount} online
             </span>
@@ -269,7 +269,7 @@ function CollaborationContent() {
         {/* Messages */}
         <div className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-3">
           {messages.length === 0 && (
-            <p className="text-center text-xs text-slate-600 mt-6 px-2">
+            <p className="text-center text-xs text-(--text-faint) mt-6 px-2">
               No messages yet — say hi to your team!
             </p>
           )}
@@ -289,7 +289,7 @@ function CollaborationContent() {
                   className={`max-w-45 flex flex-col gap-0.5 ${isSelf ? "items-end" : "items-start"}`}
                 >
                   {!isSelf && (
-                    <span className="text-[10px] font-semibold text-slate-400">
+                    <span className="text-[10px] font-semibold text-(--text-muted)">
                       {msg.authorName}
                     </span>
                   )}
@@ -297,12 +297,12 @@ function CollaborationContent() {
                     className={`px-3 py-2 rounded-xl text-xs leading-relaxed ${
                       isSelf
                         ? "bg-[#13eca4] text-[#0d1f1a] font-medium"
-                        : "bg-[#1a2e30] text-slate-200"
+                        : "bg-(--bg-card) text-slate-200"
                     }`}
                   >
                     {msg.text}
                   </div>
-                  <span className="text-[9px] text-slate-500">{formatTime(msg.createdAt)}</span>
+                  <span className="text-[9px] text-(--text-faint)">{formatTime(msg.createdAt)}</span>
                 </div>
               </div>
             );
@@ -311,15 +311,15 @@ function CollaborationContent() {
         </div>
 
         {/* Input */}
-        <div className="px-3 pb-4 pt-2 border-t border-[rgba(19,236,164,0.1)]">
-          <div className="flex items-center gap-2 bg-[#1a2e30] rounded-xl px-3 py-2">
+        <div className="px-3 pb-4 pt-2 border-t border-(--border-subtle)">
+          <div className="flex items-center gap-2 bg-(--bg-card) rounded-xl px-3 py-2">
             <input
               type="text"
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Send a message…"
-              className="flex-1 bg-transparent border-none outline-none text-xs text-white placeholder:text-slate-500"
+              className="flex-1 bg-transparent border-none outline-none text-xs text-(--text-base) placeholder:text-(--text-faint)"
               disabled={sending}
             />
             <button
@@ -336,8 +336,8 @@ function CollaborationContent() {
       {/* ── CENTRE: Workspace ───────────────────────────────────────────── */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top bar */}
-        <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.1)] bg-[#0d1f1a] flex items-center justify-between">
-          <nav className="flex items-center gap-1.5 text-xs text-slate-400">
+        <div className="px-6 py-4 border-b border-(--border-subtle) bg-(--bg-page) flex items-center justify-between">
+          <nav className="flex items-center gap-1.5 text-xs text-(--text-muted)">
             <Link
               href="/school/student/dashboard"
               className="hover:text-[#13eca4] transition-colors"
@@ -345,12 +345,12 @@ function CollaborationContent() {
               Dashboard
             </Link>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
-            <span className="text-slate-400">{classroom?.name ?? "Project"}</span>
+            <span className="text-(--text-muted)">{classroom?.name ?? "Project"}</span>
             <span className="material-symbols-outlined text-[14px]">chevron_right</span>
             <span className="text-[#13eca4] font-semibold">{group.name}</span>
           </nav>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-400">Auto-saved</span>
+            <span className="text-xs text-(--text-muted)">Auto-saved</span>
             <span className="material-symbols-outlined text-[#13eca4] text-lg">cloud_done</span>
           </div>
         </div>
@@ -358,8 +358,8 @@ function CollaborationContent() {
         <div className="flex-1 overflow-y-auto p-6">
           {/* Title */}
           <div className="mb-6">
-            <h1 className="text-2xl font-black text-white tracking-tight">{group.name}</h1>
-            <p className="text-sm text-slate-400 mt-1">
+            <h1 className="text-2xl font-black text-(--text-base) tracking-tight">{group.name}</h1>
+            <p className="text-sm text-(--text-muted) mt-1">
               {classroom?.subject ?? "Group Project"} · Step {currentStep} of {totalSteps}
             </p>
           </div>
@@ -367,12 +367,12 @@ function CollaborationContent() {
           {/* Team Progress Bar */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
+              <span className="text-xs font-bold uppercase tracking-widest text-(--text-muted)">
                 Team Progress
               </span>
               <span className="text-sm font-bold text-[#13eca4]">{progress}%</span>
             </div>
-            <div className="w-full h-2 bg-[#1a2e30] rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-(--bg-card) rounded-full overflow-hidden">
               <div
                 className="h-full bg-[#13eca4] rounded-full transition-all duration-500"
                 style={{ width: `${progress}%` }}
@@ -395,8 +395,8 @@ function CollaborationContent() {
                     isActive
                       ? "border-2 border-[#13eca4] bg-[#0d2420] shadow-lg shadow-[#13eca4]/10"
                       : isCompleted
-                        ? "border border-[rgba(19,236,164,0.15)] bg-[#0d1f1a] opacity-60"
-                        : "border border-dashed border-slate-700 bg-[#0d1f1a]/60"
+                        ? "border border-(--border-medium) bg-(--bg-page) opacity-60"
+                        : "border border-dashed border-slate-700 bg-(--bg-page)/60"
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -416,7 +416,7 @@ function CollaborationContent() {
                               ? "text-[#0d1f1a]"
                               : isCompleted
                                 ? "text-[#13eca4]"
-                                : "text-slate-500"
+                                : "text-(--text-faint)"
                           }`}
                         >
                           {isCompleted ? "check_circle" : isActive ? "edit" : "lock"}
@@ -428,15 +428,15 @@ function CollaborationContent() {
                             isActive
                               ? "text-[#13eca4]"
                               : isCompleted
-                                ? "text-slate-500"
-                                : "text-slate-600"
+                                ? "text-(--text-faint)"
+                                : "text-(--text-faint)"
                           }`}
                         >
                           Step {stepNum} ·{" "}
                           {isCompleted ? "Completed" : isActive ? "Active" : "Upcoming"}
                         </p>
                         <h3
-                          className={`text-sm font-bold ${isLocked ? "text-slate-500" : "text-white"}`}
+                          className={`text-sm font-bold ${isLocked ? "text-(--text-faint)" : "text-(--text-base)"}`}
                         >
                           Project Phase {stepNum}
                         </h3>
@@ -452,7 +452,7 @@ function CollaborationContent() {
                   </div>
 
                   {isLocked && (
-                    <p className="text-xs text-slate-600 mt-2 ml-11">
+                    <p className="text-xs text-(--text-faint) mt-2 ml-11">
                       Locked until Step {stepNum - 1} is finalised
                     </p>
                   )}
@@ -465,7 +465,7 @@ function CollaborationContent() {
           <div className="mt-8 flex justify-center">
             <button
               disabled
-              className="flex items-center gap-2 px-8 py-3 bg-slate-800 text-slate-500 rounded-xl font-bold text-sm cursor-not-allowed uppercase tracking-widest opacity-50"
+              className="flex items-center gap-2 px-8 py-3 bg-slate-800 text-(--text-faint) rounded-xl font-bold text-sm cursor-not-allowed uppercase tracking-widest opacity-50"
             >
               <span className="material-symbols-outlined text-lg">send</span>
               Share Team Submission
@@ -475,9 +475,9 @@ function CollaborationContent() {
       </main>
 
       {/* ── RIGHT: Collaborator Activity ────────────────────────────────── */}
-      <aside className="w-80 shrink-0 flex flex-col bg-[#0d1f1a] border-l border-[rgba(19,236,164,0.1)] h-full overflow-y-auto">
-        <div className="px-4 py-4 border-b border-[rgba(19,236,164,0.1)]">
-          <h2 className="text-sm font-bold text-white uppercase tracking-widest">Collaborators</h2>
+      <aside className="w-80 shrink-0 flex flex-col bg-(--bg-page) border-l border-(--border-subtle) h-full overflow-y-auto">
+        <div className="px-4 py-4 border-b border-(--border-subtle)">
+          <h2 className="text-sm font-bold text-(--text-base) uppercase tracking-widest">Collaborators</h2>
         </div>
 
         <div className="flex-1 px-4 py-4 flex flex-col gap-6">
@@ -498,9 +498,9 @@ function CollaborationContent() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-bold text-white truncate">
+                    <p className="text-sm font-bold text-(--text-base) truncate">
                       {m.name}
-                      {m.isSelf && <span className="text-slate-500 font-normal"> (you)</span>}
+                      {m.isSelf && <span className="text-(--text-faint) font-normal"> (you)</span>}
                     </p>
                     {m.online && m.status === "editing" && (
                       <span className="size-2 rounded-full bg-[#13eca4] animate-pulse" />
@@ -511,8 +511,8 @@ function CollaborationContent() {
                       m.status === "editing"
                         ? "text-[#13eca4]"
                         : m.online
-                          ? "text-slate-400"
-                          : "text-slate-600"
+                          ? "text-(--text-muted)"
+                          : "text-(--text-faint)"
                     }`}
                   >
                     {m.online
@@ -527,8 +527,8 @@ function CollaborationContent() {
           </div>
 
           {/* Group info panel */}
-          <div className="bg-[#142a25] rounded-xl border border-[rgba(19,236,164,0.15)] p-4">
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">
+          <div className="bg-[#142a25] rounded-xl border border-(--border-medium) p-4">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-(--text-muted) mb-3">
               Group Info
             </p>
             <div className="flex flex-col gap-2">
@@ -543,9 +543,9 @@ function CollaborationContent() {
                 },
               ].map((row) => (
                 <div key={row.label} className="flex items-center justify-between">
-                  <span className="text-xs text-slate-400">{row.label}</span>
+                  <span className="text-xs text-(--text-muted)">{row.label}</span>
                   <span
-                    className={`text-xs font-bold ${row.accent ? "text-[#13eca4]" : "text-white"}`}
+                    className={`text-xs font-bold ${row.accent ? "text-[#13eca4]" : "text-(--text-base)"}`}
                   >
                     {row.value}
                   </span>

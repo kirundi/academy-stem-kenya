@@ -88,10 +88,10 @@ export default function ApiMonitorPage() {
     <div className="p-6 space-y-6 min-h-screen">
       {/* Page Header */}
       <div>
-        <h1 className="text-3xl font-black tracking-tight text-slate-100">
+        <h1 className="text-3xl font-black tracking-tight text-(--text-base)">
           Global API Usage &amp; Monitoring
         </h1>
-        <p className="text-slate-400 mt-1">
+        <p className="text-(--text-muted) mt-1">
           Real-time throughput and system health across 1,240 integrated schools.
         </p>
       </div>
@@ -102,7 +102,7 @@ export default function ApiMonitorPage() {
           <button
             key={r}
             onClick={() => setTimeRange(r)}
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${timeRange === r ? "bg-[#13daec] text-[#102022]" : "bg-[#1a2e31] text-slate-400 hover:text-white border border-[rgba(19,218,236,0.1)]"}`}
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${timeRange === r ? "bg-[#13daec] text-[#102022]" : "bg-[#1a2e31] text-(--text-muted) hover:text-(--text-base) border border-[rgba(19,218,236,0.1)]"}`}
           >
             {r}
           </button>
@@ -116,9 +116,9 @@ export default function ApiMonitorPage() {
             key={m.label}
             className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-5 hover:border-[rgba(19,218,236,0.3)] transition-all"
           >
-            <p className="text-slate-400 text-sm font-medium">{m.label}</p>
+            <p className="text-(--text-muted) text-sm font-medium">{m.label}</p>
             <div className="flex items-end justify-between mt-2">
-              <h3 className={`text-3xl font-bold ${m.valueColor ?? "text-slate-100"}`}>
+              <h3 className={`text-3xl font-bold ${m.valueColor ?? "text-(--text-base)"}`}>
                 {m.value}
               </h3>
               <span
@@ -138,8 +138,8 @@ export default function ApiMonitorPage() {
         <div className="lg:col-span-2 bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-lg font-bold text-slate-100">API Requests per Hour</h3>
-              <p className="text-sm text-slate-400">Aggregated traffic across primary endpoints</p>
+              <h3 className="text-lg font-bold text-(--text-base)">API Requests per Hour</h3>
+              <p className="text-sm text-(--text-muted)">Aggregated traffic across primary endpoints</p>
             </div>
             <div className="flex gap-4">
               {[
@@ -149,7 +149,7 @@ export default function ApiMonitorPage() {
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-2">
                   <span className={`w-3 h-3 rounded-full ${l.color}`} />
-                  <span className="text-xs text-slate-300">{l.label}</span>
+                  <span className="text-xs text-(--text-muted)">{l.label}</span>
                 </div>
               ))}
             </div>
@@ -206,7 +206,7 @@ export default function ApiMonitorPage() {
               <circle cx="800" cy="40" r="4" fill="#ef4444" />
               <path d="M790,50 L800,40 L810,52" fill="none" stroke="#ef4444" strokeWidth="2" />
             </svg>
-            <div className="flex justify-between mt-3 text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+            <div className="flex justify-between mt-3 text-[11px] font-bold text-(--text-faint) uppercase tracking-widest">
               {["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "23:59"].map((t) => (
                 <span key={t}>{t}</span>
               ))}
@@ -218,7 +218,7 @@ export default function ApiMonitorPage() {
         <div className="flex flex-col gap-5">
           {/* Rate Limit */}
           <div className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-6">
-            <h3 className="text-lg font-bold text-slate-100 mb-5">Rate Limit Status</h3>
+            <h3 className="text-lg font-bold text-(--text-base) mb-5">Rate Limit Status</h3>
             <div className="space-y-5">
               {[
                 { label: "Throughput Capacity", value: "72%", pct: 72, color: "bg-[#13daec]" },
@@ -232,10 +232,10 @@ export default function ApiMonitorPage() {
               ].map((row) => (
                 <div key={row.label}>
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-sm text-slate-400">{row.label}</span>
-                    <span className="text-sm font-bold text-slate-100">{row.value}</span>
+                    <span className="text-sm text-(--text-muted)">{row.label}</span>
+                    <span className="text-sm font-bold text-(--text-base)">{row.value}</span>
                   </div>
-                  <div className="w-full bg-[#102022] h-2.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-(--bg-page) h-2.5 rounded-full overflow-hidden">
                     <div
                       className={`${row.color} h-full rounded-full`}
                       style={{ width: `${row.pct}%` }}
@@ -259,13 +259,13 @@ export default function ApiMonitorPage() {
               <h3 className="font-bold">System Alerts</h3>
             </div>
             <ul className="space-y-3">
-              <li className="text-xs text-slate-300 bg-[#102022]/50 p-2 rounded border-l-2 border-[#ef4444]">
+              <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-[#ef4444]">
                 <strong>12:42</strong> Google Auth latency spike detected in Region US-East.
               </li>
-              <li className="text-xs text-slate-300 bg-[#102022]/50 p-2 rounded border-l-2 border-[#13daec]">
+              <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-[#13daec]">
                 <strong>11:15</strong> Webhook retry logic auto-resolved for 12 endpoints.
               </li>
-              <li className="text-xs text-slate-300 bg-[#102022]/50 p-2 rounded border-l-2 border-slate-500">
+              <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-slate-500">
                 <strong>09:30</strong> Scheduled maintenance window completed successfully.
               </li>
             </ul>
@@ -277,18 +277,18 @@ export default function ApiMonitorPage() {
       <div className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl overflow-hidden">
         <div className="p-5 border-b border-[rgba(19,218,236,0.1)] flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h3 className="text-lg font-bold text-slate-100">Usage by School</h3>
-            <p className="text-sm text-slate-400">Top schools by API request volume (24h)</p>
+            <h3 className="text-lg font-bold text-(--text-base)">Usage by School</h3>
+            <p className="text-sm text-(--text-muted)">Top schools by API request volume (24h)</p>
           </div>
           <div className="flex gap-2">
-            <button className="bg-[#102022] border border-[rgba(19,218,236,0.2)] px-4 py-2 rounded-lg text-xs font-bold text-slate-300 flex items-center gap-2 hover:bg-[rgba(19,218,236,0.1)] transition-colors">
+            <button className="bg-(--bg-page) border border-[rgba(19,218,236,0.2)] px-4 py-2 rounded-lg text-xs font-bold text-(--text-muted) flex items-center gap-2 hover:bg-[rgba(19,218,236,0.1)] transition-colors">
               <span className="material-symbols-outlined text-sm">download</span>Export CSV
             </button>
           </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-[#102022]/30 text-slate-500 uppercase text-[10px] tracking-widest font-bold">
+            <thead className="bg-(--bg-page)/30 text-(--text-faint) uppercase text-[10px] tracking-widest font-bold">
               <tr>
                 <th className="px-6 py-4">School Name</th>
                 <th className="px-6 py-4">API Requests (24h)</th>
@@ -301,13 +301,13 @@ export default function ApiMonitorPage() {
               {USAGE_BY_SCHOOL.map((row) => (
                 <tr key={row.school} className="hover:bg-[rgba(19,218,236,0.04)] transition-colors">
                   <td className="px-6 py-4 text-sm font-semibold text-slate-200">{row.school}</td>
-                  <td className="px-6 py-4 text-sm text-slate-400">{row.requests}</td>
+                  <td className="px-6 py-4 text-sm text-(--text-muted)">{row.requests}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-1 flex-wrap">
                       {row.integrations.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-0.5 bg-[#1a2e31] border border-[rgba(19,218,236,0.2)] rounded text-[10px] text-slate-300"
+                          className="px-2 py-0.5 bg-[#1a2e31] border border-[rgba(19,218,236,0.2)] rounded text-[10px] text-(--text-muted)"
                         >
                           {tag}
                         </span>

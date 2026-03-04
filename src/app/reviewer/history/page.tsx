@@ -40,7 +40,7 @@ export default function ReviewerHistoryPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen bg-[#10221c]">
+      <div className="flex h-screen bg-(--bg-page)">
         <ReviewerSidebar />
         <main className="ml-60 flex-1 overflow-y-auto flex items-center justify-center">
           <span className="material-symbols-outlined animate-spin text-4xl text-[#f59e0b]">
@@ -52,13 +52,13 @@ export default function ReviewerHistoryPage() {
   }
 
   return (
-    <div className="flex h-screen bg-[#10221c]">
+    <div className="flex h-screen bg-(--bg-page)">
       <ReviewerSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(245,158,11,0.1)] px-8 h-16 flex items-center">
           <div>
-            <h1 className="text-xl font-bold text-white">Review History</h1>
+            <h1 className="text-xl font-bold text-(--text-base)">Review History</h1>
             <p className="text-slate-400 text-xs mt-0.5">
               Your past approval and rejection decisions
             </p>
@@ -90,7 +90,7 @@ export default function ReviewerHistoryPage() {
             ].map(({ label, value, color, icon }) => (
               <div
                 key={label}
-                className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(245,158,11,0.08)]"
+                className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-(--border-subtle)"
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -104,7 +104,7 @@ export default function ReviewerHistoryPage() {
                   </span>
                 </div>
                 <div>
-                  <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                  <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                   <p className="text-slate-400 text-xs mt-0.5">{label}</p>
                 </div>
               </div>
@@ -112,10 +112,10 @@ export default function ReviewerHistoryPage() {
           </div>
 
           {/* Table */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(245,158,11,0.08)] overflow-hidden">
-            <div className="px-6 py-4 border-b border-[rgba(245,158,11,0.08)] flex items-center gap-2">
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
+            <div className="px-6 py-4 border-b border-(--border-subtle) flex items-center gap-2">
               <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">history</span>
-              <h2 className="text-white font-bold">Decision History</h2>
+              <h2 className="text-(--text-base) font-bold">Decision History</h2>
             </div>
 
             {activities.length === 0 ? (
@@ -123,7 +123,7 @@ export default function ReviewerHistoryPage() {
                 <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
                   history
                 </span>
-                <p className="text-white font-semibold mb-1">No review history yet</p>
+                <p className="text-(--text-base) font-semibold mb-1">No review history yet</p>
                 <p className="text-slate-400 text-sm">
                   Your approved and rejected course decisions will appear here.
                 </p>
@@ -132,7 +132,7 @@ export default function ReviewerHistoryPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-[rgba(255,255,255,0.04)]">
+                    <tr className="border-b border-(--border-subtle)">
                       <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                         Course
                       </th>
@@ -157,7 +157,7 @@ export default function ReviewerHistoryPage() {
                           className="hover:bg-[rgba(245,158,11,0.03)] transition-colors"
                         >
                           <td className="px-6 py-4">
-                            <p className="text-white font-medium text-sm line-clamp-2">
+                            <p className="text-(--text-base) font-medium text-sm line-clamp-2">
                               {a.description}
                             </p>
                           </td>

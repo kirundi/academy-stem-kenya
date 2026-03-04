@@ -51,16 +51,16 @@ function ChildCard({ child }: { child: ChildProgress }) {
   const lastGraded = submissions.find((s) => s.status === "graded");
 
   return (
-    <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.2)] transition-all overflow-hidden">
+    <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) hover:border-(--border-accent) transition-all overflow-hidden">
       {/* Card header */}
       <div className="relative p-5 pb-4 bg-linear-to-r from-[#162820] to-[#1a2e27] border-b border-[rgba(19,236,164,0.06)]">
         <div className="absolute -right-6 -top-6 w-32 h-32 border-2 border-[rgba(139,92,246,0.08)] rounded-full" />
         <div className="relative flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-white font-bold text-xl shrink-0">
+          <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-(--text-base) font-bold text-xl shrink-0">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-white font-bold text-base truncate">{student.displayName}</h3>
+            <h3 className="text-(--text-base) font-bold text-base truncate">{student.displayName}</h3>
             <div className="flex items-center gap-2 mt-0.5">
               {student.grade && (
                 <span className="px-2 py-0.5 rounded-full bg-[rgba(139,92,246,0.15)] text-[#8b5cf6] text-xs font-semibold">
@@ -76,7 +76,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
 
         {/* XP bar */}
         <div className="mt-3 relative">
-          <div className="flex justify-between text-xs text-slate-400 mb-1.5">
+          <div className="flex justify-between text-xs text-(--text-muted) mb-1.5">
             <span>XP Progress</span>
             <span className="text-[#13eca4] font-semibold">{student.xp} XP</span>
           </div>
@@ -106,8 +106,8 @@ function ChildCard({ child }: { child: ChildProgress }) {
             >
               {stat.icon}
             </span>
-            <p className="text-white font-bold text-base leading-none">{stat.value}</p>
-            <p className="text-slate-500 text-[10px] text-center mt-0.5">{stat.label}</p>
+            <p className="text-(--text-base) font-bold text-base leading-none">{stat.value}</p>
+            <p className="text-(--text-faint) text-[10px] text-center mt-0.5">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -115,8 +115,8 @@ function ChildCard({ child }: { child: ChildProgress }) {
       {/* Overall progress */}
       <div className="px-5 py-3 border-b border-[rgba(19,236,164,0.06)]">
         <div className="flex justify-between text-xs mb-1.5">
-          <span className="text-slate-400">Overall course progress</span>
-          <span className="text-white font-bold">{overallProgress}%</span>
+          <span className="text-(--text-muted)">Overall course progress</span>
+          <span className="text-(--text-base) font-bold">{overallProgress}%</span>
         </div>
         <div className="h-2 bg-white/10 rounded-full overflow-hidden">
           <div
@@ -132,11 +132,11 @@ function ChildCard({ child }: { child: ChildProgress }) {
       {/* Last graded submission */}
       {lastGraded ? (
         <div className="px-5 py-3 border-b border-[rgba(19,236,164,0.06)]">
-          <p className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold mb-1">
+          <p className="text-(--text-faint) text-[10px] uppercase tracking-wide font-semibold mb-1">
             Latest Grade
           </p>
           <div className="flex items-center justify-between">
-            <p className="text-slate-300 text-xs truncate flex-1 mr-2">
+            <p className="text-(--text-muted) text-xs truncate flex-1 mr-2">
               {lastGraded.grade ?? "Graded"} · {timeAgo(lastGraded.submittedAt)}
             </p>
             {lastGraded.score !== null && (
@@ -157,7 +157,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
         </div>
       ) : pending > 0 ? (
         <div className="px-5 py-3 border-b border-[rgba(19,236,164,0.06)]">
-          <p className="text-slate-500 text-[10px] uppercase tracking-wide font-semibold mb-1">
+          <p className="text-(--text-faint) text-[10px] uppercase tracking-wide font-semibold mb-1">
             Submissions
           </p>
           <p className="text-amber-400 text-xs font-medium">{pending} awaiting grade</p>
@@ -168,7 +168,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
       <div className="p-4">
         <Link
           href={`/parent/child/${student.uid}`}
-          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[rgba(19,236,164,0.08)] hover:bg-[rgba(19,236,164,0.15)] border border-[rgba(19,236,164,0.12)] text-[#13eca4] text-sm font-semibold transition-all group"
+          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[rgba(19,236,164,0.08)] hover:bg-[rgba(19,236,164,0.15)] border border-(--border-medium) text-[#13eca4] text-sm font-semibold transition-all group"
         >
           View Full Report
           <span className="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">
@@ -214,24 +214,24 @@ export default function ParentDashboard() {
           <span className="material-symbols-outlined text-[48px] text-red-400 mb-3 block">
             error
           </span>
-          <p className="text-slate-400 text-sm">{error}</p>
+          <p className="text-(--text-muted) text-sm">{error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">My Children</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">My Children</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {new Date().toLocaleDateString("en-KE", { weekday: "long", month: "long", day: "numeric" })}
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-white font-bold text-sm">
+          <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-(--text-base) font-bold text-sm">
             {getInitials(displayName)}
           </div>
         </div>
@@ -246,8 +246,8 @@ export default function ParentDashboard() {
             <p className="text-[#8b5cf6] font-semibold text-sm mb-2 uppercase tracking-widest">
               Welcome back
             </p>
-            <h2 className="text-3xl font-bold text-white mb-2">Hi, {firstName}!</h2>
-            <p className="text-slate-400 mb-6 max-w-md">
+            <h2 className="text-3xl font-bold text-(--text-base) mb-2">Hi, {firstName}!</h2>
+            <p className="text-(--text-muted) mb-6 max-w-md">
               {children.length === 0
                 ? "You don't have any children linked to your account yet. Contact the school to get set up."
                 : children.length === 1
@@ -296,8 +296,8 @@ export default function ParentDashboard() {
                     {icon}
                   </span>
                   <div>
-                    <p className="text-white font-bold leading-none">{value}</p>
-                    <p className="text-slate-500 text-xs">{label}</p>
+                    <p className="text-(--text-base) font-bold leading-none">{value}</p>
+                    <p className="text-(--text-faint) text-xs">{label}</p>
                   </div>
                 </div>
               ))}
@@ -310,11 +310,11 @@ export default function ParentDashboard() {
           <div className="xl:col-span-3">
             {children.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 text-center">
-                <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
+                <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-4">
                   family_restroom
                 </span>
-                <p className="text-white font-semibold text-lg mb-2">No children linked yet</p>
-                <p className="text-slate-400 text-sm max-w-sm">
+                <p className="text-(--text-base) font-semibold text-lg mb-2">No children linked yet</p>
+                <p className="text-(--text-muted) text-sm max-w-sm">
                   Ask your child&apos;s teacher or school administrator to send you an invite link
                   to connect your account.
                 </p>
@@ -331,8 +331,8 @@ export default function ParentDashboard() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Recent grades */}
-            <div className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
-              <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-(--border-subtle)">
+              <h3 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">
                   grading
                 </span>
@@ -359,8 +359,8 @@ export default function ParentDashboard() {
                         </span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-slate-300 text-xs font-medium">{s.childName}</p>
-                        <p className="text-slate-500 text-[11px]">{timeAgo(s.submittedAt)}</p>
+                        <p className="text-(--text-muted) text-xs font-medium">{s.childName}</p>
+                        <p className="text-(--text-faint) text-[11px]">{timeAgo(s.submittedAt)}</p>
                       </div>
                       {s.score !== null && (
                         <span
@@ -374,13 +374,13 @@ export default function ParentDashboard() {
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-500 text-xs">No graded work yet.</p>
+                <p className="text-(--text-faint) text-xs">No graded work yet.</p>
               )}
             </div>
 
             {/* Tips card */}
-            <div className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(139,92,246,0.12)]">
-              <h3 className="text-white font-bold mb-3 flex items-center gap-2">
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(139,92,246,0.12)]">
+              <h3 className="text-(--text-base) font-bold mb-3 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#8b5cf6] text-[20px]">
                   lightbulb
                 </span>
@@ -405,7 +405,7 @@ export default function ParentDashboard() {
                     <span className="material-symbols-outlined text-[16px] text-[#8b5cf6] shrink-0 mt-0.5">
                       {icon}
                     </span>
-                    <p className="text-slate-400 text-xs leading-relaxed">{text}</p>
+                    <p className="text-(--text-muted) text-xs leading-relaxed">{text}</p>
                   </div>
                 ))}
               </div>

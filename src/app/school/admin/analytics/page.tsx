@@ -62,9 +62,9 @@ export default function SchoolAnalyticsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#10221c] flex flex-col">
+    <div className="min-h-screen bg-(--bg-page) flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-14 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-14 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
@@ -72,7 +72,7 @@ export default function SchoolAnalyticsPage() {
                 analytics
               </span>
             </div>
-            <span className="text-white font-bold">STEM Learn Admin</span>
+            <span className="text-(--text-base) font-bold">STEM Learn Admin</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <span className="text-[#13eca4] font-semibold border-b-2 border-[#13eca4] pb-0.5">
@@ -80,53 +80,53 @@ export default function SchoolAnalyticsPage() {
             </span>
             <a
               href="/school/admin"
-              className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
             >
               Overview
             </a>
             <a
               href="/school/admin/classrooms"
-              className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
             >
               Classrooms
             </a>
             <a
               href="/school/admin/teachers"
-              className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
             >
               Teachers
             </a>
             <a
               href="/school/admin/students"
-              className="text-slate-400 hover:text-[#13eca4] transition-colors font-medium"
+              className="text-(--text-muted) hover:text-[#13eca4] transition-colors font-medium"
             >
               Students
             </a>
           </nav>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center bg-[rgba(255,255,255,0.05)] rounded-lg border border-[rgba(255,255,255,0.08)] px-3 py-1.5">
-            <span className="material-symbols-outlined text-slate-400 text-[18px]">search</span>
+          <div className="flex items-center bg-(--input-bg) rounded-lg border border-(--border-subtle) px-3 py-1.5">
+            <span className="material-symbols-outlined text-(--text-muted) text-[18px]">search</span>
             <input
               placeholder="Search analytics..."
-              className="bg-transparent border-none text-white text-sm placeholder-slate-500 focus:outline-none ml-2 w-36"
+              className="bg-transparent border-none text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none ml-2 w-36"
             />
           </div>
-          <button className="w-10 h-10 rounded-lg bg-[rgba(255,255,255,0.06)] flex items-center justify-center text-slate-400 hover:text-white">
+          <button className="w-10 h-10 rounded-lg bg-(--input-bg) flex items-center justify-center text-(--text-muted) hover:text-(--text-base)">
             <span className="material-symbols-outlined text-[20px]">notifications</span>
           </button>
-          <button className="w-10 h-10 rounded-lg bg-[rgba(255,255,255,0.06)] flex items-center justify-center text-slate-400 hover:text-white">
+          <button className="w-10 h-10 rounded-lg bg-(--input-bg) flex items-center justify-center text-(--text-muted) hover:text-(--text-base)">
             <span className="material-symbols-outlined text-[20px]">settings</span>
           </button>
-          <div className="w-9 h-9 rounded-full bg-[rgba(19,236,164,0.1)] border-2 border-[rgba(19,236,164,0.2)]" />
+          <div className="w-9 h-9 rounded-full bg-[rgba(19,236,164,0.1)] border-2 border-(--border-accent)" />
         </div>
       </header>
 
       <div className="flex flex-1">
         {/* Sidebar */}
-        <aside className="w-56 border-r border-[rgba(255,255,255,0.06)] p-4 flex flex-col gap-4 shrink-0">
+        <aside className="w-56 border-r border-(--border-subtle) p-4 flex flex-col gap-4 shrink-0">
           <div className="flex flex-col gap-1">
-            <p className="text-slate-500 text-xs font-bold uppercase tracking-wider px-3 mb-2">
+            <p className="text-(--text-faint) text-xs font-bold uppercase tracking-wider px-3 mb-2">
               Main Menu
             </p>
             {[
@@ -141,7 +141,7 @@ export default function SchoolAnalyticsPage() {
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   item.active
                     ? "bg-[rgba(19,236,164,0.1)] text-[#13eca4]"
-                    : "text-slate-400 hover:bg-[rgba(255,255,255,0.04)] hover:text-white"
+                    : "text-(--text-muted) hover:bg-(--glass-bg) hover:text-(--text-base)"
                 }`}
               >
                 <span className="material-symbols-outlined text-[18px]">{item.icon}</span>
@@ -149,9 +149,9 @@ export default function SchoolAnalyticsPage() {
               </a>
             ))}
           </div>
-          <div className="mt-auto p-4 rounded-xl bg-[rgba(19,236,164,0.05)] border border-[rgba(19,236,164,0.15)]">
+          <div className="mt-auto p-4 rounded-xl bg-[rgba(19,236,164,0.05)] border border-(--border-medium)">
             <p className="text-[#13eca4] text-xs font-bold mb-1">PRO TIP</p>
-            <p className="text-slate-400 text-xs leading-relaxed">
+            <p className="text-(--text-muted) text-xs leading-relaxed">
               Monthly board reports are ready to export. Check the summary tab.
             </p>
           </div>
@@ -160,18 +160,18 @@ export default function SchoolAnalyticsPage() {
         {/* Main Content */}
         <div className="flex-1 overflow-y-auto">
           {/* Page Header */}
-          <div className="flex flex-wrap justify-between items-center gap-4 px-8 py-6 border-b border-[rgba(255,255,255,0.06)]">
+          <div className="flex flex-wrap justify-between items-center gap-4 px-8 py-6 border-b border-(--border-subtle)">
             <div>
-              <h1 className="text-white text-3xl font-black tracking-tight">
+              <h1 className="text-(--text-base) text-3xl font-black tracking-tight">
                 School-Wide Performance Analytics
               </h1>
-              <p className="text-slate-400 mt-1">
+              <p className="text-(--text-muted) mt-1">
                 Monitoring {totalStudents.toLocaleString()} students across {totalClassrooms}{" "}
                 classrooms.
               </p>
             </div>
             <div className="flex gap-3">
-              <button className="flex items-center gap-2 h-11 px-4 rounded-xl border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-bold hover:bg-[rgba(255,255,255,0.04)] transition-colors">
+              <button className="flex items-center gap-2 h-11 px-4 rounded-xl border border-(--border-subtle) text-(--text-muted) text-sm font-bold hover:bg-(--glass-bg) transition-colors">
                 <span className="material-symbols-outlined text-[18px]">calendar_today</span>Last 30
                 Days
               </button>
@@ -216,14 +216,14 @@ export default function SchoolAnalyticsPage() {
               ].map((s) => (
                 <div
                   key={s.label}
-                  className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.07)] flex flex-col gap-2"
+                  className="bg-(--bg-card) rounded-2xl p-5 border border-(--border-subtle) flex flex-col gap-2"
                 >
                   <div className="flex justify-between items-start">
                     <span className="material-symbols-outlined p-2 bg-[rgba(19,236,164,0.08)] text-[#13eca4] rounded-lg text-[20px]">
                       {s.icon}
                     </span>
                     <span
-                      className={`text-xs font-bold flex items-center gap-0.5 ${s.badgeUp === true ? "text-emerald-500" : s.badgeUp === false ? "text-rose-500" : "text-slate-400"}`}
+                      className={`text-xs font-bold flex items-center gap-0.5 ${s.badgeUp === true ? "text-emerald-500" : s.badgeUp === false ? "text-rose-500" : "text-(--text-muted)"}`}
                     >
                       {s.badgeUp !== null && (
                         <span className="material-symbols-outlined text-[12px]">
@@ -233,8 +233,8 @@ export default function SchoolAnalyticsPage() {
                       {s.badge}
                     </span>
                   </div>
-                  <p className="text-slate-400 text-sm font-medium mt-1">{s.label}</p>
-                  <p className="text-white text-3xl font-bold">{s.value}</p>
+                  <p className="text-(--text-muted) text-sm font-medium mt-1">{s.label}</p>
+                  <p className="text-(--text-base) text-3xl font-bold">{s.value}</p>
                 </div>
               ))}
             </div>
@@ -242,10 +242,10 @@ export default function SchoolAnalyticsPage() {
             {/* Charts Row */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Bar Chart */}
-              <div className="lg:col-span-2 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] p-6">
+              <div className="lg:col-span-2 bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-white font-bold text-lg">Student Engagement Trends</h3>
-                  <button className="text-slate-400 hover:text-white">
+                  <h3 className="text-(--text-base) font-bold text-lg">Student Engagement Trends</h3>
+                  <button className="text-(--text-muted) hover:text-(--text-base)">
                     <span className="material-symbols-outlined">more_horiz</span>
                   </button>
                 </div>
@@ -263,7 +263,7 @@ export default function SchoolAnalyticsPage() {
                           className={`absolute bottom-0 w-full h-1 bg-[#13eca4] ${i === 5 ? "h-2" : ""}`}
                         />
                         {i === 5 && (
-                          <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#0d1f1a] border border-[rgba(19,236,164,0.3)] text-white text-[10px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap z-10">
+                          <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-(--bg-page) border border-(--border-strong) text-(--text-base) text-[10px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap z-10">
                             92%
                           </div>
                         )}
@@ -274,12 +274,12 @@ export default function SchoolAnalyticsPage() {
                     {[0, 1, 2, 3].map((l) => (
                       <div
                         key={l}
-                        className="border-b border-[rgba(255,255,255,0.04)] w-full h-0"
+                        className="border-b border-(--border-subtle) w-full h-0"
                       />
                     ))}
                   </div>
                 </div>
-                <div className="flex justify-between mt-3 text-[10px] font-bold text-slate-500 uppercase">
+                <div className="flex justify-between mt-3 text-[10px] font-bold text-(--text-faint) uppercase">
                   {weekBars.map((b) => (
                     <span key={b.day}>{b.day}</span>
                   ))}
@@ -287,23 +287,23 @@ export default function SchoolAnalyticsPage() {
               </div>
 
               {/* Dept Completion Bars */}
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] p-6 flex flex-col">
-                <h3 className="text-white font-bold text-lg mb-6">Teachers by Department</h3>
+              <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 flex flex-col">
+                <h3 className="text-(--text-base) font-bold text-lg mb-6">Teachers by Department</h3>
                 <div className="flex-1 flex flex-col justify-center gap-5">
                   {departments.length === 0 ? (
-                    <p className="text-slate-500 text-sm text-center">
+                    <p className="text-(--text-faint) text-sm text-center">
                       No department data available
                     </p>
                   ) : (
                     departments.map((d) => (
                       <div key={d.name} className="flex flex-col gap-2">
                         <div className="flex justify-between text-sm">
-                          <span className="text-slate-400">{d.name}</span>
-                          <span className="text-white font-bold">
+                          <span className="text-(--text-muted)">{d.name}</span>
+                          <span className="text-(--text-base) font-bold">
                             {d.count} ({d.pct}%)
                           </span>
                         </div>
-                        <div className="w-full bg-[rgba(255,255,255,0.06)] h-2 rounded-full overflow-hidden">
+                        <div className="w-full bg-(--input-bg) h-2 rounded-full overflow-hidden">
                           <div
                             className="h-full rounded-full"
                             style={{ width: `${d.pct}%`, background: d.color }}
@@ -317,9 +317,9 @@ export default function SchoolAnalyticsPage() {
             </div>
 
             {/* Leaderboard Table */}
-            <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden pb-6">
-              <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex justify-between items-center">
-                <h3 className="text-white font-bold text-lg">Top Performing Classrooms</h3>
+            <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden pb-6">
+              <div className="px-6 py-5 border-b border-(--border-subtle) flex justify-between items-center">
+                <h3 className="text-(--text-base) font-bold text-lg">Top Performing Classrooms</h3>
                 <a
                   href="/school/admin/classrooms"
                   className="text-[#13eca4] text-sm font-semibold hover:underline"
@@ -329,7 +329,7 @@ export default function SchoolAnalyticsPage() {
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
-                  <thead className="bg-[rgba(255,255,255,0.02)] text-slate-500 text-xs font-bold uppercase tracking-wider">
+                  <thead className="bg-[rgba(255,255,255,0.02)] text-(--text-faint) text-xs font-bold uppercase tracking-wider">
                     <tr>
                       <th className="px-6 py-4">Rank</th>
                       <th className="px-6 py-4">Classroom</th>
@@ -341,7 +341,7 @@ export default function SchoolAnalyticsPage() {
                   <tbody className="divide-y divide-[rgba(255,255,255,0.04)] text-sm">
                     {topClassrooms.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                        <td colSpan={5} className="px-6 py-12 text-center text-(--text-faint)">
                           No classrooms to display
                         </td>
                       </tr>
@@ -349,10 +349,10 @@ export default function SchoolAnalyticsPage() {
                       topClassrooms.map((c, idx) => {
                         const rankColors = [
                           "text-amber-400 bg-amber-400/10",
-                          "text-slate-400 bg-slate-400/10",
+                          "text-(--text-muted) bg-slate-400/10",
                           "text-orange-400 bg-orange-400/10",
-                          "text-slate-500 bg-slate-500/10",
-                          "text-slate-500 bg-slate-500/10",
+                          "text-(--text-faint) bg-slate-500/10",
+                          "text-(--text-faint) bg-slate-500/10",
                         ];
                         return (
                           <tr
@@ -367,16 +367,16 @@ export default function SchoolAnalyticsPage() {
                               </div>
                             </td>
                             <td className="px-6 py-4">
-                              <p className="text-white font-bold">{c.name}</p>
-                              <p className="text-xs text-slate-500">{c.subject}</p>
+                              <p className="text-(--text-base) font-bold">{c.name}</p>
+                              <p className="text-xs text-(--text-faint)">{c.subject}</p>
                             </td>
-                            <td className="px-6 py-4 text-slate-300">
+                            <td className="px-6 py-4 text-(--text-muted)">
                               {teacherMap.get(c.teacherId) ?? "Unassigned"}
                             </td>
                             <td className="px-6 py-4">
                               <div className="flex items-center gap-2">
-                                <span className="text-white font-bold">{c.avgProgress ?? 0}%</span>
-                                <div className="w-12 bg-[rgba(255,255,255,0.06)] h-1.5 rounded-full">
+                                <span className="text-(--text-base) font-bold">{c.avgProgress ?? 0}%</span>
+                                <div className="w-12 bg-(--input-bg) h-1.5 rounded-full">
                                   <div
                                     className="bg-[#13eca4] h-full rounded-full"
                                     style={{ width: `${c.avgProgress ?? 0}%` }}
@@ -384,7 +384,7 @@ export default function SchoolAnalyticsPage() {
                                 </div>
                               </div>
                             </td>
-                            <td className="px-6 py-4 text-right text-white font-semibold">
+                            <td className="px-6 py-4 text-right text-(--text-base) font-semibold">
                               {c.enrolled ?? 0}
                             </td>
                           </tr>

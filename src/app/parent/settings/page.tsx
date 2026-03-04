@@ -84,19 +84,19 @@ export default function ParentSettingsPage() {
   ];
 
   return (
-    <div className="flex h-screen bg-[#10221c] overflow-hidden">
+    <div className="flex h-screen bg-(--bg-page) overflow-hidden">
       <ParentSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(139,92,246,0.08)] px-6 py-3">
-          <h1 className="text-lg font-bold text-white">Settings</h1>
-          <p className="text-slate-400 text-xs">Manage your parent account</p>
+          <h1 className="text-lg font-bold text-(--text-base)">Settings</h1>
+          <p className="text-(--text-muted) text-xs">Manage your parent account</p>
         </header>
 
         <div className="flex flex-col md:flex-row max-w-5xl mx-auto w-full px-4 py-8 gap-8">
           <aside className="w-full md:w-56 flex flex-col gap-4 shrink-0">
             <div>
-              <h2 className="text-white text-xl font-bold">Settings</h2>
-              <p className="text-slate-400 text-sm mt-0.5">Manage your account</p>
+              <h2 className="text-(--text-base) text-xl font-bold">Settings</h2>
+              <p className="text-(--text-muted) text-sm mt-0.5">Manage your account</p>
             </div>
             <nav className="flex flex-col gap-1">
               {tabs.map((tab) => (
@@ -115,20 +115,20 @@ export default function ParentSettingsPage() {
 
           <section className="flex-1 flex flex-col gap-7">
             {activeTab === "account" && (
-              <div className="bg-[#1a2e27] rounded-xl border border-slate-800 p-7">
-                <h3 className="text-xl font-bold text-white mb-6">Account Details</h3>
+              <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
+                <h3 className="text-xl font-bold text-(--text-base) mb-6">Account Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
+                    <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider">Full Name</label>
                     <input
-                      className="w-full bg-[#102022] border border-slate-700 rounded-lg text-slate-100 px-4 py-2.5 text-sm outline-none"
+                      className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-base) px-4 py-2.5 text-sm outline-none"
                       defaultValue={appUser?.displayName ?? ""}
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider">Email</label>
+                    <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider">Email</label>
                     <input
-                      className="w-full bg-[#102022] border border-slate-700 rounded-lg text-slate-400 px-4 py-2.5 text-sm cursor-not-allowed"
+                      className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-muted) px-4 py-2.5 text-sm cursor-not-allowed"
                       value={appUser?.email ?? ""}
                       readOnly
                     />
@@ -136,12 +136,12 @@ export default function ParentSettingsPage() {
                 </div>
                 <div className="mt-5 p-4 rounded-xl border" style={{ background: `${ACCENT}10`, borderColor: `${ACCENT}30` }}>
                   <p className="text-xs font-semibold mb-0.5" style={{ color: ACCENT }}>Parent Portal</p>
-                  <p className="text-slate-400 text-xs">Your account is linked to your children&apos;s profiles. Contact the school to update child associations.</p>
+                  <p className="text-(--text-muted) text-xs">Your account is linked to your children&apos;s profiles. Contact the school to update child associations.</p>
                 </div>
                 <div className="mt-6 flex justify-end">
                   <button
                     onClick={() => { setSaved(true); setTimeout(() => setSaved(false), 2500); }}
-                    className="px-6 py-2.5 font-bold rounded-lg text-white hover:opacity-90 transition-opacity"
+                    className="px-6 py-2.5 font-bold rounded-lg text-(--text-base) hover:opacity-90 transition-opacity"
                     style={{ background: ACCENT }}
                   >
                     {saved ? "Saved!" : "Save Changes"}
@@ -151,14 +151,14 @@ export default function ParentSettingsPage() {
             )}
 
             {activeTab === "notifications" && (
-              <div className="bg-[#1a2e27] rounded-xl border border-slate-800 p-7">
-                <h3 className="text-xl font-bold text-white mb-6">Notification Preferences</h3>
+              <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
+                <h3 className="text-xl font-bold text-(--text-base) mb-6">Notification Preferences</h3>
                 <div className="space-y-4">
                   {NOTIFICATIONS.map((item, i) => (
-                    <div key={item.label} className="flex items-center justify-between p-4 bg-[#102022]/50 rounded-xl border border-slate-700">
+                    <div key={item.label} className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700">
                       <div>
-                        <p className="font-bold text-slate-100 text-sm">{item.label}</p>
-                        <p className="text-xs text-slate-400">{item.desc}</p>
+                        <p className="font-bold text-(--text-base) text-sm">{item.label}</p>
+                        <p className="text-xs text-(--text-muted)">{item.desc}</p>
                       </div>
                       <button
                         onClick={() => setNotifs((prev) => prev.map((v, j) => (j === i ? !v : v)))}
@@ -178,27 +178,27 @@ export default function ParentSettingsPage() {
 
             {activeTab === "security" && (
               <div className="space-y-6">
-                <div className="bg-[#1a2e27] rounded-xl border border-slate-800 p-7">
-                  <h3 className="text-xl font-bold text-white mb-6">Password</h3>
-                  <div className="flex items-center justify-between p-4 bg-[#102022]/50 rounded-xl border border-slate-700">
+                <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
+                  <h3 className="text-xl font-bold text-(--text-base) mb-6">Password</h3>
+                  <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700">
                     <div>
-                      <p className="font-bold text-slate-100">Account Password</p>
-                      <p className="text-sm text-slate-400">Change your login password</p>
+                      <p className="font-bold text-(--text-base)">Account Password</p>
+                      <p className="text-sm text-(--text-muted)">Change your login password</p>
                     </div>
-                    <a href="/auth/change-password" className="px-4 py-2 bg-[#1a2e27] border border-slate-700 text-slate-200 text-sm font-bold rounded-lg hover:border-[rgba(139,92,246,0.5)] transition-colors">
+                    <a href="/auth/change-password" className="px-4 py-2 bg-(--bg-card) border border-slate-700 text-slate-200 text-sm font-bold rounded-lg hover:border-[rgba(139,92,246,0.5)] transition-colors">
                       Change Password
                     </a>
                   </div>
                 </div>
 
-                <div className="bg-[#1a2e27] rounded-xl border border-slate-800 p-7">
+                <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
                   <div className="flex items-center justify-between mb-6">
                     <div>
-                      <h3 className="text-xl font-bold text-white">Active Sessions</h3>
-                      <p className="text-slate-400 text-sm mt-0.5">Devices currently signed in</p>
+                      <h3 className="text-xl font-bold text-(--text-base)">Active Sessions</h3>
+                      <p className="text-(--text-muted) text-sm mt-0.5">Devices currently signed in</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <button onClick={fetchSessions} className="p-2 text-slate-400 hover:text-white transition-colors">
+                      <button onClick={fetchSessions} className="p-2 text-(--text-muted) hover:text-(--text-base) transition-colors">
                         <span className="material-symbols-outlined text-[18px]">refresh</span>
                       </button>
                       <button
@@ -215,18 +215,18 @@ export default function ParentSettingsPage() {
                       <span className="material-symbols-outlined animate-spin text-2xl" style={{ color: ACCENT }}>progress_activity</span>
                     </div>
                   ) : sessions.length === 0 ? (
-                    <p className="text-slate-500 text-sm text-center py-6">No active sessions found.</p>
+                    <p className="text-(--text-faint) text-sm text-center py-6">No active sessions found.</p>
                   ) : (
                     <div className="space-y-3">
                       {sessions.map((s) => {
                         const isCurrent = s.id === currentSessionId;
                         return (
-                          <div key={s.id} className={`flex items-center justify-between p-4 rounded-xl border ${isCurrent ? "bg-[rgba(139,92,246,0.04)]" : "bg-[#102022]/50 border-slate-700"}`} style={isCurrent ? { borderColor: `${ACCENT}30` } : {}}>
+                          <div key={s.id} className={`flex items-center justify-between p-4 rounded-xl border ${isCurrent ? "bg-[rgba(139,92,246,0.04)]" : "bg-(--bg-page)/50 border-slate-700"}`} style={isCurrent ? { borderColor: `${ACCENT}30` } : {}}>
                             <div className="flex items-start gap-3 min-w-0">
-                              <span className="material-symbols-outlined text-slate-400 text-xl mt-0.5 shrink-0">devices</span>
+                              <span className="material-symbols-outlined text-(--text-muted) text-xl mt-0.5 shrink-0">devices</span>
                               <div className="min-w-0">
                                 <p className="text-slate-200 text-sm font-medium truncate">{s.device.length > 60 ? s.device.slice(0, 60) + "…" : s.device}</p>
-                                <p className="text-slate-500 text-xs mt-0.5">
+                                <p className="text-(--text-faint) text-xs mt-0.5">
                                   IP {s.ip} · Created {s.createdAt ? new Date(s.createdAt).toLocaleDateString() : "unknown"}
                                   {isCurrent && <span className="ml-2 font-semibold" style={{ color: ACCENT }}>(this device)</span>}
                                 </p>
@@ -236,7 +236,7 @@ export default function ParentSettingsPage() {
                               <button
                                 onClick={() => revokeSession(s.id)}
                                 disabled={revoking === s.id}
-                                className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-slate-400 border border-slate-700 rounded-lg hover:text-[#ff4d4d] hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
+                                className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-slate-700 rounded-lg hover:text-[#ff4d4d] hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
                               >
                                 {revoking === s.id ? "..." : "Revoke"}
                               </button>

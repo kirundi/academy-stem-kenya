@@ -83,7 +83,7 @@ function ChallengeLeaderboard({
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.1)] overflow-hidden">
+    <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
       {/* Challenge header */}
       <button
         onClick={() => setCollapsed((v) => !v)}
@@ -93,7 +93,7 @@ function ChallengeLeaderboard({
           {challenge.icon ?? "&#x1F3C6;"}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-base truncate">{challenge.title}</h3>
+          <h3 className="text-(--text-base) font-bold text-base truncate">{challenge.title}</h3>
           <div className="flex items-center gap-3 mt-0.5 flex-wrap">
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(16,185,129,0.15)] text-[#10b981]">
               {challenge.scope}
@@ -220,7 +220,7 @@ export default function MentorLeaderboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#10b981]">
           progress_activity
         </span>
@@ -230,7 +230,7 @@ export default function MentorLeaderboardPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center px-8">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center px-8">
         <div className="text-center">
           <span className="material-symbols-outlined text-[48px] text-red-400 mb-3 block">
             error
@@ -274,11 +274,11 @@ export default function MentorLeaderboardPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(16,185,129,0.1)] px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl font-bold text-(--text-base) flex items-center gap-2">
             <span className="material-symbols-outlined text-[#10b981] text-[22px]">leaderboard</span>
             Leaderboard
           </h1>
@@ -289,7 +289,7 @@ export default function MentorLeaderboardPage() {
         {totalRanked > 0 && (
           <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[rgba(16,185,129,0.08)] border border-[rgba(16,185,129,0.15)]">
             <span className="material-symbols-outlined text-[#10b981] text-[18px]">grading</span>
-            <span className="text-white font-bold text-sm">{totalRanked}</span>
+            <span className="text-(--text-base) font-bold text-sm">{totalRanked}</span>
             <span className="text-[#10b981] text-xs font-semibold">Ranked</span>
           </div>
         )}
@@ -297,11 +297,11 @@ export default function MentorLeaderboardPage() {
 
       <div className="px-8 py-8">
         {challenges.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.08)]">
+          <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
               leaderboard
             </span>
-            <p className="text-white font-semibold text-lg mb-2">No challenges assigned yet</p>
+            <p className="text-(--text-base) font-semibold text-lg mb-2">No challenges assigned yet</p>
             <p className="text-slate-400 text-sm max-w-sm text-center">
               Contact a platform administrator to be assigned as a judge for a challenge.
             </p>

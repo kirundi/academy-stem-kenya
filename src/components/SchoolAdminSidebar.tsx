@@ -8,6 +8,7 @@ import { useDocument } from "@/hooks/useFirestore";
 import { useAuth } from "@/hooks/useAuth";
 import type { School } from "@/lib/types";
 import NotificationBell from "./NotificationBell";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { label: "Overview", href: "/school/admin", icon: "dashboard", exact: true },
@@ -51,8 +52,8 @@ export default function SchoolAdminSidebar() {
   };
 
   return (
-    <aside className="w-60 shrink-0 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col h-full fixed left-0 top-0 z-20">
-      <div className="px-5 py-5 border-b border-[rgba(19,236,164,0.08)]">
+    <aside className="w-60 shrink-0 bg-(--bg-sidebar) border-r border-(--border-subtle) flex flex-col h-full fixed left-0 top-0 z-20">
+      <div className="px-5 py-5 border-b border-(--border-subtle)">
         <StemLogo size="md" />
         <div className="mt-2">
           <span className="text-[10px] font-bold uppercase tracking-widest text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-0.5 rounded">
@@ -61,9 +62,9 @@ export default function SchoolAdminSidebar() {
         </div>
       </div>
 
-      <div className="px-5 py-4 border-b border-[rgba(19,236,164,0.08)]">
-        <p className="text-xs text-slate-500 font-medium mb-1">Managing</p>
-        <p className="text-white text-sm font-semibold">{school?.name ?? "Loading..."}</p>
+      <div className="px-5 py-4 border-b border-(--border-subtle)">
+        <p className="text-xs text-(--text-faint) font-medium mb-1">Managing</p>
+        <p className="text-(--text-base) text-sm font-semibold">{school?.name ?? "Loading..."}</p>
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
@@ -79,7 +80,7 @@ export default function SchoolAdminSidebar() {
         ))}
       </nav>
 
-      <div className="px-3 pb-4 space-y-1 border-t border-[rgba(19,236,164,0.08)] pt-3">
+      <div className="px-3 pb-4 space-y-1 border-t border-(--border-subtle) pt-3">
         {bottomItems.map((item) => (
           <Link key={item.href} href={item.href} className="sidebar-link">
             <span className="material-symbols-outlined text-[20px]">{item.icon}</span>
@@ -92,14 +93,15 @@ export default function SchoolAdminSidebar() {
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-slate-300 font-medium truncate">
+              <p className="text-xs text-(--text-muted) font-medium truncate">
                 {appUser?.displayName ?? "..."}
               </p>
-              <p className="text-xs text-slate-500 truncate">Administrator</p>
+              <p className="text-xs text-(--text-faint) truncate">Administrator</p>
             </div>
+            <ThemeToggle />
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
                 logout
               </span>
             </button>

@@ -271,6 +271,101 @@ export async function sendSchoolDecisionEmail(
   });
 }
 
+/**
+ * Sent immediately when a draft is saved (step 2 → step 3 transition).
+ * Gives the user a resume link valid for 72 hours.
+ */
+export async function sendRegistrationDraftEmail(params: {
+  to: string;
+  name: string;
+  schoolName: string;
+  resumeLink: string;
+}) {
+  await sendEmail({
+    from: FROM_EMAIL,
+    to: params.to,
+    bcc: BCC_EMAIL,
+    subject: `Complete your STEM Impact Academy registration — ${params.schoolName}`,
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <h1 style="color: #10221c; font-size: 24px; margin: 0;">STEM Impact Academy</h1>
+          <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Kenya</p>
+        </div>
+        <div style="background: #f8fafb; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0;">
+          <h2 style="color: #10221c; font-size: 20px; margin: 0 0 8px;">Hello, ${params.name}!</h2>
+          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 8px;">
+            You've started registering <strong>${params.schoolName}</strong> on the STEM Impact Academy platform but haven't submitted your application yet.
+          </p>
+          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 24px;">
+            Click the button below to return to the review step and submit your application. Your progress has been saved.
+          </p>
+          <a href="${params.resumeLink}" style="display: inline-block; background: #13eca4; color: #10221c; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 8px; text-decoration: none;">
+            Complete Registration
+          </a>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 20px;">
+            This link expires in <strong>72 hours</strong>. If the button doesn't work, copy and paste this URL:<br/>
+            <span style="color: #475569; font-size: 12px; font-family: monospace; word-break: break-all;">${params.resumeLink}</span>
+          </p>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 12px;">
+            If you did not start this registration, you can safely ignore this email.
+          </p>
+        </div>
+        <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 32px;">
+          &copy; ${new Date().getFullYear()} STEM Impact Center Kenya &middot; stemimpactcenterkenya.org
+        </p>
+      </div>
+    `,
+  });
+}
+
+/**
+ * Reminder sent ~24h after draft creation if the user still hasn't submitted.
+ */
+export async function sendDraftReminderEmail(params: {
+  to: string;
+  name: string;
+  schoolName: string;
+  resumeLink: string;
+}) {
+  await sendEmail({
+    from: FROM_EMAIL,
+    to: params.to,
+    bcc: BCC_EMAIL,
+    subject: `Reminder: your ${params.schoolName} registration is incomplete`,
+    html: `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 40px 20px;">
+        <div style="text-align: center; margin-bottom: 32px;">
+          <h1 style="color: #10221c; font-size: 24px; margin: 0;">STEM Impact Academy</h1>
+          <p style="color: #64748b; font-size: 14px; margin-top: 4px;">Kenya</p>
+        </div>
+        <div style="background: #f8fafb; border-radius: 12px; padding: 32px; border: 1px solid #e2e8f0;">
+          <div style="background: #fef3c7; border-radius: 8px; padding: 14px 16px; border: 1px solid #fde68a; margin-bottom: 24px;">
+            <p style="color: #92400e; font-size: 14px; font-weight: 600; margin: 0;">Your registration is still incomplete</p>
+          </div>
+          <h2 style="color: #10221c; font-size: 20px; margin: 0 0 8px;">Hello, ${params.name}!</h2>
+          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 8px;">
+            We noticed you started registering <strong>${params.schoolName}</strong> but haven't submitted your application yet.
+          </p>
+          <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 24px;">
+            Your saved details are ready — it only takes a moment to complete. This link will expire soon.
+          </p>
+          <a href="${params.resumeLink}" style="display: inline-block; background: #13eca4; color: #10221c; font-weight: 700; font-size: 14px; padding: 14px 32px; border-radius: 8px; text-decoration: none;">
+            Complete My Registration
+          </a>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 20px;">
+            If the button doesn't work, copy and paste this URL:<br/>
+            <span style="color: #475569; font-size: 12px; font-family: monospace; word-break: break-all;">${params.resumeLink}</span>
+          </p>
+        </div>
+        <p style="color: #94a3b8; font-size: 12px; text-align: center; margin-top: 32px;">
+          &copy; ${new Date().getFullYear()} STEM Impact Center Kenya &middot; stemimpactcenterkenya.org
+        </p>
+      </div>
+    `,
+  });
+}
+
 export async function sendWelcomeEmail(params: {
   to: string;
   schoolName: string;

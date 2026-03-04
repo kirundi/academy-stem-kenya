@@ -128,25 +128,25 @@ function AcceptInviteContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c] text-white flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-(--bg-page) text-(--text-base) flex flex-col relative overflow-hidden">
       <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[rgba(19,236,164,0.06)] rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-[rgba(255,77,77,0.05)] rounded-full blur-[120px]" />
       </div>
 
-      <header className="flex items-center px-6 md:px-20 py-4 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
+      <header className="flex items-center px-6 md:px-20 py-4 border-b border-(--border-subtle) bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
         <StemLogo />
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14">
-        <div className="max-w-md w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-10 rounded-3xl shadow-2xl">
+        <div className="max-w-md w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-(--border-subtle) p-8 md:p-10 rounded-3xl shadow-2xl">
           {/* Loading state */}
           {validating && (
             <div className="flex flex-col items-center py-8 gap-4">
               <span className="material-symbols-outlined animate-spin text-[#13eca4] text-4xl">
                 progress_activity
               </span>
-              <p className="text-slate-400 text-sm">Validating your invite...</p>
+              <p className="text-(--text-muted) text-sm">Validating your invite...</p>
             </div>
           )}
 
@@ -156,8 +156,8 @@ function AcceptInviteContent() {
               <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] mb-4">
                 <span className="material-symbols-outlined text-[#ff4d4d] text-2xl">link_off</span>
               </div>
-              <h1 className="text-xl font-bold text-white mb-2">Invite Link Invalid</h1>
-              <p className="text-slate-400 text-sm leading-relaxed">{validationError}</p>
+              <h1 className="text-xl font-bold text-(--text-base) mb-2">Invite Link Invalid</h1>
+              <p className="text-(--text-muted) text-sm leading-relaxed">{validationError}</p>
               <a
                 href="/login"
                 className="mt-6 inline-block text-[#13eca4] text-sm font-semibold hover:underline"
@@ -171,25 +171,25 @@ function AcceptInviteContent() {
           {!validating && invite && (
             <>
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] mb-4">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[rgba(19,236,164,0.1)] border border-(--border-accent) mb-4">
                   <span className="material-symbols-outlined text-[#13eca4] text-2xl">
                     mark_email_read
                   </span>
                 </div>
-                <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.15)] rounded-full px-4 py-1.5 mb-3">
+                <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-(--border-medium) rounded-full px-4 py-1.5 mb-3">
                   <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
                   <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
                     Invitation
                   </span>
                 </div>
-                <h1 className="text-2xl font-bold text-white mb-1">
+                <h1 className="text-2xl font-bold text-(--text-base) mb-1">
                   Welcome, {invite.displayName}!
                 </h1>
-                <p className="text-slate-400 text-sm">
+                <p className="text-(--text-muted) text-sm">
                   <strong>{invite.invitedByName}</strong> invited you as{" "}
-                  <strong className="text-white">{ROLE_LABELS[invite.role] ?? invite.role}</strong>
+                  <strong className="text-(--text-base)">{ROLE_LABELS[invite.role] ?? invite.role}</strong>
                 </p>
-                <p className="mt-3 text-xs text-slate-500 bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.06)] rounded-lg px-3 py-2 inline-block">
+                <p className="mt-3 text-xs text-(--text-faint) bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-3 py-2 inline-block">
                   {invite.email}
                 </p>
               </div>
@@ -205,7 +205,7 @@ function AcceptInviteContent() {
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  <label className="block text-sm font-semibold text-(--text-muted) mb-2">
                     Choose a Password
                   </label>
                   <div className="relative">
@@ -221,7 +221,7 @@ function AcceptInviteContent() {
                     <button
                       type="button"
                       onClick={() => setShowPassword((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-(--text-faint) hover:text-(--text-muted) transition-colors"
                     >
                       <span className="material-symbols-outlined text-[20px]">
                         {showPassword ? "visibility_off" : "visibility"}
@@ -230,7 +230,7 @@ function AcceptInviteContent() {
                   </div>
                   {password.length > 0 && (
                     <div className="mt-2">
-                      <div className="h-1 w-full bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
+                      <div className="h-1 w-full bg-(--input-bg) rounded-full overflow-hidden">
                         <div
                           className="h-full rounded-full transition-all duration-300"
                           style={{ width: strength.width, backgroundColor: strength.color }}
@@ -244,7 +244,7 @@ function AcceptInviteContent() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-300 mb-2">
+                  <label className="block text-sm font-semibold text-(--text-muted) mb-2">
                     Confirm Password
                   </label>
                   <div className="relative">
@@ -260,7 +260,7 @@ function AcceptInviteContent() {
                     <button
                       type="button"
                       onClick={() => setShowConfirm((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-(--text-faint) hover:text-(--text-muted) transition-colors"
                     >
                       <span className="material-symbols-outlined text-[20px]">
                         {showConfirm ? "visibility_off" : "visibility"}

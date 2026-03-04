@@ -108,12 +108,12 @@ export default function AnalyticsDashboard() {
   const PLAN_COLOR: Record<string, string> = { premium: "#f59e0b", standard: "#3b82f6", community: "#10b981" };
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Platform Analytics</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Read-only · Live data</p>
+          <h1 className="text-xl font-bold text-(--text-base)">Platform Analytics</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">Read-only · Live data</p>
         </div>
         <div className="w-9 h-9 rounded-full bg-[rgba(168,85,247,0.2)] flex items-center justify-center text-[#a855f7] font-bold text-sm">
           {getInitials(displayName)}
@@ -131,7 +131,7 @@ export default function AnalyticsDashboard() {
           ].map(({ label, value, icon, color, sub }) => (
             <div
               key={label}
-              className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-5 flex items-start gap-4"
+              className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-5 flex items-start gap-4"
             >
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -140,9 +140,9 @@ export default function AnalyticsDashboard() {
                 <span className="material-symbols-outlined text-[22px]" style={{ color }}>{icon}</span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value.toLocaleString()}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
-                <p className="text-slate-600 text-[10px] mt-0.5">{sub}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value.toLocaleString()}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-faint) text-[10px] mt-0.5">{sub}</p>
               </div>
             </div>
           ))}
@@ -150,8 +150,8 @@ export default function AnalyticsDashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           {/* School status breakdown */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
-            <h2 className="text-white font-bold text-sm mb-5 flex items-center gap-2">
+          <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
+            <h2 className="text-(--text-base) font-bold text-sm mb-5 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#a855f7] text-[18px]">domain</span>
               School Status
             </h2>
@@ -162,7 +162,7 @@ export default function AnalyticsDashboard() {
                 return (
                   <div key={status}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-400 capitalize">{status}</span>
+                      <span className="text-(--text-muted) capitalize">{status}</span>
                       <span className="font-bold" style={{ color }}>{count} ({pct}%)</span>
                     </div>
                     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -172,14 +172,14 @@ export default function AnalyticsDashboard() {
                 );
               })}
               {Object.keys(schoolStatusCounts).length === 0 && (
-                <p className="text-slate-500 text-xs">No school data yet.</p>
+                <p className="text-(--text-faint) text-xs">No school data yet.</p>
               )}
             </div>
           </div>
 
           {/* Course breakdown */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
-            <h2 className="text-white font-bold text-sm mb-5 flex items-center gap-2">
+          <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
+            <h2 className="text-(--text-base) font-bold text-sm mb-5 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#a855f7] text-[18px]">school</span>
               Course Status
             </h2>
@@ -193,7 +193,7 @@ export default function AnalyticsDashboard() {
                 return (
                   <div key={label}>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-400">{label}</span>
+                      <span className="text-(--text-muted)">{label}</span>
                       <span className="font-bold" style={{ color }}>{count} ({pct}%)</span>
                     </div>
                     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -205,13 +205,13 @@ export default function AnalyticsDashboard() {
             </div>
 
             <div className="mt-5 pt-4 border-t border-white/5">
-              <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-wide mb-3">Subscription Plans</h3>
+              <h3 className="text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-3">Subscription Plans</h3>
               <div className="flex gap-3 flex-wrap">
                 {Object.entries(planCounts).map(([plan, count]) => (
                   <div key={plan} className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full" style={{ background: PLAN_COLOR[plan] ?? "#64748b" }} />
-                    <span className="text-slate-400 text-xs capitalize">{plan}</span>
-                    <span className="text-white text-xs font-bold">{count}</span>
+                    <span className="text-(--text-muted) text-xs capitalize">{plan}</span>
+                    <span className="text-(--text-base) text-xs font-bold">{count}</span>
                   </div>
                 ))}
               </div>
@@ -219,8 +219,8 @@ export default function AnalyticsDashboard() {
           </div>
 
           {/* User role distribution */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
-            <h2 className="text-white font-bold text-sm mb-5 flex items-center gap-2">
+          <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
+            <h2 className="text-(--text-base) font-bold text-sm mb-5 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#a855f7] text-[18px]">group</span>
               User Roles
             </h2>
@@ -239,12 +239,12 @@ export default function AnalyticsDashboard() {
                     <div className="flex-1 h-1.5 bg-white/10 rounded-full overflow-hidden">
                       <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
                     </div>
-                    <span className="text-white font-bold text-xs shrink-0 w-8 text-right">{count}</span>
+                    <span className="text-(--text-base) font-bold text-xs shrink-0 w-8 text-right">{count}</span>
                   </div>
                 );
               })}
               {topRoles.length === 0 && (
-                <p className="text-slate-500 text-xs">No user data yet.</p>
+                <p className="text-(--text-faint) text-xs">No user data yet.</p>
               )}
             </div>
           </div>
@@ -253,17 +253,17 @@ export default function AnalyticsDashboard() {
         {/* Schools table + Activity feed */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Top schools by student count */}
-          <div className="lg:col-span-2 bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
+          <div className="lg:col-span-2 bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
             <div className="px-6 py-4 border-b border-white/5">
-              <h2 className="text-white font-bold text-sm flex items-center gap-2">
+              <h2 className="text-(--text-base) font-bold text-sm flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#a855f7] text-[18px]">leaderboard</span>
                 Schools by Students
               </h2>
             </div>
             {schools.length === 0 ? (
               <div className="py-12 text-center">
-                <span className="material-symbols-outlined text-[40px] text-slate-600 block mb-2">domain_disabled</span>
-                <p className="text-slate-500 text-sm">No schools yet</p>
+                <span className="material-symbols-outlined text-[40px] text-(--text-faint) block mb-2">domain_disabled</span>
+                <p className="text-(--text-faint) text-sm">No schools yet</p>
               </div>
             ) : (
               <div className="divide-y divide-white/[0.04]">
@@ -274,14 +274,14 @@ export default function AnalyticsDashboard() {
                     const statusColor = STATUS_COLOR[school.status] ?? "#64748b";
                     return (
                       <div key={school.id} className="flex items-center gap-4 px-6 py-3">
-                        <span className="text-slate-600 font-mono text-xs w-5 shrink-0">{i + 1}</span>
+                        <span className="text-(--text-faint) font-mono text-xs w-5 shrink-0">{i + 1}</span>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white text-sm font-medium truncate">{school.name}</p>
-                          <p className="text-slate-500 text-xs">{school.location}</p>
+                          <p className="text-(--text-base) text-sm font-medium truncate">{school.name}</p>
+                          <p className="text-(--text-faint) text-xs">{school.location}</p>
                         </div>
                         <div className="text-right shrink-0">
-                          <p className="text-white font-bold text-sm">{(school.studentCount ?? 0).toLocaleString()}</p>
-                          <p className="text-slate-500 text-[10px]">students</p>
+                          <p className="text-(--text-base) font-bold text-sm">{(school.studentCount ?? 0).toLocaleString()}</p>
+                          <p className="text-(--text-faint) text-[10px]">students</p>
                         </div>
                         <div
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0"
@@ -297,17 +297,17 @@ export default function AnalyticsDashboard() {
           </div>
 
           {/* Recent activity */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
+          <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
             <div className="px-6 py-4 border-b border-white/5">
-              <h2 className="text-white font-bold text-sm flex items-center gap-2">
+              <h2 className="text-(--text-base) font-bold text-sm flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#a855f7] text-[18px]">timeline</span>
                 Recent Activity
               </h2>
             </div>
             {activities.length === 0 ? (
               <div className="py-12 text-center">
-                <span className="material-symbols-outlined text-[40px] text-slate-600 block mb-2">notifications_none</span>
-                <p className="text-slate-500 text-sm">No activity yet</p>
+                <span className="material-symbols-outlined text-[40px] text-(--text-faint) block mb-2">notifications_none</span>
+                <p className="text-(--text-faint) text-sm">No activity yet</p>
               </div>
             ) : (
               <div className="overflow-y-auto max-h-[420px] divide-y divide-white/[0.04]">
@@ -322,8 +322,8 @@ export default function AnalyticsDashboard() {
                         <span className="material-symbols-outlined text-[14px]" style={{ color }}>{icon}</span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-slate-300 text-xs leading-relaxed line-clamp-2">{activity.description}</p>
-                        <p className="text-slate-600 text-[10px] mt-0.5">{formatTs(activity.timestamp)}</p>
+                        <p className="text-(--text-muted) text-xs leading-relaxed line-clamp-2">{activity.description}</p>
+                        <p className="text-(--text-faint) text-[10px] mt-0.5">{formatTs(activity.timestamp)}</p>
                       </div>
                     </div>
                   );

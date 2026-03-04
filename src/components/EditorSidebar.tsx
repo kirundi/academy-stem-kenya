@@ -6,6 +6,7 @@ import StemLogo from "./StemLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { label: "Dashboard", href: "/editor/dashboard", icon: "dashboard" },
@@ -34,7 +35,7 @@ export default function EditorSidebar() {
   };
 
   return (
-    <aside className="w-60 shrink-0 bg-[#0d1f1a] border-r border-[rgba(236,72,153,0.12)] flex flex-col h-full fixed left-0 top-0 z-20">
+    <aside className="w-60 shrink-0 bg-(--bg-sidebar) border-r border-[rgba(236,72,153,0.12)] flex flex-col h-full fixed left-0 top-0 z-20">
       <div className="px-5 py-5 border-b border-[rgba(236,72,153,0.12)]">
         <StemLogo size="md" />
       </div>
@@ -45,7 +46,7 @@ export default function EditorSidebar() {
             {initials}
           </div>
           <div>
-            <p className="text-white text-sm font-semibold">{displayName}</p>
+            <p className="text-(--text-base) text-sm font-semibold">{displayName}</p>
             <p className="text-[#ec4899] text-xs font-medium flex items-center gap-1">
               <span className="material-symbols-outlined text-[13px]">edit_note</span>
               Content Editor
@@ -70,7 +71,7 @@ export default function EditorSidebar() {
       <div className="px-3 mb-3">
         <div className="p-3 rounded-xl bg-[rgba(236,72,153,0.08)] border border-[rgba(236,72,153,0.15)]">
           <p className="text-[#ec4899] text-xs font-semibold mb-0.5">Platform Editor</p>
-          <p className="text-slate-400 text-xs leading-relaxed">
+          <p className="text-(--text-muted) text-xs leading-relaxed">
             Create and manage platform-wide courses and challenges.
           </p>
         </div>
@@ -82,12 +83,13 @@ export default function EditorSidebar() {
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs text-slate-300 font-medium truncate">{displayName}</p>
-            <p className="text-xs text-slate-500 truncate">Content Editor</p>
+            <p className="text-xs text-(--text-muted) font-medium truncate">{displayName}</p>
+            <p className="text-xs text-(--text-faint) truncate">Content Editor</p>
           </div>
+          <ThemeToggle />
           <NotificationBell />
           <button onClick={handleSignOut} title="Sign out">
-            <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+            <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
               logout
             </span>
           </button>

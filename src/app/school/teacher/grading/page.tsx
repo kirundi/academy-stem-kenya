@@ -126,14 +126,14 @@ export default function GradingPage() {
 
   if (submissions.length === 0) {
     return (
-      <div className="min-h-screen bg-[#10221c]">
-        <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center">
+      <div className="min-h-screen bg-(--bg-page)">
+        <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center">
           <div>
-            <h1 className="text-xl font-bold text-white">Grading & Feedback</h1>
-            <p className="text-slate-400 text-xs mt-0.5">No submissions to review</p>
+            <h1 className="text-xl font-bold text-(--text-base)">Grading & Feedback</h1>
+            <p className="text-(--text-muted) text-xs mt-0.5">No submissions to review</p>
           </div>
         </header>
-        <div className="flex items-center justify-center h-64 text-slate-500">
+        <div className="flex items-center justify-center h-64 text-(--text-faint)">
           <div className="text-center">
             <span className="material-symbols-outlined text-[48px] mb-4 block">grading</span>
             <p>No submissions yet. They will appear here when students submit work.</p>
@@ -144,11 +144,11 @@ export default function GradingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Grading & Feedback</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">Grading & Feedback</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {pendingCount} submission{pendingCount !== 1 ? "s" : ""} pending review
           </p>
         </div>
@@ -160,7 +160,7 @@ export default function GradingPage() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 filter === f
                   ? "bg-[#13eca4] text-[#10221c]"
-                  : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
+                  : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
               {f}
@@ -171,7 +171,7 @@ export default function GradingPage() {
 
       <div className="flex h-[calc(100vh-64px)]">
         {/* Submission List */}
-        <div className="w-80 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] overflow-y-auto">
+        <div className="w-80 bg-(--bg-page) border-r border-(--border-subtle) overflow-y-auto">
           <div className="p-3 space-y-2">
             {filtered.map((sub) => {
               const initials = (sub.studentId ?? "?").slice(0, 2).toUpperCase();
@@ -189,8 +189,8 @@ export default function GradingPage() {
                   onClick={() => setSelectedId(sub.id)}
                   className={`w-full text-left p-4 rounded-xl transition-all ${
                     selected?.id === sub.id
-                      ? "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)]"
-                      : "bg-[rgba(255,255,255,0.03)] border border-transparent hover:border-[rgba(255,255,255,0.08)]"
+                      ? "bg-[rgba(19,236,164,0.1)] border border-(--border-accent)"
+                      : "bg-[rgba(255,255,255,0.03)] border border-transparent hover:border-(--border-subtle)"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-2">
@@ -198,8 +198,8 @@ export default function GradingPage() {
                       {initials}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm font-semibold">{sub.studentId}</p>
-                      <p className="text-slate-500 text-xs">{submittedDate}</p>
+                      <p className="text-(--text-base) text-sm font-semibold">{sub.studentId}</p>
+                      <p className="text-(--text-faint) text-xs">{submittedDate}</p>
                     </div>
                     {sub.status === "graded" ? (
                       <span className="text-[#13eca4] text-sm font-bold">{sub.grade}</span>
@@ -207,10 +207,10 @@ export default function GradingPage() {
                       <span className="w-2 h-2 bg-orange-400 rounded-full" />
                     )}
                   </div>
-                  <p className="text-slate-300 text-xs font-medium truncate">
+                  <p className="text-(--text-muted) text-xs font-medium truncate">
                     {sub.content || "Submission"}
                   </p>
-                  <p className="text-slate-500 text-xs">{sub.courseId}</p>
+                  <p className="text-(--text-faint) text-xs">{sub.courseId}</p>
                 </button>
               );
             })}
@@ -227,13 +227,13 @@ export default function GradingPage() {
                   {(selected.studentId ?? "?").slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1">
-                  <h2 className="text-white text-2xl font-bold">
+                  <h2 className="text-(--text-base) text-2xl font-bold">
                     {selected.content || "Submission"}
                   </h2>
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-(--text-muted) text-sm">
                     {selected.studentId} · {selected.courseId} · {selected.classroomId}
                   </p>
-                  <p className="text-slate-500 text-xs mt-1">
+                  <p className="text-(--text-faint) text-xs mt-1">
                     Submitted{" "}
                     {selected.submittedAt instanceof Date
                       ? selected.submittedAt.toLocaleDateString("en-US", {
@@ -248,14 +248,14 @@ export default function GradingPage() {
 
               {/* Student Work */}
               {selected.content && (
-                <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6 mb-6">
-                  <h3 className="text-white font-bold mb-3 flex items-center gap-2">
+                <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 mb-6">
+                  <h3 className="text-(--text-base) font-bold mb-3 flex items-center gap-2">
                     <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
                       description
                     </span>
                     Student&apos;s Submission
                   </h3>
-                  <p className="text-slate-300 text-sm leading-relaxed">{selected.content}</p>
+                  <p className="text-(--text-muted) text-sm leading-relaxed">{selected.content}</p>
                   {selected.fileUrl && (
                     <a
                       href={selected.fileUrl}
@@ -271,17 +271,17 @@ export default function GradingPage() {
               )}
 
               {/* Rubric */}
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden mb-6">
-                <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.06)]">
-                  <h3 className="text-white font-bold">Grading Rubric</h3>
+              <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden mb-6">
+                <div className="px-6 py-4 border-b border-(--border-subtle)">
+                  <h3 className="text-(--text-base) font-bold">Grading Rubric</h3>
                 </div>
                 <div className="divide-y divide-[rgba(255,255,255,0.05)]">
                   {rubricCriteria.map((criterion) => (
                     <div key={criterion.label} className="px-6 py-4">
                       <div className="flex items-center justify-between mb-2">
                         <div>
-                          <p className="text-white font-medium text-sm">{criterion.label}</p>
-                          <p className="text-slate-500 text-xs">{criterion.description}</p>
+                          <p className="text-(--text-base) font-medium text-sm">{criterion.label}</p>
+                          <p className="text-(--text-faint) text-xs">{criterion.description}</p>
                         </div>
                         <div className="flex items-center gap-2">
                           <input
@@ -298,9 +298,9 @@ export default function GradingPage() {
                                 ),
                               }))
                             }
-                            className="w-16 text-center bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] rounded-lg py-1.5 text-white font-bold text-sm focus:border-[#13eca4] outline-none"
+                            className="w-16 text-center bg-(--input-bg) border border-(--border-subtle) rounded-lg py-1.5 text-(--text-base) font-bold text-sm focus:border-[#13eca4] outline-none"
                           />
-                          <span className="text-slate-500 text-sm">/ {criterion.max}</span>
+                          <span className="text-(--text-faint) text-sm">/ {criterion.max}</span>
                         </div>
                       </div>
                       <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
@@ -314,9 +314,9 @@ export default function GradingPage() {
                 </div>
                 {/* Total */}
                 <div className="px-6 py-4 bg-[rgba(0,0,0,0.2)] flex items-center justify-between">
-                  <span className="text-white font-semibold">Total Score</span>
+                  <span className="text-(--text-base) font-semibold">Total Score</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-slate-400 text-sm">
+                    <span className="text-(--text-muted) text-sm">
                       {totalScore} / {maxScore}
                     </span>
                     <span
@@ -342,8 +342,8 @@ export default function GradingPage() {
               </div>
 
               {/* Feedback */}
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6 mb-6">
-                <h3 className="text-white font-bold mb-3 flex items-center gap-2">
+              <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 mb-6">
+                <h3 className="text-(--text-base) font-bold mb-3 flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
                     feedback
                   </span>
@@ -368,7 +368,7 @@ export default function GradingPage() {
                     <button
                       key={q}
                       onClick={() => setFeedback((prev) => (prev ? `${prev} ${q}` : q))}
-                      className="text-xs px-3 py-1.5 rounded-xl bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white hover:bg-[rgba(255,255,255,0.1)] transition-all"
+                      className="text-xs px-3 py-1.5 rounded-xl bg-(--input-bg) text-(--text-muted) hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.1)] transition-all"
                     >
                       {q}
                     </button>
@@ -388,7 +388,7 @@ export default function GradingPage() {
                   </span>
                   {submitting ? "Submitting..." : "Submit Grade & Feedback"}
                 </button>
-                <button className="px-5 py-3.5 border border-[rgba(255,255,255,0.1)] text-slate-400 rounded-xl font-semibold hover:border-[rgba(255,255,255,0.2)] hover:text-white transition-all">
+                <button className="px-5 py-3.5 border border-(--border-subtle) text-(--text-muted) rounded-xl font-semibold hover:border-(--border-accent) hover:text-(--text-base) transition-all">
                   <span className="material-symbols-outlined text-[20px]">save</span>
                 </button>
               </div>

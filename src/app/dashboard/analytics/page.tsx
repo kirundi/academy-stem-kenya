@@ -18,9 +18,9 @@ const weekBars = [
 
 const RANK_COLORS = [
   "text-amber-400 bg-amber-400/10",
-  "text-slate-400 bg-slate-400/10",
+  "text-(--text-muted) bg-slate-400/10",
   "text-orange-400 bg-orange-400/10",
-  "text-slate-500 bg-slate-500/10",
+  "text-(--text-faint) bg-slate-500/10",
 ];
 
 export default function SchoolAnalyticsPage() {
@@ -71,7 +71,7 @@ export default function SchoolAnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64 bg-[#10221c]">
+      <div className="flex items-center justify-center h-64 bg-(--bg-page)">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
@@ -80,14 +80,14 @@ export default function SchoolAnalyticsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c] flex flex-col">
+    <div className="min-h-screen bg-(--bg-page) flex flex-col">
       {/* Page Header */}
-      <div className="flex flex-wrap justify-between items-center gap-4 px-8 py-6 border-b border-[rgba(255,255,255,0.06)]">
+      <div className="flex flex-wrap justify-between items-center gap-4 px-8 py-6 border-b border-(--border-subtle)">
         <div>
-          <h1 className="text-white text-3xl font-black tracking-tight">
+          <h1 className="text-(--text-base) text-3xl font-black tracking-tight">
             Platform Performance Analytics
           </h1>
-          <p className="text-slate-400 mt-1">
+          <p className="text-(--text-muted) mt-1">
             {students.length.toLocaleString()} students across {schools.length} active school
             {schools.length !== 1 ? "s" : ""}.
           </p>
@@ -96,7 +96,7 @@ export default function SchoolAnalyticsPage() {
           <select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
-            className="h-11 px-4 rounded-xl border border-[rgba(255,255,255,0.1)] bg-transparent text-slate-300 text-sm font-bold hover:bg-[rgba(255,255,255,0.04)] transition-colors focus:outline-none"
+            className="h-11 px-4 rounded-xl border border-(--border-subtle) bg-transparent text-(--text-muted) text-sm font-bold hover:bg-(--glass-bg) transition-colors focus:outline-none"
           >
             <option value="7d">Last 7 Days</option>
             <option value="30d">Last 30 Days</option>
@@ -153,15 +153,15 @@ export default function SchoolAnalyticsPage() {
           ].map((s) => (
             <div
               key={s.label}
-              className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.07)] flex flex-col gap-2"
+              className="bg-(--bg-card) rounded-2xl p-5 border border-(--border-subtle) flex flex-col gap-2"
             >
               <div className="flex justify-between items-start">
                 <span className="material-symbols-outlined p-2 bg-[rgba(19,236,164,0.08)] text-[#13eca4] rounded-lg text-[20px]">
                   {s.icon}
                 </span>
               </div>
-              <p className="text-slate-400 text-sm font-medium mt-1">{s.label}</p>
-              <p className="text-white text-3xl font-bold">{s.value}</p>
+              <p className="text-(--text-muted) text-sm font-medium mt-1">{s.label}</p>
+              <p className="text-(--text-base) text-3xl font-bold">{s.value}</p>
             </div>
           ))}
         </div>
@@ -169,11 +169,11 @@ export default function SchoolAnalyticsPage() {
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Bar Chart */}
-          <div className="lg:col-span-2 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] p-6">
+          <div className="lg:col-span-2 bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h3 className="text-white font-bold text-lg">Student Engagement Trends</h3>
-                <p className="text-slate-500 text-xs mt-0.5">
+                <h3 className="text-(--text-base) font-bold text-lg">Student Engagement Trends</h3>
+                <p className="text-(--text-faint) text-xs mt-0.5">
                   Illustrative — requires analytics pipeline
                 </p>
               </div>
@@ -196,11 +196,11 @@ export default function SchoolAnalyticsPage() {
               ))}
               <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
                 {[0, 1, 2, 3].map((l) => (
-                  <div key={l} className="border-b border-[rgba(255,255,255,0.04)] w-full h-0" />
+                  <div key={l} className="border-b border-(--border-subtle) w-full h-0" />
                 ))}
               </div>
             </div>
-            <div className="flex justify-between mt-3 text-[10px] font-bold text-slate-500 uppercase">
+            <div className="flex justify-between mt-3 text-[10px] font-bold text-(--text-faint) uppercase">
               {weekBars.map((b) => (
                 <span key={b.day}>{b.day}</span>
               ))}
@@ -208,11 +208,11 @@ export default function SchoolAnalyticsPage() {
           </div>
 
           {/* Dept Distribution Bars */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] p-6 flex flex-col">
-            <h3 className="text-white font-bold text-lg mb-1">Course Distribution</h3>
-            <p className="text-slate-500 text-xs mb-5">By department category</p>
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 flex flex-col">
+            <h3 className="text-(--text-base) font-bold text-lg mb-1">Course Distribution</h3>
+            <p className="text-(--text-faint) text-xs mb-5">By department category</p>
             {departments.length === 0 ? (
-              <p className="text-slate-500 text-sm flex-1 flex items-center justify-center">
+              <p className="text-(--text-faint) text-sm flex-1 flex items-center justify-center">
                 No course data yet
               </p>
             ) : (
@@ -220,10 +220,10 @@ export default function SchoolAnalyticsPage() {
                 {departments.map((d) => (
                   <div key={d.name} className="flex flex-col gap-2">
                     <div className="flex justify-between text-sm">
-                      <span className="text-slate-400">{d.name}</span>
-                      <span className="text-white font-bold">{d.pct}%</span>
+                      <span className="text-(--text-muted)">{d.name}</span>
+                      <span className="text-(--text-base) font-bold">{d.pct}%</span>
                     </div>
-                    <div className="w-full bg-[rgba(255,255,255,0.06)] h-2 rounded-full overflow-hidden">
+                    <div className="w-full bg-(--input-bg) h-2 rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full"
                         style={{ width: `${d.pct}%`, background: d.color }}
@@ -237,9 +237,9 @@ export default function SchoolAnalyticsPage() {
         </div>
 
         {/* Top Schools Table */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden pb-6">
-          <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex justify-between items-center">
-            <h3 className="text-white font-bold text-lg">Top Performing Schools</h3>
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden pb-6">
+          <div className="px-6 py-5 border-b border-(--border-subtle) flex justify-between items-center">
+            <h3 className="text-(--text-base) font-bold text-lg">Top Performing Schools</h3>
             <a
               href="/dashboard/schools"
               className="text-[#13eca4] text-sm font-semibold hover:underline"
@@ -248,13 +248,13 @@ export default function SchoolAnalyticsPage() {
             </a>
           </div>
           {topSchools.length === 0 ? (
-            <div className="px-6 py-12 text-center text-slate-500 text-sm">
+            <div className="px-6 py-12 text-center text-(--text-faint) text-sm">
               No active schools yet.
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="bg-[rgba(255,255,255,0.02)] text-slate-500 text-xs font-bold uppercase tracking-wider">
+                <thead className="bg-[rgba(255,255,255,0.02)] text-(--text-faint) text-xs font-bold uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-4">Rank</th>
                     <th className="px-6 py-4">School</th>
@@ -273,14 +273,14 @@ export default function SchoolAnalyticsPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="text-white font-bold">{c.name}</p>
-                        <p className="text-xs text-slate-500 capitalize">{c.dept}</p>
+                        <p className="text-(--text-base) font-bold">{c.name}</p>
+                        <p className="text-xs text-(--text-faint) capitalize">{c.dept}</p>
                       </td>
-                      <td className="px-6 py-4 text-slate-300">{c.teacher}</td>
+                      <td className="px-6 py-4 text-(--text-muted)">{c.teacher}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-white font-bold">{c.score}</span>
-                          <div className="w-12 bg-[rgba(255,255,255,0.06)] h-1.5 rounded-full">
+                          <span className="text-(--text-base) font-bold">{c.score}</span>
+                          <div className="w-12 bg-(--input-bg) h-1.5 rounded-full">
                             <div
                               className="bg-[#13eca4] h-full rounded-full"
                               style={{ width: `${Math.min(c.score, 100)}%` }}

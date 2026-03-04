@@ -49,13 +49,13 @@ export default function SchoolAdminParentsPage() {
   );
 
   return (
-    <div className="flex h-screen bg-[#10221c]">
+    <div className="flex h-screen bg-(--bg-page)">
       <SchoolAdminSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">Parents</h1>
+            <h1 className="text-xl font-bold text-(--text-base)">Parents</h1>
             <p className="text-slate-400 text-xs mt-0.5">
               Parents linked to students in your school.
             </p>
@@ -72,14 +72,14 @@ export default function SchoolAdminParentsPage() {
           ) : (
             <>
               {/* Stat card */}
-              <div className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] max-w-xs">
+              <div className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] max-w-xs">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-[rgba(19,236,164,0.12)]">
                   <span className="material-symbols-outlined text-[22px] text-[#13eca4]">
                     family_restroom
                   </span>
                 </div>
                 <div>
-                  <p className="text-white font-bold text-2xl leading-none">{parents.length}</p>
+                  <p className="text-(--text-base) font-bold text-2xl leading-none">{parents.length}</p>
                   <p className="text-slate-400 text-xs mt-0.5">Total Parents</p>
                 </div>
               </div>
@@ -93,17 +93,17 @@ export default function SchoolAdminParentsPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by name or email…"
-                  className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                  className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                 />
               </div>
 
               {/* Table */}
               {filtered.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-20 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)]">
+                <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)]">
                   <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
                     family_restroom
                   </span>
-                  <p className="text-white font-semibold mb-1">No parents found</p>
+                  <p className="text-(--text-base) font-semibold mb-1">No parents found</p>
                   <p className="text-slate-400 text-sm">
                     {searchQuery
                       ? "Try adjusting your search."
@@ -111,7 +111,7 @@ export default function SchoolAdminParentsPage() {
                   </p>
                 </div>
               ) : (
-                <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+                <div className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-[rgba(19,236,164,0.08)]">
@@ -149,7 +149,7 @@ export default function SchoolAdminParentsPage() {
                                 <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center text-[#13eca4] text-xs font-bold shrink-0">
                                   {initials}
                                 </div>
-                                <span className="text-white font-medium">
+                                <span className="text-(--text-base) font-medium">
                                   {parent.displayName || "—"}
                                 </span>
                               </div>

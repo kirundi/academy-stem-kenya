@@ -70,28 +70,28 @@ export default function SchoolAdminSettingsPage() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#10221c]">
+    <div className="flex h-screen overflow-hidden bg-(--bg-page)">
       <SchoolAdminSidebar />
       <main className="ml-60 flex-1 overflow-y-auto p-8">
         <div className="max-w-3xl">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-white">Account Settings</h1>
-            <p className="text-slate-400 text-sm mt-1">
+            <h1 className="text-2xl font-bold text-(--text-base)">Account Settings</h1>
+            <p className="text-(--text-muted) text-sm mt-1">
               Manage your account security and active sessions.
             </p>
           </div>
 
           {/* Password */}
           <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7 mb-6">
-            <h2 className="text-lg font-bold text-white mb-4">Password</h2>
-            <div className="flex items-center justify-between p-4 bg-[#102022]/50 rounded-xl border border-slate-700">
+            <h2 className="text-lg font-bold text-(--text-base) mb-4">Password</h2>
+            <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700">
               <div>
-                <p className="font-bold text-slate-100 text-sm">Account Password</p>
-                <p className="text-xs text-slate-400">Change your login password</p>
+                <p className="font-bold text-(--text-base) text-sm">Account Password</p>
+                <p className="text-xs text-(--text-muted)">Change your login password</p>
               </div>
               <a
                 href="/auth/change-password"
-                className="px-4 py-2 bg-[#1a2e31] border border-slate-700 text-slate-200 text-sm font-bold rounded-lg hover:border-[rgba(19,236,164,0.5)] transition-colors"
+                className="px-4 py-2 bg-[#1a2e31] border border-slate-700 text-(--text-base) text-sm font-bold rounded-lg hover:border-[rgba(19,236,164,0.5)] transition-colors"
               >
                 Change Password
               </a>
@@ -102,15 +102,15 @@ export default function SchoolAdminSettingsPage() {
           <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-lg font-bold text-white">Active Sessions</h2>
-                <p className="text-slate-400 text-sm mt-0.5">
+                <h2 className="text-lg font-bold text-(--text-base)">Active Sessions</h2>
+                <p className="text-(--text-muted) text-sm mt-0.5">
                   Devices currently signed into your account
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <button
                   onClick={fetchSessions}
-                  className="p-2 text-slate-400 hover:text-white transition-colors"
+                  className="p-2 text-(--text-muted) hover:text-(--text-base) transition-colors"
                   title="Refresh"
                 >
                   <span className="material-symbols-outlined text-[18px]">refresh</span>
@@ -132,7 +132,7 @@ export default function SchoolAdminSettingsPage() {
                 </span>
               </div>
             ) : sessions.length === 0 ? (
-              <p className="text-slate-500 text-sm text-center py-6">No active sessions found.</p>
+              <p className="text-(--text-faint) text-sm text-center py-6">No active sessions found.</p>
             ) : (
               <div className="space-y-3">
                 {sessions.map((s) => {
@@ -146,17 +146,17 @@ export default function SchoolAdminSettingsPage() {
                       key={s.id}
                       className={`flex items-center justify-between p-4 rounded-xl border ${
                         isCurrent
-                          ? "bg-[rgba(19,236,164,0.04)] border-[rgba(19,236,164,0.2)]"
-                          : "bg-[#102022]/50 border-slate-700"
+                          ? "bg-[rgba(19,236,164,0.04)] border-(--border-accent)"
+                          : "bg-(--bg-page)/50 border-slate-700"
                       }`}
                     >
                       <div className="flex items-start gap-3 min-w-0">
-                        <span className="material-symbols-outlined text-slate-400 text-xl mt-0.5 shrink-0">
+                        <span className="material-symbols-outlined text-(--text-muted) text-xl mt-0.5 shrink-0">
                           devices
                         </span>
                         <div className="min-w-0">
-                          <p className="text-slate-200 text-sm font-medium truncate">{device}</p>
-                          <p className="text-slate-500 text-xs mt-0.5">
+                          <p className="text-(--text-base) text-sm font-medium truncate">{device}</p>
+                          <p className="text-(--text-faint) text-xs mt-0.5">
                             IP {s.ip} &middot; Created {created}
                             {isCurrent && (
                               <span className="ml-2 text-[#13eca4] font-semibold">
@@ -170,7 +170,7 @@ export default function SchoolAdminSettingsPage() {
                         <button
                           onClick={() => revokeSession(s.id)}
                           disabled={revoking === s.id}
-                          className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-slate-400 border border-slate-700 rounded-lg hover:text-[#ff4d4d] hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
+                          className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-slate-700 rounded-lg hover:text-[#ff4d4d] hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
                         >
                           {revoking === s.id ? "..." : "Revoke"}
                         </button>

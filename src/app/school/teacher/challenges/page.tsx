@@ -136,19 +136,19 @@ export default function TeacherChallengesPage() {
   }
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0a1a16] text-white">
+    <div className="flex-1 flex flex-col h-screen overflow-hidden bg-[#0a1a16] text-(--text-base)">
       {/* Top Header */}
-      <header className="h-16 border-b border-[rgba(19,236,164,0.1)] flex items-center justify-between px-8 shrink-0 bg-[#0d1f1a]">
+      <header className="h-16 border-b border-(--border-subtle) flex items-center justify-between px-8 shrink-0 bg-(--bg-page)">
         <div className="flex items-center gap-4">
           <h2 className="text-base font-bold">Teacher Challenge Manager</h2>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-sm">
               search
             </span>
             <input
-              className="pl-10 pr-4 py-2 bg-[#1a2e30] border border-[rgba(19,236,164,0.15)] rounded-lg text-sm w-56 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#13eca4]/50"
+              className="pl-10 pr-4 py-2 bg-(--bg-card) border border-(--border-medium) rounded-lg text-sm w-56 text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]/50"
               placeholder="Find challenges..."
             />
           </div>
@@ -168,7 +168,7 @@ export default function TeacherChallengesPage() {
                   className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
                     activeFilter === f
                       ? "bg-[#13eca4]/20 text-[#13eca4] border-[#13eca4]/30"
-                      : "bg-[#1a2e30] text-slate-400 border-slate-700 hover:border-[#13eca4]/30"
+                      : "bg-(--bg-card) text-(--text-muted) border-slate-700 hover:border-[#13eca4]/30"
                   }`}
                 >
                   {f}
@@ -178,18 +178,18 @@ export default function TeacherChallengesPage() {
             <div className="flex gap-5 text-sm">
               <div className="flex items-center gap-2">
                 <span className="size-2 rounded-full bg-emerald-500" />
-                <span className="text-slate-400">{liveCount} Live</span>
+                <span className="text-(--text-muted)">{liveCount} Live</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2 rounded-full bg-amber-500" />
-                <span className="text-slate-400">{upcomingCount} Upcoming</span>
+                <span className="text-(--text-muted)">{upcomingCount} Upcoming</span>
               </div>
             </div>
           </div>
 
           {/* Challenge Cards Grid */}
           {filtered.length === 0 ? (
-            <div className="text-center py-16 text-slate-500">
+            <div className="text-center py-16 text-(--text-faint)">
               <span className="material-symbols-outlined text-[48px] mb-3 block">emoji_events</span>
               <p>No challenges available yet. Check back soon.</p>
             </div>
@@ -204,17 +204,17 @@ export default function TeacherChallengesPage() {
                 return (
                   <div
                     key={c.id}
-                    className={`bg-[#0d1f1a] border rounded-xl overflow-hidden transition-all group ${
+                    className={`bg-(--bg-page) border rounded-xl overflow-hidden transition-all group ${
                       enrolled
                         ? "border-[#13eca4]/40 shadow-lg shadow-[#13eca4]/5"
                         : upcoming
                           ? "border-slate-700/50 opacity-80"
-                          : "border-[rgba(19,236,164,0.15)] hover:shadow-xl hover:shadow-[#13eca4]/5"
+                          : "border-(--border-medium) hover:shadow-xl hover:shadow-[#13eca4]/5"
                     }`}
                   >
                     {/* Card header banner */}
                     <div className="h-28 bg-linear-to-br from-[#13eca4]/25 to-[#102022] relative">
-                      {upcoming && <div className="absolute inset-0 bg-[#102022]/60 grayscale" />}
+                      {upcoming && <div className="absolute inset-0 bg-(--bg-page)/60 grayscale" />}
                       <div className="absolute inset-0 flex items-center justify-center opacity-15">
                         <span
                           className="material-symbols-outlined text-[#13eca4]"
@@ -225,17 +225,17 @@ export default function TeacherChallengesPage() {
                       </div>
                       <div className="absolute top-3 left-3 flex gap-2">
                         {live && (
-                          <span className="bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                          <span className="bg-emerald-500 text-(--text-base) text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                             Live
                           </span>
                         )}
                         {upcoming && (
-                          <span className="bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                          <span className="bg-amber-500 text-(--text-base) text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                             Upcoming
                           </span>
                         )}
                         {!live && !upcoming && (
-                          <span className="bg-slate-700 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                          <span className="bg-slate-700 text-(--text-base) text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                             Ended
                           </span>
                         )}
@@ -243,7 +243,7 @@ export default function TeacherChallengesPage() {
                           className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
                             c.scope === "school"
                               ? "bg-[#13eca4] text-[#0d1f1a]"
-                              : "bg-slate-700/80 text-white"
+                              : "bg-slate-700/80 text-(--text-base)"
                           }`}
                         >
                           {c.scope === "school" ? "School" : "Global"}
@@ -267,15 +267,15 @@ export default function TeacherChallengesPage() {
                         /* Management view for enrolled challenges */
                         <div className="bg-[#142a25] rounded-lg p-4 mb-4 space-y-2">
                           <div className="flex justify-between items-center mb-1">
-                            <span className="text-[10px] text-slate-400 uppercase font-bold tracking-widest">
+                            <span className="text-[10px] text-(--text-muted) uppercase font-bold tracking-widest">
                               Enrolled Classes
                             </span>
                           </div>
                           {myEnrolls.map((enr) => (
                             <div key={enr.id} className="flex items-center justify-between text-xs">
-                              <span className="text-slate-300">{enr.classroomName}</span>
+                              <span className="text-(--text-muted)">{enr.classroomName}</span>
                               <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-slate-500">Late</span>
+                                <span className="text-[10px] text-(--text-faint)">Late</span>
                                 <button
                                   onClick={() => toggleLateAccess(enr.id, enr.lateAccess)}
                                   className={`w-8 h-4 rounded-full relative transition-colors ${enr.lateAccess ? "bg-[#13eca4]" : "bg-slate-600"}`}
@@ -298,17 +298,17 @@ export default function TeacherChallengesPage() {
                         </div>
                       ) : (
                         c.description && (
-                          <p className="text-sm text-slate-400 mb-5 line-clamp-2">
+                          <p className="text-sm text-(--text-muted) mb-5 line-clamp-2">
                             {c.description}
                           </p>
                         )
                       )}
 
                       <div className="space-y-3">
-                        <div className="flex items-center justify-between text-xs border-t border-[rgba(19,236,164,0.08)] pt-3">
-                          <span className="text-slate-500 italic">Theme: {c.theme}</span>
+                        <div className="flex items-center justify-between text-xs border-t border-(--border-subtle) pt-3">
+                          <span className="text-(--text-faint) italic">Theme: {c.theme}</span>
                           <span
-                            className={`font-medium ${upcoming ? "text-amber-400" : live ? "text-white" : "text-slate-500"}`}
+                            className={`font-medium ${upcoming ? "text-amber-400" : live ? "text-(--text-base)" : "text-(--text-faint)"}`}
                           >
                             {timeLabel(c)}
                           </span>
@@ -316,20 +316,20 @@ export default function TeacherChallengesPage() {
                         <div className="flex gap-2">
                           {enrolled ? (
                             <>
-                              <button className="flex-1 bg-[#1a2e30] text-white py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                              <button className="flex-1 bg-(--bg-card) text-(--text-base) py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
                                 View Student Work
                               </button>
                               <button
                                 onClick={() =>
                                   setEnrollModal({ challengeId: c.id, challengeTitle: c.title })
                                 }
-                                className="px-3 border border-[rgba(19,236,164,0.2)] text-slate-400 rounded-lg hover:bg-[#142a25]"
+                                className="px-3 border border-(--border-accent) text-(--text-muted) rounded-lg hover:bg-[#142a25]"
                               >
                                 <span className="material-symbols-outlined text-sm pt-1">add</span>
                               </button>
                             </>
                           ) : upcoming ? (
-                            <button className="flex-1 bg-[#1a2e30] text-slate-500 py-2 rounded-lg text-sm font-bold cursor-not-allowed">
+                            <button className="flex-1 bg-(--bg-card) text-(--text-faint) py-2 rounded-lg text-sm font-bold cursor-not-allowed">
                               Not Yet Open
                             </button>
                           ) : live ? (
@@ -345,14 +345,14 @@ export default function TeacherChallengesPage() {
                               >
                                 Enroll a Class
                               </button>
-                              <button className="px-3 bg-[#1a2e30] text-slate-400 rounded-lg hover:bg-slate-700">
+                              <button className="px-3 bg-(--bg-card) text-(--text-muted) rounded-lg hover:bg-slate-700">
                                 <span className="material-symbols-outlined text-sm pt-1">
                                   visibility
                                 </span>
                               </button>
                             </>
                           ) : (
-                            <button className="flex-1 bg-[#1a2e30] text-slate-500 py-2 rounded-lg text-sm font-bold cursor-not-allowed">
+                            <button className="flex-1 bg-(--bg-card) text-(--text-faint) py-2 rounded-lg text-sm font-bold cursor-not-allowed">
                               Challenge Ended
                             </button>
                           )}
@@ -367,14 +367,14 @@ export default function TeacherChallengesPage() {
 
           {/* Active Enrollments Table */}
           {myEnrollments.length > 0 && (
-            <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-xl overflow-hidden">
-              <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.08)] flex items-center justify-between">
+            <div className="bg-(--bg-page) border border-(--border-medium) rounded-xl overflow-hidden">
+              <div className="px-6 py-4 border-b border-(--border-subtle) flex items-center justify-between">
                 <h3 className="font-bold text-sm">My Challenge Enrollments</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead>
-                    <tr className="bg-[#142a25]/50 text-slate-400 text-[10px] font-semibold uppercase tracking-wider">
+                    <tr className="bg-[#142a25]/50 text-(--text-muted) text-[10px] font-semibold uppercase tracking-wider">
                       {["Classroom", "Challenge", "Late Access", "Action"].map((h) => (
                         <th key={h} className="px-6 py-3">
                           {h}
@@ -388,9 +388,9 @@ export default function TeacherChallengesPage() {
                       return (
                         <tr key={e.id}>
                           <td className="px-6 py-4">
-                            <div className="font-medium text-white">{e.classroomName}</div>
+                            <div className="font-medium text-(--text-base)">{e.classroomName}</div>
                           </td>
-                          <td className="px-6 py-4 text-slate-300">
+                          <td className="px-6 py-4 text-(--text-muted)">
                             {challenge?.title ?? e.challengeId}
                           </td>
                           <td className="px-6 py-4">
@@ -425,25 +425,25 @@ export default function TeacherChallengesPage() {
       {/* Enroll Class Modal */}
       {enrollModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+          <div className="bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-6 w-full max-w-sm shadow-2xl">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-white font-bold text-base">Enroll a Class</h2>
-                <p className="text-slate-400 text-xs mt-0.5">{enrollModal.challengeTitle}</p>
+                <h2 className="text-(--text-base) font-bold text-base">Enroll a Class</h2>
+                <p className="text-(--text-muted) text-xs mt-0.5">{enrollModal.challengeTitle}</p>
               </div>
               <button
                 onClick={() => {
                   setEnrollModal(null);
                   setSelectedClassroomId("");
                 }}
-                className="text-slate-500 hover:text-white"
+                className="text-(--text-faint) hover:text-(--text-base)"
               >
                 <span className="material-symbols-outlined text-[22px]">close</span>
               </button>
             </div>
 
             {classrooms.length === 0 ? (
-              <p className="text-slate-500 text-sm text-center py-4">
+              <p className="text-(--text-faint) text-sm text-center py-4">
                 No classrooms yet. Create one first.
               </p>
             ) : (
@@ -451,7 +451,7 @@ export default function TeacherChallengesPage() {
                 <select
                   value={selectedClassroomId}
                   onChange={(e) => setSelectedClassroomId(e.target.value)}
-                  className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white mb-4 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                  className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) mb-4 focus:outline-none focus:border-(--border-strong)"
                 >
                   <option value="">Select a classroom…</option>
                   {classrooms.map((c) => (
@@ -466,7 +466,7 @@ export default function TeacherChallengesPage() {
                       setEnrollModal(null);
                       setSelectedClassroomId("");
                     }}
-                    className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                    className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-(--input-bg) text-(--text-muted) hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                   >
                     Cancel
                   </button>

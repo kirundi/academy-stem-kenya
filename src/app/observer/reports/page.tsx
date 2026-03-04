@@ -38,10 +38,10 @@ export default function ObserverReportsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">Reports</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Reports</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             Summary data for your assigned schools
           </p>
@@ -65,7 +65,7 @@ export default function ObserverReportsPage() {
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
               domain_disabled
             </span>
-            <p className="text-white font-semibold text-lg mb-2">No schools assigned</p>
+            <p className="text-(--text-base) font-semibold text-lg mb-2">No schools assigned</p>
             <p className="text-slate-400 text-sm max-w-sm">
               Contact a platform administrator to assign schools to your observer account.
             </p>
@@ -80,7 +80,7 @@ export default function ObserverReportsPage() {
                 return (
                   <div
                     key={school.id}
-                    className="bg-[#1a2e27] rounded-2xl border border-[rgba(6,182,212,0.08)] p-5 flex flex-col gap-3"
+                    className="bg-(--bg-card) rounded-2xl border border-[rgba(6,182,212,0.08)] p-5 flex flex-col gap-3"
                   >
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-xl bg-[rgba(6,182,212,0.1)] flex items-center justify-center shrink-0">
@@ -89,7 +89,7 @@ export default function ObserverReportsPage() {
                         </span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-white font-bold text-sm truncate">{school.name}</h3>
+                        <h3 className="text-(--text-base) font-bold text-sm truncate">{school.name}</h3>
                         <p className="text-slate-500 text-xs">{school.location}</p>
                       </div>
                       <span
@@ -103,19 +103,19 @@ export default function ObserverReportsPage() {
                     <div className="grid grid-cols-2 gap-2 text-xs border-t border-[rgba(6,182,212,0.06)] pt-3">
                       <div>
                         <span className="text-slate-500 block">Students</span>
-                        <p className="text-white font-semibold">{school.studentCount ?? "—"}</p>
+                        <p className="text-(--text-base) font-semibold">{school.studentCount ?? "—"}</p>
                       </div>
                       <div>
                         <span className="text-slate-500 block">Health Score</span>
-                        <p className="text-white font-semibold">{school.healthScore ?? 0}%</p>
+                        <p className="text-(--text-base) font-semibold">{school.healthScore ?? 0}%</p>
                       </div>
                       <div>
                         <span className="text-slate-500 block">Plan</span>
-                        <p className="text-white font-semibold capitalize">{school.plan ?? "—"}</p>
+                        <p className="text-(--text-base) font-semibold capitalize">{school.plan ?? "—"}</p>
                       </div>
                       <div>
                         <span className="text-slate-500 block">Type</span>
-                        <p className="text-white font-semibold">{school.type ?? "—"}</p>
+                        <p className="text-(--text-base) font-semibold">{school.type ?? "—"}</p>
                       </div>
                     </div>
                   </div>
@@ -124,18 +124,18 @@ export default function ObserverReportsPage() {
             </div>
 
             {/* Summary table */}
-            <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(6,182,212,0.08)] overflow-hidden">
+            <div className="bg-(--bg-card) rounded-2xl border border-[rgba(6,182,212,0.08)] overflow-hidden">
               <div className="px-6 py-4 border-b border-[rgba(6,182,212,0.08)] flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#06b6d4] text-[20px]">
                   table_chart
                 </span>
-                <h2 className="text-white font-bold">School Summary Table</h2>
+                <h2 className="text-(--text-base) font-bold">School Summary Table</h2>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-[rgba(255,255,255,0.04)]">
+                    <tr className="border-b border-(--border-subtle)">
                       <th className="text-left px-6 py-3 text-slate-400 text-xs font-semibold">
                         School
                       </th>
@@ -163,7 +163,7 @@ export default function ObserverReportsPage() {
                           className="hover:bg-[rgba(6,182,212,0.02)] transition-colors"
                         >
                           <td className="px-6 py-3">
-                            <p className="text-white font-medium text-sm">{school.name}</p>
+                            <p className="text-(--text-base) font-medium text-sm">{school.name}</p>
                             <p className="text-slate-500 text-xs">{school.location}</p>
                           </td>
                           <td className="px-6 py-3">
@@ -180,10 +180,10 @@ export default function ObserverReportsPage() {
                           <td className="px-6 py-3 text-slate-400 text-xs">
                             {formatDate(school.createdAt)}
                           </td>
-                          <td className="px-6 py-3 text-right text-white font-medium text-sm">
+                          <td className="px-6 py-3 text-right text-(--text-base) font-medium text-sm">
                             {school.studentCount ?? "—"}
                           </td>
-                          <td className="px-6 py-3 text-right text-white font-medium text-sm">
+                          <td className="px-6 py-3 text-right text-(--text-base) font-medium text-sm">
                             {school.healthScore ?? 0}%
                           </td>
                         </tr>

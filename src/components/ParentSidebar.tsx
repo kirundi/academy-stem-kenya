@@ -6,6 +6,7 @@ import StemLogo from "./StemLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { label: "My Children", href: "/parent/dashboard", icon: "family_restroom" },
@@ -15,12 +16,7 @@ const navItems = [
 ];
 
 function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+  return name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 }
 
 export default function ParentSidebar() {
@@ -38,20 +34,20 @@ export default function ParentSidebar() {
   };
 
   return (
-    <aside className="w-60 shrink-0 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col h-full fixed left-0 top-0 z-20">
+    <aside className="w-60 shrink-0 bg-(--bg-sidebar) border-r border-(--border-subtle) flex flex-col h-full fixed left-0 top-0 z-20">
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-[rgba(19,236,164,0.08)]">
+      <div className="px-5 py-5 border-b border-(--border-subtle)">
         <StemLogo size="md" />
       </div>
 
       {/* Parent info */}
-      <div className="px-5 py-4 border-b border-[rgba(19,236,164,0.08)]">
+      <div className="px-5 py-4 border-b border-(--border-subtle)">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-white font-bold text-sm">
             {initials}
           </div>
           <div>
-            <p className="text-white text-sm font-semibold">{displayName}</p>
+            <p className="text-(--text-base) text-sm font-semibold">{displayName}</p>
             <p className="text-[#8b5cf6] text-xs font-medium flex items-center gap-1">
               <span className="material-symbols-outlined text-[13px]">family_restroom</span>
               Parent
@@ -78,25 +74,26 @@ export default function ParentSidebar() {
       <div className="px-3 mb-3">
         <div className="p-3 rounded-xl bg-[rgba(139,92,246,0.08)] border border-[rgba(139,92,246,0.15)]">
           <p className="text-[#8b5cf6] text-xs font-semibold mb-0.5">Need help?</p>
-          <p className="text-slate-400 text-xs leading-relaxed">
+          <p className="text-(--text-muted) text-xs leading-relaxed">
             Contact your child&apos;s school or teacher for account support.
           </p>
         </div>
       </div>
 
       {/* Bottom user strip */}
-      <div className="px-3 pb-4 border-t border-[rgba(19,236,164,0.08)] pt-3">
+      <div className="px-3 pb-4 border-t border-(--border-subtle) pt-3">
         <div className="flex items-center gap-3 px-3 pt-3">
           <div className="w-8 h-8 rounded-full bg-[rgba(139,92,246,0.15)] flex items-center justify-center text-[#8b5cf6] text-xs font-bold">
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs text-slate-300 font-medium truncate">{displayName}</p>
-            <p className="text-xs text-slate-500 truncate">Parent</p>
+            <p className="text-xs text-(--text-muted) font-medium truncate">{displayName}</p>
+            <p className="text-xs text-(--text-faint) truncate">Parent</p>
           </div>
+          <ThemeToggle />
           <NotificationBell />
           <button onClick={handleSignOut} title="Sign out">
-            <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+            <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
               logout
             </span>
           </button>

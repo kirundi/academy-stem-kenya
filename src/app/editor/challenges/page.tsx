@@ -68,15 +68,15 @@ export default function EditorChallengesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(236,72,153,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Challenges</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Challenges</h1>
           <p className="text-slate-400 text-xs mt-0.5">{challenges.length} total · {activeChallenges.length} active now</p>
         </div>
         <a
           href="/editor/challenges/new"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm text-white transition-opacity hover:opacity-90"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm text-(--text-base) transition-opacity hover:opacity-90"
           style={{ background: "#ec4899" }}
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
@@ -92,12 +92,12 @@ export default function EditorChallengesPage() {
             { label: "School Challenges", value: schoolChallenges.length, color: "#f59e0b", icon: "school" },
             { label: "Currently Active", value: activeChallenges.length, color: "#10b981", icon: "emoji_events" },
           ].map(({ label, value, color, icon }) => (
-            <div key={label} className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(236,72,153,0.08)]">
+            <div key={label} className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(236,72,153,0.08)]">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${color}18` }}>
                 <span className="material-symbols-outlined text-[22px]" style={{ color }}>{icon}</span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
@@ -112,7 +112,7 @@ export default function EditorChallengesPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title or theme…"
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div className="flex gap-2">
@@ -136,9 +136,9 @@ export default function EditorChallengesPage() {
         {/* Challenge list */}
         <div className="space-y-3">
           {filtered.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-20 bg-[#1a2e27] rounded-2xl border border-[rgba(236,72,153,0.08)]">
+            <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(236,72,153,0.08)]">
               <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">emoji_events</span>
-              <p className="text-white font-semibold mb-1">No challenges found</p>
+              <p className="text-(--text-base) font-semibold mb-1">No challenges found</p>
               <p className="text-slate-400 text-sm">
                 {searchQuery || filterScope !== "all" ? "Try adjusting your filters." : "No challenges have been created yet."}
               </p>
@@ -151,7 +151,7 @@ export default function EditorChallengesPage() {
               return (
                 <div
                   key={challenge.id}
-                  className="bg-[#1a2e27] rounded-2xl border border-[rgba(236,72,153,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(236,72,153,0.2)] transition-colors"
+                  className="bg-(--bg-card) rounded-2xl border border-[rgba(236,72,153,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(236,72,153,0.2)] transition-colors"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[rgba(236,72,153,0.12)] flex items-center justify-center shrink-0 text-2xl">
                     {challenge.icon ?? "🏆"}
@@ -159,7 +159,7 @@ export default function EditorChallengesPage() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-white font-bold text-sm">{challenge.title}</h3>
+                      <h3 className="text-(--text-base) font-bold text-sm">{challenge.title}</h3>
                       <span
                         className="text-[10px] font-bold px-2 py-0.5 rounded-full capitalize"
                         style={{ background: `${scopeColor}18`, color: scopeColor }}

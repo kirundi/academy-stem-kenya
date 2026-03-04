@@ -136,10 +136,10 @@ export default function AnalyticsReportsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">Reports &amp; Exports</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Reports &amp; Exports</h1>
           <p className="text-slate-400 text-xs mt-0.5">Download platform data as CSV files</p>
         </div>
       </header>
@@ -149,7 +149,7 @@ export default function AnalyticsReportsPage() {
           {exportCards.map((card) => (
             <div
               key={card.title}
-              className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-6 flex flex-col gap-4"
+              className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-6 flex flex-col gap-4"
             >
               <div className="flex items-start gap-3">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-[rgba(168,85,247,0.12)]">
@@ -158,7 +158,7 @@ export default function AnalyticsReportsPage() {
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-white font-bold text-sm">{card.title}</p>
+                  <p className="text-(--text-base) font-bold text-sm">{card.title}</p>
                   <p className="text-[#a855f7] text-xs font-semibold mt-0.5">
                     {card.count} records
                   </p>

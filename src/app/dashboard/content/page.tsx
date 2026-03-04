@@ -52,10 +52,10 @@ export default function ContentManagementPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Content Management</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Content Management</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             {allCourses.length} courses across the platform
           </p>
@@ -74,13 +74,13 @@ export default function ContentManagementPage() {
       {/* Delete confirmation modal */}
       {confirmDeleteId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(255,255,255,0.1)] p-6 w-full max-w-sm shadow-2xl">
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 w-full max-w-sm shadow-2xl">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-red-500/15 flex items-center justify-center">
                 <span className="material-symbols-outlined text-red-400 text-[22px]">warning</span>
               </div>
               <div>
-                <h3 className="text-white font-bold">Delete Course</h3>
+                <h3 className="text-(--text-base) font-bold">Delete Course</h3>
                 <p className="text-slate-400 text-xs">This action cannot be undone.</p>
               </div>
             </div>
@@ -96,7 +96,7 @@ export default function ContentManagementPage() {
               </button>
               <button
                 onClick={() => { remove(confirmDeleteId); setConfirmDeleteId(null); }}
-                className="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors"
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-(--text-base) bg-red-500 hover:bg-red-600 transition-colors"
               >
                 Delete Permanently
               </button>
@@ -108,14 +108,14 @@ export default function ContentManagementPage() {
       <div className="px-8 py-8 space-y-6">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]">
+          <div className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)">
             <span className="text-slate-400 text-sm font-medium">Total Courses</span>
-            <p className="text-white text-3xl font-bold mt-2">{allCourses.length}</p>
+            <p className="text-(--text-base) text-3xl font-bold mt-2">{allCourses.length}</p>
           </div>
           {diffBreakdown.map((d) => (
             <div
               key={d.level}
-              className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]"
+              className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)"
             >
               <span className="text-slate-400 text-sm font-medium">{d.level}</span>
               <p className="text-3xl font-bold mt-2" style={{ color: d.color }}>
@@ -135,7 +135,7 @@ export default function ContentManagementPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search courses..."
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+              className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
             />
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -146,7 +146,7 @@ export default function ContentManagementPage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                   selectedCategory === cat
                     ? "bg-[#13eca4] text-[#10221c]"
-                    : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
+                    : "bg-(--input-bg) text-slate-400 hover:text-(--text-base)"
                 }`}
               >
                 {cat}
@@ -156,10 +156,10 @@ export default function ContentManagementPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+              <tr className="text-slate-500 text-xs border-b border-(--border-subtle)">
                 <th className="px-6 py-3 text-left font-medium">Course</th>
                 <th className="px-4 py-3 text-center font-medium">Category</th>
                 <th className="px-4 py-3 text-center font-medium">Difficulty</th>
@@ -194,7 +194,7 @@ export default function ContentManagementPage() {
                           </span>
                         </div>
                         <div>
-                          <p className="text-white font-semibold">{c.title}</p>
+                          <p className="text-(--text-base) font-semibold">{c.title}</p>
                           <p className="text-slate-500 text-xs line-clamp-1">
                             {c.description ?? "No description"}
                           </p>
@@ -215,7 +215,7 @@ export default function ContentManagementPage() {
                         {c.difficulty}
                       </span>
                     </td>
-                    <td className="px-4 py-4 text-center text-white font-semibold">
+                    <td className="px-4 py-4 text-center text-(--text-base) font-semibold">
                       {c.totalLessons ?? 0}
                     </td>
                     <td className="px-4 py-4 text-right">
@@ -239,7 +239,7 @@ export default function ContentManagementPage() {
               )}
             </tbody>
           </table>
-          <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)]">
+          <div className="px-6 py-3 border-t border-(--border-subtle)">
             <p className="text-slate-500 text-xs">
               Showing {filtered.length} of {allCourses.length} courses
             </p>

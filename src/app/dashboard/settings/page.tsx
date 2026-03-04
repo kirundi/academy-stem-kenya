@@ -114,11 +114,11 @@ export default function PlatformSettingsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Platform Settings</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Configure global platform options</p>
+          <h1 className="text-xl font-bold text-(--text-base)">Platform Settings</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">Configure global platform options</p>
         </div>
         <div className="flex items-center gap-3">
           {saved && (
@@ -146,47 +146,47 @@ export default function PlatformSettingsPage() {
 
       <div className="px-8 py-8 space-y-6 max-w-3xl">
         {/* General Settings */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-          <h2 className="text-white font-bold mb-5 flex items-center gap-2">
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+          <h2 className="text-(--text-base) font-bold mb-5 flex items-center gap-2">
             <span className="material-symbols-outlined text-[20px] text-[#13eca4]">tune</span>
             General
           </h2>
           <div className="space-y-4">
             <div>
-              <label className="text-slate-400 text-xs font-medium block mb-1.5">Site Name</label>
+              <label className="text-(--text-muted) text-xs font-medium block mb-1.5">Site Name</label>
               <input
                 value={settings.siteName}
                 onChange={(e) => setSettings({ ...settings, siteName: e.target.value })}
-                className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
               />
             </div>
             <div>
-              <label className="text-slate-400 text-xs font-medium block mb-1.5">
+              <label className="text-(--text-muted) text-xs font-medium block mb-1.5">
                 Support Email
               </label>
               <input
                 type="email"
                 value={settings.supportEmail}
                 onChange={(e) => setSettings({ ...settings, supportEmail: e.target.value })}
-                className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
               />
             </div>
             <div>
-              <label className="text-slate-400 text-xs font-medium block mb-1.5">
+              <label className="text-(--text-muted) text-xs font-medium block mb-1.5">
                 Platform URL
               </label>
               <input
                 value={settings.platformUrl}
                 onChange={(e) => setSettings({ ...settings, platformUrl: e.target.value })}
-                className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
               />
             </div>
           </div>
         </div>
 
         {/* Feature Toggles */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-          <h2 className="text-white font-bold mb-5 flex items-center gap-2">
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+          <h2 className="text-(--text-base) font-bold mb-5 flex items-center gap-2">
             <span className="material-symbols-outlined text-[20px] text-[#13eca4]">toggle_on</span>
             Features
           </h2>
@@ -194,7 +194,7 @@ export default function PlatformSettingsPage() {
             {featureToggles.map((ft) => (
               <div
                 key={ft.key}
-                className="flex items-center justify-between py-4 border-b border-[rgba(255,255,255,0.04)] last:border-0"
+                className="flex items-center justify-between py-4 border-b border-(--border-subtle) last:border-0"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-[rgba(19,236,164,0.06)] flex items-center justify-center">
@@ -203,8 +203,8 @@ export default function PlatformSettingsPage() {
                     </span>
                   </div>
                   <div>
-                    <p className="text-white text-sm font-semibold">{ft.label}</p>
-                    <p className="text-slate-500 text-xs mt-0.5">{ft.description}</p>
+                    <p className="text-(--text-base) text-sm font-semibold">{ft.label}</p>
+                    <p className="text-(--text-faint) text-xs mt-0.5">{ft.description}</p>
                   </div>
                 </div>
                 <button
@@ -225,29 +225,29 @@ export default function PlatformSettingsPage() {
         </div>
 
         {/* Platform Info */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-          <h2 className="text-white font-bold mb-5 flex items-center gap-2">
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+          <h2 className="text-(--text-base) font-bold mb-5 flex items-center gap-2">
             <span className="material-symbols-outlined text-[20px] text-[#13eca4]">info</span>
             Platform Info
           </h2>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4">
-              <p className="text-slate-500 text-xs">Platform</p>
-              <p className="text-white text-sm font-semibold mt-1">STEM Impact Academy</p>
+              <p className="text-(--text-faint) text-xs">Platform</p>
+              <p className="text-(--text-base) text-sm font-semibold mt-1">STEM Impact Academy</p>
             </div>
             <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4">
-              <p className="text-slate-500 text-xs">Domain</p>
+              <p className="text-(--text-faint) text-xs">Domain</p>
               <p className="text-[#13eca4] text-sm font-semibold mt-1">
                 academy.stemimpactcenterkenya.org
               </p>
             </div>
             <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4">
-              <p className="text-slate-500 text-xs">Firebase Project</p>
-              <p className="text-white text-sm font-semibold mt-1">stem-impact-academy</p>
+              <p className="text-(--text-faint) text-xs">Firebase Project</p>
+              <p className="text-(--text-base) text-sm font-semibold mt-1">stem-impact-academy</p>
             </div>
             <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4">
-              <p className="text-slate-500 text-xs">Version</p>
-              <p className="text-white text-sm font-semibold mt-1">1.0.0</p>
+              <p className="text-(--text-faint) text-xs">Version</p>
+              <p className="text-(--text-base) text-sm font-semibold mt-1">1.0.0</p>
             </div>
           </div>
         </div>

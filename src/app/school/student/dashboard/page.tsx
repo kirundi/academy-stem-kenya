@@ -118,11 +118,11 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Top header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">My Courses</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">My Courses</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             {new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" })}
           </p>
@@ -146,10 +146,10 @@ export default function StudentDashboard() {
             <p className="text-[#13eca4] font-semibold text-sm mb-2 uppercase tracking-widest">
               Welcome back
             </p>
-            <h2 className="text-3xl font-bold text-white mb-2">Hi, {firstName}!</h2>
+            <h2 className="text-3xl font-bold text-(--text-base) mb-2">Hi, {firstName}!</h2>
             <p className="text-slate-400 mb-6 max-w-md">
               You have{" "}
-              <span className="text-white font-semibold">
+              <span className="text-(--text-base) font-semibold">
                 {mergedCourses.filter((c) => !c.completed && c.progress > 0).length} courses in
                 progress
               </span>
@@ -182,7 +182,7 @@ export default function StudentDashboard() {
                     {icon}
                   </span>
                   <div>
-                    <p className="text-white font-bold leading-none">{value}</p>
+                    <p className="text-(--text-base) font-bold leading-none">{value}</p>
                     <p className="text-slate-500 text-xs">{label}</p>
                   </div>
                 </div>
@@ -238,7 +238,7 @@ export default function StudentDashboard() {
                   >
                     Recently Completed
                   </p>
-                  <p className="text-white font-semibold text-sm truncate">
+                  <p className="text-(--text-base) font-semibold text-sm truncate">
                     {completedCourse.title}
                   </p>
                 </div>
@@ -253,7 +253,7 @@ export default function StudentDashboard() {
             )}
 
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold text-white">My Authorized Courses</h2>
+              <h2 className="text-lg font-bold text-(--text-base)">My Authorized Courses</h2>
               <div className="flex gap-2">
                 {["All", "In Progress", "Not Started", "Completed"].map((tab) => (
                   <button
@@ -262,7 +262,7 @@ export default function StudentDashboard() {
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                       courseFilter === tab
                         ? "bg-[#13eca4] text-[#10221c]"
-                        : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-white"
+                        : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-(--text-base)"
                     }`}
                   >
                     {tab}
@@ -310,7 +310,7 @@ export default function StudentDashboard() {
               ].map((s) => (
                 <div
                   key={s.label}
-                  className="flex items-center gap-3 p-4 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.06)]"
+                  className="flex items-center gap-3 p-4 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.06)]"
                 >
                   <div
                     className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
@@ -324,7 +324,7 @@ export default function StudentDashboard() {
                     </span>
                   </div>
                   <div>
-                    <p className="text-white font-bold text-lg leading-none">{s.value}</p>
+                    <p className="text-(--text-base) font-bold text-lg leading-none">{s.value}</p>
                     <p className="text-slate-500 text-xs mt-0.5">{s.label}</p>
                   </div>
                 </div>
@@ -335,8 +335,8 @@ export default function StudentDashboard() {
           {/* Sidebar widgets */}
           <div className="space-y-6">
             {/* Weekly goal */}
-            <div className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
-              <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
+              <h3 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
                   trending_up
                 </span>
@@ -371,8 +371,8 @@ export default function StudentDashboard() {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
-              <h3 className="text-white font-bold mb-4">Recent Activity</h3>
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
+              <h3 className="text-(--text-base) font-bold mb-4">Recent Activity</h3>
               <div className="space-y-4">
                 {activities.length > 0 ? (
                   activities.slice(0, 5).map((item) => {
@@ -404,8 +404,8 @@ export default function StudentDashboard() {
             </div>
 
             {/* Quick Links */}
-            <div className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
-              <h3 className="text-white font-bold mb-4">Quick Links</h3>
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
+              <h3 className="text-(--text-base) font-bold mb-4">Quick Links</h3>
               <div className="space-y-2">
                 {[
                   {
@@ -430,12 +430,12 @@ export default function StudentDashboard() {
                   <Link
                     key={href}
                     href={href}
-                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)] border border-transparent hover:border-[rgba(19,236,164,0.15)] transition-all group"
+                    className="flex items-center gap-3 p-2.5 rounded-xl bg-[rgba(255,255,255,0.03)] hover:bg-(--input-bg) border border-transparent hover:border-[rgba(19,236,164,0.15)] transition-all group"
                   >
                     <span className="material-symbols-outlined text-[20px]" style={{ color }}>
                       {icon}
                     </span>
-                    <span className="text-slate-300 text-sm font-medium group-hover:text-white transition-colors">
+                    <span className="text-slate-300 text-sm font-medium group-hover:text-(--text-base) transition-colors">
                       {label}
                     </span>
                     <span className="material-symbols-outlined text-slate-600 text-[16px] ml-auto group-hover:text-[#13eca4] transition-colors">

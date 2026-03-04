@@ -126,7 +126,7 @@ export default function ChallengeWinnerPage() {
         }
       `}</style>
 
-      <div className="relative min-h-screen bg-[#060f0c] text-white overflow-x-hidden">
+      <div className="relative min-h-screen bg-[#060f0c] text-(--text-base) overflow-x-hidden">
         {/* ── CONFETTI LAYER ── */}
         <div className="pointer-events-none fixed inset-0 z-10 overflow-hidden" aria-hidden>
           {particles.map((p) => (
@@ -167,7 +167,7 @@ export default function ChallengeWinnerPage() {
         <div className="no-print relative z-20 px-6 pt-6">
           <a
             href="/dashboard/challenges"
-            className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-[#13eca4] transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-(--text-muted) hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Back to Challenges
@@ -182,7 +182,7 @@ export default function ChallengeWinnerPage() {
               Challenge Complete · 1st Place
             </div>
             <h1 className="text-5xl md:text-6xl font-black leading-tight tracking-tight">
-              <span className="text-white">Congratulations, </span>
+              <span className="text-(--text-base)">Congratulations, </span>
               <span
                 style={{
                   background:
@@ -195,9 +195,9 @@ export default function ChallengeWinnerPage() {
                 {WINNER.name.split(" ")[0]}!
               </span>
             </h1>
-            <p className="mt-3 text-slate-400 text-lg max-w-xl mx-auto">
+            <p className="mt-3 text-(--text-muted) text-lg max-w-xl mx-auto">
               You&apos;ve topped the leaderboard in the{" "}
-              <span className="text-white font-semibold">{WINNER.challenge}</span> hackathon.
+              <span className="text-(--text-base) font-semibold">{WINNER.challenge}</span> hackathon.
             </p>
           </div>
 
@@ -311,10 +311,10 @@ export default function ChallengeWinnerPage() {
                       {s.icon}
                     </span>
                   </div>
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-(--text-faint)">
                     {s.label}
                   </p>
-                  <p className="text-base font-black text-white leading-tight">{s.value}</p>
+                  <p className="text-base font-black text-(--text-base) leading-tight">{s.value}</p>
                 </div>
               ))}
             </div>
@@ -465,7 +465,7 @@ export default function ChallengeWinnerPage() {
 
                     {/* cert ID */}
                     <div className="flex flex-col items-center md:items-end gap-1">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-slate-500">
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-(--text-faint)">
                         Certificate ID
                       </p>
                       <p className="text-[11px] font-mono text-yellow-500/80 font-bold">
@@ -489,7 +489,7 @@ export default function ChallengeWinnerPage() {
                           />
                         ))}
                       </div>
-                      <p className="text-[8px] text-slate-600">Scan to verify</p>
+                      <p className="text-[8px] text-(--text-faint)">Scan to verify</p>
                     </div>
                   </div>
 
@@ -514,7 +514,7 @@ export default function ChallengeWinnerPage() {
 
                   {/* body text */}
                   <div className="text-center space-y-2 mb-10">
-                    <p className="text-slate-400 text-sm tracking-wide">This is to certify that</p>
+                    <p className="text-(--text-muted) text-sm tracking-wide">This is to certify that</p>
                     <p
                       className="font-black text-4xl md:text-5xl py-2"
                       style={{
@@ -529,23 +529,23 @@ export default function ChallengeWinnerPage() {
                     >
                       {WINNER.name}
                     </p>
-                    <p className="text-slate-400 text-sm">
-                      of <span className="text-white font-semibold">{WINNER.school}</span>
+                    <p className="text-(--text-muted) text-sm">
+                      of <span className="text-(--text-base) font-semibold">{WINNER.school}</span>
                     </p>
 
-                    <p className="text-slate-400 text-sm pt-3 leading-relaxed max-w-lg mx-auto">
+                    <p className="text-(--text-muted) text-sm pt-3 leading-relaxed max-w-lg mx-auto">
                       has demonstrated{" "}
                       <span className="text-[#13eca4] font-semibold">exceptional innovation</span>{" "}
                       and <span className="text-[#13eca4] font-semibold">technical excellence</span>
                       , earning
-                      <span className="text-white font-bold"> 1st Place</span> in the
+                      <span className="text-(--text-base) font-bold"> 1st Place</span> in the
                     </p>
                     <p className="text-xl md:text-2xl font-black pt-1" style={{ color: "#FFD700" }}>
                       {WINNER.challenge}
                     </p>
-                    <p className="text-slate-500 text-sm italic">Theme: {WINNER.theme}</p>
-                    <p className="text-slate-500 text-sm pt-1">
-                      Awarded on <span className="text-slate-300">{WINNER.date}</span>
+                    <p className="text-(--text-faint) text-sm italic">Theme: {WINNER.theme}</p>
+                    <p className="text-(--text-faint) text-sm pt-1">
+                      Awarded on <span className="text-(--text-muted)">{WINNER.date}</span>
                     </p>
                   </div>
 
@@ -596,8 +596,8 @@ export default function ChallengeWinnerPage() {
                         />
                       </svg>
                       <div className="h-px w-48 bg-[rgba(255,215,0,0.3)] my-1" />
-                      <p className="text-sm font-bold text-white">{WINNER.adminName}</p>
-                      <p className="text-[10px] text-slate-500 text-center max-w-50 leading-tight">
+                      <p className="text-sm font-bold text-(--text-base)">{WINNER.adminName}</p>
+                      <p className="text-[10px] text-(--text-faint) text-center max-w-50 leading-tight">
                         {WINNER.adminTitle}
                       </p>
                     </div>
@@ -643,8 +643,8 @@ export default function ChallengeWinnerPage() {
                         />
                       </svg>
                       <div className="h-px w-48 bg-[rgba(19,236,164,0.3)] my-1" />
-                      <p className="text-sm font-bold text-white">Ms. Priya Nkemdirim</p>
-                      <p className="text-[10px] text-slate-500 text-center max-w-50 leading-tight">
+                      <p className="text-sm font-bold text-(--text-base)">Ms. Priya Nkemdirim</p>
+                      <p className="text-[10px] text-(--text-faint) text-center max-w-50 leading-tight">
                         Head of Competitions, SIC Kenya Academy
                       </p>
                     </div>
@@ -730,7 +730,7 @@ export default function ChallengeWinnerPage() {
                       borderColor: "rgba(132,94,247,0.3)",
                     }}
                   >
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-3">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-(--text-faint) mb-3">
                       Share on
                     </p>
                     {[
@@ -761,7 +761,7 @@ export default function ChallengeWinnerPage() {
                         >
                           {s.icon}
                         </span>
-                        <span className="text-sm font-semibold text-slate-300">{s.label}</span>
+                        <span className="text-sm font-semibold text-(--text-muted)">{s.label}</span>
                       </a>
                     ))}
 
@@ -773,10 +773,10 @@ export default function ChallengeWinnerPage() {
                       }}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-white/5"
                     >
-                      <span className="material-symbols-outlined text-base text-slate-400">
+                      <span className="material-symbols-outlined text-base text-(--text-muted)">
                         link
                       </span>
-                      <span className="text-sm font-semibold text-slate-300">Copy Link</span>
+                      <span className="text-sm font-semibold text-(--text-muted)">Copy Link</span>
                     </button>
                   </div>
                 )}
@@ -784,9 +784,9 @@ export default function ChallengeWinnerPage() {
             </div>
 
             {/* hint text */}
-            <p className="text-center text-xs text-slate-600 mt-5">
+            <p className="text-center text-xs text-(--text-faint) mt-5">
               Certificate is digitally signed and verifiable at{" "}
-              <span className="text-slate-500 font-mono">
+              <span className="text-(--text-faint) font-mono">
                 academy.sickenya.org/verify/{WINNER.certificateId}
               </span>
             </p>

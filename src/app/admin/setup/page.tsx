@@ -43,21 +43,21 @@ export default function AdminSetupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-(--bg-page) flex items-center justify-center p-6">
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <StemLogo size="md" />
-          <h1 className="text-2xl font-bold text-white mt-6">Platform Setup</h1>
-          <p className="text-slate-400 text-sm mt-2">STEM Impact Academy — Admin Initialization</p>
+          <h1 className="text-2xl font-bold text-(--text-base) mt-6">Platform Setup</h1>
+          <p className="text-(--text-muted) text-sm mt-2">STEM Impact Academy — Admin Initialization</p>
         </div>
 
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-8">
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-8">
           {status === "checking" && (
             <div className="text-center py-8">
               <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
                 progress_activity
               </span>
-              <p className="text-slate-400 text-sm mt-4">Checking platform status...</p>
+              <p className="text-(--text-muted) text-sm mt-4">Checking platform status...</p>
             </div>
           )}
 
@@ -68,8 +68,8 @@ export default function AdminSetupPage() {
                   check_circle
                 </span>
               </div>
-              <h2 className="text-white font-bold text-lg">Platform Already Initialized</h2>
-              <p className="text-slate-400 text-sm mt-2">A global admin account already exists.</p>
+              <h2 className="text-(--text-base) font-bold text-lg">Platform Already Initialized</h2>
+              <p className="text-(--text-muted) text-sm mt-2">A global admin account already exists.</p>
               <button
                 onClick={() => router.push("/login")}
                 className="mt-6 bg-[#13eca4] text-[#10221c] font-bold text-sm px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
@@ -86,8 +86,8 @@ export default function AdminSetupPage() {
                   admin_panel_settings
                 </span>
               </div>
-              <h2 className="text-white font-bold text-lg">Initialize Super Admin</h2>
-              <p className="text-slate-400 text-sm mt-2 mb-1">
+              <h2 className="text-(--text-base) font-bold text-lg">Initialize Super Admin</h2>
+              <p className="text-(--text-muted) text-sm mt-2 mb-1">
                 This will create the global super admin account for:
               </p>
               <p className="text-[#13eca4] font-mono text-sm font-bold">
@@ -102,7 +102,7 @@ export default function AdminSetupPage() {
 
               <button
                 onClick={handleSetup}
-                className="mt-6 bg-[#ff4d4d] text-white font-bold text-sm px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
+                className="mt-6 bg-[#ff4d4d] text-(--text-base) font-bold text-sm px-8 py-3 rounded-lg hover:opacity-90 transition-opacity"
               >
                 Initialize Platform
               </button>
@@ -114,7 +114,7 @@ export default function AdminSetupPage() {
               <span className="material-symbols-outlined animate-spin text-4xl text-[#ff4d4d]">
                 progress_activity
               </span>
-              <p className="text-slate-400 text-sm mt-4">Creating super admin account...</p>
+              <p className="text-(--text-muted) text-sm mt-4">Creating super admin account...</p>
             </div>
           )}
 
@@ -126,21 +126,21 @@ export default function AdminSetupPage() {
                     verified
                   </span>
                 </div>
-                <h2 className="text-white font-bold text-lg">Super Admin Created</h2>
-                <p className="text-slate-400 text-sm mt-2">
+                <h2 className="text-(--text-base) font-bold text-lg">Super Admin Created</h2>
+                <p className="text-(--text-muted) text-sm mt-2">
                   Save these credentials securely. The password cannot be retrieved again.
                 </p>
               </div>
 
-              <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-xl p-5 space-y-4">
+              <div className="bg-[rgba(255,255,255,0.03)] border border-(--border-subtle) rounded-xl p-5 space-y-4">
                 <div>
-                  <label className="text-slate-500 text-xs uppercase tracking-wider font-medium">
+                  <label className="text-(--text-faint) text-xs uppercase tracking-wider font-medium">
                     Email
                   </label>
-                  <p className="text-white font-mono text-sm mt-1">{credentials.email}</p>
+                  <p className="text-(--text-base) font-mono text-sm mt-1">{credentials.email}</p>
                 </div>
                 <div>
-                  <label className="text-slate-500 text-xs uppercase tracking-wider font-medium">
+                  <label className="text-(--text-faint) text-xs uppercase tracking-wider font-medium">
                     Temporary Password
                   </label>
                   <div className="flex items-center gap-2 mt-1">
@@ -149,7 +149,7 @@ export default function AdminSetupPage() {
                     </p>
                     <button
                       onClick={() => navigator.clipboard.writeText(credentials.tempPassword)}
-                      className="p-1.5 hover:bg-[rgba(19,236,164,0.08)] rounded-lg text-slate-400 hover:text-[#13eca4] transition-colors"
+                      className="p-1.5 hover:bg-(--hover-subtle) rounded-lg text-(--text-muted) hover:text-[#13eca4] transition-colors"
                       title="Copy password"
                     >
                       <span className="material-symbols-outlined text-[18px]">content_copy</span>
@@ -175,7 +175,7 @@ export default function AdminSetupPage() {
           )}
         </div>
 
-        <p className="text-center text-slate-600 text-xs mt-6">academy.stemimpactcenterkenya.org</p>
+        <p className="text-center text-(--text-faint) text-xs mt-6">academy.stemimpactcenterkenya.org</p>
       </div>
     </div>
   );

@@ -52,14 +52,14 @@ export default function TeacherAnalyticsPage() {
 
   if (classrooms.length === 0) {
     return (
-      <div className="min-h-screen bg-[#10221c]">
-        <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center">
+      <div className="min-h-screen bg-(--bg-page)">
+        <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center">
           <div>
-            <h1 className="text-xl font-bold text-white">Classroom Analytics</h1>
-            <p className="text-slate-400 text-xs mt-0.5">Engagement & performance insights</p>
+            <h1 className="text-xl font-bold text-(--text-base)">Classroom Analytics</h1>
+            <p className="text-(--text-muted) text-xs mt-0.5">Engagement & performance insights</p>
           </div>
         </header>
-        <div className="flex items-center justify-center h-64 text-slate-500">
+        <div className="flex items-center justify-center h-64 text-(--text-faint)">
           <div className="text-center">
             <span className="material-symbols-outlined text-[48px] mb-4 block">bar_chart</span>
             <p>No classrooms yet. Create one to see analytics.</p>
@@ -168,13 +168,13 @@ export default function TeacherAnalyticsPage() {
   ).size;
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Classroom Analytics</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Engagement & performance insights</p>
+          <h1 className="text-xl font-bold text-(--text-base)">Classroom Analytics</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">Engagement & performance insights</p>
         </div>
-        <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+        <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
           <span className="material-symbols-outlined text-[18px]">download</span>
           Export Report
         </button>
@@ -189,8 +189,8 @@ export default function TeacherAnalyticsPage() {
               onClick={() => setActiveClassroom(i)}
               className={`shrink-0 px-5 py-3 rounded-xl text-sm font-semibold transition-all border ${
                 activeClassroom === i
-                  ? "bg-[rgba(19,236,164,0.1)] border-[rgba(19,236,164,0.3)] text-[#13eca4]"
-                  : "bg-[rgba(255,255,255,0.03)] border-[rgba(255,255,255,0.08)] text-slate-400 hover:text-white"
+                  ? "bg-[rgba(19,236,164,0.1)] border-(--border-strong) text-[#13eca4]"
+                  : "bg-[rgba(255,255,255,0.03)] border-(--border-subtle) text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
               {c.name}
@@ -219,7 +219,7 @@ export default function TeacherAnalyticsPage() {
           ].map((s) => (
             <div
               key={s.label}
-              className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]"
+              className="bg-(--bg-card) rounded-2xl p-5 border border-(--border-subtle)"
             >
               <div
                 className="w-9 h-9 rounded-xl flex items-center justify-center mb-3"
@@ -229,18 +229,18 @@ export default function TeacherAnalyticsPage() {
                   {s.icon}
                 </span>
               </div>
-              <p className="text-slate-400 text-xs font-medium">{s.label}</p>
-              <p className="text-white text-2xl font-bold">{s.value}</p>
+              <p className="text-(--text-muted) text-xs font-medium">{s.label}</p>
+              <p className="text-(--text-base) text-2xl font-bold">{s.value}</p>
             </div>
           ))}
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
           {/* Weekly Activity Chart */}
-          <div className="xl:col-span-2 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
+          <div className="xl:col-span-2 bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-white font-bold">Weekly Submission Activity</h2>
-              <span className="text-slate-500 text-xs">Last 7 days</span>
+              <h2 className="text-(--text-base) font-bold">Weekly Submission Activity</h2>
+              <span className="text-(--text-faint) text-xs">Last 7 days</span>
             </div>
             <div className="flex items-end gap-3 h-36">
               {weeklyActivity.map((d) => (
@@ -254,25 +254,25 @@ export default function TeacherAnalyticsPage() {
                       background: "linear-gradient(180deg, #13eca4, #0dd494)",
                     }}
                   ></div>
-                  <span className="text-slate-500 text-xs">{d.day}</span>
+                  <span className="text-(--text-faint) text-xs">{d.day}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Mastery Distribution */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-5">Mastery Distribution</h2>
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-5">Mastery Distribution</h2>
             <div className="space-y-4">
               {masteryDist.map((m) => (
                 <div key={m.label}>
                   <div className="flex items-center justify-between text-xs mb-1.5">
-                    <span className="text-slate-400">{m.label}</span>
+                    <span className="text-(--text-muted)">{m.label}</span>
                     <span className="font-bold" style={{ color: m.color }}>
                       {m.count} student{m.count !== 1 ? "s" : ""}
                     </span>
                   </div>
-                  <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full">
+                  <div className="h-2 bg-(--input-bg) rounded-full">
                     <div
                       className="h-2 rounded-full transition-all"
                       style={{ background: m.color, width: `${m.pct}%` }}
@@ -285,18 +285,18 @@ export default function TeacherAnalyticsPage() {
         </div>
 
         {/* Top Students */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.06)]">
-            <h2 className="text-white font-bold">Top Performers</h2>
+            <h2 className="text-(--text-base) font-bold">Top Performers</h2>
           </div>
           {topStudents.length === 0 ? (
-            <div className="px-6 py-12 text-center text-slate-500 text-sm">
+            <div className="px-6 py-12 text-center text-(--text-faint) text-sm">
               No student data available yet.
             </div>
           ) : (
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+                <tr className="text-(--text-faint) text-xs border-b border-(--border-subtle)">
                   <th className="px-6 py-3 text-left font-medium">#</th>
                   <th className="px-4 py-3 text-left font-medium">Student</th>
                   <th className="px-4 py-3 text-left font-medium">Classroom</th>
@@ -318,8 +318,8 @@ export default function TeacherAnalyticsPage() {
                             : i === 1
                               ? "bg-slate-400 text-slate-900"
                               : i === 2
-                                ? "bg-amber-700 text-white"
-                                : "text-slate-500"
+                                ? "bg-amber-700 text-(--text-base)"
+                                : "text-(--text-faint)"
                         }`}
                       >
                         {i < 3 ? "\u2605" : i + 1}
@@ -330,14 +330,14 @@ export default function TeacherAnalyticsPage() {
                         <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
                           {s.name[0]}
                         </div>
-                        <span className="text-white font-semibold">{s.name}</span>
+                        <span className="text-(--text-base) font-semibold">{s.name}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-slate-400 text-xs">{s.classroom}</td>
+                    <td className="px-4 py-4 text-(--text-muted) text-xs">{s.classroom}</td>
                     <td className="px-4 py-4 text-center">
                       <span className="text-[#13eca4] font-bold">{s.score}%</span>
                     </td>
-                    <td className="px-4 py-4 text-center text-white font-semibold">{s.badges}</td>
+                    <td className="px-4 py-4 text-center text-(--text-base) font-semibold">{s.badges}</td>
                   </tr>
                 ))}
               </tbody>

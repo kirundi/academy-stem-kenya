@@ -55,9 +55,9 @@ export default function CourseLibraryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-14 flex items-center justify-between">
-        <h1 className="text-white font-bold text-lg">Course Library</h1>
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-14 flex items-center justify-between">
+        <h1 className="text-(--text-base) font-bold text-lg">Course Library</h1>
       </header>
 
       <main className="max-w-7xl mx-auto px-8 py-8 space-y-8">
@@ -66,8 +66,8 @@ export default function CourseLibraryPage() {
             <span className="material-symbols-outlined text-[16px]">library_books</span>
             <span className="text-xs font-bold uppercase tracking-wider">Curriculum</span>
           </div>
-          <h1 className="text-white text-4xl font-black leading-tight">Course Library</h1>
-          <p className="text-slate-400 mt-1">
+          <h1 className="text-(--text-base) text-4xl font-black leading-tight">Course Library</h1>
+          <p className="text-(--text-muted) mt-1">
             {allCourses.length} courses available for your school.
           </p>
         </section>
@@ -75,14 +75,14 @@ export default function CourseLibraryPage() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="relative flex-1 max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
               search
             </span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search courses..."
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+              className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
             />
           </div>
           <div className="flex gap-2">
@@ -93,7 +93,7 @@ export default function CourseLibraryPage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                   selectedCategory === cat
                     ? "bg-[#13eca4] text-[#10221c]"
-                    : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
+                    : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
                 }`}
               >
                 {cat}
@@ -104,13 +104,13 @@ export default function CourseLibraryPage() {
 
         {/* Course Grid */}
         {filtered.length === 0 ? (
-          <div className="text-center py-16 text-slate-500">No courses match your search.</div>
+          <div className="text-center py-16 text-(--text-faint)">No courses match your search.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((course) => (
               <div
                 key={course.id}
-                className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden hover:border-[rgba(19,236,164,0.2)] transition-all group"
+                className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden hover:border-(--border-accent) transition-all group"
               >
                 <div
                   className="h-32 flex items-center justify-center"
@@ -135,23 +135,23 @@ export default function CourseLibraryPage() {
                       {course.difficulty}
                     </span>
                     {course.category && (
-                      <span className="text-[10px] text-slate-500 font-medium">
+                      <span className="text-[10px] text-(--text-faint) font-medium">
                         {course.category}
                       </span>
                     )}
                   </div>
-                  <h3 className="text-white font-bold text-lg mb-1 group-hover:text-[#13eca4] transition-colors">
+                  <h3 className="text-(--text-base) font-bold text-lg mb-1 group-hover:text-[#13eca4] transition-colors">
                     {course.title}
                   </h3>
-                  <p className="text-slate-400 text-sm line-clamp-2">
+                  <p className="text-(--text-muted) text-sm line-clamp-2">
                     {course.description ?? "No description."}
                   </p>
-                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-[rgba(255,255,255,0.06)]">
-                    <span className="text-xs text-slate-500">
+                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-(--border-subtle)">
+                    <span className="text-xs text-(--text-faint)">
                       {course.totalLessons ?? 0} lessons
                     </span>
                     {course.estimatedDuration && (
-                      <span className="text-xs text-slate-500">{course.estimatedDuration}</span>
+                      <span className="text-xs text-(--text-faint)">{course.estimatedDuration}</span>
                     )}
                   </div>
                 </div>

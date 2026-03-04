@@ -84,11 +84,11 @@ export default function SchoolsManagementPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Schools Management</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">Schools Management</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {schools.length} partner schools on the platform
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function SchoolsManagementPage() {
               { key: "status", label: "Status" }, { key: "healthScore", label: "Health" },
               { key: "students", label: "Students" },
             ])}
-            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export
@@ -143,10 +143,10 @@ export default function SchoolsManagementPage() {
           ].map((s) => (
             <div
               key={s.label}
-              className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]"
+              className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-slate-400 text-sm font-medium">{s.label}</span>
+                <span className="text-(--text-muted) text-sm font-medium">{s.label}</span>
                 <span
                   className="material-symbols-outlined p-2 rounded-lg bg-[rgba(19,236,164,0.08)] text-[20px]"
                   style={{ color: s.iconColor }}
@@ -154,7 +154,7 @@ export default function SchoolsManagementPage() {
                   {s.icon}
                 </span>
               </div>
-              <span className="text-white text-3xl font-bold">{s.value}</span>
+              <span className="text-(--text-base) text-3xl font-bold">{s.value}</span>
             </div>
           ))}
         </div>
@@ -162,14 +162,14 @@ export default function SchoolsManagementPage() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="relative flex-1 max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
               search
             </span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search schools..."
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+              className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
             />
           </div>
           <div className="flex gap-2">
@@ -180,7 +180,7 @@ export default function SchoolsManagementPage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-colors ${
                   statusFilter === s
                     ? "bg-[#13eca4] text-[#10221c]"
-                    : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
+                    : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
                 }`}
               >
                 {s}
@@ -190,10 +190,10 @@ export default function SchoolsManagementPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+              <tr className="text-(--text-faint) text-xs border-b border-(--border-subtle)">
                 <th className="px-6 py-3 text-left font-medium">School</th>
                 <th className="px-4 py-3 text-center font-medium">Type</th>
                 <th className="px-4 py-3 text-center font-medium">Plan</th>
@@ -205,7 +205,7 @@ export default function SchoolsManagementPage() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-(--text-faint)">
                     No schools match your filters
                   </td>
                 </tr>
@@ -230,12 +230,12 @@ export default function SchoolsManagementPage() {
                             </span>
                           </div>
                           <div>
-                            <p className="text-white font-semibold">{s.name}</p>
-                            <p className="text-slate-500 text-xs">{s.location ?? "Kenya"}</p>
+                            <p className="text-(--text-base) font-semibold">{s.name}</p>
+                            <p className="text-(--text-faint) text-xs">{s.location ?? "Kenya"}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-center text-slate-300 text-xs capitalize">
+                      <td className="px-4 py-4 text-center text-(--text-muted) text-xs capitalize">
                         {s.type ?? "--"}
                       </td>
                       <td className="px-4 py-4 text-center">
@@ -258,7 +258,7 @@ export default function SchoolsManagementPage() {
                                 ? "text-amber-500"
                                 : s.status === "rejected"
                                   ? "text-red-400"
-                                  : "text-slate-400"
+                                  : "text-(--text-muted)"
                           }`}
                         >
                           {s.status}
@@ -266,7 +266,7 @@ export default function SchoolsManagementPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2 justify-center">
-                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-15">
+                          <div className="flex-1 h-1.5 bg-(--input-bg) rounded-full max-w-15">
                             <div
                               className="h-1.5 rounded-full"
                               style={{ background: hc, width: `${s.healthScore ?? 0}%` }}
@@ -299,10 +299,10 @@ export default function SchoolsManagementPage() {
                             </button>
                           </>
                         )}
-                        <Link href="/dashboard/audit" className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
+                        <Link href="/dashboard/audit" className="text-(--text-muted) hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
                           Audit
                         </Link>
-                        <Link href="/dashboard/schools" className="text-slate-400 hover:text-white transition-colors">
+                        <Link href="/dashboard/schools" className="text-(--text-muted) hover:text-(--text-base) transition-colors">
                           <span className="material-symbols-outlined text-[18px]">more_horiz</span>
                         </Link>
                       </td>
@@ -312,8 +312,8 @@ export default function SchoolsManagementPage() {
               )}
             </tbody>
           </table>
-          <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)]">
-            <p className="text-slate-500 text-xs">
+          <div className="px-6 py-3 border-t border-(--border-subtle)">
+            <p className="text-(--text-faint) text-xs">
               Showing {filtered.length} of {schools.length} schools
             </p>
           </div>
@@ -323,18 +323,18 @@ export default function SchoolsManagementPage() {
       {/* Reject Modal */}
       {rejectModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+          <div className="bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-6 w-full max-w-md shadow-2xl">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-[rgba(255,77,77,0.12)] flex items-center justify-center">
                 <span className="material-symbols-outlined text-red-400 text-[22px]">cancel</span>
               </div>
               <div>
-                <h2 className="text-white font-bold text-base">Reject Application</h2>
-                <p className="text-slate-400 text-xs">{rejectModal.schoolName}</p>
+                <h2 className="text-(--text-base) font-bold text-base">Reject Application</h2>
+                <p className="text-(--text-muted) text-xs">{rejectModal.schoolName}</p>
               </div>
             </div>
 
-            <p className="text-slate-400 text-sm mb-4">
+            <p className="text-(--text-muted) text-sm mb-4">
               Please provide a reason for rejection. This will be shared with the school admin.
             </p>
 
@@ -344,14 +344,14 @@ export default function SchoolsManagementPage() {
               maxLength={300}
               rows={4}
               placeholder="e.g. Incomplete documentation provided. Please resubmit with your school registration certificate."
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(255,77,77,0.5)] resize-none mb-1"
+              className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(255,77,77,0.5)] resize-none mb-1"
             />
-            <p className="text-slate-600 text-xs text-right mb-5">{rejectReason.length}/300</p>
+            <p className="text-(--text-faint) text-xs text-right mb-5">{rejectReason.length}/300</p>
 
             <div className="flex gap-3">
               <button
                 onClick={() => setRejectModal(null)}
-                className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-(--input-bg) text-(--text-muted) hover:bg-[rgba(255,255,255,0.1)] transition-colors"
               >
                 Cancel
               </button>

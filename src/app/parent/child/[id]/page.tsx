@@ -137,7 +137,7 @@ function SubmissionRow({ submission }: { submission: ChildSubmission }) {
           <span className="text-slate-500 text-[11px]">{timeAgo(submission.submittedAt)}</span>
         </div>
         {submission.score !== null && (
-          <p className="text-white font-bold text-lg mt-1 leading-none">
+          <p className="text-(--text-base) font-bold text-lg mt-1 leading-none">
             {submission.score}%{" "}
             {submission.grade && (
               <span className="text-slate-400 text-sm font-normal">· {submission.grade}</span>
@@ -214,17 +214,17 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
       : null;
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center gap-4">
         <Link
           href="/parent/dashboard"
-          className="p-2 rounded-xl bg-[rgba(255,255,255,0.05)] hover:bg-[rgba(255,255,255,0.08)] text-slate-400 hover:text-white transition-all"
+          className="p-2 rounded-xl bg-[rgba(255,255,255,0.05)] hover:bg-(--bg-elevated) text-slate-400 hover:text-(--text-base) transition-all"
         >
           <span className="material-symbols-outlined text-[20px]">arrow_back</span>
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-white">{student.displayName}</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">{student.displayName}</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             {student.grade ? `${student.grade} · ` : ""}Level {student.level}{" "}
             {levelLabel(student.level)}
@@ -237,11 +237,11 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
         <div className="relative bg-linear-to-r from-[#1a2e27] to-[#162820] rounded-2xl p-8 mb-8 overflow-hidden border border-[rgba(139,92,246,0.15)]">
           <div className="absolute -right-10 -bottom-10 w-48 h-48 border-2 border-[rgba(139,92,246,0.08)] rounded-full" />
           <div className="relative z-10 flex items-center gap-6">
-            <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-white font-bold text-3xl shrink-0">
+            <div className="w-20 h-20 rounded-2xl bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-(--text-base) font-bold text-3xl shrink-0">
               {initials}
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white mb-1">{student.displayName}</h2>
+              <h2 className="text-2xl font-bold text-(--text-base) mb-1">{student.displayName}</h2>
               <p className="text-[#8b5cf6] text-sm font-medium mb-4">
                 Level {student.level} · {levelLabel(student.level)}
                 {student.grade ? ` · ${student.grade}` : ""}
@@ -281,13 +281,13 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
               ].map((s) => (
                 <div
                   key={s.label}
-                  className="flex items-center gap-2.5 p-3 bg-[rgba(255,255,255,0.04)] rounded-xl"
+                  className="flex items-center gap-2.5 p-3 bg-(--glass-bg) rounded-xl"
                 >
                   <span className="material-symbols-outlined text-[18px]" style={{ color: s.color }}>
                     {s.icon}
                   </span>
                   <div>
-                    <p className="text-white font-bold text-sm leading-none">{s.value}</p>
+                    <p className="text-(--text-base) font-bold text-sm leading-none">{s.value}</p>
                     <p className="text-slate-500 text-[10px]">{s.label}</p>
                   </div>
                 </div>
@@ -301,7 +301,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
           <div className="xl:col-span-2 space-y-8">
             {/* In-progress courses */}
             <section>
-              <h2 className="text-white font-bold text-base mb-4 flex items-center gap-2">
+              <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#13eca4] text-[20px]">play_circle</span>
                 In Progress
                 <span className="text-slate-500 text-sm font-normal">({inProgress.length})</span>
@@ -322,7 +322,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
             {/* Completed courses */}
             {completed.length > 0 && (
               <section>
-                <h2 className="text-white font-bold text-base mb-4 flex items-center gap-2">
+                <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#10b981] text-[20px]">check_circle</span>
                   Completed
                   <span className="text-slate-500 text-sm font-normal">({completed.length})</span>
@@ -338,7 +338,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
             {/* Not started */}
             {notStarted.length > 0 && (
               <section>
-                <h2 className="text-white font-bold text-base mb-4 flex items-center gap-2">
+                <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
                   <span className="material-symbols-outlined text-slate-500 text-[20px]">radio_button_unchecked</span>
                   Not Started
                   <span className="text-slate-500 text-sm font-normal">({notStarted.length})</span>
@@ -353,7 +353,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
 
             {/* Recent submissions */}
             <section>
-              <h2 className="text-white font-bold text-base mb-4 flex items-center gap-2">
+              <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">assignment</span>
                 Recent Submissions
                 <span className="text-slate-500 text-sm font-normal">
@@ -377,8 +377,8 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
           {/* Right: badges + summary */}
           <div className="space-y-6">
             {/* Badges */}
-            <div className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
-              <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
+              <h3 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">
                   military_tech
                 </span>
@@ -392,7 +392,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                   {student.badges.map((badgeId, i) => (
                     <div
                       key={badgeId}
-                      className="flex flex-col items-center justify-center p-3 rounded-xl border border-[rgba(255,255,255,0.06)] bg-[rgba(255,255,255,0.02)]"
+                      className="flex flex-col items-center justify-center p-3 rounded-xl border border-(--border-subtle) bg-[rgba(255,255,255,0.02)]"
                     >
                       <span
                         className="material-symbols-outlined text-[28px] mb-1"
@@ -419,8 +419,8 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
             </div>
 
             {/* Performance summary */}
-            <div className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
-              <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
+              <h3 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
                   insights
                 </span>

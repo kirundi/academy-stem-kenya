@@ -41,7 +41,7 @@ const CHALLENGE_DATA: Record<string, ChallengeData> = {
     title: "Eco-Hack 2024:",
     subtitle: "Solving Urban Sustainability",
     category: "Sustainability",
-    categoryColor: "bg-emerald-500 text-white",
+    categoryColor: "bg-emerald-500 text-(--text-base)",
     status: "live",
     targetDate: new Date(
       Date.now() + 12 * 24 * 60 * 60 * 1000 + 5 * 60 * 60 * 1000 + 42 * 60 * 1000 + 18 * 1000
@@ -183,7 +183,7 @@ function CountdownUnit({
     <div className="flex flex-col items-center">
       <div
         className={`flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-xl backdrop-blur-md border ${
-          highlight ? "bg-rose-500/20 border-rose-500/40" : "bg-[#102022]/80 border-[#13daec]/20"
+          highlight ? "bg-rose-500/20 border-rose-500/40" : "bg-(--bg-page)/80 border-[#13daec]/20"
         }`}
       >
         <p
@@ -246,7 +246,7 @@ export default function ChallengeBriefPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#102022] text-slate-100 antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-(--bg-page) text-(--text-base) antialiased overflow-x-hidden">
       <PublicNavbar />
 
       {/* Toast notifications */}
@@ -270,7 +270,7 @@ export default function ChallengeBriefPage() {
             Challenges
           </Link>
           <span className="material-symbols-outlined text-xs">chevron_right</span>
-          <span className="text-slate-100 font-medium">
+          <span className="text-(--text-base) font-medium">
             {challenge.title} {challenge.subtitle}
           </span>
         </nav>
@@ -308,7 +308,7 @@ export default function ChallengeBriefPage() {
                     Starting Soon
                   </span>
                 )}
-                <h1 className="text-white text-3xl sm:text-5xl font-black leading-tight tracking-tight">
+                <h1 className="text-(--text-base) text-3xl sm:text-5xl font-black leading-tight tracking-tight">
                   {challenge.title}
                   <br />
                   <span className="text-[#13daec]">{challenge.subtitle}</span>
@@ -345,12 +345,12 @@ export default function ChallengeBriefPage() {
         {/* ── 3-Column Content Grid ── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
           {/* Column 1: The Prompt */}
-          <section className="flex flex-col gap-5 bg-[#1a2e30]/50 p-6 rounded-2xl border border-[#2d4548]">
+          <section className="flex flex-col gap-5 bg-(--bg-card)/50 p-6 rounded-2xl border border-(--border)">
             <div className="flex items-center gap-3">
               <div className="size-9 rounded-lg bg-[#13daec]/10 flex items-center justify-center">
                 <span className="material-symbols-outlined text-[#13daec]">lightbulb</span>
               </div>
-              <h3 className="text-xl font-bold text-white">The Prompt</h3>
+              <h3 className="text-xl font-bold text-(--text-base)">The Prompt</h3>
             </div>
 
             <div className="space-y-4 text-slate-400 text-sm leading-relaxed">
@@ -375,12 +375,12 @@ export default function ChallengeBriefPage() {
           </section>
 
           {/* Column 2: Rules & Scoring */}
-          <section className="flex flex-col gap-5 bg-[#1a2e30]/50 p-6 rounded-2xl border border-[#2d4548]">
+          <section className="flex flex-col gap-5 bg-(--bg-card)/50 p-6 rounded-2xl border border-(--border)">
             <div className="flex items-center gap-3">
               <div className="size-9 rounded-lg bg-[#13daec]/10 flex items-center justify-center">
                 <span className="material-symbols-outlined text-[#13daec]">gavel</span>
               </div>
-              <h3 className="text-xl font-bold text-white">Rules &amp; Scoring</h3>
+              <h3 className="text-xl font-bold text-(--text-base)">Rules &amp; Scoring</h3>
             </div>
 
             <div className="space-y-6">
@@ -402,7 +402,7 @@ export default function ChallengeBriefPage() {
               </div>
 
               {/* Rubric */}
-              <div className="pt-4 border-t border-[#2d4548]">
+              <div className="pt-4 border-t border-(--border)">
                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">
                   Rubric Breakdown
                 </p>
@@ -413,7 +413,7 @@ export default function ChallengeBriefPage() {
                         <span>{label}</span>
                         <span>{pct}%</span>
                       </div>
-                      <div className="w-full bg-[#102022] h-2 rounded-full overflow-hidden">
+                      <div className="w-full bg-(--bg-page) h-2 rounded-full overflow-hidden">
                         <div
                           className="bg-[#13daec] h-full rounded-full"
                           style={{ width: `${pct}%` }}
@@ -437,19 +437,19 @@ export default function ChallengeBriefPage() {
           </section>
 
           {/* Column 3: Resources */}
-          <section className="flex flex-col gap-5 bg-[#1a2e30]/50 p-6 rounded-2xl border border-[#2d4548]">
+          <section className="flex flex-col gap-5 bg-(--bg-card)/50 p-6 rounded-2xl border border-(--border)">
             <div className="flex items-center gap-3">
               <div className="size-9 rounded-lg bg-[#13daec]/10 flex items-center justify-center">
                 <span className="material-symbols-outlined text-[#13daec]">folder_open</span>
               </div>
-              <h3 className="text-xl font-bold text-white">Resources</h3>
+              <h3 className="text-xl font-bold text-(--text-base)">Resources</h3>
             </div>
 
             <div className="flex flex-col gap-3">
               {challenge.resources.map((res) => (
                 <div
                   key={res.title}
-                  className="group flex items-center justify-between p-4 rounded-xl bg-[#102022]/60 border border-[#2d4548] hover:border-[#13daec] transition-all cursor-pointer"
+                  className="group flex items-center justify-between p-4 rounded-xl bg-(--bg-page)/60 border border-(--border) hover:border-[#13daec] transition-all cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <div className="size-9 rounded-lg bg-[#13daec]/10 flex items-center justify-center shrink-0">
@@ -458,7 +458,7 @@ export default function ChallengeBriefPage() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-slate-100">{res.title}</p>
+                      <p className="text-sm font-bold text-(--text-base)">{res.title}</p>
                       <p className="text-xs text-slate-500">{res.description}</p>
                     </div>
                   </div>
@@ -469,7 +469,7 @@ export default function ChallengeBriefPage() {
               ))}
 
               {/* Inspirational quote */}
-              <div className="mt-2 p-4 border border-dashed border-[#2d4548] rounded-xl">
+              <div className="mt-2 p-4 border border-dashed border-(--border) rounded-xl">
                 <p className="text-xs text-slate-500 italic leading-relaxed">{challenge.quote}</p>
               </div>
             </div>
@@ -477,8 +477,8 @@ export default function ChallengeBriefPage() {
         </div>
 
         {/* ── Timeline ── */}
-        <section className="bg-[#1a2e30]/50 border border-[#2d4548] rounded-2xl p-6 mb-8">
-          <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+        <section className="bg-(--bg-card)/50 border border-(--border) rounded-2xl p-6 mb-8">
+          <h3 className="text-lg font-bold text-(--text-base) mb-6 flex items-center gap-2">
             <span className="material-symbols-outlined text-[#13daec]">schedule</span>
             Challenge Timeline
           </h3>
@@ -516,7 +516,7 @@ export default function ChallengeBriefPage() {
                       ? "bg-emerald-500/10 border-emerald-500/30"
                       : status === "active"
                         ? "bg-[#13daec]/10 border-[#13daec]/40 shadow-[0_0_12px_rgba(19,218,236,0.2)]"
-                        : "bg-[#102022] border-[#2d4548]"
+                        : "bg-(--bg-page) border-(--border)"
                   }`}
                 >
                   <span
@@ -543,8 +543,8 @@ export default function ChallengeBriefPage() {
         </section>
 
         {/* ── FAQ ── */}
-        <section className="bg-[#1a2e30]/50 border border-[#2d4548] rounded-2xl p-6">
-          <h3 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+        <section className="bg-(--bg-card)/50 border border-(--border) rounded-2xl p-6">
+          <h3 className="text-lg font-bold text-(--text-base) mb-5 flex items-center gap-2">
             <span className="material-symbols-outlined text-[#13daec]">help</span>
             Frequently Asked Questions
           </h3>
@@ -567,7 +567,7 @@ export default function ChallengeBriefPage() {
                 a: "Yes — all intellectual property belongs to the student creators. STEM Academy only requests a right to showcase winning projects.",
               },
             ].map(({ q, a }) => (
-              <div key={q} className="p-4 rounded-xl bg-[#102022]/60 border border-[#2d4548]">
+              <div key={q} className="p-4 rounded-xl bg-(--bg-page)/60 border border-(--border)">
                 <p className="text-sm font-bold text-slate-200 mb-1.5">{q}</p>
                 <p className="text-xs text-slate-500 leading-relaxed">{a}</p>
               </div>
@@ -579,14 +579,14 @@ export default function ChallengeBriefPage() {
       {/* ── Sticky Footer CTA ── */}
       <div
         id="enroll"
-        className="fixed bottom-0 left-0 right-0 z-40 flex flex-wrap justify-center gap-4 bg-[#102022]/90 backdrop-blur-xl border-t border-[#2d4548] p-5 shadow-[0_-8px_32px_rgba(0,0,0,0.4)]"
+        className="fixed bottom-0 left-0 right-0 z-40 flex flex-wrap justify-center gap-4 bg-(--bg-page)/90 backdrop-blur-xl border-t border-(--border) p-5 shadow-[0_-8px_32px_rgba(0,0,0,0.4)]"
       >
         <div className="hidden sm:flex items-center gap-3 mr-4">
           <div className="size-9 rounded-lg bg-[#13daec]/10 flex items-center justify-center">
             <span className="material-symbols-outlined text-[#13daec] text-lg">bolt</span>
           </div>
           <div>
-            <p className="text-xs font-bold text-white">
+            <p className="text-xs font-bold text-(--text-base)">
               {challenge.title} {challenge.subtitle}
             </p>
             <p className="text-[10px] text-slate-500">
@@ -613,7 +613,7 @@ export default function ChallengeBriefPage() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-[#0d1f22] border-t border-[#2d4548] py-8 px-6 text-center mt-0">
+      <footer className="bg-(--bg-page) border-t border-(--border) py-8 px-6 text-center mt-0">
         <p className="text-slate-500 text-xs">
           © 2024 STEM Impact Academy. Empowering the next generation of urban innovators.
         </p>

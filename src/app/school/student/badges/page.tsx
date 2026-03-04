@@ -82,16 +82,16 @@ export default function BadgesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">My Skills Portfolio</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">My Skills Portfolio</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Comprehensive visualisation of your STEM growth &amp; achievements
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-xl hover:border-[rgba(19,236,164,0.3)] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center gap-2 border border-(--border-subtle) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-xl hover:border-(--border-strong) hover:text-[#13eca4] transition-colors">
             <span className="material-symbols-outlined text-[18px]">share</span>Share Profile
           </button>
           <button className="flex items-center gap-2 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold px-4 py-2 rounded-xl hover:bg-[#0dd494] transition-colors">
@@ -103,10 +103,10 @@ export default function BadgesPage() {
       <div className="px-8 py-8 max-w-7xl mx-auto space-y-8">
         {/* Radar + Right Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] rounded-2xl p-6 relative overflow-hidden">
+          <div className="lg:col-span-2 bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-linear-to-br from-[rgba(19,236,164,0.03)] to-transparent pointer-events-none" />
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-white font-bold text-lg">Skill Proficiency Map</h3>
+              <h3 className="text-(--text-base) font-bold text-lg">Skill Proficiency Map</h3>
               <div className="flex items-center gap-2 bg-[rgba(19,236,164,0.1)] px-3 py-1 rounded-full">
                 <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
                 <span className="text-[10px] font-bold uppercase tracking-widest text-[#13eca4]">
@@ -181,14 +181,14 @@ export default function BadgesPage() {
                 </svg>
                 {activeSkill !== null && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.2)] rounded-xl px-4 py-2 text-center">
+                    <div className="bg-(--bg-page) border border-(--border-accent) rounded-xl px-4 py-2 text-center">
                       <p
                         className="font-black text-2xl"
                         style={{ color: skills[activeSkill].color }}
                       >
                         {skills[activeSkill].value}%
                       </p>
-                      <p className="text-slate-400 text-xs">{skills[activeSkill].name}</p>
+                      <p className="text-(--text-muted) text-xs">{skills[activeSkill].name}</p>
                     </div>
                   </div>
                 )}
@@ -212,7 +212,7 @@ export default function BadgesPage() {
                         {s.value}%
                       </span>
                     </div>
-                    <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full overflow-hidden">
+                    <div className="h-2 bg-(--input-bg) rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full"
                         style={{ width: `${s.value}%`, background: s.color }}
@@ -256,19 +256,19 @@ export default function BadgesPage() {
                 </p>
               </div>
             </div>
-            <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.08)] rounded-2xl p-5 flex-1">
-              <h3 className="text-white font-bold mb-4">Mastery Summary</h3>
+            <div className="bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-5 flex-1">
+              <h3 className="text-(--text-base) font-bold mb-4">Mastery Summary</h3>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400 text-sm">Current Level</span>
-                  <span className="text-white font-bold text-sm">Lvl {level}</span>
+                  <span className="text-(--text-muted) text-sm">Current Level</span>
+                  <span className="text-(--text-base) font-bold text-sm">Lvl {level}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400 text-sm">Total XP</span>
+                  <span className="text-(--text-muted) text-sm">Total XP</span>
                   <span className="text-[#13eca4] font-bold text-sm">{xp}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-slate-400 text-sm">Badges Earned</span>
+                  <span className="text-(--text-muted) text-sm">Badges Earned</span>
                   <div className="flex items-center gap-1 text-[#f59e0b] font-bold">
                     <span
                       className="material-symbols-outlined text-[16px]"
@@ -279,9 +279,9 @@ export default function BadgesPage() {
                     <span className="text-sm">{earnedBadges.length}</span>
                   </div>
                 </div>
-                <hr className="border-[rgba(255,255,255,0.06)]" />
+                <hr className="border-(--border-subtle)" />
                 {skills.length > 0 && (
-                  <p className="text-xs text-slate-500 leading-relaxed pt-1">
+                  <p className="text-xs text-(--text-faint) leading-relaxed pt-1">
                     Your strongest skill is{" "}
                     <span className="text-slate-200 font-bold">
                       {[...skills].sort((a, b) => b.value - a.value)[0]?.name ?? "N/A"}
@@ -307,7 +307,7 @@ export default function BadgesPage() {
 
         {/* Earned Badges */}
         <div>
-          <h2 className="text-white font-bold text-xl flex items-center gap-2 mb-5">
+          <h2 className="text-(--text-base) font-bold text-xl flex items-center gap-2 mb-5">
             <span
               className="material-symbols-outlined text-[#13eca4]"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -315,14 +315,14 @@ export default function BadgesPage() {
               verified
             </span>
             Earned Badges{" "}
-            <span className="text-slate-500 text-base font-normal">({earnedBadges.length})</span>
+            <span className="text-(--text-faint) text-base font-normal">({earnedBadges.length})</span>
           </h2>
           {earnedBadges.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
               {earnedBadges.map((b) => (
                 <div
                   key={b.id}
-                  className="bg-[#1a2e27] border border-[rgba(19,236,164,0.06)] rounded-2xl p-4 flex flex-col items-center text-center hover:border-[rgba(19,236,164,0.3)] hover:shadow-lg hover:shadow-[rgba(19,236,164,0.05)] transition-all cursor-pointer group"
+                  className="bg-(--bg-card) border border-[rgba(19,236,164,0.06)] rounded-2xl p-4 flex flex-col items-center text-center hover:border-(--border-strong) hover:shadow-lg hover:shadow-[rgba(19,236,164,0.05)] transition-all cursor-pointer group"
                 >
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"
@@ -335,19 +335,19 @@ export default function BadgesPage() {
                       {b.icon}
                     </span>
                   </div>
-                  <p className="text-white text-[11px] font-bold uppercase leading-tight">
+                  <p className="text-(--text-base) text-[11px] font-bold uppercase leading-tight">
                     {b.name}
                   </p>
-                  <p className="text-slate-500 text-[10px] mt-1 leading-tight">{b.requirement}</p>
+                  <p className="text-(--text-faint) text-[10px] mt-1 leading-tight">{b.requirement}</p>
                 </div>
               ))}
             </div>
           ) : (
             <div className="text-center py-8">
-              <span className="material-symbols-outlined text-[48px] text-slate-600 mb-2 block">
+              <span className="material-symbols-outlined text-[48px] text-(--text-faint) mb-2 block">
                 military_tech
               </span>
-              <p className="text-slate-500 text-sm">
+              <p className="text-(--text-faint) text-sm">
                 No badges earned yet. Complete courses and activities to earn badges!
               </p>
             </div>
@@ -358,10 +358,10 @@ export default function BadgesPage() {
         {lockedBadges.length > 0 && (
           <div className="pb-8">
             <div className="flex items-center gap-2 mb-5">
-              <span className="material-symbols-outlined text-slate-500 text-[22px]">lock</span>
-              <h2 className="text-white font-bold text-xl">
+              <span className="material-symbols-outlined text-(--text-faint) text-[22px]">lock</span>
+              <h2 className="text-(--text-base) font-bold text-xl">
                 Yet to Unlock{" "}
-                <span className="text-slate-500 text-base font-normal ml-2">
+                <span className="text-(--text-faint) text-base font-normal ml-2">
                   ({lockedBadges.length})
                 </span>
               </h2>
@@ -370,17 +370,17 @@ export default function BadgesPage() {
               {lockedBadges.map((b) => (
                 <div
                   key={b.id}
-                  className="bg-[rgba(26,46,39,0.4)] border border-[rgba(255,255,255,0.05)] rounded-2xl p-4 flex flex-col items-center text-center opacity-50 grayscale hover:opacity-70 hover:grayscale-0 transition-all"
+                  className="bg-[rgba(26,46,39,0.4)] border border-(--border-subtle) rounded-2xl p-4 flex flex-col items-center text-center opacity-50 grayscale hover:opacity-70 hover:grayscale-0 transition-all"
                 >
-                  <div className="w-14 h-14 rounded-full bg-[rgba(255,255,255,0.04)] flex items-center justify-center mb-3">
-                    <span className="material-symbols-outlined text-[28px] text-slate-600">
+                  <div className="w-14 h-14 rounded-full bg-(--glass-bg) flex items-center justify-center mb-3">
+                    <span className="material-symbols-outlined text-[28px] text-(--text-faint)">
                       {b.icon}
                     </span>
                   </div>
-                  <p className="text-slate-500 text-[11px] font-bold uppercase leading-tight">
+                  <p className="text-(--text-faint) text-[11px] font-bold uppercase leading-tight">
                     {b.name}
                   </p>
-                  <p className="text-slate-600 text-[10px] mt-1">{b.requirement}</p>
+                  <p className="text-(--text-faint) text-[10px] mt-1">{b.requirement}</p>
                 </div>
               ))}
             </div>

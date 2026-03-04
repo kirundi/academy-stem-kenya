@@ -85,10 +85,10 @@ export default function AnalyticsUsersPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">Users Analytics</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Users Analytics</h1>
           <p className="text-slate-400 text-xs mt-0.5">{allUsers.length} total users across all roles</p>
         </div>
       </header>
@@ -102,12 +102,12 @@ export default function AnalyticsUsersPage() {
             { label: "Teachers", value: roleCounts.teacher ?? 0, icon: "person_book", color: "#3b82f6" },
             { label: "Staff", value: allUsers.filter((u) => !["student", "parent"].includes(u.role)).length, icon: "badge", color: "#f59e0b" },
           ].map(({ label, value, icon, color }) => (
-            <div key={label} className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)]">
+            <div key={label} className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)]">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${color}18` }}>
                 <span className="material-symbols-outlined text-[22px]" style={{ color }}>{icon}</span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
@@ -115,8 +115,8 @@ export default function AnalyticsUsersPage() {
         </div>
 
         {/* Role distribution */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
-          <h2 className="text-white font-bold mb-4 flex items-center gap-2">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
+          <h2 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
             <span className="material-symbols-outlined text-[#a855f7] text-[20px]">bar_chart</span>
             User Distribution by Role
           </h2>
@@ -127,14 +127,14 @@ export default function AnalyticsUsersPage() {
               return (
                 <div key={role} className="flex items-center gap-4">
                   <div className="w-32 text-xs text-slate-400 text-right shrink-0">{ROLE_LABELS[role] ?? role}</div>
-                  <div className="flex-1 h-6 bg-[#102022] rounded-full overflow-hidden">
+                  <div className="flex-1 h-6 bg-(--bg-page) rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
                       style={{ width: `${Math.max(pct, 1)}%`, background: color }}
                     />
                   </div>
                   <div className="w-12 text-right shrink-0">
-                    <span className="text-white font-bold text-sm">{count}</span>
+                    <span className="text-(--text-base) font-bold text-sm">{count}</span>
                   </div>
                   <div className="w-12 text-right shrink-0">
                     <span className="text-slate-500 text-xs">{pct.toFixed(1)}%</span>
@@ -146,11 +146,11 @@ export default function AnalyticsUsersPage() {
         </div>
 
         {/* User list with filter */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(168,85,247,0.08)] flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#a855f7] text-[20px]">manage_accounts</span>
-              <h2 className="text-white font-bold">All Users</h2>
+              <h2 className="text-(--text-base) font-bold">All Users</h2>
             </div>
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="relative">
@@ -159,13 +159,13 @@ export default function AnalyticsUsersPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search users…"
-                  className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-8 pr-3 py-1.5 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-[rgba(168,85,247,0.4)]"
+                  className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg pl-8 pr-3 py-1.5 text-(--text-base) text-xs placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(168,85,247,0.4)]"
                 />
               </div>
               <select
                 value={filterRole}
                 onChange={(e) => setFilterRole(e.target.value)}
-                className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none"
+                className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg px-3 py-1.5 text-(--text-base) text-xs focus:outline-none"
               >
                 <option value="all">All roles</option>
                 {Object.keys(ROLE_LABELS).map((r) => (
@@ -178,7 +178,7 @@ export default function AnalyticsUsersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[rgba(255,255,255,0.04)]">
+                <tr className="border-b border-(--border-subtle)">
                   <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">User</th>
                   <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">Role</th>
                   <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">School</th>
@@ -196,7 +196,7 @@ export default function AnalyticsUsersPage() {
                             {getInitials(u.displayName ?? u.email ?? "?")}
                           </div>
                           <div>
-                            <p className="text-white font-medium text-xs">{u.displayName}</p>
+                            <p className="text-(--text-base) font-medium text-xs">{u.displayName}</p>
                             <p className="text-slate-500 text-xs">{u.email}</p>
                           </div>
                         </div>

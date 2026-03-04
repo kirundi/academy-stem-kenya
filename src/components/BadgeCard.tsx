@@ -32,11 +32,11 @@ export default function BadgeCard({
 
   return (
     <div
-      className={`relative rounded-2xl p-5 bg-[#1a2e27] border transition-all duration-300 flex flex-col items-center text-center group ${
+      className={`relative rounded-2xl p-5 bg-(--bg-card) border transition-all duration-300 flex flex-col items-center text-center group ${
         earned ? "hover:shadow-lg" : "opacity-50 grayscale"
       }`}
       style={{
-        borderColor: earned ? `${border}40` : "rgba(255,255,255,0.06)",
+        borderColor: earned ? `${border}40` : "var(--border)",
         boxShadow: earned ? `0 0 0 0 ${glow}00` : "none",
       }}
       onMouseEnter={(e) => {
@@ -47,18 +47,13 @@ export default function BadgeCard({
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.boxShadow = "";
-        (e.currentTarget as HTMLElement).style.borderColor = earned
-          ? `${border}40`
-          : "rgba(255,255,255,0.06)";
+        (e.currentTarget as HTMLElement).style.borderColor = earned ? `${border}40` : "var(--border)";
       }}
     >
       {/* Rarity indicator */}
       <div
         className="absolute top-3 right-3 text-[10px] font-bold px-1.5 py-0.5 rounded"
-        style={{
-          background: `${border}20`,
-          color: border,
-        }}
+        style={{ background: `${border}20`, color: border }}
       >
         {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
       </div>
@@ -73,8 +68,8 @@ export default function BadgeCard({
         </span>
       </div>
 
-      <h3 className="text-white font-bold text-sm mb-1">{name}</h3>
-      <p className="text-slate-400 text-xs leading-relaxed mb-3">{description}</p>
+      <h3 className="text-(--text-base) font-bold text-sm mb-1">{name}</h3>
+      <p className="text-(--text-muted) text-xs leading-relaxed mb-3">{description}</p>
 
       <div className="flex items-center gap-3 w-full justify-center">
         <span
@@ -83,12 +78,12 @@ export default function BadgeCard({
         >
           +{xpValue} XP
         </span>
-        {earned && earnedDate && <span className="text-xs text-slate-500">{earnedDate}</span>}
+        {earned && earnedDate && <span className="text-xs text-(--text-faint)">{earnedDate}</span>}
       </div>
 
       {!earned && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-[#0d1f1a]/60">
-          <span className="material-symbols-outlined text-slate-500">lock</span>
+        <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-(--bg-sidebar)/60">
+          <span className="material-symbols-outlined text-(--text-faint)">lock</span>
         </div>
       )}
     </div>

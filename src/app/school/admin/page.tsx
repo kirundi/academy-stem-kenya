@@ -101,12 +101,12 @@ export default function SchoolAdminDashboard() {
       label: "Active Classrooms",
       value: classrooms.length.toLocaleString(),
       badge: "Current",
-      badgeColor: "text-slate-400 bg-[rgba(255,255,255,0.06)]",
+      badgeColor: "text-slate-400 bg-(--input-bg)",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-4 flex-1 max-w-lg">
@@ -116,16 +116,16 @@ export default function SchoolAdminDashboard() {
             </span>
             <input
               placeholder="Search teachers, classrooms, or logs..."
-              className="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+              className="w-full bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
             />
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button className="relative p-2 text-slate-400 hover:bg-[rgba(255,255,255,0.06)] rounded-lg">
+          <button className="relative p-2 text-slate-400 hover:bg-(--input-bg) rounded-lg">
             <span className="material-symbols-outlined">notifications</span>
             <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-[#10221c]" />
           </button>
-          <button className="p-2 text-slate-400 hover:bg-[rgba(255,255,255,0.06)] rounded-lg">
+          <button className="p-2 text-slate-400 hover:bg-(--input-bg) rounded-lg">
             <span className="material-symbols-outlined">help</span>
           </button>
           <button
@@ -142,7 +142,7 @@ export default function SchoolAdminDashboard() {
         {/* Page Title */}
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-black text-white tracking-tight">School at a Glance</h2>
+            <h2 className="text-3xl font-black text-(--text-base) tracking-tight">School at a Glance</h2>
             <p className="text-slate-400 mt-1">
               Welcome back, {appUser?.displayName ?? "Administrator"}. Here&apos;s what&apos;s
               happening today.
@@ -155,7 +155,7 @@ export default function SchoolAdminDashboard() {
           {stats.map((s) => (
             <div
               key={s.label}
-              className="bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] p-6 rounded-2xl"
+              className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-2xl"
             >
               <div className="flex items-center justify-between mb-4">
                 <span className={`material-symbols-outlined p-2 rounded-lg ${s.iconBg}`}>
@@ -166,7 +166,7 @@ export default function SchoolAdminDashboard() {
                 </span>
               </div>
               <p className="text-slate-400 text-sm font-medium">{s.label}</p>
-              <p className="text-white text-3xl font-bold mt-1">{s.value}</p>
+              <p className="text-(--text-base) text-3xl font-bold mt-1">{s.value}</p>
             </div>
           ))}
         </div>
@@ -175,12 +175,12 @@ export default function SchoolAdminDashboard() {
           {/* Activity Feed */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-white font-bold text-xl">Recent Teacher Activity</h3>
+              <h3 className="text-(--text-base) font-bold text-xl">Recent Teacher Activity</h3>
               <a href="/school/admin/analytics" className="text-sm text-[#13eca4] hover:underline">
                 View all activity
               </a>
             </div>
-            <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] rounded-2xl overflow-hidden">
+            <div className="bg-(--bg-card) border border-(--border-subtle) rounded-2xl overflow-hidden">
               <div className="divide-y divide-[rgba(255,255,255,0.05)]">
                 {activities.length === 0 ? (
                   <div className="p-8 text-center text-slate-500 text-sm">No recent activity</div>
@@ -214,7 +214,7 @@ export default function SchoolAdminDashboard() {
             {!dismissed && (
               <div className="bg-[rgba(19,236,164,0.05)] border border-[rgba(19,236,164,0.15)] p-6 rounded-2xl relative overflow-hidden">
                 <div className="relative z-10">
-                  <h4 className="text-white font-bold text-lg mb-2">Upcoming Maintenance</h4>
+                  <h4 className="text-(--text-base) font-bold text-lg mb-2">Upcoming Maintenance</h4>
                   <p className="text-slate-400 text-sm mb-4">
                     Server optimization scheduled for Saturday at 02:00 AM. Access might be limited.
                   </p>
@@ -232,8 +232,8 @@ export default function SchoolAdminDashboard() {
             )}
 
             {/* Quick Links */}
-            <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] p-6 rounded-2xl">
-              <h4 className="text-white font-bold mb-4">Quick Links</h4>
+            <div className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-2xl">
+              <h4 className="text-(--text-base) font-bold mb-4">Quick Links</h4>
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { icon: "description", label: "Reports" },
@@ -243,7 +243,7 @@ export default function SchoolAdminDashboard() {
                 ].map((q) => (
                   <button
                     key={q.label}
-                    className="flex flex-col items-center justify-center p-3 rounded-xl bg-[rgba(255,255,255,0.04)] hover:ring-2 hover:ring-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.05)] transition-all gap-2"
+                    className="flex flex-col items-center justify-center p-3 rounded-xl bg-(--glass-bg) hover:ring-2 hover:ring-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.05)] transition-all gap-2"
                   >
                     <span className="material-symbols-outlined text-[#13eca4] text-[22px]">
                       {q.icon}
@@ -260,7 +260,7 @@ export default function SchoolAdminDashboard() {
       {/* Invite Teacher Modal */}
       {showInvite && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+          <div className="bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-6 w-full max-w-md shadow-2xl">
             {inviteResult ? (
               /* Success state */
               <div className="text-center">
@@ -269,20 +269,20 @@ export default function SchoolAdminDashboard() {
                     mark_email_read
                   </span>
                 </div>
-                <h2 className="text-white font-bold text-lg mb-1">Invite Sent!</h2>
+                <h2 className="text-(--text-base) font-bold text-lg mb-1">Invite Sent!</h2>
                 <p className="text-slate-400 text-sm mb-5">
                   An invitation email has been sent to{" "}
-                  <span className="text-white font-semibold">{inviteResult.email}</span>. They can
+                  <span className="text-(--text-base) font-semibold">{inviteResult.email}</span>. They can
                   also use the link below.
                 </p>
-                <div className="bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-3 mb-5">
+                <div className="bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-3 mb-5">
                   <p className="text-xs text-slate-500 mb-1 text-left">Invite link (valid 48h)</p>
                   <p className="text-[#13eca4] text-xs font-mono break-all text-left">
                     {inviteResult.inviteLink}
                   </p>
                   <button
                     onClick={() => navigator.clipboard.writeText(inviteResult.inviteLink)}
-                    className="mt-2 text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                    className="mt-2 text-xs text-slate-400 hover:text-(--text-base) flex items-center gap-1 transition-colors"
                   >
                     <span className="material-symbols-outlined text-[14px]">content_copy</span>
                     Copy link
@@ -290,7 +290,7 @@ export default function SchoolAdminDashboard() {
                 </div>
                 <button
                   onClick={closeInviteModal}
-                  className="w-full py-2.5 rounded-xl bg-[rgba(255,255,255,0.06)] text-slate-300 font-semibold text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                  className="w-full py-2.5 rounded-xl bg-(--input-bg) text-slate-300 font-semibold text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                 >
                   Done
                 </button>
@@ -300,14 +300,14 @@ export default function SchoolAdminDashboard() {
               <>
                 <div className="flex items-center justify-between mb-5">
                   <div>
-                    <h2 className="text-white font-bold text-base">Invite Teacher</h2>
+                    <h2 className="text-(--text-base) font-bold text-base">Invite Teacher</h2>
                     <p className="text-slate-400 text-xs mt-0.5">
                       They&apos;ll receive a secure link to set their own password.
                     </p>
                   </div>
                   <button
                     onClick={closeInviteModal}
-                    className="text-slate-500 hover:text-white transition-colors"
+                    className="text-slate-500 hover:text-(--text-base) transition-colors"
                   >
                     <span className="material-symbols-outlined text-[22px]">close</span>
                   </button>
@@ -326,7 +326,7 @@ export default function SchoolAdminDashboard() {
                       }
                       placeholder="Jane Kamau"
                       required
-                      className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                      className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                     />
                   </div>
                   <div>
@@ -339,7 +339,7 @@ export default function SchoolAdminDashboard() {
                       onChange={(e) => setInviteForm((p) => ({ ...p, email: e.target.value }))}
                       placeholder="jane@school.ac.ke"
                       required
-                      className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                      className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                     />
                   </div>
 
@@ -353,7 +353,7 @@ export default function SchoolAdminDashboard() {
                     <button
                       type="button"
                       onClick={closeInviteModal}
-                      className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                      className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-(--input-bg) text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                     >
                       Cancel
                     </button>

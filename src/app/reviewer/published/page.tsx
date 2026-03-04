@@ -48,13 +48,13 @@ export default function ReviewerPublishedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(245,158,11,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Published Courses</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Published Courses</h1>
           <p className="text-slate-400 text-xs mt-0.5">{published.length} live on the platform</p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(16,185,129,0.15)] border border-[rgba(16,185,129,0.25)]">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(16,185,129,0.15)] border border-(--border-medium)">
           <span className="w-1.5 h-1.5 rounded-full bg-[#10b981]" />
           <span className="text-[#10b981] text-xs font-semibold">{published.length} Published</span>
         </div>
@@ -62,9 +62,9 @@ export default function ReviewerPublishedPage() {
 
       <div className="px-8 py-8">
         {published.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 bg-[#1a2e27] rounded-2xl border border-[rgba(245,158,11,0.08)]">
+          <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-(--border-subtle)">
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">library_books</span>
-            <p className="text-white font-semibold mb-1">No published courses yet</p>
+            <p className="text-(--text-base) font-semibold mb-1">No published courses yet</p>
             <p className="text-slate-400 text-sm">Approved courses will appear here once published.</p>
           </div>
         ) : (
@@ -74,7 +74,7 @@ export default function ReviewerPublishedPage() {
               return (
                 <div
                   key={course.id}
-                  className="bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.1)] p-5 hover:border-[rgba(16,185,129,0.25)] transition-colors"
+                  className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-5 hover:border-(--border-medium) transition-colors"
                 >
                   <div className="flex items-start gap-4">
                     <div
@@ -85,7 +85,7 @@ export default function ReviewerPublishedPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-white font-bold text-base">{course.title}</h3>
+                        <h3 className="text-(--text-base) font-bold text-base">{course.title}</h3>
                         <span
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full"
                           style={{ background: `${diffColor}18`, color: diffColor }}
@@ -121,7 +121,7 @@ export default function ReviewerPublishedPage() {
                     <div className="shrink-0 flex items-center gap-2">
                       <button
                         onClick={() => setExpandedId(expandedId === course.id ? null : course.id)}
-                        className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+                        className="p-2 rounded-lg text-slate-400 hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.05)] transition-colors"
                         title="View details"
                       >
                         <span className="material-symbols-outlined text-[18px]">{expandedId === course.id ? "expand_less" : "expand_more"}</span>
@@ -139,7 +139,7 @@ export default function ReviewerPublishedPage() {
                     </div>
                   </div>
                   {expandedId === course.id && (
-                    <div className="mt-3 pt-3 border-t border-[rgba(255,255,255,0.05)]">
+                    <div className="mt-3 pt-3 border-t border-(--border-subtle)">
                       <p className="text-slate-300 text-sm">{course.description}</p>
                       <div className="mt-2 flex items-center gap-4 text-xs text-slate-500">
                         {course.estimatedDuration && <span>Duration: {course.estimatedDuration}</span>}

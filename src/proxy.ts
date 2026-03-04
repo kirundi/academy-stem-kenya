@@ -61,7 +61,7 @@ function clearAndRedirect(destination: URL): NextResponse {
   return res;
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Always allow public paths, API routes, Next.js internals, and static files.

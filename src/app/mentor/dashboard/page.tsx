@@ -142,12 +142,12 @@ export default function MentorDashboard() {
     : [];
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Toast */}
       {toast && (
         <div
           className={`fixed top-5 right-5 z-50 px-5 py-3 rounded-xl font-semibold text-sm shadow-xl flex items-center gap-2 ${
-            toast.ok ? "bg-[#10b981] text-[#10221c]" : "bg-[#ef4444] text-white"
+            toast.ok ? "bg-[#10b981] text-[#10221c]" : "bg-[#ef4444] text-(--text-base)"
           }`}
         >
           <span className="material-symbols-outlined text-[18px]">
@@ -158,9 +158,9 @@ export default function MentorDashboard() {
       )}
 
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(16,185,129,0.1)] px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">
+          <h1 className="text-xl font-bold text-(--text-base)">
             {selectedChallenge ? selectedChallenge.title : "My Challenges"}
           </h1>
           <p className="text-slate-400 text-xs mt-0.5">
@@ -174,7 +174,7 @@ export default function MentorDashboard() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => { setSelectedChallenge(null); setGradingId(null); setShowGraded(false); }}
-                className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors text-sm"
+                className="flex items-center gap-1.5 text-slate-400 hover:text-(--text-base) transition-colors text-sm"
               >
                 <span className="material-symbols-outlined text-[18px]">arrow_back</span>
                 All Challenges
@@ -215,7 +215,7 @@ export default function MentorDashboard() {
               ].map(({ label, value, icon, color }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.08)]"
+                  className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]"
                 >
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
@@ -224,7 +224,7 @@ export default function MentorDashboard() {
                     <span className="material-symbols-outlined text-[24px]" style={{ color }}>{icon}</span>
                   </div>
                   <div>
-                    <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                    <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                     <p className="text-slate-400 text-xs mt-0.5">{label}</p>
                   </div>
                 </div>
@@ -233,9 +233,9 @@ export default function MentorDashboard() {
 
             {/* Challenge cards */}
             {challenges.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.08)]">
+              <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
                 <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">emoji_events</span>
-                <p className="text-white font-semibold mb-1">No challenges assigned yet</p>
+                <p className="text-(--text-base) font-semibold mb-1">No challenges assigned yet</p>
                 <p className="text-slate-400 text-sm">Contact a platform administrator to be assigned as a judge.</p>
               </div>
             ) : (
@@ -244,14 +244,14 @@ export default function MentorDashboard() {
                   <button
                     key={challenge.id}
                     onClick={() => setSelectedChallenge(challenge)}
-                    className="w-full text-left bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.1)] hover:border-[rgba(16,185,129,0.3)] transition-all p-5 flex items-start gap-4"
+                    className="w-full text-left bg-(--bg-card) rounded-2xl border border-(--border-subtle) hover:border-[rgba(16,185,129,0.3)] transition-all p-5 flex items-start gap-4"
                   >
                     <div className="w-12 h-12 rounded-xl bg-[rgba(16,185,129,0.1)] flex items-center justify-center shrink-0 text-2xl">
                       {challenge.icon ?? "🏆"}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="text-white font-bold text-base">{challenge.title}</h3>
+                        <h3 className="text-(--text-base) font-bold text-base">{challenge.title}</h3>
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(16,185,129,0.15)] text-[#10b981]">
                           {challenge.scope}
                         </span>
@@ -285,9 +285,9 @@ export default function MentorDashboard() {
           /* Submissions list for selected challenge */
           <div>
             {challengeSubmissions.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.08)]">
+              <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
                 <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">task_alt</span>
-                <p className="text-white font-semibold mb-1">All clear!</p>
+                <p className="text-(--text-base) font-semibold mb-1">All clear!</p>
                 <p className="text-slate-400 text-sm">No pending submissions for this challenge.</p>
               </div>
             ) : (
@@ -297,7 +297,7 @@ export default function MentorDashboard() {
                   return (
                     <div
                       key={sub.id}
-                      className="bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.1)] overflow-hidden"
+                      className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden"
                     >
                       <div className="p-5">
                         <div className="flex items-start justify-between gap-4 mb-3">
@@ -346,7 +346,7 @@ export default function MentorDashboard() {
 
                         {/* Grade form */}
                         {isGrading && (
-                          <div className="mt-4 pt-4 border-t border-[rgba(16,185,129,0.1)]">
+                          <div className="mt-4 pt-4 border-t border-(--border-subtle)">
                             <div className="grid grid-cols-2 gap-3 mb-3">
                               <div>
                                 <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1.5">
@@ -356,7 +356,7 @@ export default function MentorDashboard() {
                                   value={gradeForm.grade}
                                   onChange={(e) => setGradeForm((f) => ({ ...f, grade: e.target.value }))}
                                   placeholder="A, B+, Pass…"
-                                  className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-xl px-3 py-2.5 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:border-[rgba(16,185,129,0.4)] transition-all"
+                                  className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-xl px-3 py-2.5 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(16,185,129,0.4)] transition-all"
                                 />
                               </div>
                               <div>
@@ -370,7 +370,7 @@ export default function MentorDashboard() {
                                   value={gradeForm.score}
                                   onChange={(e) => setGradeForm((f) => ({ ...f, score: e.target.value }))}
                                   placeholder="0–100"
-                                  className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-xl px-3 py-2.5 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:border-[rgba(16,185,129,0.4)] transition-all"
+                                  className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-xl px-3 py-2.5 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(16,185,129,0.4)] transition-all"
                                 />
                               </div>
                             </div>
@@ -383,7 +383,7 @@ export default function MentorDashboard() {
                                 onChange={(e) => setGradeForm((f) => ({ ...f, feedback: e.target.value }))}
                                 placeholder="Write constructive feedback for the student…"
                                 rows={3}
-                                className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm resize-none focus:outline-none focus:border-[rgba(16,185,129,0.4)] transition-all"
+                                className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(16,185,129,0.4)] transition-all"
                               />
                             </div>
                             <button

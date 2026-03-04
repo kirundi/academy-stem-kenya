@@ -54,14 +54,14 @@ function ChildAchievementsCard({ child }: { child: ChildProgress }) {
   const xpPct = Math.min(100, Math.round((student.xp / xpToNext) * 100));
 
   return (
-    <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(139,92,246,0.12)] overflow-hidden">
+    <div className="bg-(--bg-card) rounded-2xl border border-[rgba(139,92,246,0.12)] overflow-hidden">
       {/* Child header */}
       <div className="flex items-center gap-4 px-6 py-5 border-b border-[rgba(139,92,246,0.08)] bg-[rgba(139,92,246,0.04)]">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-white font-bold text-xl shrink-0">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-(--text-base) font-bold text-xl shrink-0">
           {initials}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-base">{student.displayName}</h3>
+          <h3 className="text-(--text-base) font-bold text-base">{student.displayName}</h3>
           <div className="flex items-center gap-2 mt-0.5 flex-wrap">
             {student.grade && (
               <span className="px-2 py-0.5 rounded-full bg-[rgba(139,92,246,0.15)] text-[#8b5cf6] text-xs font-semibold">
@@ -89,7 +89,7 @@ function ChildAchievementsCard({ child }: { child: ChildProgress }) {
         {/* Badge count chip */}
         <div className="shrink-0 flex flex-col items-center gap-1 px-4 py-2 rounded-xl bg-[rgba(139,92,246,0.1)] border border-[rgba(139,92,246,0.2)]">
           <span className="material-symbols-outlined text-[#8b5cf6] text-[22px]">military_tech</span>
-          <span className="text-white font-bold text-lg leading-none">{student.badges.length}</span>
+          <span className="text-(--text-base) font-bold text-lg leading-none">{student.badges.length}</span>
           <span className="text-[#8b5cf6] text-[10px] font-semibold">Badges</span>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function ParentAchievementsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#8b5cf6]">
           progress_activity
         </span>
@@ -162,7 +162,7 @@ export default function ParentAchievementsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center px-8">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center px-8">
         <div className="text-center">
           <span className="material-symbols-outlined text-[48px] text-red-400 mb-3 block">
             error
@@ -177,11 +177,11 @@ export default function ParentAchievementsPage() {
   const totalBadges = children.reduce((s, c) => s + c.student.badges.length, 0);
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(139,92,246,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl font-bold text-(--text-base) flex items-center gap-2">
             <span className="material-symbols-outlined text-[#8b5cf6] text-[22px]">
               emoji_events
             </span>
@@ -196,7 +196,7 @@ export default function ParentAchievementsPage() {
             <span className="material-symbols-outlined text-[#8b5cf6] text-[18px]">
               military_tech
             </span>
-            <span className="text-white font-bold text-sm">{totalBadges}</span>
+            <span className="text-(--text-base) font-bold text-sm">{totalBadges}</span>
             <span className="text-[#8b5cf6] text-xs font-semibold">
               Total Badge{totalBadges !== 1 ? "s" : ""}
             </span>
@@ -206,11 +206,11 @@ export default function ParentAchievementsPage() {
 
       <div className="px-8 py-8">
         {children.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 bg-[#1a2e27] rounded-2xl border border-[rgba(139,92,246,0.08)]">
+          <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(139,92,246,0.08)]">
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
               emoji_events
             </span>
-            <p className="text-white font-semibold text-lg mb-2">No children linked yet</p>
+            <p className="text-(--text-base) font-semibold text-lg mb-2">No children linked yet</p>
             <p className="text-slate-400 text-sm max-w-sm text-center">
               Ask your child&apos;s teacher or school administrator to connect your account.
             </p>

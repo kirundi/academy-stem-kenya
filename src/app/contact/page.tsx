@@ -37,14 +37,14 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c] font-sans text-slate-100 antialiased">
+    <div className="min-h-screen bg-(--bg-page) font-sans text-(--text-base) antialiased">
       <PublicNavbar />
 
       <main className="flex-1 px-6 py-16">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-16">
             <h1 className="text-4xl font-black mb-4">Contact Us</h1>
-            <p className="text-slate-400 max-w-xl mx-auto">
+            <p className="text-(--text-muted) max-w-xl mx-auto">
               Have questions about STEM Impact Academy? We are here to help. Reach out using any of
               the methods below.
             </p>
@@ -76,26 +76,26 @@ export default function ContactPage() {
             ].map(({ icon, title, desc, detail, href }) => (
               <div
                 key={title}
-                className="rounded-xl bg-[#1a2e27] p-8 border border-[rgba(255,255,255,0.06)] text-center"
+                className="rounded-xl bg-(--bg-card) p-8 border border-(--border-subtle) text-center"
               >
                 <div className="w-14 h-14 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-4">
                   <span className="material-symbols-outlined text-[#13eca4] text-2xl">{icon}</span>
                 </div>
                 <h3 className="text-lg font-bold mb-1">{title}</h3>
-                <p className="text-sm text-slate-500 mb-3">{desc}</p>
+                <p className="text-sm text-(--text-faint) mb-3">{desc}</p>
                 {href ? (
                   <a href={href} className="text-[#13eca4] text-sm font-medium hover:underline">
                     {detail}
                   </a>
                 ) : (
-                  <p className="text-slate-300 text-sm font-medium">{detail}</p>
+                  <p className="text-(--text-muted) text-sm font-medium">{detail}</p>
                 )}
               </div>
             ))}
           </div>
 
           {/* Contact Form */}
-          <div className="max-w-2xl mx-auto rounded-2xl bg-[#1a2e27] border border-[rgba(19,236,164,0.12)] p-8 md:p-12">
+          <div className="max-w-2xl mx-auto rounded-2xl bg-(--bg-card) border border-(--border-medium) p-8 md:p-12">
             <h2 className="text-2xl font-bold mb-8">Send Us a Message</h2>
 
             {status === "success" ? (
@@ -103,8 +103,8 @@ export default function ContactPage() {
                 <span className="material-symbols-outlined text-5xl text-[#13eca4]">
                   check_circle
                 </span>
-                <h3 className="text-xl font-bold text-white">Message sent!</h3>
-                <p className="text-slate-400 text-sm">
+                <h3 className="text-xl font-bold text-(--text-base)">Message sent!</h3>
+                <p className="text-(--text-muted) text-sm">
                   Thank you for reaching out. We&apos;ll get back to you within 1–2 business days.
                 </p>
                 <button
@@ -118,7 +118,7 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                    <label className="block text-xs font-bold uppercase text-(--text-faint) mb-2">
                       Name
                     </label>
                     <input
@@ -128,11 +128,11 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="Your name"
                       required
-                      className="w-full rounded-lg bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#13eca4]"
+                      className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                    <label className="block text-xs font-bold uppercase text-(--text-faint) mb-2">
                       Email
                     </label>
                     <input
@@ -142,12 +142,12 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="you@example.com"
                       required
-                      className="w-full rounded-lg bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#13eca4]"
+                      className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                  <label className="block text-xs font-bold uppercase text-(--text-faint) mb-2">
                     Subject
                   </label>
                   <input
@@ -157,11 +157,11 @@ export default function ContactPage() {
                     onChange={handleChange}
                     placeholder="How can we help?"
                     required
-                    className="w-full rounded-lg bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#13eca4]"
+                    className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase text-slate-500 mb-2">
+                  <label className="block text-xs font-bold uppercase text-(--text-faint) mb-2">
                     Message
                   </label>
                   <textarea
@@ -171,7 +171,7 @@ export default function ContactPage() {
                     rows={5}
                     placeholder="Tell us more..."
                     required
-                    className="w-full rounded-lg bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] p-3 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-[#13eca4] resize-none"
+                    className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4] resize-none"
                   />
                 </div>
 
@@ -199,8 +199,8 @@ export default function ContactPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center mt-16">
-        <p className="text-xs text-slate-600">
+      <footer className="border-t border-(--border-subtle) bg-(--bg-page) px-6 py-8 text-center mt-16">
+        <p className="text-xs text-(--text-faint)">
           &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
         </p>
       </footer>

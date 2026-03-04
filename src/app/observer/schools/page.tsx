@@ -32,10 +32,10 @@ export default function ObserverSchoolsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">My Schools</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">My Schools</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             Schools assigned to your observer account
           </p>
@@ -48,7 +48,7 @@ export default function ObserverSchoolsPage() {
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
               domain_disabled
             </span>
-            <p className="text-white font-semibold text-lg mb-2">No schools assigned</p>
+            <p className="text-(--text-base) font-semibold text-lg mb-2">No schools assigned</p>
             <p className="text-slate-400 text-sm max-w-sm">
               Contact a platform administrator to assign schools to your observer account.
             </p>
@@ -58,7 +58,7 @@ export default function ObserverSchoolsPage() {
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
               hourglass_empty
             </span>
-            <p className="text-white font-semibold text-lg mb-2">Loading schools…</p>
+            <p className="text-(--text-base) font-semibold text-lg mb-2">Loading schools…</p>
             <p className="text-slate-400 text-sm max-w-sm">
               Your assigned schools are being fetched. If this persists, contact support.
             </p>
@@ -71,7 +71,7 @@ export default function ObserverSchoolsPage() {
               return (
                 <div
                   key={school.id}
-                  className="bg-[#1a2e27] rounded-2xl border border-[rgba(6,182,212,0.08)] hover:border-[rgba(6,182,212,0.22)] transition-all p-5 flex flex-col gap-4"
+                  className="bg-(--bg-card) rounded-2xl border border-[rgba(6,182,212,0.08)] hover:border-[rgba(6,182,212,0.22)] transition-all p-5 flex flex-col gap-4"
                 >
                   {/* School header */}
                   <div className="flex items-start gap-3">
@@ -81,7 +81,7 @@ export default function ObserverSchoolsPage() {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-white font-bold text-sm truncate">{school.name}</h3>
+                      <h3 className="text-(--text-base) font-bold text-sm truncate">{school.name}</h3>
                       <p className="text-slate-500 text-xs mt-0.5">{school.location}</p>
                     </div>
                     <span
@@ -96,19 +96,19 @@ export default function ObserverSchoolsPage() {
                   <div className="grid grid-cols-2 gap-3 text-xs border-t border-[rgba(6,182,212,0.06)] pt-3">
                     <div>
                       <span className="text-slate-500 block">Students</span>
-                      <p className="text-white font-semibold">{school.studentCount ?? "—"}</p>
+                      <p className="text-(--text-base) font-semibold">{school.studentCount ?? "—"}</p>
                     </div>
                     <div>
                       <span className="text-slate-500 block">Type</span>
-                      <p className="text-white font-semibold">{school.type ?? "—"}</p>
+                      <p className="text-(--text-base) font-semibold">{school.type ?? "—"}</p>
                     </div>
                     <div>
                       <span className="text-slate-500 block">Plan</span>
-                      <p className="text-white font-semibold capitalize">{school.plan ?? "—"}</p>
+                      <p className="text-(--text-base) font-semibold capitalize">{school.plan ?? "—"}</p>
                     </div>
                     <div>
                       <span className="text-slate-500 block">Health</span>
-                      <p className="text-white font-semibold">{school.healthScore ?? 0}%</p>
+                      <p className="text-(--text-base) font-semibold">{school.healthScore ?? 0}%</p>
                     </div>
                   </div>
 

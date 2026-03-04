@@ -62,18 +62,18 @@ export default function ReportsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Reports</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Platform analytics and insights</p>
+          <h1 className="text-xl font-bold text-(--text-base)">Reports</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">Platform analytics and insights</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Full Report
           </button>
-          <button className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
             <span className="material-symbols-outlined text-[18px]">print</span>
             Print
           </button>
@@ -83,12 +83,12 @@ export default function ReportsPage() {
       <div className="px-8 py-8 space-y-8">
         {/* Summary Stats */}
         <section>
-          <h2 className="text-white font-bold text-xl mb-4">Platform Summary</h2>
+          <h2 className="text-(--text-base) font-bold text-xl mb-4">Platform Summary</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {reportCards.map((r) => (
               <div
                 key={r.label}
-                className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)] text-center"
+                className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle) text-center"
               >
                 <span
                   className="material-symbols-outlined text-[28px] mb-2 block"
@@ -96,10 +96,10 @@ export default function ReportsPage() {
                 >
                   {r.icon}
                 </span>
-                <p className="text-white text-2xl font-bold">
+                <p className="text-(--text-base) text-2xl font-bold">
                   {typeof r.value === "number" ? r.value.toLocaleString() : r.value}
                 </p>
-                <p className="text-slate-500 text-xs mt-1">{r.label}</p>
+                <p className="text-(--text-faint) text-xs mt-1">{r.label}</p>
               </div>
             ))}
           </div>
@@ -107,8 +107,8 @@ export default function ReportsPage() {
 
         {/* Plan Distribution */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-4">Schools by Plan</h2>
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-4">Schools by Plan</h2>
             <div className="space-y-4">
               {[
                 { plan: "Premium", key: "premium", color: "#13eca4" },
@@ -123,11 +123,11 @@ export default function ReportsPage() {
                       <span style={{ color: p.color }} className="font-semibold">
                         {p.plan}
                       </span>
-                      <span className="text-slate-400">
+                      <span className="text-(--text-muted)">
                         {count} schools ({pct}%)
                       </span>
                     </div>
-                    <div className="h-3 bg-[rgba(255,255,255,0.06)] rounded-full">
+                    <div className="h-3 bg-(--input-bg) rounded-full">
                       <div
                         className="h-3 rounded-full transition-all duration-500"
                         style={{ background: p.color, width: `${pct}%` }}
@@ -139,10 +139,10 @@ export default function ReportsPage() {
             </div>
           </div>
 
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-4">Courses by Category</h2>
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-4">Courses by Category</h2>
             {categoryData.length === 0 ? (
-              <p className="text-slate-500 text-sm">No courses available yet.</p>
+              <p className="text-(--text-faint) text-sm">No courses available yet.</p>
             ) : (
               <div className="space-y-4">
                 {categoryData.slice(0, 5).map(([cat, count], i) => {
@@ -158,11 +158,11 @@ export default function ReportsPage() {
                         >
                           {cat}
                         </span>
-                        <span className="text-slate-400">
+                        <span className="text-(--text-muted)">
                           {count} courses ({pct}%)
                         </span>
                       </div>
-                      <div className="h-3 bg-[rgba(255,255,255,0.06)] rounded-full">
+                      <div className="h-3 bg-(--input-bg) rounded-full">
                         <div
                           className="h-3 rounded-full transition-all duration-500"
                           style={{ background: colors[i % colors.length], width: `${pct}%` }}
@@ -177,13 +177,13 @@ export default function ReportsPage() {
         </section>
 
         {/* Regional Report Table */}
-        <section className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+        <section className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.06)]">
-            <h2 className="text-white font-bold">Regional Breakdown</h2>
+            <h2 className="text-(--text-base) font-bold">Regional Breakdown</h2>
           </div>
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+              <tr className="text-(--text-faint) text-xs border-b border-(--border-subtle)">
                 <th className="px-6 py-3 text-left font-medium">Region</th>
                 <th className="px-4 py-3 text-center font-medium">Schools</th>
                 <th className="px-4 py-3 text-center font-medium">Reported Students</th>
@@ -193,7 +193,7 @@ export default function ReportsPage() {
             <tbody>
               {regionData.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={4} className="px-6 py-12 text-center text-(--text-faint)">
                     No regional data available
                   </td>
                 </tr>
@@ -211,18 +211,18 @@ export default function ReportsPage() {
                           <span className="material-symbols-outlined text-[#13eca4] text-[18px]">
                             location_on
                           </span>
-                          <span className="text-white font-semibold">{region}</span>
+                          <span className="text-(--text-base) font-semibold">{region}</span>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-center text-white font-semibold">
+                      <td className="px-4 py-4 text-center text-(--text-base) font-semibold">
                         {data.schools}
                       </td>
-                      <td className="px-4 py-4 text-center text-slate-300">
+                      <td className="px-4 py-4 text-center text-(--text-muted)">
                         {data.students.toLocaleString()}
                       </td>
                       <td className="px-4 py-4 text-center">
                         <div className="flex items-center gap-2 justify-center">
-                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-15">
+                          <div className="flex-1 h-1.5 bg-(--input-bg) rounded-full max-w-15">
                             <div
                               className="h-1.5 rounded-full bg-[#13eca4]"
                               style={{ width: `${pct}%` }}
@@ -240,8 +240,8 @@ export default function ReportsPage() {
         </section>
 
         {/* User Role Distribution */}
-        <section className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-          <h2 className="text-white font-bold mb-4">User Role Distribution</h2>
+        <section className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+          <h2 className="text-(--text-base) font-bold mb-4">User Role Distribution</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { role: "Students", count: students.length, color: "#3b82f6", icon: "group" },
@@ -270,18 +270,18 @@ export default function ReportsPage() {
                     >
                       {r.icon}
                     </span>
-                    <span className="text-white font-semibold text-sm">{r.role}</span>
+                    <span className="text-(--text-base) font-semibold text-sm">{r.role}</span>
                   </div>
                   <p className="text-2xl font-bold mb-1" style={{ color: r.color }}>
                     {r.count.toLocaleString()}
                   </p>
-                  <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full mt-2">
+                  <div className="h-2 bg-(--input-bg) rounded-full mt-2">
                     <div
                       className="h-2 rounded-full"
                       style={{ background: r.color, width: `${pct}%` }}
                     />
                   </div>
-                  <p className="text-slate-500 text-xs mt-1">{pct}% of all users</p>
+                  <p className="text-(--text-faint) text-xs mt-1">{pct}% of all users</p>
                 </div>
               );
             })}

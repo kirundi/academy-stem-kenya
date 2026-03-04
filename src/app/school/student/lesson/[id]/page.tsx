@@ -122,8 +122,8 @@ export default function LessonPage() {
   if (steps.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4">
-        <span className="material-symbols-outlined text-[48px] text-slate-600">school</span>
-        <p className="text-slate-400 text-sm">No lessons found for this course.</p>
+        <span className="material-symbols-outlined text-[48px] text-(--text-faint)">school</span>
+        <p className="text-(--text-muted) text-sm">No lessons found for this course.</p>
         <Link
           href="/school/student/dashboard"
           className="text-[#13eca4] text-sm font-semibold hover:underline"
@@ -135,18 +135,18 @@ export default function LessonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c] flex flex-col">
+    <div className="min-h-screen bg-(--bg-page) flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-14 flex items-center gap-4">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-14 flex items-center gap-4">
         <Link
           href="/school/student/dashboard"
-          className="text-slate-400 hover:text-white transition-colors"
+          className="text-(--text-muted) hover:text-(--text-base) transition-colors"
         >
           <span className="material-symbols-outlined text-[22px]">arrow_back</span>
         </Link>
         <div className="flex-1 min-w-0">
-          <h1 className="text-white font-bold truncate">{courseTitle}</h1>
-          <p className="text-slate-500 text-xs">
+          <h1 className="text-(--text-base) font-bold truncate">{courseTitle}</h1>
+          <p className="text-(--text-faint) text-xs">
             Step {activeStep} of {steps.length}
           </p>
         </div>
@@ -161,16 +161,16 @@ export default function LessonPage() {
             {completedCount}/{steps.length}
           </span>
         </div>
-        <button className="p-2 rounded-lg bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-white">
+        <button className="p-2 rounded-lg bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)">
           <span className="material-symbols-outlined text-[20px]">help</span>
         </button>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
         {/* Step Sidebar */}
-        <aside className="w-72 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col overflow-y-auto">
-          <div className="p-5 border-b border-[rgba(19,236,164,0.08)]">
-            <p className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-1">
+        <aside className="w-72 bg-(--bg-page) border-r border-(--border-subtle) flex flex-col overflow-y-auto">
+          <div className="p-5 border-b border-(--border-subtle)">
+            <p className="text-(--text-muted) text-xs font-semibold uppercase tracking-widest mb-1">
               Course Progress
             </p>
             <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mt-2">
@@ -179,20 +179,20 @@ export default function LessonPage() {
                 style={{ width: `${(completedCount / steps.length) * 100}%` }}
               />
             </div>
-            <p className="text-xs text-slate-500 mt-1.5">
+            <p className="text-xs text-(--text-faint) mt-1.5">
               {completedCount} of {steps.length} steps complete
             </p>
           </div>
 
           {/* Pro Tip */}
-          <div className="mx-3 mt-3 p-3 bg-[rgba(19,236,164,0.05)] border border-[rgba(19,236,164,0.1)] rounded-xl">
+          <div className="mx-3 mt-3 p-3 bg-[rgba(19,236,164,0.05)] border border-(--border-subtle) rounded-xl">
             <div className="flex items-center gap-2 mb-1">
               <span className="material-symbols-outlined text-[16px] text-[#f59e0b]">
                 lightbulb
               </span>
               <span className="text-[#f59e0b] text-xs font-bold">Pro Tip</span>
             </div>
-            <p className="text-slate-400 text-xs leading-relaxed">
+            <p className="text-(--text-muted) text-xs leading-relaxed">
               Think about your process as you work — your reflection answers will make your
               portfolio shine!
             </p>
@@ -208,8 +208,8 @@ export default function LessonPage() {
                   onClick={() => setActiveStep(step.id)}
                   className={`flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                     isCurrent
-                      ? "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)]"
-                      : "hover:bg-[rgba(255,255,255,0.04)]"
+                      ? "bg-[rgba(19,236,164,0.1)] border border-(--border-accent)"
+                      : "hover:bg-(--glass-bg)"
                   }`}
                 >
                   <div
@@ -226,12 +226,12 @@ export default function LessonPage() {
                         check
                       </span>
                     ) : (
-                      <span className="text-xs font-bold text-slate-400">{step.id}</span>
+                      <span className="text-xs font-bold text-(--text-muted)">{step.id}</span>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p
-                      className={`text-sm font-medium truncate ${isCurrent ? "text-white" : step.completed ? "text-slate-400" : "text-slate-500"}`}
+                      className={`text-sm font-medium truncate ${isCurrent ? "text-(--text-base)" : step.completed ? "text-(--text-muted)" : "text-(--text-faint)"}`}
                     >
                       {step.title}
                     </p>
@@ -242,7 +242,7 @@ export default function LessonPage() {
                       >
                         {step.type}
                       </span>
-                      <span className="text-[10px] text-slate-600">{step.duration}</span>
+                      <span className="text-[10px] text-(--text-faint)">{step.duration}</span>
                     </div>
                   </div>
                 </div>
@@ -252,7 +252,7 @@ export default function LessonPage() {
 
           {/* Download Guide */}
           <div className="p-3">
-            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-[rgba(19,236,164,0.2)] text-[#13eca4] text-xs font-semibold hover:bg-[rgba(19,236,164,0.06)] transition-colors">
+            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-(--border-accent) text-[#13eca4] text-xs font-semibold hover:bg-[rgba(19,236,164,0.06)] transition-colors">
               <span className="material-symbols-outlined text-[16px]">download</span>
               Download Guide PDF
             </button>
@@ -264,7 +264,7 @@ export default function LessonPage() {
           {currentStep && (
             <div className="max-w-3xl mx-auto">
               {/* Step header */}
-              <div className="flex items-start gap-3 mb-2 text-slate-400 text-sm">
+              <div className="flex items-start gap-3 mb-2 text-(--text-muted) text-sm">
                 <Link
                   href="/school/student/dashboard"
                   className="hover:text-[#13eca4] transition-colors"
@@ -274,7 +274,7 @@ export default function LessonPage() {
                 <span>&rsaquo;</span>
                 <span>{courseTitle}</span>
                 <span>&rsaquo;</span>
-                <span className="text-white">{currentStep.title}</span>
+                <span className="text-(--text-base)">{currentStep.title}</span>
               </div>
 
               <div className="flex items-center gap-3 mb-6 mt-4">
@@ -300,9 +300,9 @@ export default function LessonPage() {
                     >
                       {currentStep.type}
                     </span>
-                    <span className="text-slate-500 text-xs">{currentStep.duration}</span>
+                    <span className="text-(--text-faint) text-xs">{currentStep.duration}</span>
                   </div>
-                  <h2 className="text-white text-2xl font-bold mt-1">{currentStep.title}</h2>
+                  <h2 className="text-(--text-base) text-2xl font-bold mt-1">{currentStep.title}</h2>
                 </div>
               </div>
 
@@ -312,9 +312,9 @@ export default function LessonPage() {
                 currentStep.type === "Hands-on" ||
                 currentStep.type === "Project" ||
                 currentStep.type === "Quiz") && (
-                <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden mb-8">
+                <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden mb-8">
                   <div className="p-8">
-                    <p className="text-slate-300 text-lg leading-relaxed mb-6">
+                    <p className="text-(--text-muted) text-lg leading-relaxed mb-6">
                       {currentStep.content ||
                         "Complete this lesson step to continue your progress."}
                     </p>
@@ -323,7 +323,7 @@ export default function LessonPage() {
                         {currentStep.blocks.map((block, i) => (
                           <div key={i}>
                             {block.type === "text" && (
-                              <p className="text-slate-300 text-sm leading-relaxed">
+                              <p className="text-(--text-muted) text-sm leading-relaxed">
                                 {block.content}
                               </p>
                             )}
@@ -342,14 +342,14 @@ export default function LessonPage() {
                               </div>
                             )}
                             {block.type === "task" && (
-                              <div className="bg-[rgba(19,236,164,0.06)] border border-[rgba(19,236,164,0.15)] rounded-xl p-5">
+                              <div className="bg-[rgba(19,236,164,0.06)] border border-(--border-medium) rounded-xl p-5">
                                 <h3 className="text-[#13eca4] font-bold flex items-center gap-2 mb-3">
                                   <span className="material-symbols-outlined text-[20px]">
                                     task_alt
                                   </span>
                                   Task
                                 </h3>
-                                <p className="text-slate-300 text-sm leading-relaxed">
+                                <p className="text-(--text-muted) text-sm leading-relaxed">
                                   {block.content}
                                 </p>
                               </div>
@@ -359,7 +359,7 @@ export default function LessonPage() {
                       </div>
                     )}
                   </div>
-                  <div className="border-t border-[rgba(19,236,164,0.08)] p-6 bg-[rgba(19,236,164,0.03)]">
+                  <div className="border-t border-(--border-subtle) p-6 bg-[rgba(19,236,164,0.03)]">
                     <div className="flex items-start gap-4">
                       <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
                         <span className="material-symbols-outlined text-[22px] text-[#13eca4]">
@@ -367,8 +367,8 @@ export default function LessonPage() {
                         </span>
                       </div>
                       <div className="flex-1">
-                        <h4 className="text-white font-bold mb-1">Your Task</h4>
-                        <p className="text-slate-400 text-sm leading-relaxed mb-3">
+                        <h4 className="text-(--text-base) font-bold mb-1">Your Task</h4>
+                        <p className="text-(--text-muted) text-sm leading-relaxed mb-3">
                           Complete the activity above and write your response below.
                         </p>
                         <textarea
@@ -387,9 +387,9 @@ export default function LessonPage() {
               {/* ====== REFLECTION STEP ====== */}
               {currentStep.type === "Reflection" && (
                 <div className="space-y-6 mb-8">
-                  <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-7">
-                    <h3 className="text-white text-lg font-bold mb-1">Think About Your Process</h3>
-                    <p className="text-slate-400 text-sm mb-7">
+                  <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-7">
+                    <h3 className="text-(--text-base) text-lg font-bold mb-1">Think About Your Process</h3>
+                    <p className="text-(--text-muted) text-sm mb-7">
                       Honest reflection helps you grow as a maker and problem-solver. Take your time
                       with each question.
                     </p>
@@ -409,7 +409,7 @@ export default function LessonPage() {
                         },
                       ].map(({ q, placeholder }, i) => (
                         <div key={i}>
-                          <label className="block text-white font-semibold text-sm mb-2">
+                          <label className="block text-(--text-base) font-semibold text-sm mb-2">
                             {i + 1}. {q}
                           </label>
                           <textarea
@@ -428,8 +428,8 @@ export default function LessonPage() {
                     </div>
 
                     {/* Star Rating */}
-                    <div className="border-t border-[rgba(255,255,255,0.06)] mt-7 pt-6">
-                      <p className="text-white font-semibold text-sm mb-3">Self-Assessed Effort</p>
+                    <div className="border-t border-(--border-subtle) mt-7 pt-6">
+                      <p className="text-(--text-base) font-semibold text-sm mb-3">Self-Assessed Effort</p>
                       <div className="flex items-center gap-2">
                         {[1, 2, 3, 4, 5].map((s) => (
                           <button
@@ -455,7 +455,7 @@ export default function LessonPage() {
                           </button>
                         ))}
                         {starRating > 0 && (
-                          <span className="text-slate-400 text-sm ml-2">
+                          <span className="text-(--text-muted) text-sm ml-2">
                             {starRating} out of 5 stars
                           </span>
                         )}
@@ -468,7 +468,7 @@ export default function LessonPage() {
               {/* ====== REVIEW & SUBMIT STEP ====== */}
               {currentStep.type === "Submit" && (
                 <div className="space-y-6 mb-8">
-                  <div className="bg-[rgba(19,236,164,0.04)] border border-[rgba(19,236,164,0.15)] rounded-2xl p-6">
+                  <div className="bg-[rgba(19,236,164,0.04)] border border-(--border-medium) rounded-2xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <span
                         className="material-symbols-outlined text-[#13eca4] text-[24px]"
@@ -476,7 +476,7 @@ export default function LessonPage() {
                       >
                         checklist
                       </span>
-                      <h3 className="text-white font-bold text-lg">Final Review Checklist</h3>
+                      <h3 className="text-(--text-base) font-bold text-lg">Final Review Checklist</h3>
                     </div>
                     <div className="space-y-3">
                       {[
@@ -490,7 +490,7 @@ export default function LessonPage() {
                             type="checkbox"
                             className="w-5 h-5 rounded accent-[#13eca4] cursor-pointer"
                           />
-                          <span className="text-slate-300 text-sm group-hover:text-white transition-colors">
+                          <span className="text-(--text-muted) text-sm group-hover:text-(--text-base) transition-colors">
                             {item}
                           </span>
                         </label>
@@ -498,14 +498,14 @@ export default function LessonPage() {
                     </div>
                   </div>
 
-                  <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-7">
-                    <h3 className="text-white font-bold text-lg mb-1">Submit Your Work</h3>
-                    <p className="text-slate-400 text-sm mb-5">
+                  <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-7">
+                    <h3 className="text-(--text-base) font-bold text-lg mb-1">Submit Your Work</h3>
+                    <p className="text-(--text-muted) text-sm mb-5">
                       Add any final notes or attach a file link before submitting to your teacher
                       for review.
                     </p>
                     <div className="mb-5">
-                      <label className="text-slate-400 text-xs font-semibold block mb-1.5 uppercase tracking-wide">
+                      <label className="text-(--text-muted) text-xs font-semibold block mb-1.5 uppercase tracking-wide">
                         Additional Notes (optional)
                       </label>
                       <textarea
@@ -517,7 +517,7 @@ export default function LessonPage() {
                       />
                     </div>
                     <div className="mb-6">
-                      <label className="text-slate-400 text-xs font-semibold block mb-1.5 uppercase tracking-wide">
+                      <label className="text-(--text-muted) text-xs font-semibold block mb-1.5 uppercase tracking-wide">
                         File / Link (optional)
                       </label>
                       <input
@@ -546,7 +546,7 @@ export default function LessonPage() {
               <div className="flex items-center justify-between">
                 <button
                   onClick={() => setActiveStep(Math.max(1, activeStep - 1))}
-                  className="flex items-center gap-2 px-5 py-3 bg-[rgba(255,255,255,0.06)] text-slate-300 font-semibold rounded-xl hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                  className="flex items-center gap-2 px-5 py-3 bg-(--input-bg) text-(--text-muted) font-semibold rounded-xl hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                   disabled={activeStep === 1}
                 >
                   <span className="material-symbols-outlined text-[20px]">arrow_back</span>

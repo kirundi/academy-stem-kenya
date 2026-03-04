@@ -80,7 +80,7 @@ function WinnerInner() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a1a16] text-white relative overflow-hidden">
+    <div className="min-h-screen bg-[#0a1a16] text-(--text-base) relative overflow-hidden">
       {/* Celebration glow background */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-175 h-175 rounded-full blur-[160px] opacity-15 bg-[#13eca4]" />
@@ -90,7 +90,7 @@ function WinnerInner() {
 
       <div className="relative z-10">
         {/* Top nav */}
-        <header className="flex items-center gap-6 px-8 py-5 border-b border-[rgba(19,236,164,0.12)] bg-[#0d1f1a]/80 backdrop-blur-sm">
+        <header className="flex items-center gap-6 px-8 py-5 border-b border-[rgba(19,236,164,0.12)] bg-(--bg-page)/80 backdrop-blur-sm">
           <Link
             href="/school/student/challenges"
             className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors flex items-center gap-1"
@@ -176,7 +176,7 @@ function WinnerInner() {
                 </button>
                 <Link
                   href="/school/student/portfolio"
-                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#1a2e30] border border-[rgba(19,236,164,0.2)] text-white rounded-xl font-bold text-sm hover:bg-[#243d40] transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-(--bg-card) border border-[rgba(19,236,164,0.2)] text-(--text-base) rounded-xl font-bold text-sm hover:bg-[#243d40] transition-colors"
                 >
                   <span className="material-symbols-outlined text-base">work</span>
                   Portfolio
@@ -186,7 +186,7 @@ function WinnerInner() {
 
             {/* ─── Certificate ─── */}
             <div className="col-span-12 lg:col-span-7">
-              <div className="w-full aspect-[1.414/1] relative bg-[#0d1f1a] border border-[rgba(19,236,164,0.2)] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="w-full aspect-[1.414/1] relative bg-(--bg-page) border border-[rgba(19,236,164,0.2)] rounded-2xl overflow-hidden shadow-2xl">
                 {/* Corner decorations */}
                 <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-[#13eca4]/30 rounded-tl-lg" />
                 <div className="absolute top-4 right-4 w-10 h-10 border-t-2 border-r-2 border-[#13eca4]/30 rounded-tr-lg" />
@@ -204,7 +204,7 @@ function WinnerInner() {
                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#13eca4] mb-1">
                       STEM Impact Academy
                     </p>
-                    <h2 className="text-lg font-black tracking-wide uppercase text-white mb-1">
+                    <h2 className="text-lg font-black tracking-wide uppercase text-(--text-base) mb-1">
                       Certificate of Achievement
                     </h2>
                     <div className="w-20 h-px bg-linear-to-r from-transparent via-[#13eca4]/60 to-transparent mx-auto mb-4" />
@@ -272,7 +272,7 @@ function WinnerInner() {
             {stats.map((s) => (
               <div
                 key={s.label}
-                className="flex items-start gap-4 p-5 bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] hover:border-[#13eca4]/30 transition-colors"
+                className="flex items-start gap-4 p-5 bg-(--bg-page) rounded-2xl border border-[rgba(19,236,164,0.1)] hover:border-[#13eca4]/30 transition-colors"
               >
                 <div className="p-3 rounded-xl bg-[#13eca4]/15 text-[#13eca4] shrink-0">
                   <span className="material-symbols-outlined text-xl">{s.icon}</span>

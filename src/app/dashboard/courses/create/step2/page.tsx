@@ -193,10 +193,10 @@ function CourseCreatorStep2() {
 
   if (courseLoading || lessonsLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#10221c]">
+      <div className="flex h-screen items-center justify-center bg-(--bg-page)">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading curriculum...</p>
+          <div className="w-12 h-12 border-4 border-(--border-accent) border-t-[#13eca4] rounded-full animate-spin" />
+          <p className="text-(--text-muted) text-sm">Loading curriculum...</p>
         </div>
       </div>
     );
@@ -204,9 +204,9 @@ function CourseCreatorStep2() {
 
   if (!courseId) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#10221c] text-white">
+      <div className="flex h-screen items-center justify-center bg-(--bg-page) text-(--text-base)">
         <div className="text-center">
-          <p className="text-slate-400 mb-4">No course ID provided.</p>
+          <p className="text-(--text-muted) mb-4">No course ID provided.</p>
           <Link
             href="/dashboard/courses/create/step1"
             className="text-[#13eca4] hover:underline font-bold"
@@ -226,9 +226,9 @@ function CourseCreatorStep2() {
     : [{ label: "1. New Lesson", active: true }];
 
   return (
-    <div className="flex h-screen flex-col bg-[#10221c] text-white overflow-hidden">
+    <div className="flex h-screen flex-col bg-(--bg-page) text-(--text-base) overflow-hidden">
       {/* Header */}
-      <header className="flex items-center justify-between border-b border-[rgba(255,255,255,0.08)] bg-[#10221c] px-8 py-3 shrink-0">
+      <header className="flex items-center justify-between border-b border-(--border-subtle) bg-(--bg-page) px-8 py-3 shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-8 h-8 bg-[#13eca4] rounded-lg flex items-center justify-center text-[#10221c]">
             <span className="material-symbols-outlined font-bold text-[18px]">account_tree</span>
@@ -248,7 +248,7 @@ function CourseCreatorStep2() {
               <a
                 key={item.label}
                 href={item.href}
-                className={`text-sm font-medium transition-colors ${item.label === "Curriculum" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}
+                className={`text-sm font-medium transition-colors ${item.label === "Curriculum" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-(--text-muted) hover:text-[#13eca4]"}`}
               >
                 {item.label}
               </a>
@@ -258,7 +258,7 @@ function CourseCreatorStep2() {
           <div className="flex gap-3">
             <Link
               href={`/dashboard/courses/create/preview?courseId=${courseId}`}
-              className="flex items-center gap-2 h-10 px-4 rounded-lg bg-[rgba(255,255,255,0.08)] text-white text-sm font-bold hover:bg-[rgba(255,255,255,0.12)] transition-colors"
+              className="flex items-center gap-2 h-10 px-4 rounded-lg bg-(--bg-elevated) text-(--text-base) text-sm font-bold hover:bg-[rgba(255,255,255,0.12)] transition-colors"
             >
               <span className="material-symbols-outlined text-sm">visibility</span>
               Preview
@@ -270,7 +270,7 @@ function CourseCreatorStep2() {
               Next: Facilitation
             </Link>
           </div>
-          <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border border-[rgba(19,236,164,0.3)] flex items-center justify-center text-[#13eca4] font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border border-(--border-strong) flex items-center justify-center text-[#13eca4] font-bold text-sm">
             {appUser?.displayName?.slice(0, 2).toUpperCase() || "TM"}
           </div>
         </div>
@@ -278,17 +278,17 @@ function CourseCreatorStep2() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar: Steps */}
-        <aside className="w-72 border-r border-[rgba(255,255,255,0.08)] bg-[#10221c] flex flex-col shrink-0">
-          <div className="p-6 border-b border-[rgba(255,255,255,0.08)]">
+        <aside className="w-72 border-r border-(--border-subtle) bg-(--bg-page) flex flex-col shrink-0">
+          <div className="p-6 border-b border-(--border-subtle)">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-faint)">
                 Lesson Steps
               </h3>
               <span className="text-[10px] bg-[rgba(19,236,164,0.15)] text-[#13eca4] px-2 py-0.5 rounded-full font-bold">
                 {lessons?.length || 0} STEPS
               </span>
             </div>
-            <p className="text-xs text-slate-500">Click to select a lesson to edit</p>
+            <p className="text-xs text-(--text-faint)">Click to select a lesson to edit</p>
           </div>
           <div className="flex-1 overflow-y-auto p-4 space-y-2">
             {lessonSteps.map((s, i) => (
@@ -298,7 +298,7 @@ function CourseCreatorStep2() {
                 className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all ${
                   s.active
                     ? "bg-[rgba(19,236,164,0.08)] border border-[rgba(19,236,164,0.25)] text-[#13eca4]"
-                    : "hover:bg-[rgba(255,255,255,0.04)] text-slate-400"
+                    : "hover:bg-(--glass-bg) text-(--text-muted)"
                 }`}
               >
                 <span className="material-symbols-outlined text-lg">drag_indicator</span>
@@ -312,7 +312,7 @@ function CourseCreatorStep2() {
             ))}
             <button
               onClick={handleAddNewStep}
-              className="w-full flex items-center gap-3 p-3 rounded-lg border-2 border-dashed border-[rgba(255,255,255,0.1)] text-slate-500 hover:border-[rgba(19,236,164,0.4)] hover:text-[#13eca4] transition-all mt-4 group"
+              className="w-full flex items-center gap-3 p-3 rounded-lg border-2 border-dashed border-(--border-subtle) text-(--text-faint) hover:border-[rgba(19,236,164,0.4)] hover:text-[#13eca4] transition-all mt-4 group"
             >
               <span className="material-symbols-outlined text-lg group-hover:scale-110 transition-transform">
                 add_circle
@@ -320,8 +320,8 @@ function CourseCreatorStep2() {
               <span className="text-sm font-medium">Add New Step</span>
             </button>
           </div>
-          <div className="p-4 border-t border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)]">
-            <div className="flex items-center justify-between text-xs text-slate-500 mb-3">
+          <div className="p-4 border-t border-(--border-subtle) bg-[rgba(255,255,255,0.02)]">
+            <div className="flex items-center justify-between text-xs text-(--text-faint) mb-3">
               <span>{saveStatus || (savingLesson ? "Saving..." : "Ready to edit")}</span>
               <span
                 className={`material-symbols-outlined text-sm ${savingLesson ? "text-amber-400 animate-pulse" : "text-emerald-400"}`}
@@ -332,7 +332,7 @@ function CourseCreatorStep2() {
             <button
               onClick={handleSaveLesson}
               disabled={savingLesson}
-              className="w-full py-2 bg-[rgba(255,255,255,0.06)] rounded text-xs font-bold hover:bg-[rgba(255,255,255,0.1)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2 bg-(--input-bg) rounded text-xs font-bold hover:bg-[rgba(255,255,255,0.1)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {savingLesson ? "Saving..." : "Save Lesson"}
             </button>
@@ -343,7 +343,7 @@ function CourseCreatorStep2() {
         <main className="flex-1 overflow-y-auto p-8">
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumbs */}
-            <div className="flex items-center gap-2 text-sm text-slate-500 font-medium mb-4">
+            <div className="flex items-center gap-2 text-sm text-(--text-faint) font-medium mb-4">
               <span>Curriculum</span>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
               <span>{course?.title || "Course"}</span>
@@ -360,17 +360,17 @@ function CourseCreatorStep2() {
                 value={lessonTitle}
                 onChange={(e) => setLessonTitle(e.target.value)}
                 placeholder="Enter lesson title..."
-                className="text-3xl font-bold tracking-tight bg-transparent border-none outline-none text-white placeholder-slate-600 w-full"
+                className="text-3xl font-bold tracking-tight bg-transparent border-none outline-none text-(--text-base) placeholder:text-(--text-faint) w-full"
               />
               <div className="flex gap-2">
                 <button
-                  className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)] text-slate-400 transition-colors"
+                  className="p-2 rounded-lg hover:bg-(--input-bg) text-(--text-muted) transition-colors"
                   title="Settings"
                 >
                   <span className="material-symbols-outlined">settings</span>
                 </button>
                 <button
-                  className="p-2 rounded-lg hover:bg-[rgba(255,255,255,0.06)] text-slate-400 transition-colors"
+                  className="p-2 rounded-lg hover:bg-(--input-bg) text-(--text-muted) transition-colors"
                   title="Duplicate"
                 >
                   <span className="material-symbols-outlined">content_copy</span>
@@ -385,9 +385,9 @@ function CourseCreatorStep2() {
                   return (
                     <div
                       key={idx}
-                      className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all"
+                      className="group relative bg-(--bg-card) rounded-xl p-6 border border-transparent hover:border-(--border-strong) transition-all"
                     >
-                      <div className="flex items-center gap-2 mb-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                      <div className="flex items-center gap-2 mb-4 text-xs font-bold text-(--text-faint) uppercase tracking-widest">
                         <span className="material-symbols-outlined text-base">notes</span>
                         Text Content (Markdown)
                       </div>
@@ -396,24 +396,24 @@ function CourseCreatorStep2() {
                         value={block.content}
                         onChange={(e) => handleBlockChange(idx, e.target.value)}
                         placeholder="Enter text content here..."
-                        className="w-full bg-transparent border-none focus:ring-0 text-base leading-relaxed resize-none p-0 text-slate-200 placeholder-slate-600 outline-none"
+                        className="w-full bg-transparent border-none focus:ring-0 text-base leading-relaxed resize-none p-0 text-(--text-base) placeholder:text-(--text-faint) outline-none"
                       />
                       {/* Block controls */}
                       <div className="absolute -right-3 top-3 opacity-0 group-hover:opacity-100 flex flex-col gap-1 transition-opacity">
                         <button
                           onClick={() => handleMoveBlock(idx, "up")}
-                          className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4]"
+                          className="p-1.5 bg-(--bg-card) border border-(--border-subtle) rounded text-(--text-faint) hover:text-[#13eca4]"
                         >
                           <span className="material-symbols-outlined text-sm">
                             keyboard_arrow_up
                           </span>
                         </button>
-                        <button className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4] cursor-move">
+                        <button className="p-1.5 bg-(--bg-card) border border-(--border-subtle) rounded text-(--text-faint) hover:text-[#13eca4] cursor-move">
                           <span className="material-symbols-outlined text-sm">drag_indicator</span>
                         </button>
                         <button
                           onClick={() => handleMoveBlock(idx, "down")}
-                          className="p-1.5 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded text-slate-500 hover:text-[#13eca4]"
+                          className="p-1.5 bg-(--bg-card) border border-(--border-subtle) rounded text-(--text-faint) hover:text-[#13eca4]"
                         >
                           <span className="material-symbols-outlined text-sm">
                             keyboard_arrow_down
@@ -428,10 +428,10 @@ function CourseCreatorStep2() {
                   return (
                     <div
                       key={idx}
-                      className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all"
+                      className="group relative bg-(--bg-card) rounded-xl p-6 border border-transparent hover:border-(--border-strong) transition-all"
                     >
                       <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                        <div className="flex items-center gap-2 text-xs font-bold text-(--text-faint) uppercase tracking-widest">
                           <span className="material-symbols-outlined text-base">image</span>
                           Visual Media
                         </div>
@@ -442,7 +442,7 @@ function CourseCreatorStep2() {
                           {block.url ? "Replace Image" : "Upload Image"}
                         </button>
                       </div>
-                      <div className="relative rounded-lg overflow-hidden border border-[rgba(255,255,255,0.08)] bg-[rgba(0,0,0,0.3)] group/img h-48">
+                      <div className="relative rounded-lg overflow-hidden border border-(--border-subtle) bg-[rgba(0,0,0,0.3)] group/img h-48">
                         {block.url ? (
                           <Image
                             src={block.url}
@@ -457,11 +457,11 @@ function CourseCreatorStep2() {
                           >
                             {uploading ? (
                               <div className="flex flex-col items-center gap-2">
-                                <div className="w-10 h-10 border-3 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
+                                <div className="w-10 h-10 border-3 border-(--border-accent) border-t-[#13eca4] rounded-full animate-spin" />
                                 <span className="text-sm text-[#13eca4]">{progress}%</span>
                               </div>
                             ) : (
-                              <span className="material-symbols-outlined text-slate-600 text-5xl">
+                              <span className="material-symbols-outlined text-(--text-faint) text-5xl">
                                 image
                               </span>
                             )}
@@ -473,7 +473,7 @@ function CourseCreatorStep2() {
                         value={block.content}
                         onChange={(e) => handleBlockChange(idx, e.target.value)}
                         placeholder="Add a caption for this image..."
-                        className="w-full mt-4 bg-transparent border-b border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] focus:ring-0 text-sm italic text-slate-500 p-1 outline-none transition-colors"
+                        className="w-full mt-4 bg-transparent border-b border-(--border-subtle) focus:border-[#13eca4] focus:ring-0 text-sm italic text-(--text-faint) p-1 outline-none transition-colors"
                       />
                     </div>
                   );
@@ -483,9 +483,9 @@ function CourseCreatorStep2() {
                   return (
                     <div
                       key={idx}
-                      className="group relative bg-[#1a2e27] rounded-xl p-6 border border-transparent hover:border-[rgba(19,236,164,0.3)] transition-all"
+                      className="group relative bg-(--bg-card) rounded-xl p-6 border border-transparent hover:border-(--border-strong) transition-all"
                     >
-                      <div className="flex items-center gap-2 mb-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                      <div className="flex items-center gap-2 mb-4 text-xs font-bold text-(--text-faint) uppercase tracking-widest">
                         <span className="material-symbols-outlined text-base">smart_display</span>
                         Video Embed
                       </div>
@@ -494,7 +494,7 @@ function CourseCreatorStep2() {
                         value={block.content}
                         onChange={(e) => handleBlockChange(idx, e.target.value)}
                         placeholder="Paste video URL (YouTube, Vimeo)..."
-                        className="w-full bg-transparent border-b border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] text-sm text-slate-300 p-2 outline-none transition-colors"
+                        className="w-full bg-transparent border-b border-(--border-subtle) focus:border-[#13eca4] text-sm text-(--text-muted) p-2 outline-none transition-colors"
                       />
                     </div>
                   );
@@ -513,7 +513,7 @@ function CourseCreatorStep2() {
                   <select
                     value={taskType}
                     onChange={(e) => setTaskType(e.target.value)}
-                    className="bg-[#1a2e27] border border-[rgba(255,255,255,0.1)] rounded text-xs text-slate-200 focus:ring-[#13eca4] py-1 px-2 outline-none"
+                    className="bg-(--bg-card) border border-(--border-subtle) rounded text-xs text-(--text-base) focus:ring-[#13eca4] py-1 px-2 outline-none"
                   >
                     <option>Short Answer / Reflection</option>
                     <option>File Upload</option>
@@ -527,34 +527,34 @@ function CourseCreatorStep2() {
                     value={taskTitle}
                     onChange={(e) => setTaskTitle(e.target.value)}
                     placeholder="Task Title"
-                    className="w-full bg-transparent border-none focus:ring-0 text-xl font-bold p-0 text-white placeholder-[rgba(19,236,164,0.4)] outline-none"
+                    className="w-full bg-transparent border-none focus:ring-0 text-xl font-bold p-0 text-(--text-base) placeholder-[rgba(19,236,164,0.4)] outline-none"
                   />
                   <textarea
                     rows={2}
                     value={taskInstructions}
                     onChange={(e) => setTaskInstructions(e.target.value)}
                     placeholder="Task instructions for the student..."
-                    className="w-full bg-transparent border-none focus:ring-0 text-sm text-slate-400 p-0 resize-none outline-none"
+                    className="w-full bg-transparent border-none focus:ring-0 text-sm text-(--text-muted) p-0 resize-none outline-none"
                   />
-                  <div className="flex items-center justify-between pt-4 border-t border-[rgba(19,236,164,0.15)]">
+                  <div className="flex items-center justify-between pt-4 border-t border-(--border-medium)">
                     <div className="flex gap-4">
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={taskRequired}
                           onChange={(e) => setTaskRequired(e.target.checked)}
-                          className="rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[#1a2e27]"
+                          className="rounded border-(--border-accent) text-[#13eca4] focus:ring-[#13eca4] bg-(--bg-card)"
                         />
-                        <span className="text-xs text-slate-400">Required to complete</span>
+                        <span className="text-xs text-(--text-muted)">Required to complete</span>
                       </label>
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={taskGraded}
                           onChange={(e) => setTaskGraded(e.target.checked)}
-                          className="rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[#1a2e27]"
+                          className="rounded border-(--border-accent) text-[#13eca4] focus:ring-[#13eca4] bg-(--bg-card)"
                         />
-                        <span className="text-xs text-slate-400">Graded task</span>
+                        <span className="text-xs text-(--text-muted)">Graded task</span>
                       </label>
                     </div>
                     <span className="text-xs text-[#13eca4] font-bold">5 Points</span>
@@ -564,8 +564,8 @@ function CourseCreatorStep2() {
 
               {/* Block Inserter */}
               <div className="flex items-center justify-center py-4 relative">
-                <div className="absolute inset-x-0 h-px bg-[rgba(255,255,255,0.06)]" />
-                <div className="relative flex gap-3 bg-[#10221c] px-4">
+                <div className="absolute inset-x-0 h-px bg-(--input-bg)" />
+                <div className="relative flex gap-3 bg-(--bg-page) px-4">
                   {[
                     { icon: "text_fields", label: "Text", type: "text" as const, primary: false },
                     { icon: "image", label: "Image", type: "image" as const, primary: false },
@@ -582,8 +582,8 @@ function CourseCreatorStep2() {
                       onClick={() => handleAddBlock(b.type)}
                       className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all ${
                         b.primary
-                          ? "bg-[rgba(19,236,164,0.15)] border border-[rgba(19,236,164,0.3)] text-[#13eca4] hover:bg-[rgba(19,236,164,0.25)]"
-                          : "bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] text-slate-400 hover:bg-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.3)]"
+                          ? "bg-[rgba(19,236,164,0.15)] border border-(--border-strong) text-[#13eca4] hover:bg-[rgba(19,236,164,0.25)]"
+                          : "bg-(--bg-card) border border-(--border-subtle) text-(--text-muted) hover:bg-(--input-bg) hover:border-(--border-strong)"
                       }`}
                     >
                       <span className="material-symbols-outlined text-sm">{b.icon}</span>

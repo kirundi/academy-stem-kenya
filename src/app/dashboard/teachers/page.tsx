@@ -6,7 +6,7 @@ import { exportToCsv } from "@/lib/csv-export";
 
 const statusBadge: Record<string, string> = {
   active: "text-emerald-500",
-  inactive: "text-slate-400",
+  inactive: "text-(--text-muted)",
   invited: "text-amber-500",
 };
 const statusDot: Record<string, string> = {
@@ -103,20 +103,20 @@ export default function TeacherManagementPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-14 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-14 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
               <span className="material-symbols-outlined text-[#13eca4] text-[18px]">school</span>
             </div>
-            <span className="text-white font-bold">STEM Academy</span>
+            <span className="text-(--text-base) font-bold">STEM Academy</span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm">
             <a
               href="/dashboard"
-              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
             >
               Dashboard
             </a>
@@ -125,32 +125,32 @@ export default function TeacherManagementPage() {
             </span>
             <a
               href="/dashboard/content"
-              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
             >
               Curriculum
             </a>
             <a
               href="/dashboard/users"
-              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
             >
               Students
             </a>
             <a
               href="/dashboard/analytics"
-              className="text-slate-400 hover:text-[#13eca4] font-medium transition-colors"
+              className="text-(--text-muted) hover:text-[#13eca4] font-medium transition-colors"
             >
               Analytics
             </a>
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-[rgba(255,255,255,0.05)] rounded-lg border border-[rgba(255,255,255,0.08)] px-3 py-1.5">
-            <span className="material-symbols-outlined text-slate-400 text-[18px]">search</span>
+          <div className="flex items-center bg-(--input-bg) rounded-lg border border-(--border-subtle) px-3 py-1.5">
+            <span className="material-symbols-outlined text-(--text-muted) text-[18px]">search</span>
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search resources..."
-              className="bg-transparent border-none text-white text-sm placeholder-slate-500 focus:outline-none ml-2 w-40"
+              className="bg-transparent border-none text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none ml-2 w-40"
             />
           </div>
         </div>
@@ -164,8 +164,8 @@ export default function TeacherManagementPage() {
               <span className="material-symbols-outlined text-[16px]">group</span>
               <span className="text-xs font-bold uppercase tracking-wider">Administration</span>
             </div>
-            <h1 className="text-white text-4xl font-black leading-tight">Teacher Management</h1>
-            <p className="text-slate-400 mt-1 max-w-2xl">
+            <h1 className="text-(--text-base) text-4xl font-black leading-tight">Teacher Management</h1>
+            <p className="text-(--text-muted) mt-1 max-w-2xl">
               Manage educational staff, oversee department performance, and invite new educators.
             </p>
           </div>
@@ -177,7 +177,7 @@ export default function TeacherManagementPage() {
                 { key: "name", label: "Name" }, { key: "email", label: "Email" },
                 { key: "department", label: "Department" }, { key: "subjects", label: "Subjects" },
               ])}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-bold hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-(--border-subtle) text-(--text-muted) text-sm font-bold hover:bg-(--input-bg) transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">download</span>Export Report
             </button>
@@ -206,7 +206,7 @@ export default function TeacherManagementPage() {
               label: "Active Classes",
               value: "--",
               badge: "Across departments",
-              badgeColor: "text-slate-400",
+              badgeColor: "text-(--text-muted)",
               icon: "class",
               iconColor: "#13eca4",
             },
@@ -222,17 +222,17 @@ export default function TeacherManagementPage() {
               label: "Staff Attendance",
               value: "--",
               badge: "Not tracked",
-              badgeColor: "text-slate-400",
+              badgeColor: "text-(--text-muted)",
               icon: "verified_user",
               iconColor: "#13eca4",
             },
           ].map((s) => (
             <div
               key={s.label}
-              className="bg-[#1a2e27] p-6 rounded-2xl border border-[rgba(19,236,164,0.07)]"
+              className="bg-(--bg-card) p-6 rounded-2xl border border-(--border-subtle)"
             >
               <div className="flex items-center justify-between mb-4">
-                <span className="text-slate-400 text-sm font-medium">{s.label}</span>
+                <span className="text-(--text-muted) text-sm font-medium">{s.label}</span>
                 <span
                   className="material-symbols-outlined p-2 rounded-lg bg-[rgba(19,236,164,0.08)] text-[20px]"
                   style={{ color: s.iconColor }}
@@ -241,7 +241,7 @@ export default function TeacherManagementPage() {
                 </span>
               </div>
               <div className="flex items-baseline gap-2">
-                <span className="text-white text-3xl font-bold">{s.value}</span>
+                <span className="text-(--text-base) text-3xl font-bold">{s.value}</span>
                 <span className={`text-xs font-bold ${s.badgeColor}`}>{s.badge}</span>
               </div>
             </div>
@@ -249,28 +249,28 @@ export default function TeacherManagementPage() {
         </section>
 
         {/* Table */}
-        <section className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.07)] overflow-hidden">
-          <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex flex-wrap items-center justify-between gap-4">
+        <section className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
+          <div className="px-6 py-5 border-b border-(--border-subtle) flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 min-w-60">
               <div className="relative flex-1 max-w-md">
-                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+                <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
                   search
                 </span>
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search by name, email or department..."
-                  className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                  className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                 />
               </div>
             </div>
-            <span className="text-slate-500 text-sm">
+            <span className="text-(--text-faint) text-sm">
               Showing {filtered.length} of {teachers.length} teachers
             </span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-[rgba(255,255,255,0.02)] text-slate-500 text-xs font-bold uppercase tracking-wider">
+              <thead className="bg-[rgba(255,255,255,0.02)] text-(--text-faint) text-xs font-bold uppercase tracking-wider">
                 <tr>
                   <th className="px-6 py-4">Teacher Name</th>
                   <th className="px-6 py-4">Department</th>
@@ -282,7 +282,7 @@ export default function TeacherManagementPage() {
               <tbody className="divide-y divide-[rgba(255,255,255,0.04)] text-sm">
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                    <td colSpan={5} className="px-6 py-12 text-center text-(--text-faint)">
                       {teachers.length === 0
                         ? "No teachers on the platform yet."
                         : "No teachers match your search."}
@@ -304,8 +304,8 @@ export default function TeacherManagementPage() {
                               <span className="material-symbols-outlined text-[18px]">person</span>
                             </div>
                             <div>
-                              <p className="font-bold text-white">{t.displayName}</p>
-                              <p className="text-xs text-slate-500">{t.email}</p>
+                              <p className="font-bold text-(--text-base)">{t.displayName}</p>
+                              <p className="text-xs text-(--text-faint)">{t.email}</p>
                             </div>
                           </div>
                         </td>
@@ -317,7 +317,7 @@ export default function TeacherManagementPage() {
                             {dept}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-slate-300 font-medium">
+                        <td className="px-6 py-4 text-(--text-muted) font-medium">
                           {t.subjects?.join(", ") ?? "--"}
                         </td>
                         <td className="px-6 py-4">
@@ -333,15 +333,15 @@ export default function TeacherManagementPage() {
                             <div className="relative">
                               <button
                                 onClick={() => setOpenMenu(openMenu === t.uid ? null : t.uid)}
-                                className="p-2 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
+                                className="p-2 hover:bg-(--input-bg) rounded-lg text-(--text-muted) hover:text-slate-200 transition-colors"
                               >
                                 <span className="material-symbols-outlined text-[18px]">
                                   more_vert
                                 </span>
                               </button>
                               {openMenu === t.uid && (
-                                <div className="absolute right-0 top-full mt-1 w-44 bg-[#1a2e27] border border-[rgba(255,255,255,0.1)] rounded-xl shadow-2xl z-20 overflow-hidden">
-                                  <button className="w-full text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-[rgba(255,255,255,0.05)] transition-colors">
+                                <div className="absolute right-0 top-full mt-1 w-44 bg-(--bg-card) border border-(--border-subtle) rounded-xl shadow-2xl z-20 overflow-hidden">
+                                  <button className="w-full text-left px-4 py-2.5 text-sm text-(--text-muted) hover:bg-(--input-bg) transition-colors">
                                     View Profile
                                   </button>
                                 </div>
@@ -362,11 +362,11 @@ export default function TeacherManagementPage() {
       {/* Invite Modal */}
       {showInvite && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.12)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+          <div className="bg-(--bg-card) border border-(--border-medium) rounded-2xl p-6 w-full max-w-md shadow-2xl">
             {!inviteResult ? (
               <>
-                <h2 className="text-white font-bold text-lg mb-1">Invite a Teacher</h2>
-                <p className="text-slate-400 text-sm mb-5">
+                <h2 className="text-(--text-base) font-bold text-lg mb-1">Invite a Teacher</h2>
+                <p className="text-(--text-muted) text-sm mb-5">
                   Send a secure invite link to a new teacher.
                 </p>
                 {inviteError && (
@@ -376,7 +376,7 @@ export default function TeacherManagementPage() {
                 )}
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                       Full Name <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -384,11 +384,11 @@ export default function TeacherManagementPage() {
                       placeholder="e.g. Dr. Jane Mwangi"
                       value={inviteName}
                       onChange={(e) => setInviteName(e.target.value)}
-                      className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                      className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                       Email Address <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -396,14 +396,14 @@ export default function TeacherManagementPage() {
                       placeholder="teacher@school.org"
                       value={inviteEmail}
                       onChange={(e) => setInviteEmail(e.target.value)}
-                      className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                      className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                     />
                   </div>
                 </div>
                 <div className="flex gap-3 mt-5">
                   <button
                     onClick={resetInviteModal}
-                    className="flex-1 border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-semibold py-2.5 rounded-xl hover:border-[rgba(255,255,255,0.2)] transition-colors"
+                    className="flex-1 border border-(--border-subtle) text-(--text-muted) text-sm font-semibold py-2.5 rounded-xl hover:border-(--border-accent) transition-colors"
                   >
                     Cancel
                   </button>
@@ -423,12 +423,12 @@ export default function TeacherManagementPage() {
                     check_circle
                   </span>
                 </div>
-                <h2 className="text-white font-bold text-lg mb-1">Invite Sent!</h2>
-                <p className="text-slate-400 text-sm mb-5">
+                <h2 className="text-(--text-base) font-bold text-lg mb-1">Invite Sent!</h2>
+                <p className="text-(--text-muted) text-sm mb-5">
                   Invite link for{" "}
-                  <span className="text-white font-semibold">{inviteResult.email}</span>
+                  <span className="text-(--text-base) font-semibold">{inviteResult.email}</span>
                 </p>
-                <div className="bg-[#0d1f1a] border border-dashed border-[rgba(19,236,164,0.3)] rounded-xl p-4 mb-5 text-left">
+                <div className="bg-(--bg-page) border border-dashed border-(--border-strong) rounded-xl p-4 mb-5 text-left">
                   <p className="text-xs font-mono text-[#13eca4] break-all">
                     {inviteResult.inviteLink}
                   </p>
@@ -440,7 +440,7 @@ export default function TeacherManagementPage() {
                       setCopied(true);
                       setTimeout(() => setCopied(false), 2000);
                     }}
-                    className="flex-1 flex items-center justify-center gap-2 border border-[rgba(19,236,164,0.2)] text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
                   >
                     <span className="material-symbols-outlined text-sm">
                       {copied ? "check" : "content_copy"}

@@ -79,18 +79,18 @@ export default function EditorNewCoursePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(236,72,153,0.1)] px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link
             href="/editor/courses"
-            className="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-sm"
+            className="text-slate-400 hover:text-(--text-base) transition-colors flex items-center gap-1 text-sm"
           >
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             Courses
           </Link>
           <div className="h-4 w-px bg-slate-700" />
-          <h1 className="text-xl font-bold text-white">New Course</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">New Course</h1>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -103,7 +103,7 @@ export default function EditorNewCoursePage() {
           <button
             onClick={() => handleSave("pending_review")}
             disabled={saving}
-            className="px-4 py-2 rounded-xl text-sm font-semibold text-white disabled:opacity-50"
+            className="px-4 py-2 rounded-xl text-sm font-semibold text-(--text-base) disabled:opacity-50"
             style={{ background: "#ec4899" }}
           >
             {saving ? "Saving…" : "Submit for Review"}
@@ -128,7 +128,7 @@ export default function EditorNewCoursePage() {
             value={form.title}
             onChange={(e) => update("title", e.target.value)}
             placeholder="e.g. Introduction to Python Programming"
-            className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
@@ -142,7 +142,7 @@ export default function EditorNewCoursePage() {
             onChange={(e) => update("description", e.target.value)}
             placeholder="Describe what students will learn in this course…"
             rows={4}
-            className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
@@ -155,7 +155,7 @@ export default function EditorNewCoursePage() {
             <select
               value={form.category}
               onChange={(e) => update("category", e.target.value)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
             >
               <option value="">Select category</option>
               {CATEGORIES.map((c) => (
@@ -170,7 +170,7 @@ export default function EditorNewCoursePage() {
             <select
               value={form.difficulty}
               onChange={(e) => update("difficulty", e.target.value)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
             >
               {DIFFICULTIES.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -189,7 +189,7 @@ export default function EditorNewCoursePage() {
               value={form.targetGrade}
               onChange={(e) => update("targetGrade", e.target.value)}
               placeholder="e.g. 9-12"
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
@@ -200,7 +200,7 @@ export default function EditorNewCoursePage() {
               value={form.estimatedDuration}
               onChange={(e) => update("estimatedDuration", e.target.value)}
               placeholder="e.g. 6 weeks"
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
@@ -212,7 +212,7 @@ export default function EditorNewCoursePage() {
               min="0"
               value={form.totalLessons}
               onChange={(e) => update("totalLessons", Number(e.target.value) || 0)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
         </div>
@@ -226,7 +226,7 @@ export default function EditorNewCoursePage() {
             <input
               value={form.icon}
               onChange={(e) => update("icon", e.target.value)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-2xl focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-2xl focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>

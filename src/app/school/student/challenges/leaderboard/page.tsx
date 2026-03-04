@@ -74,13 +74,13 @@ function LeaderboardInner() {
   const myRank = students.findIndex((s) => s.uid === appUser?.uid);
 
   return (
-    <div className="min-h-screen bg-[#0a1a16] text-white">
+    <div className="min-h-screen bg-[#0a1a16] text-(--text-base)">
       {/* Top Nav */}
-      <header className="sticky top-0 z-30 border-b border-[rgba(19,236,164,0.12)] bg-[#0d1f1a] px-8 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-30 border-b border-(--border-medium) bg-(--bg-page) px-8 py-4 flex items-center justify-between">
         <nav className="flex items-center gap-6">
           <Link
             href="/school/student/challenges"
-            className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors"
+            className="text-sm font-semibold text-(--text-muted) hover:text-[#13eca4] transition-colors"
           >
             Challenges
           </Link>
@@ -96,7 +96,7 @@ function LeaderboardInner() {
       </header>
 
       {/* Hero */}
-      <div className="relative overflow-hidden bg-linear-to-b from-[#0d1f1a] to-[#0a1a16] px-8 pt-12 pb-8 border-b border-[rgba(19,236,164,0.1)]">
+      <div className="relative overflow-hidden bg-linear-to-b from-[#0d1f1a] to-[#0a1a16] px-8 pt-12 pb-8 border-b border-(--border-subtle)">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/3 w-96 h-96 rounded-full blur-[120px] opacity-10 bg-[#13eca4]" />
         </div>
@@ -105,18 +105,18 @@ function LeaderboardInner() {
             Live Rankings
           </p>
           <h1 className="text-4xl font-black tracking-tight mb-4">Challenge Leaderboard</h1>
-          <p className="text-slate-400 text-sm">Rankings by XP earned across all challenges.</p>
+          <p className="text-(--text-muted) text-sm">Rankings by XP earned across all challenges.</p>
         </div>
       </div>
 
       {/* Filter bar */}
-      <div className="flex items-center gap-6 px-8 py-5 border-b border-[rgba(19,236,164,0.08)] bg-[#0d1f1a]">
-        <div className="flex items-center gap-1 bg-[#1a2e30]/60 p-1 rounded-lg">
+      <div className="flex items-center gap-6 px-8 py-5 border-b border-(--border-subtle) bg-(--bg-page)">
+        <div className="flex items-center gap-1 bg-(--bg-card)/60 p-1 rounded-lg">
           {(["school", "global"] as Filter[]).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wide transition-colors ${filter === f ? "bg-[#13eca4]/20 text-[#13eca4]" : "text-slate-400 hover:text-white"}`}
+              className={`px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wide transition-colors ${filter === f ? "bg-[#13eca4]/20 text-[#13eca4]" : "text-(--text-muted) hover:text-(--text-base)"}`}
             >
               {f === "school" ? "My School" : "Global"}
             </button>
@@ -126,7 +126,7 @@ function LeaderboardInner() {
         <div className="flex items-center gap-2 text-sm">
           <span className="material-symbols-outlined text-[#13eca4] text-base">group</span>
           <span className="font-bold">{students.length}</span>
-          <span className="text-slate-500">Students Ranked</span>
+          <span className="text-(--text-faint)">Students Ranked</span>
         </div>
       </div>
 
@@ -141,7 +141,7 @@ function LeaderboardInner() {
               </span>
             </div>
           ) : students.length === 0 ? (
-            <div className="text-center py-24 text-slate-500">
+            <div className="text-center py-24 text-(--text-faint)">
               <span className="material-symbols-outlined text-[64px] mb-4 block">leaderboard</span>
               <p className="text-lg font-semibold">No rankings yet.</p>
               <p className="text-sm mt-2">Complete challenges to appear on the leaderboard.</p>
@@ -159,11 +159,11 @@ function LeaderboardInner() {
                     return (
                       <div
                         key={student.uid}
-                        className={`flex flex-col items-center gap-3 flex-1 bg-linear-to-b ${style.color} border border-[rgba(255,255,255,0.05)] rounded-2xl px-4 py-6 ${originalRank === 1 ? "scale-105 pb-8" : ""} transition-transform`}
+                        className={`flex flex-col items-center gap-3 flex-1 bg-linear-to-b ${style.color} border border-(--border-subtle) rounded-2xl px-4 py-6 ${originalRank === 1 ? "scale-105 pb-8" : ""} transition-transform`}
                       >
                         <div className="text-2xl">{style.medal}</div>
                         <div
-                          className={`size-14 rounded-full ring-2 ${style.ring} flex items-center justify-center text-lg font-black bg-[#1a2e30]`}
+                          className={`size-14 rounded-full ring-2 ${style.ring} flex items-center justify-center text-lg font-black bg-(--bg-card)`}
                         >
                           {(student.displayName ?? "?")[0].toUpperCase()}
                         </div>
@@ -189,10 +189,10 @@ function LeaderboardInner() {
 
               {/* Rankings Table */}
               {rows.length > 0 && (
-                <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] overflow-hidden">
-                  <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.08)] flex items-center justify-between">
+                <div className="bg-(--bg-page) rounded-2xl border border-(--border-subtle) overflow-hidden">
+                  <div className="px-6 py-4 border-b border-(--border-subtle) flex items-center justify-between">
                     <h3 className="font-bold text-sm">Full Rankings</h3>
-                    <span className="text-xs text-slate-400">Sorted by XP</span>
+                    <span className="text-xs text-(--text-muted)">Sorted by XP</span>
                   </div>
                   <div className="divide-y divide-[rgba(19,236,164,0.05)]">
                     {rows.map((student, idx) => {
@@ -204,11 +204,11 @@ function LeaderboardInner() {
                           className={`flex items-center gap-4 px-6 py-4 transition-colors ${
                             isMe
                               ? "border-l-2 border-[#13eca4] bg-[#13eca4]/5"
-                              : "hover:bg-[#1a2e30]/40"
+                              : "hover:bg-(--bg-card)/40"
                           }`}
                         >
                           <span
-                            className={`text-sm font-black w-6 shrink-0 ${isMe ? "text-[#13eca4]" : "text-slate-500"}`}
+                            className={`text-sm font-black w-6 shrink-0 ${isMe ? "text-[#13eca4]" : "text-(--text-faint)"}`}
                           >
                             {rank}
                           </span>
@@ -221,7 +221,7 @@ function LeaderboardInner() {
                                 </span>
                               )}
                             </p>
-                            <p className="text-xs text-slate-400 truncate">
+                            <p className="text-xs text-(--text-muted) truncate">
                               Level {student.level ?? 1}
                             </p>
                           </div>
@@ -237,7 +237,7 @@ function LeaderboardInner() {
 
               {/* My rank if not in top 20 */}
               {myRank === -1 && appUser && (
-                <div className="p-4 bg-[#13eca4]/5 border border-[#13eca4]/20 rounded-xl text-sm text-slate-400">
+                <div className="p-4 bg-[#13eca4]/5 border border-[#13eca4]/20 rounded-xl text-sm text-(--text-muted)">
                   Your rank will appear once you complete more challenges and earn XP.
                 </div>
               )}
@@ -249,21 +249,21 @@ function LeaderboardInner() {
         <div className="col-span-12 lg:col-span-4 space-y-6">
           {/* School Spirit */}
           {schoolSpirit.length > 0 && (
-            <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-6">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-5">
+            <div className="bg-(--bg-page) rounded-2xl border border-(--border-subtle) p-6">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-5">
                 School Spirit
               </h3>
               <div className="space-y-4">
                 {schoolSpirit.map((s, i) => (
                   <div key={i}>
                     <div className="flex justify-between text-xs mb-1.5">
-                      <span className="font-semibold text-slate-300">
+                      <span className="font-semibold text-(--text-muted)">
                         {i === 0 && <span className="mr-1">🏆</span>}
                         {s.name}
                       </span>
-                      <span className="text-slate-400">{s.pts.toLocaleString()} XP</span>
+                      <span className="text-(--text-muted)">{s.pts.toLocaleString()} XP</span>
                     </div>
-                    <div className="w-full bg-[#1a2e30] rounded-full h-2">
+                    <div className="w-full bg-(--bg-card) rounded-full h-2">
                       <div
                         className="h-2 rounded-full bg-[#13eca4] transition-all duration-1000"
                         style={{ width: `${s.pct}%` }}
@@ -277,8 +277,8 @@ function LeaderboardInner() {
 
           {/* My Position */}
           {appUser && (
-            <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-6">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+            <div className="bg-(--bg-page) rounded-2xl border border-(--border-subtle) p-6">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-4">
                 Your Position
               </h3>
               <div className="flex items-center gap-4">
@@ -286,8 +286,8 @@ function LeaderboardInner() {
                   {myRank >= 0 ? myRank + 1 : "—"}
                 </div>
                 <div>
-                  <p className="font-bold text-white">{appUser.displayName}</p>
-                  <p className="text-sm text-slate-400">
+                  <p className="font-bold text-(--text-base)">{appUser.displayName}</p>
+                  <p className="text-sm text-(--text-muted)">
                     {(appUser.xp ?? 0).toLocaleString()} XP total
                   </p>
                 </div>
@@ -296,13 +296,13 @@ function LeaderboardInner() {
           )}
 
           {/* Regional Map placeholder */}
-          <div className="bg-[#0d1f1a] rounded-2xl border border-[rgba(19,236,164,0.1)] p-6">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">
+          <div className="bg-(--bg-page) rounded-2xl border border-(--border-subtle) p-6">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-(--text-muted) mb-4">
               Regional Map
             </h3>
-            <div className="aspect-video rounded-xl bg-[#1a2e30] flex flex-col items-center justify-center gap-2 border border-[rgba(19,236,164,0.08)]">
+            <div className="aspect-video rounded-xl bg-(--bg-card) flex flex-col items-center justify-center gap-2 border border-(--border-subtle)">
               <span className="material-symbols-outlined text-4xl text-[#13eca4]/30">map</span>
-              <p className="text-xs text-slate-600">Interactive map coming soon</p>
+              <p className="text-xs text-(--text-faint)">Interactive map coming soon</p>
             </div>
           </div>
         </div>

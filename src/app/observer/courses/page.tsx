@@ -68,10 +68,10 @@ export default function ObserverCoursesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">Course Library</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Course Library</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             Platform courses available to your schools
           </p>
@@ -89,7 +89,7 @@ export default function ObserverCoursesPage() {
           ].map(({ label, value, icon, color }) => (
             <div
               key={label}
-              className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(6,182,212,0.08)]"
+              className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(6,182,212,0.08)]"
             >
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -103,7 +103,7 @@ export default function ObserverCoursesPage() {
                 </span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
@@ -111,13 +111,13 @@ export default function ObserverCoursesPage() {
         </div>
 
         {/* Course list */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(6,182,212,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(6,182,212,0.08)] overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(6,182,212,0.08)] flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#06b6d4] text-[20px]">
                 table_chart
               </span>
-              <h2 className="text-white font-bold">Published Courses</h2>
+              <h2 className="text-(--text-base) font-bold">Published Courses</h2>
             </div>
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="relative">
@@ -128,13 +128,13 @@ export default function ObserverCoursesPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search courses…"
-                  className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-8 pr-3 py-1.5 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-[rgba(6,182,212,0.4)]"
+                  className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg pl-8 pr-3 py-1.5 text-(--text-base) text-xs placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(6,182,212,0.4)]"
                 />
               </div>
               <select
                 value={difficultyFilter}
                 onChange={(e) => setDifficultyFilter(e.target.value)}
-                className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none"
+                className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg px-3 py-1.5 text-(--text-base) text-xs focus:outline-none"
               >
                 <option value="all">All levels</option>
                 <option value="Beginner">Beginner</option>
@@ -169,7 +169,7 @@ export default function ObserverCoursesPage() {
                       {course.icon ?? "📚"}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-medium text-sm truncate">{course.title}</p>
+                      <p className="text-(--text-base) font-medium text-sm truncate">{course.title}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <span className="text-slate-500 text-xs">{course.category}</span>
                         <span className="text-slate-600">·</span>

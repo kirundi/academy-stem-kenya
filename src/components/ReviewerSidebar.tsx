@@ -6,6 +6,7 @@ import StemLogo from "./StemLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { label: "Pending Review", href: "/reviewer/dashboard", icon: "rate_review" },
@@ -33,7 +34,7 @@ export default function ReviewerSidebar() {
   };
 
   return (
-    <aside className="w-60 shrink-0 bg-[#0d1f1a] border-r border-[rgba(245,158,11,0.12)] flex flex-col h-full fixed left-0 top-0 z-20">
+    <aside className="w-60 shrink-0 bg-(--bg-sidebar) border-r border-[rgba(245,158,11,0.12)] flex flex-col h-full fixed left-0 top-0 z-20">
       <div className="px-5 py-5 border-b border-[rgba(245,158,11,0.12)]">
         <StemLogo size="md" />
       </div>
@@ -44,7 +45,7 @@ export default function ReviewerSidebar() {
             {initials}
           </div>
           <div>
-            <p className="text-white text-sm font-semibold">{displayName}</p>
+            <p className="text-(--text-base) text-sm font-semibold">{displayName}</p>
             <p className="text-[#f59e0b] text-xs font-medium flex items-center gap-1">
               <span className="material-symbols-outlined text-[13px]">rate_review</span>
               Content Reviewer
@@ -72,12 +73,13 @@ export default function ReviewerSidebar() {
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs text-slate-300 font-medium truncate">{displayName}</p>
-            <p className="text-xs text-slate-500 truncate">Content Reviewer</p>
+            <p className="text-xs text-(--text-muted) font-medium truncate">{displayName}</p>
+            <p className="text-xs text-(--text-faint) truncate">Content Reviewer</p>
           </div>
+          <ThemeToggle />
           <NotificationBell />
           <button onClick={handleSignOut} title="Sign out">
-            <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+            <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
               logout
             </span>
           </button>

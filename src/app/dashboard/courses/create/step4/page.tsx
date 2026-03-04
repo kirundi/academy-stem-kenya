@@ -127,10 +127,10 @@ function CourseCreatorStep4() {
 
   if (courseLoading || classroomsLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#10221c]">
+      <div className="flex min-h-screen items-center justify-center bg-(--bg-page)">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading review details...</p>
+          <div className="w-12 h-12 border-4 border-(--border-accent) border-t-[#13eca4] rounded-full animate-spin" />
+          <p className="text-(--text-muted) text-sm">Loading review details...</p>
         </div>
       </div>
     );
@@ -138,9 +138,9 @@ function CourseCreatorStep4() {
 
   if (!courseId) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#10221c] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-(--bg-page) text-(--text-base)">
         <div className="text-center">
-          <p className="text-slate-400 mb-4">No course ID provided.</p>
+          <p className="text-(--text-muted) mb-4">No course ID provided.</p>
           <Link
             href="/dashboard/courses/create/step1"
             className="text-[#13eca4] hover:underline font-bold"
@@ -153,9 +153,9 @@ function CourseCreatorStep4() {
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-[#10221c] text-white overflow-x-hidden">
+    <div className="relative flex min-h-screen flex-col bg-(--bg-page) text-(--text-base) overflow-x-hidden">
       {/* Header */}
-      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[rgba(255,255,255,0.07)] bg-[#10221c] px-10 py-4">
+      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[rgba(255,255,255,0.07)] bg-(--bg-page) px-10 py-4">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-4">
             <div className="w-8 h-8 bg-[#13eca4] rounded-lg flex items-center justify-center text-[#10221c]">
@@ -173,7 +173,7 @@ function CourseCreatorStep4() {
               <a
                 key={item.label}
                 href={item.href}
-                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4]" : "text-slate-400 hover:text-[#13eca4]"}`}
+                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4]" : "text-(--text-muted) hover:text-[#13eca4]"}`}
               >
                 {item.label}
               </a>
@@ -181,16 +181,16 @@ function CourseCreatorStep4() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          <div className="hidden lg:flex items-center h-10 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-lg overflow-hidden">
-            <div className="flex items-center pl-4 text-slate-500">
+          <div className="hidden lg:flex items-center h-10 bg-(--bg-card) border border-(--border-subtle) rounded-lg overflow-hidden">
+            <div className="flex items-center pl-4 text-(--text-faint)">
               <span className="material-symbols-outlined text-xl">search</span>
             </div>
             <input
               placeholder="Search resources..."
-              className="bg-transparent border-none focus:ring-0 text-sm text-white placeholder-slate-600 px-3 outline-none w-48"
+              className="bg-transparent border-none focus:ring-0 text-sm text-(--text-base) placeholder:text-(--text-faint) px-3 outline-none w-48"
             />
           </div>
-          <span className="material-symbols-outlined text-slate-400 hover:text-[#13eca4] cursor-pointer">
+          <span className="material-symbols-outlined text-(--text-muted) hover:text-[#13eca4] cursor-pointer">
             notifications
           </span>
           <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border-2 border-[rgba(19,236,164,0.25)] flex items-center justify-center text-[#13eca4] font-bold text-sm">
@@ -203,17 +203,17 @@ function CourseCreatorStep4() {
         <div className="w-full max-w-275 px-6 py-8">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
-            <a href="/dashboard/content" className="text-slate-500 hover:text-[#13eca4]">
+            <a href="/dashboard/content" className="text-(--text-faint) hover:text-[#13eca4]">
               Course Creator
             </a>
-            <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
+            <span className="material-symbols-outlined text-(--text-faint) text-xs">chevron_right</span>
             <Link
               href={`/dashboard/courses/create/step3?courseId=${courseId}`}
-              className="text-slate-500 hover:text-[#13eca4]"
+              className="text-(--text-faint) hover:text-[#13eca4]"
             >
               Step 3: Facilitation Notes
             </Link>
-            <span className="material-symbols-outlined text-slate-600 text-xs">chevron_right</span>
+            <span className="material-symbols-outlined text-(--text-faint) text-xs">chevron_right</span>
             <span className="text-[#13eca4] font-medium underline underline-offset-4">
               Step 4: Review &amp; Publish
             </span>
@@ -223,14 +223,14 @@ function CourseCreatorStep4() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10 border-b border-[rgba(255,255,255,0.07)] pb-8">
             <div className="max-w-2xl">
               <h1 className="text-4xl font-black tracking-tight mb-2">Review &amp; Publish</h1>
-              <p className="text-slate-400 text-lg">
+              <p className="text-(--text-muted) text-lg">
                 Your course &quot;{course?.title || "Untitled Course"}&quot; is almost ready. Verify
                 the checklist and configure access permissions before making it live.
               </p>
             </div>
             <Link
               href={`/dashboard/courses/create/preview?courseId=${courseId}`}
-              className="px-6 py-3 rounded-xl border border-[rgba(255,255,255,0.12)] text-slate-400 font-bold hover:bg-[rgba(255,255,255,0.06)] transition-all flex items-center gap-2"
+              className="px-6 py-3 rounded-xl border border-(--border-medium) text-(--text-muted) font-bold hover:bg-(--input-bg) transition-all flex items-center gap-2"
             >
               <span className="material-symbols-outlined text-xl">visibility</span>
               Preview Course
@@ -243,7 +243,7 @@ function CourseCreatorStep4() {
               className={`mb-6 p-4 rounded-lg text-sm flex items-center gap-2 ${
                 publishStatus.startsWith("Error")
                   ? "bg-red-500/10 border border-red-500/30 text-red-400"
-                  : "bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.3)] text-[#13eca4]"
+                  : "bg-[rgba(19,236,164,0.1)] border border-(--border-strong) text-[#13eca4]"
               }`}
             >
               <span className="material-symbols-outlined text-lg">
@@ -266,7 +266,7 @@ function CourseCreatorStep4() {
                   {checklistItemsDef.map((item, i) => (
                     <label
                       key={i}
-                      className="flex items-center gap-4 p-4 rounded-xl bg-[#1a2e27] border border-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.3)] cursor-pointer transition-all"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-(--bg-card) border border-(--border-subtle) hover:border-(--border-strong) cursor-pointer transition-all"
                     >
                       <input
                         type="checkbox"
@@ -276,12 +276,12 @@ function CourseCreatorStep4() {
                             prev.map((v, j) => (j === i ? e.target.checked : v))
                           )
                         }
-                        className="h-5 w-5 rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[rgba(255,255,255,0.05)]"
+                        className="h-5 w-5 rounded border-(--border-accent) text-[#13eca4] focus:ring-[#13eca4] bg-(--input-bg)"
                       />
                       <div className="flex flex-col flex-1">
-                        <span className="text-white font-medium">{item.label}</span>
+                        <span className="text-(--text-base) font-medium">{item.label}</span>
                         <span
-                          className={`text-xs mt-0.5 ${checklist[i] ? "text-[#13eca4]" : "text-slate-500"}`}
+                          className={`text-xs mt-0.5 ${checklist[i] ? "text-[#13eca4]" : "text-(--text-faint)"}`}
                         >
                           {item.detail}
                         </span>
@@ -306,11 +306,11 @@ function CourseCreatorStep4() {
                 </h2>
                 <div className="grid grid-cols-2 gap-4">
                   {metadata.map((m) => (
-                    <div key={m.label} className="p-3 bg-[#1a2e27] rounded-lg">
-                      <p className="text-slate-500 text-xs uppercase font-bold tracking-widest mb-1">
+                    <div key={m.label} className="p-3 bg-(--bg-card) rounded-lg">
+                      <p className="text-(--text-faint) text-xs uppercase font-bold tracking-widest mb-1">
                         {m.label}
                       </p>
-                      <p className="text-white font-semibold text-sm">
+                      <p className="text-(--text-base) font-semibold text-sm">
                         {m.value ||
                           (m.key && course
                             ? String(course[m.key as keyof Course] ?? "N/A")
@@ -325,7 +325,7 @@ function CourseCreatorStep4() {
 
             {/* Right: Access Control + Publish */}
             <div className="lg:col-span-5 space-y-8">
-              <section className="bg-[#1a2e27] rounded-2xl p-8 border-2 border-[rgba(19,236,164,0.15)] shadow-xl shadow-[rgba(19,236,164,0.04)]">
+              <section className="bg-(--bg-card) rounded-2xl p-8 border-2 border-(--border-medium) shadow-xl shadow-[rgba(19,236,164,0.04)]">
                 <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
                   <span className="material-symbols-outlined text-[#13eca4]">shield_person</span>
                   Access Control
@@ -333,7 +333,7 @@ function CourseCreatorStep4() {
                 <div className="space-y-6">
                   {/* Assign to Classrooms */}
                   <div className="space-y-3">
-                    <label className="text-sm font-semibold text-slate-400 uppercase tracking-wide block">
+                    <label className="text-sm font-semibold text-(--text-muted) uppercase tracking-wide block">
                       Assign to Classrooms
                     </label>
                     <div className="space-y-2">
@@ -341,17 +341,17 @@ function CourseCreatorStep4() {
                         classrooms.map((cls, i) => (
                           <div
                             key={cls.id}
-                            className="flex items-center justify-between p-3 bg-[rgba(255,255,255,0.04)] rounded-xl border border-[rgba(255,255,255,0.08)]"
+                            className="flex items-center justify-between p-3 bg-(--glass-bg) rounded-xl border border-(--border-subtle)"
                           >
                             <div className="flex items-center gap-3">
                               <span className="material-symbols-outlined text-[rgba(19,236,164,0.6)]">
                                 groups
                               </span>
                               <div>
-                                <span className="text-white font-medium text-sm block">
+                                <span className="text-(--text-base) font-medium text-sm block">
                                   {cls.name}
                                 </span>
-                                <span className="text-slate-500 text-[10px]">
+                                <span className="text-(--text-faint) text-[10px]">
                                   {cls.subject} - {cls.grade}
                                 </span>
                               </div>
@@ -364,23 +364,23 @@ function CourseCreatorStep4() {
                                   prev.map((v, j) => (j === i ? e.target.checked : v))
                                 )
                               }
-                              className="h-5 w-5 rounded border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[rgba(255,255,255,0.05)]"
+                              className="h-5 w-5 rounded border-(--border-accent) text-[#13eca4] focus:ring-[#13eca4] bg-(--input-bg)"
                             />
                           </div>
                         ))
                       ) : (
-                        <p className="text-slate-500 text-sm italic p-3">
+                        <p className="text-(--text-faint) text-sm italic p-3">
                           No classrooms found. Create a classroom first.
                         </p>
                       )}
-                      <button className="w-full py-2 border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-xl text-slate-500 hover:text-[#13eca4] hover:border-[rgba(19,236,164,0.4)] text-sm font-medium transition-all flex items-center justify-center gap-2">
+                      <button className="w-full py-2 border-2 border-dashed border-(--border-subtle) rounded-xl text-(--text-faint) hover:text-[#13eca4] hover:border-[rgba(19,236,164,0.4)] text-sm font-medium transition-all flex items-center justify-center gap-2">
                         <span className="material-symbols-outlined text-base">add_circle</span>
                         Add More Classes
                       </button>
                     </div>
                   </div>
 
-                  <div className="h-px bg-[rgba(255,255,255,0.07)]" />
+                  <div className="h-px bg-(--input-bg)" />
 
                   {/* Submit to Library */}
                   <label className="flex items-center gap-3 cursor-pointer">
@@ -388,11 +388,11 @@ function CourseCreatorStep4() {
                       type="checkbox"
                       checked={submitToLibrary}
                       onChange={(e) => setSubmitToLibrary(e.target.checked)}
-                      className="h-6 w-6 rounded-full border-[rgba(255,255,255,0.2)] text-[#13eca4] focus:ring-[#13eca4] bg-[rgba(255,255,255,0.05)]"
+                      className="h-6 w-6 rounded-full border-(--border-accent) text-[#13eca4] focus:ring-[#13eca4] bg-(--input-bg)"
                     />
                     <div className="flex flex-col">
-                      <span className="text-white font-semibold">Submit to School Library</span>
-                      <span className="text-slate-400 text-xs">
+                      <span className="text-(--text-base) font-semibold">Submit to School Library</span>
+                      <span className="text-(--text-muted) text-xs">
                         Allow other teachers to clone and adapt this course.
                       </span>
                     </div>
@@ -417,7 +417,7 @@ function CourseCreatorStep4() {
                         </>
                       )}
                     </button>
-                    <p className="text-center text-slate-500 text-xs mt-4 italic">
+                    <p className="text-center text-(--text-faint) text-xs mt-4 italic">
                       By clicking publish, you agree to the school&apos;s digital curriculum
                       guidelines.
                     </p>
@@ -427,10 +427,10 @@ function CourseCreatorStep4() {
 
               {/* Course Preview Card */}
               <div className="bg-[rgba(255,255,255,0.02)] rounded-2xl border border-[rgba(255,255,255,0.07)] p-6">
-                <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">
+                <p className="text-(--text-faint) text-xs font-bold uppercase tracking-widest mb-4">
                   Course Preview Card
                 </p>
-                <div className="bg-[#1a2e27] rounded-xl overflow-hidden border border-[rgba(255,255,255,0.08)] shadow-xl">
+                <div className="bg-(--bg-card) rounded-xl overflow-hidden border border-(--border-subtle) shadow-xl">
                   <div className="h-32 bg-linear-to-br from-[rgba(19,236,164,0.3)] to-[rgba(19,236,164,0.05)] relative">
                     {course?.coverImageUrl ? (
                       <Image
@@ -440,21 +440,21 @@ function CourseCreatorStep4() {
                         className="object-cover"
                       />
                     ) : null}
-                    <div className="absolute bottom-4 left-4 w-14 h-14 bg-[#10221c] rounded-xl flex items-center justify-center border border-[rgba(19,236,164,0.25)]">
+                    <div className="absolute bottom-4 left-4 w-14 h-14 bg-(--bg-page) rounded-xl flex items-center justify-center border border-[rgba(19,236,164,0.25)]">
                       <span className="material-symbols-outlined text-[#13eca4] text-3xl">
                         {course?.icon || "precision_manufacturing"}
                       </span>
                     </div>
                   </div>
                   <div className="p-4">
-                    <h4 className="text-white font-bold">{course?.title || "Untitled Course"}</h4>
+                    <h4 className="text-(--text-base) font-bold">{course?.title || "Untitled Course"}</h4>
                     <div className="flex items-center gap-2 mt-2">
-                      <div className="w-5 h-5 rounded-full bg-[rgba(255,255,255,0.08)] flex items-center justify-center">
+                      <div className="w-5 h-5 rounded-full bg-(--bg-elevated) flex items-center justify-center">
                         <span className="material-symbols-outlined text-[12px] text-[#13eca4]">
                           person
                         </span>
                       </div>
-                      <span className="text-slate-400 text-xs">
+                      <span className="text-(--text-muted) text-xs">
                         {appUser?.displayName || "Teacher"}
                       </span>
                     </div>
@@ -462,7 +462,7 @@ function CourseCreatorStep4() {
                       <span className="px-2 py-1 bg-[rgba(19,236,164,0.1)] text-[#13eca4] text-[10px] font-bold rounded uppercase">
                         {course?.difficulty || "Beginner"}
                       </span>
-                      <span className="px-2 py-1 bg-[rgba(255,255,255,0.06)] text-slate-300 text-[10px] font-bold rounded uppercase">
+                      <span className="px-2 py-1 bg-(--input-bg) text-(--text-muted) text-[10px] font-bold rounded uppercase">
                         {course?.category || "STEM"}
                       </span>
                     </div>
@@ -475,9 +475,9 @@ function CourseCreatorStep4() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[rgba(255,255,255,0.07)] py-8 px-10 bg-[#10221c] mt-12">
+      <footer className="border-t border-[rgba(255,255,255,0.07)] py-8 px-10 bg-(--bg-page) mt-12">
         <div className="max-w-275 mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2 text-slate-500">
+          <div className="flex items-center gap-2 text-(--text-faint)">
             <span className="material-symbols-outlined">copyright</span>
             <span className="text-sm font-medium">2026 STEM Learn Platforms Inc.</span>
           </div>
@@ -490,7 +490,7 @@ function CourseCreatorStep4() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-slate-500 hover:text-[#13eca4] text-sm transition-colors"
+                className="text-(--text-faint) hover:text-[#13eca4] text-sm transition-colors"
               >
                 {link.label}
               </a>

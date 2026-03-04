@@ -1,33 +1,72 @@
 @import "tailwindcss";
 
+/* ─── Light theme (default) ─────────────────────────────── */
 :root {
-  --primary: #13daec;
-  --primary-dark: #0dc8d6;
-  --accent-red: #ff4d4d;
-  --background-light: #f6f8f8;
-  --background-dark: #102022;
-  --surface-light: #ffffff;
-  --surface-dark: #1a2e30;
-  --card-light: #ffffff;
-  --card-dark: #1e3530;
-  --sidebar-dark: #0d1f22;
-  --border-dark: #283739;
+  --bg-page:      #f0f2f5;
+  --bg-sidebar:   #f3f5f7;
+  --bg-card:      #ffffff;
+  --bg-surface:   #f7f9fb;
+  --bg-card-alt:  #eef1f4;
+  --bg-elevated:  #e8ecf0;
+
+  --text-base:    #1a2e30;
+  --text-muted:   #4b5563;
+  --text-faint:   #9ca3af;
+
+  --border:         #d1d9e0;
+  --border-subtle:  rgba(0, 0, 0, 0.07);
+  --border-medium:  rgba(19, 218, 236, 0.18);
+  --border-accent:  rgba(19, 218, 236, 0.28);
+  --border-strong:  rgba(19, 218, 236, 0.40);
+
+  --hover-subtle:   rgba(19, 218, 236, 0.08);
+  --hover-medium:   rgba(19, 218, 236, 0.12);
+
+  --input-bg:     #ffffff;
+  --glass-bg:     rgba(255, 255, 255, 0.70);
+
+  /* Accent — identical in both themes */
+  --primary:            #13daec;
+  --primary-dark:       #0dc8d6;
+  --primary-green:      #13eca4;
+  --primary-green-dark: #0dd494;
+  --accent-red:         #ff4d4d;
+}
+
+/* ─── Dark theme ─────────────────────────────────────────── */
+.dark {
+  --bg-page:      #102022;
+  --bg-sidebar:   #0d1f22;
+  --bg-card:      #1a2e27;
+  --bg-surface:   #1a2e30;
+  --bg-card-alt:  #1e3530;
+  --bg-elevated:  #283739;
+
+  --text-base:    #f1f5f9;
+  --text-muted:   #94a3b8;
+  --text-faint:   #64748b;
+
+  --border:         #283739;
+  --border-subtle:  rgba(19, 236, 164, 0.08);
+  --border-medium:  rgba(19, 236, 164, 0.12);
+  --border-accent:  rgba(19, 236, 164, 0.20);
+  --border-strong:  rgba(19, 236, 164, 0.30);
+
+  --hover-subtle:   rgba(19, 236, 164, 0.08);
+  --hover-medium:   rgba(19, 236, 164, 0.12);
+
+  --input-bg:     rgba(255, 255, 255, 0.05);
+  --glass-bg:     rgba(255, 255, 255, 0.04);
 }
 
 @theme inline {
-  --color-primary: var(--primary);
-  --color-primary-dark: var(--primary-dark);
-  --color-accent-red: var(--accent-red);
-  --color-background-light: var(--background-light);
-  --color-background-dark: var(--background-dark);
-  --color-surface-light: var(--surface-light);
-  --color-surface-dark: var(--surface-dark);
-  --color-card-light: var(--card-light);
-  --color-card-dark: var(--card-dark);
-  --color-sidebar-dark: var(--sidebar-dark);
-  --color-border-dark: var(--border-dark);
+  --color-primary:            var(--primary);
+  --color-primary-dark:       var(--primary-dark);
+  --color-primary-green:      var(--primary-green);
+  --color-primary-green-dark: var(--primary-green-dark);
+  --color-accent-red:         var(--accent-red);
   --font-display: "Lexend", sans-serif;
-  --font-sans: "Lexend", sans-serif;
+  --font-sans:    "Lexend", sans-serif;
 }
 
 * {
@@ -54,10 +93,11 @@ html {
 
 body {
   font-family: "Lexend", "Inter", sans-serif;
-  background: var(--background-dark);
-  color: #f1f5f9;
+  background: var(--bg-page);
+  color: var(--text-base);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::-webkit-scrollbar {
@@ -149,14 +189,14 @@ body {
   background:
     radial-gradient(circle at 15% 15%, rgba(19, 218, 236, 0.08), transparent 50%),
     radial-gradient(circle at 85% 85%, rgba(255, 77, 77, 0.06), transparent 50%),
-    var(--background-dark);
+    var(--bg-page);
 }
 
 .tech-gradient-light {
   background:
     radial-gradient(circle at 15% 15%, rgba(19, 218, 236, 0.05), transparent 50%),
     radial-gradient(circle at 85% 85%, rgba(255, 77, 77, 0.04), transparent 50%),
-    var(--background-light);
+    var(--bg-surface);
 }
 
 .dot-pattern {
@@ -165,9 +205,9 @@ body {
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--glass-bg);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(19, 218, 236, 0.1);
+  border: 1px solid var(--border-medium);
 }
 
 .sidebar-link {
@@ -178,27 +218,27 @@ body {
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #94a3b8;
+  color: var(--text-muted);
   transition: all 0.2s;
   cursor: pointer;
   text-decoration: none;
 }
 .sidebar-link:hover {
-  background: rgba(19, 218, 236, 0.08);
-  color: #13daec;
+  background: var(--hover-subtle);
+  color: var(--primary);
 }
 .sidebar-link.active {
-  background: rgba(19, 218, 236, 0.12);
-  color: #13daec;
+  background: var(--hover-medium);
+  color: var(--primary-green);
 }
 
 .form-input {
   width: 100%;
   padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(19, 218, 236, 0.2);
+  background: var(--input-bg);
+  border: 1px solid var(--border-medium);
   border-radius: 0.5rem;
-  color: #f1f5f9;
+  color: var(--text-base);
   font-family: inherit;
   font-size: 0.875rem;
   transition:
@@ -207,9 +247,9 @@ body {
   outline: none;
 }
 .form-input:focus {
-  border-color: #13daec;
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(19, 218, 236, 0.15);
 }
 .form-input::placeholder {
-  color: #64748b;
+  color: var(--text-faint);
 }

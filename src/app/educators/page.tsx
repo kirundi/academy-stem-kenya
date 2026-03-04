@@ -3,21 +3,21 @@ import PublicNavbar from "@/components/PublicNavbar";
 
 export default function EducatorsPage() {
   return (
-    <div className="min-h-screen bg-[#10221c] font-sans text-slate-100 antialiased">
+    <div className="min-h-screen bg-(--bg-page) font-sans text-(--text-base) antialiased">
       <PublicNavbar />
 
       <main className="flex-1">
         {/* Hero */}
         <section className="px-6 py-20 lg:py-28">
           <div className="mx-auto max-w-5xl text-center">
-            <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#13eca4] mb-6">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(19,236,164,0.1)] border border-(--border-accent) px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#13eca4] mb-6">
               <span className="material-symbols-outlined text-sm">school</span>
               For Educators
             </div>
             <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-6xl mb-6">
               Empower Your Classroom with <span className="text-[#13eca4]">STEM Impact</span>
             </h1>
-            <p className="max-w-2xl mx-auto text-lg text-slate-400 mb-10">
+            <p className="max-w-2xl mx-auto text-lg text-(--text-muted) mb-10">
               Access project-based curriculum, facilitation guides, and real-time analytics to
               deliver meaningful STEM experiences to every student.
             </p>
@@ -30,7 +30,7 @@ export default function EducatorsPage() {
               </Link>
               <Link
                 href="/login"
-                className="rounded-xl border border-[rgba(255,255,255,0.12)] bg-[#1a2e27] px-8 py-4 text-lg font-bold hover:bg-[rgba(255,255,255,0.06)] transition-colors"
+                className="rounded-xl border border-(--border-medium) bg-(--bg-card) px-8 py-4 text-lg font-bold hover:bg-(--input-bg) transition-colors"
               >
                 Sign In
               </Link>
@@ -79,7 +79,7 @@ export default function EducatorsPage() {
               ].map(({ icon, title, desc }) => (
                 <div
                   key={title}
-                  className="rounded-xl bg-[#1a2e27] p-8 border border-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.3)] transition-all"
+                  className="rounded-xl bg-(--bg-card) p-8 border border-(--border-subtle) hover:border-(--border-strong) transition-all"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center mb-4">
                     <span className="material-symbols-outlined text-[#13eca4] text-2xl">
@@ -87,7 +87,7 @@ export default function EducatorsPage() {
                     </span>
                   </div>
                   <h3 className="text-lg font-bold mb-2">{title}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed">{desc}</p>
+                  <p className="text-sm text-(--text-muted) leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
@@ -98,7 +98,7 @@ export default function EducatorsPage() {
         <section className="py-20 px-6">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-black mb-6">Ready to Transform Your Teaching?</h2>
-            <p className="text-slate-400 mb-10">
+            <p className="text-(--text-muted) mb-10">
               Join hundreds of educators across Kenya using STEM Impact Academy to deliver
               world-class project-based learning.
             </p>
@@ -112,8 +112,8 @@ export default function EducatorsPage() {
         </section>
       </main>
 
-      <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center">
-        <p className="text-xs text-slate-600">
+      <footer className="border-t border-(--border-subtle) bg-(--bg-page) px-6 py-8 text-center">
+        <p className="text-xs text-(--text-faint)">
           &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
         </p>
       </footer>

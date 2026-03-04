@@ -126,13 +126,13 @@ export default function CourseCreatorStep1Page() {
   const isLoading = saving || creating || uploading;
 
   return (
-    <div className="min-h-screen bg-[#10221c] text-white">
+    <div className="min-h-screen bg-(--bg-page) text-(--text-base)">
       {/* Header */}
       <header className="sticky top-0 z-50 flex items-center justify-between border-b border-[rgba(255,255,255,0.07)] bg-[rgba(16,34,28,0.9)] backdrop-blur-md px-6 lg:px-10 py-3">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3 text-[#13eca4]">
             <span className="material-symbols-outlined text-3xl">account_tree</span>
-            <h2 className="text-white text-lg font-bold tracking-tight">STEM Learn</h2>
+            <h2 className="text-(--text-base) text-lg font-bold tracking-tight">STEM Learn</h2>
           </div>
           <nav className="hidden md:flex items-center gap-8">
             {[
@@ -144,7 +144,7 @@ export default function CourseCreatorStep1Page() {
               <a
                 key={item.label}
                 href={item.href}
-                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-slate-400 hover:text-[#13eca4]"}`}
+                className={`text-sm font-medium transition-colors ${item.label === "Courses" ? "text-[#13eca4] border-b-2 border-[#13eca4] pb-1" : "text-(--text-muted) hover:text-[#13eca4]"}`}
               >
                 {item.label}
               </a>
@@ -152,13 +152,13 @@ export default function CourseCreatorStep1Page() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-[rgba(255,255,255,0.06)] text-slate-400 hover:bg-[rgba(19,236,164,0.1)] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-(--input-bg) text-(--text-muted) hover:bg-[rgba(19,236,164,0.1)] hover:text-[#13eca4] transition-colors">
             <span className="material-symbols-outlined">notifications</span>
           </button>
-          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-[rgba(255,255,255,0.06)] text-slate-400 hover:bg-[rgba(19,236,164,0.1)] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center justify-center w-10 h-10 rounded-lg bg-(--input-bg) text-(--text-muted) hover:bg-[rgba(19,236,164,0.1)] hover:text-[#13eca4] transition-colors">
             <span className="material-symbols-outlined">settings</span>
           </button>
-          <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border-2 border-[rgba(19,236,164,0.3)] flex items-center justify-center text-[#13eca4] font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] border-2 border-(--border-strong) flex items-center justify-center text-[#13eca4] font-bold text-sm">
             {appUser?.displayName?.slice(0, 2).toUpperCase() || "TM"}
           </div>
         </div>
@@ -168,24 +168,24 @@ export default function CourseCreatorStep1Page() {
         <div className="w-full max-w-240">
           {/* Breadcrumbs */}
           <div className="flex flex-wrap gap-2 mb-5 text-sm">
-            <a href="/dashboard" className="text-slate-500 hover:text-[#13eca4] transition-colors">
+            <a href="/dashboard" className="text-(--text-faint) hover:text-[#13eca4] transition-colors">
               Dashboard
             </a>
-            <span className="text-slate-600">/</span>
+            <span className="text-(--text-faint)">/</span>
             <a
               href="/dashboard/content"
-              className="text-slate-500 hover:text-[#13eca4] transition-colors"
+              className="text-(--text-faint) hover:text-[#13eca4] transition-colors"
             >
               Course Creator
             </a>
-            <span className="text-slate-600">/</span>
+            <span className="text-(--text-faint)">/</span>
             <span className="text-[#13eca4] font-medium">New Course</span>
           </div>
 
           {/* Title */}
           <div className="mb-8">
             <h1 className="text-4xl font-black tracking-tight">Create New Course</h1>
-            <p className="text-slate-400 text-lg mt-1">
+            <p className="text-(--text-muted) text-lg mt-1">
               Step 1: Basic Information &amp; Badge Setup
             </p>
           </div>
@@ -200,17 +200,17 @@ export default function CourseCreatorStep1Page() {
             ].map((s, i) => (
               <div key={i} className="flex flex-col gap-2">
                 <div
-                  className={`h-1.5 w-full rounded-full ${s.active ? "bg-[#13eca4]" : "bg-[rgba(255,255,255,0.08)]"}`}
+                  className={`h-1.5 w-full rounded-full ${s.active ? "bg-[#13eca4]" : "bg-(--bg-elevated)"}`}
                 />
                 <div className="flex items-center gap-2">
                   <span
-                    className={`material-symbols-outlined text-xl ${s.active ? "text-[#13eca4]" : "text-slate-600"}`}
+                    className={`material-symbols-outlined text-xl ${s.active ? "text-[#13eca4]" : "text-(--text-faint)"}`}
                     style={s.active ? { fontVariationSettings: "'FILL' 1" } : {}}
                   >
                     {s.active ? "check_circle" : "radio_button_unchecked"}
                   </span>
                   <p
-                    className={`text-sm font-medium ${s.active ? "text-[#13eca4] font-bold" : "text-slate-500"}`}
+                    className={`text-sm font-medium ${s.active ? "text-[#13eca4] font-bold" : "text-(--text-faint)"}`}
                   >
                     {s.label}
                   </p>
@@ -233,7 +233,7 @@ export default function CourseCreatorStep1Page() {
             <div className="space-y-8">
               {/* Cover Image */}
               <div>
-                <h3 className="text-white text-lg font-bold mb-4 flex items-center gap-2">
+                <h3 className="text-(--text-base) text-lg font-bold mb-4 flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#13eca4]">image</span>
                   Cover Image
                 </h3>
@@ -246,24 +246,24 @@ export default function CourseCreatorStep1Page() {
                 />
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="relative group cursor-pointer border-2 border-dashed border-[rgba(255,255,255,0.15)] rounded-xl aspect-4/3 flex flex-col items-center justify-center bg-[rgba(255,255,255,0.02)] hover:border-[rgba(19,236,164,0.5)] hover:bg-[rgba(19,236,164,0.03)] transition-all overflow-hidden"
+                  className="relative group cursor-pointer border-2 border-dashed border-(--border-medium) rounded-xl aspect-4/3 flex flex-col items-center justify-center bg-[rgba(255,255,255,0.02)] hover:border-[rgba(19,236,164,0.5)] hover:bg-[rgba(19,236,164,0.03)] transition-all overflow-hidden"
                 >
                   {coverPreview ? (
                     <Image src={coverPreview} alt="Cover preview" fill className="object-cover" />
                   ) : (
                     <div className="text-center p-6">
-                      <span className="material-symbols-outlined text-slate-600 text-5xl mb-2 group-hover:text-[#13eca4] transition-colors block">
+                      <span className="material-symbols-outlined text-(--text-faint) text-5xl mb-2 group-hover:text-[#13eca4] transition-colors block">
                         cloud_upload
                       </span>
-                      <p className="text-sm text-slate-400 font-medium">
+                      <p className="text-sm text-(--text-muted) font-medium">
                         Click to upload or drag and drop
                       </p>
-                      <p className="text-xs text-slate-600 mt-1 italic">SVG, PNG, JPG (max 2MB)</p>
+                      <p className="text-xs text-(--text-faint) mt-1 italic">SVG, PNG, JPG (max 2MB)</p>
                     </div>
                   )}
                   {uploading && (
                     <div className="absolute inset-0 bg-[rgba(16,34,28,0.8)] flex flex-col items-center justify-center">
-                      <div className="w-16 h-16 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin mb-3" />
+                      <div className="w-16 h-16 border-4 border-(--border-accent) border-t-[#13eca4] rounded-full animate-spin mb-3" />
                       <p className="text-sm text-[#13eca4] font-bold">{progress}%</p>
                     </div>
                   )}
@@ -272,13 +272,13 @@ export default function CourseCreatorStep1Page() {
 
               {/* Badge Selection */}
               <div>
-                <h3 className="text-white text-lg font-bold mb-1 flex items-center gap-2">
+                <h3 className="text-(--text-base) text-lg font-bold mb-1 flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#13eca4]">
                     workspace_premium
                   </span>
                   Completion Badge
                 </h3>
-                <p className="text-slate-500 text-sm mb-4 italic">
+                <p className="text-(--text-faint) text-sm mb-4 italic">
                   Select the digital token students earn.
                 </p>
                 <div className="grid grid-cols-3 gap-3">
@@ -286,21 +286,21 @@ export default function CourseCreatorStep1Page() {
                     <button
                       key={b.icon}
                       onClick={() => setSelectedBadge(i)}
-                      className={`aspect-square rounded-xl bg-[#1a2e27] flex items-center justify-center border-2 transition-all ${
+                      className={`aspect-square rounded-xl bg-(--bg-card) flex items-center justify-center border-2 transition-all ${
                         selectedBadge === i
                           ? "border-[#13eca4] shadow-[0_0_15px_rgba(19,236,164,0.2)]"
-                          : "border-transparent hover:border-[rgba(255,255,255,0.2)]"
+                          : "border-transparent hover:border-(--border-accent)"
                       }`}
                     >
                       <span
-                        className={`material-symbols-outlined text-4xl ${selectedBadge === i ? "text-[#13eca4]" : "text-slate-500"}`}
+                        className={`material-symbols-outlined text-4xl ${selectedBadge === i ? "text-[#13eca4]" : "text-(--text-faint)"}`}
                       >
                         {b.icon}
                       </span>
                     </button>
                   ))}
-                  <button className="aspect-square rounded-xl bg-[#1a2e27] flex items-center justify-center border-2 border-dashed border-[rgba(255,255,255,0.12)] hover:border-[rgba(19,236,164,0.4)] transition-all">
-                    <span className="material-symbols-outlined text-slate-500">add</span>
+                  <button className="aspect-square rounded-xl bg-(--bg-card) flex items-center justify-center border-2 border-dashed border-(--border-medium) hover:border-[rgba(19,236,164,0.4)] transition-all">
+                    <span className="material-symbols-outlined text-(--text-faint)">add</span>
                   </button>
                 </div>
               </div>
@@ -309,23 +309,23 @@ export default function CourseCreatorStep1Page() {
             {/* Right: Form Fields */}
             <div className="md:col-span-2 space-y-6">
               <div>
-                <label className="block text-white text-base font-bold mb-2">Course Title</label>
+                <label className="block text-(--text-base) text-base font-bold mb-2">Course Title</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="e.g. Introduction to Mars Robotics"
-                  className="w-full bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-lg focus:ring-2 focus:ring-[#13eca4] focus:border-transparent text-white placeholder-slate-600 p-3 h-12 outline-none transition-all"
+                  className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-lg focus:ring-2 focus:ring-[#13eca4] focus:border-transparent text-(--text-base) placeholder:text-(--text-faint) p-3 h-12 outline-none transition-all"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-white text-base font-bold mb-2">Category</label>
+                  <label className="block text-(--text-base) text-base font-bold mb-2">Category</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-lg focus:ring-2 focus:ring-[#13eca4] text-white p-3 h-12 outline-none appearance-none cursor-pointer transition-all"
+                    className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-lg focus:ring-2 focus:ring-[#13eca4] text-(--text-base) p-3 h-12 outline-none appearance-none cursor-pointer transition-all"
                   >
                     {categories.map((c) => (
                       <option key={c}>{c}</option>
@@ -333,7 +333,7 @@ export default function CourseCreatorStep1Page() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-white text-base font-bold mb-2">
+                  <label className="block text-(--text-base) text-base font-bold mb-2">
                     Difficulty Level
                   </label>
                   <div className="flex gap-2 h-12">
@@ -344,7 +344,7 @@ export default function CourseCreatorStep1Page() {
                         className={`flex-1 rounded-lg text-xs font-bold transition-all ${
                           difficulty === d
                             ? "bg-[#13eca4] text-[#10221c] border border-[#13eca4]"
-                            : "bg-[#1a2e27] text-slate-400 border border-[rgba(255,255,255,0.08)] hover:border-[rgba(19,236,164,0.4)] hover:text-[#13eca4]"
+                            : "bg-(--bg-card) text-(--text-muted) border border-(--border-subtle) hover:border-[rgba(19,236,164,0.4)] hover:text-[#13eca4]"
                         }`}
                       >
                         {d}
@@ -355,7 +355,7 @@ export default function CourseCreatorStep1Page() {
               </div>
 
               <div>
-                <label className="block text-white text-base font-bold mb-2">
+                <label className="block text-(--text-base) text-base font-bold mb-2">
                   Short Description
                 </label>
                 <textarea
@@ -363,12 +363,12 @@ export default function CourseCreatorStep1Page() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Briefly describe what students will learn in this course..."
-                  className="w-full bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-lg focus:ring-2 focus:ring-[#13eca4] focus:border-transparent text-white placeholder-slate-600 p-3 outline-none resize-none transition-all"
+                  className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-lg focus:ring-2 focus:ring-[#13eca4] focus:border-transparent text-(--text-base) placeholder:text-(--text-faint) p-3 outline-none resize-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-white text-base font-bold mb-2">
+                <label className="block text-(--text-base) text-base font-bold mb-2">
                   Target Grade Level
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -380,7 +380,7 @@ export default function CourseCreatorStep1Page() {
                         className={`px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
                           targetGrade === g
                             ? "border-[#13eca4] text-[#13eca4] bg-[rgba(19,236,164,0.1)]"
-                            : "border-[rgba(255,255,255,0.1)] text-slate-400 hover:border-[#13eca4] hover:text-[#13eca4]"
+                            : "border-(--border-subtle) text-(--text-muted) hover:border-[#13eca4] hover:text-[#13eca4]"
                         }`}
                       >
                         {g}
@@ -391,7 +391,7 @@ export default function CourseCreatorStep1Page() {
               </div>
 
               <div>
-                <label className="block text-white text-base font-bold mb-2">
+                <label className="block text-(--text-base) text-base font-bold mb-2">
                   Estimated Duration
                 </label>
                 <div className="flex gap-3">
@@ -400,12 +400,12 @@ export default function CourseCreatorStep1Page() {
                     placeholder="4"
                     value={durationAmount}
                     onChange={(e) => setDurationAmount(e.target.value)}
-                    className="w-24 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-lg text-white p-3 h-12 outline-none focus:ring-2 focus:ring-[#13eca4]"
+                    className="w-24 bg-(--bg-card) border border-(--border-subtle) rounded-lg text-(--text-base) p-3 h-12 outline-none focus:ring-2 focus:ring-[#13eca4]"
                   />
                   <select
                     value={durationUnit}
                     onChange={(e) => setDurationUnit(e.target.value)}
-                    className="flex-1 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-lg text-white p-3 h-12 outline-none focus:ring-2 focus:ring-[#13eca4] appearance-none"
+                    className="flex-1 bg-(--bg-card) border border-(--border-subtle) rounded-lg text-(--text-base) p-3 h-12 outline-none focus:ring-2 focus:ring-[#13eca4] appearance-none"
                   >
                     <option>Hours</option>
                     <option>Days</option>
@@ -415,11 +415,11 @@ export default function CourseCreatorStep1Page() {
               </div>
 
               {/* Actions */}
-              <div className="pt-6 border-t border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+              <div className="pt-6 border-t border-(--border-subtle) flex items-center justify-between">
                 <button
                   onClick={() => handleSave(true)}
                   disabled={isLoading}
-                  className="px-6 py-3 rounded-lg text-slate-400 font-bold hover:bg-[rgba(255,255,255,0.06)] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 rounded-lg text-(--text-muted) font-bold hover:bg-(--input-bg) transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? "Saving..." : "Save Draft"}
                 </button>

@@ -68,10 +68,10 @@ export default function AnalyticsCoursesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">Courses Analytics</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Courses Analytics</h1>
           <p className="text-slate-400 text-xs mt-0.5">{allCourses.length} total · {published.length} published</p>
         </div>
       </header>
@@ -85,12 +85,12 @@ export default function AnalyticsCoursesPage() {
             { label: "Pending Review", value: pending.length, icon: "pending", color: "#f59e0b" },
             { label: "Drafts", value: drafts.length, icon: "edit_note", color: "#64748b" },
           ].map(({ label, value, icon, color }) => (
-            <div key={label} className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)]">
+            <div key={label} className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)]">
               <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${color}18` }}>
                 <span className="material-symbols-outlined text-[22px]" style={{ color }}>{icon}</span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
@@ -99,8 +99,8 @@ export default function AnalyticsCoursesPage() {
 
         {/* Category breakdown */}
         {categoryEntries.length > 0 && (
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
-            <h2 className="text-white font-bold mb-4 flex items-center gap-2">
+          <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
+            <h2 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#a855f7] text-[20px]">category</span>
               Top Categories
             </h2>
@@ -110,11 +110,11 @@ export default function AnalyticsCoursesPage() {
                 return (
                   <div key={cat} className="flex items-center gap-4">
                     <div className="w-36 text-xs text-slate-400 text-right shrink-0 truncate">{cat}</div>
-                    <div className="flex-1 h-5 bg-[#102022] rounded-full overflow-hidden">
+                    <div className="flex-1 h-5 bg-(--bg-page) rounded-full overflow-hidden">
                       <div className="h-full rounded-full bg-[#a855f7] transition-all" style={{ width: `${Math.max(pct, 1)}%` }} />
                     </div>
                     <div className="w-10 text-right shrink-0">
-                      <span className="text-white font-bold text-sm">{count}</span>
+                      <span className="text-(--text-base) font-bold text-sm">{count}</span>
                     </div>
                   </div>
                 );
@@ -124,11 +124,11 @@ export default function AnalyticsCoursesPage() {
         )}
 
         {/* Course list */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(168,85,247,0.08)] flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#a855f7] text-[20px]">table_chart</span>
-              <h2 className="text-white font-bold">All Courses</h2>
+              <h2 className="text-(--text-base) font-bold">All Courses</h2>
             </div>
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="relative">
@@ -137,13 +137,13 @@ export default function AnalyticsCoursesPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search courses…"
-                  className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-8 pr-3 py-1.5 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-[rgba(168,85,247,0.4)]"
+                  className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg pl-8 pr-3 py-1.5 text-(--text-base) text-xs placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(168,85,247,0.4)]"
                 />
               </div>
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none"
+                className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg px-3 py-1.5 text-(--text-base) text-xs focus:outline-none"
               >
                 <option value="all">All statuses</option>
                 <option value="published">Published</option>
@@ -170,7 +170,7 @@ export default function AnalyticsCoursesPage() {
                       {course.icon ?? "📚"}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-medium text-sm truncate">{course.title}</p>
+                      <p className="text-(--text-base) font-medium text-sm truncate">{course.title}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <span className="text-slate-500 text-xs">{course.category}</span>
                         <span className="text-slate-600">·</span>

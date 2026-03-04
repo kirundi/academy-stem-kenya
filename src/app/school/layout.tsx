@@ -16,7 +16,7 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#10221c]">
+      <div className="flex items-center justify-center h-screen bg-(--bg-page)">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>
@@ -26,7 +26,7 @@ export default function SchoolLayout({ children }: { children: React.ReactNode }
 
   if (!appUser) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#10221c]">
+      <div className="flex items-center justify-center h-screen bg-(--bg-page)">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
           progress_activity
         </span>

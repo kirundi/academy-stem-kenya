@@ -74,7 +74,7 @@ export default function MentorSubmissionsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#10b981]">
           progress_activity
         </span>
@@ -84,7 +84,7 @@ export default function MentorSubmissionsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center px-8">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center px-8">
         <div className="text-center">
           <span className="material-symbols-outlined text-[48px] text-red-400 mb-3 block">
             error
@@ -118,11 +118,11 @@ export default function MentorSubmissionsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(16,185,129,0.1)] px-8 h-16 flex items-center">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl font-bold text-(--text-base) flex items-center gap-2">
             <span className="material-symbols-outlined text-[#10b981] text-[22px]">
               assignment_turned_in
             </span>
@@ -159,7 +159,7 @@ export default function MentorSubmissionsPage() {
           ].map(({ label, value, icon, color }) => (
             <div
               key={label}
-              className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.08)]"
+              className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]"
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
@@ -170,7 +170,7 @@ export default function MentorSubmissionsPage() {
                 </span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
@@ -205,11 +205,11 @@ export default function MentorSubmissionsPage() {
 
         {/* Submissions list */}
         {filteredSubmissions.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.08)]">
+          <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
               task_alt
             </span>
-            <p className="text-white font-semibold text-lg mb-2">
+            <p className="text-(--text-base) font-semibold text-lg mb-2">
               {activeTab === "pending" ? "All caught up!" : "No submissions yet"}
             </p>
             <p className="text-slate-400 text-sm">
@@ -219,7 +219,7 @@ export default function MentorSubmissionsPage() {
             </p>
           </div>
         ) : (
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(16,185,129,0.08)] overflow-hidden">
+          <div className="bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)] overflow-hidden">
             {/* Table header */}
             <div className="grid grid-cols-12 gap-4 px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-[rgba(16,185,129,0.06)]">
               <div className="col-span-3">Submitter</div>

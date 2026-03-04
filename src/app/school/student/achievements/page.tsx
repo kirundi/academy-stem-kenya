@@ -32,10 +32,10 @@ const rarityStyle: Record<
     rarityClass: "bg-blue-400/10 text-blue-400 border-blue-400/20",
   },
   common: {
-    color: "text-slate-300",
-    border: "border-[#2d4548] hover:border-slate-400",
+    color: "text-(--text-muted)",
+    border: "border-(--border) hover:border-slate-400",
     glow: "bg-slate-400/10",
-    rarityClass: "bg-slate-400/10 text-slate-300 border-slate-400/20",
+    rarityClass: "bg-slate-400/10 text-(--text-muted) border-slate-400/20",
   },
 };
 
@@ -94,7 +94,7 @@ export default function StudentAchievementsPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen bg-[#10221c]">
+      <div className="flex h-screen bg-(--bg-page)">
         <StudentSidebar />
         <main className="ml-60 flex-1 flex items-center justify-center">
           <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
@@ -106,23 +106,23 @@ export default function StudentAchievementsPage() {
   }
 
   return (
-    <div className="flex h-screen bg-[#102022] overflow-hidden">
+    <div className="flex h-screen bg-(--bg-page) overflow-hidden">
       <StudentSidebar />
 
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 bg-[rgba(16,32,34,0.85)] backdrop-blur-md border-b border-[rgba(19,218,236,0.1)] px-6 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-bold text-white">Achievement Gallery</h1>
-            <p className="text-slate-400 text-xs">
+            <h1 className="text-lg font-bold text-(--text-base)">Achievement Gallery</h1>
+            <p className="text-(--text-muted) text-xs">
               Your collected trophies, badges, and skill milestones
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center bg-[#1a2e30] rounded-lg px-3 py-1.5 border border-[#2d4548]">
-              <span className="material-symbols-outlined text-slate-400 text-sm">search</span>
+            <div className="hidden md:flex items-center bg-(--bg-card) rounded-lg px-3 py-1.5 border border-(--border)">
+              <span className="material-symbols-outlined text-(--text-muted) text-sm">search</span>
               <input
-                className="bg-transparent border-none focus:ring-0 text-sm text-slate-200 placeholder:text-slate-500 w-44 ml-2 outline-none"
+                className="bg-transparent border-none focus:ring-0 text-sm text-slate-200 placeholder:text-(--text-faint) w-44 ml-2 outline-none"
                 placeholder="Search achievements..."
               />
             </div>
@@ -133,7 +133,7 @@ export default function StudentAchievementsPage() {
           {/* Left sidebar */}
           <aside className="lg:col-span-3">
             <div className="sticky top-24 space-y-4">
-              <nav className="flex flex-col gap-1 p-2 bg-[#1a2e30] border border-[#2d4548] rounded-xl">
+              <nav className="flex flex-col gap-1 p-2 bg-(--bg-card) border border-(--border) rounded-xl">
                 {(["overview", "gallery", "milestones"] as Tab[]).map((tab) => {
                   const config = {
                     overview: { icon: "person", label: "Profile Overview" },
@@ -147,7 +147,7 @@ export default function StudentAchievementsPage() {
                       className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg font-medium transition-all text-left ${
                         activeTab === tab
                           ? "bg-[rgba(19,218,236,0.1)] text-[#13daec]"
-                          : "text-slate-400 hover:text-slate-100 hover:bg-slate-800/50"
+                          : "text-(--text-muted) hover:text-(--text-base) hover:bg-slate-800/50"
                       }`}
                     >
                       <span className="material-symbols-outlined">{config.icon}</span>
@@ -157,7 +157,7 @@ export default function StudentAchievementsPage() {
                 })}
                 <Link
                   href="/school/student/settings"
-                  className="flex items-center gap-3 w-full px-4 py-3 text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 rounded-lg font-medium transition-all"
+                  className="flex items-center gap-3 w-full px-4 py-3 text-(--text-muted) hover:text-(--text-base) hover:bg-slate-800/50 rounded-lg font-medium transition-all"
                 >
                   <span className="material-symbols-outlined">settings</span>
                   Settings
@@ -165,19 +165,19 @@ export default function StudentAchievementsPage() {
               </nav>
 
               {/* Gallery Progress */}
-              <div className="p-5 bg-[#1a2e30]/50 border border-[#2d4548] rounded-xl">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
+              <div className="p-5 bg-(--bg-card)/50 border border-(--border) rounded-xl">
+                <h3 className="text-xs font-bold text-(--text-muted) uppercase tracking-widest mb-4">
                   Gallery Progress
                 </h3>
                 <div className="space-y-4">
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-300">Badges Collected</span>
+                      <span className="text-(--text-muted)">Badges Collected</span>
                       <span className="text-[#13daec]">
                         {collected}/{Math.max(total, 1)}
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-[#102022] rounded-full">
+                    <div className="w-full h-1.5 bg-(--bg-page) rounded-full">
                       <div
                         className="h-full bg-[#13daec] rounded-full transition-all"
                         style={{ width: `${collectedPct}%` }}
@@ -186,12 +186,12 @@ export default function StudentAchievementsPage() {
                   </div>
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-300">Rare Achievements</span>
+                      <span className="text-(--text-muted)">Rare Achievements</span>
                       <span className="text-[#ef4444]">
                         {rareEarned}/{Math.max(rareTotal, 1)}
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-[#102022] rounded-full">
+                    <div className="w-full h-1.5 bg-(--bg-page) rounded-full">
                       <div
                         className="h-full bg-[#ef4444] rounded-full"
                         style={{
@@ -203,12 +203,12 @@ export default function StudentAchievementsPage() {
                   </div>
                   <div>
                     <div className="flex justify-between text-xs mb-1">
-                      <span className="text-slate-300">Skill Milestones</span>
+                      <span className="text-(--text-muted)">Skill Milestones</span>
                       <span className="text-amber-400">
                         {milestonesCompleted}/{Math.max(skillMilestones.length, 1)}
                       </span>
                     </div>
-                    <div className="w-full h-1.5 bg-[#102022] rounded-full">
+                    <div className="w-full h-1.5 bg-(--bg-page) rounded-full">
                       <div
                         className="h-full bg-amber-400 rounded-full"
                         style={{
@@ -231,13 +231,13 @@ export default function StudentAchievementsPage() {
             <section>
               <div className="flex items-center gap-3 mb-5">
                 <span className="material-symbols-outlined text-[#13daec]">emoji_events</span>
-                <h2 className="text-2xl font-bold text-slate-100">Trophy Case</h2>
-                <span className="ml-auto text-xs font-bold text-slate-500 uppercase tracking-widest">
+                <h2 className="text-2xl font-bold text-(--text-base)">Trophy Case</h2>
+                <span className="ml-auto text-xs font-bold text-(--text-faint) uppercase tracking-widest">
                   Top 3 Rarest
                 </span>
               </div>
               {trophyCase.length === 0 ? (
-                <div className="bg-[#1a2e30] border border-[#2d4548] rounded-2xl p-10 text-center text-slate-500">
+                <div className="bg-(--bg-card) border border-(--border) rounded-2xl p-10 text-center text-(--text-faint)">
                   <span className="material-symbols-outlined text-4xl mb-2 block">
                     emoji_events
                   </span>
@@ -250,19 +250,19 @@ export default function StudentAchievementsPage() {
                     return (
                       <div
                         key={trophy.id}
-                        className={`relative p-6 bg-[#1a2e30] border-2 ${style.border} rounded-2xl overflow-hidden group cursor-pointer transition-all`}
+                        className={`relative p-6 bg-(--bg-card) border-2 ${style.border} rounded-2xl overflow-hidden group cursor-pointer transition-all`}
                       >
                         <div
                           className={`absolute -top-4 -right-4 w-24 h-24 ${style.glow} blur-2xl opacity-10 group-hover:opacity-30 transition-opacity`}
                         />
                         <div className="flex flex-col items-center text-center">
-                          <div className="w-24 h-24 mb-4 bg-[#102022] rounded-full flex items-center justify-center border border-[#2d4548] shadow-2xl group-hover:scale-110 transition-transform">
+                          <div className="w-24 h-24 mb-4 bg-(--bg-page) rounded-full flex items-center justify-center border border-(--border) shadow-2xl group-hover:scale-110 transition-transform">
                             <span className={`material-symbols-outlined text-5xl ${style.color}`}>
                               {trophy.icon}
                             </span>
                           </div>
-                          <h4 className="text-lg font-bold text-slate-100">{trophy.name}</h4>
-                          <p className="text-xs text-slate-400 mt-1">{trophy.requirement}</p>
+                          <h4 className="text-lg font-bold text-(--text-base)">{trophy.name}</h4>
+                          <p className="text-xs text-(--text-muted) mt-1">{trophy.requirement}</p>
                           <div
                             className={`mt-4 px-3 py-1 text-[10px] font-bold rounded-full border uppercase ${style.rarityClass}`}
                           >
@@ -276,15 +276,15 @@ export default function StudentAchievementsPage() {
                   {Array.from({ length: Math.max(0, 3 - trophyCase.length) }).map((_, i) => (
                     <div
                       key={`placeholder-${i}`}
-                      className="relative p-6 bg-[#1a2e30]/50 border-2 border-dashed border-[#2d4548] rounded-2xl flex flex-col items-center justify-center text-center opacity-40"
+                      className="relative p-6 bg-(--bg-card)/50 border-2 border-dashed border-(--border) rounded-2xl flex flex-col items-center justify-center text-center opacity-40"
                     >
-                      <div className="w-24 h-24 mb-4 bg-[#102022] rounded-full flex items-center justify-center border border-[#2d4548]">
-                        <span className="material-symbols-outlined text-5xl text-slate-600">
+                      <div className="w-24 h-24 mb-4 bg-(--bg-page) rounded-full flex items-center justify-center border border-(--border)">
+                        <span className="material-symbols-outlined text-5xl text-(--text-faint)">
                           lock
                         </span>
                       </div>
-                      <p className="text-sm font-bold text-slate-500">???</p>
-                      <p className="text-xs text-slate-600 mt-1">Earn more badges</p>
+                      <p className="text-sm font-bold text-(--text-faint)">???</p>
+                      <p className="text-xs text-(--text-faint) mt-1">Earn more badges</p>
                     </div>
                   ))}
                 </div>
@@ -296,15 +296,15 @@ export default function StudentAchievementsPage() {
               <section>
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h3 className="text-xl font-bold text-slate-100">Project Badges</h3>
-                    <p className="text-sm text-slate-400">
+                    <h3 className="text-xl font-bold text-(--text-base)">Project Badges</h3>
+                    <p className="text-sm text-(--text-muted)">
                       Earned for completing specific courses and projects
                     </p>
                   </div>
                 </div>
 
                 {earnedBadges.length === 0 ? (
-                  <div className="bg-[#1a2e30]/50 border border-dashed border-[#2d4548] rounded-2xl p-10 text-center text-slate-500">
+                  <div className="bg-(--bg-card)/50 border border-dashed border-(--border) rounded-2xl p-10 text-center text-(--text-faint)">
                     <span className="material-symbols-outlined text-4xl mb-2 block">
                       military_tech
                     </span>
@@ -316,14 +316,14 @@ export default function StudentAchievementsPage() {
                       <div
                         key={badge.id}
                         onClick={() => setSelectedBadge(badge)}
-                        className="group relative flex flex-col items-center text-center bg-[#1a2e30] border border-[#2d4548] p-5 rounded-2xl hover:bg-[#1a2e30]/80 transition-all cursor-pointer"
+                        className="group relative flex flex-col items-center text-center bg-(--bg-card) border border-(--border) p-5 rounded-2xl hover:bg-(--bg-card)/80 transition-all cursor-pointer"
                       >
                         <div className="relative w-28 h-28 mb-4">
                           <div
                             className="absolute inset-0 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                             style={{ background: `${badge.color}40` }}
                           />
-                          <div className="relative w-full h-full bg-[#102022] border border-[#2d4548] rounded-2xl flex items-center justify-center shadow-lg group-hover:-translate-y-2 transition-transform duration-300">
+                          <div className="relative w-full h-full bg-(--bg-page) border border-(--border) rounded-2xl flex items-center justify-center shadow-lg group-hover:-translate-y-2 transition-transform duration-300">
                             <span
                               className="material-symbols-outlined text-5xl"
                               style={{ color: badge.color }}
@@ -333,7 +333,7 @@ export default function StudentAchievementsPage() {
                           </div>
                         </div>
                         <h4 className="text-sm font-bold text-slate-200">{badge.name}</h4>
-                        <p className="text-[10px] text-slate-500 uppercase font-bold mt-1">
+                        <p className="text-[10px] text-(--text-faint) uppercase font-bold mt-1">
                           {badge.rarity}
                         </p>
                       </div>
@@ -345,9 +345,9 @@ export default function StudentAchievementsPage() {
                 {lockedBadges.length > 0 && (
                   <div className="mt-8">
                     <div className="flex items-center gap-2 mb-4">
-                      <span className="material-symbols-outlined text-slate-600 text-xl">lock</span>
-                      <h4 className="text-base font-bold text-slate-400">Locked Achievements</h4>
-                      <span className="ml-2 text-xs text-slate-500">
+                      <span className="material-symbols-outlined text-(--text-faint) text-xl">lock</span>
+                      <h4 className="text-base font-bold text-(--text-muted)">Locked Achievements</h4>
+                      <span className="ml-2 text-xs text-(--text-faint)">
                         ({lockedBadges.length} remaining)
                       </span>
                     </div>
@@ -355,15 +355,15 @@ export default function StudentAchievementsPage() {
                       {lockedBadges.slice(0, 4).map((badge) => (
                         <div
                           key={badge.id}
-                          className="flex flex-col items-center text-center bg-[#1a2e30]/50 border border-[#2d4548]/50 p-5 rounded-2xl opacity-40"
+                          className="flex flex-col items-center text-center bg-(--bg-card)/50 border border-(--border)/50 p-5 rounded-2xl opacity-40"
                         >
-                          <div className="w-28 h-28 mb-4 bg-[#102022]/50 border border-[#2d4548]/50 rounded-2xl flex items-center justify-center">
-                            <span className="material-symbols-outlined text-4xl text-slate-600">
+                          <div className="w-28 h-28 mb-4 bg-(--bg-page)/50 border border-(--border)/50 rounded-2xl flex items-center justify-center">
+                            <span className="material-symbols-outlined text-4xl text-(--text-faint)">
                               lock
                             </span>
                           </div>
-                          <p className="text-sm font-bold text-slate-500">???</p>
-                          <p className="text-[10px] text-slate-600 uppercase font-bold mt-1">
+                          <p className="text-sm font-bold text-(--text-faint)">???</p>
+                          <p className="text-[10px] text-(--text-faint) uppercase font-bold mt-1">
                             Locked
                           </p>
                         </div>
@@ -379,10 +379,10 @@ export default function StudentAchievementsPage() {
               <section>
                 <div className="flex items-center gap-3 mb-6">
                   <span className="material-symbols-outlined text-[#13daec]">stars</span>
-                  <h2 className="text-xl font-bold text-slate-100">Skill Milestones</h2>
+                  <h2 className="text-xl font-bold text-(--text-base)">Skill Milestones</h2>
                 </div>
                 {skillMilestones.length === 0 ? (
-                  <div className="bg-[#1a2e30]/50 border border-dashed border-[#2d4548] rounded-xl p-10 text-center text-slate-500">
+                  <div className="bg-(--bg-card)/50 border border-dashed border-(--border) rounded-xl p-10 text-center text-(--text-faint)">
                     <span className="material-symbols-outlined text-4xl mb-2 block">stars</span>
                     <p className="text-sm">Complete lessons to unlock skill milestones!</p>
                   </div>
@@ -391,7 +391,7 @@ export default function StudentAchievementsPage() {
                     {skillMilestones.map((m) => (
                       <div
                         key={m.label}
-                        className="p-5 bg-[#1a2e30] border border-[#2d4548] rounded-xl flex items-center gap-5"
+                        className="p-5 bg-(--bg-card) border border-(--border) rounded-xl flex items-center gap-5"
                       >
                         <div
                           className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
@@ -406,13 +406,13 @@ export default function StudentAchievementsPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-1.5">
-                            <h4 className="text-sm font-bold text-slate-100">{m.label}</h4>
+                            <h4 className="text-sm font-bold text-(--text-base)">{m.label}</h4>
                             <span className="text-xs font-bold" style={{ color: m.color }}>
                               {m.progress}%
                             </span>
                           </div>
-                          <p className="text-xs text-slate-400 mb-2">{m.desc}</p>
-                          <div className="w-full h-1.5 bg-[#102022] rounded-full overflow-hidden">
+                          <p className="text-xs text-(--text-muted) mb-2">{m.desc}</p>
+                          <div className="w-full h-1.5 bg-(--bg-page) rounded-full overflow-hidden">
                             <div
                               className="h-full rounded-full transition-all"
                               style={{ width: `${m.progress}%`, background: m.color }}
@@ -444,10 +444,10 @@ export default function StudentAchievementsPage() {
           onClick={() => setSelectedBadge(null)}
         >
           <div
-            className="bg-[#1a2e30] border border-[#2d4548] rounded-2xl p-8 max-w-sm w-full mx-4 text-center"
+            className="bg-(--bg-card) border border-(--border) rounded-2xl p-8 max-w-sm w-full mx-4 text-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-24 h-24 mx-auto mb-4 bg-[#102022] border border-[#2d4548] rounded-2xl flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-4 bg-(--bg-page) border border-(--border) rounded-2xl flex items-center justify-center">
               <span
                 className="material-symbols-outlined text-5xl"
                 style={{ color: selectedBadge.color }}
@@ -455,17 +455,17 @@ export default function StudentAchievementsPage() {
                 {selectedBadge.icon}
               </span>
             </div>
-            <h3 className="text-xl font-bold text-white mb-1">{selectedBadge.name}</h3>
-            <p className="text-sm text-slate-400 mb-6">{selectedBadge.requirement}</p>
-            <div className="p-4 bg-[#102022] rounded-xl text-left space-y-2 mb-6">
-              <p className="text-xs text-slate-400">
+            <h3 className="text-xl font-bold text-(--text-base) mb-1">{selectedBadge.name}</h3>
+            <p className="text-sm text-(--text-muted) mb-6">{selectedBadge.requirement}</p>
+            <div className="p-4 bg-(--bg-page) rounded-xl text-left space-y-2 mb-6">
+              <p className="text-xs text-(--text-muted)">
                 <span className="font-bold text-slate-200">Category:</span> Project Badge
               </p>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-(--text-muted)">
                 <span className="font-bold text-slate-200">Rarity:</span>{" "}
                 <span className="capitalize">{selectedBadge.rarity}</span>
               </p>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-(--text-muted)">
                 <span className="font-bold text-slate-200">XP Value:</span> {selectedBadge.xpValue}{" "}
                 XP
               </p>

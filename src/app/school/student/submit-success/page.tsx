@@ -39,7 +39,7 @@ function SubmitSuccessPage() {
   const xp = appUser?.xp ?? 0;
 
   return (
-    <div className="min-h-screen bg-[#10221c] flex flex-col items-center relative overflow-hidden">
+    <div className="min-h-screen bg-(--bg-page) flex flex-col items-center relative overflow-hidden">
       {/* Confetti dot background */}
       <div
         className="fixed inset-0 pointer-events-none"
@@ -57,14 +57,14 @@ function SubmitSuccessPage() {
       />
 
       {/* Minimal navbar */}
-      <header className="w-full flex items-center justify-between px-8 py-5 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur relative z-10">
+      <header className="w-full flex items-center justify-between px-8 py-5 border-b border-(--border-subtle) bg-[rgba(16,34,28,0.5)] backdrop-blur relative z-10">
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-[#13eca4] text-[28px]">token</span>
-          <span className="text-white font-black uppercase italic">
+          <span className="text-(--text-base) font-black uppercase italic">
             STEM Impact <span className="text-[#ff4d4d]">Academy</span>
           </span>
         </div>
-        <div className="flex items-center gap-5 text-slate-400 text-sm">
+        <div className="flex items-center gap-5 text-(--text-muted) text-sm">
           <Link href="/school/student/dashboard" className="hover:text-[#13eca4] transition-colors">
             My Courses
           </Link>
@@ -79,7 +79,7 @@ function SubmitSuccessPage() {
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 relative z-10 max-w-3xl w-full mx-auto">
         {/* Success badge */}
-        <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] rounded-full px-4 py-1.5 mb-8">
+        <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.1)] border border-(--border-accent) rounded-full px-4 py-1.5 mb-8">
           <span
             className="material-symbols-outlined text-[#13eca4] text-[16px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
@@ -92,12 +92,12 @@ function SubmitSuccessPage() {
         </div>
 
         <h1
-          className={`text-5xl font-bold text-white text-center mb-3 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          className={`text-5xl font-bold text-(--text-base) text-center mb-3 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
         >
           Great job!
         </h1>
-        <p className="text-slate-400 text-lg text-center mb-12 max-w-md">
-          Your project <span className="text-white font-semibold">{courseName}</span> has been
+        <p className="text-(--text-muted) text-lg text-center mb-12 max-w-md">
+          Your project <span className="text-(--text-base) font-semibold">{courseName}</span> has been
           submitted for review.
         </p>
 
@@ -111,7 +111,7 @@ function SubmitSuccessPage() {
             style={{ background: "radial-gradient(circle, #13eca4, transparent)" }}
           />
           {/* Outer ring */}
-          <div className="relative w-56 h-56 rounded-full border-2 border-[rgba(19,236,164,0.3)] flex items-center justify-center backdrop-blur-sm bg-[rgba(19,236,164,0.04)]">
+          <div className="relative w-56 h-56 rounded-full border-2 border-(--border-strong) flex items-center justify-center backdrop-blur-sm bg-[rgba(19,236,164,0.04)]">
             {/* Inner badge circle */}
             <div
               className="w-44 h-44 rounded-full flex flex-col items-center justify-center shadow-2xl relative"
@@ -135,20 +135,20 @@ function SubmitSuccessPage() {
             </div>
           </div>
           {/* Name plate */}
-          <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-[#0d1f1a] border border-[rgba(19,236,164,0.3)] rounded-xl px-5 py-2 whitespace-nowrap">
+          <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-(--bg-page) border border-(--border-strong) rounded-xl px-5 py-2 whitespace-nowrap">
             <p className="text-[#13eca4] font-black uppercase tracking-widest text-sm text-center">
               {courseName}
             </p>
-            <p className="text-slate-500 text-[10px] text-center uppercase tracking-widest mt-0.5">
+            <p className="text-(--text-faint) text-[10px] text-center uppercase tracking-widest mt-0.5">
               Level {String(level).padStart(2, "0")} Achieved
             </p>
           </div>
         </div>
 
         {/* Certificate Progress */}
-        <div className="w-full max-w-md bg-[#1a2e27] border border-[rgba(19,236,164,0.1)] rounded-2xl p-5 mb-8 mt-4">
+        <div className="w-full max-w-md bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-5 mb-8 mt-4">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-white font-semibold text-sm">STEM Explorer Certificate Progress</p>
+            <p className="text-(--text-base) font-semibold text-sm">STEM Explorer Certificate Progress</p>
             <span className="text-[#13eca4] font-bold text-sm">
               {Math.min(100, Math.round((xp / 1000) * 100))}%
             </span>
@@ -162,7 +162,7 @@ function SubmitSuccessPage() {
               }}
             />
           </div>
-          <p className="text-slate-500 text-xs">
+          <p className="text-(--text-faint) text-xs">
             Keep going to earn your STEM Explorer Certificate!
           </p>
         </div>
@@ -176,7 +176,7 @@ function SubmitSuccessPage() {
           ].map((s) => (
             <div
               key={s.label}
-              className="text-center bg-[rgba(255,255,255,0.03)] rounded-xl border border-[rgba(255,255,255,0.06)] p-4"
+              className="text-center bg-[rgba(255,255,255,0.03)] rounded-xl border border-(--border-subtle) p-4"
             >
               <span
                 className="material-symbols-outlined block text-[24px] mb-1"
@@ -184,10 +184,10 @@ function SubmitSuccessPage() {
               >
                 {s.icon}
               </span>
-              <p className="text-white font-bold" style={{ color: s.color }}>
+              <p className="text-(--text-base) font-bold" style={{ color: s.color }}>
                 {s.value}
               </p>
-              <p className="text-slate-500 text-xs mt-0.5">{s.label}</p>
+              <p className="text-(--text-faint) text-xs mt-0.5">{s.label}</p>
             </div>
           ))}
         </div>
@@ -203,7 +203,7 @@ function SubmitSuccessPage() {
           </Link>
           <Link
             href="/school/student/portfolio"
-            className="flex-1 flex items-center justify-center gap-2 py-4 bg-[rgba(19,236,164,0.08)] text-[#13eca4] border border-[rgba(19,236,164,0.2)] font-bold rounded-xl hover:bg-[rgba(19,236,164,0.12)] transition-colors text-sm"
+            className="flex-1 flex items-center justify-center gap-2 py-4 bg-[rgba(19,236,164,0.08)] text-[#13eca4] border border-(--border-accent) font-bold rounded-xl hover:bg-(--hover-medium) transition-colors text-sm"
           >
             <span className="material-symbols-outlined text-[20px]">grid_view</span>
             View Portfolio
@@ -211,15 +211,15 @@ function SubmitSuccessPage() {
         </div>
       </main>
 
-      <footer className="w-full py-5 text-center text-slate-600 text-xs relative z-10 border-t border-[rgba(255,255,255,0.04)]">
+      <footer className="w-full py-5 text-center text-(--text-faint) text-xs relative z-10 border-t border-(--border-subtle)">
         <div className="flex items-center justify-center gap-6">
-          <Link href="/help" className="hover:text-slate-400 transition-colors">
+          <Link href="/help" className="hover:text-(--text-muted) transition-colors">
             Help Center
           </Link>
-          <Link href="/terms" className="hover:text-slate-400 transition-colors">
+          <Link href="/terms" className="hover:text-(--text-muted) transition-colors">
             Guidelines
           </Link>
-          <Link href="/privacy" className="hover:text-slate-400 transition-colors">
+          <Link href="/privacy" className="hover:text-(--text-muted) transition-colors">
             Privacy Policy
           </Link>
         </div>

@@ -105,7 +105,7 @@ export default function TeacherRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-(--bg-page) flex items-center justify-center p-6">
       {/* Background */}
       <div className="fixed inset-0 dot-pattern opacity-40" />
       <div
@@ -129,7 +129,7 @@ export default function TeacherRegisterPage() {
                     ? "bg-[#13eca4] text-[#10221c]"
                     : s === step
                       ? "bg-[rgba(19,236,164,0.15)] border-2 border-[#13eca4] text-[#13eca4]"
-                      : "bg-[rgba(255,255,255,0.06)] text-slate-500"
+                      : "bg-(--input-bg) text-(--text-faint)"
                 }`}
               >
                 {s < step ? (
@@ -140,14 +140,14 @@ export default function TeacherRegisterPage() {
               </div>
               {s < 3 && (
                 <div
-                  className={`w-12 h-0.5 ${s < step ? "bg-[#13eca4]" : "bg-[rgba(255,255,255,0.08)]"}`}
+                  className={`w-12 h-0.5 ${s < step ? "bg-[#13eca4]" : "bg-(--bg-elevated)"}`}
                 />
               )}
             </div>
           ))}
         </div>
 
-        <div className="bg-[#1a2e27] rounded-3xl border border-[rgba(19,236,164,0.12)] p-8 shadow-2xl shadow-black/50">
+        <div className="bg-(--bg-card) rounded-3xl border border-(--border-medium) p-8 shadow-2xl shadow-black/50">
           {/* Error display */}
           {error && (
             <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
@@ -159,11 +159,11 @@ export default function TeacherRegisterPage() {
           {/* Step 1: Basic Info */}
           {step === 1 && (
             <>
-              <h2 className="text-2xl font-bold text-white mb-1">Create Your Account</h2>
-              <p className="text-slate-400 text-sm mb-6">Join STEM Impact Academy as an educator</p>
+              <h2 className="text-2xl font-bold text-(--text-base) mb-1">Create Your Account</h2>
+              <p className="text-(--text-muted) text-sm mb-6">Join STEM Impact Academy as an educator</p>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                  <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                     First Name
                   </label>
                   <input
@@ -174,7 +174,7 @@ export default function TeacherRegisterPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                  <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                     Last Name
                   </label>
                   <input
@@ -186,7 +186,7 @@ export default function TeacherRegisterPage() {
                 </div>
               </div>
               <div className="mb-4">
-                <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                   Email Address
                 </label>
                 <input
@@ -198,7 +198,7 @@ export default function TeacherRegisterPage() {
                 />
               </div>
               <div className="mb-4">
-                <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                   Password
                 </label>
                 <input
@@ -210,7 +210,7 @@ export default function TeacherRegisterPage() {
                 />
               </div>
               <div className="mb-6">
-                <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                   Confirm Password
                 </label>
                 <input
@@ -233,10 +233,10 @@ export default function TeacherRegisterPage() {
           {/* Step 2: School Info */}
           {step === 2 && (
             <>
-              <h2 className="text-2xl font-bold text-white mb-1">Your School</h2>
-              <p className="text-slate-400 text-sm mb-6">Tell us where you teach</p>
+              <h2 className="text-2xl font-bold text-(--text-base) mb-1">Your School</h2>
+              <p className="text-(--text-muted) text-sm mb-6">Tell us where you teach</p>
               <div className="mb-4">
-                <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                   School Name
                 </label>
                 <input
@@ -247,7 +247,7 @@ export default function TeacherRegisterPage() {
                 />
               </div>
               <div className="mb-4">
-                <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                   City / County
                 </label>
                 <input
@@ -258,7 +258,7 @@ export default function TeacherRegisterPage() {
                 />
               </div>
               <div className="mb-6">
-                <label className="text-slate-400 text-xs font-semibold block mb-1.5">
+                <label className="text-(--text-muted) text-xs font-semibold block mb-1.5">
                   Your Role
                 </label>
                 <select
@@ -276,7 +276,7 @@ export default function TeacherRegisterPage() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setStep(1)}
-                  className="flex-1 py-3.5 rounded-xl bg-[rgba(255,255,255,0.06)] text-slate-300 font-bold text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                  className="flex-1 py-3.5 rounded-xl bg-(--input-bg) text-(--text-muted) font-bold text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                 >
                   ← Back
                 </button>
@@ -293,8 +293,8 @@ export default function TeacherRegisterPage() {
           {/* Step 3: Subject Interests */}
           {step === 3 && (
             <>
-              <h2 className="text-2xl font-bold text-white mb-1">Your Subjects</h2>
-              <p className="text-slate-400 text-sm mb-6">
+              <h2 className="text-2xl font-bold text-(--text-base) mb-1">Your Subjects</h2>
+              <p className="text-(--text-muted) text-sm mb-6">
                 Select the areas you plan to teach (pick all that apply)
               </p>
               <div className="grid grid-cols-2 gap-2 mb-6">
@@ -307,7 +307,7 @@ export default function TeacherRegisterPage() {
                       className={`py-3 px-4 rounded-xl text-sm font-semibold text-left transition-all border ${
                         active
                           ? "bg-[rgba(19,236,164,0.1)] border-[#13eca4] text-[#13eca4]"
-                          : "bg-[rgba(255,255,255,0.04)] border-[rgba(255,255,255,0.08)] text-slate-400 hover:text-white hover:border-[rgba(255,255,255,0.2)]"
+                          : "bg-(--glass-bg) border-(--border-subtle) text-(--text-muted) hover:text-(--text-base) hover:border-(--border-accent)"
                       }`}
                     >
                       {active && (
@@ -323,7 +323,7 @@ export default function TeacherRegisterPage() {
               <div className="flex gap-3">
                 <button
                   onClick={() => setStep(2)}
-                  className="flex-1 py-3.5 rounded-xl bg-[rgba(255,255,255,0.06)] text-slate-300 font-bold text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                  className="flex-1 py-3.5 rounded-xl bg-(--input-bg) text-(--text-muted) font-bold text-sm hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                 >
                   ← Back
                 </button>
@@ -344,7 +344,7 @@ export default function TeacherRegisterPage() {
             </>
           )}
 
-          <p className="text-center text-slate-500 text-xs mt-5">
+          <p className="text-center text-(--text-faint) text-xs mt-5">
             Already have an account?{" "}
             <Link href="/login" className="text-[#13eca4] font-semibold hover:underline">
               Sign in

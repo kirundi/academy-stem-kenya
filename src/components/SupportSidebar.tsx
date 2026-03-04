@@ -6,6 +6,7 @@ import StemLogo from "./StemLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
+import ThemeToggle from "./ThemeToggle";
 
 const navItems = [
   { label: "User Lookup", href: "/support/dashboard", icon: "manage_search" },
@@ -34,7 +35,7 @@ export default function SupportSidebar() {
   };
 
   return (
-    <aside className="w-60 shrink-0 bg-[#0d1f1a] border-r border-[rgba(59,130,246,0.12)] flex flex-col h-full fixed left-0 top-0 z-20">
+    <aside className="w-60 shrink-0 bg-(--bg-sidebar) border-r border-[rgba(59,130,246,0.12)] flex flex-col h-full fixed left-0 top-0 z-20">
       <div className="px-5 py-5 border-b border-[rgba(59,130,246,0.12)]">
         <StemLogo size="md" />
       </div>
@@ -45,7 +46,7 @@ export default function SupportSidebar() {
             {initials}
           </div>
           <div>
-            <p className="text-white text-sm font-semibold">{displayName}</p>
+            <p className="text-(--text-base) text-sm font-semibold">{displayName}</p>
             <p className="text-[#3b82f6] text-xs font-medium flex items-center gap-1">
               <span className="material-symbols-outlined text-[13px]">support_agent</span>
               Support
@@ -70,7 +71,7 @@ export default function SupportSidebar() {
       <div className="px-3 mb-3">
         <div className="p-3 rounded-xl bg-[rgba(59,130,246,0.08)] border border-[rgba(59,130,246,0.15)]">
           <p className="text-[#3b82f6] text-xs font-semibold mb-0.5">Read-only access</p>
-          <p className="text-slate-400 text-xs leading-relaxed">
+          <p className="text-(--text-muted) text-xs leading-relaxed">
             Support accounts can view but not modify platform data.
           </p>
         </div>
@@ -82,12 +83,13 @@ export default function SupportSidebar() {
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-xs text-slate-300 font-medium truncate">{displayName}</p>
-            <p className="text-xs text-slate-500 truncate">Support</p>
+            <p className="text-xs text-(--text-muted) font-medium truncate">{displayName}</p>
+            <p className="text-xs text-(--text-faint) truncate">Support</p>
           </div>
+          <ThemeToggle />
           <NotificationBell />
           <button onClick={handleSignOut} title="Sign out">
-            <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+            <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
               logout
             </span>
           </button>

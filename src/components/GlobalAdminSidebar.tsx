@@ -6,6 +6,7 @@ import StemLogo from "./StemLogo";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useAuth } from "@/hooks/useAuth";
 import NotificationBell from "./NotificationBell";
+import ThemeToggle from "./ThemeToggle";
 
 const baseNavItems = [
   { href: "/dashboard", icon: "dashboard", label: "Overview" },
@@ -53,8 +54,8 @@ export default function GlobalAdminSidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-60 bg-[#0d1f1a] border-r border-[rgba(19,236,164,0.08)] flex flex-col z-30">
-      <div className="px-5 py-5 border-b border-[rgba(19,236,164,0.06)]">
+    <aside className="fixed left-0 top-0 h-full w-60 bg-(--bg-sidebar) border-r border-(--border-subtle) flex flex-col z-30">
+      <div className="px-5 py-5 border-b border-(--border-subtle)">
         <StemLogo size="sm" href="/dashboard" />
         <div className="mt-3 flex items-center gap-2 px-1">
           <span
@@ -92,7 +93,7 @@ export default function GlobalAdminSidebar() {
         })}
       </nav>
 
-      <div className="border-t border-[rgba(19,236,164,0.06)] px-3 py-4 space-y-1">
+      <div className="border-t border-(--border-subtle) px-3 py-4 space-y-1">
         <div className="pt-3 px-3">
           <div className="flex items-center gap-3">
             <div
@@ -102,14 +103,15 @@ export default function GlobalAdminSidebar() {
               {initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-slate-300 font-medium truncate">
+              <p className="text-xs text-(--text-muted) font-medium truncate">
                 {appUser?.displayName ?? "..."}
               </p>
-              <p className="text-xs text-slate-500 truncate">{badgeLabel}</p>
+              <p className="text-xs text-(--text-faint) truncate">{badgeLabel}</p>
             </div>
+            <ThemeToggle />
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-slate-500 hover:text-[#ff4d4d] transition-colors">
+              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
                 logout
               </span>
             </button>

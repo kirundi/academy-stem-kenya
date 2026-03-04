@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -21,6 +22,10 @@ export const metadata: Metadata = {
     "green tech",
     "youth education",
   ],
+  icons: {
+    icon: "/images/logo/STEM Favicon.png",
+    apple: "/images/logo/STEM Favicon.png",
+  },
   openGraph: {
     title: "STEM Impact Academy | Comprehensive Learning Platform",
     description:
@@ -35,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -45,7 +50,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${lexend.className} antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+        <ThemeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

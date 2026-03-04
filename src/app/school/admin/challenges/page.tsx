@@ -67,13 +67,13 @@ export default function SchoolChallengesPage() {
   );
 
   return (
-    <div className="flex h-screen bg-[#10221c]">
+    <div className="flex h-screen bg-(--bg-page)">
       <SchoolAdminSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">School Challenges</h1>
+            <h1 className="text-xl font-bold text-(--text-base)">School Challenges</h1>
             <p className="text-slate-400 text-xs mt-0.5">
               Note: Global challenges are also visible to students. Create challenges from the Admin
               dashboard.
@@ -132,7 +132,7 @@ export default function SchoolChallengesPage() {
                 ].map(({ label, value, color, icon }) => (
                   <div
                     key={label}
-                    className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)]"
+                    className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)]"
                   >
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -146,7 +146,7 @@ export default function SchoolChallengesPage() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                      <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                       <p className="text-slate-400 text-xs mt-0.5">{label}</p>
                     </div>
                   </div>
@@ -162,18 +162,18 @@ export default function SchoolChallengesPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by title, theme, or description…"
-                  className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-white text-sm placeholder:text-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                  className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                 />
               </div>
 
               {/* Challenge list */}
               <div className="space-y-3">
                 {filtered.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-20 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)]">
+                  <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)]">
                     <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
                       emoji_events
                     </span>
-                    <p className="text-white font-semibold mb-1">No school challenges found</p>
+                    <p className="text-(--text-base) font-semibold mb-1">No school challenges found</p>
                     <p className="text-slate-400 text-sm">
                       {searchQuery
                         ? "Try adjusting your search."
@@ -186,7 +186,7 @@ export default function SchoolChallengesPage() {
                     return (
                       <div
                         key={challenge.id}
-                        className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(19,236,164,0.2)] transition-colors"
+                        className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(19,236,164,0.2)] transition-colors"
                       >
                         <div className="w-12 h-12 rounded-xl bg-[rgba(19,236,164,0.10)] flex items-center justify-center shrink-0 text-2xl">
                           {challenge.icon ?? "🏆"}
@@ -194,7 +194,7 @@ export default function SchoolChallengesPage() {
 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="text-white font-bold text-sm">{challenge.title}</h3>
+                            <h3 className="text-(--text-base) font-bold text-sm">{challenge.title}</h3>
                             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full capitalize bg-[rgba(245,158,11,0.12)] text-[#f59e0b]">
                               school
                             </span>

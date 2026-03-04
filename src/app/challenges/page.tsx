@@ -10,7 +10,7 @@ import type { Challenge } from "@/lib/types";
 // Map Firestore theme → visual styling
 const THEME_META: Record<string, { categoryColor: string; bgGradient: string }> = {
   sustainability: {
-    categoryColor: "bg-emerald-500 text-white",
+    categoryColor: "bg-emerald-500 text-(--text-base)",
     bgGradient: "from-emerald-900/60 to-[#102022]",
   },
   robotics: {
@@ -18,7 +18,7 @@ const THEME_META: Record<string, { categoryColor: string; bgGradient: string }> 
     bgGradient: "from-[#13daec]/20 to-[#102022]",
   },
   "healthcare ai": {
-    categoryColor: "bg-violet-500 text-white",
+    categoryColor: "bg-violet-500 text-(--text-base)",
     bgGradient: "from-violet-900/40 to-[#102022]",
   },
   "data science": {
@@ -26,7 +26,7 @@ const THEME_META: Record<string, { categoryColor: string; bgGradient: string }> 
     bgGradient: "from-amber-900/40 to-[#102022]",
   },
   default: {
-    categoryColor: "bg-slate-600 text-white",
+    categoryColor: "bg-slate-600 text-(--text-base)",
     bgGradient: "from-slate-900/40 to-[#102022]",
   },
 };
@@ -127,7 +127,7 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
   const countdownLabel = status === "live" ? "Ends in" : status === "ended" ? "Ended" : "Starts in";
 
   return (
-    <div className="group flex flex-col bg-[#1a2e30] rounded-2xl overflow-hidden border border-[#2d4548] hover:border-[#13daec]/50 transition-all shadow-xl">
+    <div className="group flex flex-col bg-(--bg-card) rounded-2xl overflow-hidden border border-(--border) hover:border-[#13daec]/50 transition-all shadow-xl">
       {/* Card header gradient */}
       <div
         className={`relative h-44 bg-linear-to-br ${bgGradient} flex items-center justify-center overflow-hidden`}
@@ -147,7 +147,7 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
           </span>
         )}
         {status === "ended" && (
-          <span className="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-slate-500/20 border border-slate-500/40 text-slate-400 rounded-full text-[10px] font-bold uppercase">
+          <span className="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-slate-500/20 border border-slate-500/40 text-(--text-muted) rounded-full text-[10px] font-bold uppercase">
             Ended
           </span>
         )}
@@ -164,14 +164,14 @@ function ChallengeCard({ challenge }: { challenge: Challenge & { id: string } })
                 : `${countdownLabel}: ${String(days).padStart(2, "0")}d ${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m`}
             </p>
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">{challenge.title}</h3>
-          <p className="text-slate-400 text-sm leading-relaxed">{challenge.description}</p>
+          <h3 className="text-xl font-bold text-(--text-base) mb-2">{challenge.title}</h3>
+          <p className="text-(--text-muted) text-sm leading-relaxed">{challenge.description}</p>
         </div>
 
         <div className="flex gap-3">
           <Link
             href={`/challenges/${challenge.id}`}
-            className="flex-1 rounded-lg h-10 border border-[#2d4548] text-slate-300 text-sm font-bold flex items-center justify-center hover:border-[#13daec] hover:text-[#13daec] transition-all"
+            className="flex-1 rounded-lg h-10 border border-(--border) text-(--text-muted) text-sm font-bold flex items-center justify-center hover:border-[#13daec] hover:text-[#13daec] transition-all"
           >
             View Brief
           </Link>
@@ -213,7 +213,7 @@ export default function ChallengesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#102022] text-slate-100 antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-(--bg-page) text-(--text-base) antialiased overflow-x-hidden">
       <PublicNavbar />
 
       <main>
@@ -238,10 +238,10 @@ export default function ChallengesPage() {
               <span className="material-symbols-outlined text-sm">bolt</span>
               High-Stakes STEM Competition
             </div>
-            <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tighter mb-6 text-white">
+            <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tighter mb-6 text-(--text-base)">
               Explore Our <span className="text-[#13daec]">Hackathons</span>
             </h1>
-            <p className="text-slate-300 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
+            <p className="text-(--text-muted) text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
               Empowering the next generation of innovators through high-energy STEM challenges and
               competitive coding. Build, compete, and change the world.
             </p>
@@ -265,7 +265,7 @@ export default function ChallengesPage() {
         </section>
 
         {/* ── Stats Bar ── */}
-        <div className="bg-[#1a2e30] border-y border-[#2d4548]">
+        <div className="bg-(--bg-card) border-y border-(--border)">
           <div className="max-w-6xl mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-4 divide-x divide-[#2d4548]">
             {[
               { value: "142+", label: "Schools Competing", icon: "domain" },
@@ -276,8 +276,8 @@ export default function ChallengesPage() {
               <div key={label} className="px-6 first:pl-0 last:pr-0 flex items-center gap-3">
                 <span className="material-symbols-outlined text-[#13daec] text-2xl">{icon}</span>
                 <div>
-                  <p className="text-xl font-black text-white">{value}</p>
-                  <p className="text-xs text-slate-500">{label}</p>
+                  <p className="text-xl font-black text-(--text-base)">{value}</p>
+                  <p className="text-xs text-(--text-faint)">{label}</p>
                 </div>
               </div>
             ))}
@@ -288,7 +288,7 @@ export default function ChallengesPage() {
         <section id="challenges" className="py-20 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-white">
+              <h2 className="text-3xl md:text-4xl font-black text-(--text-base)">
                 Active &amp; Upcoming Challenges
               </h2>
               <div className="h-1 w-20 bg-[#13daec] mt-3" />
@@ -311,7 +311,7 @@ export default function ChallengesPage() {
                 className={`px-4 py-1.5 rounded-full text-sm font-bold border transition-all ${
                   activeFilter === f.val
                     ? "bg-[#13daec] text-[#102022] border-[#13daec]"
-                    : "border-[#2d4548] text-slate-400 hover:border-[#13daec] hover:text-[#13daec]"
+                    : "border-(--border) text-(--text-muted) hover:border-[#13daec] hover:text-[#13daec]"
                 }`}
               >
                 {f.label}
@@ -326,7 +326,7 @@ export default function ChallengesPage() {
               </span>
             </div>
           ) : filteredChallenges.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-48 gap-3 text-slate-500">
+            <div className="flex flex-col items-center justify-center h-48 gap-3 text-(--text-faint)">
               <span className="material-symbols-outlined text-5xl">search_off</span>
               <p className="text-sm">No challenges found for this filter.</p>
             </div>
@@ -340,13 +340,13 @@ export default function ChallengesPage() {
         </section>
 
         {/* ── How Challenges Work ── */}
-        <section className="py-24 bg-[#0d1f22]">
+        <section className="py-24 bg-(--bg-page)">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+              <h2 className="text-3xl md:text-5xl font-black text-(--text-base) mb-4">
                 How Challenges Work
               </h2>
-              <p className="text-slate-400 max-w-lg mx-auto">
+              <p className="text-(--text-muted) max-w-lg mx-auto">
                 Your journey from registration to winning. Follow these three critical stages.
               </p>
             </div>
@@ -380,7 +380,7 @@ export default function ChallengesPage() {
                   className="relative z-10 flex flex-col items-center text-center group"
                 >
                   <div className="relative">
-                    <div className="size-20 bg-[#102022] border-4 border-[#13daec]/20 group-hover:border-[#13daec] flex items-center justify-center rounded-full mb-5 transition-all shadow-[0_0_20px_rgba(19,218,236,0.08)] group-hover:shadow-[0_0_24px_rgba(19,218,236,0.25)]">
+                    <div className="size-20 bg-(--bg-page) border-4 border-[#13daec]/20 group-hover:border-[#13daec] flex items-center justify-center rounded-full mb-5 transition-all shadow-[0_0_20px_rgba(19,218,236,0.08)] group-hover:shadow-[0_0_24px_rgba(19,218,236,0.25)]">
                       <span className="material-symbols-outlined text-[#13daec] text-4xl">
                         {icon}
                       </span>
@@ -389,22 +389,22 @@ export default function ChallengesPage() {
                       {step}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-3">{title}</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
+                  <h3 className="text-lg font-bold text-(--text-base) mb-3">{title}</h3>
+                  <p className="text-(--text-muted) text-sm leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
 
             {/* Courses vs Challenges comparison */}
             <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-6 rounded-2xl bg-[#102022] border border-[#2d4548]">
+              <div className="p-6 rounded-2xl bg-(--bg-page) border border-(--border)">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="material-symbols-outlined text-slate-400 text-2xl">
+                  <span className="material-symbols-outlined text-(--text-muted) text-2xl">
                     menu_book
                   </span>
-                  <h4 className="font-bold text-white text-lg">Standard Courses</h4>
+                  <h4 className="font-bold text-(--text-base) text-lg">Standard Courses</h4>
                 </div>
-                <ul className="space-y-2 text-sm text-slate-400">
+                <ul className="space-y-2 text-sm text-(--text-muted)">
                   {[
                     "Self-paced learning modules",
                     "Weekly assignments & quizzes",
@@ -412,7 +412,7 @@ export default function ChallengesPage() {
                     "Certificate on completion",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-slate-600 text-base">
+                      <span className="material-symbols-outlined text-(--text-faint) text-base">
                         remove
                       </span>
                       {item}
@@ -423,9 +423,9 @@ export default function ChallengesPage() {
               <div className="p-6 rounded-2xl bg-[#13daec]/5 border border-[#13daec]/30">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="material-symbols-outlined text-[#13daec] text-2xl">bolt</span>
-                  <h4 className="font-bold text-white text-lg">Hackathon Challenges</h4>
+                  <h4 className="font-bold text-(--text-base) text-lg">Hackathon Challenges</h4>
                 </div>
-                <ul className="space-y-2 text-sm text-slate-300">
+                <ul className="space-y-2 text-sm text-(--text-muted)">
                   {[
                     "Live countdown & time pressure",
                     "Real-world problem prompts",
@@ -448,13 +448,13 @@ export default function ChallengesPage() {
         {/* ── Hall of Fame ── */}
         <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-4 flex items-center justify-center gap-3">
+            <h2 className="text-3xl md:text-5xl font-black text-(--text-base) mb-4 flex items-center justify-center gap-3">
               <span className="material-symbols-outlined text-[#13daec] text-4xl">
                 workspace_premium
               </span>
               Hall of Fame
             </h2>
-            <p className="text-slate-400 max-w-lg mx-auto">
+            <p className="text-(--text-muted) max-w-lg mx-auto">
               Celebrating our past champions and their groundbreaking projects.
             </p>
           </div>
@@ -463,7 +463,7 @@ export default function ChallengesPage() {
             {WINNERS.map((winner) => (
               <div
                 key={winner.name}
-                className="bg-[#1a2e30] p-6 rounded-2xl border border-[#2d4548] hover:border-[#13daec]/40 flex flex-col items-center text-center relative overflow-hidden group transition-all"
+                className="bg-(--bg-card) p-6 rounded-2xl border border-(--border) hover:border-[#13daec]/40 flex flex-col items-center text-center relative overflow-hidden group transition-all"
               >
                 {/* Glow orb */}
                 <div className="absolute -top-4 -right-4 size-20 bg-[#13daec]/10 rounded-full blur-2xl group-hover:bg-[#13daec]/20 transition-all" />
@@ -476,13 +476,13 @@ export default function ChallengesPage() {
                   <span style={{ color: winner.color }}>{winner.initials}</span>
                 </div>
 
-                <h4 className="font-bold text-lg text-white mb-0.5">{winner.name}</h4>
+                <h4 className="font-bold text-lg text-(--text-base) mb-0.5">{winner.name}</h4>
                 <p className="text-[#13daec] text-xs font-bold uppercase tracking-widest mb-4">
                   {winner.school}
                 </p>
 
-                <div className="bg-[#102022] w-full py-3 rounded-lg mb-4 px-3">
-                  <p className="text-slate-400 text-xs italic">&quot;{winner.project}&quot;</p>
+                <div className="bg-(--bg-page) w-full py-3 rounded-lg mb-4 px-3">
+                  <p className="text-(--text-muted) text-xs italic">&quot;{winner.project}&quot;</p>
                 </div>
 
                 <div className="flex items-center gap-1.5" style={{ color: winner.color }}>
@@ -517,14 +517,14 @@ export default function ChallengesPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/register/teacher"
-                className="bg-[#102022] text-white rounded-xl h-14 px-10 font-bold text-base hover:bg-[#1a2e30] transition-colors flex items-center justify-center gap-2"
+                className="bg-(--bg-page) text-(--text-base) rounded-xl h-14 px-10 font-bold text-base hover:bg-(--bg-card) transition-colors flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined">school</span>
                 School Registration
               </Link>
               <Link
                 href="/contact"
-                className="bg-transparent border-2 border-[#102022] text-[#102022] rounded-xl h-14 px-10 font-bold text-base hover:bg-[#102022] hover:text-white transition-all flex items-center justify-center"
+                className="bg-transparent border-2 border-[#102022] text-[#102022] rounded-xl h-14 px-10 font-bold text-base hover:bg-(--bg-page) hover:text-(--text-base) transition-all flex items-center justify-center"
               >
                 Contact Sales
               </Link>
@@ -533,22 +533,22 @@ export default function ChallengesPage() {
         </section>
 
         {/* ── Footer ── */}
-        <footer className="bg-[#0d1f22] border-t border-[#2d4548] py-14 px-6 md:px-20">
+        <footer className="bg-(--bg-page) border-t border-(--border) py-14 px-6 md:px-20">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
             <div className="md:col-span-2">
               <Link href="/" className="flex items-center gap-3 mb-5">
                 <span className="material-symbols-outlined text-3xl text-[#13daec]">token</span>
-                <span className="text-xl font-bold tracking-tight text-slate-100 uppercase italic">
+                <span className="text-xl font-bold tracking-tight text-(--text-base) uppercase italic">
                   STEM Impact <span className="text-[#ff4d4d]">Academy</span>
                 </span>
               </Link>
-              <p className="text-slate-400 max-w-sm text-sm leading-relaxed mb-5">
+              <p className="text-(--text-muted) max-w-sm text-sm leading-relaxed mb-5">
                 Pioneering educational experiences that blend technology, engineering, and
                 competition to inspire the leaders of tomorrow.
               </p>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">
+              <h4 className="text-(--text-base) font-bold mb-5 text-sm uppercase tracking-widest">
                 Quick Links
               </h4>
               <ul className="space-y-3">
@@ -561,7 +561,7 @@ export default function ChallengesPage() {
                   <li key={item}>
                     <Link
                       href={href}
-                      className="text-slate-400 hover:text-[#13daec] transition-colors text-sm"
+                      className="text-(--text-muted) hover:text-[#13daec] transition-colors text-sm"
                     >
                       {item}
                     </Link>
@@ -570,7 +570,7 @@ export default function ChallengesPage() {
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-bold mb-5 text-sm uppercase tracking-widest">
+              <h4 className="text-(--text-base) font-bold mb-5 text-sm uppercase tracking-widest">
                 Support
               </h4>
               <ul className="space-y-3">
@@ -583,7 +583,7 @@ export default function ChallengesPage() {
                   <li key={item}>
                     <Link
                       href={href}
-                      className="text-slate-400 hover:text-[#13daec] transition-colors text-sm"
+                      className="text-(--text-muted) hover:text-[#13daec] transition-colors text-sm"
                     >
                       {item}
                     </Link>
@@ -592,7 +592,7 @@ export default function ChallengesPage() {
               </ul>
             </div>
           </div>
-          <div className="mt-10 pt-8 border-t border-[#2d4548] text-center text-slate-500 text-xs">
+          <div className="mt-10 pt-8 border-t border-(--border) text-center text-(--text-faint) text-xs">
             © 2024 STEM Impact Academy. All rights reserved.
           </div>
         </footer>

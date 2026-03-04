@@ -174,11 +174,11 @@ export default function TeacherEnrollmentPage() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Enrollment Manager</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Manage student rosters & class access</p>
+          <h1 className="text-xl font-bold text-(--text-base)">Enrollment Manager</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">Manage student rosters & class access</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
@@ -193,7 +193,7 @@ export default function TeacherEnrollmentPage() {
         {/* Classroom Selector */}
         <div className="flex gap-3 mb-8 overflow-x-auto">
           {classrooms.length === 0 && (
-            <div className="text-slate-500 text-sm">
+            <div className="text-(--text-faint) text-sm">
               No classrooms yet. Create one from the Classroom Manager.
             </div>
           )}
@@ -203,13 +203,13 @@ export default function TeacherEnrollmentPage() {
               onClick={() => setActiveClassroomIdx(idx)}
               className={`shrink-0 flex items-start gap-3 px-5 py-3 rounded-xl border text-left transition-all ${
                 activeClassroomIdx === idx
-                  ? "bg-[rgba(19,236,164,0.08)] border-[rgba(19,236,164,0.25)] text-white"
-                  : "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.07)] text-slate-400 hover:border-[rgba(255,255,255,0.15)]"
+                  ? "bg-[rgba(19,236,164,0.08)] border-[rgba(19,236,164,0.25)] text-(--text-base)"
+                  : "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.07)] text-(--text-muted) hover:border-(--border-medium)"
               }`}
             >
               <div>
                 <p className="font-semibold text-sm">{c.name}</p>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-(--text-faint) mt-0.5">
                   {c.grade} · {c.enrolled} students
                 </p>
               </div>
@@ -220,27 +220,27 @@ export default function TeacherEnrollmentPage() {
         {cls && (
           <>
             {/* Class Info Bar */}
-            <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] px-6 py-4 flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) px-6 py-4 flex flex-wrap items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center">
                   <span className="material-symbols-outlined text-[#13eca4]">class</span>
                 </div>
                 <div>
-                  <p className="text-white font-bold">{cls.name}</p>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-(--text-base) font-bold">{cls.name}</p>
+                  <p className="text-(--text-muted) text-xs">
                     {cls.subject} · {cls.grade}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="bg-[#0d1f1a] border border-[rgba(19,236,164,0.15)] rounded-xl px-4 py-2.5 flex items-center gap-2">
-                  <span className="text-slate-400 text-xs font-medium">Join Code</span>
+                <div className="bg-(--bg-page) border border-(--border-medium) rounded-xl px-4 py-2.5 flex items-center gap-2">
+                  <span className="text-(--text-muted) text-xs font-medium">Join Code</span>
                   <code className="text-[#13eca4] font-black tracking-widest text-sm">
                     {cls.joinCode}
                   </code>
                   <button
                     onClick={copyCode}
-                    className="text-slate-500 hover:text-[#13eca4] transition-colors ml-1"
+                    className="text-(--text-faint) hover:text-[#13eca4] transition-colors ml-1"
                   >
                     <span className="material-symbols-outlined text-[16px]">
                       {codeCopied ? "check_circle" : "content_copy"}
@@ -250,7 +250,7 @@ export default function TeacherEnrollmentPage() {
                 <button
                   onClick={handleResetCode}
                   disabled={resettingCode}
-                  className="flex items-center gap-1 text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors border border-[rgba(255,255,255,0.08)] hover:border-[rgba(19,236,164,0.2)] px-3 py-2.5 rounded-xl disabled:opacity-50"
+                  className="flex items-center gap-1 text-(--text-muted) hover:text-[#13eca4] text-sm font-medium transition-colors border border-(--border-subtle) hover:border-(--border-accent) px-3 py-2.5 rounded-xl disabled:opacity-50"
                 >
                   <span
                     className={`material-symbols-outlined text-[16px] ${resettingCode ? "animate-spin" : ""}`}
@@ -263,7 +263,7 @@ export default function TeacherEnrollmentPage() {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-1 bg-[rgba(255,255,255,0.04)] rounded-xl p-1 mb-6 w-fit">
+            <div className="flex gap-1 bg-(--glass-bg) rounded-xl p-1 mb-6 w-fit">
               {(["roster", "curriculum", "insights"] as Tab[]).map((t) => (
                 <button
                   key={t}
@@ -271,7 +271,7 @@ export default function TeacherEnrollmentPage() {
                   className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
                     tab === t
                       ? "bg-[rgba(19,236,164,0.12)] text-[#13eca4]"
-                      : "text-slate-400 hover:text-white"
+                      : "text-(--text-muted) hover:text-(--text-base)"
                   }`}
                 >
                   {t}
@@ -282,8 +282,8 @@ export default function TeacherEnrollmentPage() {
             {tab === "roster" && (
               <>
                 {/* Search */}
-                <div className="flex items-center gap-2 bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-xl px-4 py-2.5 mb-4 w-full max-w-sm">
-                  <span className="material-symbols-outlined text-slate-500 text-[18px]">
+                <div className="flex items-center gap-2 bg-(--bg-card) border border-(--border-subtle) rounded-xl px-4 py-2.5 mb-4 w-full max-w-sm">
+                  <span className="material-symbols-outlined text-(--text-faint) text-[18px]">
                     search
                   </span>
                   <input
@@ -291,14 +291,14 @@ export default function TeacherEnrollmentPage() {
                     placeholder="Search students..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="bg-transparent text-sm text-white placeholder-slate-500 outline-none flex-1"
+                    className="bg-transparent text-sm text-(--text-base) placeholder:text-(--text-faint) outline-none flex-1"
                   />
                 </div>
 
-                <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+                <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-[rgba(255,255,255,0.06)] text-xs text-slate-500">
+                      <tr className="border-b border-(--border-subtle) text-xs text-(--text-faint)">
                         <th className="px-6 py-3 text-left font-medium">Student</th>
                         <th className="px-4 py-3 text-left font-medium">Code</th>
                         <th className="px-4 py-3 text-left font-medium">Grade</th>
@@ -319,7 +319,7 @@ export default function TeacherEnrollmentPage() {
                               <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
                                 {s.name[0]}
                               </div>
-                              <span className="text-white font-semibold">{s.name}</span>
+                              <span className="text-(--text-base) font-semibold">{s.name}</span>
                             </div>
                           </td>
                           <td className="px-4 py-4">
@@ -330,7 +330,7 @@ export default function TeacherEnrollmentPage() {
                                 </span>
                                 <button
                                   onClick={() => copyStudentCode(s.studentCode!)}
-                                  className="text-slate-500 hover:text-[#13eca4] transition-colors"
+                                  className="text-(--text-faint) hover:text-[#13eca4] transition-colors"
                                 >
                                   <span className="material-symbols-outlined text-[14px]">
                                     {codeCopiedStudent === s.studentCode ? "check" : "content_copy"}
@@ -338,15 +338,15 @@ export default function TeacherEnrollmentPage() {
                                 </button>
                               </div>
                             ) : (
-                              <span className="text-slate-600 text-xs">&mdash;</span>
+                              <span className="text-(--text-faint) text-xs">&mdash;</span>
                             )}
                           </td>
-                          <td className="px-4 py-4 text-slate-400 text-xs">{s.grade || "—"}</td>
-                          <td className="px-4 py-4 text-slate-400 text-xs">{s.lastActive}</td>
+                          <td className="px-4 py-4 text-(--text-muted) text-xs">{s.grade || "—"}</td>
+                          <td className="px-4 py-4 text-(--text-muted) text-xs">{s.lastActive}</td>
                           <td className="px-4 py-4 text-center">
                             {s.mastery > 0 ? (
                               <div className="flex items-center justify-center gap-2">
-                                <div className="w-16 h-1.5 bg-[rgba(255,255,255,0.08)] rounded-full">
+                                <div className="w-16 h-1.5 bg-(--bg-elevated) rounded-full">
                                   <div
                                     className="h-1.5 rounded-full"
                                     style={{
@@ -360,10 +360,10 @@ export default function TeacherEnrollmentPage() {
                                     }}
                                   />
                                 </div>
-                                <span className="text-xs font-bold text-white">{s.mastery}%</span>
+                                <span className="text-xs font-bold text-(--text-base)">{s.mastery}%</span>
                               </div>
                             ) : (
-                              <span className="text-slate-600 text-xs">&mdash;</span>
+                              <span className="text-(--text-faint) text-xs">&mdash;</span>
                             )}
                           </td>
                           <td className="px-4 py-4 text-center">
@@ -384,7 +384,7 @@ export default function TeacherEnrollmentPage() {
                               {s.studentCode && (
                                 <button
                                   onClick={() => copyStudentCode(s.studentCode!)}
-                                  className="text-slate-500 hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-[rgba(19,236,164,0.08)]"
+                                  className="text-(--text-faint) hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-(--hover-subtle)"
                                   title="Copy Student Code"
                                 >
                                   <span className="material-symbols-outlined text-[16px]">
@@ -393,7 +393,7 @@ export default function TeacherEnrollmentPage() {
                                 </button>
                               )}
                               <button
-                                className="text-slate-500 hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-[rgba(19,236,164,0.08)]"
+                                className="text-(--text-faint) hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-(--hover-subtle)"
                                 title="View Profile"
                               >
                                 <span className="material-symbols-outlined text-[16px]">
@@ -403,7 +403,7 @@ export default function TeacherEnrollmentPage() {
                               <button
                                 onClick={() => handleRemoveStudent(s.enrollmentId, s.name)}
                                 disabled={removingStudentId === s.enrollmentId}
-                                className="text-slate-500 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-[rgba(255,77,77,0.08)] disabled:opacity-50"
+                                className="text-(--text-faint) hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-[rgba(255,77,77,0.08)] disabled:opacity-50"
                                 title="Remove Student"
                               >
                                 <span className="material-symbols-outlined text-[16px]">
@@ -419,12 +419,12 @@ export default function TeacherEnrollmentPage() {
                     </tbody>
                   </table>
                   {filtered.length === 0 && (
-                    <div className="text-center py-12 text-slate-500 text-sm">
+                    <div className="text-center py-12 text-(--text-faint) text-sm">
                       No students match your search.
                     </div>
                   )}
-                  <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)] flex items-center justify-between">
-                    <span className="text-slate-500 text-xs">
+                  <div className="px-6 py-3 border-t border-(--border-subtle) flex items-center justify-between">
+                    <span className="text-(--text-faint) text-xs">
                       {filtered.length} student{filtered.length !== 1 ? "s" : ""}
                     </span>
                   </div>
@@ -433,9 +433,9 @@ export default function TeacherEnrollmentPage() {
             )}
 
             {tab === "curriculum" && (
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] divide-y divide-[rgba(255,255,255,0.05)]">
+              <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) divide-y divide-[rgba(255,255,255,0.05)]">
                 {(cls.courseIds ?? []).length === 0 && (
-                  <div className="px-6 py-12 text-center text-slate-500 text-sm">
+                  <div className="px-6 py-12 text-center text-(--text-faint) text-sm">
                     No courses assigned to this classroom.
                   </div>
                 )}
@@ -445,10 +445,10 @@ export default function TeacherEnrollmentPage() {
                       <div className="w-7 h-7 rounded-lg bg-[rgba(19,236,164,0.08)] flex items-center justify-center text-[#13eca4] text-xs font-bold">
                         {i + 1}
                       </div>
-                      <span className="text-white text-sm font-medium">{courseId}</span>
+                      <span className="text-(--text-base) text-sm font-medium">{courseId}</span>
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <span className="text-slate-500 text-xs">Visible</span>
+                      <span className="text-(--text-faint) text-xs">Visible</span>
                       <div className="w-9 h-5 rounded-full transition-colors relative bg-[#13eca4]">
                         <div className="absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform translate-x-4" />
                       </div>
@@ -485,7 +485,7 @@ export default function TeacherEnrollmentPage() {
                 ].map((c) => (
                   <div
                     key={c.label}
-                    className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-5"
+                    className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-5"
                   >
                     <div
                       className="w-9 h-9 rounded-xl mb-3 flex items-center justify-center"
@@ -498,9 +498,9 @@ export default function TeacherEnrollmentPage() {
                         {c.icon}
                       </span>
                     </div>
-                    <p className="text-slate-400 text-xs">{c.label}</p>
-                    <p className="text-white text-2xl font-bold">{c.value}</p>
-                    <p className="text-slate-500 text-xs mt-1">{c.sub}</p>
+                    <p className="text-(--text-muted) text-xs">{c.label}</p>
+                    <p className="text-(--text-base) text-2xl font-bold">{c.value}</p>
+                    <p className="text-(--text-faint) text-xs mt-1">{c.sub}</p>
                   </div>
                 ))}
               </div>
@@ -512,11 +512,11 @@ export default function TeacherEnrollmentPage() {
       {/* Add Student Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#1a2e27] border border-[rgba(19,236,164,0.12)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+          <div className="bg-(--bg-card) border border-(--border-medium) rounded-2xl p-6 w-full max-w-md shadow-2xl">
             {!createdStudentCode ? (
               <>
-                <h2 className="text-white font-bold text-lg mb-1">Add New Student</h2>
-                <p className="text-slate-400 text-sm mb-5">
+                <h2 className="text-(--text-base) font-bold text-lg mb-1">Add New Student</h2>
+                <p className="text-(--text-muted) text-sm mb-5">
                   Create a student profile. A unique login code will be generated.
                 </p>
                 {addStudentError && (
@@ -526,7 +526,7 @@ export default function TeacherEnrollmentPage() {
                 )}
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                       Full Name <span className="text-red-400">*</span>
                     </label>
                     <input
@@ -534,12 +534,12 @@ export default function TeacherEnrollmentPage() {
                       placeholder="e.g. Jane Mwangi"
                       value={newStudentName}
                       onChange={(e) => setNewStudentName(e.target.value)}
-                      className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                      className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                      <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                         Age
                       </label>
                       <input
@@ -549,11 +549,11 @@ export default function TeacherEnrollmentPage() {
                         onChange={(e) => setNewStudentAge(e.target.value)}
                         min="4"
                         max="25"
-                        className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                        className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+                      <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider mb-1.5">
                         Grade
                       </label>
                       <input
@@ -561,7 +561,7 @@ export default function TeacherEnrollmentPage() {
                         placeholder="e.g. Grade 6"
                         value={newStudentGrade}
                         onChange={(e) => setNewStudentGrade(e.target.value)}
-                        className="w-full bg-[#0d1f1a] border border-[rgba(255,255,255,0.1)] rounded-xl px-4 py-3 text-white text-sm outline-none focus:border-[rgba(19,236,164,0.4)] placeholder-slate-600"
+                        className="w-full bg-(--bg-page) border border-(--border-subtle) rounded-xl px-4 py-3 text-(--text-base) text-sm outline-none focus:border-(--border-strong) placeholder:text-(--text-faint)"
                       />
                     </div>
                   </div>
@@ -569,7 +569,7 @@ export default function TeacherEnrollmentPage() {
                 <div className="flex gap-3 mt-5">
                   <button
                     onClick={resetAddModal}
-                    className="flex-1 border border-[rgba(255,255,255,0.1)] text-slate-300 text-sm font-semibold py-2.5 rounded-xl hover:border-[rgba(255,255,255,0.2)] transition-colors"
+                    className="flex-1 border border-(--border-subtle) text-(--text-muted) text-sm font-semibold py-2.5 rounded-xl hover:border-(--border-accent) transition-colors"
                   >
                     Cancel
                   </button>
@@ -589,13 +589,13 @@ export default function TeacherEnrollmentPage() {
                     check_circle
                   </span>
                 </div>
-                <h2 className="text-white font-bold text-lg mb-1">Student Created!</h2>
-                <p className="text-slate-400 text-sm mb-6">
+                <h2 className="text-(--text-base) font-bold text-lg mb-1">Student Created!</h2>
+                <p className="text-(--text-muted) text-sm mb-6">
                   Share this login code with{" "}
-                  <span className="text-white font-semibold">{newStudentName}</span>
+                  <span className="text-(--text-base) font-semibold">{newStudentName}</span>
                 </p>
-                <div className="bg-[#0d1f1a] border-2 border-dashed border-[rgba(19,236,164,0.3)] rounded-2xl p-6 mb-6">
-                  <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">
+                <div className="bg-(--bg-page) border-2 border-dashed border-(--border-strong) rounded-2xl p-6 mb-6">
+                  <p className="text-xs font-bold text-(--text-faint) uppercase tracking-widest mb-2">
                     Student Login Code
                   </p>
                   <p className="text-[#13eca4] font-mono font-black text-4xl tracking-[0.3em]">
@@ -605,7 +605,7 @@ export default function TeacherEnrollmentPage() {
                 <div className="flex gap-3">
                   <button
                     onClick={() => copyStudentCode(createdStudentCode)}
-                    className="flex-1 flex items-center justify-center gap-2 border border-[rgba(19,236,164,0.2)] text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
                   >
                     <span className="material-symbols-outlined text-sm">
                       {codeCopiedStudent === createdStudentCode ? "check" : "content_copy"}

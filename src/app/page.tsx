@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import PublicNavbar from "@/components/PublicNavbar";
 
@@ -71,7 +72,7 @@ function CtaSection() {
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-slate-500">
+                    <label className="text-xs font-bold uppercase text-(--text-faint)">
                       First Name *
                     </label>
                     <input
@@ -84,7 +85,7 @@ function CtaSection() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-slate-500">Last Name</label>
+                    <label className="text-xs font-bold uppercase text-(--text-faint)">Last Name</label>
                     <input
                       className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
                       placeholder="Doe"
@@ -95,7 +96,7 @@ function CtaSection() {
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase text-slate-500">Work Email *</label>
+                  <label className="text-xs font-bold uppercase text-(--text-faint)">Work Email *</label>
                   <input
                     required
                     className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
@@ -106,7 +107,7 @@ function CtaSection() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase text-slate-500">
+                  <label className="text-xs font-bold uppercase text-(--text-faint)">
                     School Name *
                   </label>
                   <input
@@ -119,7 +120,7 @@ function CtaSection() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase text-slate-500">Role</label>
+                  <label className="text-xs font-bold uppercase text-(--text-faint)">Role</label>
                   <select
                     className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
                     value={form.role}
@@ -133,7 +134,7 @@ function CtaSection() {
                 </div>
                 <button
                   type="submit"
-                  className="mt-4 w-full rounded-lg bg-[#102022] py-4 font-bold text-white shadow-lg hover:brightness-125 transition-all text-center block"
+                  className="mt-4 w-full rounded-lg bg-(--bg-page) py-4 font-bold text-(--text-base) shadow-lg hover:brightness-125 transition-all text-center block"
                 >
                   Register Your School
                 </button>
@@ -148,7 +149,7 @@ function CtaSection() {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#102022] font-sans text-slate-100 antialiased overflow-x-hidden">
+    <div className="min-h-screen bg-(--bg-page) font-sans text-(--text-base) antialiased overflow-x-hidden">
       <PublicNavbar />
 
       <main className="flex-1">
@@ -162,14 +163,14 @@ export default function HomePage() {
                   <span className="material-symbols-outlined text-sm">verified</span>
                   Impact-Driven Education
                 </div>
-                <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-7xl text-slate-100">
+                <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-7xl text-(--text-base)">
                   Build Projects.
                   <br />
                   <span className="text-[#13daec]">Earn Badges.</span>
                   <br />
                   Make an <span className="text-[#ff4d4d] italic">Impact.</span>
                 </h1>
-                <p className="max-w-xl text-lg text-slate-400">
+                <p className="max-w-xl text-lg text-(--text-muted)">
                   Empowering the next generation of innovators through project-based STEM learning
                   that delivers measurable real-world results.
                 </p>
@@ -182,7 +183,7 @@ export default function HomePage() {
                   </Link>
                   <Link
                     href="#about"
-                    className="rounded-lg border border-[#283739] bg-[#1a2e30] px-8 py-4 text-lg font-bold hover:bg-[#283739] transition-colors"
+                    className="rounded-lg border border-[#283739] bg-(--bg-card) px-8 py-4 text-lg font-bold hover:bg-(--bg-elevated) transition-colors"
                   >
                     Register Your School
                   </Link>
@@ -191,9 +192,9 @@ export default function HomePage() {
 
               {/* Right — Skills Mastery Card */}
               <div className="relative">
-                <div className="relative z-10 rounded-2xl border border-[#283739] bg-[#1a2e30] p-6 shadow-2xl">
+                <div className="relative z-10 rounded-2xl border border-[#283739] bg-(--bg-card) p-6 shadow-2xl">
                   <div className="flex items-center justify-between border-b border-[#283739] pb-4">
-                    <h3 className="font-bold text-slate-100">Student Skills Mastery</h3>
+                    <h3 className="font-bold text-(--text-base)">Student Skills Mastery</h3>
                     <span className="text-[#13daec] font-bold">85% Global Avg</span>
                   </div>
                   <div className="py-6">
@@ -235,7 +236,7 @@ export default function HomePage() {
                       />
                     </svg>
                   </div>
-                  <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-bold uppercase tracking-widest text-slate-500">
+                  <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-bold uppercase tracking-widest text-(--text-faint)">
                     <span>Coding</span>
                     <span>Robotics</span>
                     <span>Design</span>
@@ -243,13 +244,13 @@ export default function HomePage() {
                 </div>
                 {/* Floating badge — top right */}
                 <div className="absolute -right-6 -top-6 z-20 h-24 w-24 rounded-xl bg-linear-to-br from-yellow-400 to-orange-500 p-4 shadow-xl rotate-12 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-4xl text-white">
+                  <span className="material-symbols-outlined text-4xl text-(--text-base)">
                     workspace_premium
                   </span>
                 </div>
                 {/* Floating icon — bottom left */}
                 <div className="absolute -bottom-10 -left-10 z-20 h-32 w-32 rounded-xl bg-linear-to-br from-blue-400 to-[#13daec] p-4 shadow-xl -rotate-12 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-5xl text-white">science</span>
+                  <span className="material-symbols-outlined text-5xl text-(--text-base)">science</span>
                 </div>
               </div>
             </div>
@@ -260,8 +261,8 @@ export default function HomePage() {
         <section id="solutions" className="py-24 px-6 bg-[rgba(26,46,48,0.2)] relative">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-black text-slate-100">Simple 3-Step Implementation</h2>
-              <p className="mt-4 text-slate-400">
+              <h2 className="text-4xl font-black text-(--text-base)">Simple 3-Step Implementation</h2>
+              <p className="mt-4 text-(--text-muted)">
                 From setup to mastery, we make STEM integration effortless.
               </p>
             </div>
@@ -292,7 +293,7 @@ export default function HomePage() {
               ].map(({ icon, borderColor, num, title, desc }) => (
                 <div key={num} className="relative flex flex-col items-center text-center group">
                   <div
-                    className="w-20 h-20 rounded-2xl bg-[#1a2e30] flex items-center justify-center mb-6 relative z-10 transition-all duration-300"
+                    className="w-20 h-20 rounded-2xl bg-(--bg-card) flex items-center justify-center mb-6 relative z-10 transition-all duration-300"
                     style={{ border: `2px solid ${borderColor}` }}
                   >
                     <span
@@ -302,10 +303,10 @@ export default function HomePage() {
                       {icon}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-100 mb-4">
+                  <h3 className="text-xl font-bold text-(--text-base) mb-4">
                     {num}. {title}
                   </h3>
-                  <p className="text-sm text-slate-400 leading-relaxed px-4">{desc}</p>
+                  <p className="text-sm text-(--text-muted) leading-relaxed px-4">{desc}</p>
                 </div>
               ))}
             </div>
@@ -313,15 +314,15 @@ export default function HomePage() {
         </section>
 
         {/* Lessons in Action */}
-        <section id="curriculum" className="py-24 px-6 bg-[#102022] overflow-hidden">
+        <section id="curriculum" className="py-24 px-6 bg-(--bg-page) overflow-hidden">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-black text-slate-100">Lessons in Action</h2>
-              <p className="mt-4 text-slate-400">
+              <h2 className="text-4xl font-black text-(--text-base)">Lessons in Action</h2>
+              <p className="mt-4 text-(--text-muted)">
                 Step-by-step guidance for complex project-based learning.
               </p>
             </div>
-            <div className="relative max-w-5xl mx-auto rounded-2xl border border-[#283739] bg-[#1a2e30] overflow-hidden shadow-2xl">
+            <div className="relative max-w-5xl mx-auto rounded-2xl border border-[#283739] bg-(--bg-card) overflow-hidden shadow-2xl">
               {/* Window chrome */}
               <div className="bg-[rgba(40,55,57,0.5)] px-6 py-3 flex items-center justify-between border-b border-[#283739]">
                 <div className="flex items-center gap-4">
@@ -330,13 +331,13 @@ export default function HomePage() {
                     <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
                     <div className="w-3 h-3 rounded-full bg-green-500/50" />
                   </div>
-                  <span className="text-xs font-medium text-slate-400 uppercase tracking-widest">
+                  <span className="text-xs font-medium text-(--text-muted) uppercase tracking-widest">
                     Activity: JavaScript Chatbot
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-slate-400 text-lg">timer</span>
-                  <span className="text-xs text-slate-400">30 Min Step</span>
+                  <span className="material-symbols-outlined text-(--text-muted) text-lg">timer</span>
+                  <span className="text-xs text-(--text-muted)">30 Min Step</span>
                 </div>
               </div>
               <div className="flex flex-col lg:flex-row">
@@ -346,15 +347,15 @@ export default function HomePage() {
                     <div className="inline-block px-3 py-1 bg-[rgba(255,77,77,0.15)] text-[#ff4d4d] text-[10px] font-black uppercase tracking-widest rounded mb-4">
                       Step 03: Response Logic
                     </div>
-                    <h4 className="text-3xl font-bold text-slate-100 mb-6">
+                    <h4 className="text-3xl font-bold text-(--text-base) mb-6">
                       Building the Reply Engine
                     </h4>
                     <div className="w-full rounded-xl bg-[#0d1b1e] border border-[#283739] overflow-hidden font-mono text-sm">
-                      <div className="flex items-center gap-2 px-4 py-2 bg-[#283739]/50 border-b border-[#283739]">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-(--bg-elevated)/50 border-b border-[#283739]">
                         <span className="material-symbols-outlined text-yellow-400 text-sm">
                           javascript
                         </span>
-                        <span className="text-[10px] text-slate-400 uppercase tracking-widest">
+                        <span className="text-[10px] text-(--text-muted) uppercase tracking-widest">
                           chatbot.js
                         </span>
                       </div>
@@ -362,58 +363,58 @@ export default function HomePage() {
                         <div>
                           <span className="text-purple-400">function</span>{" "}
                           <span className="text-yellow-300">getReply</span>
-                          <span className="text-slate-300">(message) {"{"}</span>
+                          <span className="text-(--text-muted)">(message) {"{"}</span>
                         </div>
                         <div className="pl-4">
                           <span className="text-purple-400">const</span>{" "}
                           <span className="text-sky-300">msg</span>{" "}
-                          <span className="text-slate-400">=</span>{" "}
-                          <span className="text-slate-300">message.</span>
+                          <span className="text-(--text-muted)">=</span>{" "}
+                          <span className="text-(--text-muted)">message.</span>
                           <span className="text-yellow-300">toLowerCase</span>
-                          <span className="text-slate-300">();</span>
+                          <span className="text-(--text-muted)">();</span>
                         </div>
                         <div className="pl-4 mt-2">
                           <span className="text-purple-400">if</span>{" "}
-                          <span className="text-slate-300">(msg.</span>
+                          <span className="text-(--text-muted)">(msg.</span>
                           <span className="text-yellow-300">includes</span>
-                          <span className="text-slate-300">(</span>
+                          <span className="text-(--text-muted)">(</span>
                           <span className="text-green-400">&quot;hello&quot;</span>
-                          <span className="text-slate-300">))</span>
+                          <span className="text-(--text-muted)">))</span>
                         </div>
                         <div className="pl-8">
                           <span className="text-purple-400">return</span>{" "}
                           <span className="text-green-400">
                             &quot;Hi there! How can I help?&quot;
                           </span>
-                          <span className="text-slate-300">;</span>
+                          <span className="text-(--text-muted)">;</span>
                         </div>
                         <div className="pl-4">
                           <span className="text-purple-400">if</span>{" "}
-                          <span className="text-slate-300">(msg.</span>
+                          <span className="text-(--text-muted)">(msg.</span>
                           <span className="text-yellow-300">includes</span>
-                          <span className="text-slate-300">(</span>
+                          <span className="text-(--text-muted)">(</span>
                           <span className="text-green-400">&quot;weather&quot;</span>
-                          <span className="text-slate-300">))</span>
+                          <span className="text-(--text-muted)">))</span>
                         </div>
                         <div className="pl-8">
                           <span className="text-purple-400">return</span>{" "}
                           <span className="text-green-400">
                             &quot;Nairobi is sunny today!&quot;
                           </span>
-                          <span className="text-slate-300">;</span>
+                          <span className="text-(--text-muted)">;</span>
                         </div>
                         <div className="pl-4 mt-2">
                           <span className="text-purple-400">return</span>{" "}
                           <span className="text-green-400">&quot;Tell me more!&quot;</span>
-                          <span className="text-slate-300">;</span>
+                          <span className="text-(--text-muted)">;</span>
                         </div>
                         <div>
-                          <span className="text-slate-300">{"}"}</span>
+                          <span className="text-(--text-muted)">{"}"}</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-slate-400 leading-relaxed mb-6">
+                  <p className="text-(--text-muted) leading-relaxed mb-6">
                     Create a function that reads the user&apos;s message and returns a matching
                     reply. Use{" "}
                     <code className="text-[#13daec] bg-[#13daec]/10 px-1.5 py-0.5 rounded text-xs">
@@ -423,7 +424,7 @@ export default function HomePage() {
                     personality.
                   </p>
                   <div className="flex gap-4">
-                    <button className="px-6 py-2 bg-[#283739] text-slate-100 font-bold rounded-lg text-sm hover:bg-slate-700 transition-colors">
+                    <button className="px-6 py-2 bg-(--bg-elevated) text-(--text-base) font-bold rounded-lg text-sm hover:bg-slate-700 transition-colors">
                       Previous Step
                     </button>
                     <button className="px-6 py-2 bg-[#13daec] text-[#102022] font-bold rounded-lg text-sm hover:brightness-110 transition-all">
@@ -433,7 +434,7 @@ export default function HomePage() {
                 </div>
                 {/* Sidebar navigation */}
                 <div className="w-full lg:w-72 bg-[rgba(16,32,34,0.3)] p-6">
-                  <h5 className="text-xs font-black uppercase text-slate-500 tracking-widest mb-6">
+                  <h5 className="text-xs font-black uppercase text-(--text-faint) tracking-widest mb-6">
                     Course Navigation
                   </h5>
                   <div className="space-y-4">
@@ -445,7 +446,7 @@ export default function HomePage() {
                         <span className="material-symbols-outlined text-[#13daec] text-sm">
                           check_circle
                         </span>
-                        <div className="text-xs text-slate-300">
+                        <div className="text-xs text-(--text-muted)">
                           {num}: {label}
                         </div>
                       </div>
@@ -454,7 +455,7 @@ export default function HomePage() {
                       <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold shrink-0">
                         03
                       </span>
-                      <div className="text-xs text-slate-100 font-bold">Response Logic</div>
+                      <div className="text-xs text-(--text-base) font-bold">Response Logic</div>
                     </div>
                     {[
                       { num: "04", label: "Event Listeners" },
@@ -462,14 +463,14 @@ export default function HomePage() {
                       { num: "06", label: "Deploy & Share" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full border border-[#283739] flex items-center justify-center text-[10px] text-slate-500 font-bold shrink-0">
+                        <span className="w-5 h-5 rounded-full border border-[#283739] flex items-center justify-center text-[10px] text-(--text-faint) font-bold shrink-0">
                           {num}
                         </span>
-                        <div className="text-xs text-slate-500">{label}</div>
+                        <div className="text-xs text-(--text-faint)">{label}</div>
                       </div>
                     ))}
                     <div className="pt-6 border-t border-[#283739] mt-6">
-                      <div className="p-4 rounded-lg bg-[#1a2e30] border border-[#283739] text-center">
+                      <div className="p-4 rounded-lg bg-(--bg-card) border border-[#283739] text-center">
                         <div className="text-[10px] font-black uppercase text-[#13daec] mb-2">
                           Next Badge
                         </div>
@@ -489,17 +490,17 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               {/* Left — animated sync visual */}
               <div className="order-2 lg:order-1 relative">
-                <div className="relative bg-[#102022] rounded-3xl p-8 border border-[#283739] shadow-2xl overflow-hidden">
+                <div className="relative bg-(--bg-page) rounded-3xl p-8 border border-[#283739] shadow-2xl overflow-hidden">
                   <div className="absolute inset-0 bg-[rgba(19,218,236,0.05)]" />
                   <div className="relative z-10 flex flex-col items-center">
                     <div className="flex items-center gap-12 mb-12">
                       <div className="w-20 h-20 rounded-2xl bg-white p-3 shadow-xl flex items-center justify-center">
-                        <div className="w-full h-full bg-emerald-600 rounded flex items-center justify-center text-white font-black text-2xl">
+                        <div className="w-full h-full bg-emerald-600 rounded flex items-center justify-center text-(--text-base) font-black text-2xl">
                           G
                         </div>
                       </div>
                       <div className="flex flex-col items-center">
-                        <div className="w-12 h-0.5 bg-[#283739] relative">
+                        <div className="w-12 h-0.5 bg-(--bg-elevated) relative">
                           <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#13daec] flex items-center justify-center shadow-lg shadow-[rgba(19,218,236,0.4)]">
                             <span className="material-symbols-outlined text-xs font-bold text-[#102022]">
                               sync
@@ -507,7 +508,7 @@ export default function HomePage() {
                           </div>
                         </div>
                       </div>
-                      <div className="w-20 h-20 rounded-2xl bg-[#1a2e30] border border-[#13daec] p-4 shadow-xl flex items-center justify-center">
+                      <div className="w-20 h-20 rounded-2xl bg-(--bg-card) border border-[#13daec] p-4 shadow-xl flex items-center justify-center">
                         <span className="material-symbols-outlined text-[#13daec] text-3xl">
                           token
                         </span>
@@ -530,10 +531,10 @@ export default function HomePage() {
                 <div className="w-12 h-12 rounded-xl bg-[rgba(19,218,236,0.2)] flex items-center justify-center text-[#13daec]">
                   <span className="material-symbols-outlined">sync_alt</span>
                 </div>
-                <h2 className="text-4xl font-black text-slate-100">
+                <h2 className="text-4xl font-black text-(--text-base)">
                   Seamless Google Classroom Integration
                 </h2>
-                <p className="text-lg text-slate-400">
+                <p className="text-lg text-(--text-muted)">
                   Sync your entire school roster in seconds. Automatically import classes, push
                   assignments, and return grades directly to your existing workspace.
                 </p>
@@ -560,7 +561,7 @@ export default function HomePage() {
         <section className="bg-[rgba(26,46,48,0.3)] py-20 px-6">
           <div className="mx-auto max-w-7xl">
             <div className="mb-12 flex flex-col items-center text-center">
-              <h2 className="text-3xl font-bold text-slate-100">Recognized Achievement System</h2>
+              <h2 className="text-3xl font-bold text-(--text-base)">Recognized Achievement System</h2>
               <div className="mt-4 h-1 w-20 bg-[#13daec]" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -592,7 +593,7 @@ export default function HomePage() {
               ].map(({ icon, color, hoverBorder, title, desc, count }) => (
                 <div
                   key={title}
-                  className={`flex flex-col items-center rounded-xl bg-[#1a2e30] p-8 border border-[#283739] text-center transition-all group ${hoverBorder}`}
+                  className={`flex flex-col items-center rounded-xl bg-(--bg-card) p-8 border border-[#283739] text-center transition-all group ${hoverBorder}`}
                 >
                   <div
                     className="mb-6 rounded-full p-4 group-hover:scale-110 transition-transform"
@@ -600,8 +601,8 @@ export default function HomePage() {
                   >
                     <span className="material-symbols-outlined text-4xl">{icon}</span>
                   </div>
-                  <h4 className="text-xl font-bold text-slate-100">{title}</h4>
-                  <p className="mt-2 text-slate-400 text-sm">{desc}</p>
+                  <h4 className="text-xl font-bold text-(--text-base)">{title}</h4>
+                  <p className="mt-2 text-(--text-muted) text-sm">{desc}</p>
                   <span className="mt-4 text-xs font-bold uppercase" style={{ color }}>
                     {count}
                   </span>
@@ -616,17 +617,20 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#283739] bg-[#102022] px-6 py-12">
+      <footer className="border-t border-[#283739] bg-(--bg-page) px-6 py-12">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12">
             <div className="max-w-xs">
-              <div className="flex items-center gap-2 mb-6">
-                <span className="material-symbols-outlined text-2xl text-[#13daec]">token</span>
-                <h2 className="text-lg font-bold tracking-tight text-slate-100 uppercase italic">
-                  STEM <span className="text-[#ff4d4d]">Impact</span>
-                </h2>
+              <div className="mb-6">
+                <Image
+                  src="/images/logo/sic-logo.png"
+                  alt="STEM Impact Academy"
+                  height={36}
+                  width={180}
+                  style={{ height: "36px", width: "auto" }}
+                />
               </div>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-(--text-faint)">
                 Driving global innovation through accessible, project-based STEM education for every
                 student.
               </p>
@@ -659,7 +663,7 @@ export default function HomePage() {
               ].map(({ heading, links }) => (
                 <div key={heading}>
                   <h4 className="font-bold text-slate-200 mb-4">{heading}</h4>
-                  <ul className="space-y-2 text-sm text-slate-500">
+                  <ul className="space-y-2 text-sm text-(--text-faint)">
                     {links.map((link) => (
                       <li key={link.label}>
                         <Link href={link.href} className="hover:text-[#13daec] transition-colors">
@@ -673,7 +677,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="mt-12 border-t border-[#283739] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-xs text-slate-600">
+            <p className="text-xs text-(--text-faint)">
               &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
             </p>
             <div className="flex gap-4">
@@ -681,13 +685,13 @@ export default function HomePage() {
                 href="https://stemimpactcenterkenya.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-slate-600 hover:text-[#13daec] transition-colors"
+                className="text-(--text-faint) hover:text-[#13daec] transition-colors"
               >
                 <span className="material-symbols-outlined">public</span>
               </a>
               <Link
                 href="/contact"
-                className="text-slate-600 hover:text-[#13daec] transition-colors"
+                className="text-(--text-faint) hover:text-[#13daec] transition-colors"
               >
                 <span className="material-symbols-outlined">alternate_email</span>
               </Link>

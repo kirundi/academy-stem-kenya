@@ -112,7 +112,7 @@ const STATUS_CONFIG = {
   active: { label: "Active", color: "text-emerald-400", dot: "bg-emerald-400", pulse: false },
   syncing: { label: "Syncing...", color: "text-amber-400", dot: "bg-amber-400", pulse: true },
   error: { label: "Error", color: "text-rose-400", dot: "bg-rose-400", pulse: false },
-  inactive: { label: "Inactive", color: "text-slate-500", dot: "bg-slate-500", pulse: false },
+  inactive: { label: "Inactive", color: "text-(--text-faint)", dot: "bg-slate-500", pulse: false },
 };
 
 export default function IntegrationsPage() {
@@ -149,12 +149,12 @@ export default function IntegrationsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#102022]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Live Feed Badge */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
-        <div className="px-4 py-2 bg-[#1a2e30]/90 backdrop-blur border border-[#13daec]/20 rounded-full flex items-center gap-2 shadow-2xl">
+        <div className="px-4 py-2 bg-(--bg-card)/90 backdrop-blur border border-[#13daec]/20 rounded-full flex items-center gap-2 shadow-2xl">
           <span className="size-2 rounded-full bg-[#13daec] animate-pulse"></span>
-          <span className="text-[10px] font-bold text-slate-300 tracking-wider uppercase">
+          <span className="text-[10px] font-bold text-(--text-muted) tracking-wider uppercase">
             Live System Feed Active
           </span>
         </div>
@@ -163,21 +163,21 @@ export default function IntegrationsPage() {
       {/* Kill Switch Modal */}
       {killSwitchModal && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-          <div className="bg-[#1a2e30] border border-rose-500/30 rounded-2xl p-8 max-w-md w-full">
+          <div className="bg-(--bg-card) border border-rose-500/30 rounded-2xl p-8 max-w-md w-full">
             <div className="flex items-center gap-3 mb-4">
               <span className="material-symbols-outlined text-rose-400 text-3xl">dangerous</span>
-              <h3 className="text-white font-black text-xl">Global Kill Switch</h3>
+              <h3 className="text-(--text-base) font-black text-xl">Global Kill Switch</h3>
             </div>
-            <p className="text-slate-400 mb-6 leading-relaxed">
+            <p className="text-(--text-muted) mb-6 leading-relaxed">
               This will immediately halt{" "}
-              <strong className="text-white">all active sync jobs</strong> across every school in
+              <strong className="text-(--text-base)">all active sync jobs</strong> across every school in
               the system. OAuth sessions will be suspended. This action affects{" "}
               <strong className="text-rose-400">142 active schools</strong>.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setKillSwitchModal(false)}
-                className="flex-1 py-2 px-4 bg-[#102022] border border-[#2d4548] text-slate-300 rounded-lg text-sm font-bold hover:bg-[#2d4548] transition-colors"
+                className="flex-1 py-2 px-4 bg-(--bg-page) border border-(--border) text-(--text-muted) rounded-lg text-sm font-bold hover:bg-(--bg-elevated) transition-colors"
               >
                 Cancel
               </button>
@@ -210,7 +210,7 @@ export default function IntegrationsPage() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-left ${
                 activeSection === item.section
                   ? "bg-[#13daec]/10 text-[#13daec] border border-[#13daec]/20"
-                  : "text-slate-400 hover:bg-[#1a2e30]"
+                  : "text-(--text-muted) hover:bg-(--bg-card)"
               }`}
             >
               <span className="material-symbols-outlined text-lg">{item.icon}</span>
@@ -224,24 +224,24 @@ export default function IntegrationsPage() {
 
           {/* Quick Stats */}
           <div className="mt-8 px-3">
-            <p className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-4">
+            <p className="text-[10px] uppercase tracking-widest text-(--text-faint) font-bold mb-4">
               Quick Stats
             </p>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-400">Sync Status</span>
+                <span className="text-xs text-(--text-muted)">Sync Status</span>
                 <span className="text-xs text-emerald-400 font-bold">Stable</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-400">Schools Active</span>
+                <span className="text-xs text-(--text-muted)">Schools Active</span>
                 <span className="text-xs text-[#13daec] font-bold">142</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-400">Today&apos;s Syncs</span>
+                <span className="text-xs text-(--text-muted)">Today&apos;s Syncs</span>
                 <span className="text-xs text-[#13daec] font-bold">1,204</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-xs text-slate-400">Error Rate</span>
+                <span className="text-xs text-(--text-muted)">Error Rate</span>
                 <span className="text-xs text-amber-400 font-bold">0.4%</span>
               </div>
             </div>
@@ -253,10 +253,10 @@ export default function IntegrationsPage() {
           {/* Header */}
           <div className="flex flex-wrap justify-between items-end gap-4">
             <div>
-              <h1 className="text-white text-3xl font-black tracking-tight">
+              <h1 className="text-(--text-base) text-3xl font-black tracking-tight">
                 System Integrations Control
               </h1>
-              <p className="text-slate-400 text-sm mt-1">
+              <p className="text-(--text-muted) text-sm mt-1">
                 Manage global API keys and monitor cross-platform school synchronization.
               </p>
             </div>
@@ -270,16 +270,16 @@ export default function IntegrationsPage() {
           </div>
 
           {/* API Config Panel */}
-          <section className="bg-[#1a2e30]/40 border border-[#2d4548] rounded-2xl p-6">
+          <section className="bg-(--bg-card)/40 border border-(--border) rounded-2xl p-6">
             <div className="flex items-center gap-2 mb-6">
               <span className="material-symbols-outlined text-[#13daec]">
                 settings_input_component
               </span>
-              <h2 className="text-white text-lg font-bold">Google Cloud API Configuration</h2>
+              <h2 className="text-(--text-base) text-lg font-bold">Google Cloud API Configuration</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col gap-2">
-                <label className="text-slate-300 text-xs font-semibold uppercase tracking-wider">
+                <label className="text-(--text-muted) text-xs font-semibold uppercase tracking-wider">
                   Client ID
                 </label>
                 <div className="relative">
@@ -288,11 +288,11 @@ export default function IntegrationsPage() {
                     readOnly
                     value={clientId}
                     onChange={(e) => setClientId(e.target.value)}
-                    className="w-full rounded-lg bg-[#1a2e30] border border-[#2d4548] text-slate-100 focus:ring-[#13daec] focus:border-[#13daec] h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
+                    className="w-full rounded-lg bg-(--bg-card) border border-(--border) text-(--text-base) focus:ring-[#13daec] focus:border-[#13daec] h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
                   />
                   <button
                     onClick={() => handleCopy(clientId, "clientId")}
-                    className="absolute right-3 top-3 text-slate-500 hover:text-[#13daec] transition-colors"
+                    className="absolute right-3 top-3 text-(--text-faint) hover:text-[#13daec] transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">
                       {copiedField === "clientId" ? "check" : "content_copy"}
@@ -301,7 +301,7 @@ export default function IntegrationsPage() {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="text-slate-300 text-xs font-semibold uppercase tracking-wider">
+                <label className="text-(--text-muted) text-xs font-semibold uppercase tracking-wider">
                   Client Secret Key
                 </label>
                 <div className="relative">
@@ -309,11 +309,11 @@ export default function IntegrationsPage() {
                     type={showSecret ? "text" : "password"}
                     value={clientSecret}
                     onChange={(e) => setClientSecret(e.target.value)}
-                    className="w-full rounded-lg bg-[#1a2e30] border border-[#2d4548] text-slate-100 focus:ring-[#13daec] focus:border-[#13daec] h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
+                    className="w-full rounded-lg bg-(--bg-card) border border-(--border) text-(--text-base) focus:ring-[#13daec] focus:border-[#13daec] h-12 px-4 font-mono text-sm pr-10 focus:outline-none"
                   />
                   <button
                     onClick={() => setShowSecret(!showSecret)}
-                    className="absolute right-3 top-3 text-slate-500 hover:text-[#13daec] transition-colors"
+                    className="absolute right-3 top-3 text-(--text-faint) hover:text-[#13daec] transition-colors"
                   >
                     <span className="material-symbols-outlined text-lg">
                       {showSecret ? "visibility_off" : "visibility"}
@@ -331,7 +331,7 @@ export default function IntegrationsPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-bold border transition-all ${
                     i === 0
                       ? "bg-[#13daec] text-[#102022] border-[#13daec]"
-                      : "border-[#2d4548] text-slate-400 hover:border-[#13daec] hover:text-[#13daec]"
+                      : "border-(--border) text-(--text-muted) hover:border-[#13daec] hover:text-[#13daec]"
                   }`}
                 >
                   {env}
@@ -340,7 +340,7 @@ export default function IntegrationsPage() {
             </div>
 
             <div className="mt-6 flex justify-end gap-3">
-              <button className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-slate-100 transition-colors">
+              <button className="px-4 py-2 text-sm font-medium text-(--text-muted) hover:text-(--text-base) transition-colors">
                 Discard Changes
               </button>
               <button
@@ -353,12 +353,12 @@ export default function IntegrationsPage() {
           </section>
 
           {/* Integrated Schools Table */}
-          <section className="bg-[#1a2e30]/40 border border-[#2d4548] rounded-2xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-[#2d4548] flex flex-wrap justify-between items-center gap-3 bg-[#1a2e30]/20">
-              <h2 className="text-white text-lg font-bold">Integrated Schools</h2>
+          <section className="bg-(--bg-card)/40 border border-(--border) rounded-2xl overflow-hidden">
+            <div className="px-6 py-4 border-b border-(--border) flex flex-wrap justify-between items-center gap-3 bg-(--bg-card)/20">
+              <h2 className="text-(--text-base) text-lg font-bold">Integrated Schools</h2>
               <div className="flex items-center gap-3">
                 {/* Filter Tabs */}
-                <div className="flex items-center gap-1 bg-[#102022] rounded-lg p-1">
+                <div className="flex items-center gap-1 bg-(--bg-page) rounded-lg p-1">
                   {[
                     { val: "all", label: "All" },
                     { val: "active", label: "Active" },
@@ -371,7 +371,7 @@ export default function IntegrationsPage() {
                       className={`px-3 py-1 rounded text-xs font-bold transition-colors ${
                         filterStatus === val
                           ? "bg-[#13daec] text-[#102022]"
-                          : "text-slate-400 hover:text-slate-100"
+                          : "text-(--text-muted) hover:text-(--text-base)"
                       }`}
                     >
                       {label}
@@ -385,7 +385,7 @@ export default function IntegrationsPage() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left">
-                <thead className="text-[10px] uppercase tracking-widest text-slate-500 font-bold border-b border-[#2d4548]/50">
+                <thead className="text-[10px] uppercase tracking-widest text-(--text-faint) font-bold border-b border-(--border)/50">
                   <tr>
                     <th className="px-6 py-3">School Name</th>
                     <th className="px-6 py-3">Integration Status</th>
@@ -401,8 +401,8 @@ export default function IntegrationsPage() {
                       <tr key={school.id} className="hover:bg-[#13daec]/5 transition-colors group">
                         <td className="px-6 py-4">
                           <div className="flex flex-col">
-                            <span className="text-sm font-bold text-slate-100">{school.name}</span>
-                            <span className="text-xs text-slate-500">{school.location}</span>
+                            <span className="text-sm font-bold text-(--text-base)">{school.name}</span>
+                            <span className="text-xs text-(--text-faint)">{school.location}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4">
@@ -415,18 +415,18 @@ export default function IntegrationsPage() {
                             {cfg.label}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-sm text-slate-300">
+                        <td className="px-6 py-4 text-sm text-(--text-muted)">
                           {school.syncedStudents > 0 ? school.syncedStudents.toLocaleString() : "—"}
                         </td>
-                        <td className="px-6 py-4 text-sm text-slate-300">
+                        <td className="px-6 py-4 text-sm text-(--text-muted)">
                           {school.gradesPassed > 0 ? school.gradesPassed.toLocaleString() : "—"}
                         </td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button className="p-1.5 rounded hover:bg-[#13daec]/10 text-slate-500 hover:text-[#13daec] transition-colors">
+                            <button className="p-1.5 rounded hover:bg-[#13daec]/10 text-(--text-faint) hover:text-[#13daec] transition-colors">
                               <span className="material-symbols-outlined text-lg">sync</span>
                             </button>
-                            <button className="p-1.5 rounded hover:bg-[#13daec]/10 text-slate-500 hover:text-[#13daec] transition-colors">
+                            <button className="p-1.5 rounded hover:bg-[#13daec]/10 text-(--text-faint) hover:text-[#13daec] transition-colors">
                               <span className="material-symbols-outlined text-lg">settings</span>
                             </button>
                           </div>
@@ -443,16 +443,16 @@ export default function IntegrationsPage() {
         {/* Right Sidebar: Health Monitor */}
         <aside className="w-72 shrink-0 flex flex-col gap-5">
           {/* Real-time Status */}
-          <div className="bg-[#1a2e30] border border-[#2d4548] rounded-2xl p-6 flex flex-col gap-4">
-            <h3 className="text-slate-100 font-bold text-sm uppercase tracking-wider">
+          <div className="bg-(--bg-card) border border-(--border) rounded-2xl p-6 flex flex-col gap-4">
+            <h3 className="text-(--text-base) font-bold text-sm uppercase tracking-wider">
               Health Monitor
             </h3>
 
-            <div className="flex items-center justify-between p-4 bg-[#102022]/50 rounded-xl border border-emerald-500/20">
+            <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-emerald-500/20">
               <div className="flex items-center gap-3">
                 <span className="material-symbols-outlined text-emerald-400">cloud_done</span>
                 <div>
-                  <p className="text-xs font-bold text-slate-100">API Gateway</p>
+                  <p className="text-xs font-bold text-(--text-base)">API Gateway</p>
                   <p className="text-[10px] text-emerald-400">Connected</p>
                 </div>
               </div>
@@ -468,8 +468,8 @@ export default function IntegrationsPage() {
                 { label: "Throughput", value: "1.2k/s", highlight: false },
                 { label: "Error Rate", value: "0.4%", highlight: false },
               ].map(({ label, value, highlight }) => (
-                <div key={label} className="p-3 bg-[#102022] border border-[#2d4548] rounded-xl">
-                  <p className="text-[10px] text-slate-500 font-bold">{label}</p>
+                <div key={label} className="p-3 bg-(--bg-page) border border-(--border) rounded-xl">
+                  <p className="text-[10px] text-(--text-faint) font-bold">{label}</p>
                   <p
                     className={`text-lg font-black ${highlight ? "text-[#13daec]" : "text-amber-400"}`}
                   >
@@ -486,11 +486,11 @@ export default function IntegrationsPage() {
                 { label: "API Quota Used", pct: 67 },
               ].map(({ label, pct }) => (
                 <div key={label}>
-                  <div className="flex justify-between text-[10px] text-slate-500 mb-1">
+                  <div className="flex justify-between text-[10px] text-(--text-faint) mb-1">
                     <span>{label}</span>
                     <span>{pct}%</span>
                   </div>
-                  <div className="h-1.5 bg-[#102022] rounded-full overflow-hidden">
+                  <div className="h-1.5 bg-(--bg-page) rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full ${pct > 80 ? "bg-rose-500" : pct > 60 ? "bg-amber-400" : "bg-[#13daec]"}`}
                       style={{ width: `${pct}%` }}
@@ -502,10 +502,10 @@ export default function IntegrationsPage() {
           </div>
 
           {/* Sync Error Logs */}
-          <div className="bg-[#1a2e30]/40 border border-[#2d4548] rounded-2xl flex flex-col overflow-hidden flex-1">
-            <div className="px-5 py-4 border-b border-[#2d4548] flex items-center gap-2">
+          <div className="bg-(--bg-card)/40 border border-(--border) rounded-2xl flex flex-col overflow-hidden flex-1">
+            <div className="px-5 py-4 border-b border-(--border) flex items-center gap-2">
               <span className="material-symbols-outlined text-rose-400 text-lg">warning</span>
-              <h3 className="text-slate-100 font-bold text-sm uppercase tracking-wider">
+              <h3 className="text-(--text-base) font-bold text-sm uppercase tracking-wider">
                 Recent Errors
               </h3>
             </div>
@@ -521,19 +521,19 @@ export default function IntegrationsPage() {
                 >
                   <div className="flex justify-between items-start mb-1">
                     <span
-                      className={`text-[10px] font-black ${err.severity === "error" ? "text-rose-400" : "text-slate-400"}`}
+                      className={`text-[10px] font-black ${err.severity === "error" ? "text-rose-400" : "text-(--text-muted)"}`}
                     >
                       {err.code}
                     </span>
-                    <span className="text-[10px] text-slate-500">{err.time}</span>
+                    <span className="text-[10px] text-(--text-faint)">{err.time}</span>
                   </div>
-                  <p className="text-[11px] text-slate-400 font-medium">
-                    <span className="text-slate-300 font-bold">{err.school}:</span> {err.message}
+                  <p className="text-[11px] text-(--text-muted) font-medium">
+                    <span className="text-(--text-muted) font-bold">{err.school}:</span> {err.message}
                   </p>
                 </div>
               ))}
             </div>
-            <button className="w-full py-3 bg-[#1a2e30] border-t border-[#2d4548] text-xs font-bold text-[#13daec] hover:bg-[#13daec]/10 transition-colors uppercase tracking-widest">
+            <button className="w-full py-3 bg-(--bg-card) border-t border-(--border) text-xs font-bold text-[#13daec] hover:bg-[#13daec]/10 transition-colors uppercase tracking-widest">
               View All Logs
             </button>
           </div>

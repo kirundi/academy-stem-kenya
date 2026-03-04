@@ -77,10 +77,10 @@ export default function AnalyticsChallengesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white">Challenges Analytics</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">Challenges Analytics</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             {challenges.length} total · {activeChallenges.length} active
           </p>
@@ -98,7 +98,7 @@ export default function AnalyticsChallengesPage() {
           ].map(({ label, value, icon, color }) => (
             <div
               key={label}
-              className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)]"
+              className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)]"
             >
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -112,7 +112,7 @@ export default function AnalyticsChallengesPage() {
                 </span>
               </div>
               <div>
-                <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                 <p className="text-slate-400 text-xs mt-0.5">{label}</p>
               </div>
             </div>
@@ -120,8 +120,8 @@ export default function AnalyticsChallengesPage() {
         </div>
 
         {/* Status Breakdown */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
-          <h2 className="text-white font-bold mb-4 flex items-center gap-2">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] p-6">
+          <h2 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
             <span className="material-symbols-outlined text-[#a855f7] text-[20px]">
               donut_large
             </span>
@@ -145,7 +145,7 @@ export default function AnalyticsChallengesPage() {
                   {icon}
                 </span>
                 <div>
-                  <p className="text-white font-bold text-xl leading-none">{value}</p>
+                  <p className="text-(--text-base) font-bold text-xl leading-none">{value}</p>
                   <p className="text-xs mt-0.5" style={{ color }}>
                     {label}
                   </p>
@@ -156,13 +156,13 @@ export default function AnalyticsChallengesPage() {
         </div>
 
         {/* Challenges table */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(168,85,247,0.08)] overflow-hidden">
           <div className="px-6 py-4 border-b border-[rgba(168,85,247,0.08)] flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#a855f7] text-[20px]">
                 table_chart
               </span>
-              <h2 className="text-white font-bold">All Challenges</h2>
+              <h2 className="text-(--text-base) font-bold">All Challenges</h2>
             </div>
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="relative">
@@ -173,13 +173,13 @@ export default function AnalyticsChallengesPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by title or theme…"
-                  className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-8 pr-3 py-1.5 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-[rgba(168,85,247,0.4)]"
+                  className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg pl-8 pr-3 py-1.5 text-(--text-base) text-xs placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(168,85,247,0.4)]"
                 />
               </div>
               <select
                 value={scopeFilter}
                 onChange={(e) => setScopeFilter(e.target.value)}
-                className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.08)] rounded-lg px-3 py-1.5 text-white text-xs focus:outline-none"
+                className="bg-[rgba(255,255,255,0.05)] border border-(--border-subtle) rounded-lg px-3 py-1.5 text-(--text-base) text-xs focus:outline-none"
               >
                 <option value="all">All scopes</option>
                 <option value="global">Global</option>
@@ -213,7 +213,7 @@ export default function AnalyticsChallengesPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <p className="text-white font-medium text-sm truncate">{challenge.title}</p>
+                        <p className="text-(--text-base) font-medium text-sm truncate">{challenge.title}</p>
                         <span
                           className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0"
                           style={

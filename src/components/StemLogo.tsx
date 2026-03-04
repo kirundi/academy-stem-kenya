@@ -1,38 +1,29 @@
+import Image from "next/image";
 import Link from "next/link";
 
 interface StemLogoProps {
   size?: "sm" | "md" | "lg";
   href?: string;
-  variant?: "dark" | "light";
 }
 
-export default function StemLogo({ size = "md", href = "/", variant = "dark" }: StemLogoProps) {
-  const sizes = {
-    sm: { icon: 24, text: "text-lg" },
-    md: { icon: 32, text: "text-xl" },
-    lg: { icon: 40, text: "text-2xl" },
-  };
-
-  const s = sizes[size];
+export default function StemLogo({ size = "md", href = "/" }: StemLogoProps) {
+  const heights = { sm: 28, md: 36, lg: 44 };
+  const h = heights[size];
 
   const content = (
-    <div className="flex items-center gap-2.5 group">
-      <span
-        className="material-symbols-outlined shrink-0 text-[#13eca4]"
-        style={{ fontSize: s.icon }}
-      >
-        token
-      </span>
-      <span className={`${s.text} font-bold tracking-tight leading-none uppercase italic`}>
-        <span className={variant === "dark" ? "text-white" : "text-slate-900"}>STEM Impact </span>
-        <span className="text-[#ff4d4d]">Academy</span>
-      </span>
-    </div>
+    <Image
+      src="/images/logo/sic-logo.png"
+      alt="STEM Impact Academy"
+      height={h}
+      width={h * 5}
+      style={{ height: `${h}px`, width: "auto" }}
+      priority
+    />
   );
 
   if (href) {
     return (
-      <Link href={href} className="outline-none focus:ring-2 focus:ring-[#13eca4] rounded-md">
+      <Link href={href} className="outline-none focus:ring-2 focus:ring-[#13eca4] rounded-md inline-flex">
         {content}
       </Link>
     );

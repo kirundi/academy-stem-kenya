@@ -35,7 +35,7 @@ function CourseCreatorPreview() {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#10221c]">
+      <div className="flex h-screen items-center justify-center bg-(--bg-page)">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
           <p className="text-slate-400 text-sm">Loading course preview...</p>
@@ -46,7 +46,7 @@ function CourseCreatorPreview() {
 
   if (!courseId) {
     return (
-      <div className="flex h-screen items-center justify-center bg-[#10221c] text-white">
+      <div className="flex h-screen items-center justify-center bg-(--bg-page) text-(--text-base)">
         <div className="text-center">
           <p className="text-slate-400 mb-4">No course ID provided.</p>
           <Link
@@ -71,7 +71,7 @@ function CourseCreatorPreview() {
   const module2Lessons = lessons?.slice(moduleSize) || [];
 
   return (
-    <div className="relative flex h-screen w-full flex-col overflow-hidden bg-[#10221c] text-white">
+    <div className="relative flex h-screen w-full flex-col overflow-hidden bg-(--bg-page) text-(--text-base)">
       {/* Header */}
       <header className="flex items-center justify-between border-b border-[rgba(19,236,164,0.1)] bg-[rgba(16,34,28,0.8)] backdrop-blur-md px-6 py-3 z-20 shrink-0">
         <div className="flex items-center gap-4">
@@ -79,7 +79,7 @@ function CourseCreatorPreview() {
             <span className="material-symbols-outlined">rocket_launch</span>
           </div>
           <div>
-            <h2 className="text-white text-lg font-bold tracking-tight leading-tight">
+            <h2 className="text-(--text-base) text-lg font-bold tracking-tight leading-tight">
               Course Creator
             </h2>
             <p className="text-[#13eca4] text-xs font-medium uppercase tracking-widest">
@@ -106,7 +106,7 @@ function CourseCreatorPreview() {
             <span className="text-slate-500 text-[10px] uppercase font-bold tracking-tighter">
               Previewing as
             </span>
-            <span className="text-white text-xs font-semibold">Demo Student</span>
+            <span className="text-(--text-base) text-xs font-semibold">Demo Student</span>
           </div>
           <Link
             href={`/dashboard/courses/create/step4?courseId=${courseId}`}
@@ -130,7 +130,7 @@ function CourseCreatorPreview() {
                 </span>
                 <span className="text-xs font-bold text-[#13eca4]">{progressPct}%</span>
               </div>
-              <div className="h-2 w-full rounded-full bg-[rgba(255,255,255,0.06)]">
+              <div className="h-2 w-full rounded-full bg-(--input-bg)">
                 <div
                   className="h-full rounded-full bg-[#13eca4] shadow-[0_0_10px_rgba(19,236,164,0.4)]"
                   style={{ width: `${progressPct}%` }}
@@ -232,7 +232,7 @@ function CourseCreatorPreview() {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto bg-[#10221c] p-8 md:p-12">
+        <main className="flex-1 overflow-y-auto bg-(--bg-page) p-8 md:p-12">
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-[rgba(19,236,164,0.5)] mb-4">
@@ -245,7 +245,7 @@ function CourseCreatorPreview() {
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-(--text-base) mb-6 tracking-tight">
               {activeLesson?.title || `Step ${activeLessonIdx + 1}: ${course?.title || "Lesson"}`}
             </h1>
 
@@ -282,7 +282,7 @@ function CourseCreatorPreview() {
                         )}
                         {block.content && (
                           <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-[rgba(16,34,28,0.8)] to-transparent p-6">
-                            <p className="text-white font-bold text-lg">{block.content}</p>
+                            <p className="text-(--text-base) font-bold text-lg">{block.content}</p>
                           </div>
                         )}
                       </div>
@@ -318,7 +318,7 @@ function CourseCreatorPreview() {
                           <div className="w-10 h-10 rounded-xl bg-[#13eca4] flex items-center justify-center text-[#10221c]">
                             <span className="material-symbols-outlined">task_alt</span>
                           </div>
-                          <h3 className="text-xl font-bold text-white">{taskData.title}</h3>
+                          <h3 className="text-xl font-bold text-(--text-base)">{taskData.title}</h3>
                         </div>
                         <p className="text-sm text-slate-400 mb-4">{taskData.instructions}</p>
                       </div>
@@ -356,11 +356,11 @@ function CourseCreatorPreview() {
                       <span className="bg-[rgba(19,236,164,0.2)] text-[#13eca4] text-[10px] font-bold uppercase px-2 py-1 rounded mb-2 inline-block">
                         {course?.category || "STEM"}
                       </span>
-                      <h4 className="text-white font-bold text-lg">
+                      <h4 className="text-(--text-base) font-bold text-lg">
                         {course?.title || "Course Preview"}
                       </h4>
                     </div>
-                    <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.1)] backdrop-blur-md flex items-center justify-center text-white hover:bg-[#13eca4] hover:text-[#10221c] transition-colors">
+                    <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.1)] backdrop-blur-md flex items-center justify-center text-(--text-base) hover:bg-[#13eca4] hover:text-[#10221c] transition-colors">
                       <span className="material-symbols-outlined">zoom_in</span>
                     </button>
                   </div>
@@ -375,7 +375,7 @@ function CourseCreatorPreview() {
                   <span className="material-symbols-outlined">edit_note</span>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">Student Reflection</h3>
+                  <h3 className="text-xl font-bold text-(--text-base)">Student Reflection</h3>
                   <p className="text-xs text-slate-400">
                     Share your thoughts to unlock the next step
                   </p>
@@ -389,7 +389,7 @@ function CourseCreatorPreview() {
                   value={reflection}
                   onChange={(e) => setReflection(e.target.value)}
                   placeholder="Type your answer here..."
-                  className="w-full rounded-xl bg-[#10221c] border border-[rgba(255,255,255,0.1)] text-slate-200 placeholder-slate-600 focus:border-[#13eca4] focus:ring-1 focus:ring-[#13eca4] h-32 p-4 outline-none transition-all resize-none"
+                  className="w-full rounded-xl bg-(--bg-page) border border-(--border-subtle) text-slate-200 placeholder:text-(--text-faint) focus:border-[#13eca4] focus:ring-1 focus:ring-[#13eca4] h-32 p-4 outline-none transition-all resize-none"
                 />
               </label>
               <div className="flex justify-between items-center">
@@ -407,7 +407,7 @@ function CourseCreatorPreview() {
               <button
                 onClick={() => setActiveLessonIdx((prev) => Math.max(0, prev - 1))}
                 disabled={activeLessonIdx === 0}
-                className="flex items-center gap-2 text-slate-400 hover:text-white font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 text-slate-400 hover:text-(--text-base) font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined">arrow_back</span>
                 Previous Step

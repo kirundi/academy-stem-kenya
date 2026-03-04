@@ -30,7 +30,7 @@ function ProgressBar({ value }: { value: number }) {
           }}
         />
       </div>
-      <span className="text-xs font-bold text-white w-10 text-right">{clamped}%</span>
+      <span className="text-xs font-bold text-(--text-base) w-10 text-right">{clamped}%</span>
     </div>
   );
 }
@@ -51,7 +51,7 @@ function statusBadge(progress: number) {
     );
   }
   return (
-    <span className="px-2 py-0.5 rounded-full bg-[rgba(255,255,255,0.06)] text-slate-400 text-[10px] font-bold uppercase tracking-wide">
+    <span className="px-2 py-0.5 rounded-full bg-(--input-bg) text-slate-400 text-[10px] font-bold uppercase tracking-wide">
       Not Started
     </span>
   );
@@ -67,14 +67,14 @@ function ChildReportCard({ child }: { child: ChildProgress }) {
       : 0;
 
   return (
-    <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(139,92,246,0.12)] overflow-hidden">
+    <div className="bg-(--bg-card) rounded-2xl border border-[rgba(139,92,246,0.12)] overflow-hidden">
       {/* Child header */}
       <div className="flex items-center gap-4 px-6 py-5 border-b border-[rgba(139,92,246,0.08)] bg-[rgba(139,92,246,0.04)]">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-white font-bold text-lg shrink-0">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-(--text-base) font-bold text-lg shrink-0">
           {initials}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-white font-bold text-base">{student.displayName}</h3>
+          <h3 className="text-(--text-base) font-bold text-base">{student.displayName}</h3>
           <div className="flex items-center gap-3 mt-0.5 flex-wrap">
             {student.grade && (
               <span className="text-[#8b5cf6] text-xs font-semibold">Grade {student.grade}</span>
@@ -151,7 +151,7 @@ export default function ParentReportsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center">
         <span className="material-symbols-outlined animate-spin text-4xl text-[#8b5cf6]">
           progress_activity
         </span>
@@ -161,7 +161,7 @@ export default function ParentReportsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#10221c] flex items-center justify-center px-8">
+      <div className="min-h-screen bg-(--bg-page) flex items-center justify-center px-8">
         <div className="text-center">
           <span className="material-symbols-outlined text-[48px] text-red-400 mb-3 block">
             error
@@ -174,11 +174,11 @@ export default function ParentReportsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.85)] backdrop-blur-md border-b border-[rgba(139,92,246,0.1)] px-8 h-16 flex items-center">
         <div>
-          <h1 className="text-xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-xl font-bold text-(--text-base) flex items-center gap-2">
             <span className="material-symbols-outlined text-[#8b5cf6] text-[22px]">bar_chart</span>
             Progress Reports
           </h1>
@@ -227,7 +227,7 @@ export default function ParentReportsPage() {
             ].map(({ label, value, icon, color }) => (
               <div
                 key={label}
-                className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(139,92,246,0.08)]"
+                className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(139,92,246,0.08)]"
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -241,7 +241,7 @@ export default function ParentReportsPage() {
                   </span>
                 </div>
                 <div>
-                  <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                  <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                   <p className="text-slate-400 text-xs mt-0.5">{label}</p>
                 </div>
               </div>
@@ -251,11 +251,11 @@ export default function ParentReportsPage() {
 
         {/* Per-child report cards */}
         {children.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 bg-[#1a2e27] rounded-2xl border border-[rgba(139,92,246,0.08)]">
+          <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(139,92,246,0.08)]">
             <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
               bar_chart
             </span>
-            <p className="text-white font-semibold text-lg mb-2">No children linked yet</p>
+            <p className="text-(--text-base) font-semibold text-lg mb-2">No children linked yet</p>
             <p className="text-slate-400 text-sm max-w-sm text-center">
               Ask your child&apos;s teacher or school administrator to connect your account.
             </p>

@@ -198,13 +198,13 @@ export default function StudentProgressPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">My Progress</h1>
-          <p className="text-slate-400 text-xs mt-0.5">Skills radar &amp; learning journey</p>
+          <h1 className="text-xl font-bold text-(--text-base)">My Progress</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">Skills radar &amp; learning journey</p>
         </div>
-        <button className="flex items-center gap-2 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+        <button className="flex items-center gap-2 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
           <span className="material-symbols-outlined text-[18px]">download</span>
           Download Report
         </button>
@@ -212,7 +212,7 @@ export default function StudentProgressPage() {
 
       <div className="px-8 py-8">
         {/* XP Hero */}
-        <div className="bg-linear-to-r from-[rgba(19,236,164,0.08)] to-[rgba(19,236,164,0.02)] border border-[rgba(19,236,164,0.12)] rounded-3xl p-7 mb-8 relative overflow-hidden">
+        <div className="bg-linear-to-r from-[rgba(19,236,164,0.08)] to-[rgba(19,236,164,0.02)] border border-(--border-medium) rounded-3xl p-7 mb-8 relative overflow-hidden">
           <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full opacity-5 blur-2xl bg-[#13eca4]" />
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex items-center gap-5">
@@ -220,7 +220,7 @@ export default function StudentProgressPage() {
                 <span className="text-[#13eca4] text-3xl font-black">{level}</span>
               </div>
               <div>
-                <p className="text-white text-2xl font-black">{displayName}</p>
+                <p className="text-(--text-base) text-2xl font-black">{displayName}</p>
                 <p className="text-[#13eca4] font-semibold text-sm">Level {level}</p>
               </div>
             </div>
@@ -248,8 +248,8 @@ export default function StudentProgressPage() {
                   >
                     {s.icon}
                   </span>
-                  <p className="text-white text-xl font-bold">{s.value}</p>
-                  <p className="text-slate-500 text-xs">{s.label}</p>
+                  <p className="text-(--text-base) text-xl font-bold">{s.value}</p>
+                  <p className="text-(--text-faint) text-xs">{s.label}</p>
                 </div>
               ))}
             </div>
@@ -257,12 +257,12 @@ export default function StudentProgressPage() {
 
           <div className="mt-5">
             <div className="flex justify-between text-xs mb-2">
-              <span className="text-slate-400 font-semibold">Progress to Level {level + 1}</span>
+              <span className="text-(--text-muted) font-semibold">Progress to Level {level + 1}</span>
               <span className="text-[#13eca4] font-bold">
                 {xp} / {xpForNextLevel} XP
               </span>
             </div>
-            <div className="h-2.5 bg-[rgba(255,255,255,0.08)] rounded-full">
+            <div className="h-2.5 bg-(--bg-elevated) rounded-full">
               <div
                 className="h-2.5 rounded-full bg-linear-to-r from-[#13eca4] to-[#06d68e] transition-all"
                 style={{ width: `${xpPercent}%` }}
@@ -273,8 +273,8 @@ export default function StudentProgressPage() {
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
           {/* Skills Radar (visual approximation with bars) */}
-          <div className="xl:col-span-2 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-5">Skills Analysis</h2>
+          <div className="xl:col-span-2 bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-5">Skills Analysis</h2>
             {skills.length > 0 ? (
               <>
                 <div className="space-y-4">
@@ -288,16 +288,16 @@ export default function StudentProgressPage() {
                           >
                             {skill.icon}
                           </span>
-                          <span className="text-white text-sm font-semibold">{skill.name}</span>
+                          <span className="text-(--text-base) text-sm font-semibold">{skill.name}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-slate-500 text-xs">{skill.xp} XP</span>
+                          <span className="text-(--text-faint) text-xs">{skill.xp} XP</span>
                           <span className="text-sm font-bold" style={{ color: skill.color }}>
                             {skill.level}%
                           </span>
                         </div>
                       </div>
-                      <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full relative overflow-hidden">
+                      <div className="h-2 bg-(--input-bg) rounded-full relative overflow-hidden">
                         <div
                           className="h-2 rounded-full transition-all duration-700"
                           style={{
@@ -312,8 +312,8 @@ export default function StudentProgressPage() {
 
                 {/* Top Skill Highlights */}
                 <div className="mt-6 grid grid-cols-3 gap-3">
-                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-[rgba(19,236,164,0.1)]">
-                    <p className="text-slate-500 text-xs mb-1">Strongest Skill</p>
+                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-(--border-subtle)">
+                    <p className="text-(--text-faint) text-xs mb-1">Strongest Skill</p>
                     <p
                       className="font-bold text-sm"
                       style={{ color: strongest?.color ?? defaultColor }}
@@ -324,13 +324,13 @@ export default function StudentProgressPage() {
                       {strongest?.level ?? 0}%
                     </p>
                   </div>
-                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-[rgba(19,236,164,0.1)]">
-                    <p className="text-slate-500 text-xs mb-1">Total Skills</p>
+                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-(--border-subtle)">
+                    <p className="text-(--text-faint) text-xs mb-1">Total Skills</p>
                     <p className="text-[#13eca4] font-bold text-sm">{skills.length}</p>
                     <p className="text-[#13eca4] text-xs">tracked</p>
                   </div>
-                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-[rgba(19,236,164,0.1)]">
-                    <p className="text-slate-500 text-xs mb-1">Focus Area</p>
+                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-(--border-subtle)">
+                    <p className="text-(--text-faint) text-xs mb-1">Focus Area</p>
                     <p className="font-bold text-sm" style={{ color: weakest?.color ?? "#3b82f6" }}>
                       {weakest?.name ?? "N/A"}
                     </p>
@@ -342,10 +342,10 @@ export default function StudentProgressPage() {
               </>
             ) : (
               <div className="text-center py-8">
-                <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">
+                <span className="material-symbols-outlined text-[40px] text-(--text-faint) mb-2 block">
                   insights
                 </span>
-                <p className="text-slate-500 text-sm">
+                <p className="text-(--text-faint) text-sm">
                   No skills data yet. Complete courses to build your skills profile!
                 </p>
               </div>
@@ -353,29 +353,29 @@ export default function StudentProgressPage() {
           </div>
 
           {/* Milestones */}
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-5">Milestones</h2>
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-5">Milestones</h2>
             <div className="relative">
-              <div className="absolute left-3.5 top-0 h-full w-0.5 bg-[rgba(255,255,255,0.06)]" />
+              <div className="absolute left-3.5 top-0 h-full w-0.5 bg-(--input-bg)" />
               <div className="space-y-4">
                 {milestones.map((m) => (
                   <div key={m.label} className="flex items-start gap-3 relative pl-1">
                     <div
-                      className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${m.done ? "bg-[rgba(19,236,164,0.15)]" : "bg-[rgba(255,255,255,0.05)]"}`}
+                      className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${m.done ? "bg-[rgba(19,236,164,0.15)]" : "bg-(--input-bg)"}`}
                     >
                       <span
-                        className={`material-symbols-outlined text-[14px] ${m.done ? "text-[#13eca4]" : "text-slate-600"}`}
+                        className={`material-symbols-outlined text-[14px] ${m.done ? "text-[#13eca4]" : "text-(--text-faint)"}`}
                       >
                         {m.icon}
                       </span>
                     </div>
                     <div>
                       <p
-                        className={`text-sm font-semibold ${m.done ? "text-white" : "text-slate-600"}`}
+                        className={`text-sm font-semibold ${m.done ? "text-(--text-base)" : "text-(--text-faint)"}`}
                       >
                         {m.label}
                       </p>
-                      <p className={`text-xs ${m.done ? "text-slate-500" : "text-slate-700"}`}>
+                      <p className={`text-xs ${m.done ? "text-(--text-faint)" : "text-slate-700"}`}>
                         {m.date}
                       </p>
                     </div>
@@ -391,8 +391,8 @@ export default function StudentProgressPage() {
 
         {/* Courses */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-4 flex items-center gap-2">
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#13eca4] text-[20px]">task_alt</span>
               Completed Courses
             </h2>
@@ -415,24 +415,24 @@ export default function StudentProgressPage() {
                       </span>
                     </div>
                     <div className="flex-1">
-                      <p className="text-white font-semibold text-sm">{c.title}</p>
-                      <p className="text-slate-500 text-xs">
+                      <p className="text-(--text-base) font-semibold text-sm">{c.title}</p>
+                      <p className="text-(--text-faint) text-xs">
                         {c.category} &middot; {c.xp} XP earned
                       </p>
                     </div>
-                    <span className="text-white font-black text-lg" style={{ color: c.color }}>
+                    <span className="text-(--text-base) font-black text-lg" style={{ color: c.color }}>
                       {c.grade}
                     </span>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-slate-500 text-sm text-center py-4">No courses completed yet.</p>
+              <p className="text-(--text-faint) text-sm text-center py-4">No courses completed yet.</p>
             )}
           </div>
 
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-4 flex items-center gap-2">
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#3b82f6] text-[20px]">pending</span>
               In Progress
             </h2>
@@ -453,14 +453,14 @@ export default function StudentProgressPage() {
                         </span>
                       </div>
                       <div className="flex-1">
-                        <p className="text-white font-semibold text-sm">{c.title}</p>
-                        <p className="text-slate-500 text-xs">{c.category}</p>
+                        <p className="text-(--text-base) font-semibold text-sm">{c.title}</p>
+                        <p className="text-(--text-faint) text-xs">{c.category}</p>
                       </div>
                       <span className="text-sm font-bold" style={{ color: c.color }}>
                         {c.progress}%
                       </span>
                     </div>
-                    <div className="h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full">
+                    <div className="h-1.5 bg-(--input-bg) rounded-full">
                       <div
                         className="h-1.5 rounded-full"
                         style={{ background: c.color, width: `${c.progress}%` }}
@@ -470,7 +470,7 @@ export default function StudentProgressPage() {
                 ))}
               </div>
             ) : (
-              <p className="text-slate-500 text-sm text-center py-4">No courses in progress.</p>
+              <p className="text-(--text-faint) text-sm text-center py-4">No courses in progress.</p>
             )}
           </div>
         </div>

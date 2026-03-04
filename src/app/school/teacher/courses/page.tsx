@@ -105,11 +105,11 @@ export default function TeacherCoursesPage() {
   const assignedCount = courses.filter((c) => c.assigned).length;
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Course Library</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">Course Library</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {assignedCount} assigned · Browse and assign to your classrooms
           </p>
         </div>
@@ -119,7 +119,7 @@ export default function TeacherCoursesPage() {
         {/* Search & Filter */}
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[20px]">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-faint) text-[20px]">
               search
             </span>
             <input
@@ -141,7 +141,7 @@ export default function TeacherCoursesPage() {
               className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                 activeCategory === cat
                   ? "bg-[#13eca4] text-[#10221c]"
-                  : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-white border border-[rgba(255,255,255,0.08)]"
+                  : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base) border border-(--border-subtle)"
               }`}
             >
               {cat}
@@ -151,7 +151,7 @@ export default function TeacherCoursesPage() {
 
         {/* Course Grid */}
         {filtered.length === 0 && (
-          <div className="text-center py-16 text-slate-500">
+          <div className="text-center py-16 text-(--text-faint)">
             <span className="material-symbols-outlined text-[48px] mb-4 block">menu_book</span>
             <p>
               No courses found.{" "}
@@ -163,7 +163,7 @@ export default function TeacherCoursesPage() {
           {filtered.map((course) => (
             <div
               key={course.id}
-              className="group bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.25)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.05)] transition-all flex flex-col overflow-hidden"
+              className="group bg-(--bg-card) rounded-2xl border border-(--border-subtle) hover:border-[rgba(19,236,164,0.25)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.05)] transition-all flex flex-col overflow-hidden"
             >
               <div
                 className="h-2 w-full"
@@ -191,17 +191,17 @@ export default function TeacherCoursesPage() {
                   )}
                 </div>
 
-                <h3 className="text-white font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
+                <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
                   {course.title}
                 </h3>
                 <p
-                  className="text-slate-500 text-xs font-semibold mb-3"
+                  className="text-(--text-faint) text-xs font-semibold mb-3"
                   style={{ color: course.color || "#13eca4" }}
                 >
                   {course.category}
                 </p>
 
-                <div className="flex items-center gap-4 mb-4 text-xs text-slate-400">
+                <div className="flex items-center gap-4 mb-4 text-xs text-(--text-muted)">
                   <span className="flex items-center gap-1">
                     <span className="material-symbols-outlined text-[14px]">play_circle</span>
                     {course.totalLessons ?? 0} lessons
@@ -218,7 +218,7 @@ export default function TeacherCoursesPage() {
                 </div>
 
                 {course.assigned && (
-                  <p className="text-slate-500 text-xs mb-4">
+                  <p className="text-(--text-faint) text-xs mb-4">
                     <span className="material-symbols-outlined text-[14px] align-middle">
                       group
                     </span>{" "}
@@ -232,7 +232,7 @@ export default function TeacherCoursesPage() {
                       onClick={() =>
                         openAssignModal(course.id, course.title, course.color || "#13eca4")
                       }
-                      className="w-full flex items-center justify-center gap-2 py-2.5 bg-[rgba(255,255,255,0.06)] text-slate-300 rounded-xl text-sm font-semibold hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 bg-(--input-bg) text-(--text-muted) rounded-xl text-sm font-semibold hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                     >
                       <span className="material-symbols-outlined text-[18px]">settings</span>
                       Manage Assignment
@@ -263,22 +263,22 @@ export default function TeacherCoursesPage() {
       {/* Assign to Classroom Modal */}
       {assignModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-          <div className="bg-[#1a2e27] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-full max-w-md shadow-2xl">
+          <div className="bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-6 w-full max-w-md shadow-2xl">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <h2 className="text-white font-bold text-base">Assign to Classrooms</h2>
-                <p className="text-slate-400 text-xs mt-0.5">{assignModal.courseTitle}</p>
+                <h2 className="text-(--text-base) font-bold text-base">Assign to Classrooms</h2>
+                <p className="text-(--text-muted) text-xs mt-0.5">{assignModal.courseTitle}</p>
               </div>
               <button
                 onClick={() => setAssignModal(null)}
-                className="text-slate-500 hover:text-white transition-colors"
+                className="text-(--text-faint) hover:text-(--text-base) transition-colors"
               >
                 <span className="material-symbols-outlined text-[22px]">close</span>
               </button>
             </div>
 
             {classrooms.length === 0 ? (
-              <div className="text-center py-8 text-slate-500">
+              <div className="text-center py-8 text-(--text-faint)">
                 <span className="material-symbols-outlined text-[36px] mb-2 block">co_present</span>
                 <p className="text-sm">No classrooms yet. Create one first.</p>
               </div>
@@ -289,7 +289,7 @@ export default function TeacherCoursesPage() {
                   return (
                     <label
                       key={c.id}
-                      className="flex items-center gap-3 p-3 rounded-xl cursor-pointer hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                      className="flex items-center gap-3 p-3 rounded-xl cursor-pointer hover:bg-(--glass-bg) transition-colors"
                     >
                       <input
                         type="checkbox"
@@ -300,8 +300,8 @@ export default function TeacherCoursesPage() {
                         className="w-4 h-4 accent-[#13eca4]"
                       />
                       <div className="flex-1">
-                        <p className="text-white text-sm font-semibold">{c.name}</p>
-                        <p className="text-slate-500 text-xs">
+                        <p className="text-(--text-base) text-sm font-semibold">{c.name}</p>
+                        <p className="text-(--text-faint) text-xs">
                           {c.subject} · Grade {c.grade} · {c.enrolled ?? 0} students
                         </p>
                       </div>
@@ -317,7 +317,7 @@ export default function TeacherCoursesPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setAssignModal(null)}
-                className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-[rgba(255,255,255,0.06)] text-slate-300 hover:bg-[rgba(255,255,255,0.1)] transition-colors"
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold bg-(--input-bg) text-(--text-muted) hover:bg-[rgba(255,255,255,0.1)] transition-colors"
               >
                 Cancel
               </button>

@@ -58,22 +58,22 @@ export default function SchoolAdminIntegrationsPage() {
   };
 
   return (
-    <div className="flex h-screen bg-[#10221c] overflow-hidden">
+    <div className="flex h-screen bg-(--bg-page) overflow-hidden">
       <SchoolAdminSidebar />
 
       <main className="ml-60 flex-1 overflow-y-auto p-6 md:p-8">
         <div className="max-w-4xl mx-auto flex flex-col gap-8">
           {/* Breadcrumb + Title */}
           <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 text-slate-500 text-sm">
+            <div className="flex items-center gap-2 text-(--text-faint) text-sm">
               <span>Integrations</span>
               <span className="material-symbols-outlined text-sm">chevron_right</span>
               <span className="text-[#13daec]">Google Classroom</span>
             </div>
-            <h2 className="text-3xl font-black text-white tracking-tight">
+            <h2 className="text-3xl font-black text-(--text-base) tracking-tight">
               Google Classroom Integration
             </h2>
-            <p className="text-slate-400 max-w-2xl text-sm">
+            <p className="text-(--text-muted) max-w-2xl text-sm">
               Connect your school&apos;s Google Workspace for Education to automate roster
               management, grade syncing, and lesson distribution.
             </p>
@@ -89,11 +89,11 @@ export default function SchoolAdminIntegrationsPage() {
                   </span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">School-Wide Integration</h3>
-                  <p className="text-sm text-slate-400 leading-none">
+                  <h3 className="text-lg font-bold text-(--text-base)">School-Wide Integration</h3>
+                  <p className="text-sm text-(--text-muted) leading-none">
                     Status:{" "}
                     <span
-                      className={`font-medium ${integrationEnabled ? "text-emerald-500" : "text-slate-500"}`}
+                      className={`font-medium ${integrationEnabled ? "text-emerald-500" : "text-(--text-faint)"}`}
                     >
                       {integrationEnabled ? "Active & Synchronized" : "Disabled"}
                     </span>
@@ -101,7 +101,7 @@ export default function SchoolAdminIntegrationsPage() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-sm font-medium text-white">Enable Integration</span>
+                <span className="text-sm font-medium text-(--text-base)">Enable Integration</span>
                 <button
                   onClick={() => setIntegrationEnabled(!integrationEnabled)}
                   className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${integrationEnabled ? "bg-[#13daec]" : "bg-slate-700"}`}
@@ -117,7 +117,7 @@ export default function SchoolAdminIntegrationsPage() {
               {options.map((opt) => (
                 <div key={opt.key} className="flex flex-col gap-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className={`font-bold ${opt.danger ? "text-[#ef4444]" : "text-white"}`}>
+                    <h4 className={`font-bold ${opt.danger ? "text-[#ef4444]" : "text-(--text-base)"}`}>
                       {opt.label}
                     </h4>
                     <button
@@ -141,8 +141,8 @@ export default function SchoolAdminIntegrationsPage() {
                       />
                     </button>
                   </div>
-                  <p className="text-sm text-slate-400 italic">{opt.sublabel}</p>
-                  <p className="text-xs text-slate-500">{opt.desc}</p>
+                  <p className="text-sm text-(--text-muted) italic">{opt.sublabel}</p>
+                  <p className="text-xs text-(--text-faint)">{opt.desc}</p>
                 </div>
               ))}
             </div>
@@ -152,10 +152,10 @@ export default function SchoolAdminIntegrationsPage() {
           <section className="flex flex-col gap-4">
             <div className="flex items-center gap-2 px-2">
               <span className="material-symbols-outlined text-[#13daec]">security</span>
-              <h3 className="text-xl font-bold text-white">Security &amp; Data Privacy</h3>
+              <h3 className="text-xl font-bold text-(--text-base)">Security &amp; Data Privacy</h3>
             </div>
             <div className="bg-[#1a2e31]/50 border border-slate-800 rounded-xl p-6">
-              <p className="text-sm text-slate-400 mb-5">
+              <p className="text-sm text-(--text-muted) mb-5">
                 STEM Impact Academy follows the Student Data Privacy Consortium (SDPC) standards.
                 Below is the list of data shared with Google Classroom:
               </p>
@@ -185,7 +185,7 @@ export default function SchoolAdminIntegrationsPage() {
                 ].map((item) => (
                   <div
                     key={item.title}
-                    className="flex items-start gap-4 p-3 bg-[#102022]/50 rounded-lg border border-slate-800"
+                    className="flex items-start gap-4 p-3 bg-(--bg-page)/50 rounded-lg border border-slate-800"
                   >
                     <div
                       className={`w-8 h-8 rounded-full ${item.bg} flex items-center justify-center shrink-0`}
@@ -195,14 +195,14 @@ export default function SchoolAdminIntegrationsPage() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-white">{item.title}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{item.desc}</p>
+                      <p className="text-sm font-bold text-(--text-base)">{item.title}</p>
+                      <p className="text-xs text-(--text-muted) mt-0.5">{item.desc}</p>
                     </div>
                   </div>
                 ))}
               </div>
               <div className="mt-6 flex justify-end gap-3">
-                <button className="px-4 py-2 text-sm font-medium text-slate-400 hover:text-white transition-colors">
+                <button className="px-4 py-2 text-sm font-medium text-(--text-muted) hover:text-(--text-base) transition-colors">
                   Download Privacy Policy
                 </button>
                 <button
@@ -219,22 +219,22 @@ export default function SchoolAdminIntegrationsPage() {
           <section className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#13daec]">group</span>
-              <h3 className="text-xl font-bold text-white">Connected Teacher Accounts</h3>
+              <h3 className="text-xl font-bold text-(--text-base)">Connected Teacher Accounts</h3>
             </div>
             <div className="overflow-hidden rounded-xl border border-slate-800 bg-[#1a2e31]">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="bg-[#102022]/50 border-b border-slate-800">
-                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-400">
+                  <tr className="bg-(--bg-page)/50 border-b border-slate-800">
+                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-(--text-muted)">
                       Teacher
                     </th>
-                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-(--text-muted)">
                       Classes Synced
                     </th>
-                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-(--text-muted)">
                       Last Sync
                     </th>
-                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-slate-400 text-right">
+                    <th className="px-5 py-3 text-xs font-bold uppercase tracking-wider text-(--text-muted) text-right">
                       Status
                     </th>
                   </tr>
@@ -268,11 +268,11 @@ export default function SchoolAdminIntegrationsPage() {
                       className="hover:bg-[rgba(19,218,236,0.04)] transition-colors"
                     >
                       <td className="px-5 py-4">
-                        <p className="text-sm font-semibold text-white">{t.name}</p>
-                        <p className="text-xs text-slate-400">{t.email}</p>
+                        <p className="text-sm font-semibold text-(--text-base)">{t.name}</p>
+                        <p className="text-xs text-(--text-muted)">{t.email}</p>
                       </td>
-                      <td className="px-5 py-4 text-sm text-slate-300">{t.classes}</td>
-                      <td className="px-5 py-4 text-xs text-slate-400">{t.lastSync}</td>
+                      <td className="px-5 py-4 text-sm text-(--text-muted)">{t.classes}</td>
+                      <td className="px-5 py-4 text-xs text-(--text-muted)">{t.lastSync}</td>
                       <td className="px-5 py-4 text-right">
                         <span
                           className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
@@ -295,13 +295,13 @@ export default function SchoolAdminIntegrationsPage() {
           <div className="flex items-center gap-4 p-4 bg-[rgba(239,68,68,0.05)] border border-[rgba(239,68,68,0.2)] rounded-lg">
             <span className="material-symbols-outlined text-[#ef4444]">warning</span>
             <div className="flex-1">
-              <p className="text-sm font-bold text-white">Danger Zone</p>
-              <p className="text-xs text-slate-400">
+              <p className="text-sm font-bold text-(--text-base)">Danger Zone</p>
+              <p className="text-xs text-(--text-muted)">
                 Disabling this integration will disconnect all teacher accounts and clear all
                 scheduled sync tasks immediately.
               </p>
             </div>
-            <button className="px-4 py-2 border border-[#ef4444] text-[#ef4444] text-xs font-bold rounded-lg hover:bg-[#ef4444] hover:text-white transition-all whitespace-nowrap">
+            <button className="px-4 py-2 border border-[#ef4444] text-[#ef4444] text-xs font-bold rounded-lg hover:bg-[#ef4444] hover:text-(--text-base) transition-all whitespace-nowrap">
               Disconnect All
             </button>
           </div>

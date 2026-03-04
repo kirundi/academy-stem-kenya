@@ -20,10 +20,10 @@ export default function StatCard({
       ? "bg-emerald-500/10 text-emerald-400"
       : changeType === "negative"
         ? "bg-red-500/10 text-red-400"
-        : "bg-slate-700 text-slate-400";
+        : "bg-(--bg-elevated) text-(--text-muted)";
 
   return (
-    <div className="bg-[#1a2e27] rounded-2xl p-6 border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.2)] transition-all">
+    <div className="bg-(--bg-card) rounded-2xl p-6 border border-(--border-subtle) hover:border-(--border-accent) transition-all">
       <div className="flex items-start justify-between mb-4">
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center"
@@ -37,8 +37,8 @@ export default function StatCard({
           <span className={`text-xs font-bold px-2 py-1 rounded-full ${changeBg}`}>{change}</span>
         )}
       </div>
-      <p className="text-slate-400 text-sm font-medium mb-1">{label}</p>
-      <p className="text-white text-3xl font-bold">{value}</p>
+      <p className="text-(--text-muted) text-sm font-medium mb-1">{label}</p>
+      <p className="text-(--text-base) text-3xl font-bold">{value}</p>
     </div>
   );
 }

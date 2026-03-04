@@ -3,14 +3,14 @@ import PublicNavbar from "@/components/PublicNavbar";
 
 export default function HelpPage() {
   return (
-    <div className="min-h-screen bg-[#10221c] font-sans text-slate-100 antialiased">
+    <div className="min-h-screen bg-(--bg-page) font-sans text-(--text-base) antialiased">
       <PublicNavbar />
 
       <main className="flex-1 px-6 py-16">
         <div className="mx-auto max-w-5xl">
           <div className="text-center mb-16">
             <h1 className="text-4xl font-black mb-4">Help Center</h1>
-            <p className="text-slate-400 max-w-xl mx-auto">
+            <p className="text-(--text-muted) max-w-xl mx-auto">
               Find answers to common questions and get the support you need to make the most of STEM
               Impact Academy.
             </p>
@@ -76,7 +76,7 @@ export default function HelpPage() {
             ].map(({ icon, title, items }) => (
               <div
                 key={title}
-                className="rounded-xl bg-[#1a2e27] p-6 border border-[rgba(255,255,255,0.06)] hover:border-[rgba(19,236,164,0.2)] transition-all"
+                className="rounded-xl bg-(--bg-card) p-6 border border-(--border-subtle) hover:border-(--border-accent) transition-all"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-lg bg-[rgba(19,236,164,0.1)] flex items-center justify-center">
@@ -86,8 +86,8 @@ export default function HelpPage() {
                 </div>
                 <ul className="space-y-2">
                   {items.map((item) => (
-                    <li key={item} className="text-sm text-slate-400 flex items-center gap-2">
-                      <span className="material-symbols-outlined text-slate-600 text-sm">
+                    <li key={item} className="text-sm text-(--text-muted) flex items-center gap-2">
+                      <span className="material-symbols-outlined text-(--text-faint) text-sm">
                         chevron_right
                       </span>
                       {item}
@@ -99,12 +99,12 @@ export default function HelpPage() {
           </div>
 
           {/* Still need help? */}
-          <div className="rounded-2xl bg-[rgba(19,236,164,0.05)] border border-[rgba(19,236,164,0.15)] p-8 md:p-12 text-center">
+          <div className="rounded-2xl bg-[rgba(19,236,164,0.05)] border border-(--border-medium) p-8 md:p-12 text-center">
             <span className="material-symbols-outlined text-[#13eca4] text-4xl mb-4">
               support_agent
             </span>
             <h2 className="text-2xl font-bold mb-3">Still Need Help?</h2>
-            <p className="text-slate-400 mb-6 max-w-lg mx-auto">
+            <p className="text-(--text-muted) mb-6 max-w-lg mx-auto">
               Can&apos;t find what you&apos;re looking for? Our support team is ready to assist you.
             </p>
             <Link
@@ -117,8 +117,8 @@ export default function HelpPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center mt-16">
-        <p className="text-xs text-slate-600">
+      <footer className="border-t border-(--border-subtle) bg-(--bg-page) px-6 py-8 text-center mt-16">
+        <p className="text-xs text-(--text-faint)">
           &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
         </p>
       </footer>

@@ -54,18 +54,18 @@ export default function EditorNewChallengePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(236,72,153,0.1)] px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link
             href="/editor/challenges"
-            className="text-slate-400 hover:text-white transition-colors flex items-center gap-1 text-sm"
+            className="text-slate-400 hover:text-(--text-base) transition-colors flex items-center gap-1 text-sm"
           >
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
             Challenges
           </Link>
           <div className="h-4 w-px bg-slate-700" />
-          <h1 className="text-xl font-bold text-white">New Challenge</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">New Challenge</h1>
         </div>
         <div className="flex items-center gap-3">
           <button
@@ -78,7 +78,7 @@ export default function EditorNewChallengePage() {
           <button
             onClick={() => handleSave("published")}
             disabled={saving}
-            className="px-4 py-2 rounded-xl text-sm font-semibold text-white disabled:opacity-50"
+            className="px-4 py-2 rounded-xl text-sm font-semibold text-(--text-base) disabled:opacity-50"
             style={{ background: "#ec4899" }}
           >
             {saving ? "Saving…" : "Publish Challenge"}
@@ -102,7 +102,7 @@ export default function EditorNewChallengePage() {
             value={form.title}
             onChange={(e) => update("title", e.target.value)}
             placeholder="e.g. Eco-Hack 2025: Sustainable Cities"
-            className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
@@ -115,7 +115,7 @@ export default function EditorNewChallengePage() {
             onChange={(e) => update("description", e.target.value)}
             placeholder="Describe the challenge objectives and expected outcomes…"
             rows={4}
-            className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+            className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm resize-none focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
           />
         </div>
 
@@ -128,7 +128,7 @@ export default function EditorNewChallengePage() {
               value={form.theme}
               onChange={(e) => update("theme", e.target.value)}
               placeholder="e.g. Sustainability, AI, Robotics"
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) placeholder:text-(--text-faint) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
@@ -138,7 +138,7 @@ export default function EditorNewChallengePage() {
             <select
               value={form.scope}
               onChange={(e) => update("scope", e.target.value)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none"
             >
               <option value="global">Global</option>
               <option value="national">National</option>
@@ -156,7 +156,7 @@ export default function EditorNewChallengePage() {
               type="date"
               value={form.date}
               onChange={(e) => update("date", e.target.value)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
@@ -167,7 +167,7 @@ export default function EditorNewChallengePage() {
               type="time"
               value={form.time}
               onChange={(e) => update("time", e.target.value)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div>
@@ -179,7 +179,7 @@ export default function EditorNewChallengePage() {
               min="1"
               value={form.duration}
               onChange={(e) => update("duration", Number(e.target.value) || 1)}
-              className="w-full bg-[#1a2e27] border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl px-4 py-3 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
         </div>

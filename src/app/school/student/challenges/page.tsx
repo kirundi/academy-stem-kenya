@@ -87,19 +87,19 @@ export default function StudentChallengesHub() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0a1a16] text-white">
+    <div className="flex min-h-screen bg-[#0a1a16] text-(--text-base)">
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <div className="px-8 pt-8 pb-4 flex justify-between items-start">
           <div>
             <h2 className="text-4xl font-black tracking-tight mb-2">CHALLENGES HUB</h2>
-            <p className="text-slate-400 max-w-lg text-sm">
+            <p className="text-(--text-muted) max-w-lg text-sm">
               Conquer time-bound challenges, build high-impact solutions, and rise through the
               ranks.
             </p>
           </div>
           <div className="flex items-center gap-4">
-            <div className="bg-[#1a2e30] border border-[rgba(19,236,164,0.2)] rounded-xl px-4 py-2 flex items-center gap-2">
+            <div className="bg-(--bg-card) border border-(--border-accent) rounded-xl px-4 py-2 flex items-center gap-2">
               <span className="material-symbols-outlined text-[#13eca4] text-lg">toll</span>
               <span className="font-bold text-[#13eca4]">
                 {(appUser?.xp ?? 0).toLocaleString()} XP
@@ -119,7 +119,7 @@ export default function StudentChallengesHub() {
 
         <div className="flex-1 overflow-y-auto px-8 pb-8">
           {challenges.length === 0 ? (
-            <div className="text-center py-24 text-slate-500">
+            <div className="text-center py-24 text-(--text-faint)">
               <span className="material-symbols-outlined text-[64px] mb-4 block">emoji_events</span>
               <p className="text-lg font-semibold">No challenges available yet.</p>
               <p className="text-sm mt-2">
@@ -144,14 +144,14 @@ export default function StudentChallengesHub() {
 
                     {/* Hero Challenge Card */}
                     {heroChallenge && (
-                      <div className="relative overflow-hidden rounded-2xl bg-[#1a2e30] border border-[rgba(19,236,164,0.3)] shadow-lg shadow-[rgba(19,236,164,0.1)]">
+                      <div className="relative overflow-hidden rounded-2xl bg-(--bg-card) border border-(--border-strong) shadow-lg shadow-[rgba(19,236,164,0.1)]">
                         <div className="grid grid-cols-2">
                           <div className="p-8 flex flex-col justify-between">
                             <div>
-                              <h4 className="text-3xl font-black text-white mb-3">
+                              <h4 className="text-3xl font-black text-(--text-base) mb-3">
                                 {heroChallenge.title}
                               </h4>
-                              <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+                              <p className="text-(--text-muted) text-sm mb-6 leading-relaxed">
                                 {heroChallenge.description}
                               </p>
                               <div className="flex items-center gap-3 text-xs font-mono text-[#13eca4] mb-8">
@@ -183,11 +183,11 @@ export default function StudentChallengesHub() {
                                 ].map((t, i) => (
                                   <div key={i} className="flex flex-col items-center">
                                     <div
-                                      className={`w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 ${i === 1 ? "bg-[#1a2e30] text-[#13eca4]" : "bg-[#243d40]"}`}
+                                      className={`w-14 h-14 rounded-xl flex items-center justify-center border border-white/10 ${i === 1 ? "bg-(--bg-card) text-[#13eca4]" : "bg-[#243d40]"}`}
                                     >
-                                      <span className="text-xl font-bold text-white">{t.v}</span>
+                                      <span className="text-xl font-bold text-(--text-base)">{t.v}</span>
                                     </div>
-                                    <span className="text-[10px] mt-1 text-slate-500 uppercase">
+                                    <span className="text-[10px] mt-1 text-(--text-faint) uppercase">
                                       {t.l}
                                     </span>
                                   </div>
@@ -223,7 +223,7 @@ export default function StudentChallengesHub() {
                     {liveChallenges.slice(1).map((c) => (
                       <div
                         key={c.id}
-                        className="mt-4 p-5 rounded-2xl bg-[#1a2e30] border border-[rgba(19,236,164,0.15)] flex items-center justify-between"
+                        className="mt-4 p-5 rounded-2xl bg-(--bg-card) border border-(--border-medium) flex items-center justify-between"
                       >
                         <div className="flex items-center gap-4">
                           <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center">
@@ -232,8 +232,8 @@ export default function StudentChallengesHub() {
                             </span>
                           </div>
                           <div>
-                            <p className="text-white font-bold">{c.title}</p>
-                            <p className="text-slate-500 text-xs">{c.theme}</p>
+                            <p className="text-(--text-base) font-bold">{c.title}</p>
+                            <p className="text-(--text-faint) text-xs">{c.theme}</p>
                           </div>
                         </div>
                         <Link
@@ -263,31 +263,31 @@ export default function StudentChallengesHub() {
                         return (
                           <div
                             key={c.id}
-                            className="relative group overflow-hidden rounded-2xl bg-[#1a2e30] border border-white/5 h-48 opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all"
+                            className="relative group overflow-hidden rounded-2xl bg-(--bg-card) border border-white/5 h-48 opacity-75 grayscale hover:grayscale-0 hover:opacity-100 transition-all"
                           >
                             <div className="absolute inset-0 flex items-center justify-center opacity-10">
                               <span
-                                className="material-symbols-outlined text-white"
+                                className="material-symbols-outlined text-(--text-base)"
                                 style={{ fontSize: "140px" }}
                               >
                                 {c.icon || "emoji_events"}
                               </span>
                             </div>
-                            <div className="absolute inset-0 bg-[#0d1f1a]/70" />
+                            <div className="absolute inset-0 bg-(--bg-page)/70" />
                             <div className="relative h-full p-5 flex flex-col justify-between">
                               <div className="flex justify-between items-start">
                                 <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-md">
-                                  <span className="material-symbols-outlined text-white/50">
+                                  <span className="material-symbols-outlined text-(--text-base)/50">
                                     lock
                                   </span>
                                 </div>
-                                <span className="text-[10px] font-mono bg-white/10 text-white/60 px-2 py-1 rounded">
+                                <span className="text-[10px] font-mono bg-white/10 text-(--text-base)/60 px-2 py-1 rounded">
                                   START: {dateStr}
                                 </span>
                               </div>
                               <div>
-                                <h4 className="text-lg font-bold text-white/40">{c.title}</h4>
-                                <p className="text-sm text-slate-600">Locked until {dateStr}</p>
+                                <h4 className="text-lg font-bold text-(--text-base)/40">{c.title}</h4>
+                                <p className="text-sm text-(--text-faint)">Locked until {dateStr}</p>
                               </div>
                             </div>
                           </div>
@@ -300,7 +300,7 @@ export default function StudentChallengesHub() {
                 {liveChallenges.length === 0 &&
                   upcomingChallenges.length === 0 &&
                   challenges.length > 0 && (
-                    <div className="text-center py-16 text-slate-500">
+                    <div className="text-center py-16 text-(--text-faint)">
                       <span className="material-symbols-outlined text-[48px] mb-3 block">
                         emoji_events
                       </span>
@@ -311,7 +311,7 @@ export default function StudentChallengesHub() {
 
               {/* Right 4 cols: leaderboard placeholder */}
               <div className="col-span-12 xl:col-span-4 space-y-6">
-                <div className="bg-[#1a2e30] rounded-2xl border border-[rgba(19,236,164,0.1)] overflow-hidden">
+                <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
                   <div className="p-6 border-b border-white/5">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="font-bold flex items-center gap-2">
@@ -321,7 +321,7 @@ export default function StudentChallengesHub() {
                         School Leaderboard
                       </h3>
                     </div>
-                    <div className="text-center py-8 text-slate-500">
+                    <div className="text-center py-8 text-(--text-faint)">
                       <span className="material-symbols-outlined text-[36px] mb-2 block">
                         leaderboard
                       </span>

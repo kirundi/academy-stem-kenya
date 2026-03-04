@@ -514,10 +514,10 @@ export default function UsersManagementPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">User Management</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">User Management</h1>
           <p className="text-slate-400 text-xs mt-0.5">{allUsers.length} users on the platform</p>
         </div>
         <div className="flex items-center gap-3">
@@ -526,7 +526,7 @@ export default function UsersManagementPage() {
               setExportDataset(activeTab === "invites" ? "invites" : "users");
               setShowExport(true);
             }}
-            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export
@@ -544,14 +544,14 @@ export default function UsersManagementPage() {
       <div className="px-8 py-8 space-y-6">
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-          <div className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]">
+          <div className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)">
             <span className="text-slate-400 text-sm font-medium">Total Users</span>
-            <p className="text-white text-3xl font-bold mt-2">{allUsers.length}</p>
+            <p className="text-(--text-base) text-3xl font-bold mt-2">{allUsers.length}</p>
           </div>
           {Object.entries(roleBadge).map(([key, label]) => (
             <div
               key={key}
-              className="bg-[#1a2e27] p-5 rounded-2xl border border-[rgba(19,236,164,0.07)]"
+              className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)"
             >
               <span className="text-slate-400 text-sm font-medium">{label}s</span>
               <p className="text-3xl font-bold mt-2" style={{ color: roleColors[key] }}>
@@ -562,13 +562,13 @@ export default function UsersManagementPage() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex gap-1 bg-[#1a2e27] p-1 rounded-xl border border-[rgba(19,236,164,0.08)] self-start">
+        <div className="flex gap-1 bg-(--bg-card) p-1 rounded-xl border border-[rgba(19,236,164,0.08)] self-start">
           <button
             onClick={() => setActiveTab("users")}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
               activeTab === "users"
                 ? "bg-[#13eca4] text-[#10221c]"
-                : "text-slate-400 hover:text-white"
+                : "text-slate-400 hover:text-(--text-base)"
             }`}
           >
             Active Users
@@ -582,13 +582,13 @@ export default function UsersManagementPage() {
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${
               activeTab === "invites"
                 ? "bg-[#13eca4] text-[#10221c]"
-                : "text-slate-400 hover:text-white"
+                : "text-slate-400 hover:text-(--text-base)"
             }`}
           >
             Invites
             {invites.filter((i) => i.status === "pending").length > 0 && (
               <span className={`text-xs px-1.5 py-0.5 rounded-full font-bold ${
-                activeTab === "invites" ? "bg-[#10221c] text-[#13eca4]" : "bg-[rgba(19,236,164,0.15)] text-[#13eca4]"
+                activeTab === "invites" ? "bg-(--bg-page) text-[#13eca4]" : "bg-[rgba(19,236,164,0.15)] text-[#13eca4]"
               }`}>
                 {invites.filter((i) => i.status === "pending").length}
               </span>
@@ -606,7 +606,7 @@ export default function UsersManagementPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search users..."
-              className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+              className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg pl-10 pr-4 py-2 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
             />
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -620,7 +620,7 @@ export default function UsersManagementPage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                   roleFilter === r
                     ? "bg-[#13eca4] text-[#10221c]"
-                    : "bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white"
+                    : "bg-(--input-bg) text-slate-400 hover:text-(--text-base)"
                 }`}
               >
                 {r === "all" ? "All" : (roleBadge[r] ?? r)}
@@ -630,10 +630,10 @@ export default function UsersManagementPage() {
         </div>
 
         {/* Table */}
-        <div className={`bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden ${activeTab !== "users" ? "hidden" : ""}`}>
+        <div className={`bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden ${activeTab !== "users" ? "hidden" : ""}`}>
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+              <tr className="text-slate-500 text-xs border-b border-(--border-subtle)">
                 <th className="px-6 py-3 text-left font-medium">User</th>
                 <th className="px-4 py-3 text-center font-medium">Role</th>
                 <th className="px-4 py-3 text-center font-medium">School</th>
@@ -674,7 +674,7 @@ export default function UsersManagementPage() {
                               .slice(0, 2) ?? "?"}
                           </div>
                           <div>
-                            <p className="text-white font-semibold">{u.displayName}</p>
+                            <p className="text-(--text-base) font-semibold">{u.displayName}</p>
                             <p className="text-slate-500 text-xs">{u.email}</p>
                           </div>
                         </div>
@@ -718,15 +718,15 @@ export default function UsersManagementPage() {
                             <div className="relative">
                               <button
                                 onClick={() => setOpenMenu(openMenu === i ? null : i)}
-                                className="p-2 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
+                                className="p-2 hover:bg-(--input-bg) rounded-lg text-slate-400 hover:text-slate-200 transition-colors"
                               >
                                 <span className="material-symbols-outlined text-[18px]">
                                   more_vert
                                 </span>
                               </button>
                               {openMenu === i && (
-                                <div className="absolute right-0 top-full mt-1 w-52 bg-[#1a2e27] border border-[rgba(255,255,255,0.1)] rounded-xl shadow-2xl z-20 overflow-hidden">
-                                  <div className="px-4 py-2 border-b border-[rgba(255,255,255,0.05)]">
+                                <div className="absolute right-0 top-full mt-1 w-52 bg-(--bg-card) border border-(--border-subtle) rounded-xl shadow-2xl z-20 overflow-hidden">
+                                  <div className="px-4 py-2 border-b border-(--border-subtle)">
                                     <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
                                       Change Role
                                     </p>
@@ -755,7 +755,7 @@ export default function UsersManagementPage() {
                                     </button>
                                   ))}
                                   {canManageUsers && (
-                                    <div className="border-t border-[rgba(255,255,255,0.05)]">
+                                    <div className="border-t border-(--border-subtle)">
                                       <button
                                         onClick={() => openRoles(u.id, u.displayName, u.role)}
                                         className="w-full text-left px-4 py-2.5 text-sm text-slate-300 hover:bg-[rgba(255,255,255,0.05)] transition-colors flex items-center gap-2"
@@ -776,7 +776,7 @@ export default function UsersManagementPage() {
                                       </button>
                                     </div>
                                   )}
-                                  <div className="border-t border-[rgba(255,255,255,0.05)]">
+                                  <div className="border-t border-(--border-subtle)">
                                     <button
                                       onClick={() => handleDelete(u.id, u.displayName)}
                                       className="w-full text-left px-4 py-2.5 text-sm text-red-400 font-bold hover:bg-[rgba(239,68,68,0.08)] transition-colors"
@@ -796,7 +796,7 @@ export default function UsersManagementPage() {
               )}
             </tbody>
           </table>
-          <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)]">
+          <div className="px-6 py-3 border-t border-(--border-subtle)">
             <p className="text-slate-500 text-xs">
               Showing {filtered.length} of {allUsers.length} users
             </p>
@@ -805,10 +805,10 @@ export default function UsersManagementPage() {
 
         {/* Invites Panel */}
         {activeTab === "invites" && (
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
-            <div className="px-6 py-4 border-b border-[rgba(255,255,255,0.05)] flex items-center justify-between">
+          <div className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+            <div className="px-6 py-4 border-b border-(--border-subtle) flex items-center justify-between">
               <div>
-                <h2 className="text-white font-bold">Sent Invites</h2>
+                <h2 className="text-(--text-base) font-bold">Sent Invites</h2>
                 <p className="text-slate-500 text-xs mt-0.5">
                   {invites.filter((i) => i.status === "pending").length} pending ·{" "}
                   {invites.filter((i) => i.status === "expired").length} expired ·{" "}
@@ -834,14 +834,14 @@ export default function UsersManagementPage() {
             ) : invites.length === 0 ? (
               <div className="py-16 text-center">
                 <span className="material-symbols-outlined text-[48px] text-slate-600 block mb-3">mark_email_unread</span>
-                <p className="text-white font-semibold mb-1">No invites sent yet</p>
+                <p className="text-(--text-base) font-semibold mb-1">No invites sent yet</p>
                 <p className="text-slate-500 text-sm">Invite users with the button above.</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+                    <tr className="text-slate-500 text-xs border-b border-(--border-subtle)">
                       <th className="px-6 py-3 text-left font-medium">Invitee</th>
                       <th className="px-4 py-3 text-center font-medium">Role</th>
                       <th className="px-4 py-3 text-center font-medium">Invited By</th>
@@ -878,7 +878,7 @@ export default function UsersManagementPage() {
                                 {inv.displayName?.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2) ?? "?"}
                               </div>
                               <div>
-                                <p className="text-white font-semibold">{inv.displayName}</p>
+                                <p className="text-(--text-base) font-semibold">{inv.displayName}</p>
                                 <p className="text-slate-500 text-xs">{inv.email}</p>
                               </div>
                             </div>
@@ -956,19 +956,19 @@ export default function UsersManagementPage() {
           onClick={closeInviteModal}
         >
           <div
-            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-md shadow-2xl"
+            className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-md shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+            <div className="px-6 py-5 border-b border-(--border-subtle) flex items-center justify-between">
               <div>
-                <h2 className="text-white font-bold text-lg">Invite User</h2>
+                <h2 className="text-(--text-base) font-bold text-lg">Invite User</h2>
                 <p className="text-slate-400 text-xs mt-0.5">
                   They&apos;ll receive a secure link to set their own password.
                 </p>
               </div>
               <button
                 onClick={closeInviteModal}
-                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+                className="p-1.5 hover:bg-(--input-bg) rounded-lg text-slate-400 hover:text-(--text-base) transition-colors"
               >
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
@@ -982,13 +982,13 @@ export default function UsersManagementPage() {
                       mark_email_read
                     </span>
                   </div>
-                  <p className="text-white font-bold">Invite Sent!</p>
+                  <p className="text-(--text-base) font-bold">Invite Sent!</p>
                   <p className="text-slate-400 text-xs mt-1">
                     Email delivered to{" "}
-                    <span className="text-white font-semibold">{inviteResult.email}</span>
+                    <span className="text-(--text-base) font-semibold">{inviteResult.email}</span>
                   </p>
                 </div>
-                <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.08)] rounded-xl p-4">
+                <div className="bg-[rgba(255,255,255,0.03)] border border-(--border-subtle) rounded-xl p-4">
                   <label className="text-slate-500 text-[10px] uppercase tracking-wider font-medium">
                     Invite link (valid 48h)
                   </label>
@@ -997,7 +997,7 @@ export default function UsersManagementPage() {
                   </p>
                   <button
                     onClick={() => navigator.clipboard.writeText(inviteResult.inviteLink)}
-                    className="mt-2 text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                    className="mt-2 text-xs text-slate-400 hover:text-(--text-base) flex items-center gap-1 transition-colors"
                   >
                     <span className="material-symbols-outlined text-[14px]">content_copy</span>
                     Copy link
@@ -1020,7 +1020,7 @@ export default function UsersManagementPage() {
                     value={inviteName}
                     onChange={(e) => setInviteName(e.target.value)}
                     placeholder="Full name"
-                    className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                    className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                   />
                 </div>
                 <div>
@@ -1030,7 +1030,7 @@ export default function UsersManagementPage() {
                     value={inviteEmail}
                     onChange={(e) => setInviteEmail(e.target.value)}
                     placeholder="user@stemimpactcenterkenya.org"
-                    className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                    className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--border-strong)"
                   />
                 </div>
                 <div>
@@ -1043,7 +1043,7 @@ export default function UsersManagementPage() {
                         className={`flex-1 px-3 py-2 rounded-lg text-xs font-bold transition-colors border ${
                           inviteRole === r
                             ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)] text-[#13eca4]"
-                            : "border-[rgba(255,255,255,0.08)] text-slate-400 hover:text-white"
+                            : "border-(--border-subtle) text-slate-400 hover:text-(--text-base)"
                         }`}
                       >
                         {roleBadge[r]}
@@ -1059,7 +1059,7 @@ export default function UsersManagementPage() {
                     <select
                       value={inviteSchoolId}
                       onChange={(e) => setInviteSchoolId(e.target.value)}
-                      className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                      className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) focus:outline-none focus:border-(--border-strong)"
                     >
                       <option value="">Select a school</option>
                       {schools.map((s) => (
@@ -1115,7 +1115,7 @@ export default function UsersManagementPage() {
                                   }
                                   className="accent-[#13eca4]"
                                 />
-                                <span className="text-white text-xs">{PERMISSION_LABELS[p]}</span>
+                                <span className="text-(--text-base) text-xs">{PERMISSION_LABELS[p]}</span>
                               </label>
                             );
                           })}
@@ -1144,7 +1144,7 @@ export default function UsersManagementPage() {
                                   }
                                   className="accent-[#13eca4]"
                                 />
-                                <span className="text-white text-xs">{s.name}</span>
+                                <span className="text-(--text-base) text-xs">{s.name}</span>
                               </label>
                             ))}
                           </div>
@@ -1201,13 +1201,13 @@ export default function UsersManagementPage() {
           onClick={() => setRolesUser(null)}
         >
           <div
-            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-lg shadow-2xl"
+            className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-lg shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+            <div className="px-6 py-5 border-b border-(--border-subtle) flex items-center justify-between">
               <div>
-                <h2 className="text-white font-bold text-lg">Manage Roles</h2>
+                <h2 className="text-(--text-base) font-bold text-lg">Manage Roles</h2>
                 <p className="text-slate-400 text-xs mt-0.5">
                   {rolesUser.name} — primary role:{" "}
                   <span
@@ -1220,7 +1220,7 @@ export default function UsersManagementPage() {
               </div>
               <button
                 onClick={() => setRolesUser(null)}
-                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+                className="p-1.5 hover:bg-(--input-bg) rounded-lg text-slate-400 hover:text-(--text-base) transition-colors"
               >
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
@@ -1240,7 +1240,7 @@ export default function UsersManagementPage() {
                 </p>
 
                 {/* Current primary role (locked) */}
-                <div className="mb-4 p-3 rounded-xl bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.06)]">
+                <div className="mb-4 p-3 rounded-xl bg-[rgba(255,255,255,0.02)] border border-(--border-subtle)">
                   <p className="text-slate-500 text-[10px] uppercase tracking-wider font-medium mb-2">
                     Primary Role (locked)
                   </p>
@@ -1279,7 +1279,7 @@ export default function UsersManagementPage() {
                             ? "border-[rgba(19,236,164,0.25)] bg-[rgba(19,236,164,0.05)]"
                             : wouldConflict && !isChecked
                             ? "border-[rgba(239,68,68,0.2)] opacity-50 cursor-not-allowed"
-                            : "border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.12)]"
+                            : "border-(--border-subtle) hover:border-(--border-medium)"
                         }`}
                       >
                         <input
@@ -1295,7 +1295,7 @@ export default function UsersManagementPage() {
                             style={{ background: rc }}
                           />
                           <div className="min-w-0">
-                            <p className="text-white text-xs font-semibold truncate">
+                            <p className="text-(--text-base) text-xs font-semibold truncate">
                               {roleBadge[r]}
                             </p>
                             <p className="text-slate-500 text-[10px] truncate">/{r.replace("_", "-")}</p>
@@ -1349,10 +1349,10 @@ export default function UsersManagementPage() {
               </div>
             )}
 
-            <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center gap-3">
+            <div className="px-6 py-4 border-t border-(--border-subtle) flex items-center gap-3">
               <button
                 onClick={() => { setRolesChecked([]); setRolesError(""); }}
-                className="text-slate-400 text-xs font-medium hover:text-white transition-colors"
+                className="text-slate-400 text-xs font-medium hover:text-(--text-base) transition-colors"
                 disabled={rolesLoading}
               >
                 Clear All
@@ -1360,7 +1360,7 @@ export default function UsersManagementPage() {
               <div className="flex-1" />
               <button
                 onClick={() => setRolesUser(null)}
-                className="border border-[rgba(255,255,255,0.1)] text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                className="border border-(--border-subtle) text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-(--glass-bg) transition-colors"
               >
                 Cancel
               </button>
@@ -1388,12 +1388,12 @@ export default function UsersManagementPage() {
           onClick={() => setPermUser(null)}
         >
           <div
-            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-lg shadow-2xl"
+            className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-lg shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+            <div className="px-6 py-5 border-b border-(--border-subtle) flex items-center justify-between">
               <div>
-                <h2 className="text-white font-bold text-lg">Manage Permissions</h2>
+                <h2 className="text-(--text-base) font-bold text-lg">Manage Permissions</h2>
                 <p className="text-slate-400 text-xs mt-0.5">
                   {permUser.name} — {roleBadge[permUser.role] || permUser.role}
                   {permCustomized && (
@@ -1405,7 +1405,7 @@ export default function UsersManagementPage() {
               </div>
               <button
                 onClick={() => setPermUser(null)}
-                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+                className="p-1.5 hover:bg-(--input-bg) rounded-lg text-slate-400 hover:text-(--text-base) transition-colors"
               >
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
@@ -1430,7 +1430,7 @@ export default function UsersManagementPage() {
                         className={`flex items-start gap-3 p-3 rounded-xl border transition-colors cursor-pointer ${
                           isChecked
                             ? "border-[rgba(19,236,164,0.2)] bg-[rgba(19,236,164,0.04)]"
-                            : "border-[rgba(255,255,255,0.05)] hover:border-[rgba(255,255,255,0.1)]"
+                            : "border-(--border-subtle) hover:border-(--border-subtle)"
                         } ${!callerHas ? "opacity-40 cursor-not-allowed" : ""}`}
                       >
                         <input
@@ -1442,7 +1442,7 @@ export default function UsersManagementPage() {
                         />
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="text-white text-sm font-semibold">
+                            <span className="text-(--text-base) text-sm font-semibold">
                               {PERMISSION_LABELS[p]}
                             </span>
                             {isDefault && !permCustomized && (
@@ -1467,7 +1467,7 @@ export default function UsersManagementPage() {
 
                 {/* School Scope */}
                 {(permUser.role === "admin" || permUser.role === "school_admin") && (
-                  <div className="border-t border-[rgba(255,255,255,0.06)] pt-4">
+                  <div className="border-t border-(--border-subtle) pt-4">
                     <label className="text-slate-400 text-xs font-medium block mb-2">
                       School Scope
                       <span className="text-slate-600 ml-1">
@@ -1492,7 +1492,7 @@ export default function UsersManagementPage() {
                             }
                             className="accent-[#13eca4]"
                           />
-                          <span className="text-white text-sm">{s.name}</span>
+                          <span className="text-(--text-base) text-sm">{s.name}</span>
                         </label>
                       ))}
                     </div>
@@ -1501,17 +1501,17 @@ export default function UsersManagementPage() {
               </div>
             )}
 
-            <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center gap-3">
+            <div className="px-6 py-4 border-t border-(--border-subtle) flex items-center gap-3">
               <button
                 onClick={resetToDefaults}
-                className="text-slate-400 text-xs font-medium hover:text-white transition-colors"
+                className="text-slate-400 text-xs font-medium hover:text-(--text-base) transition-colors"
               >
                 Reset to Defaults
               </button>
               <div className="flex-1" />
               <button
                 onClick={() => setPermUser(null)}
-                className="border border-[rgba(255,255,255,0.1)] text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                className="border border-(--border-subtle) text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-(--glass-bg) transition-colors"
               >
                 Cancel
               </button>
@@ -1534,7 +1534,7 @@ export default function UsersManagementPage() {
           onClick={() => setConfirmAction(null)}
         >
           <div
-            className="bg-[#1a2e27] rounded-2xl border border-[rgba(255,255,255,0.1)] w-full max-w-sm shadow-2xl p-6"
+            className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) w-full max-w-sm shadow-2xl p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-center mb-5">
@@ -1553,7 +1553,7 @@ export default function UsersManagementPage() {
                   {confirmAction.type === "delete" ? "delete_forever" : "swap_horiz"}
                 </span>
               </div>
-              <h3 className="text-white font-bold">
+              <h3 className="text-(--text-base) font-bold">
                 {confirmAction.type === "delete" ? "Delete User" : "Change Role"}
               </h3>
               <p className="text-slate-400 text-sm mt-2">
@@ -1565,7 +1565,7 @@ export default function UsersManagementPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmAction(null)}
-                className="flex-1 border border-[rgba(255,255,255,0.1)] text-slate-300 font-semibold text-sm py-2.5 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                className="flex-1 border border-(--border-subtle) text-slate-300 font-semibold text-sm py-2.5 rounded-lg hover:bg-(--glass-bg) transition-colors"
               >
                 Cancel
               </button>
@@ -1574,7 +1574,7 @@ export default function UsersManagementPage() {
                 disabled={actionLoading}
                 className={`flex-1 font-bold text-sm py-2.5 rounded-lg transition-opacity disabled:opacity-50 ${
                   confirmAction.type === "delete"
-                    ? "bg-[#ff4d4d] text-white hover:opacity-90"
+                    ? "bg-[#ff4d4d] text-(--text-base) hover:opacity-90"
                     : "bg-[#13eca4] text-[#10221c] hover:opacity-90"
                 }`}
               >
@@ -1595,17 +1595,17 @@ export default function UsersManagementPage() {
           onClick={() => setShowExport(false)}
         >
           <div
-            className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-md shadow-2xl"
+            className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.12)] w-full max-w-md shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-6 py-5 border-b border-[rgba(255,255,255,0.06)] flex items-center justify-between">
+            <div className="px-6 py-5 border-b border-(--border-subtle) flex items-center justify-between">
               <div>
-                <h2 className="text-white font-bold text-lg">Export Data</h2>
+                <h2 className="text-(--text-base) font-bold text-lg">Export Data</h2>
                 <p className="text-slate-400 text-xs mt-0.5">Downloads a CSV file to your device.</p>
               </div>
               <button
                 onClick={() => setShowExport(false)}
-                className="p-1.5 hover:bg-[rgba(255,255,255,0.06)] rounded-lg text-slate-400 hover:text-white transition-colors"
+                className="p-1.5 hover:bg-(--input-bg) rounded-lg text-slate-400 hover:text-(--text-base) transition-colors"
               >
                 <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
@@ -1623,7 +1623,7 @@ export default function UsersManagementPage() {
                       className={`flex-1 px-3 py-2 rounded-lg text-xs font-bold transition-colors border ${
                         exportDataset === d
                           ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)] text-[#13eca4]"
-                          : "border-[rgba(255,255,255,0.08)] text-slate-400 hover:text-white"
+                          : "border-(--border-subtle) text-slate-400 hover:text-(--text-base)"
                       }`}
                     >
                       {d === "both" ? "Both" : d === "users" ? "Active Users" : "Invites"}
@@ -1657,7 +1657,7 @@ export default function UsersManagementPage() {
                         className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
                           exportUserCols.includes(col.key)
                             ? "border-[rgba(19,236,164,0.2)] bg-[rgba(19,236,164,0.04)]"
-                            : "border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.12)]"
+                            : "border-(--border-subtle) hover:border-(--border-medium)"
                         }`}
                       >
                         <input
@@ -1670,7 +1670,7 @@ export default function UsersManagementPage() {
                           }
                           className="accent-[#13eca4]"
                         />
-                        <span className="text-white text-xs">{col.label}</span>
+                        <span className="text-(--text-base) text-xs">{col.label}</span>
                       </label>
                     ))}
                   </div>
@@ -1702,7 +1702,7 @@ export default function UsersManagementPage() {
                         className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors ${
                           exportInviteCols.includes(col.key)
                             ? "border-[rgba(19,236,164,0.2)] bg-[rgba(19,236,164,0.04)]"
-                            : "border-[rgba(255,255,255,0.06)] hover:border-[rgba(255,255,255,0.12)]"
+                            : "border-(--border-subtle) hover:border-(--border-medium)"
                         }`}
                       >
                         <input
@@ -1715,7 +1715,7 @@ export default function UsersManagementPage() {
                           }
                           className="accent-[#13eca4]"
                         />
-                        <span className="text-white text-xs">{col.label}</span>
+                        <span className="text-(--text-base) text-xs">{col.label}</span>
                       </label>
                     ))}
                   </div>
@@ -1729,7 +1729,7 @@ export default function UsersManagementPage() {
                   <select
                     value={exportRoleFilter}
                     onChange={(e) => setExportRoleFilter(e.target.value)}
-                    className="w-full bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[rgba(19,236,164,0.4)]"
+                    className="w-full bg-(--glass-bg) border border-(--border-subtle) rounded-lg px-4 py-2.5 text-sm text-(--text-base) focus:outline-none focus:border-(--border-strong)"
                   >
                     <option value="all">All roles</option>
                     {Object.entries(roleBadge).map(([key, label]) => (
@@ -1740,14 +1740,14 @@ export default function UsersManagementPage() {
               )}
 
               {/* Preview */}
-              <div className="bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)] rounded-xl px-4 py-3 flex items-center gap-3">
+              <div className="bg-[rgba(255,255,255,0.03)] border border-(--border-subtle) rounded-xl px-4 py-3 flex items-center gap-3">
                 <span className="material-symbols-outlined text-[#13eca4] text-[20px]">table_chart</span>
                 <div className="text-xs text-slate-400">
                   {exportDataset === "users" && (
-                    <>Exporting <span className="text-white font-bold">{exportRoleFilter === "all" ? allUsers.length : allUsers.filter((u) => u.role === exportRoleFilter).length}</span> users · <span className="text-white font-bold">{exportUserCols.length}</span> columns → <span className="text-[#13eca4] font-mono">users.csv</span></>
+                    <>Exporting <span className="text-(--text-base) font-bold">{exportRoleFilter === "all" ? allUsers.length : allUsers.filter((u) => u.role === exportRoleFilter).length}</span> users · <span className="text-(--text-base) font-bold">{exportUserCols.length}</span> columns → <span className="text-[#13eca4] font-mono">users.csv</span></>
                   )}
                   {exportDataset === "invites" && (
-                    <>Exporting <span className="text-white font-bold">{invites.length > 0 ? invites.length : "all"}</span> invites · <span className="text-white font-bold">{exportInviteCols.length}</span> columns → <span className="text-[#13eca4] font-mono">invites.csv</span></>
+                    <>Exporting <span className="text-(--text-base) font-bold">{invites.length > 0 ? invites.length : "all"}</span> invites · <span className="text-(--text-base) font-bold">{exportInviteCols.length}</span> columns → <span className="text-[#13eca4] font-mono">invites.csv</span></>
                   )}
                   {exportDataset === "both" && (
                     <>Two files: <span className="text-[#13eca4] font-mono">users.csv</span> + <span className="text-[#13eca4] font-mono">invites.csv</span></>
@@ -1756,10 +1756,10 @@ export default function UsersManagementPage() {
               </div>
             </div>
 
-            <div className="px-6 py-4 border-t border-[rgba(255,255,255,0.06)] flex items-center gap-3">
+            <div className="px-6 py-4 border-t border-(--border-subtle) flex items-center gap-3">
               <button
                 onClick={() => setShowExport(false)}
-                className="border border-[rgba(255,255,255,0.1)] text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-colors"
+                className="border border-(--border-subtle) text-slate-300 font-semibold text-sm px-5 py-2 rounded-lg hover:bg-(--glass-bg) transition-colors"
               >
                 Cancel
               </button>

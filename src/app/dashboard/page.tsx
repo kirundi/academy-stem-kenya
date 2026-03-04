@@ -37,11 +37,11 @@ export default function GlobalAdminDashboard() {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-3">
         <span className="material-symbols-outlined text-4xl text-[#ff4d4d]">cloud_off</span>
-        <p className="text-white font-semibold">Failed to load dashboard data</p>
-        <p className="text-slate-400 text-sm">{error}</p>
+        <p className="text-(--text-base) font-semibold">Failed to load dashboard data</p>
+        <p className="text-(--text-muted) text-sm">{error}</p>
         <button
           onClick={() => window.location.reload()}
-          className="mt-2 px-4 py-2 bg-[rgba(19,236,164,0.1)] border border-[rgba(19,236,164,0.2)] text-[#13eca4] text-sm font-semibold rounded-lg hover:bg-[rgba(19,236,164,0.15)] transition-colors"
+          className="mt-2 px-4 py-2 bg-[rgba(19,236,164,0.1)] border border-(--border-accent) text-[#13eca4] text-sm font-semibold rounded-lg hover:bg-[rgba(19,236,164,0.15)] transition-colors"
         >
           Retry
         </button>
@@ -89,11 +89,11 @@ export default function GlobalAdminDashboard() {
     .map(([region, data]) => ({ region, ...data }));
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-(--bg-page)">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Global Overview</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <h1 className="text-xl font-bold text-(--text-base)">Global Overview</h1>
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Platform-wide metrics · STEM Impact Academy
           </p>
         </div>
@@ -106,7 +106,7 @@ export default function GlobalAdminDashboard() {
               { key: "plan", label: "Plan" }, { key: "status", label: "Status" },
               { key: "healthScore", label: "Health Score" }, { key: "students", label: "Students" },
             ])}
-            className="flex items-center gap-1.5 border border-[rgba(255,255,255,0.12)] text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Report
@@ -160,9 +160,9 @@ export default function GlobalAdminDashboard() {
 
         {/* Platform Health Banner */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <div className="md:col-span-2 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
+          <div className="md:col-span-2 bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
             <div className="flex items-center justify-between mb-5">
-              <h2 className="text-white font-bold">Platform Health</h2>
+              <h2 className="text-(--text-base) font-bold">Platform Health</h2>
               <span className="text-xs text-[#13eca4] font-bold bg-[rgba(19,236,164,0.1)] px-3 py-1 rounded-full">
                 {needsAttention.length === 0
                   ? "All Systems Operational"
@@ -180,14 +180,14 @@ export default function GlobalAdminDashboard() {
                   <p className="text-2xl font-bold mb-1" style={{ color: m.color }}>
                     {m.value}
                   </p>
-                  <p className="text-slate-500 text-xs">{m.label}</p>
+                  <p className="text-(--text-faint) text-xs">{m.label}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6">
-            <h2 className="text-white font-bold mb-4">Schools by Plan</h2>
+          <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
+            <h2 className="text-(--text-base) font-bold mb-4">Schools by Plan</h2>
             <div className="space-y-3">
               {planBreakdown.map((p) => (
                 <div key={p.plan}>
@@ -195,11 +195,11 @@ export default function GlobalAdminDashboard() {
                     <span style={{ color: p.color }} className="font-semibold">
                       {p.plan}
                     </span>
-                    <span className="text-slate-400">
+                    <span className="text-(--text-muted)">
                       {p.count} schools ({p.pct}%)
                     </span>
                   </div>
-                  <div className="h-2 bg-[rgba(255,255,255,0.06)] rounded-full">
+                  <div className="h-2 bg-(--input-bg) rounded-full">
                     <div
                       className="h-2 rounded-full"
                       style={{ background: p.color, width: `${p.pct}%` }}
@@ -212,10 +212,10 @@ export default function GlobalAdminDashboard() {
         </div>
 
         {/* Region Stats */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] p-6 mb-8">
-          <h2 className="text-white font-bold mb-4">Top Regions</h2>
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 mb-8">
+          <h2 className="text-(--text-base) font-bold mb-4">Top Regions</h2>
           {topRegions.length === 0 ? (
-            <p className="text-slate-500 text-sm">No regional data available yet.</p>
+            <p className="text-(--text-faint) text-sm">No regional data available yet.</p>
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
               {topRegions.map((r) => (
@@ -223,9 +223,9 @@ export default function GlobalAdminDashboard() {
                   key={r.region}
                   className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4 hover:bg-[rgba(19,236,164,0.04)] transition-colors cursor-pointer"
                 >
-                  <p className="text-white font-bold">{r.region}</p>
+                  <p className="text-(--text-base) font-bold">{r.region}</p>
                   <p className="text-[#13eca4] text-xl font-bold my-1">{r.schools}</p>
-                  <p className="text-slate-500 text-xs">
+                  <p className="text-(--text-faint) text-xs">
                     {r.schools} schools · {r.students.toLocaleString()} students
                   </p>
                 </div>
@@ -235,9 +235,9 @@ export default function GlobalAdminDashboard() {
         </div>
 
         {/* Schools Table */}
-        <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
-          <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.06)] flex items-center justify-between">
-            <h2 className="text-white font-bold">Partner Schools</h2>
+        <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
+          <div className="px-6 py-4 border-b border-(--border-subtle) flex items-center justify-between">
+            <h2 className="text-(--text-base) font-bold">Partner Schools</h2>
             <div className="flex items-center gap-2">
               {needsAttention.length > 0 && (
                 <div className="flex items-center gap-1.5 bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.15)] rounded-lg px-3 py-1.5">
@@ -252,13 +252,13 @@ export default function GlobalAdminDashboard() {
                 value={schoolSearch}
                 onChange={(e) => setSchoolSearch(e.target.value)}
                 placeholder="Search schools..."
-                className="bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-white placeholder-slate-500 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#13eca4] w-44"
+                className="bg-(--input-bg) border border-(--border-subtle) text-(--text-base) placeholder:text-(--text-faint) rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#13eca4] w-44"
               />
             </div>
           </div>
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-slate-500 text-xs border-b border-[rgba(255,255,255,0.05)]">
+              <tr className="text-(--text-faint) text-xs border-b border-(--border-subtle)">
                 <th className="px-6 py-3 text-left font-medium">School</th>
                 <th className="px-4 py-3 text-center font-medium">Plan</th>
                 <th className="px-4 py-3 text-center font-medium">Status</th>
@@ -269,7 +269,7 @@ export default function GlobalAdminDashboard() {
             <tbody>
               {schools.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={5} className="px-6 py-12 text-center text-(--text-faint)">
                     No schools registered yet
                   </td>
                 </tr>
@@ -292,8 +292,8 @@ export default function GlobalAdminDashboard() {
                             </span>
                           </div>
                           <div>
-                            <p className="text-white font-semibold">{s.name}</p>
-                            <p className="text-slate-500 text-xs">{s.location ?? "Kenya"}</p>
+                            <p className="text-(--text-base) font-semibold">{s.name}</p>
+                            <p className="text-(--text-faint) text-xs">{s.location ?? "Kenya"}</p>
                           </div>
                         </div>
                       </td>
@@ -310,14 +310,14 @@ export default function GlobalAdminDashboard() {
                       </td>
                       <td className="px-4 py-4 text-center">
                         <span
-                          className={`text-xs font-bold capitalize ${s.status === "active" ? "text-emerald-500" : s.status === "review" ? "text-amber-500" : "text-slate-400"}`}
+                          className={`text-xs font-bold capitalize ${s.status === "active" ? "text-emerald-500" : s.status === "review" ? "text-amber-500" : "text-(--text-muted)"}`}
                         >
                           {s.status}
                         </span>
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2 justify-center">
-                          <div className="flex-1 h-1.5 bg-[rgba(255,255,255,0.06)] rounded-full max-w-15">
+                          <div className="flex-1 h-1.5 bg-(--input-bg) rounded-full max-w-15">
                             <div
                               className="h-1.5 rounded-full"
                               style={{ background: hc, width: `${s.healthScore ?? 0}%` }}
@@ -329,10 +329,10 @@ export default function GlobalAdminDashboard() {
                         </div>
                       </td>
                       <td className="px-4 py-4 text-right">
-                        <Link href="/dashboard/audit" className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
+                        <Link href="/dashboard/audit" className="text-(--text-muted) hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
                           Audit
                         </Link>
-                        <Link href="/dashboard/schools" className="text-slate-400 hover:text-white transition-colors">
+                        <Link href="/dashboard/schools" className="text-(--text-muted) hover:text-(--text-base) transition-colors">
                           <span className="material-symbols-outlined text-[18px]">more_horiz</span>
                         </Link>
                       </td>
@@ -342,8 +342,8 @@ export default function GlobalAdminDashboard() {
               )}
             </tbody>
           </table>
-          <div className="px-6 py-3 border-t border-[rgba(255,255,255,0.05)] flex items-center justify-between">
-            <p className="text-slate-500 text-xs">
+          <div className="px-6 py-3 border-t border-(--border-subtle) flex items-center justify-between">
+            <p className="text-(--text-faint) text-xs">
               Showing {Math.min(schools.length, 10)} of {schools.length} schools
             </p>
             <a

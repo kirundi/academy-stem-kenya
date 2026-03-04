@@ -3,17 +3,17 @@ import PublicNavbar from "@/components/PublicNavbar";
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#10221c] font-sans text-slate-100 antialiased">
+    <div className="min-h-screen bg-(--bg-page) font-sans text-(--text-base) antialiased">
       <PublicNavbar />
 
       <main className="flex-1 px-6 py-16">
         <div className="mx-auto max-w-3xl">
           <h1 className="text-4xl font-black mb-2">Privacy Policy</h1>
-          <p className="text-slate-500 text-sm mb-12">Last updated: March 2026</p>
+          <p className="text-(--text-faint) text-sm mb-12">Last updated: March 2026</p>
 
-          <div className="space-y-10 text-slate-300 leading-relaxed">
+          <div className="space-y-10 text-(--text-muted) leading-relaxed">
             <section>
-              <h2 className="text-xl font-bold text-white mb-3">1. Information We Collect</h2>
+              <h2 className="text-xl font-bold text-(--text-base) mb-3">1. Information We Collect</h2>
               <p>
                 When you register for STEM Impact Academy, we collect personal information such as
                 your name, email address, school affiliation, and role. For students, we may collect
@@ -23,9 +23,9 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-white mb-3">2. How We Use Your Information</h2>
+              <h2 className="text-xl font-bold text-(--text-base) mb-3">2. How We Use Your Information</h2>
               <p>We use the information we collect to:</p>
-              <ul className="list-disc list-inside mt-2 space-y-1 text-slate-400">
+              <ul className="list-disc list-inside mt-2 space-y-1 text-(--text-muted)">
                 <li>Provide and maintain the STEM Impact Academy platform</li>
                 <li>Manage user accounts, classrooms, and enrollments</li>
                 <li>Track student progress and generate analytics for educators</li>
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-white mb-3">3. Data Protection</h2>
+              <h2 className="text-xl font-bold text-(--text-base) mb-3">3. Data Protection</h2>
               <p>
                 We implement industry-standard security measures to protect your data. All data is
                 encrypted in transit and at rest. We use Firebase infrastructure, which is SOC 2 and
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-white mb-3">4. Student Data (COPPA & FERPA)</h2>
+              <h2 className="text-xl font-bold text-(--text-base) mb-3">4. Student Data (COPPA & FERPA)</h2>
               <p>
                 We are committed to protecting student privacy. We do not sell student data to third
                 parties. Student accounts are created and managed by authorized educators. We comply
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-white mb-3">5. Third-Party Services</h2>
+              <h2 className="text-xl font-bold text-(--text-base) mb-3">5. Third-Party Services</h2>
               <p>
                 We integrate with Google Classroom for roster management and assignment syncing.
                 When you connect your Google account, Google&apos;s own privacy policy applies to
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-white mb-3">6. Data Retention</h2>
+              <h2 className="text-xl font-bold text-(--text-base) mb-3">6. Data Retention</h2>
               <p>
                 We retain your data for as long as your account is active. School administrators can
                 request deletion of all school-related data by contacting our support team. Upon
@@ -73,7 +73,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-white mb-3">7. Contact Us</h2>
+              <h2 className="text-xl font-bold text-(--text-base) mb-3">7. Contact Us</h2>
               <p>
                 If you have questions about this Privacy Policy, please contact us at{" "}
                 <Link href="/contact" className="text-[#13eca4] hover:underline">
@@ -93,8 +93,8 @@ export default function PrivacyPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[rgba(19,236,164,0.08)] bg-[#10221c] px-6 py-8 text-center">
-        <p className="text-xs text-slate-600">
+      <footer className="border-t border-(--border-subtle) bg-(--bg-page) px-6 py-8 text-center">
+        <p className="text-xs text-(--text-faint)">
           &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
         </p>
       </footer>

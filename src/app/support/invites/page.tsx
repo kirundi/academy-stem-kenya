@@ -96,13 +96,13 @@ export default function SupportInvitesPage() {
   const accepted = invites.filter((i) => i.status === "accepted");
 
   return (
-    <div className="flex h-screen bg-[#10221c]">
+    <div className="flex h-screen bg-(--bg-page)">
       <SupportSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(59,130,246,0.1)] px-8 h-16 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">Invites</h1>
+            <h1 className="text-xl font-bold text-(--text-base)">Invites</h1>
             <p className="text-slate-400 text-xs mt-0.5">Pending and sent invites (read-only)</p>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(59,130,246,0.12)] border border-[rgba(59,130,246,0.2)]">
@@ -121,11 +121,11 @@ export default function SupportInvitesPage() {
           )}
 
           {error && !loading && (
-            <div className="flex flex-col items-center justify-center py-24 bg-[#1a2e27] rounded-2xl border border-[rgba(239,68,68,0.2)]">
+            <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(239,68,68,0.2)]">
               <span className="material-symbols-outlined text-[56px] text-red-400 mb-3">
                 lock
               </span>
-              <p className="text-white font-semibold mb-1">Unable to load invites</p>
+              <p className="text-(--text-base) font-semibold mb-1">Unable to load invites</p>
               <p className="text-slate-400 text-sm text-center max-w-sm">{error}</p>
             </div>
           )}
@@ -146,7 +146,7 @@ export default function SupportInvitesPage() {
                 ].map(({ label, value, color, icon }) => (
                   <div
                     key={label}
-                    className="flex items-center gap-4 p-5 bg-[#1a2e27] rounded-2xl border border-[rgba(59,130,246,0.08)]"
+                    className="flex items-center gap-4 p-5 bg-(--bg-card) rounded-2xl border border-[rgba(59,130,246,0.08)]"
                   >
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
@@ -160,7 +160,7 @@ export default function SupportInvitesPage() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-white font-bold text-2xl leading-none">{value}</p>
+                      <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
                       <p className="text-slate-400 text-xs mt-0.5">{label}</p>
                     </div>
                   </div>
@@ -168,12 +168,12 @@ export default function SupportInvitesPage() {
               </div>
 
               {/* Table */}
-              <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(59,130,246,0.08)] overflow-hidden">
+              <div className="bg-(--bg-card) rounded-2xl border border-[rgba(59,130,246,0.08)] overflow-hidden">
                 <div className="px-6 py-4 border-b border-[rgba(59,130,246,0.08)] flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#3b82f6] text-[20px]">
                     mail
                   </span>
-                  <h2 className="text-white font-bold">All Invites</h2>
+                  <h2 className="text-(--text-base) font-bold">All Invites</h2>
                   <span className="ml-2 text-xs text-slate-500 bg-[rgba(59,130,246,0.08)] px-2 py-0.5 rounded-full">
                     Read-only
                   </span>
@@ -184,14 +184,14 @@ export default function SupportInvitesPage() {
                     <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
                       mail
                     </span>
-                    <p className="text-white font-semibold mb-1">No invites found</p>
+                    <p className="text-(--text-base) font-semibold mb-1">No invites found</p>
                     <p className="text-slate-400 text-sm">No invites have been sent yet.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="border-b border-[rgba(255,255,255,0.04)]">
+                        <tr className="border-b border-(--border-subtle)">
                           <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
                             Name
                           </th>
@@ -227,7 +227,7 @@ export default function SupportInvitesPage() {
                               key={invite.id}
                               className="hover:bg-[rgba(59,130,246,0.03)] transition-colors"
                             >
-                              <td className="px-6 py-3 text-white font-medium text-xs">
+                              <td className="px-6 py-3 text-(--text-base) font-medium text-xs">
                                 {invite.displayName}
                               </td>
                               <td className="px-6 py-3 text-slate-400 text-xs">

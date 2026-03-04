@@ -232,7 +232,7 @@ export default function LoginPage() {
   // ---------------------------------------------------------------------------
 
   return (
-    <div className="min-h-screen bg-[#10221c] text-white flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-(--bg-page) text-(--text-base) flex flex-col relative overflow-hidden">
       {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[rgba(19,236,164,0.06)] rounded-full blur-[120px]" />
@@ -247,25 +247,25 @@ export default function LoginPage() {
       </div>
 
       {/* Decorative borders */}
-      <div className="absolute top-20 left-10 w-32 h-32 border-2 border-[rgba(19,236,164,0.2)] rounded-xl rotate-12 hidden lg:block animate-float" />
+      <div className="absolute top-20 left-10 w-32 h-32 border-2 border-(--border-accent) rounded-xl rotate-12 hidden lg:block animate-float" />
       <div
         className="absolute bottom-20 right-10 w-48 h-48 border-2 border-[rgba(255,77,77,0.15)] rounded-full hidden lg:block animate-float"
         style={{ animationDelay: "1.5s" }}
       />
 
       {/* Navbar */}
-      <header className="flex items-center justify-between px-6 md:px-20 py-4 border-b border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
+      <header className="flex items-center justify-between px-6 md:px-20 py-4 border-b border-(--border-subtle) bg-[rgba(16,34,28,0.5)] backdrop-blur-md sticky top-0 z-50">
         <StemLogo />
         <div className="flex items-center gap-6">
           <Link
             href="/#curriculum"
-            className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
           >
             Courses
           </Link>
           <Link
             href="/help"
-            className="hidden md:block text-slate-400 text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
           >
             Help Center
           </Link>
@@ -280,15 +280,15 @@ export default function LoginPage() {
 
       {/* Main */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-14 relative">
-        <div className="max-w-130 w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-[rgba(19,236,164,0.1)] p-8 md:p-12 rounded-3xl shadow-2xl">
+        <div className="max-w-130 w-full bg-[rgba(255,255,255,0.03)] backdrop-blur-xl border border-(--border-subtle) p-8 md:p-12 rounded-3xl shadow-2xl">
           {/* Mode tab toggle — no URL param, no fragile query string */}
-          <div className="flex rounded-xl bg-[rgba(255,255,255,0.04)] border border-[rgba(255,255,255,0.08)] p-1 mb-8">
+          <div className="flex rounded-xl bg-(--glass-bg) border border-(--border-subtle) p-1 mb-8">
             <button
               onClick={() => switchMode(false)}
               className={`flex-1 h-10 rounded-lg text-sm font-bold transition-all ${
                 !emailMode
                   ? "bg-[#13eca4] text-[#10221c] shadow"
-                  : "text-slate-400 hover:text-white"
+                  : "text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
               Student Code
@@ -296,7 +296,7 @@ export default function LoginPage() {
             <button
               onClick={() => switchMode(true)}
               className={`flex-1 h-10 rounded-lg text-sm font-bold transition-all ${
-                emailMode ? "bg-[#13eca4] text-[#10221c] shadow" : "text-slate-400 hover:text-white"
+                emailMode ? "bg-[#13eca4] text-[#10221c] shadow" : "text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
               Email Login
@@ -305,10 +305,10 @@ export default function LoginPage() {
 
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-white mb-3 tracking-tight">
+            <h1 className="text-4xl font-bold text-(--text-base) mb-3 tracking-tight">
               {emailMode ? "Sign In to Your Account" : "Welcome to STEM Learning"}
             </h1>
-            <p className="text-slate-400 text-base">
+            <p className="text-(--text-muted) text-base">
               {emailMode
                 ? "Enter your credentials to access the platform."
                 : "Ready to build the future? Enter your code and first name below."}
@@ -331,14 +331,14 @@ export default function LoginPage() {
               <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-1 text-center">
                 Your Student Code
               </label>
-              <p className="text-slate-500 text-xs text-center mb-5">
+              <p className="text-(--text-faint) text-xs text-center mb-5">
                 Your teacher will give you this code
               </p>
               <div className="flex justify-center gap-2 md:gap-3 mb-6">
                 {classCode.map((val, i) => (
                   <span key={i} className="flex items-center">
                     {i === 3 && (
-                      <span className="text-slate-500 font-bold mr-2 md:mr-3 text-xl select-none">
+                      <span className="text-(--text-faint) font-bold mr-2 md:mr-3 text-xl select-none">
                         —
                       </span>
                     )}
@@ -351,10 +351,10 @@ export default function LoginPage() {
                       onKeyDown={(e) => handleCodeKeyDown(i, e)}
                       onPaste={handleCodePaste}
                       placeholder="·"
-                      className={`w-12 md:w-14 h-16 text-center bg-[rgba(255,255,255,0.06)] border-2 text-2xl font-bold text-white rounded-xl transition-all outline-none placeholder-slate-600 ${
+                      className={`w-12 md:w-14 h-16 text-center bg-(--input-bg) border-2 text-2xl font-bold text-(--text-base) rounded-xl transition-all outline-none placeholder:text-(--text-faint) ${
                         val
                           ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
-                          : "border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
+                          : "border-(--border-subtle) focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
                       }`}
                     />
                   </span>
@@ -381,16 +381,16 @@ export default function LoginPage() {
                   }}
                   placeholder="Enter your first name"
                   autoComplete="given-name"
-                  className={`w-full h-14 bg-[rgba(255,255,255,0.06)] border-2 rounded-xl px-4 text-lg font-medium text-white placeholder-slate-600 outline-none transition-all ${
+                  className={`w-full h-14 bg-(--input-bg) border-2 rounded-xl px-4 text-lg font-medium text-(--text-base) placeholder:text-(--text-faint) outline-none transition-all ${
                     firstName.trim()
                       ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
-                      : "border-[rgba(255,255,255,0.1)] focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
+                      : "border-(--border-subtle) focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
                   }`}
                 />
               </div>
 
               {verifiedStudent && (
-                <div className="rounded-xl p-4 mb-6 border bg-[rgba(19,236,164,0.05)] border-[rgba(19,236,164,0.2)]">
+                <div className="rounded-xl p-4 mb-6 border bg-[rgba(19,236,164,0.05)] border-(--border-accent)">
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
                       <span className="text-[#13eca4] text-sm font-bold">
@@ -406,15 +406,15 @@ export default function LoginPage() {
                       <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">
                         Welcome back!
                       </p>
-                      <p className="text-white font-bold text-lg">{verifiedStudent.displayName}</p>
+                      <p className="text-(--text-base) font-bold text-lg">{verifiedStudent.displayName}</p>
                       <div className="flex items-center gap-2 mt-1">
                         {verifiedStudent.grade && (
                           <>
-                            <span className="text-slate-400 text-xs">{verifiedStudent.grade}</span>
-                            <span className="text-slate-600 text-xs">·</span>
+                            <span className="text-(--text-muted) text-xs">{verifiedStudent.grade}</span>
+                            <span className="text-(--text-faint) text-xs">·</span>
                           </>
                         )}
-                        <span className="text-slate-500 text-xs">{verifiedStudent.schoolName}</span>
+                        <span className="text-(--text-faint) text-xs">{verifiedStudent.schoolName}</span>
                       </div>
                     </div>
                   </div>
@@ -476,7 +476,7 @@ export default function LoginPage() {
             >
               {/* Email */}
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-2">
+                <label className="block text-sm font-semibold text-(--text-muted) mb-2">
                   Email Address
                 </label>
                 <input
@@ -491,7 +491,7 @@ export default function LoginPage() {
 
               {/* Password */}
               <div>
-                <label className="block text-sm font-semibold text-slate-300 mb-2">Password</label>
+                <label className="block text-sm font-semibold text-(--text-muted) mb-2">Password</label>
                 <div className="relative">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -504,7 +504,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-(--text-faint) hover:text-(--text-muted) transition-colors"
                   >
                     <span className="material-symbols-outlined text-[20px]">
                       {showPassword ? "visibility_off" : "visibility"}
@@ -520,9 +520,9 @@ export default function LoginPage() {
                     type="checkbox"
                     checked={remember}
                     onChange={(e) => setRemember(e.target.checked)}
-                    className="w-4 h-4 rounded border border-[rgba(255,255,255,0.2)] bg-[rgba(255,255,255,0.05)] accent-[#13eca4] cursor-pointer"
+                    className="w-4 h-4 rounded border border-(--border-accent) bg-(--input-bg) accent-[#13eca4] cursor-pointer"
                   />
-                  <span className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors select-none">
+                  <span className="text-(--text-muted) text-sm group-hover:text-(--text-muted) transition-colors select-none">
                     Remember this device
                   </span>
                 </label>
@@ -545,7 +545,7 @@ export default function LoginPage() {
               </button>
 
               {/* Register link */}
-              <p className="text-center text-sm text-slate-500">
+              <p className="text-center text-sm text-(--text-faint)">
                 New here?{" "}
                 <Link
                   href="/register/teacher"
@@ -559,14 +559,14 @@ export default function LoginPage() {
         </div>
 
         {/* Footer links */}
-        <div className="mt-10 flex gap-8 text-slate-500 text-sm font-medium">
-          <Link href="/privacy" className="hover:text-slate-300 transition-colors">
+        <div className="mt-10 flex gap-8 text-(--text-faint) text-sm font-medium">
+          <Link href="/privacy" className="hover:text-(--text-muted) transition-colors">
             Privacy Policy
           </Link>
-          <Link href="/terms" className="hover:text-slate-300 transition-colors">
+          <Link href="/terms" className="hover:text-(--text-muted) transition-colors">
             Terms of Service
           </Link>
-          <Link href="/contact" className="hover:text-slate-300 transition-colors">
+          <Link href="/contact" className="hover:text-(--text-muted) transition-colors">
             Contact Support
           </Link>
         </div>

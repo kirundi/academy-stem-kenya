@@ -106,16 +106,16 @@ function WorkspaceInner() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#0a1a16] text-white">
+    <div className="flex flex-col h-screen overflow-hidden bg-[#0a1a16] text-(--text-base)">
       {/* ── PERSISTENT TOP NAV BAR ── */}
-      <header className="flex items-center justify-between px-6 py-3 border-b border-[rgba(19,236,164,0.2)] bg-[#0d1f1a] z-20 relative">
+      <header className="flex items-center justify-between px-6 py-3 border-b border-[rgba(19,236,164,0.2)] bg-(--bg-page) z-20 relative">
         <div className="flex items-center gap-8">
           <Link
             href="/school/student/challenges"
             className="flex items-center gap-2 text-[#13eca4]"
           >
             <span className="material-symbols-outlined text-2xl">deployed_code</span>
-            <span className="text-white font-bold text-sm">STEM Impact Academy</span>
+            <span className="text-(--text-base) font-bold text-sm">STEM Impact Academy</span>
           </Link>
           <nav className="hidden md:flex items-center gap-5">
             <Link
@@ -139,7 +139,7 @@ function WorkspaceInner() {
           className={`absolute left-1/2 -translate-x-1/2 flex items-center gap-3 px-6 py-2 rounded-full border shadow-lg ${
             timer.expired
               ? "bg-red-900/40 border-red-500/40 shadow-red-500/20"
-              : "bg-[#1a2e30]/80 border-[rgba(19,236,164,0.3)] shadow-[rgba(19,236,164,0.1)]"
+              : "bg-(--bg-card)/80 border-[rgba(19,236,164,0.3)] shadow-[rgba(19,236,164,0.1)]"
           }`}
         >
           <span
@@ -194,7 +194,7 @@ function WorkspaceInner() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar: Milestones */}
-        <aside className="w-60 border-r border-[rgba(19,236,164,0.1)] bg-[#0d1f1a] overflow-y-auto p-4 hidden lg:flex flex-col">
+        <aside className="w-60 border-r border-[rgba(19,236,164,0.1)] bg-(--bg-page) overflow-y-auto p-4 hidden lg:flex flex-col">
           <div className="mb-6">
             <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
               Milestones
@@ -207,7 +207,7 @@ function WorkspaceInner() {
                     m.status === "done"
                       ? "bg-[#13eca4]/10 text-[#13eca4] border border-[#13eca4]/20"
                       : m.status === "active"
-                        ? "text-slate-300 hover:bg-[#1a2e30]"
+                        ? "text-slate-300 hover:bg-(--bg-card)"
                         : "text-slate-500"
                   }`}
                 >
@@ -227,7 +227,7 @@ function WorkspaceInner() {
           </div>
 
           <div className="mt-auto pt-6 border-t border-[rgba(19,236,164,0.1)]">
-            <div className="p-3 bg-[#1a2e30] rounded-lg">
+            <div className="p-3 bg-(--bg-card) rounded-lg">
               <p className="text-xs font-semibold mb-1">Status</p>
               <div className="flex items-center gap-2">
                 <span className="size-2 rounded-full bg-green-500" />
@@ -286,12 +286,12 @@ function WorkspaceInner() {
                 <p className="text-slate-400 leading-relaxed mb-6">
                   {challenge?.description ?? "Challenge details are loading…"}
                 </p>
-                <div className="aspect-video w-full rounded-xl bg-[#1a2e30] border border-[rgba(19,236,164,0.1)] overflow-hidden relative group flex items-center justify-center">
+                <div className="aspect-video w-full rounded-xl bg-(--bg-card) border border-[rgba(19,236,164,0.1)] overflow-hidden relative group flex items-center justify-center">
                   <div className="absolute inset-0 bg-linear-to-br from-[#13eca4]/10 to-transparent" />
                   <button className="size-16 rounded-full bg-[#13eca4]/90 text-[#0d1f1a] flex items-center justify-center shadow-2xl transition-transform hover:scale-110 z-10">
                     <span className="material-symbols-outlined text-4xl">play_arrow</span>
                   </button>
-                  <div className="absolute bottom-4 left-4 bg-[#0d1f1a]/80 px-3 py-1 rounded text-xs font-medium border border-[rgba(19,236,164,0.2)] text-[#13eca4]">
+                  <div className="absolute bottom-4 left-4 bg-(--bg-page)/80 px-3 py-1 rounded text-xs font-medium border border-[rgba(19,236,164,0.2)] text-[#13eca4]">
                     Reference: {challenge?.title ?? "Challenge Reference"}
                   </div>
                 </div>
@@ -305,13 +305,13 @@ function WorkspaceInner() {
                   {resources.map((r) => (
                     <div
                       key={r.title}
-                      className="p-4 rounded-xl border border-[rgba(19,236,164,0.1)] bg-[#0d1f1a] hover:border-[#13eca4]/40 transition-colors flex items-start gap-4 group cursor-pointer"
+                      className="p-4 rounded-xl border border-[rgba(19,236,164,0.1)] bg-(--bg-page) hover:border-[#13eca4]/40 transition-colors flex items-start gap-4 group cursor-pointer"
                     >
                       <div className="p-2 rounded-lg bg-[#13eca4]/20 text-[#13eca4]">
                         <span className="material-symbols-outlined">{r.icon}</span>
                       </div>
                       <div>
-                        <h4 className="font-bold text-sm text-white group-hover:text-[#13eca4] transition-colors">
+                        <h4 className="font-bold text-sm text-(--text-base) group-hover:text-[#13eca4] transition-colors">
                           {r.title}
                         </h4>
                         <p className="text-xs text-slate-500">{r.meta}</p>
@@ -328,13 +328,13 @@ function WorkspaceInner() {
               {resources.map((r) => (
                 <div
                   key={r.title}
-                  className="p-4 rounded-xl border border-[rgba(19,236,164,0.1)] bg-[#0d1f1a] hover:border-[#13eca4]/40 transition-colors flex items-start gap-4 group cursor-pointer"
+                  className="p-4 rounded-xl border border-[rgba(19,236,164,0.1)] bg-(--bg-page) hover:border-[#13eca4]/40 transition-colors flex items-start gap-4 group cursor-pointer"
                 >
                   <div className="p-2 rounded-lg bg-[#13eca4]/20 text-[#13eca4]">
                     <span className="material-symbols-outlined">{r.icon}</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-white group-hover:text-[#13eca4] transition-colors">
+                    <h4 className="font-bold text-sm text-(--text-base) group-hover:text-[#13eca4] transition-colors">
                       {r.title}
                     </h4>
                     <p className="text-xs text-slate-500">{r.meta}</p>
@@ -349,7 +349,7 @@ function WorkspaceInner() {
               {rules.map((rule, i) => (
                 <li
                   key={i}
-                  className="flex gap-3 text-sm p-4 bg-[#0d1f1a] rounded-xl border border-[rgba(19,236,164,0.1)]"
+                  className="flex gap-3 text-sm p-4 bg-(--bg-page) rounded-xl border border-[rgba(19,236,164,0.1)]"
                 >
                   <span className="material-symbols-outlined text-[#13eca4] text-xl shrink-0">
                     verified
@@ -362,7 +362,7 @@ function WorkspaceInner() {
         </main>
 
         {/* Right Sidebar: Team & Rules */}
-        <aside className="w-72 border-l border-[rgba(19,236,164,0.1)] bg-[#0d1f1a] overflow-y-auto p-6 hidden xl:flex flex-col gap-8">
+        <aside className="w-72 border-l border-[rgba(19,236,164,0.1)] bg-(--bg-page) overflow-y-auto p-6 hidden xl:flex flex-col gap-8">
           {/* Team */}
           <section>
             <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4 flex justify-between items-center">
@@ -378,7 +378,7 @@ function WorkspaceInner() {
                   className={`flex items-center justify-between ${!m.online ? "opacity-60" : ""}`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="size-8 rounded-full bg-[#1a2e30] border border-[rgba(19,236,164,0.3)] flex items-center justify-center text-[10px] font-bold text-[#13eca4]">
+                    <div className="size-8 rounded-full bg-(--bg-card) border border-[rgba(19,236,164,0.3)] flex items-center justify-center text-[10px] font-bold text-[#13eca4]">
                       {m.initials}
                     </div>
                     <span className="text-sm font-medium">{m.name}</span>

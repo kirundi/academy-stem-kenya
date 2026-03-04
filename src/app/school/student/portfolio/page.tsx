@@ -123,11 +123,11 @@ export default function PortfolioPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#10221c]">
+    <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">My Portfolio</h1>
+          <h1 className="text-xl font-bold text-(--text-base)">My Portfolio</h1>
           <p className="text-slate-400 text-xs mt-0.5">
             {totalSubmitted} total projects &middot; {gradedCount} graded
           </p>
@@ -164,7 +164,7 @@ export default function PortfolioPage() {
           ].map(({ icon, color, label, value }) => (
             <div
               key={label}
-              className="bg-[#1a2e27] rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]"
+              className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
@@ -175,7 +175,7 @@ export default function PortfolioPage() {
                 </span>
               </div>
               <p className="text-slate-400 text-xs font-medium mb-1">{label}</p>
-              <p className="text-white font-bold text-2xl">{value}</p>
+              <p className="text-(--text-base) font-bold text-2xl">{value}</p>
             </div>
           ))}
         </div>
@@ -189,7 +189,7 @@ export default function PortfolioPage() {
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 filter === f
                   ? "bg-[#13eca4] text-[#10221c]"
-                  : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-white"
+                  : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-(--text-base)"
               }`}
             >
               {f}
@@ -206,7 +206,7 @@ export default function PortfolioPage() {
               return (
                 <div
                   key={project.id}
-                  className="group bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.25)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.05)] transition-all overflow-hidden flex flex-col"
+                  className="group bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.25)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.05)] transition-all overflow-hidden flex flex-col"
                 >
                   {/* Color header */}
                   <div
@@ -235,7 +235,7 @@ export default function PortfolioPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-white font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
+                    <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
                       {project.title}
                     </h3>
                     <p className="text-[#13eca4] text-xs font-semibold mb-2">{project.course}</p>
@@ -245,13 +245,13 @@ export default function PortfolioPage() {
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      <span className="text-xs px-2 py-0.5 rounded bg-[rgba(255,255,255,0.06)] text-slate-400">
+                      <span className="text-xs px-2 py-0.5 rounded bg-(--input-bg) text-slate-400">
                         {project.category}
                       </span>
                     </div>
 
                     {/* Grade & actions */}
-                    <div className="flex items-center justify-between pt-4 border-t border-[rgba(255,255,255,0.06)]">
+                    <div className="flex items-center justify-between pt-4 border-t border-(--border-subtle)">
                       <div className="flex items-center gap-2">
                         {project.grade ? (
                           <>
@@ -276,7 +276,7 @@ export default function PortfolioPage() {
                       <div className="flex gap-2">
                         <Link
                           href={`/school/student/project/${project.id}`}
-                          className="p-2 rounded-lg bg-[rgba(255,255,255,0.06)] text-slate-400 hover:text-white hover:bg-[rgba(255,255,255,0.1)] transition-all"
+                          className="p-2 rounded-lg bg-(--input-bg) text-slate-400 hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.1)] transition-all"
                           title="View project"
                         >
                           <span className="material-symbols-outlined text-[18px]">open_in_new</span>

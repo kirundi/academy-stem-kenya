@@ -40,7 +40,7 @@ export default function StudentLeaderboardPage() {
 
   if (loading) {
     return (
-      <div className="flex h-screen bg-[#10221c]">
+      <div className="flex h-screen bg-(--bg-page)">
         <StudentSidebar />
         <main className="ml-60 flex-1 overflow-y-auto flex items-center justify-center">
           <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
@@ -52,13 +52,13 @@ export default function StudentLeaderboardPage() {
   }
 
   return (
-    <div className="flex h-screen bg-[#10221c]">
+    <div className="flex h-screen bg-(--bg-page)">
       <StudentSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.1)] px-8 h-16 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-bold text-white">Leaderboard</h1>
+            <h1 className="text-xl font-bold text-(--text-base)">Leaderboard</h1>
             <p className="text-slate-400 text-xs mt-0.5">Top students in your school</p>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(19,236,164,0.12)] border border-[rgba(19,236,164,0.2)]">
@@ -80,7 +80,7 @@ export default function StudentLeaderboardPage() {
                 {getInitials(myEntry.displayName ?? "Me")}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-white font-bold text-sm">{myEntry.displayName} (You)</p>
+                <p className="text-(--text-base) font-bold text-sm">{myEntry.displayName} (You)</p>
                 <div className="flex items-center gap-2 mt-1">
                   <span
                     className="text-[10px] font-bold px-2 py-0.5 rounded-full"
@@ -102,20 +102,20 @@ export default function StudentLeaderboardPage() {
 
           {/* Leaderboard list */}
           {top50.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-24 bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)]">
+            <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)]">
               <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">
                 leaderboard
               </span>
-              <p className="text-white font-semibold mb-1">No students yet</p>
+              <p className="text-(--text-base) font-semibold mb-1">No students yet</p>
               <p className="text-slate-400 text-sm">
                 Be the first to earn XP in your school!
               </p>
             </div>
           ) : (
-            <div className="bg-[#1a2e27] rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+            <div className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
               <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.08)] flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#13eca4] text-[20px]">stars</span>
-                <h2 className="text-white font-bold">Top 50 Students</h2>
+                <h2 className="text-(--text-base) font-bold">Top 50 Students</h2>
                 <span className="ml-auto text-xs text-slate-500">All Time</span>
               </div>
 
@@ -162,7 +162,7 @@ export default function StudentLeaderboardPage() {
                       {/* Name + XP bar */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <p className={`text-sm font-semibold truncate ${isMe ? "text-[#13eca4]" : "text-white"}`}>
+                          <p className={`text-sm font-semibold truncate ${isMe ? "text-[#13eca4]" : "text-(--text-base)"}`}>
                             {student.displayName}
                             {isMe && <span className="text-slate-400 font-normal ml-1">(You)</span>}
                           </p>
