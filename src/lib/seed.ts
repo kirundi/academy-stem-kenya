@@ -102,7 +102,7 @@ async function seed() {
       description:
         "Learn the fundamentals of electronic circuits, from basic components to building your first circuit.",
       difficulty: "Beginner",
-      color: "#13eca4",
+      color: "#2dd4bf",
       icon: "electrical_services",
       totalLessons: 12,
     },
@@ -358,7 +358,7 @@ async function seed() {
     {
       name: "Engineering Core",
       icon: "engineering",
-      color: "#13eca4",
+      color: "#2dd4bf",
       rarity: "common",
       xpValue: 300,
       requirement: "Complete Intro to Circuitry",
@@ -382,7 +382,7 @@ async function seed() {
     {
       name: "Circuit Master",
       icon: "electrical_services",
-      color: "#13eca4",
+      color: "#2dd4bf",
       rarity: "rare",
       xpValue: 500,
       requirement: "Build 5 working circuits",

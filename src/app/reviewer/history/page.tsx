@@ -59,7 +59,7 @@ export default function ReviewerHistoryPage() {
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(245,158,11,0.1)] px-8 h-16 flex items-center">
           <div>
             <h1 className="text-xl font-bold text-(--text-base)">Review History</h1>
-            <p className="text-slate-400 text-xs mt-0.5">
+            <p className="text-(--text-muted) text-xs mt-0.5">
               Your past approval and rejection decisions
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function ReviewerHistoryPage() {
                 </div>
                 <div>
                   <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                  <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                  <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
                 </div>
               </div>
             ))}
@@ -120,11 +120,11 @@ export default function ReviewerHistoryPage() {
 
             {activities.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20">
-                <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
+                <span className="material-symbols-outlined text-[56px] text-(--text-faint) mb-3">
                   history
                 </span>
                 <p className="text-(--text-base) font-semibold mb-1">No review history yet</p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-(--text-muted) text-sm">
                   Your approved and rejected course decisions will appear here.
                 </p>
               </div>
@@ -133,13 +133,13 @@ export default function ReviewerHistoryPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-(--border-subtle)">
-                      <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
+                      <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
                         Course
                       </th>
-                      <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
+                      <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
                         Decision
                       </th>
-                      <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">
+                      <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">
                         Date
                       </th>
                     </tr>
@@ -175,7 +175,7 @@ export default function ReviewerHistoryPage() {
                               {decisionLabel}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-slate-400 text-xs">
+                          <td className="px-6 py-4 text-(--text-muted) text-xs">
                             {formatDate(
                               (a as unknown as Record<string, unknown>).timestamp
                             )}

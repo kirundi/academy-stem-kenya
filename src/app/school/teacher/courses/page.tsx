@@ -77,7 +77,7 @@ export default function TeacherCoursesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -140,7 +140,7 @@ export default function TeacherCoursesPage() {
               onClick={() => setActiveCategory(cat)}
               className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                 activeCategory === cat
-                  ? "bg-[#13eca4] text-[#10221c]"
+                  ? "bg-(--primary-green) text-[#10221c]"
                   : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base) border border-(--border-subtle)"
               }`}
             >
@@ -163,40 +163,40 @@ export default function TeacherCoursesPage() {
           {filtered.map((course) => (
             <div
               key={course.id}
-              className="group bg-(--bg-card) rounded-2xl border border-(--border-subtle) hover:border-[rgba(19,236,164,0.25)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.05)] transition-all flex flex-col overflow-hidden"
+              className="group bg-(--bg-card) rounded-2xl border border-(--border-subtle) hover:border-[rgba(45,212,191,0.25)] hover:shadow-xl hover:shadow-[rgba(45,212,191,0.05)] transition-all flex flex-col overflow-hidden"
             >
               <div
                 className="h-2 w-full"
                 style={{
-                  background: `linear-gradient(90deg, ${course.color || "#13eca4"}, transparent)`,
+                  background: `linear-gradient(90deg, ${course.color || "#2dd4bf"}, transparent)`,
                 }}
               />
               <div className="p-5 flex-1 flex flex-col">
                 <div className="flex items-start justify-between mb-3">
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center"
-                    style={{ background: `${course.color || "#13eca4"}18` }}
+                    style={{ background: `${course.color || "#2dd4bf"}18` }}
                   >
                     <span
                       className="material-symbols-outlined text-[22px]"
-                      style={{ color: course.color || "#13eca4" }}
+                      style={{ color: course.color || "#2dd4bf" }}
                     >
                       {course.icon || "menu_book"}
                     </span>
                   </div>
                   {course.assigned && (
-                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-[rgba(19,236,164,0.1)] text-[#13eca4]">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-[rgba(45,212,191,0.1)] text-(--primary-green)">
                       Assigned
                     </span>
                   )}
                 </div>
 
-                <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
+                <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-(--primary-green) transition-colors">
                   {course.title}
                 </h3>
                 <p
                   className="text-(--text-faint) text-xs font-semibold mb-3"
-                  style={{ color: course.color || "#13eca4" }}
+                  style={{ color: course.color || "#2dd4bf" }}
                 >
                   {course.category}
                 </p>
@@ -209,8 +209,8 @@ export default function TeacherCoursesPage() {
                   <span
                     className="text-xs px-1.5 py-0.5 rounded"
                     style={{
-                      background: `${course.color || "#13eca4"}18`,
-                      color: course.color || "#13eca4",
+                      background: `${course.color || "#2dd4bf"}18`,
+                      color: course.color || "#2dd4bf",
                     }}
                   >
                     {course.difficulty}
@@ -230,7 +230,7 @@ export default function TeacherCoursesPage() {
                   {course.assigned ? (
                     <button
                       onClick={() =>
-                        openAssignModal(course.id, course.title, course.color || "#13eca4")
+                        openAssignModal(course.id, course.title, course.color || "#2dd4bf")
                       }
                       className="w-full flex items-center justify-center gap-2 py-2.5 bg-(--input-bg) text-(--text-muted) rounded-xl text-sm font-semibold hover:bg-[rgba(255,255,255,0.1)] transition-colors"
                     >
@@ -240,13 +240,13 @@ export default function TeacherCoursesPage() {
                   ) : (
                     <button
                       onClick={() =>
-                        openAssignModal(course.id, course.title, course.color || "#13eca4")
+                        openAssignModal(course.id, course.title, course.color || "#2dd4bf")
                       }
                       className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all hover:opacity-90 shadow-lg"
                       style={{
-                        background: course.color || "#13eca4",
+                        background: course.color || "#2dd4bf",
                         color: "#10221c",
-                        boxShadow: `0 4px 15px ${course.color || "#13eca4"}30`,
+                        boxShadow: `0 4px 15px ${course.color || "#2dd4bf"}30`,
                       }}
                     >
                       <span className="material-symbols-outlined text-[18px]">add</span>
@@ -297,7 +297,7 @@ export default function TeacherCoursesPage() {
                         onChange={(e) =>
                           setSelections((prev) => ({ ...prev, [c.id]: e.target.checked }))
                         }
-                        className="w-4 h-4 accent-[#13eca4]"
+                        className="w-4 h-4 accent-(--primary-green)"
                       />
                       <div className="flex-1">
                         <p className="text-(--text-base) text-sm font-semibold">{c.name}</p>
@@ -306,7 +306,7 @@ export default function TeacherCoursesPage() {
                         </p>
                       </div>
                       {checked && (
-                        <span className="text-[#13eca4] text-xs font-bold">Assigned</span>
+                        <span className="text-(--primary-green) text-xs font-bold">Assigned</span>
                       )}
                     </label>
                   );

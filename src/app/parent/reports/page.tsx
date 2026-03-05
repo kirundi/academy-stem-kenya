@@ -51,7 +51,7 @@ function statusBadge(progress: number) {
     );
   }
   return (
-    <span className="px-2 py-0.5 rounded-full bg-(--input-bg) text-slate-400 text-[10px] font-bold uppercase tracking-wide">
+    <span className="px-2 py-0.5 rounded-full bg-(--input-bg) text-(--text-muted) text-[10px] font-bold uppercase tracking-wide">
       Not Started
     </span>
   );
@@ -79,10 +79,10 @@ function ChildReportCard({ child }: { child: ChildProgress }) {
             {student.grade && (
               <span className="text-[#8b5cf6] text-xs font-semibold">Grade {student.grade}</span>
             )}
-            <span className="text-slate-400 text-xs">
+            <span className="text-(--text-muted) text-xs">
               {enrollments.length} course{enrollments.length !== 1 ? "s" : ""} enrolled
             </span>
-            <span className="text-slate-400 text-xs">Overall: {overallProgress}%</span>
+            <span className="text-(--text-muted) text-xs">Overall: {overallProgress}%</span>
           </div>
         </div>
         <div className="shrink-0 w-14">
@@ -93,15 +93,15 @@ function ChildReportCard({ child }: { child: ChildProgress }) {
       {/* Enrollments table */}
       {enrollments.length === 0 ? (
         <div className="px-6 py-8 text-center">
-          <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">
+          <span className="material-symbols-outlined text-[40px] text-(--text-faint) mb-2 block">
             school
           </span>
-          <p className="text-slate-400 text-sm">No courses enrolled yet.</p>
+          <p className="text-(--text-muted) text-sm">No courses enrolled yet.</p>
         </div>
       ) : (
         <div className="divide-y divide-[rgba(139,92,246,0.06)]">
           {/* Table header */}
-          <div className="grid grid-cols-12 gap-4 px-6 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+          <div className="grid grid-cols-12 gap-4 px-6 py-2.5 text-[10px] font-bold text-(--text-faint) uppercase tracking-widest">
             <div className="col-span-5">Course</div>
             <div className="col-span-4">Progress</div>
             <div className="col-span-2">Lessons</div>
@@ -119,7 +119,7 @@ function ChildReportCard({ child }: { child: ChildProgress }) {
                     auto_stories
                   </span>
                 </div>
-                <p className="text-slate-200 text-sm font-medium truncate">
+                <p className="text-(--text-base) text-sm font-medium truncate">
                   {enrollment.courseTitle}
                 </p>
               </div>
@@ -131,7 +131,7 @@ function ChildReportCard({ child }: { child: ChildProgress }) {
 
               {/* Lessons completed */}
               <div className="col-span-2">
-                <span className="text-slate-400 text-xs">
+                <span className="text-(--text-muted) text-xs">
                   {enrollment.completedLessons} done
                 </span>
               </div>
@@ -167,7 +167,7 @@ export default function ParentReportsPage() {
             error
           </span>
           <p className="text-red-400 font-semibold mb-1">Something went wrong</p>
-          <p className="text-slate-500 text-sm">{error}</p>
+          <p className="text-(--text-faint) text-sm">{error}</p>
         </div>
       </div>
     );
@@ -182,7 +182,7 @@ export default function ParentReportsPage() {
             <span className="material-symbols-outlined text-[#8b5cf6] text-[22px]">bar_chart</span>
             Progress Reports
           </h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Track your children&apos;s learning journey
           </p>
         </div>
@@ -203,7 +203,7 @@ export default function ParentReportsPage() {
                 label: "Total Courses",
                 value: children.reduce((s, c) => s + c.enrollments.length, 0),
                 icon: "school",
-                color: "#13eca4",
+                color: "var(--primary-green)",
               },
               {
                 label: "Completed",
@@ -242,7 +242,7 @@ export default function ParentReportsPage() {
                 </div>
                 <div>
                   <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                  <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                  <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
                 </div>
               </div>
             ))}
@@ -252,11 +252,11 @@ export default function ParentReportsPage() {
         {/* Per-child report cards */}
         {children.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(139,92,246,0.08)]">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-4">
               bar_chart
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No children linked yet</p>
-            <p className="text-slate-400 text-sm max-w-sm text-center">
+            <p className="text-(--text-muted) text-sm max-w-sm text-center">
               Ask your child&apos;s teacher or school administrator to connect your account.
             </p>
           </div>

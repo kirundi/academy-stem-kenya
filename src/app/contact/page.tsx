@@ -78,13 +78,13 @@ export default function ContactPage() {
                 key={title}
                 className="rounded-xl bg-(--bg-card) p-8 border border-(--border-subtle) text-center"
               >
-                <div className="w-14 h-14 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-[#13eca4] text-2xl">{icon}</span>
+                <div className="w-14 h-14 rounded-xl bg-[rgba(45,212,191,0.1)] flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-(--primary-green) text-2xl">{icon}</span>
                 </div>
                 <h3 className="text-lg font-bold mb-1">{title}</h3>
                 <p className="text-sm text-(--text-faint) mb-3">{desc}</p>
                 {href ? (
-                  <a href={href} className="text-[#13eca4] text-sm font-medium hover:underline">
+                  <a href={href} className="text-(--primary-green) text-sm font-medium hover:underline">
                     {detail}
                   </a>
                 ) : (
@@ -100,7 +100,7 @@ export default function ContactPage() {
 
             {status === "success" ? (
               <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
-                <span className="material-symbols-outlined text-5xl text-[#13eca4]">
+                <span className="material-symbols-outlined text-5xl text-(--primary-green)">
                   check_circle
                 </span>
                 <h3 className="text-xl font-bold text-(--text-base)">Message sent!</h3>
@@ -109,7 +109,7 @@ export default function ContactPage() {
                 </p>
                 <button
                   onClick={() => setStatus("idle")}
-                  className="mt-2 text-[#13eca4] text-sm font-semibold hover:underline"
+                  className="mt-2 text-(--primary-green) text-sm font-semibold hover:underline"
                 >
                   Send another message
                 </button>
@@ -128,7 +128,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="Your name"
                       required
-                      className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]"
+                      className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--primary-green)"
                     />
                   </div>
                   <div>
@@ -142,7 +142,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       placeholder="you@example.com"
                       required
-                      className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]"
+                      className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--primary-green)"
                     />
                   </div>
                 </div>
@@ -157,7 +157,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     placeholder="How can we help?"
                     required
-                    className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]"
+                    className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--primary-green)"
                   />
                 </div>
                 <div>
@@ -171,7 +171,7 @@ export default function ContactPage() {
                     rows={5}
                     placeholder="Tell us more..."
                     required
-                    className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4] resize-none"
+                    className="w-full rounded-lg bg-(--input-bg) border border-(--border-subtle) p-3 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--primary-green) resize-none"
                   />
                 </div>
 
@@ -180,7 +180,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="w-full rounded-xl bg-[#13eca4] py-4 text-[#10221c] font-bold hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
+                  className="w-full rounded-xl bg-(--primary-green) py-4 text-[#10221c] font-bold hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
                 >
                   {status === "submitting" ? (
                     <>

@@ -7,15 +7,15 @@ import { useGlobalAdminData } from "@/hooks/useAdminData";
 import { exportToCsv } from "@/lib/csv-export";
 
 const planColors: Record<string, string> = {
-  premium: "#13eca4",
+  premium: "#2dd4bf",
   standard: "#3b82f6",
   community: "#8b5cf6",
 };
 
 const healthColor = (h: number) => {
-  if (h >= 80) return "#13eca4";
+  if (h >= 80) return "#2dd4bf";
   if (h >= 60) return "#f59e0b";
-  return "#ff4d4d";
+  return "var(--accent-red)";
 };
 
 export default function GlobalAdminDashboard() {
@@ -26,7 +26,7 @@ export default function GlobalAdminDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -36,12 +36,12 @@ export default function GlobalAdminDashboard() {
   if (error) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-3">
-        <span className="material-symbols-outlined text-4xl text-[#ff4d4d]">cloud_off</span>
+        <span className="material-symbols-outlined text-4xl text-(--accent-red)">cloud_off</span>
         <p className="text-(--text-base) font-semibold">Failed to load dashboard data</p>
         <p className="text-(--text-muted) text-sm">{error}</p>
         <button
           onClick={() => window.location.reload()}
-          className="mt-2 px-4 py-2 bg-[rgba(19,236,164,0.1)] border border-(--border-accent) text-[#13eca4] text-sm font-semibold rounded-lg hover:bg-[rgba(19,236,164,0.15)] transition-colors"
+          className="mt-2 px-4 py-2 bg-[rgba(45,212,191,0.1)] border border-(--border-accent) text-(--primary-green) text-sm font-semibold rounded-lg hover:bg-[rgba(45,212,191,0.15)] transition-colors"
         >
           Retry
         </button>
@@ -56,7 +56,7 @@ export default function GlobalAdminDashboard() {
     planCounts[plan] = (planCounts[plan] ?? 0) + 1;
   });
   const planBreakdown = [
-    { plan: "Premium", key: "premium", color: "#13eca4" },
+    { plan: "Premium", key: "premium", color: "var(--primary-green)" },
     { plan: "Standard", key: "standard", color: "#3b82f6" },
     { plan: "Community", key: "community", color: "#8b5cf6" },
   ].map((p) => ({
@@ -106,14 +106,14 @@ export default function GlobalAdminDashboard() {
               { key: "plan", label: "Plan" }, { key: "status", label: "Status" },
               { key: "healthScore", label: "Health Score" }, { key: "students", label: "Students" },
             ])}
-            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-(--primary-green) hover:text-(--primary-green) transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Report
           </button>
           <Link
             href="/onboarding"
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 bg-(--primary-green) text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Onboard School
@@ -126,7 +126,7 @@ export default function GlobalAdminDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatCard
             icon="domain"
-            iconColor="#13eca4"
+            iconColor="#2dd4bf"
             label="Partner Schools"
             value={schools.length}
             change={`${schools.length} total`}
@@ -163,7 +163,7 @@ export default function GlobalAdminDashboard() {
           <div className="md:col-span-2 bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-(--text-base) font-bold">Platform Health</h2>
-              <span className="text-xs text-[#13eca4] font-bold bg-[rgba(19,236,164,0.1)] px-3 py-1 rounded-full">
+              <span className="text-xs text-(--primary-green) font-bold bg-[rgba(45,212,191,0.1)] px-3 py-1 rounded-full">
                 {needsAttention.length === 0
                   ? "All Systems Operational"
                   : `${needsAttention.length} Need Attention`}
@@ -171,7 +171,7 @@ export default function GlobalAdminDashboard() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {[
-                { label: "Avg. School Health", value: `${avgHealth}%`, color: "#13eca4" },
+                { label: "Avg. School Health", value: `${avgHealth}%`, color: "var(--primary-green)" },
                 { label: "Total Users", value: allUsers.length.toLocaleString(), color: "#3b82f6" },
                 { label: "Total Courses", value: String(allCourses.length), color: "#8b5cf6" },
                 { label: "Teachers", value: String(teachers.length), color: "#f59e0b" },
@@ -221,10 +221,10 @@ export default function GlobalAdminDashboard() {
               {topRegions.map((r) => (
                 <div
                   key={r.region}
-                  className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4 hover:bg-[rgba(19,236,164,0.04)] transition-colors cursor-pointer"
+                  className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4 hover:bg-[rgba(45,212,191,0.04)] transition-colors cursor-pointer"
                 >
                   <p className="text-(--text-base) font-bold">{r.region}</p>
-                  <p className="text-[#13eca4] text-xl font-bold my-1">{r.schools}</p>
+                  <p className="text-(--primary-green) text-xl font-bold my-1">{r.schools}</p>
                   <p className="text-(--text-faint) text-xs">
                     {r.schools} schools · {r.students.toLocaleString()} students
                   </p>
@@ -241,8 +241,8 @@ export default function GlobalAdminDashboard() {
             <div className="flex items-center gap-2">
               {needsAttention.length > 0 && (
                 <div className="flex items-center gap-1.5 bg-[rgba(255,77,77,0.08)] border border-[rgba(255,77,77,0.15)] rounded-lg px-3 py-1.5">
-                  <span className="w-2 h-2 rounded-full bg-[#ff4d4d] animate-pulse" />
-                  <span className="text-xs text-[#ff4d4d] font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-(--accent-red) animate-pulse" />
+                  <span className="text-xs text-(--accent-red) font-semibold">
                     {needsAttention.length} Needs Attention
                   </span>
                 </div>
@@ -252,7 +252,7 @@ export default function GlobalAdminDashboard() {
                 value={schoolSearch}
                 onChange={(e) => setSchoolSearch(e.target.value)}
                 placeholder="Search schools..."
-                className="bg-(--input-bg) border border-(--border-subtle) text-(--text-base) placeholder:text-(--text-faint) rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-[#13eca4] w-44"
+                className="bg-(--input-bg) border border-(--border-subtle) text-(--text-base) placeholder:text-(--text-faint) rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-(--primary-green) w-44"
               />
             </div>
           </div>
@@ -282,12 +282,12 @@ export default function GlobalAdminDashboard() {
                   return (
                     <tr
                       key={s.id}
-                      className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
+                      className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(45,212,191,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-[rgba(19,236,164,0.08)] flex items-center justify-center">
-                            <span className="material-symbols-outlined text-[18px] text-[#13eca4]">
+                          <div className="w-9 h-9 rounded-xl bg-[rgba(45,212,191,0.08)] flex items-center justify-center">
+                            <span className="material-symbols-outlined text-[18px] text-(--primary-green)">
                               domain
                             </span>
                           </div>
@@ -329,7 +329,7 @@ export default function GlobalAdminDashboard() {
                         </div>
                       </td>
                       <td className="px-4 py-4 text-right">
-                        <Link href="/dashboard/audit" className="text-(--text-muted) hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3">
+                        <Link href="/dashboard/audit" className="text-(--text-muted) hover:text-(--primary-green) transition-colors text-xs font-semibold mr-3">
                           Audit
                         </Link>
                         <Link href="/dashboard/schools" className="text-(--text-muted) hover:text-(--text-base) transition-colors">
@@ -348,7 +348,7 @@ export default function GlobalAdminDashboard() {
             </p>
             <a
               href="/dashboard/schools"
-              className="text-[#13eca4] text-xs font-semibold hover:opacity-80 transition-opacity"
+              className="text-(--primary-green) text-xs font-semibold hover:opacity-80 transition-opacity"
             >
               View All Schools &rarr;
             </a>

@@ -8,9 +8,9 @@ import { useDeleteDoc } from "@/hooks/useFirestore";
 import { exportToCsv } from "@/lib/csv-export";
 
 const difficultyColor: Record<string, string> = {
-  Beginner: "#13eca4",
+  Beginner: "#2dd4bf",
   Intermediate: "#f59e0b",
-  Advanced: "#ff4d4d",
+  Advanced: "var(--accent-red)",
 };
 
 export default function ContentManagementPage() {
@@ -24,7 +24,7 @@ export default function ContentManagementPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -53,17 +53,17 @@ export default function ContentManagementPage() {
 
   return (
     <div className="min-h-screen bg-(--bg-page)">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(45,212,191,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Content Management</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {allCourses.length} courses across the platform
           </p>
         </div>
         <div className="flex items-center gap-3">
           <Link
             href="/dashboard/courses/create/step1"
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 bg-(--primary-green) text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create Course
@@ -81,16 +81,16 @@ export default function ContentManagementPage() {
               </div>
               <div>
                 <h3 className="text-(--text-base) font-bold">Delete Course</h3>
-                <p className="text-slate-400 text-xs">This action cannot be undone.</p>
+                <p className="text-(--text-muted) text-xs">This action cannot be undone.</p>
               </div>
             </div>
-            <p className="text-slate-300 text-sm mb-6">
+            <p className="text-(--text-base) text-sm mb-6">
               Are you sure you want to permanently delete &ldquo;{allCourses.find((c) => c.id === confirmDeleteId)?.title}&rdquo;?
             </p>
             <div className="flex gap-3 justify-end">
               <button
                 onClick={() => setConfirmDeleteId(null)}
-                className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-300 border border-slate-700 hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-(--text-base) border border-(--border) hover:bg-[rgba(255,255,255,0.05)] transition-colors"
               >
                 Cancel
               </button>
@@ -109,7 +109,7 @@ export default function ContentManagementPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)">
-            <span className="text-slate-400 text-sm font-medium">Total Courses</span>
+            <span className="text-(--text-muted) text-sm font-medium">Total Courses</span>
             <p className="text-(--text-base) text-3xl font-bold mt-2">{allCourses.length}</p>
           </div>
           {diffBreakdown.map((d) => (
@@ -117,7 +117,7 @@ export default function ContentManagementPage() {
               key={d.level}
               className="bg-(--bg-card) p-5 rounded-2xl border border-(--border-subtle)"
             >
-              <span className="text-slate-400 text-sm font-medium">{d.level}</span>
+              <span className="text-(--text-muted) text-sm font-medium">{d.level}</span>
               <p className="text-3xl font-bold mt-2" style={{ color: d.color }}>
                 {d.count}
               </p>
@@ -128,7 +128,7 @@ export default function ContentManagementPage() {
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-4">
           <div className="relative flex-1 max-w-md">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
               search
             </span>
             <input
@@ -145,8 +145,8 @@ export default function ContentManagementPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                   selectedCategory === cat
-                    ? "bg-[#13eca4] text-[#10221c]"
-                    : "bg-(--input-bg) text-slate-400 hover:text-(--text-base)"
+                    ? "bg-(--primary-green) text-[#10221c]"
+                    : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
                 }`}
               >
                 {cat}
@@ -156,10 +156,10 @@ export default function ContentManagementPage() {
         </div>
 
         {/* Table */}
-        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(45,212,191,0.08)] overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-slate-500 text-xs border-b border-(--border-subtle)">
+              <tr className="text-(--text-faint) text-xs border-b border-(--border-subtle)">
                 <th className="px-6 py-3 text-left font-medium">Course</th>
                 <th className="px-4 py-3 text-center font-medium">Category</th>
                 <th className="px-4 py-3 text-center font-medium">Difficulty</th>
@@ -170,7 +170,7 @@ export default function ContentManagementPage() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
+                  <td colSpan={5} className="px-6 py-12 text-center text-(--text-faint)">
                     No courses found
                   </td>
                 </tr>
@@ -178,38 +178,38 @@ export default function ContentManagementPage() {
                 filtered.map((c, i) => (
                   <tr
                     key={c.id}
-                    className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
+                    className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(45,212,191,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div
                           className="w-9 h-9 rounded-xl flex items-center justify-center"
-                          style={{ background: `${c.color ?? "#13eca4"}18` }}
+                          style={{ background: `${c.color ?? "#2dd4bf"}18` }}
                         >
                           <span
                             className="material-symbols-outlined text-[18px]"
-                            style={{ color: c.color ?? "#13eca4" }}
+                            style={{ color: c.color ?? "#2dd4bf" }}
                           >
                             {c.icon ?? "auto_stories"}
                           </span>
                         </div>
                         <div>
                           <p className="text-(--text-base) font-semibold">{c.title}</p>
-                          <p className="text-slate-500 text-xs line-clamp-1">
+                          <p className="text-(--text-faint) text-xs line-clamp-1">
                             {c.description ?? "No description"}
                           </p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-4 text-center text-slate-300 text-xs">
+                    <td className="px-4 py-4 text-center text-(--text-base) text-xs">
                       {c.category ?? "--"}
                     </td>
                     <td className="px-4 py-4 text-center">
                       <span
                         className="text-xs font-bold px-2.5 py-1 rounded-full"
                         style={{
-                          color: difficultyColor[c.difficulty] ?? "#13eca4",
-                          background: `${difficultyColor[c.difficulty] ?? "#13eca4"}18`,
+                          color: difficultyColor[c.difficulty] ?? "#2dd4bf",
+                          background: `${difficultyColor[c.difficulty] ?? "#2dd4bf"}18`,
                         }}
                       >
                         {c.difficulty}
@@ -223,13 +223,13 @@ export default function ContentManagementPage() {
                         onClick={() =>
                           router.push(`/dashboard/courses/create/step1?courseId=${c.id}`)
                         }
-                        className="text-slate-400 hover:text-[#13eca4] transition-colors text-xs font-semibold mr-3"
+                        className="text-(--text-muted) hover:text-(--primary-green) transition-colors text-xs font-semibold mr-3"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => setConfirmDeleteId(c.id)}
-                        className="text-slate-400 hover:text-red-400 transition-colors text-xs font-semibold"
+                        className="text-(--text-muted) hover:text-red-400 transition-colors text-xs font-semibold"
                       >
                         Delete
                       </button>
@@ -240,7 +240,7 @@ export default function ContentManagementPage() {
             </tbody>
           </table>
           <div className="px-6 py-3 border-t border-(--border-subtle)">
-            <p className="text-slate-500 text-xs">
+            <p className="text-(--text-faint) text-xs">
               Showing {filtered.length} of {allCourses.length} courses
             </p>
           </div>

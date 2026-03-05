@@ -79,7 +79,7 @@ export default function SupportActivityPage() {
         <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(59,130,246,0.1)] px-8 h-16 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-(--text-base)">Activity Log</h1>
-            <p className="text-slate-400 text-xs mt-0.5">Recent platform-wide activity</p>
+            <p className="text-(--text-muted) text-xs mt-0.5">Recent platform-wide activity</p>
           </div>
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(59,130,246,0.12)] border border-[rgba(59,130,246,0.2)]">
             <span className="material-symbols-outlined text-[#3b82f6] text-[16px]">timeline</span>
@@ -94,14 +94,14 @@ export default function SupportActivityPage() {
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Search */}
             <div className="relative flex-1 max-w-sm">
-              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">
+              <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-faint) text-[18px]">
                 search
               </span>
               <input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by description or user ID…"
-                className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(59,130,246,0.4)]"
+                className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(59,130,246,0.4)]"
               />
             </div>
 
@@ -109,7 +109,7 @@ export default function SupportActivityPage() {
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-(--bg-card) border border-slate-800 rounded-xl px-3 py-2.5 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(59,130,246,0.4)]"
+              className="bg-(--bg-card) border border-(--border-subtle) rounded-xl px-3 py-2.5 text-(--text-base) text-sm focus:outline-none focus:border-[rgba(59,130,246,0.4)]"
             >
               {FILTER_TYPES.map((t) => (
                 <option key={t} value={t}>
@@ -126,18 +126,18 @@ export default function SupportActivityPage() {
                 timeline
               </span>
               <h2 className="text-(--text-base) font-bold">Events</h2>
-              <span className="ml-auto text-xs text-slate-500">
+              <span className="ml-auto text-xs text-(--text-faint)">
                 Showing {filtered.length} of {activities.length}
               </span>
             </div>
 
             {filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20">
-                <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">
+                <span className="material-symbols-outlined text-[56px] text-(--text-faint) mb-3">
                   timeline
                 </span>
                 <p className="text-(--text-base) font-semibold mb-1">No activity found</p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-(--text-muted) text-sm">
                   {searchQuery || filterType !== "all"
                     ? "Try adjusting your filters."
                     : "No platform activity recorded yet."}
@@ -172,18 +172,18 @@ export default function SupportActivityPage() {
                           >
                             {label}
                           </span>
-                          <span className="text-slate-500 text-xs font-mono truncate max-w-50">
+                          <span className="text-(--text-faint) text-xs font-mono truncate max-w-50">
                             {a.userId ? a.userId.slice(0, 16) + "…" : "system"}
                           </span>
                         </div>
-                        <p className="text-slate-300 text-sm mt-1 line-clamp-2">
+                        <p className="text-(--text-base) text-sm mt-1 line-clamp-2">
                           {a.description}
                         </p>
                       </div>
 
                       {/* Timestamp */}
                       <div className="shrink-0 text-right">
-                        <span className="text-slate-500 text-xs">
+                        <span className="text-(--text-faint) text-xs">
                           {formatDate(
                             (a as unknown as Record<string, unknown>).timestamp
                           )}

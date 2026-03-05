@@ -43,7 +43,7 @@ export default function TeacherAnalyticsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -106,7 +106,7 @@ export default function TeacherAnalyticsPage() {
       label: "Excellent (90-100%)",
       pct: Math.round((excellent / totalForDist) * 100),
       count: excellent,
-      color: "#13eca4",
+      color: "var(--primary-green)",
     },
     {
       label: "Proficient (75-89%)",
@@ -124,7 +124,7 @@ export default function TeacherAnalyticsPage() {
       label: "Needs Support (<60%)",
       pct: Math.round((needsSupport / totalForDist) * 100),
       count: needsSupport,
-      color: "#ff4d4d",
+      color: "var(--accent-red)",
     },
   ];
 
@@ -174,7 +174,7 @@ export default function TeacherAnalyticsPage() {
           <h1 className="text-xl font-bold text-(--text-base)">Classroom Analytics</h1>
           <p className="text-(--text-muted) text-xs mt-0.5">Engagement & performance insights</p>
         </div>
-        <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+        <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-(--primary-green) hover:text-(--primary-green) transition-colors">
           <span className="material-symbols-outlined text-[18px]">download</span>
           Export Report
         </button>
@@ -189,7 +189,7 @@ export default function TeacherAnalyticsPage() {
               onClick={() => setActiveClassroom(i)}
               className={`shrink-0 px-5 py-3 rounded-xl text-sm font-semibold transition-all border ${
                 activeClassroom === i
-                  ? "bg-[rgba(19,236,164,0.1)] border-(--border-strong) text-[#13eca4]"
+                  ? "bg-[rgba(45,212,191,0.1)] border-(--border-strong) text-(--primary-green)"
                   : "bg-[rgba(255,255,255,0.03)] border-(--border-subtle) text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
@@ -202,7 +202,7 @@ export default function TeacherAnalyticsPage() {
         {/* Top Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { icon: "group", label: "Total Students", value: totalStudents, color: "#13eca4" },
+            { icon: "group", label: "Total Students", value: totalStudents, color: "var(--primary-green)" },
             {
               icon: "trending_up",
               label: "Avg. Mastery Score",
@@ -245,13 +245,13 @@ export default function TeacherAnalyticsPage() {
             <div className="flex items-end gap-3 h-36">
               {weeklyActivity.map((d) => (
                 <div key={d.day} className="flex-1 flex flex-col items-center gap-1.5">
-                  <span className="text-[#13eca4] text-xs font-bold">{d.submissions}</span>
+                  <span className="text-(--primary-green) text-xs font-bold">{d.submissions}</span>
                   <div
                     className="w-full rounded-t-lg transition-all hover:opacity-80 relative group"
                     style={{
                       height: `${(d.submissions / maxSubmissions) * 100}%`,
                       minHeight: "4px",
-                      background: "linear-gradient(180deg, #13eca4, #0dd494)",
+                      background: "linear-gradient(180deg, #2dd4bf, #14b8a6)",
                     }}
                   ></div>
                   <span className="text-(--text-faint) text-xs">{d.day}</span>
@@ -286,7 +286,7 @@ export default function TeacherAnalyticsPage() {
 
         {/* Top Students */}
         <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
-          <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.06)]">
+          <div className="px-6 py-4 border-b border-[rgba(45,212,191,0.06)]">
             <h2 className="text-(--text-base) font-bold">Top Performers</h2>
           </div>
           {topStudents.length === 0 ? (
@@ -308,7 +308,7 @@ export default function TeacherAnalyticsPage() {
                 {topStudents.map((s, i) => (
                   <tr
                     key={s.name + i}
-                    className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors"
+                    className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(45,212,191,0.02)] transition-colors"
                   >
                     <td className="px-6 py-4">
                       <span
@@ -316,7 +316,7 @@ export default function TeacherAnalyticsPage() {
                           i === 0
                             ? "bg-yellow-400 text-yellow-900"
                             : i === 1
-                              ? "bg-slate-400 text-slate-900"
+                              ? "bg-(--text-faint) text-(--text-base)"
                               : i === 2
                                 ? "bg-amber-700 text-(--text-base)"
                                 : "text-(--text-faint)"
@@ -327,7 +327,7 @@ export default function TeacherAnalyticsPage() {
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
+                        <div className="w-8 h-8 rounded-full bg-[rgba(45,212,191,0.1)] flex items-center justify-center text-(--primary-green) font-bold text-xs">
                           {s.name[0]}
                         </div>
                         <span className="text-(--text-base) font-semibold">{s.name}</span>
@@ -335,7 +335,7 @@ export default function TeacherAnalyticsPage() {
                     </td>
                     <td className="px-4 py-4 text-(--text-muted) text-xs">{s.classroom}</td>
                     <td className="px-4 py-4 text-center">
-                      <span className="text-[#13eca4] font-bold">{s.score}%</span>
+                      <span className="text-(--primary-green) font-bold">{s.score}%</span>
                     </td>
                     <td className="px-4 py-4 text-center text-(--text-base) font-semibold">{s.badges}</td>
                   </tr>

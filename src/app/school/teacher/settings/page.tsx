@@ -169,8 +169,8 @@ export default function TeacherSettingsPage() {
                   onClick={() => setActiveTab(tab.key)}
                   className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-left transition-colors ${
                     activeTab === tab.key
-                      ? "bg-[rgba(19,236,164,0.1)] text-[#13eca4]"
-                      : "text-(--text-muted) hover:bg-slate-800 hover:text-(--text-base)"
+                      ? "bg-[rgba(45,212,191,0.1)] text-(--primary-green)"
+                      : "text-(--text-muted) hover:bg-(--bg-elevated) hover:text-(--text-base)"
                   }`}
                 >
                   <span className="material-symbols-outlined">{tab.icon}</span>
@@ -195,10 +195,10 @@ export default function TeacherSettingsPage() {
                 </div>
 
                 {/* Google Classroom Card */}
-                <div className="bg-[#1a2e31] rounded-xl border border-slate-800 overflow-hidden shadow-sm">
+                <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) overflow-hidden shadow-sm">
                   <div className="p-6 flex flex-col md:flex-row items-center justify-between gap-6">
                     <div className="flex items-center gap-5">
-                      <div className="w-16 h-16 rounded-xl bg-slate-800 flex items-center justify-center text-[#13eca4]">
+                      <div className="w-16 h-16 rounded-xl bg-(--bg-elevated) flex items-center justify-center text-(--primary-green)">
                         <span className="material-symbols-outlined text-4xl">cloud_sync</span>
                       </div>
                       <div className="flex flex-col gap-1">
@@ -227,18 +227,18 @@ export default function TeacherSettingsPage() {
                             onChange={() => setAutoSync(!autoSync)}
                           />
                           <div
-                            className={`w-11 h-6 rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all ${autoSync ? "bg-[#13eca4] after:translate-x-full" : "bg-slate-700"}`}
+                            className={`w-11 h-6 rounded-full transition-colors after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all ${autoSync ? "bg-(--primary-green) after:translate-x-full" : "bg-(--bg-elevated)"}`}
                           />
                         </label>
                       </div>
-                      <button className="flex items-center gap-2 bg-slate-800 text-(--text-base) px-4 py-2 rounded-lg font-bold text-sm hover:bg-slate-700 transition-colors">
+                      <button className="flex items-center gap-2 bg-(--bg-elevated) text-(--text-base) px-4 py-2 rounded-lg font-bold text-sm hover:bg-(--bg-elevated) transition-colors">
                         <span className="material-symbols-outlined text-sm">link_off</span>
                         Disconnect
                       </button>
                     </div>
                   </div>
-                  <div className="h-1 w-full bg-[#13eca4]/20">
-                    <div className="h-full bg-[#13eca4] w-full" />
+                  <div className="h-1 w-full bg-(--primary-green)/20">
+                    <div className="h-full bg-(--primary-green) w-full" />
                   </div>
                 </div>
 
@@ -246,7 +246,7 @@ export default function TeacherSettingsPage() {
                 <div className="flex flex-col gap-4">
                   <div className="flex items-center justify-between">
                     <h3 className="text-(--text-base) text-lg font-bold">Active Classroom Syncs</h3>
-                    <button className="text-[#13eca4] text-sm font-bold flex items-center gap-1 hover:underline">
+                    <button className="text-(--primary-green) text-sm font-bold flex items-center gap-1 hover:underline">
                       <span className="material-symbols-outlined text-sm">add_circle</span>
                       Add New Connection
                     </button>
@@ -256,7 +256,7 @@ export default function TeacherSettingsPage() {
                     {classroomSyncs.map((sync) => (
                       <div
                         key={sync.id}
-                        className="bg-[#1a2e31] p-4 rounded-xl border border-slate-800 flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                        className="bg-(--bg-card) p-4 rounded-xl border border-(--border-subtle) flex flex-col lg:flex-row lg:items-center justify-between gap-4"
                       >
                         <div className="flex items-center gap-4 flex-1">
                           <div className="flex flex-col min-w-0">
@@ -285,7 +285,7 @@ export default function TeacherSettingsPage() {
                               type="checkbox"
                               checked={sync.syncGrades}
                               onChange={() => toggleSync(sync.id, "syncGrades")}
-                              className="rounded border-slate-700 text-[#13eca4] focus:ring-[#13eca4] bg-transparent w-4 h-4 accent-[#13eca4]"
+                              className="rounded border-(--border) text-(--primary-green) focus:ring-(--primary-green) bg-transparent w-4 h-4 accent-(--primary-green)"
                             />
                             <span className="text-sm text-(--text-muted)">Grades</span>
                           </label>
@@ -294,14 +294,14 @@ export default function TeacherSettingsPage() {
                               type="checkbox"
                               checked={sync.syncMaterials}
                               onChange={() => toggleSync(sync.id, "syncMaterials")}
-                              className="rounded border-slate-700 text-[#13eca4] focus:ring-[#13eca4] bg-transparent w-4 h-4 accent-[#13eca4]"
+                              className="rounded border-(--border) text-(--primary-green) focus:ring-(--primary-green) bg-transparent w-4 h-4 accent-(--primary-green)"
                             />
                             <span className="text-sm text-(--text-muted)">Materials</span>
                           </label>
-                          <div className="hidden sm:block h-6 w-px bg-slate-700" />
+                          <div className="hidden sm:block h-6 w-px bg-(--bg-elevated)" />
                           <button
                             onClick={() => handleForceSync(sync.id)}
-                            className="bg-[#13eca4] hover:bg-[#0dd494] text-[#10221c] px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+                            className="bg-(--primary-green) hover:bg-(--primary-green-dark) text-[#10221c] px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
                           >
                             <span className="material-symbols-outlined text-sm">sync</span>
                             Force Sync Now
@@ -313,9 +313,9 @@ export default function TeacherSettingsPage() {
                 </div>
 
                 {/* Data Mapping */}
-                <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-6">
+                <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-6">
                   <div className="flex items-center gap-3 mb-5">
-                    <span className="material-symbols-outlined text-[#13eca4]">schema</span>
+                    <span className="material-symbols-outlined text-(--primary-green)">schema</span>
                     <h3 className="text-(--text-base) font-bold text-lg">Automatic Data Field Mapping</h3>
                   </div>
                   <div className="space-y-3">
@@ -370,7 +370,7 @@ export default function TeacherSettingsPage() {
 
             {/* Account Tab */}
             {activeTab === "account" && (
-              <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7">
+              <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                 <h3 className="text-xl font-bold text-(--text-base) mb-6">Account Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
@@ -378,7 +378,7 @@ export default function TeacherSettingsPage() {
                       Full Name
                     </label>
                     <input
-                      className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-[#13eca4] outline-none"
+                      className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-(--primary-green) outline-none"
                       defaultValue={appUser?.displayName ?? ""}
                     />
                   </div>
@@ -387,7 +387,7 @@ export default function TeacherSettingsPage() {
                       Email
                     </label>
                     <input
-                      className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-muted) px-4 py-2.5 text-sm cursor-not-allowed"
+                      className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-muted) px-4 py-2.5 text-sm cursor-not-allowed"
                       value={appUser?.email ?? ""}
                       readOnly
                     />
@@ -396,7 +396,7 @@ export default function TeacherSettingsPage() {
                 <div className="mt-6 flex justify-end">
                   <button
                     onClick={handleSave}
-                    className="px-6 py-2.5 bg-[#13eca4] text-[#10221c] font-bold rounded-lg hover:opacity-90 transition-opacity"
+                    className="px-6 py-2.5 bg-(--primary-green) text-[#10221c] font-bold rounded-lg hover:opacity-90 transition-opacity"
                   >
                     {saved ? "Saved!" : "Save Changes"}
                   </button>
@@ -408,16 +408,16 @@ export default function TeacherSettingsPage() {
             {activeTab === "security" && (
               <div className="space-y-6">
                 {/* Password section */}
-                <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7">
+                <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                   <h3 className="text-xl font-bold text-(--text-base) mb-6">Password</h3>
-                  <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700">
+                  <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-(--border)">
                     <div>
                       <p className="font-bold text-(--text-base)">Account Password</p>
                       <p className="text-sm text-(--text-muted)">Change your login password</p>
                     </div>
                     <a
                       href="/auth/change-password"
-                      className="px-4 py-2 bg-[#1a2e31] border border-slate-700 text-slate-200 text-sm font-bold rounded-lg hover:border-[rgba(19,236,164,0.5)] transition-colors"
+                      className="px-4 py-2 bg-(--bg-card) border border-(--border) text-(--text-base) text-sm font-bold rounded-lg hover:border-[rgba(45,212,191,0.5)] transition-colors"
                     >
                       Change Password
                     </a>
@@ -425,7 +425,7 @@ export default function TeacherSettingsPage() {
                 </div>
 
                 {/* Active sessions */}
-                <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7">
+                <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <h3 className="text-xl font-bold text-(--text-base)">Active Sessions</h3>
@@ -444,7 +444,7 @@ export default function TeacherSettingsPage() {
                       <button
                         onClick={revokeAll}
                         disabled={revoking === "all"}
-                        className="px-4 py-2 bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.3)] text-[#ff4d4d] text-sm font-bold rounded-lg hover:bg-[rgba(255,77,77,0.2)] transition-colors disabled:opacity-50"
+                        className="px-4 py-2 bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.3)] text-(--accent-red) text-sm font-bold rounded-lg hover:bg-[rgba(255,77,77,0.2)] transition-colors disabled:opacity-50"
                       >
                         {revoking === "all" ? "Signing out..." : "Log Out All Devices"}
                       </button>
@@ -453,7 +453,7 @@ export default function TeacherSettingsPage() {
 
                   {sessionsLoading ? (
                     <div className="flex items-center justify-center py-8">
-                      <span className="material-symbols-outlined animate-spin text-[#13eca4] text-2xl">
+                      <span className="material-symbols-outlined animate-spin text-(--primary-green) text-2xl">
                         progress_activity
                       </span>
                     </div>
@@ -475,8 +475,8 @@ export default function TeacherSettingsPage() {
                             key={s.id}
                             className={`flex items-center justify-between p-4 rounded-xl border ${
                               isCurrent
-                                ? "bg-[rgba(19,236,164,0.04)] border-(--border-accent)"
-                                : "bg-(--bg-page)/50 border-slate-700"
+                                ? "bg-[rgba(45,212,191,0.04)] border-(--border-accent)"
+                                : "bg-(--bg-page)/50 border-(--border)"
                             }`}
                           >
                             <div className="flex items-start gap-3 min-w-0">
@@ -484,13 +484,13 @@ export default function TeacherSettingsPage() {
                                 devices
                               </span>
                               <div className="min-w-0">
-                                <p className="text-slate-200 text-sm font-medium truncate">
+                                <p className="text-(--text-base) text-sm font-medium truncate">
                                   {device}
                                 </p>
                                 <p className="text-(--text-faint) text-xs mt-0.5">
                                   IP {s.ip} &middot; Created {created}
                                   {isCurrent && (
-                                    <span className="ml-2 text-[#13eca4] font-semibold">
+                                    <span className="ml-2 text-(--primary-green) font-semibold">
                                       (this device)
                                     </span>
                                   )}
@@ -501,7 +501,7 @@ export default function TeacherSettingsPage() {
                               <button
                                 onClick={() => revokeSession(s.id)}
                                 disabled={revoking === s.id}
-                                className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-slate-700 rounded-lg hover:text-[#ff4d4d] hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
+                                className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-(--border) rounded-lg hover:text-(--accent-red) hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50"
                               >
                                 {revoking === s.id ? "..." : "Revoke"}
                               </button>
@@ -517,7 +517,7 @@ export default function TeacherSettingsPage() {
 
             {/* Notifications Tab */}
             {activeTab === "notifications" && (
-              <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7">
+              <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                 <h3 className="text-xl font-bold text-(--text-base) mb-6">Notification Preferences</h3>
                 <div className="space-y-4">
                   {[
@@ -527,13 +527,13 @@ export default function TeacherSettingsPage() {
                   ].map((item) => (
                     <div
                       key={item.label}
-                      className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700"
+                      className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-(--border)"
                     >
                       <div>
                         <p className="font-bold text-(--text-base) text-sm">{item.label}</p>
                         <p className="text-xs text-(--text-muted)">{item.desc}</p>
                       </div>
-                      <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-[#13eca4]">
+                      <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-(--primary-green)">
                         <span className="inline-block h-4 w-4 transform rounded-full bg-white translate-x-6 transition-transform" />
                       </button>
                     </div>
@@ -544,7 +544,7 @@ export default function TeacherSettingsPage() {
 
             {/* School Profile Tab */}
             {activeTab === "school" && (
-              <div className="bg-[#1a2e31] rounded-xl border border-slate-800 p-7">
+              <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                 <h3 className="text-xl font-bold text-(--text-base) mb-6">School Profile</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
@@ -552,7 +552,7 @@ export default function TeacherSettingsPage() {
                       School Name
                     </label>
                     <input
-                      className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-[#13eca4] outline-none"
+                      className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-(--primary-green) outline-none"
                       placeholder="Your school name"
                     />
                   </div>
@@ -561,7 +561,7 @@ export default function TeacherSettingsPage() {
                       Department
                     </label>
                     <input
-                      className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-[#13eca4] outline-none"
+                      className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-(--primary-green) outline-none"
                       defaultValue={
                         ((appUser as unknown as Record<string, unknown>)?.department as string) ??
                         ""
@@ -572,7 +572,7 @@ export default function TeacherSettingsPage() {
                 <div className="mt-6 flex justify-end">
                   <button
                     onClick={handleSave}
-                    className="px-6 py-2.5 bg-[#13eca4] text-[#10221c] font-bold rounded-lg hover:opacity-90 transition-opacity"
+                    className="px-6 py-2.5 bg-(--primary-green) text-[#10221c] font-bold rounded-lg hover:opacity-90 transition-opacity"
                   >
                     {saved ? "Saved!" : "Save Changes"}
                   </button>

@@ -72,7 +72,7 @@ export default function AnalyticsCoursesPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Courses Analytics</h1>
-          <p className="text-slate-400 text-xs mt-0.5">{allCourses.length} total · {published.length} published</p>
+          <p className="text-(--text-muted) text-xs mt-0.5">{allCourses.length} total · {published.length} published</p>
         </div>
       </header>
 
@@ -91,7 +91,7 @@ export default function AnalyticsCoursesPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -109,7 +109,7 @@ export default function AnalyticsCoursesPage() {
                 const pct = allCourses.length > 0 ? (count / allCourses.length) * 100 : 0;
                 return (
                   <div key={cat} className="flex items-center gap-4">
-                    <div className="w-36 text-xs text-slate-400 text-right shrink-0 truncate">{cat}</div>
+                    <div className="w-36 text-xs text-(--text-muted) text-right shrink-0 truncate">{cat}</div>
                     <div className="flex-1 h-5 bg-(--bg-page) rounded-full overflow-hidden">
                       <div className="h-full rounded-full bg-[#a855f7] transition-all" style={{ width: `${Math.max(pct, 1)}%` }} />
                     </div>
@@ -132,7 +132,7 @@ export default function AnalyticsCoursesPage() {
             </div>
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 text-[16px]">search</span>
+                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-faint) text-[16px]">search</span>
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -156,8 +156,8 @@ export default function AnalyticsCoursesPage() {
           <div className="divide-y divide-[rgba(255,255,255,0.03)]">
             {filtered.length === 0 ? (
               <div className="py-12 text-center">
-                <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">library_books</span>
-                <p className="text-slate-400 text-sm">No courses match your filter.</p>
+                <span className="material-symbols-outlined text-[40px] text-(--text-faint) mb-2 block">library_books</span>
+                <p className="text-(--text-muted) text-sm">No courses match your filter.</p>
               </div>
             ) : (
               filtered.slice(0, visibleCount).map((course) => {
@@ -166,17 +166,17 @@ export default function AnalyticsCoursesPage() {
                 const diffColor = DIFFICULTY_COLOR[course.difficulty] ?? "#64748b";
                 return (
                   <div key={course.id} className="flex items-center gap-4 px-6 py-4 hover:bg-[rgba(168,85,247,0.03)] transition-colors">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-xl" style={{ background: `${course.color ?? "#13eca4"}18` }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-xl" style={{ background: `${course.color ?? "#2dd4bf"}18` }}>
                       {course.icon ?? "📚"}
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-(--text-base) font-medium text-sm truncate">{course.title}</p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-slate-500 text-xs">{course.category}</span>
-                        <span className="text-slate-600">·</span>
+                        <span className="text-(--text-faint) text-xs">{course.category}</span>
+                        <span className="text-(--text-faint)">·</span>
                         <span className="text-xs font-medium" style={{ color: diffColor }}>{course.difficulty}</span>
-                        <span className="text-slate-600">·</span>
-                        <span className="text-slate-500 text-xs">{course.totalLessons} lessons</span>
+                        <span className="text-(--text-faint)">·</span>
+                        <span className="text-(--text-faint) text-xs">{course.totalLessons} lessons</span>
                       </div>
                     </div>
                     <span
@@ -192,7 +192,7 @@ export default function AnalyticsCoursesPage() {
           </div>
           {filtered.length > visibleCount && (
             <div className="text-center py-3">
-              <p className="text-slate-500 text-xs mb-2">Showing {visibleCount} of {filtered.length} courses</p>
+              <p className="text-(--text-faint) text-xs mb-2">Showing {visibleCount} of {filtered.length} courses</p>
               <button
                 onClick={() => setVisibleCount((v) => v + 50)}
                 className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[rgba(168,85,247,0.1)] text-[#a855f7] hover:bg-[rgba(168,85,247,0.2)] transition-colors"

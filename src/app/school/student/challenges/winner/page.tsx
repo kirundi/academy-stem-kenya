@@ -83,26 +83,26 @@ function WinnerInner() {
     <div className="min-h-screen bg-[#0a1a16] text-(--text-base) relative overflow-hidden">
       {/* Celebration glow background */}
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-175 h-175 rounded-full blur-[160px] opacity-15 bg-[#13eca4]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-175 h-175 rounded-full blur-[160px] opacity-15 bg-(--primary-green)" />
         <div className="absolute top-1/3 left-1/4 w-64 h-64 rounded-full blur-[80px] opacity-10 bg-yellow-400" />
         <div className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full blur-[80px] opacity-10 bg-yellow-400" />
       </div>
 
       <div className="relative z-10">
         {/* Top nav */}
-        <header className="flex items-center gap-6 px-8 py-5 border-b border-[rgba(19,236,164,0.12)] bg-(--bg-page)/80 backdrop-blur-sm">
+        <header className="flex items-center gap-6 px-8 py-5 border-b border-[rgba(45,212,191,0.12)] bg-(--bg-page)/80 backdrop-blur-sm">
           <Link
             href="/school/student/challenges"
-            className="text-sm font-semibold text-slate-400 hover:text-[#13eca4] transition-colors flex items-center gap-1"
+            className="text-sm font-semibold text-(--text-muted) hover:text-(--primary-green) transition-colors flex items-center gap-1"
           >
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Challenges
           </Link>
-          <div className="h-4 w-px bg-[rgba(19,236,164,0.2)]" />
-          <span className="text-sm font-semibold text-slate-300">{challengeTitle}</span>
+          <div className="h-4 w-px bg-[rgba(45,212,191,0.2)]" />
+          <span className="text-sm font-semibold text-(--text-base)">{challengeTitle}</span>
           <Link
             href="/school/student/challenges/leaderboard"
-            className="ml-auto text-sm font-semibold text-[#13eca4] hover:brightness-110 transition-all flex items-center gap-1"
+            className="ml-auto text-sm font-semibold text-(--primary-green) hover:brightness-110 transition-all flex items-center gap-1"
           >
             <span className="material-symbols-outlined text-base">leaderboard</span>
             View Leaderboard
@@ -116,7 +116,7 @@ function WinnerInner() {
             Milestone Achieved
           </span>
           <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-3">Challenge Winner!</h1>
-          <p className="text-[#13eca4] text-xl font-bold tracking-wide">
+          <p className="text-(--primary-green) text-xl font-bold tracking-wide">
             {challengeTitle} Champion
           </p>
         </div>
@@ -167,7 +167,7 @@ function WinnerInner() {
               <div className="flex gap-3 w-full max-w-xs">
                 <button
                   onClick={handleShare}
-                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#13eca4] text-[#0d1f1a] rounded-xl font-bold text-sm hover:brightness-105 transition-all"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-(--primary-green) text-[#0d1f1a] rounded-xl font-bold text-sm hover:brightness-105 transition-all"
                 >
                   <span className="material-symbols-outlined text-base">
                     {copied ? "check" : "share"}
@@ -176,7 +176,7 @@ function WinnerInner() {
                 </button>
                 <Link
                   href="/school/student/portfolio"
-                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-(--bg-card) border border-[rgba(19,236,164,0.2)] text-(--text-base) rounded-xl font-bold text-sm hover:bg-[#243d40] transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-(--bg-card) border border-[rgba(45,212,191,0.2)] text-(--text-base) rounded-xl font-bold text-sm hover:bg-[#243d40] transition-colors"
                 >
                   <span className="material-symbols-outlined text-base">work</span>
                   Portfolio
@@ -186,74 +186,74 @@ function WinnerInner() {
 
             {/* ─── Certificate ─── */}
             <div className="col-span-12 lg:col-span-7">
-              <div className="w-full aspect-[1.414/1] relative bg-(--bg-page) border border-[rgba(19,236,164,0.2)] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="w-full aspect-[1.414/1] relative bg-(--bg-page) border border-[rgba(45,212,191,0.2)] rounded-2xl overflow-hidden shadow-2xl">
                 {/* Corner decorations */}
-                <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-[#13eca4]/30 rounded-tl-lg" />
-                <div className="absolute top-4 right-4 w-10 h-10 border-t-2 border-r-2 border-[#13eca4]/30 rounded-tr-lg" />
-                <div className="absolute bottom-16 left-4 w-10 h-10 border-b-2 border-l-2 border-[#13eca4]/30 rounded-bl-lg" />
-                <div className="absolute bottom-16 right-4 w-10 h-10 border-b-2 border-r-2 border-[#13eca4]/30 rounded-br-lg" />
+                <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-(--primary-green)/30 rounded-tl-lg" />
+                <div className="absolute top-4 right-4 w-10 h-10 border-t-2 border-r-2 border-(--primary-green)/30 rounded-tr-lg" />
+                <div className="absolute bottom-16 left-4 w-10 h-10 border-b-2 border-l-2 border-(--primary-green)/30 rounded-bl-lg" />
+                <div className="absolute bottom-16 right-4 w-10 h-10 border-b-2 border-r-2 border-(--primary-green)/30 rounded-br-lg" />
 
                 {/* Certificate body */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center px-12 py-8 bottom-12">
                   <div className="text-center mb-4">
                     <div className="flex items-center justify-center mb-2">
-                      <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                      <span className="material-symbols-outlined text-(--primary-green) text-3xl">
                         verified
                       </span>
                     </div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#13eca4] mb-1">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-(--primary-green) mb-1">
                       STEM Impact Academy
                     </p>
                     <h2 className="text-lg font-black tracking-wide uppercase text-(--text-base) mb-1">
                       Certificate of Achievement
                     </h2>
-                    <div className="w-20 h-px bg-linear-to-r from-transparent via-[#13eca4]/60 to-transparent mx-auto mb-4" />
+                    <div className="w-20 h-px bg-linear-to-r from-transparent via-(--primary-green)/60 to-transparent mx-auto mb-4" />
                   </div>
 
-                  <p className="text-xs text-slate-400 tracking-widest uppercase mb-1">
+                  <p className="text-xs text-(--text-muted) tracking-widest uppercase mb-1">
                     This is to certify that
                   </p>
-                  <p className="text-2xl font-black tracking-tight border-b border-[#13eca4]/40 pb-1 mb-3">
+                  <p className="text-2xl font-black tracking-tight border-b border-(--primary-green)/40 pb-1 mb-3">
                     {displayName}
                   </p>
 
-                  <p className="text-xs text-slate-400 text-center leading-relaxed max-w-xs mb-2">
+                  <p className="text-xs text-(--text-muted) text-center leading-relaxed max-w-xs mb-2">
                     has demonstrated exceptional innovation and technical excellence in the
                   </p>
-                  <p className="text-sm font-bold text-[#13eca4] text-center mb-6">
+                  <p className="text-sm font-bold text-(--primary-green) text-center mb-6">
                     {challengeTitle}
                   </p>
 
                   {/* Bottom row */}
                   <div className="w-full grid grid-cols-3 items-end gap-4 mt-auto">
                     <div className="text-center">
-                      <p className="text-[10px] text-slate-500 mb-1">Date Awarded</p>
+                      <p className="text-[10px] text-(--text-faint) mb-1">Date Awarded</p>
                       <p className="text-xs font-bold">{dateAwarded}</p>
                     </div>
                     <div className="flex flex-col items-center">
-                      <div className="size-10 rounded-full bg-[#13eca4]/20 border border-[#13eca4]/40 flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#13eca4] text-lg">
+                      <div className="size-10 rounded-full bg-(--primary-green)/20 border border-(--primary-green)/40 flex items-center justify-center">
+                        <span className="material-symbols-outlined text-(--primary-green) text-lg">
                           shield
                         </span>
                       </div>
-                      <p className="text-[9px] text-slate-500 mt-1">Academy Seal</p>
+                      <p className="text-[9px] text-(--text-faint) mt-1">Academy Seal</p>
                     </div>
                     <div className="text-center">
                       <p className="text-xs font-bold italic">STEM Impact Center</p>
-                      <p className="text-[10px] text-slate-500">Global Admin</p>
+                      <p className="text-[10px] text-(--text-faint)">Global Admin</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Footer bar with verify ID */}
-                <div className="absolute bottom-0 left-0 right-0 h-12 bg-[#0a1a16]/80 border-t border-[rgba(19,236,164,0.12)] flex items-center justify-between px-6">
-                  <span className="text-[10px] text-slate-500 font-mono">
+                <div className="absolute bottom-0 left-0 right-0 h-12 bg-[#0a1a16]/80 border-t border-[rgba(45,212,191,0.12)] flex items-center justify-between px-6">
+                  <span className="text-[10px] text-(--text-faint) font-mono">
                     Verify ID: {verifyId}
                   </span>
                   <button
                     onClick={handleDownload}
                     disabled={printing}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#13eca4]/15 text-[#13eca4] border border-[#13eca4]/30 rounded-lg text-xs font-bold hover:bg-[#13eca4]/25 transition-colors disabled:opacity-60"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-(--primary-green)/15 text-(--primary-green) border border-(--primary-green)/30 rounded-lg text-xs font-bold hover:bg-(--primary-green)/25 transition-colors disabled:opacity-60"
                   >
                     <span
                       className={`material-symbols-outlined text-sm ${printing ? "animate-spin" : ""}`}
@@ -272,17 +272,17 @@ function WinnerInner() {
             {stats.map((s) => (
               <div
                 key={s.label}
-                className="flex items-start gap-4 p-5 bg-(--bg-page) rounded-2xl border border-[rgba(19,236,164,0.1)] hover:border-[#13eca4]/30 transition-colors"
+                className="flex items-start gap-4 p-5 bg-(--bg-page) rounded-2xl border border-[rgba(45,212,191,0.1)] hover:border-(--primary-green)/30 transition-colors"
               >
-                <div className="p-3 rounded-xl bg-[#13eca4]/15 text-[#13eca4] shrink-0">
+                <div className="p-3 rounded-xl bg-(--primary-green)/15 text-(--primary-green) shrink-0">
                   <span className="material-symbols-outlined text-xl">{s.icon}</span>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-400 uppercase tracking-wider font-bold mb-0.5">
+                  <p className="text-xs text-(--text-muted) uppercase tracking-wider font-bold mb-0.5">
                     {s.label}
                   </p>
                   <p className="text-xl font-black">{s.value}</p>
-                  <p className="text-xs text-slate-500 mt-0.5">{s.sub}</p>
+                  <p className="text-xs text-(--text-faint) mt-0.5">{s.sub}</p>
                 </div>
               </div>
             ))}
@@ -298,7 +298,7 @@ export default function ChallengeWinnerPage() {
     <Suspense
       fallback={
         <div className="flex items-center justify-center min-h-screen bg-[#0a1a16]">
-          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
             progress_activity
           </span>
         </div>

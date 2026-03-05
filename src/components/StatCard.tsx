@@ -9,7 +9,7 @@ interface StatCardProps {
 
 export default function StatCard({
   icon,
-  iconColor = "#13eca4",
+  iconColor = "#2dd4bf",
   label,
   value,
   change,

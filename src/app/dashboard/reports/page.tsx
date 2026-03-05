@@ -8,7 +8,7 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -48,14 +48,14 @@ export default function ReportsPage() {
   const categoryData = Array.from(categoryMap.entries()).sort((a, b) => b[1] - a[1]);
 
   const reportCards = [
-    { icon: "domain", color: "#13eca4", label: "Total Schools", value: schools.length },
+    { icon: "domain", color: "var(--primary-green)", label: "Total Schools", value: schools.length },
     { icon: "group", color: "#3b82f6", label: "Total Students", value: students.length },
     { icon: "school", color: "#8b5cf6", label: "Total Teachers", value: teachers.length },
     { icon: "library_books", color: "#f59e0b", label: "Total Courses", value: allCourses.length },
     { icon: "people", color: "#ec4899", label: "Total Users", value: allUsers.length },
     {
       icon: "health_and_safety",
-      color: "#13eca4",
+      color: "var(--primary-green)",
       label: "Avg. Health Score",
       value: `${avgHealth}%`,
     },
@@ -69,11 +69,11 @@ export default function ReportsPage() {
           <p className="text-(--text-muted) text-xs mt-0.5">Platform analytics and insights</p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-(--primary-green) hover:text-(--primary-green) transition-colors">
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Full Report
           </button>
-          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-(--primary-green) hover:text-(--primary-green) transition-colors">
             <span className="material-symbols-outlined text-[18px]">print</span>
             Print
           </button>
@@ -111,7 +111,7 @@ export default function ReportsPage() {
             <h2 className="text-(--text-base) font-bold mb-4">Schools by Plan</h2>
             <div className="space-y-4">
               {[
-                { plan: "Premium", key: "premium", color: "#13eca4" },
+                { plan: "Premium", key: "premium", color: "var(--primary-green)" },
                 { plan: "Standard", key: "standard", color: "#3b82f6" },
                 { plan: "Community", key: "community", color: "#8b5cf6" },
               ].map((p) => {
@@ -146,7 +146,7 @@ export default function ReportsPage() {
             ) : (
               <div className="space-y-4">
                 {categoryData.slice(0, 5).map(([cat, count], i) => {
-                  const colors = ["#13eca4", "#3b82f6", "#8b5cf6", "#f59e0b", "#ec4899"];
+                  const colors = ["#2dd4bf", "#3b82f6", "#8b5cf6", "#f59e0b", "#ec4899"];
                   const pct =
                     allCourses.length > 0 ? Math.round((count / allCourses.length) * 100) : 0;
                   return (
@@ -178,7 +178,7 @@ export default function ReportsPage() {
 
         {/* Regional Report Table */}
         <section className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
-          <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.06)]">
+          <div className="px-6 py-4 border-b border-[rgba(45,212,191,0.06)]">
             <h2 className="text-(--text-base) font-bold">Regional Breakdown</h2>
           </div>
           <table className="w-full text-sm">
@@ -204,11 +204,11 @@ export default function ReportsPage() {
                   return (
                     <tr
                       key={region}
-                      className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
+                      className={`border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(45,212,191,0.02)] transition-colors ${i % 2 === 0 ? "" : "bg-[rgba(255,255,255,0.01)]"}`}
                     >
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <span className="material-symbols-outlined text-[#13eca4] text-[18px]">
+                          <span className="material-symbols-outlined text-(--primary-green) text-[18px]">
                             location_on
                           </span>
                           <span className="text-(--text-base) font-semibold">{region}</span>
@@ -224,11 +224,11 @@ export default function ReportsPage() {
                         <div className="flex items-center gap-2 justify-center">
                           <div className="flex-1 h-1.5 bg-(--input-bg) rounded-full max-w-15">
                             <div
-                              className="h-1.5 rounded-full bg-[#13eca4]"
+                              className="h-1.5 rounded-full bg-(--primary-green)"
                               style={{ width: `${pct}%` }}
                             />
                           </div>
-                          <span className="text-xs font-bold text-[#13eca4]">{pct}%</span>
+                          <span className="text-xs font-bold text-(--primary-green)">{pct}%</span>
                         </div>
                       </td>
                     </tr>
@@ -245,7 +245,7 @@ export default function ReportsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { role: "Students", count: students.length, color: "#3b82f6", icon: "group" },
-              { role: "Teachers", count: teachers.length, color: "#13eca4", icon: "school" },
+              { role: "Teachers", count: teachers.length, color: "var(--primary-green)", icon: "school" },
               {
                 role: "School Admins",
                 count: allUsers.filter((u) => u.role === "school_admin").length,
@@ -256,7 +256,7 @@ export default function ReportsPage() {
                 role: "Admins",
                 count: allUsers.filter((u) => u.role === "admin" || u.role === "super_admin")
                   .length,
-                color: "#ff4d4d",
+                color: "var(--accent-red)",
                 icon: "security",
               },
             ].map((r) => {

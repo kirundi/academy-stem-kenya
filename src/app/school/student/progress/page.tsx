@@ -9,7 +9,7 @@ import { toDate } from "@/lib/timestamps";
 import type { Course } from "@/lib/types";
 
 const skillColors: Record<string, string> = {
-  Coding: "#13eca4",
+  Coding: "#2dd4bf",
   Circuitry: "#f59e0b",
   "Web Design": "#3b82f6",
   "Game Design": "#8b5cf6",
@@ -38,7 +38,7 @@ const skillIcons: Record<string, string> = {
   Robotics: "smart_toy",
   Creativity: "palette",
 };
-const defaultColor = "#13eca4";
+const defaultColor = "#2dd4bf";
 const defaultIcon = "star";
 
 export default function StudentProgressPage() {
@@ -190,7 +190,7 @@ export default function StudentProgressPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -204,7 +204,7 @@ export default function StudentProgressPage() {
           <h1 className="text-xl font-bold text-(--text-base)">My Progress</h1>
           <p className="text-(--text-muted) text-xs mt-0.5">Skills radar &amp; learning journey</p>
         </div>
-        <button className="flex items-center gap-2 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors">
+        <button className="flex items-center gap-2 border border-(--border-medium) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-lg hover:border-(--primary-green) hover:text-(--primary-green) transition-colors">
           <span className="material-symbols-outlined text-[18px]">download</span>
           Download Report
         </button>
@@ -212,16 +212,16 @@ export default function StudentProgressPage() {
 
       <div className="px-8 py-8">
         {/* XP Hero */}
-        <div className="bg-linear-to-r from-[rgba(19,236,164,0.08)] to-[rgba(19,236,164,0.02)] border border-(--border-medium) rounded-3xl p-7 mb-8 relative overflow-hidden">
-          <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full opacity-5 blur-2xl bg-[#13eca4]" />
+        <div className="bg-linear-to-r from-[rgba(45,212,191,0.08)] to-[rgba(45,212,191,0.02)] border border-(--border-medium) rounded-3xl p-7 mb-8 relative overflow-hidden">
+          <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full opacity-5 blur-2xl bg-(--primary-green)" />
           <div className="flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex items-center gap-5">
-              <div className="w-20 h-20 rounded-2xl bg-[rgba(19,236,164,0.1)] border-2 border-[#13eca4] flex items-center justify-center">
-                <span className="text-[#13eca4] text-3xl font-black">{level}</span>
+              <div className="w-20 h-20 rounded-2xl bg-[rgba(45,212,191,0.1)] border-2 border-(--primary-green) flex items-center justify-center">
+                <span className="text-(--primary-green) text-3xl font-black">{level}</span>
               </div>
               <div>
                 <p className="text-(--text-base) text-2xl font-black">{displayName}</p>
-                <p className="text-[#13eca4] font-semibold text-sm">Level {level}</p>
+                <p className="text-(--primary-green) font-semibold text-sm">Level {level}</p>
               </div>
             </div>
 
@@ -232,7 +232,7 @@ export default function StudentProgressPage() {
                   label: "Badges",
                   value: String(earnedBadges.length),
                   icon: "military_tech",
-                  color: "#13eca4",
+                  color: "var(--primary-green)",
                 },
                 {
                   label: "Submissions",
@@ -258,13 +258,13 @@ export default function StudentProgressPage() {
           <div className="mt-5">
             <div className="flex justify-between text-xs mb-2">
               <span className="text-(--text-muted) font-semibold">Progress to Level {level + 1}</span>
-              <span className="text-[#13eca4] font-bold">
+              <span className="text-(--primary-green) font-bold">
                 {xp} / {xpForNextLevel} XP
               </span>
             </div>
             <div className="h-2.5 bg-(--bg-elevated) rounded-full">
               <div
-                className="h-2.5 rounded-full bg-linear-to-r from-[#13eca4] to-[#06d68e] transition-all"
+                className="h-2.5 rounded-full bg-linear-to-r from-(--primary-green) to-[#06d68e] transition-all"
                 style={{ width: `${xpPercent}%` }}
               />
             </div>
@@ -312,7 +312,7 @@ export default function StudentProgressPage() {
 
                 {/* Top Skill Highlights */}
                 <div className="mt-6 grid grid-cols-3 gap-3">
-                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-(--border-subtle)">
+                  <div className="p-3 bg-[rgba(45,212,191,0.05)] rounded-xl border border-(--border-subtle)">
                     <p className="text-(--text-faint) text-xs mb-1">Strongest Skill</p>
                     <p
                       className="font-bold text-sm"
@@ -324,12 +324,12 @@ export default function StudentProgressPage() {
                       {strongest?.level ?? 0}%
                     </p>
                   </div>
-                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-(--border-subtle)">
+                  <div className="p-3 bg-[rgba(45,212,191,0.05)] rounded-xl border border-(--border-subtle)">
                     <p className="text-(--text-faint) text-xs mb-1">Total Skills</p>
-                    <p className="text-[#13eca4] font-bold text-sm">{skills.length}</p>
-                    <p className="text-[#13eca4] text-xs">tracked</p>
+                    <p className="text-(--primary-green) font-bold text-sm">{skills.length}</p>
+                    <p className="text-(--primary-green) text-xs">tracked</p>
                   </div>
-                  <div className="p-3 bg-[rgba(19,236,164,0.05)] rounded-xl border border-(--border-subtle)">
+                  <div className="p-3 bg-[rgba(45,212,191,0.05)] rounded-xl border border-(--border-subtle)">
                     <p className="text-(--text-faint) text-xs mb-1">Focus Area</p>
                     <p className="font-bold text-sm" style={{ color: weakest?.color ?? "#3b82f6" }}>
                       {weakest?.name ?? "N/A"}
@@ -361,10 +361,10 @@ export default function StudentProgressPage() {
                 {milestones.map((m) => (
                   <div key={m.label} className="flex items-start gap-3 relative pl-1">
                     <div
-                      className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${m.done ? "bg-[rgba(19,236,164,0.15)]" : "bg-(--input-bg)"}`}
+                      className={`relative z-10 w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${m.done ? "bg-[rgba(45,212,191,0.15)]" : "bg-(--input-bg)"}`}
                     >
                       <span
-                        className={`material-symbols-outlined text-[14px] ${m.done ? "text-[#13eca4]" : "text-(--text-faint)"}`}
+                        className={`material-symbols-outlined text-[14px] ${m.done ? "text-(--primary-green)" : "text-(--text-faint)"}`}
                       >
                         {m.icon}
                       </span>
@@ -375,12 +375,12 @@ export default function StudentProgressPage() {
                       >
                         {m.label}
                       </p>
-                      <p className={`text-xs ${m.done ? "text-(--text-faint)" : "text-slate-700"}`}>
+                      <p className={`text-xs ${m.done ? "text-(--text-faint)" : "text-(--text-faint)"}`}>
                         {m.date}
                       </p>
                     </div>
                     {m.done && (
-                      <span className="ml-auto text-xs text-[#13eca4] font-bold">&check;</span>
+                      <span className="ml-auto text-xs text-(--primary-green) font-bold">&check;</span>
                     )}
                   </div>
                 ))}
@@ -393,7 +393,7 @@ export default function StudentProgressPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
             <h2 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#13eca4] text-[20px]">task_alt</span>
+              <span className="material-symbols-outlined text-(--primary-green) text-[20px]">task_alt</span>
               Completed Courses
             </h2>
             {completedCourses.length > 0 ? (

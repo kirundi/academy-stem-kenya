@@ -30,3 +30,27 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({ url: publicUrl, path: fileName });
 }
+
+export async function DELETE(request: NextRequest) {
+  const user = await getAuthUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Only editors and admins can delete files
+  const allowedRoles = ["editor", "admin", "super_admin"];
+  if (!allowedRoles.includes(user.role || "")) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const { path } = await request.json();
+  if (!path || typeof path !== "string") {
+    return NextResponse.json({ error: "File path is required" }, { status: 400 });
+  }
+
+  try {
+    const bucket = getStorage().bucket();
+    await bucket.file(path).delete();
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "File not found or already deleted" }, { status: 404 });
+  }
+}

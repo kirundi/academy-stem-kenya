@@ -163,7 +163,7 @@ export default function MentorDashboard() {
           <h1 className="text-xl font-bold text-(--text-base)">
             {selectedChallenge ? selectedChallenge.title : "My Challenges"}
           </h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {selectedChallenge
               ? `${challengeSubmissions.length} pending submissions`
               : `${challenges.length} assigned challenge${challenges.length !== 1 ? "s" : ""}`}
@@ -174,7 +174,7 @@ export default function MentorDashboard() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => { setSelectedChallenge(null); setGradingId(null); setShowGraded(false); }}
-                className="flex items-center gap-1.5 text-slate-400 hover:text-(--text-base) transition-colors text-sm"
+                className="flex items-center gap-1.5 text-(--text-muted) hover:text-(--text-base) transition-colors text-sm"
               >
                 <span className="material-symbols-outlined text-[18px]">arrow_back</span>
                 All Challenges
@@ -225,7 +225,7 @@ export default function MentorDashboard() {
                   </div>
                   <div>
                     <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                    <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                    <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
                   </div>
                 </div>
               ))}
@@ -234,9 +234,9 @@ export default function MentorDashboard() {
             {/* Challenge cards */}
             {challenges.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
-                <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">emoji_events</span>
+                <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-3">emoji_events</span>
                 <p className="text-(--text-base) font-semibold mb-1">No challenges assigned yet</p>
-                <p className="text-slate-400 text-sm">Contact a platform administrator to be assigned as a judge.</p>
+                <p className="text-(--text-muted) text-sm">Contact a platform administrator to be assigned as a judge.</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -261,8 +261,8 @@ export default function MentorDashboard() {
                           </span>
                         )}
                       </div>
-                      <p className="text-slate-400 text-sm line-clamp-1">{challenge.description}</p>
-                      <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
+                      <p className="text-(--text-muted) text-sm line-clamp-1">{challenge.description}</p>
+                      <div className="flex items-center gap-4 mt-2 text-xs text-(--text-faint)">
                         <span className="flex items-center gap-1">
                           <span className="material-symbols-outlined text-[13px]">calendar_today</span>
                           {formatDate(challenge.startsAt)} – {formatDate(challenge.endsAt)}
@@ -273,7 +273,7 @@ export default function MentorDashboard() {
                         </span>
                       </div>
                     </div>
-                    <span className="material-symbols-outlined text-slate-600 text-[20px] shrink-0 mt-1">
+                    <span className="material-symbols-outlined text-(--text-faint) text-[20px] shrink-0 mt-1">
                       chevron_right
                     </span>
                   </button>
@@ -286,9 +286,9 @@ export default function MentorDashboard() {
           <div>
             {challengeSubmissions.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
-                <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">task_alt</span>
+                <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-3">task_alt</span>
                 <p className="text-(--text-base) font-semibold mb-1">All clear!</p>
-                <p className="text-slate-400 text-sm">No pending submissions for this challenge.</p>
+                <p className="text-(--text-muted) text-sm">No pending submissions for this challenge.</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -306,12 +306,12 @@ export default function MentorDashboard() {
                               <div className="w-7 h-7 rounded-full bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-[#10b981] text-[11px] font-bold">
                                 {sub.studentId.slice(0, 2).toUpperCase()}
                               </div>
-                              <span className="text-slate-400 text-xs font-mono">{sub.studentId.slice(0, 12)}…</span>
+                              <span className="text-(--text-muted) text-xs font-mono">{sub.studentId.slice(0, 12)}…</span>
                               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(245,158,11,0.15)] text-[#f59e0b]">
                                 Pending
                               </span>
                             </div>
-                            <p className="text-slate-400 text-xs">Submitted {formatDate(sub.submittedAt)}</p>
+                            <p className="text-(--text-muted) text-xs">Submitted {formatDate(sub.submittedAt)}</p>
                           </div>
                           <button
                             onClick={() => {
@@ -327,7 +327,7 @@ export default function MentorDashboard() {
 
                         {/* Submission content */}
                         <div className="bg-[rgba(255,255,255,0.03)] rounded-xl px-4 py-3 mb-3 border border-white/[0.05]">
-                          <p className="text-slate-300 text-sm leading-relaxed line-clamp-4 whitespace-pre-wrap">
+                          <p className="text-(--text-base) text-sm leading-relaxed line-clamp-4 whitespace-pre-wrap">
                             {sub.content || "No written content submitted."}
                           </p>
                         </div>
@@ -349,7 +349,7 @@ export default function MentorDashboard() {
                           <div className="mt-4 pt-4 border-t border-(--border-subtle)">
                             <div className="grid grid-cols-2 gap-3 mb-3">
                               <div>
-                                <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1.5">
+                                <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-1.5">
                                   Grade
                                 </label>
                                 <input
@@ -360,7 +360,7 @@ export default function MentorDashboard() {
                                 />
                               </div>
                               <div>
-                                <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1.5">
+                                <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-1.5">
                                   Score (%)
                                 </label>
                                 <input
@@ -375,7 +375,7 @@ export default function MentorDashboard() {
                               </div>
                             </div>
                             <div className="mb-4">
-                              <label className="block text-slate-400 text-xs font-semibold uppercase tracking-wide mb-1.5">
+                              <label className="block text-(--text-muted) text-xs font-semibold uppercase tracking-wide mb-1.5">
                                 Feedback for student
                               </label>
                               <textarea

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAuthContext } from "@/contexts/AuthContext";
 
 const ROLE_COLORS: Record<string, string> = {
-  student: "#13eca4",
+  student: "#2dd4bf",
   teacher: "#3b82f6",
   school_admin: "#f59e0b",
   editor: "#ec4899",

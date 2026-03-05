@@ -10,7 +10,7 @@ export default function StudentsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -43,7 +43,7 @@ export default function StudentsPage() {
       <main className="max-w-7xl mx-auto px-8 py-8 space-y-8">
         <section className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 text-[#13eca4] mb-1">
+            <div className="flex items-center gap-2 text-(--primary-green) mb-1">
               <span className="material-symbols-outlined text-[16px]">groups</span>
               <span className="text-xs font-bold uppercase tracking-wider">Student Body</span>
             </div>
@@ -61,7 +61,7 @@ export default function StudentsPage() {
               label: "Total Students",
               value: students.length,
               icon: "groups",
-              iconColor: "#13eca4",
+              iconColor: "#2dd4bf",
             },
             { label: "Classrooms", value: classrooms.length, icon: "school", iconColor: "#3b82f6" },
             {
@@ -84,7 +84,7 @@ export default function StudentsPage() {
               <div className="flex items-center justify-between mb-4">
                 <span className="text-(--text-muted) text-sm font-medium">{s.label}</span>
                 <span
-                  className="material-symbols-outlined p-2 rounded-lg bg-[rgba(19,236,164,0.08)] text-[20px]"
+                  className="material-symbols-outlined p-2 rounded-lg bg-[rgba(45,212,191,0.08)] text-[20px]"
                   style={{ color: s.iconColor }}
                 >
                   {s.icon}
@@ -133,10 +133,10 @@ export default function StudentsPage() {
                   </tr>
                 ) : (
                   filtered.map((s) => (
-                    <tr key={s.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                    <tr key={s.id} className="hover:bg-[rgba(45,212,191,0.02)] transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-sm">
+                          <div className="w-9 h-9 rounded-full bg-[rgba(45,212,191,0.1)] flex items-center justify-center text-(--primary-green) font-bold text-sm">
                             {s.displayName
                               ?.split(" ")
                               .map((w) => w[0])
@@ -149,7 +149,7 @@ export default function StudentsPage() {
                       </td>
                       <td className="px-6 py-4 text-(--text-muted)">{s.email ?? "--"}</td>
                       <td className="px-6 py-4">
-                        <span className="text-[#13eca4] font-bold">Lvl {s.level ?? 1}</span>
+                        <span className="text-(--primary-green) font-bold">Lvl {s.level ?? 1}</span>
                       </td>
                       <td className="px-6 py-4 text-(--text-base) font-semibold">
                         {(s.xp ?? 0).toLocaleString()} XP

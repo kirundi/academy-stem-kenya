@@ -42,7 +42,7 @@ export default function ObserverReportsPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Reports</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Summary data for your assigned schools
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function ObserverReportsPage() {
           <span className="material-symbols-outlined text-[#06b6d4] text-[20px] shrink-0 mt-0.5">
             lock
           </span>
-          <p className="text-slate-400 text-sm leading-relaxed">
+          <p className="text-(--text-muted) text-sm leading-relaxed">
             Detailed student data is restricted. Contact the platform admin for full reports.
             You can view high-level school information below.
           </p>
@@ -62,11 +62,11 @@ export default function ObserverReportsPage() {
 
         {schoolIds.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-4">
               domain_disabled
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No schools assigned</p>
-            <p className="text-slate-400 text-sm max-w-sm">
+            <p className="text-(--text-muted) text-sm max-w-sm">
               Contact a platform administrator to assign schools to your observer account.
             </p>
           </div>
@@ -90,7 +90,7 @@ export default function ObserverReportsPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-(--text-base) font-bold text-sm truncate">{school.name}</h3>
-                        <p className="text-slate-500 text-xs">{school.location}</p>
+                        <p className="text-(--text-faint) text-xs">{school.location}</p>
                       </div>
                       <span
                         className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0"
@@ -102,19 +102,19 @@ export default function ObserverReportsPage() {
 
                     <div className="grid grid-cols-2 gap-2 text-xs border-t border-[rgba(6,182,212,0.06)] pt-3">
                       <div>
-                        <span className="text-slate-500 block">Students</span>
+                        <span className="text-(--text-faint) block">Students</span>
                         <p className="text-(--text-base) font-semibold">{school.studentCount ?? "—"}</p>
                       </div>
                       <div>
-                        <span className="text-slate-500 block">Health Score</span>
+                        <span className="text-(--text-faint) block">Health Score</span>
                         <p className="text-(--text-base) font-semibold">{school.healthScore ?? 0}%</p>
                       </div>
                       <div>
-                        <span className="text-slate-500 block">Plan</span>
+                        <span className="text-(--text-faint) block">Plan</span>
                         <p className="text-(--text-base) font-semibold capitalize">{school.plan ?? "—"}</p>
                       </div>
                       <div>
-                        <span className="text-slate-500 block">Type</span>
+                        <span className="text-(--text-faint) block">Type</span>
                         <p className="text-(--text-base) font-semibold">{school.type ?? "—"}</p>
                       </div>
                     </div>
@@ -136,19 +136,19 @@ export default function ObserverReportsPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-(--border-subtle)">
-                      <th className="text-left px-6 py-3 text-slate-400 text-xs font-semibold">
+                      <th className="text-left px-6 py-3 text-(--text-muted) text-xs font-semibold">
                         School
                       </th>
-                      <th className="text-left px-6 py-3 text-slate-400 text-xs font-semibold">
+                      <th className="text-left px-6 py-3 text-(--text-muted) text-xs font-semibold">
                         Status
                       </th>
-                      <th className="text-left px-6 py-3 text-slate-400 text-xs font-semibold">
+                      <th className="text-left px-6 py-3 text-(--text-muted) text-xs font-semibold">
                         Observable Since
                       </th>
-                      <th className="text-right px-6 py-3 text-slate-400 text-xs font-semibold">
+                      <th className="text-right px-6 py-3 text-(--text-muted) text-xs font-semibold">
                         Students
                       </th>
-                      <th className="text-right px-6 py-3 text-slate-400 text-xs font-semibold">
+                      <th className="text-right px-6 py-3 text-(--text-muted) text-xs font-semibold">
                         Health
                       </th>
                     </tr>
@@ -164,7 +164,7 @@ export default function ObserverReportsPage() {
                         >
                           <td className="px-6 py-3">
                             <p className="text-(--text-base) font-medium text-sm">{school.name}</p>
-                            <p className="text-slate-500 text-xs">{school.location}</p>
+                            <p className="text-(--text-faint) text-xs">{school.location}</p>
                           </td>
                           <td className="px-6 py-3">
                             <span
@@ -177,7 +177,7 @@ export default function ObserverReportsPage() {
                               {status.label}
                             </span>
                           </td>
-                          <td className="px-6 py-3 text-slate-400 text-xs">
+                          <td className="px-6 py-3 text-(--text-muted) text-xs">
                             {formatDate(school.createdAt)}
                           </td>
                           <td className="px-6 py-3 text-right text-(--text-base) font-medium text-sm">
@@ -194,10 +194,10 @@ export default function ObserverReportsPage() {
 
                 {schools.length === 0 && (
                   <div className="py-10 text-center">
-                    <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">
+                    <span className="material-symbols-outlined text-[40px] text-(--text-faint) mb-2 block">
                       domain_disabled
                     </span>
-                    <p className="text-slate-400 text-sm">No assigned schools found.</p>
+                    <p className="text-(--text-muted) text-sm">No assigned schools found.</p>
                   </div>
                 )}
               </div>

@@ -10,7 +10,7 @@ import type { Course } from "@/lib/types";
 const statusStyles: Record<string, { bg: string; text: string; dot: string }> = {
   graded: { bg: "bg-emerald-500/10", text: "text-emerald-400", dot: "bg-emerald-400" },
   pending: { bg: "bg-blue-500/10", text: "text-blue-400", dot: "bg-blue-400" },
-  draft: { bg: "bg-slate-700", text: "text-slate-400", dot: "bg-slate-500" },
+  draft: { bg: "bg-(--bg-elevated)", text: "text-(--text-muted)", dot: "bg-(--text-faint)" },
 };
 
 const statusLabels: Record<string, string> = {
@@ -22,13 +22,13 @@ const statusLabels: Record<string, string> = {
 const courseIcons: Record<string, { icon: string; color: string }> = {
   Circuitry: { icon: "bolt", color: "#f59e0b" },
   "Game Design": { icon: "sports_esports", color: "#8b5cf6" },
-  Coding: { icon: "code", color: "#13eca4" },
+  Coding: { icon: "code", color: "var(--primary-green)" },
   "Web Literacy": { icon: "language", color: "#3b82f6" },
   Cybersecurity: { icon: "security", color: "#ec4899" },
   Robotics: { icon: "precision_manufacturing", color: "#06b6d4" },
   "Green Tech": { icon: "eco", color: "#10b981" },
 };
-const defaultCourseIcon = { icon: "science", color: "#13eca4" };
+const defaultCourseIcon = { icon: "science", color: "var(--primary-green)" };
 
 function formatDate(date: Date | { toDate?: () => Date } | null | undefined): string | null {
   if (!date) return null;
@@ -115,7 +115,7 @@ export default function PortfolioPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -125,14 +125,14 @@ export default function PortfolioPage() {
   return (
     <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(45,212,191,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">My Portfolio</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {totalSubmitted} total projects &middot; {gradedCount} graded
           </p>
         </div>
-        <button className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)]">
+        <button className="flex items-center gap-2 bg-(--primary-green) text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(45,212,191,0.2)]">
           <span className="material-symbols-outlined text-[18px]">share</span>
           Share Portfolio
         </button>
@@ -144,7 +144,7 @@ export default function PortfolioPage() {
           {[
             {
               icon: "science",
-              color: "#13eca4",
+              color: "var(--primary-green)",
               label: "Projects Submitted",
               value: String(totalSubmitted),
             },
@@ -164,7 +164,7 @@ export default function PortfolioPage() {
           ].map(({ icon, color, label, value }) => (
             <div
               key={label}
-              className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]"
+              className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(45,212,191,0.08)]"
             >
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center mb-3"
@@ -174,7 +174,7 @@ export default function PortfolioPage() {
                   {icon}
                 </span>
               </div>
-              <p className="text-slate-400 text-xs font-medium mb-1">{label}</p>
+              <p className="text-(--text-muted) text-xs font-medium mb-1">{label}</p>
               <p className="text-(--text-base) font-bold text-2xl">{value}</p>
             </div>
           ))}
@@ -188,8 +188,8 @@ export default function PortfolioPage() {
               onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 filter === f
-                  ? "bg-[#13eca4] text-[#10221c]"
-                  : "bg-[rgba(255,255,255,0.05)] text-slate-400 hover:text-(--text-base)"
+                  ? "bg-(--primary-green) text-[#10221c]"
+                  : "bg-[rgba(255,255,255,0.05)] text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
               {f}
@@ -206,7 +206,7 @@ export default function PortfolioPage() {
               return (
                 <div
                   key={project.id}
-                  className="group bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] hover:border-[rgba(19,236,164,0.25)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.05)] transition-all overflow-hidden flex flex-col"
+                  className="group bg-(--bg-card) rounded-2xl border border-[rgba(45,212,191,0.08)] hover:border-[rgba(45,212,191,0.25)] hover:shadow-xl hover:shadow-[rgba(45,212,191,0.05)] transition-all overflow-hidden flex flex-col"
                 >
                   {/* Color header */}
                   <div
@@ -235,17 +235,17 @@ export default function PortfolioPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-[#13eca4] transition-colors">
+                    <h3 className="text-(--text-base) font-bold text-base mb-1 group-hover:text-(--primary-green) transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-[#13eca4] text-xs font-semibold mb-2">{project.course}</p>
-                    <p className="text-slate-400 text-sm leading-relaxed flex-1 mb-4">
+                    <p className="text-(--primary-green) text-xs font-semibold mb-2">{project.course}</p>
+                    <p className="text-(--text-muted) text-sm leading-relaxed flex-1 mb-4">
                       {project.description}
                     </p>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      <span className="text-xs px-2 py-0.5 rounded bg-(--input-bg) text-slate-400">
+                      <span className="text-xs px-2 py-0.5 rounded bg-(--input-bg) text-(--text-muted)">
                         {project.category}
                       </span>
                     </div>
@@ -258,25 +258,25 @@ export default function PortfolioPage() {
                             <span
                               className="text-2xl font-black"
                               style={{
-                                color: project.score && project.score >= 90 ? "#13eca4" : "#f59e0b",
+                                color: project.score && project.score >= 90 ? "#2dd4bf" : "#f59e0b",
                               }}
                             >
                               {project.grade}
                             </span>
-                            <span className="text-slate-500 text-sm">{project.score}%</span>
+                            <span className="text-(--text-faint) text-sm">{project.score}%</span>
                           </>
                         ) : project.submittedAt ? (
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-(--text-faint)">
                             Submitted {project.submittedAt}
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-500">Not yet submitted</span>
+                          <span className="text-xs text-(--text-faint)">Not yet submitted</span>
                         )}
                       </div>
                       <div className="flex gap-2">
                         <Link
                           href={`/school/student/project/${project.id}`}
-                          className="p-2 rounded-lg bg-(--input-bg) text-slate-400 hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.1)] transition-all"
+                          className="p-2 rounded-lg bg-(--input-bg) text-(--text-muted) hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.1)] transition-all"
                           title="View project"
                         >
                           <span className="material-symbols-outlined text-[18px]">open_in_new</span>
@@ -284,7 +284,7 @@ export default function PortfolioPage() {
                         {project.status === "graded" && (
                           <Link
                             href={`/school/student/project/${project.id}/feedback`}
-                            className="p-2 rounded-lg bg-[rgba(19,236,164,0.1)] text-[#13eca4] hover:bg-[rgba(19,236,164,0.2)] transition-all"
+                            className="p-2 rounded-lg bg-[rgba(45,212,191,0.1)] text-(--primary-green) hover:bg-[rgba(45,212,191,0.2)] transition-all"
                             title="View feedback"
                           >
                             <span className="material-symbols-outlined text-[18px]">feedback</span>
@@ -299,10 +299,10 @@ export default function PortfolioPage() {
           </div>
         ) : (
           <div className="text-center py-16">
-            <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3 block">
+            <span className="material-symbols-outlined text-[48px] text-(--text-faint) mb-3 block">
               grid_view
             </span>
-            <p className="text-slate-400 text-sm">
+            <p className="text-(--text-muted) text-sm">
               No submissions yet. Complete course lessons and submit your work!
             </p>
           </div>

@@ -108,9 +108,11 @@ export interface Lesson {
 }
 
 export interface LessonBlock {
-  type: "text" | "image" | "video" | "task";
+  type: "text" | "image" | "video" | "document" | "task";
   content: string;
   url?: string;
+  fileType?: string;
+  fileSize?: number;
 }
 
 export interface Enrollment {
@@ -207,6 +209,16 @@ export interface InviteRecord {
   status: "pending" | "accepted" | "expired";
   permissions?: Permission[];
   schoolIds?: string[];
+}
+
+export interface MediaItem {
+  id: string;
+  fileName: string;
+  url: string;
+  mimeType: string;
+  size: number;
+  uploadedBy: string;
+  createdAt: Date;
 }
 
 export interface SessionRecord {

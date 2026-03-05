@@ -33,7 +33,7 @@ export default function GlobalAdminSidebar() {
 
   const isSuperAdmin = appUser?.role === "super_admin";
   const badgeLabel = isSuperAdmin ? "Super Admin" : "Admin";
-  const badgeColor = isSuperAdmin ? "#f59e0b" : "#ff4d4d";
+  const badgeColor = isSuperAdmin ? "#f59e0b" : "var(--accent-red)";
 
   // Show Settings to anyone with manage_settings permission
   const navItems = hasPermission("manage_settings")
@@ -112,7 +112,7 @@ export default function GlobalAdminSidebar() {
             <ThemeToggle />
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
+              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-(--accent-red) transition-colors">
                 logout
               </span>
             </button>

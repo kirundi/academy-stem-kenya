@@ -10,7 +10,7 @@ export default function TeacherTeamSetupPage() {
         <div className="px-6 py-4 border-b border-(--border-subtle) bg-(--bg-page) flex items-center gap-3">
           <Link
             href="/school/teacher/groups"
-            className="text-(--text-muted) hover:text-[#13eca4] transition-colors text-sm flex items-center gap-1"
+            className="text-(--text-muted) hover:text-(--primary-green) transition-colors text-sm flex items-center gap-1"
           >
             <span className="material-symbols-outlined text-[16px]">arrow_back</span>
             Back to Groups
@@ -18,10 +18,10 @@ export default function TeacherTeamSetupPage() {
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
-          <div className="w-20 h-20 rounded-2xl bg-[rgba(19,236,164,0.08)] border border-(--border-medium) flex items-center justify-center mb-6">
-            <span className="material-symbols-outlined text-[#13eca4] text-4xl">groups</span>
+          <div className="w-20 h-20 rounded-2xl bg-[rgba(45,212,191,0.08)] border border-(--border-medium) flex items-center justify-center mb-6">
+            <span className="material-symbols-outlined text-(--primary-green) text-4xl">groups</span>
           </div>
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(19,236,164,0.1)] border border-(--border-accent) text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-4">
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(45,212,191,0.1)] border border-(--border-accent) text-(--primary-green) text-xs font-bold uppercase tracking-widest mb-4">
             <span className="material-symbols-outlined text-sm">construction</span>
             Coming Soon
           </span>
@@ -34,7 +34,7 @@ export default function TeacherTeamSetupPage() {
           <div className="flex gap-3">
             <Link
               href="/school/teacher/groups"
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#13eca4] text-[#0d1f1a] rounded-xl font-bold text-sm hover:brightness-105 transition-all"
+              className="flex items-center gap-2 px-5 py-2.5 bg-(--primary-green) text-[#0d1f1a] rounded-xl font-bold text-sm hover:brightness-105 transition-all"
             >
               <span className="material-symbols-outlined text-[18px]">groups</span>
               View Groups

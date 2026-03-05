@@ -70,7 +70,7 @@ function ResetPasswordContent() {
       return (
         <div className="text-center py-12">
           <svg
-            className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4"
+            className="w-10 h-10 text-(--primary-green) animate-spin mx-auto mb-4"
             fill="none"
             viewBox="0 0 24 24"
           >
@@ -98,7 +98,7 @@ function ResetPasswordContent() {
         <div className="text-center py-6">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(255,77,77,0.12)] flex items-center justify-center">
             <svg
-              className="w-8 h-8 text-[#ff4d4d]"
+              className="w-8 h-8 text-(--accent-red)"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -117,7 +117,7 @@ function ResetPasswordContent() {
           </p>
           <Link
             href="/forgot-password"
-            className="inline-flex items-center justify-center bg-[#13eca4] text-[#10221c] h-14 px-8 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity"
+            className="inline-flex items-center justify-center bg-(--primary-green) text-[#10221c] h-14 px-8 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity"
           >
             Request a New Link
           </Link>
@@ -136,9 +136,9 @@ function ResetPasswordContent() {
     if (success) {
       return (
         <div className="text-center py-6">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[rgba(45,212,191,0.12)] flex items-center justify-center">
             <svg
-              className="w-8 h-8 text-[#13eca4]"
+              className="w-8 h-8 text-(--primary-green)"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -157,7 +157,7 @@ function ResetPasswordContent() {
           </p>
           <Link
             href="/login"
-            className="inline-flex items-center justify-center bg-[#13eca4] text-[#10221c] h-14 px-8 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity"
+            className="inline-flex items-center justify-center bg-(--primary-green) text-[#10221c] h-14 px-8 rounded-xl font-bold text-lg hover:opacity-90 transition-opacity"
           >
             Sign In
           </Link>
@@ -168,9 +168,9 @@ function ResetPasswordContent() {
     return (
       <>
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.08)] border border-(--border-medium) rounded-full px-4 py-1.5 mb-4">
-            <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-            <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 bg-[rgba(45,212,191,0.08)] border border-(--border-medium) rounded-full px-4 py-1.5 mb-4">
+            <span className="w-2 h-2 bg-(--primary-green) rounded-full animate-pulse" />
+            <span className="text-(--primary-green) text-xs font-bold uppercase tracking-widest">
               Password Reset
             </span>
           </div>
@@ -181,9 +181,9 @@ function ResetPasswordContent() {
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border-l-4 border-[#ff4d4d] flex items-start gap-3">
+          <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border-l-4 border-(--accent-red) flex items-start gap-3">
             <svg
-              className="w-5 h-5 text-[#ff4d4d] shrink-0 mt-0.5"
+              className="w-5 h-5 text-(--accent-red) shrink-0 mt-0.5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -195,7 +195,7 @@ function ResetPasswordContent() {
                 d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
               />
             </svg>
-            <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
+            <p className="text-(--accent-red) text-sm font-medium">{error}</p>
           </div>
         )}
 
@@ -229,7 +229,7 @@ function ResetPasswordContent() {
           <button
             onClick={handleReset}
             disabled={loading}
-            className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="w-full bg-(--primary-green) text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {loading ? (
               <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -272,7 +272,7 @@ export default function ResetPasswordPage() {
     <div className="min-h-screen bg-(--bg-page) text-(--text-base) flex flex-col relative overflow-hidden">
       {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[rgba(19,236,164,0.06)] rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[rgba(45,212,191,0.06)] rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-[rgba(255,77,77,0.05)] rounded-full blur-[120px]" />
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -296,19 +296,19 @@ export default function ResetPasswordPage() {
         <div className="flex items-center gap-6">
           <Link
             href="/#curriculum"
-            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-(--primary-green) transition-colors"
           >
             Courses
           </Link>
           <Link
             href="/help"
-            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-(--primary-green) transition-colors"
           >
             Help Center
           </Link>
           <Link
             href="/login"
-            className="bg-[#13eca4] text-[#10221c] text-sm font-bold px-5 h-10 flex items-center rounded-lg hover:opacity-90 transition-opacity"
+            className="bg-(--primary-green) text-[#10221c] text-sm font-bold px-5 h-10 flex items-center rounded-lg hover:opacity-90 transition-opacity"
           >
             Sign In
           </Link>
@@ -322,7 +322,7 @@ export default function ResetPasswordPage() {
             fallback={
               <div className="text-center py-12">
                 <svg
-                  className="w-10 h-10 text-[#13eca4] animate-spin mx-auto mb-4"
+                  className="w-10 h-10 text-(--primary-green) animate-spin mx-auto mb-4"
                   fill="none"
                   viewBox="0 0 24 24"
                 >

@@ -58,7 +58,7 @@ export default function GradingPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -159,7 +159,7 @@ export default function GradingPage() {
               onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 filter === f
-                  ? "bg-[#13eca4] text-[#10221c]"
+                  ? "bg-(--primary-green) text-[#10221c]"
                   : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
@@ -189,12 +189,12 @@ export default function GradingPage() {
                   onClick={() => setSelectedId(sub.id)}
                   className={`w-full text-left p-4 rounded-xl transition-all ${
                     selected?.id === sub.id
-                      ? "bg-[rgba(19,236,164,0.1)] border border-(--border-accent)"
+                      ? "bg-[rgba(45,212,191,0.1)] border border-(--border-accent)"
                       : "bg-[rgba(255,255,255,0.03)] border border-transparent hover:border-(--border-subtle)"
                   }`}
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center text-xs font-bold text-[#13eca4]">
+                    <div className="w-8 h-8 rounded-full bg-[rgba(45,212,191,0.12)] flex items-center justify-center text-xs font-bold text-(--primary-green)">
                       {initials}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -202,7 +202,7 @@ export default function GradingPage() {
                       <p className="text-(--text-faint) text-xs">{submittedDate}</p>
                     </div>
                     {sub.status === "graded" ? (
-                      <span className="text-[#13eca4] text-sm font-bold">{sub.grade}</span>
+                      <span className="text-(--primary-green) text-sm font-bold">{sub.grade}</span>
                     ) : (
                       <span className="w-2 h-2 bg-orange-400 rounded-full" />
                     )}
@@ -223,7 +223,7 @@ export default function GradingPage() {
             <div className="max-w-2xl">
               {/* Submission header */}
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-[rgba(19,236,164,0.12)] flex items-center justify-center text-sm font-bold text-[#13eca4]">
+                <div className="w-12 h-12 rounded-full bg-[rgba(45,212,191,0.12)] flex items-center justify-center text-sm font-bold text-(--primary-green)">
                   {(selected.studentId ?? "?").slice(0, 2).toUpperCase()}
                 </div>
                 <div className="flex-1">
@@ -250,7 +250,7 @@ export default function GradingPage() {
               {selected.content && (
                 <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 mb-6">
                   <h3 className="text-(--text-base) font-bold mb-3 flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+                    <span className="material-symbols-outlined text-(--primary-green) text-[20px]">
                       description
                     </span>
                     Student&apos;s Submission
@@ -261,7 +261,7 @@ export default function GradingPage() {
                       href={selected.fileUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-flex items-center gap-1 text-[#13eca4] text-sm hover:underline"
+                      className="mt-3 inline-flex items-center gap-1 text-(--primary-green) text-sm hover:underline"
                     >
                       <span className="material-symbols-outlined text-[16px]">attach_file</span>
                       View attached file
@@ -298,14 +298,14 @@ export default function GradingPage() {
                                 ),
                               }))
                             }
-                            className="w-16 text-center bg-(--input-bg) border border-(--border-subtle) rounded-lg py-1.5 text-(--text-base) font-bold text-sm focus:border-[#13eca4] outline-none"
+                            className="w-16 text-center bg-(--input-bg) border border-(--border-subtle) rounded-lg py-1.5 text-(--text-base) font-bold text-sm focus:border-(--primary-green) outline-none"
                           />
                           <span className="text-(--text-faint) text-sm">/ {criterion.max}</span>
                         </div>
                       </div>
                       <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full transition-all"
+                          className="h-full bg-linear-to-r from-(--primary-green) to-(--primary-green-dark) rounded-full transition-all"
                           style={{ width: `${(rubric[criterion.label] / criterion.max) * 100}%` }}
                         />
                       </div>
@@ -323,7 +323,7 @@ export default function GradingPage() {
                       className="text-2xl font-black"
                       style={{
                         color:
-                          percentage >= 90 ? "#13eca4" : percentage >= 75 ? "#f59e0b" : "#ff4d4d",
+                          percentage >= 90 ? "#2dd4bf" : percentage >= 75 ? "#f59e0b" : "var(--accent-red)",
                       }}
                     >
                       {grade}
@@ -332,7 +332,7 @@ export default function GradingPage() {
                       className="text-lg font-bold"
                       style={{
                         color:
-                          percentage >= 90 ? "#13eca4" : percentage >= 75 ? "#f59e0b" : "#ff4d4d",
+                          percentage >= 90 ? "#2dd4bf" : percentage >= 75 ? "#f59e0b" : "var(--accent-red)",
                       }}
                     >
                       {percentage}%
@@ -344,7 +344,7 @@ export default function GradingPage() {
               {/* Feedback */}
               <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6 mb-6">
                 <h3 className="text-(--text-base) font-bold mb-3 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+                  <span className="material-symbols-outlined text-(--primary-green) text-[20px]">
                     feedback
                   </span>
                   Feedback to Student
@@ -381,7 +381,7 @@ export default function GradingPage() {
                 <button
                   onClick={handleSubmitGrade}
                   disabled={submitting}
-                  className="flex-1 flex items-center justify-center gap-2 bg-[#13eca4] text-[#10221c] font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
+                  className="flex-1 flex items-center justify-center gap-2 bg-(--primary-green) text-[#10221c] font-bold py-3.5 rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(45,212,191,0.2)] disabled:opacity-50"
                 >
                   <span className="material-symbols-outlined text-[20px]">
                     {submitting ? "progress_activity" : "check_circle"}

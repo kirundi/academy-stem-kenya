@@ -28,7 +28,7 @@ export default function CourseLibraryPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -49,9 +49,9 @@ export default function CourseLibraryPage() {
   });
 
   const difficultyColor: Record<string, string> = {
-    Beginner: "#13eca4",
+    Beginner: "#2dd4bf",
     Intermediate: "#f59e0b",
-    Advanced: "#ff4d4d",
+    Advanced: "var(--accent-red)",
   };
 
   return (
@@ -62,7 +62,7 @@ export default function CourseLibraryPage() {
 
       <main className="max-w-7xl mx-auto px-8 py-8 space-y-8">
         <section>
-          <div className="flex items-center gap-2 text-[#13eca4] mb-1">
+          <div className="flex items-center gap-2 text-(--primary-green) mb-1">
             <span className="material-symbols-outlined text-[16px]">library_books</span>
             <span className="text-xs font-bold uppercase tracking-wider">Curriculum</span>
           </div>
@@ -92,7 +92,7 @@ export default function CourseLibraryPage() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                   selectedCategory === cat
-                    ? "bg-[#13eca4] text-[#10221c]"
+                    ? "bg-(--primary-green) text-[#10221c]"
                     : "bg-(--input-bg) text-(--text-muted) hover:text-(--text-base)"
                 }`}
               >
@@ -114,11 +114,11 @@ export default function CourseLibraryPage() {
               >
                 <div
                   className="h-32 flex items-center justify-center"
-                  style={{ background: `${course.color ?? "#13eca4"}15` }}
+                  style={{ background: `${course.color ?? "#2dd4bf"}15` }}
                 >
                   <span
                     className="material-symbols-outlined text-5xl"
-                    style={{ color: course.color ?? "#13eca4" }}
+                    style={{ color: course.color ?? "#2dd4bf" }}
                   >
                     {course.icon ?? "auto_stories"}
                   </span>
@@ -128,8 +128,8 @@ export default function CourseLibraryPage() {
                     <span
                       className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
                       style={{
-                        color: difficultyColor[course.difficulty] ?? "#13eca4",
-                        background: `${difficultyColor[course.difficulty] ?? "#13eca4"}18`,
+                        color: difficultyColor[course.difficulty] ?? "#2dd4bf",
+                        background: `${difficultyColor[course.difficulty] ?? "#2dd4bf"}18`,
                       }}
                     >
                       {course.difficulty}
@@ -140,7 +140,7 @@ export default function CourseLibraryPage() {
                       </span>
                     )}
                   </div>
-                  <h3 className="text-(--text-base) font-bold text-lg mb-1 group-hover:text-[#13eca4] transition-colors">
+                  <h3 className="text-(--text-base) font-bold text-lg mb-1 group-hover:text-(--primary-green) transition-colors">
                     {course.title}
                   </h3>
                   <p className="text-(--text-muted) text-sm line-clamp-2">

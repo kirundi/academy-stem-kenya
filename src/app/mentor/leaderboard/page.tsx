@@ -68,7 +68,7 @@ function RankBadge({ rank }: { rank: number }) {
   }
   return (
     <div className="w-9 h-9 rounded-full bg-[rgba(16,185,129,0.08)] flex items-center justify-center shrink-0">
-      <span className="text-slate-400 text-sm font-bold">{rank}</span>
+      <span className="text-(--text-muted) text-sm font-bold">{rank}</span>
     </div>
   );
 }
@@ -98,11 +98,11 @@ function ChallengeLeaderboard({
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(16,185,129,0.15)] text-[#10b981]">
               {challenge.scope}
             </span>
-            <span className="text-slate-400 text-xs">{challenge.theme}</span>
-            <span className="text-slate-500 text-xs">{entries.length} ranked</span>
+            <span className="text-(--text-muted) text-xs">{challenge.theme}</span>
+            <span className="text-(--text-faint) text-xs">{entries.length} ranked</span>
           </div>
         </div>
-        <span className="material-symbols-outlined text-slate-500 text-[20px] shrink-0 transition-transform" style={{ transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)" }}>
+        <span className="material-symbols-outlined text-(--text-faint) text-[20px] shrink-0 transition-transform" style={{ transform: collapsed ? "rotate(-90deg)" : "rotate(0deg)" }}>
           expand_more
         </span>
       </button>
@@ -111,18 +111,18 @@ function ChallengeLeaderboard({
         <>
           {entries.length === 0 ? (
             <div className="px-6 py-10 flex flex-col items-center text-center">
-              <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3">
+              <span className="material-symbols-outlined text-[48px] text-(--text-faint) mb-3">
                 leaderboard
               </span>
-              <p className="text-slate-300 font-semibold mb-1">No graded submissions yet</p>
-              <p className="text-slate-500 text-sm">
+              <p className="text-(--text-base) font-semibold mb-1">No graded submissions yet</p>
+              <p className="text-(--text-faint) text-sm">
                 Scores will appear here once submissions are graded.
               </p>
             </div>
           ) : (
             <div className="divide-y divide-[rgba(16,185,129,0.05)]">
               {/* Table header */}
-              <div className="grid grid-cols-12 gap-4 px-6 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+              <div className="grid grid-cols-12 gap-4 px-6 py-2.5 text-[10px] font-bold text-(--text-faint) uppercase tracking-widest">
                 <div className="col-span-1">Rank</div>
                 <div className="col-span-5">Submitter</div>
                 <div className="col-span-2">Grade</div>
@@ -144,7 +144,7 @@ function ChallengeLeaderboard({
                     <div className="w-8 h-8 rounded-full bg-[rgba(16,185,129,0.12)] flex items-center justify-center text-[#10b981] text-[11px] font-bold shrink-0">
                       {entry.studentId.slice(0, 2).toUpperCase()}
                     </div>
-                    <span className="text-slate-300 text-xs font-mono truncate">
+                    <span className="text-(--text-base) text-xs font-mono truncate">
                       {entry.studentId.slice(0, 14)}&hellip;
                     </span>
                   </div>
@@ -156,7 +156,7 @@ function ChallengeLeaderboard({
                         {entry.grade}
                       </span>
                     ) : (
-                      <span className="text-slate-600 text-xs">—</span>
+                      <span className="text-(--text-faint) text-xs">—</span>
                     )}
                   </div>
 
@@ -177,13 +177,13 @@ function ChallengeLeaderboard({
                         {entry.score}%
                       </span>
                     ) : (
-                      <span className="text-slate-600 text-xs">No score</span>
+                      <span className="text-(--text-faint) text-xs">No score</span>
                     )}
                   </div>
 
                   {/* Date */}
                   <div className="col-span-2 text-right">
-                    <span className="text-slate-500 text-xs">{formatDate(entry.submittedAt)}</span>
+                    <span className="text-(--text-faint) text-xs">{formatDate(entry.submittedAt)}</span>
                   </div>
                 </div>
               ))}
@@ -236,7 +236,7 @@ export default function MentorLeaderboardPage() {
             error
           </span>
           <p className="text-red-400 font-semibold mb-1">Something went wrong</p>
-          <p className="text-slate-500 text-sm">{error}</p>
+          <p className="text-(--text-faint) text-sm">{error}</p>
         </div>
       </div>
     );
@@ -282,7 +282,7 @@ export default function MentorLeaderboardPage() {
             <span className="material-symbols-outlined text-[#10b981] text-[22px]">leaderboard</span>
             Leaderboard
           </h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Top performers across your challenges
           </p>
         </div>
@@ -298,11 +298,11 @@ export default function MentorLeaderboardPage() {
       <div className="px-8 py-8">
         {challenges.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-4">
               leaderboard
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No challenges assigned yet</p>
-            <p className="text-slate-400 text-sm max-w-sm text-center">
+            <p className="text-(--text-muted) text-sm max-w-sm text-center">
               Contact a platform administrator to be assigned as a judge for a challenge.
             </p>
           </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useGlobalAdminData } from "@/hooks/useAdminData";
 
 const ROLE_COLORS: Record<string, string> = {
-  student: "#13eca4",
+  student: "#2dd4bf",
   teacher: "#3b82f6",
   school_admin: "#f59e0b",
   editor: "#ec4899",
@@ -89,7 +89,7 @@ export default function AnalyticsUsersPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(168,85,247,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Users Analytics</h1>
-          <p className="text-slate-400 text-xs mt-0.5">{allUsers.length} total users across all roles</p>
+          <p className="text-(--text-muted) text-xs mt-0.5">{allUsers.length} total users across all roles</p>
         </div>
       </header>
 
@@ -98,7 +98,7 @@ export default function AnalyticsUsersPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: "Total Users", value: allUsers.length, icon: "group", color: "#a855f7" },
-            { label: "Students", value: roleCounts.student ?? 0, icon: "school", color: "#13eca4" },
+            { label: "Students", value: roleCounts.student ?? 0, icon: "school", color: "var(--primary-green)" },
             { label: "Teachers", value: roleCounts.teacher ?? 0, icon: "person_book", color: "#3b82f6" },
             { label: "Staff", value: allUsers.filter((u) => !["student", "parent"].includes(u.role)).length, icon: "badge", color: "#f59e0b" },
           ].map(({ label, value, icon, color }) => (
@@ -108,7 +108,7 @@ export default function AnalyticsUsersPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -126,7 +126,7 @@ export default function AnalyticsUsersPage() {
               const pct = allUsers.length > 0 ? (count / allUsers.length) * 100 : 0;
               return (
                 <div key={role} className="flex items-center gap-4">
-                  <div className="w-32 text-xs text-slate-400 text-right shrink-0">{ROLE_LABELS[role] ?? role}</div>
+                  <div className="w-32 text-xs text-(--text-muted) text-right shrink-0">{ROLE_LABELS[role] ?? role}</div>
                   <div className="flex-1 h-6 bg-(--bg-page) rounded-full overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all"
@@ -137,7 +137,7 @@ export default function AnalyticsUsersPage() {
                     <span className="text-(--text-base) font-bold text-sm">{count}</span>
                   </div>
                   <div className="w-12 text-right shrink-0">
-                    <span className="text-slate-500 text-xs">{pct.toFixed(1)}%</span>
+                    <span className="text-(--text-faint) text-xs">{pct.toFixed(1)}%</span>
                   </div>
                 </div>
               );
@@ -154,7 +154,7 @@ export default function AnalyticsUsersPage() {
             </div>
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 text-[16px]">search</span>
+                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-faint) text-[16px]">search</span>
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -179,10 +179,10 @@ export default function AnalyticsUsersPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-(--border-subtle)">
-                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">User</th>
-                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">Role</th>
-                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">School</th>
-                  <th className="text-left px-6 py-3 text-slate-400 font-semibold text-xs uppercase tracking-wide">Joined</th>
+                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">User</th>
+                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">Role</th>
+                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">School</th>
+                  <th className="text-left px-6 py-3 text-(--text-muted) font-semibold text-xs uppercase tracking-wide">Joined</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[rgba(255,255,255,0.03)]">
@@ -197,7 +197,7 @@ export default function AnalyticsUsersPage() {
                           </div>
                           <div>
                             <p className="text-(--text-base) font-medium text-xs">{u.displayName}</p>
-                            <p className="text-slate-500 text-xs">{u.email}</p>
+                            <p className="text-(--text-faint) text-xs">{u.email}</p>
                           </div>
                         </div>
                       </td>
@@ -206,10 +206,10 @@ export default function AnalyticsUsersPage() {
                           {ROLE_LABELS[u.role] ?? u.role}
                         </span>
                       </td>
-                      <td className="px-6 py-3 text-slate-400 text-xs font-mono">
+                      <td className="px-6 py-3 text-(--text-muted) text-xs font-mono">
                         {u.schoolId ? u.schoolId.slice(0, 12) + "…" : "—"}
                       </td>
-                      <td className="px-6 py-3 text-slate-400 text-xs">
+                      <td className="px-6 py-3 text-(--text-muted) text-xs">
                         {formatDate((u as unknown as Record<string, unknown>).createdAt)}
                       </td>
                     </tr>
@@ -219,7 +219,7 @@ export default function AnalyticsUsersPage() {
             </table>
             {filtered.length > visibleCount && (
               <div className="text-center py-3">
-                <p className="text-slate-500 text-xs mb-2">Showing {visibleCount} of {filtered.length} users</p>
+                <p className="text-(--text-faint) text-xs mb-2">Showing {visibleCount} of {filtered.length} users</p>
                 <button
                   onClick={() => setVisibleCount((v) => v + 100)}
                   className="px-4 py-1.5 rounded-lg text-xs font-semibold bg-[rgba(168,85,247,0.1)] text-[#a855f7] hover:bg-[rgba(168,85,247,0.2)] transition-colors"
@@ -230,8 +230,8 @@ export default function AnalyticsUsersPage() {
             )}
             {filtered.length === 0 && (
               <div className="py-12 text-center">
-                <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">person_off</span>
-                <p className="text-slate-400 text-sm">No users match your filter.</p>
+                <span className="material-symbols-outlined text-[40px] text-(--text-faint) mb-2 block">person_off</span>
+                <p className="text-(--text-muted) text-sm">No users match your filter.</p>
               </div>
             )}
           </div>

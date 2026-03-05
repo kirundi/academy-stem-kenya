@@ -6,7 +6,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useStudentData } from "@/hooks/useStudentData";
 
 const skillColors: Record<string, string> = {
-  Coding: "#13eca4",
+  Coding: "#2dd4bf",
   Logic: "#3b82f6",
   Math: "#f59e0b",
   Design: "#8b5cf6",
@@ -15,7 +15,7 @@ const skillColors: Record<string, string> = {
   Robotics: "#ec4899",
   Creativity: "#f97316",
 };
-const defaultSkillColor = "#13eca4";
+const defaultSkillColor = "#2dd4bf";
 
 const CX = 180,
   CY = 180,
@@ -36,7 +36,7 @@ export default function BadgesPage() {
     const entries = Object.entries(raw);
     if (entries.length === 0) {
       return [
-        { name: "Coding", value: 0, color: "#13eca4" },
+        { name: "Coding", value: 0, color: "var(--primary-green)" },
         { name: "Logic", value: 0, color: "#3b82f6" },
         { name: "Math", value: 0, color: "#f59e0b" },
         { name: "Design", value: 0, color: "#8b5cf6" },
@@ -74,7 +74,7 @@ export default function BadgesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -91,10 +91,10 @@ export default function BadgesPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 border border-(--border-subtle) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-xl hover:border-(--border-strong) hover:text-[#13eca4] transition-colors">
+          <button className="flex items-center gap-2 border border-(--border-subtle) text-(--text-muted) text-sm font-semibold px-4 py-2 rounded-xl hover:border-(--border-strong) hover:text-(--primary-green) transition-colors">
             <span className="material-symbols-outlined text-[18px]">share</span>Share Profile
           </button>
-          <button className="flex items-center gap-2 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold px-4 py-2 rounded-xl hover:bg-[#0dd494] transition-colors">
+          <button className="flex items-center gap-2 bg-(--primary-green) text-[#0d1f1a] text-sm font-bold px-4 py-2 rounded-xl hover:bg-(--primary-green-dark) transition-colors">
             <span className="material-symbols-outlined text-[18px]">download</span>Download
           </button>
         </div>
@@ -104,12 +104,12 @@ export default function BadgesPage() {
         {/* Radar + Right Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-linear-to-br from-[rgba(19,236,164,0.03)] to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-br from-[rgba(45,212,191,0.03)] to-transparent pointer-events-none" />
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-(--text-base) font-bold text-lg">Skill Proficiency Map</h3>
-              <div className="flex items-center gap-2 bg-[rgba(19,236,164,0.1)] px-3 py-1 rounded-full">
-                <span className="w-2 h-2 bg-[#13eca4] rounded-full animate-pulse" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[#13eca4]">
+              <div className="flex items-center gap-2 bg-[rgba(45,212,191,0.1)] px-3 py-1 rounded-full">
+                <span className="w-2 h-2 bg-(--primary-green) rounded-full animate-pulse" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-(--primary-green)">
                   Live Data
                 </span>
               </div>
@@ -142,8 +142,8 @@ export default function BadgesPage() {
                   })}
                   <polygon
                     points={dataPoints()}
-                    fill="rgba(19,236,164,0.15)"
-                    stroke="#13eca4"
+                    fill="rgba(45,212,191,0.15)"
+                    stroke="#2dd4bf"
                     strokeWidth="2.5"
                   />
                   {axes.map((a, i) => {
@@ -227,7 +227,7 @@ export default function BadgesPage() {
           <div className="flex flex-col gap-5">
             <div
               className="rounded-2xl p-5"
-              style={{ background: "linear-gradient(135deg, #13eca4, #0dd494)" }}
+              style={{ background: "linear-gradient(135deg, #2dd4bf, #14b8a6)" }}
             >
               <p className="text-[#0a1a18] text-xs font-bold uppercase tracking-widest opacity-80">
                 Current Level
@@ -265,7 +265,7 @@ export default function BadgesPage() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-(--text-muted) text-sm">Total XP</span>
-                  <span className="text-[#13eca4] font-bold text-sm">{xp}</span>
+                  <span className="text-(--primary-green) font-bold text-sm">{xp}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-(--text-muted) text-sm">Badges Earned</span>
@@ -283,11 +283,11 @@ export default function BadgesPage() {
                 {skills.length > 0 && (
                   <p className="text-xs text-(--text-faint) leading-relaxed pt-1">
                     Your strongest skill is{" "}
-                    <span className="text-slate-200 font-bold">
+                    <span className="text-(--text-base) font-bold">
                       {[...skills].sort((a, b) => b.value - a.value)[0]?.name ?? "N/A"}
                     </span>{" "}
                     at{" "}
-                    <span className="text-[#13eca4] font-bold">
+                    <span className="text-(--primary-green) font-bold">
                       {[...skills].sort((a, b) => b.value - a.value)[0]?.value ?? 0}%
                     </span>
                     .
@@ -295,7 +295,7 @@ export default function BadgesPage() {
                 )}
                 <Link
                   href="/school/student/progress"
-                  className="flex items-center gap-1 text-[#13eca4] text-xs font-bold hover:underline"
+                  className="flex items-center gap-1 text-(--primary-green) text-xs font-bold hover:underline"
                 >
                   View Full Progress
                   <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
@@ -309,7 +309,7 @@ export default function BadgesPage() {
         <div>
           <h2 className="text-(--text-base) font-bold text-xl flex items-center gap-2 mb-5">
             <span
-              className="material-symbols-outlined text-[#13eca4]"
+              className="material-symbols-outlined text-(--primary-green)"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               verified
@@ -322,7 +322,7 @@ export default function BadgesPage() {
               {earnedBadges.map((b) => (
                 <div
                   key={b.id}
-                  className="bg-(--bg-card) border border-[rgba(19,236,164,0.06)] rounded-2xl p-4 flex flex-col items-center text-center hover:border-(--border-strong) hover:shadow-lg hover:shadow-[rgba(19,236,164,0.05)] transition-all cursor-pointer group"
+                  className="bg-(--bg-card) border border-[rgba(45,212,191,0.06)] rounded-2xl p-4 flex flex-col items-center text-center hover:border-(--border-strong) hover:shadow-lg hover:shadow-[rgba(45,212,191,0.05)] transition-all cursor-pointer group"
                 >
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform"

@@ -1,0 +1,53 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isUnderSizeLimit() {
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    function isAllowedType() {
+      return request.resource.contentType.matches('image/.*')
+        || request.resource.contentType == 'application/pdf'
+        || request.resource.contentType == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        || request.resource.contentType == 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        || request.resource.contentType == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        || request.resource.contentType == 'text/plain'
+        || request.resource.contentType == 'text/csv';
+    }
+
+    // Course assets (covers, lesson images, lesson documents)
+    match /courses/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && isUnderSizeLimit() && isAllowedType();
+    }
+
+    // Student submissions
+    match /submissions/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+        && request.auth.uid == userId
+        && isUnderSizeLimit()
+        && isAllowedType();
+    }
+
+    // General uploads (legacy path)
+    match /uploads/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+        && request.auth.uid == userId
+        && isUnderSizeLimit()
+        && isAllowedType();
+    }
+
+    // Media library (editor uploads)
+    match /media/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && isUnderSizeLimit() && isAllowedType();
+    }
+  }
+}

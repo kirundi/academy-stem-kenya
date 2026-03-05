@@ -157,7 +157,7 @@ export default function TeacherEnrollmentPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -182,7 +182,7 @@ export default function TeacherEnrollmentPage() {
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-1.5 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold px-4 py-2 rounded-xl hover:bg-[#0dd494] transition-colors"
+          className="flex items-center gap-1.5 bg-(--primary-green) text-[#0d1f1a] text-sm font-bold px-4 py-2 rounded-xl hover:bg-(--primary-green-dark) transition-colors"
         >
           <span className="material-symbols-outlined text-[18px]">person_add</span>
           Add Student
@@ -203,7 +203,7 @@ export default function TeacherEnrollmentPage() {
               onClick={() => setActiveClassroomIdx(idx)}
               className={`shrink-0 flex items-start gap-3 px-5 py-3 rounded-xl border text-left transition-all ${
                 activeClassroomIdx === idx
-                  ? "bg-[rgba(19,236,164,0.08)] border-[rgba(19,236,164,0.25)] text-(--text-base)"
+                  ? "bg-[rgba(45,212,191,0.08)] border-[rgba(45,212,191,0.25)] text-(--text-base)"
                   : "bg-[rgba(255,255,255,0.02)] border-[rgba(255,255,255,0.07)] text-(--text-muted) hover:border-(--border-medium)"
               }`}
             >
@@ -222,8 +222,8 @@ export default function TeacherEnrollmentPage() {
             {/* Class Info Bar */}
             <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) px-6 py-4 flex flex-wrap items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.1)] flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#13eca4]">class</span>
+                <div className="w-10 h-10 rounded-xl bg-[rgba(45,212,191,0.1)] flex items-center justify-center">
+                  <span className="material-symbols-outlined text-(--primary-green)">class</span>
                 </div>
                 <div>
                   <p className="text-(--text-base) font-bold">{cls.name}</p>
@@ -235,12 +235,12 @@ export default function TeacherEnrollmentPage() {
               <div className="flex items-center gap-3">
                 <div className="bg-(--bg-page) border border-(--border-medium) rounded-xl px-4 py-2.5 flex items-center gap-2">
                   <span className="text-(--text-muted) text-xs font-medium">Join Code</span>
-                  <code className="text-[#13eca4] font-black tracking-widest text-sm">
+                  <code className="text-(--primary-green) font-black tracking-widest text-sm">
                     {cls.joinCode}
                   </code>
                   <button
                     onClick={copyCode}
-                    className="text-(--text-faint) hover:text-[#13eca4] transition-colors ml-1"
+                    className="text-(--text-faint) hover:text-(--primary-green) transition-colors ml-1"
                   >
                     <span className="material-symbols-outlined text-[16px]">
                       {codeCopied ? "check_circle" : "content_copy"}
@@ -250,7 +250,7 @@ export default function TeacherEnrollmentPage() {
                 <button
                   onClick={handleResetCode}
                   disabled={resettingCode}
-                  className="flex items-center gap-1 text-(--text-muted) hover:text-[#13eca4] text-sm font-medium transition-colors border border-(--border-subtle) hover:border-(--border-accent) px-3 py-2.5 rounded-xl disabled:opacity-50"
+                  className="flex items-center gap-1 text-(--text-muted) hover:text-(--primary-green) text-sm font-medium transition-colors border border-(--border-subtle) hover:border-(--border-accent) px-3 py-2.5 rounded-xl disabled:opacity-50"
                 >
                   <span
                     className={`material-symbols-outlined text-[16px] ${resettingCode ? "animate-spin" : ""}`}
@@ -270,7 +270,7 @@ export default function TeacherEnrollmentPage() {
                   onClick={() => setTab(t)}
                   className={`px-5 py-2 rounded-lg text-sm font-semibold capitalize transition-all ${
                     tab === t
-                      ? "bg-[rgba(19,236,164,0.12)] text-[#13eca4]"
+                      ? "bg-[rgba(45,212,191,0.12)] text-(--primary-green)"
                       : "text-(--text-muted) hover:text-(--text-base)"
                   }`}
                 >
@@ -312,11 +312,11 @@ export default function TeacherEnrollmentPage() {
                       {filtered.map((s) => (
                         <tr
                           key={s.id}
-                          className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(19,236,164,0.02)] transition-colors"
+                          className="border-b border-[rgba(255,255,255,0.03)] hover:bg-[rgba(45,212,191,0.02)] transition-colors"
                         >
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-2.5">
-                              <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] font-bold text-xs">
+                              <div className="w-8 h-8 rounded-full bg-[rgba(45,212,191,0.1)] flex items-center justify-center text-(--primary-green) font-bold text-xs">
                                 {s.name[0]}
                               </div>
                               <span className="text-(--text-base) font-semibold">{s.name}</span>
@@ -325,12 +325,12 @@ export default function TeacherEnrollmentPage() {
                           <td className="px-4 py-4">
                             {s.studentCode ? (
                               <div className="flex items-center gap-1.5">
-                                <span className="text-[#13eca4] font-mono font-bold tracking-wider text-xs">
+                                <span className="text-(--primary-green) font-mono font-bold tracking-wider text-xs">
                                   {s.studentCode}
                                 </span>
                                 <button
                                   onClick={() => copyStudentCode(s.studentCode!)}
-                                  className="text-(--text-faint) hover:text-[#13eca4] transition-colors"
+                                  className="text-(--text-faint) hover:text-(--primary-green) transition-colors"
                                 >
                                   <span className="material-symbols-outlined text-[14px]">
                                     {codeCopiedStudent === s.studentCode ? "check" : "content_copy"}
@@ -353,7 +353,7 @@ export default function TeacherEnrollmentPage() {
                                       width: `${s.mastery}%`,
                                       background:
                                         s.mastery >= 90
-                                          ? "#13eca4"
+                                          ? "#2dd4bf"
                                           : s.mastery >= 70
                                             ? "#3b82f6"
                                             : "#f59e0b",
@@ -384,7 +384,7 @@ export default function TeacherEnrollmentPage() {
                               {s.studentCode && (
                                 <button
                                   onClick={() => copyStudentCode(s.studentCode!)}
-                                  className="text-(--text-faint) hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-(--hover-subtle)"
+                                  className="text-(--text-faint) hover:text-(--primary-green) transition-colors p-1.5 rounded-lg hover:bg-(--hover-subtle)"
                                   title="Copy Student Code"
                                 >
                                   <span className="material-symbols-outlined text-[16px]">
@@ -393,7 +393,7 @@ export default function TeacherEnrollmentPage() {
                                 </button>
                               )}
                               <button
-                                className="text-(--text-faint) hover:text-[#13eca4] transition-colors p-1.5 rounded-lg hover:bg-(--hover-subtle)"
+                                className="text-(--text-faint) hover:text-(--primary-green) transition-colors p-1.5 rounded-lg hover:bg-(--hover-subtle)"
                                 title="View Profile"
                               >
                                 <span className="material-symbols-outlined text-[16px]">
@@ -442,14 +442,14 @@ export default function TeacherEnrollmentPage() {
                 {(cls.courseIds ?? []).map((courseId, i) => (
                   <div key={courseId} className="flex items-center justify-between px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-lg bg-[rgba(19,236,164,0.08)] flex items-center justify-center text-[#13eca4] text-xs font-bold">
+                      <div className="w-7 h-7 rounded-lg bg-[rgba(45,212,191,0.08)] flex items-center justify-center text-(--primary-green) text-xs font-bold">
                         {i + 1}
                       </div>
                       <span className="text-(--text-base) text-sm font-medium">{courseId}</span>
                     </div>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <span className="text-(--text-faint) text-xs">Visible</span>
-                      <div className="w-9 h-5 rounded-full transition-colors relative bg-[#13eca4]">
+                      <div className="w-9 h-5 rounded-full transition-colors relative bg-(--primary-green)">
                         <div className="absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform translate-x-4" />
                       </div>
                     </label>
@@ -466,7 +466,7 @@ export default function TeacherEnrollmentPage() {
                     label: "Class Avg. Mastery",
                     value: `${avgMastery}%`,
                     sub: studentData.length > 0 ? `${studentData.length} students` : "No data yet",
-                    color: "#13eca4",
+                    color: "var(--primary-green)",
                   },
                   {
                     icon: "pending_actions",
@@ -576,7 +576,7 @@ export default function TeacherEnrollmentPage() {
                   <button
                     onClick={handleAddStudent}
                     disabled={addingStudent || !newStudentName.trim()}
-                    className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
+                    className="flex-1 bg-(--primary-green) text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-(--primary-green-dark) transition-colors disabled:opacity-50"
                   >
                     {addingStudent ? "Creating..." : "Create Student"}
                   </button>
@@ -584,8 +584,8 @@ export default function TeacherEnrollmentPage() {
               </>
             ) : (
               <div className="text-center">
-                <div className="w-16 h-16 bg-[rgba(19,236,164,0.15)] rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-[#13eca4] text-3xl">
+                <div className="w-16 h-16 bg-[rgba(45,212,191,0.15)] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="material-symbols-outlined text-(--primary-green) text-3xl">
                     check_circle
                   </span>
                 </div>
@@ -598,14 +598,14 @@ export default function TeacherEnrollmentPage() {
                   <p className="text-xs font-bold text-(--text-faint) uppercase tracking-widest mb-2">
                     Student Login Code
                   </p>
-                  <p className="text-[#13eca4] font-mono font-black text-4xl tracking-[0.3em]">
+                  <p className="text-(--primary-green) font-mono font-black text-4xl tracking-[0.3em]">
                     {createdStudentCode}
                   </p>
                 </div>
                 <div className="flex gap-3">
                   <button
                     onClick={() => copyStudentCode(createdStudentCode)}
-                    className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-[#13eca4] text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 border border-(--border-accent) text-(--primary-green) text-sm font-bold py-2.5 rounded-xl hover:bg-[rgba(45,212,191,0.1)] transition-colors"
                   >
                     <span className="material-symbols-outlined text-sm">
                       {codeCopiedStudent === createdStudentCode ? "check" : "content_copy"}
@@ -614,7 +614,7 @@ export default function TeacherEnrollmentPage() {
                   </button>
                   <button
                     onClick={resetAddModal}
-                    className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors"
+                    className="flex-1 bg-(--primary-green) text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-(--primary-green-dark) transition-colors"
                   >
                     Done
                   </button>

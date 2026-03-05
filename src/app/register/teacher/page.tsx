@@ -110,7 +110,7 @@ export default function TeacherRegisterPage() {
       <div className="fixed inset-0 dot-pattern opacity-40" />
       <div
         className="fixed top-20 right-20 w-96 h-96 rounded-full opacity-10 blur-3xl"
-        style={{ background: "radial-gradient(circle, #13eca4, transparent)" }}
+        style={{ background: "radial-gradient(circle, #2dd4bf, transparent)" }}
       />
 
       <div className="relative w-full max-w-lg">
@@ -126,9 +126,9 @@ export default function TeacherRegisterPage() {
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                   s < step
-                    ? "bg-[#13eca4] text-[#10221c]"
+                    ? "bg-(--primary-green) text-[#10221c]"
                     : s === step
-                      ? "bg-[rgba(19,236,164,0.15)] border-2 border-[#13eca4] text-[#13eca4]"
+                      ? "bg-[rgba(45,212,191,0.15)] border-2 border-(--primary-green) text-(--primary-green)"
                       : "bg-(--input-bg) text-(--text-faint)"
                 }`}
               >
@@ -140,7 +140,7 @@ export default function TeacherRegisterPage() {
               </div>
               {s < 3 && (
                 <div
-                  className={`w-12 h-0.5 ${s < step ? "bg-[#13eca4]" : "bg-(--bg-elevated)"}`}
+                  className={`w-12 h-0.5 ${s < step ? "bg-(--primary-green)" : "bg-(--bg-elevated)"}`}
                 />
               )}
             </div>
@@ -151,8 +151,8 @@ export default function TeacherRegisterPage() {
           {/* Error display */}
           {error && (
             <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#ff4d4d] text-lg">error</span>
-              <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
+              <span className="material-symbols-outlined text-(--accent-red) text-lg">error</span>
+              <p className="text-(--accent-red) text-sm font-medium">{error}</p>
             </div>
           )}
 
@@ -223,7 +223,7 @@ export default function TeacherRegisterPage() {
               </div>
               <button
                 onClick={() => validateStep1() && setStep(2)}
-                className="w-full py-3.5 rounded-xl bg-[#13eca4] text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity"
+                className="w-full py-3.5 rounded-xl bg-(--primary-green) text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity"
               >
                 Continue →
               </button>
@@ -282,7 +282,7 @@ export default function TeacherRegisterPage() {
                 </button>
                 <button
                   onClick={() => validateStep2() && setStep(3)}
-                  className="flex-1 py-3.5 rounded-xl bg-[#13eca4] text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity"
+                  className="flex-1 py-3.5 rounded-xl bg-(--primary-green) text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity"
                 >
                   Continue →
                 </button>
@@ -306,7 +306,7 @@ export default function TeacherRegisterPage() {
                       onClick={() => toggleSubject(s)}
                       className={`py-3 px-4 rounded-xl text-sm font-semibold text-left transition-all border ${
                         active
-                          ? "bg-[rgba(19,236,164,0.1)] border-[#13eca4] text-[#13eca4]"
+                          ? "bg-[rgba(45,212,191,0.1)] border-(--primary-green) text-(--primary-green)"
                           : "bg-(--glass-bg) border-(--border-subtle) text-(--text-muted) hover:text-(--text-base) hover:border-(--border-accent)"
                       }`}
                     >
@@ -330,7 +330,7 @@ export default function TeacherRegisterPage() {
                 <button
                   onClick={handleCreateAccount}
                   disabled={loading}
-                  className="flex-1 py-3.5 rounded-xl bg-[#13eca4] text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+                  className="flex-1 py-3.5 rounded-xl bg-(--primary-green) text-[#10221c] font-bold text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
                 >
                   {loading ? (
                     <span className="material-symbols-outlined animate-spin text-sm">
@@ -346,7 +346,7 @@ export default function TeacherRegisterPage() {
 
           <p className="text-center text-(--text-faint) text-xs mt-5">
             Already have an account?{" "}
-            <Link href="/login" className="text-[#13eca4] font-semibold hover:underline">
+            <Link href="/login" className="text-(--primary-green) font-semibold hover:underline">
               Sign in
             </Link>
           </p>

@@ -44,7 +44,7 @@ export default function StudentSettingsPage() {
       <StudentSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="sticky top-0 z-10 bg-[rgba(16,32,34,0.85)] backdrop-blur-md border-b border-[rgba(19,218,236,0.1)] px-6 py-3">
+        <header className="sticky top-0 z-10 bg-[rgba(16,32,34,0.85)] backdrop-blur-md border-b border-[rgba(56,189,248,0.1)] px-6 py-3">
           <h1 className="text-lg font-bold text-(--text-base)">Account Settings</h1>
           <p className="text-(--text-muted) text-xs">
             Manage your profile, security, and learning integrations
@@ -62,8 +62,8 @@ export default function StudentSettingsPage() {
                     onClick={() => setActiveTab(tab.key)}
                     className={`flex items-center gap-3 w-full px-4 py-3 rounded-l-lg font-medium text-left transition-all ${
                       activeTab === tab.key
-                        ? "bg-[rgba(19,218,236,0.1)] text-[#13daec] border-r-2 border-[#13daec]"
-                        : "text-(--text-muted) hover:text-(--text-base) hover:bg-slate-800/50"
+                        ? "bg-[rgba(56,189,248,0.1)] text-(--primary) border-r-2 border-(--primary)"
+                        : "text-(--text-muted) hover:text-(--text-base) hover:bg-(--hover-subtle)"
                     }`}
                   >
                     <span className="material-symbols-outlined text-[20px]">{tab.icon}</span>
@@ -79,8 +79,8 @@ export default function StudentSettingsPage() {
               {activeTab === "personal" && (
                 <section className="bg-(--bg-card) border border-(--border) rounded-xl p-7">
                   <div className="flex items-center gap-3 mb-7">
-                    <div className="p-2 bg-[rgba(19,218,236,0.1)] rounded-lg">
-                      <span className="material-symbols-outlined text-[#13daec]">person</span>
+                    <div className="p-2 bg-[rgba(56,189,248,0.1)] rounded-lg">
+                      <span className="material-symbols-outlined text-(--primary)">person</span>
                     </div>
                     <h3 className="text-xl font-bold text-(--text-base)">Personal Information</h3>
                   </div>
@@ -88,10 +88,10 @@ export default function StudentSettingsPage() {
                   {/* Avatar */}
                   <div className="flex items-center gap-6 mb-7">
                     <div className="relative">
-                      <div className="w-24 h-24 rounded-2xl bg-[rgba(19,218,236,0.15)] flex items-center justify-center border-2 border-(--border) text-[#13daec] text-3xl font-bold">
+                      <div className="w-24 h-24 rounded-2xl bg-[rgba(56,189,248,0.15)] flex items-center justify-center border-2 border-(--border) text-(--primary) text-3xl font-bold">
                         {displayName?.slice(0, 2).toUpperCase() || "ST"}
                       </div>
-                      <button className="absolute -bottom-2 -right-2 p-1.5 bg-[#13daec] text-[#102022] rounded-lg shadow-lg hover:scale-110 transition-transform">
+                      <button className="absolute -bottom-2 -right-2 p-1.5 bg-(--primary) text-[#102022] rounded-lg shadow-lg hover:scale-110 transition-transform">
                         <span className="material-symbols-outlined text-sm font-bold">
                           photo_camera
                         </span>
@@ -102,7 +102,7 @@ export default function StudentSettingsPage() {
                       <p className="text-sm text-(--text-muted)">
                         Accepted formats: JPG, PNG. Max size 2MB.
                       </p>
-                      <button className="mt-2 text-xs font-bold text-[#13daec] hover:underline">
+                      <button className="mt-2 text-xs font-bold text-(--primary) hover:underline">
                         Remove photo
                       </button>
                     </div>
@@ -114,7 +114,7 @@ export default function StudentSettingsPage() {
                         Full Name
                       </label>
                       <input
-                        className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-[#13daec] focus:ring-1 focus:ring-[#13daec] outline-none transition-all"
+                        className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) outline-none transition-all"
                         defaultValue={displayName}
                         placeholder="Your full name"
                       />
@@ -124,7 +124,7 @@ export default function StudentSettingsPage() {
                         School Name
                       </label>
                       <input
-                        className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-[#13daec] focus:ring-1 focus:ring-[#13daec] outline-none transition-all"
+                        className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) outline-none transition-all"
                         defaultValue={schoolName}
                         placeholder="Your school"
                       />
@@ -143,7 +143,7 @@ export default function StudentSettingsPage() {
                       <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider">
                         Grade Level
                       </label>
-                      <select className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-[#13daec] outline-none transition-all">
+                      <select className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-(--primary) outline-none transition-all">
                         {["Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"].map(
                           (g) => (
                             <option key={g}>{g}</option>
@@ -156,7 +156,7 @@ export default function StudentSettingsPage() {
                         Bio
                       </label>
                       <textarea
-                        className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-[#13daec] focus:ring-1 focus:ring-[#13daec] outline-none transition-all min-h-25 resize-none"
+                        className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm focus:border-(--primary) focus:ring-1 focus:ring-(--primary) outline-none transition-all min-h-25 resize-none"
                         placeholder="Tell us about your STEM interests..."
                         defaultValue="Aspiring coder and robotics enthusiast. Currently exploring AI and electronics."
                       />
@@ -166,7 +166,7 @@ export default function StudentSettingsPage() {
                   <div className="mt-7 flex justify-end">
                     <button
                       onClick={handleSave}
-                      className="px-6 py-2.5 bg-[#13daec] text-[#102022] font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
+                      className="px-6 py-2.5 bg-(--primary) text-[#102022] font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
                     >
                       {saved ? (
                         <>
@@ -198,7 +198,7 @@ export default function StudentSettingsPage() {
                         <h4 className="font-bold text-(--text-base)">Password</h4>
                         <p className="text-sm text-(--text-muted)">Last changed 3 months ago</p>
                       </div>
-                      <button className="px-4 py-2 bg-(--bg-card) border border-(--border) text-slate-200 text-sm font-bold rounded-lg hover:border-[rgba(19,218,236,0.5)] transition-colors">
+                      <button className="px-4 py-2 bg-(--bg-card) border border-(--border) text-(--text-base) text-sm font-bold rounded-lg hover:border-[rgba(56,189,248,0.5)] transition-colors">
                         Reset Password
                       </button>
                     </div>
@@ -215,13 +215,13 @@ export default function StudentSettingsPage() {
                       </div>
                       <div className="flex items-center gap-3">
                         <span
-                          className={`text-xs font-bold uppercase ${twoFAEnabled ? "text-[#13daec]" : "text-(--text-faint)"}`}
+                          className={`text-xs font-bold uppercase ${twoFAEnabled ? "text-(--primary)" : "text-(--text-faint)"}`}
                         >
                           {twoFAEnabled ? "Enabled" : "Disabled"}
                         </span>
                         <button
                           onClick={() => setTwoFAEnabled(!twoFAEnabled)}
-                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${twoFAEnabled ? "bg-[#13daec]" : "bg-slate-700"}`}
+                          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${twoFAEnabled ? "bg-(--primary)" : "bg-(--bg-elevated)"}`}
                         >
                           <span
                             className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${twoFAEnabled ? "translate-x-6" : "translate-x-1"}`}
@@ -252,12 +252,12 @@ export default function StudentSettingsPage() {
                                 devices
                               </span>
                               <div>
-                                <p className="text-sm font-medium text-slate-200">{s.device}</p>
+                                <p className="text-sm font-medium text-(--text-base)">{s.device}</p>
                                 <p className="text-xs text-(--text-faint)">{s.location}</p>
                               </div>
                             </div>
                             {s.current ? (
-                              <span className="px-2 py-0.5 bg-[rgba(19,218,236,0.1)] text-[#13daec] text-[10px] font-bold rounded-full uppercase">
+                              <span className="px-2 py-0.5 bg-[rgba(56,189,248,0.1)] text-(--primary) text-[10px] font-bold rounded-full uppercase">
                                 Current
                               </span>
                             ) : (
@@ -277,8 +277,8 @@ export default function StudentSettingsPage() {
               {activeTab === "integrations" && (
                 <section className="bg-(--bg-card) border border-(--border) rounded-xl p-7">
                   <div className="flex items-center gap-3 mb-7">
-                    <div className="p-2 bg-[rgba(19,218,236,0.1)] rounded-lg">
-                      <span className="material-symbols-outlined text-[#13daec]">hub</span>
+                    <div className="p-2 bg-[rgba(56,189,248,0.1)] rounded-lg">
+                      <span className="material-symbols-outlined text-(--primary)">hub</span>
                     </div>
                     <h3 className="text-xl font-bold text-(--text-base)">LMS Integrations</h3>
                   </div>
@@ -296,7 +296,7 @@ export default function StudentSettingsPage() {
                           <h4 className="font-bold text-lg text-(--text-base)">Google Classroom</h4>
                           <div className="flex items-center gap-2 mt-0.5">
                             <span
-                              className={`w-2 h-2 rounded-full ${gcConnected ? "bg-emerald-500" : "bg-slate-500"}`}
+                              className={`w-2 h-2 rounded-full ${gcConnected ? "bg-emerald-500" : "bg-(--text-faint)"}`}
                             />
                             <p
                               className={`text-xs font-bold uppercase ${gcConnected ? "text-emerald-500" : "text-(--text-faint)"}`}
@@ -313,7 +313,7 @@ export default function StudentSettingsPage() {
                           Disconnect
                         </button>
                       ) : (
-                        <button className="px-4 py-2 bg-[#13daec] text-[#102022] text-sm font-bold rounded-lg hover:opacity-90 transition-opacity">
+                        <button className="px-4 py-2 bg-(--primary) text-[#102022] text-sm font-bold rounded-lg hover:opacity-90 transition-opacity">
                           Connect
                         </button>
                       )}
@@ -349,7 +349,7 @@ export default function StudentSettingsPage() {
                               </div>
                               <button
                                 onClick={opt.toggle}
-                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${opt.state ? "bg-[#13daec]" : "bg-slate-700"}`}
+                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${opt.state ? "bg-(--primary)" : "bg-(--bg-elevated)"}`}
                               >
                                 <span
                                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${opt.state ? "translate-x-6" : "translate-x-1"}`}
@@ -387,8 +387,8 @@ export default function StudentSettingsPage() {
               {activeTab === "notifications" && (
                 <section className="bg-(--bg-card) border border-(--border) rounded-xl p-7">
                   <div className="flex items-center gap-3 mb-7">
-                    <div className="p-2 bg-[rgba(19,218,236,0.1)] rounded-lg">
-                      <span className="material-symbols-outlined text-[#13daec]">
+                    <div className="p-2 bg-[rgba(56,189,248,0.1)] rounded-lg">
+                      <span className="material-symbols-outlined text-(--primary)">
                         notifications_active
                       </span>
                     </div>
@@ -438,7 +438,7 @@ export default function StudentSettingsPage() {
                               onClick={() =>
                                 setNotifPrefs((prev) => ({ ...prev, [key]: !prev[key] }))
                               }
-                              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${val ? "bg-[#13daec]" : "bg-slate-700"}`}
+                              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4 ${val ? "bg-(--primary)" : "bg-(--bg-elevated)"}`}
                             >
                               <span
                                 className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${val ? "translate-x-6" : "translate-x-1"}`}
@@ -453,7 +453,7 @@ export default function StudentSettingsPage() {
                   <div className="mt-7 flex justify-end">
                     <button
                       onClick={handleSave}
-                      className="px-6 py-2.5 bg-[#13daec] text-[#102022] font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
+                      className="px-6 py-2.5 bg-(--primary) text-[#102022] font-bold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
                     >
                       {saved ? (
                         <>

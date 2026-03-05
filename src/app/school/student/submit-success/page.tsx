@@ -45,7 +45,7 @@ function SubmitSuccessPage() {
         className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "radial-gradient(circle, rgba(19,236,164,0.15) 1px, transparent 1px), radial-gradient(circle, rgba(245,158,11,0.08) 1px, transparent 1px)",
+            "radial-gradient(circle, rgba(45,212,191,0.15) 1px, transparent 1px), radial-gradient(circle, rgba(245,158,11,0.08) 1px, transparent 1px)",
           backgroundSize: "40px 40px, 70px 70px",
           backgroundPosition: "0 0, 20px 20px",
         }}
@@ -53,40 +53,40 @@ function SubmitSuccessPage() {
       {/* Glow behind badge */}
       <div
         className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 rounded-full opacity-10 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, #13eca4, transparent)" }}
+        style={{ background: "radial-gradient(circle, #2dd4bf, transparent)" }}
       />
 
       {/* Minimal navbar */}
       <header className="w-full flex items-center justify-between px-8 py-5 border-b border-(--border-subtle) bg-[rgba(16,34,28,0.5)] backdrop-blur relative z-10">
         <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#13eca4] text-[28px]">token</span>
+          <span className="material-symbols-outlined text-(--primary-green) text-[28px]">token</span>
           <span className="text-(--text-base) font-black uppercase italic">
-            STEM Impact <span className="text-[#ff4d4d]">Academy</span>
+            STEM Impact <span className="text-(--accent-red)">Academy</span>
           </span>
         </div>
         <div className="flex items-center gap-5 text-(--text-muted) text-sm">
-          <Link href="/school/student/dashboard" className="hover:text-[#13eca4] transition-colors">
+          <Link href="/school/student/dashboard" className="hover:text-(--primary-green) transition-colors">
             My Courses
           </Link>
-          <Link href="/school/student/portfolio" className="hover:text-[#13eca4] transition-colors">
+          <Link href="/school/student/portfolio" className="hover:text-(--primary-green) transition-colors">
             Portfolio
           </Link>
         </div>
-        <div className="w-9 h-9 rounded-full bg-linear-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-[#10221c] font-bold text-sm">
+        <div className="w-9 h-9 rounded-full bg-linear-to-br from-(--primary-green) to-(--primary-green-dark) flex items-center justify-center text-[#10221c] font-bold text-sm">
           {initials}
         </div>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-12 relative z-10 max-w-3xl w-full mx-auto">
         {/* Success badge */}
-        <div className="inline-flex items-center gap-2 bg-[rgba(19,236,164,0.1)] border border-(--border-accent) rounded-full px-4 py-1.5 mb-8">
+        <div className="inline-flex items-center gap-2 bg-[rgba(45,212,191,0.1)] border border-(--border-accent) rounded-full px-4 py-1.5 mb-8">
           <span
-            className="material-symbols-outlined text-[#13eca4] text-[16px]"
+            className="material-symbols-outlined text-(--primary-green) text-[16px]"
             style={{ fontVariationSettings: "'FILL' 1" }}
           >
             check_circle
           </span>
-          <span className="text-[#13eca4] text-xs font-bold uppercase tracking-widest">
+          <span className="text-(--primary-green) text-xs font-bold uppercase tracking-widest">
             Submission Success
           </span>
         </div>
@@ -108,14 +108,14 @@ function SubmitSuccessPage() {
           {/* Glow ring */}
           <div
             className="absolute -inset-6 rounded-full opacity-30 blur-2xl"
-            style={{ background: "radial-gradient(circle, #13eca4, transparent)" }}
+            style={{ background: "radial-gradient(circle, #2dd4bf, transparent)" }}
           />
           {/* Outer ring */}
-          <div className="relative w-56 h-56 rounded-full border-2 border-(--border-strong) flex items-center justify-center backdrop-blur-sm bg-[rgba(19,236,164,0.04)]">
+          <div className="relative w-56 h-56 rounded-full border-2 border-(--border-strong) flex items-center justify-center backdrop-blur-sm bg-[rgba(45,212,191,0.04)]">
             {/* Inner badge circle */}
             <div
               className="w-44 h-44 rounded-full flex flex-col items-center justify-center shadow-2xl relative"
-              style={{ background: "linear-gradient(135deg, #13eca4, #00d4a0)" }}
+              style={{ background: "linear-gradient(135deg, #2dd4bf, #14b8a6)" }}
             >
               <span
                 className="material-symbols-outlined text-[64px] text-[#0a1a18] mb-1"
@@ -136,7 +136,7 @@ function SubmitSuccessPage() {
           </div>
           {/* Name plate */}
           <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-(--bg-page) border border-(--border-strong) rounded-xl px-5 py-2 whitespace-nowrap">
-            <p className="text-[#13eca4] font-black uppercase tracking-widest text-sm text-center">
+            <p className="text-(--primary-green) font-black uppercase tracking-widest text-sm text-center">
               {courseName}
             </p>
             <p className="text-(--text-faint) text-[10px] text-center uppercase tracking-widest mt-0.5">
@@ -149,7 +149,7 @@ function SubmitSuccessPage() {
         <div className="w-full max-w-md bg-(--bg-card) border border-(--border-subtle) rounded-2xl p-5 mb-8 mt-4">
           <div className="flex items-center justify-between mb-3">
             <p className="text-(--text-base) font-semibold text-sm">STEM Explorer Certificate Progress</p>
-            <span className="text-[#13eca4] font-bold text-sm">
+            <span className="text-(--primary-green) font-bold text-sm">
               {Math.min(100, Math.round((xp / 1000) * 100))}%
             </span>
           </div>
@@ -157,7 +157,7 @@ function SubmitSuccessPage() {
             <div
               className="h-2.5 rounded-full"
               style={{
-                background: "linear-gradient(90deg, #10b981, #13eca4)",
+                background: "linear-gradient(90deg, #10b981, #2dd4bf)",
                 width: `${Math.min(100, Math.round((xp / 1000) * 100))}%`,
               }}
             />
@@ -170,7 +170,7 @@ function SubmitSuccessPage() {
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-4 w-full max-w-md mb-10">
           {[
-            { icon: "bolt", color: "#13eca4", label: "Total XP", value: String(xp) },
+            { icon: "bolt", color: "var(--primary-green)", label: "Total XP", value: String(xp) },
             { icon: "emoji_events", color: "#f59e0b", label: "Level", value: `Level ${level}` },
             { icon: "schedule", color: "#8b5cf6", label: "Review Time", value: "24-48h" },
           ].map((s) => (
@@ -196,14 +196,14 @@ function SubmitSuccessPage() {
         <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
           <Link
             href="/school/student/dashboard"
-            className="flex-1 flex items-center justify-center gap-2 py-4 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] text-sm"
+            className="flex-1 flex items-center justify-center gap-2 py-4 bg-(--primary-green) text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(45,212,191,0.2)] text-sm"
           >
             <span className="material-symbols-outlined text-[20px]">rocket_launch</span>
             Next Course
           </Link>
           <Link
             href="/school/student/portfolio"
-            className="flex-1 flex items-center justify-center gap-2 py-4 bg-[rgba(19,236,164,0.08)] text-[#13eca4] border border-(--border-accent) font-bold rounded-xl hover:bg-(--hover-medium) transition-colors text-sm"
+            className="flex-1 flex items-center justify-center gap-2 py-4 bg-[rgba(45,212,191,0.08)] text-(--primary-green) border border-(--border-accent) font-bold rounded-xl hover:bg-(--hover-medium) transition-colors text-sm"
           >
             <span className="material-symbols-outlined text-[20px]">grid_view</span>
             View Portfolio

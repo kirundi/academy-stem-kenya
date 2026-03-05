@@ -172,7 +172,7 @@ export default function ReviewerDashboard() {
                 >
                   <div className="p-5">
                     <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-2xl" style={{ background: `${course.color ?? "#13eca4"}18` }}>
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-2xl" style={{ background: `${course.color ?? "#2dd4bf"}18` }}>
                         {course.icon ?? "📚"}
                       </div>
                       <div className="flex-1 min-w-0">

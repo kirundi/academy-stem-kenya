@@ -53,7 +53,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
   return (
     <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) hover:border-(--border-accent) transition-all overflow-hidden">
       {/* Card header */}
-      <div className="relative p-5 pb-4 bg-linear-to-r from-[#162820] to-[#1a2e27] border-b border-[rgba(19,236,164,0.06)]">
+      <div className="relative p-5 pb-4 bg-linear-to-r from-[#162820] to-[#1a2e27] border-b border-[rgba(45,212,191,0.06)]">
         <div className="absolute -right-6 -top-6 w-32 h-32 border-2 border-[rgba(139,92,246,0.08)] rounded-full" />
         <div className="relative flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-[#8b5cf6] to-[#6d28d9] flex items-center justify-center text-(--text-base) font-bold text-xl shrink-0">
@@ -67,7 +67,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
                   {student.grade}
                 </span>
               )}
-              <span className="text-[#13eca4] text-xs font-medium">
+              <span className="text-(--primary-green) text-xs font-medium">
                 Level {student.level} · {levelLabel(student.level)}
               </span>
             </div>
@@ -78,11 +78,11 @@ function ChildCard({ child }: { child: ChildProgress }) {
         <div className="mt-3 relative">
           <div className="flex justify-between text-xs text-(--text-muted) mb-1.5">
             <span>XP Progress</span>
-            <span className="text-[#13eca4] font-semibold">{student.xp} XP</span>
+            <span className="text-(--primary-green) font-semibold">{student.xp} XP</span>
           </div>
           <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div
-              className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+              className="h-full bg-linear-to-r from-(--primary-green) to-(--primary-green-dark) rounded-full"
               style={{
                 width: `${Math.min(100, Math.round((student.xp / (student.level * 1000)) * 100))}%`,
               }}
@@ -92,9 +92,9 @@ function ChildCard({ child }: { child: ChildProgress }) {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-4 divide-x divide-[rgba(19,236,164,0.06)] border-b border-[rgba(19,236,164,0.06)]">
+      <div className="grid grid-cols-4 divide-x divide-[rgba(45,212,191,0.06)] border-b border-[rgba(45,212,191,0.06)]">
         {[
-          { label: "In Progress", value: inProgress, icon: "play_circle", color: "#13eca4" },
+          { label: "In Progress", value: inProgress, icon: "play_circle", color: "var(--primary-green)" },
           { label: "Completed", value: completed, icon: "check_circle", color: "#10b981" },
           { label: "Graded", value: graded, icon: "grading", color: "#f59e0b" },
           { label: "Badges", value: student.badges.length, icon: "military_tech", color: "#8b5cf6" },
@@ -113,7 +113,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
       </div>
 
       {/* Overall progress */}
-      <div className="px-5 py-3 border-b border-[rgba(19,236,164,0.06)]">
+      <div className="px-5 py-3 border-b border-[rgba(45,212,191,0.06)]">
         <div className="flex justify-between text-xs mb-1.5">
           <span className="text-(--text-muted)">Overall course progress</span>
           <span className="text-(--text-base) font-bold">{overallProgress}%</span>
@@ -123,7 +123,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
             className="h-full rounded-full"
             style={{
               width: `${overallProgress}%`,
-              background: "linear-gradient(90deg, #13eca4, #0dd494)",
+              background: "linear-gradient(90deg, #2dd4bf, #14b8a6)",
             }}
           />
         </div>
@@ -131,7 +131,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
 
       {/* Last graded submission */}
       {lastGraded ? (
-        <div className="px-5 py-3 border-b border-[rgba(19,236,164,0.06)]">
+        <div className="px-5 py-3 border-b border-[rgba(45,212,191,0.06)]">
           <p className="text-(--text-faint) text-[10px] uppercase tracking-wide font-semibold mb-1">
             Latest Grade
           </p>
@@ -156,7 +156,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
           </div>
         </div>
       ) : pending > 0 ? (
-        <div className="px-5 py-3 border-b border-[rgba(19,236,164,0.06)]">
+        <div className="px-5 py-3 border-b border-[rgba(45,212,191,0.06)]">
           <p className="text-(--text-faint) text-[10px] uppercase tracking-wide font-semibold mb-1">
             Submissions
           </p>
@@ -168,7 +168,7 @@ function ChildCard({ child }: { child: ChildProgress }) {
       <div className="p-4">
         <Link
           href={`/parent/child/${student.uid}`}
-          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[rgba(19,236,164,0.08)] hover:bg-[rgba(19,236,164,0.15)] border border-(--border-medium) text-[#13eca4] text-sm font-semibold transition-all group"
+          className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[rgba(45,212,191,0.08)] hover:bg-[rgba(45,212,191,0.15)] border border-(--border-medium) text-(--primary-green) text-sm font-semibold transition-all group"
         >
           View Full Report
           <span className="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">
@@ -200,7 +200,7 @@ export default function ParentDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -264,7 +264,7 @@ export default function ParentDashboard() {
                 },
                 {
                   icon: "school",
-                  color: "#13eca4",
+                  color: "var(--primary-green)",
                   label: "Active Courses",
                   value: String(
                     children.reduce(

@@ -58,12 +58,12 @@ export default function TeacherSidebar() {
       {/* Teacher info */}
       <div className="px-5 py-4 border-b border-(--border-subtle)">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#13eca4] to-[#0dd494] flex items-center justify-center text-[#0d1f22] font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-linear-to-br from-(--primary-green) to-(--primary-green-dark) flex items-center justify-center text-[#0d1f22] font-bold text-sm">
             {initials}
           </div>
           <div>
             <p className="text-(--text-base) text-sm font-semibold">{displayName}</p>
-            <p className="text-[#13eca4] text-xs font-medium">{roleName}</p>
+            <p className="text-(--primary-green) text-xs font-medium">{roleName}</p>
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@ export default function TeacherSidebar() {
         ))}
         <div className="pt-3 px-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-[rgba(45,212,191,0.15)] flex items-center justify-center text-(--primary-green) text-xs font-bold">
               {initials}
             </div>
             <div className="flex-1 min-w-0">
@@ -102,7 +102,7 @@ export default function TeacherSidebar() {
             <ThemeToggle />
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
+              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-(--accent-red) transition-colors">
                 logout
               </span>
             </button>

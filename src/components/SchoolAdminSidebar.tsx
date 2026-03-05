@@ -56,7 +56,7 @@ export default function SchoolAdminSidebar() {
       <div className="px-5 py-5 border-b border-(--border-subtle)">
         <StemLogo size="md" />
         <div className="mt-2">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#13eca4] bg-[rgba(19,236,164,0.1)] px-2 py-0.5 rounded">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-(--primary-green) bg-[rgba(45,212,191,0.1)] px-2 py-0.5 rounded">
             School Admin
           </span>
         </div>
@@ -89,7 +89,7 @@ export default function SchoolAdminSidebar() {
         ))}
         <div className="pt-3 px-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center text-[#13eca4] text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-[rgba(45,212,191,0.15)] flex items-center justify-center text-(--primary-green) text-xs font-bold">
               {initials}
             </div>
             <div className="flex-1 min-w-0">
@@ -101,7 +101,7 @@ export default function SchoolAdminSidebar() {
             <ThemeToggle />
             <NotificationBell />
             <button onClick={handleSignOut} title="Sign out">
-              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-[#ff4d4d] transition-colors">
+              <span className="material-symbols-outlined text-[18px] text-(--text-faint) hover:text-(--accent-red) transition-colors">
                 logout
               </span>
             </button>

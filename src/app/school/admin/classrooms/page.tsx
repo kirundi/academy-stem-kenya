@@ -28,7 +28,7 @@ export default function ClassroomsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -123,14 +123,14 @@ export default function ClassroomsPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search teachers or classes..."
-              className="w-full bg-(--bg-card) border-none rounded-lg py-1.5 pl-10 pr-4 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
+              className="w-full bg-(--bg-card) border-none rounded-lg py-1.5 pl-10 pr-4 text-sm text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:ring-1 focus:ring-(--primary-green)"
             />
           </div>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowCreate(true)}
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2 rounded-lg hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 bg-(--primary-green) text-[#10221c] font-bold text-sm px-5 py-2 rounded-lg hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             Create Class
@@ -158,7 +158,7 @@ export default function ClassroomsPage() {
           <div className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-xl">
             <p className="text-(--text-muted) text-sm font-medium mb-1">Active Codes</p>
             <p className="text-3xl font-bold text-(--text-base)">{activeCodes}</p>
-            <div className="mt-2 text-xs text-[#13eca4] flex items-center gap-1">
+            <div className="mt-2 text-xs text-(--primary-green) flex items-center gap-1">
               <span className="material-symbols-outlined text-xs">check_circle</span>
               {classrooms.length > 0
                 ? `${Math.round((activeCodes / classrooms.length) * 100)}%`
@@ -180,7 +180,7 @@ export default function ClassroomsPage() {
         <section className="bg-(--bg-card) border border-(--border-subtle) p-6 rounded-xl">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-(--text-base) flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#13eca4]">settings_suggest</span>
+              <span className="material-symbols-outlined text-(--primary-green)">settings_suggest</span>
               Global Configuration
             </h2>
             <button
@@ -189,7 +189,7 @@ export default function ClassroomsPage() {
                 setPrefix("TECH-");
                 setCodeMode("Alphanumeric (8 chars)");
               }}
-              className="text-[#13eca4] text-sm font-medium hover:underline"
+              className="text-(--primary-green) text-sm font-medium hover:underline"
             >
               Reset Defaults
             </button>
@@ -201,11 +201,11 @@ export default function ClassroomsPage() {
                 <input
                   value={pendingPrefix}
                   onChange={(e) => setPendingPrefix(e.target.value.toUpperCase())}
-                  className="flex-1 bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-sm text-(--text-base) uppercase focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
+                  className="flex-1 bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-sm text-(--text-base) uppercase focus:outline-none focus:ring-1 focus:ring-(--primary-green)"
                 />
                 <button
                   onClick={() => setPrefix(pendingPrefix)}
-                  className="bg-[rgba(19,236,164,0.15)] text-[#13eca4] px-3 py-2 rounded-lg text-sm font-bold border border-[rgba(19,236,164,0.25)] hover:bg-[rgba(19,236,164,0.25)] transition-colors"
+                  className="bg-[rgba(45,212,191,0.15)] text-(--primary-green) px-3 py-2 rounded-lg text-sm font-bold border border-[rgba(45,212,191,0.25)] hover:bg-[rgba(45,212,191,0.25)] transition-colors"
                 >
                   Apply
                 </button>
@@ -216,7 +216,7 @@ export default function ClassroomsPage() {
               <select
                 value={codeMode}
                 onChange={(e) => setCodeMode(e.target.value)}
-                className="w-full bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-sm text-(--text-base) focus:outline-none focus:ring-1 focus:ring-[#13eca4]"
+                className="w-full bg-(--bg-page) border border-(--border-medium) rounded-lg px-3 py-2 text-sm text-(--text-base) focus:outline-none focus:ring-1 focus:ring-(--primary-green)"
               >
                 <option>Alphanumeric (8 chars)</option>
                 <option>Numeric (6 chars)</option>
@@ -226,7 +226,7 @@ export default function ClassroomsPage() {
             <div className="flex items-end pb-1">
               <button
                 onClick={handleBulkGenerate}
-                className="w-full bg-[#13eca4] text-[#10221c] h-10 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+                className="w-full bg-(--primary-green) text-[#10221c] h-10 rounded-lg text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
               >
                 <span className="material-symbols-outlined text-base">bolt</span>
                 Bulk Generate Codes
@@ -278,10 +278,10 @@ export default function ClassroomsPage() {
                     const hasUnsavedCode = editedCodes[c.id] !== undefined;
 
                     return (
-                      <tr key={c.id} className="hover:bg-[rgba(19,236,164,0.02)] transition-colors">
+                      <tr key={c.id} className="hover:bg-[rgba(45,212,191,0.02)] transition-colors">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-[#13eca4] text-xs font-bold shrink-0">
+                            <div className="w-8 h-8 rounded-lg bg-[rgba(45,212,191,0.1)] flex items-center justify-center text-(--primary-green) text-xs font-bold shrink-0">
                               {teacherInitials}
                             </div>
                             <span className="text-sm font-medium text-(--text-base)">{teacherName}</span>
@@ -299,7 +299,7 @@ export default function ClassroomsPage() {
                               className={`w-28 border-none rounded px-2 py-1 text-xs font-mono focus:outline-none focus:ring-1 ${
                                 isExpired
                                   ? "bg-red-900/20 text-red-400 focus:ring-red-500"
-                                  : "bg-[rgba(0,0,0,0.2)] text-[#13eca4] focus:ring-[#13eca4]"
+                                  : "bg-[rgba(0,0,0,0.2)] text-(--primary-green) focus:ring-(--primary-green)"
                               }`}
                             />
                             {isExpired ? (
@@ -309,7 +309,7 @@ export default function ClassroomsPage() {
                             ) : (
                               <button
                                 onClick={() => regenerateCode(c.id)}
-                                className="opacity-0 group-hover:opacity-100 transition-opacity text-(--text-muted) hover:text-[#13eca4]"
+                                className="opacity-0 group-hover:opacity-100 transition-opacity text-(--text-muted) hover:text-(--primary-green)"
                                 title="Regenerate code"
                               >
                                 <span className="material-symbols-outlined text-base">refresh</span>
@@ -319,7 +319,7 @@ export default function ClassroomsPage() {
                               <button
                                 onClick={() => saveCode(c.id)}
                                 disabled={savingCode === c.id}
-                                className="text-xs font-bold text-[#13eca4] border border-(--border-strong) px-2 py-0.5 rounded hover:bg-[rgba(19,236,164,0.1)] transition-colors"
+                                className="text-xs font-bold text-(--primary-green) border border-(--border-strong) px-2 py-0.5 rounded hover:bg-[rgba(45,212,191,0.1)] transition-colors"
                               >
                                 {savingCode === c.id ? "..." : "Save"}
                               </button>
@@ -332,7 +332,7 @@ export default function ClassroomsPage() {
                               Expired
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-[rgba(19,236,164,0.15)] text-[#13eca4] border border-[rgba(19,236,164,0.25)]">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-[rgba(45,212,191,0.15)] text-(--primary-green) border border-[rgba(45,212,191,0.25)]">
                               Active
                             </span>
                           )}
@@ -340,7 +340,7 @@ export default function ClassroomsPage() {
                         <td className="px-6 py-4 text-right">
                           <button
                             onClick={() => navigator.clipboard.writeText(code)}
-                            className="text-(--text-muted) hover:text-[#13eca4] transition-colors"
+                            className="text-(--text-muted) hover:text-(--primary-green) transition-colors"
                             title="Copy code"
                           >
                             <span className="material-symbols-outlined text-base">
@@ -454,7 +454,7 @@ export default function ClassroomsPage() {
               <button
                 onClick={handleCreateClass}
                 disabled={createLoading || !createForm.name.trim()}
-                className="flex-1 bg-[#13eca4] text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-[#0dd494] transition-colors disabled:opacity-50"
+                className="flex-1 bg-(--primary-green) text-[#0d1f1a] text-sm font-bold py-2.5 rounded-xl hover:bg-(--primary-green-dark) transition-colors disabled:opacity-50"
               >
                 {createLoading ? "Creating..." : "Create Classroom"}
               </button>

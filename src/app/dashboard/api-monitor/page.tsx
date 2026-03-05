@@ -63,7 +63,7 @@ const METRIC_CARDS = [
   {
     label: "Success Rate",
     value: "99.9%",
-    valueColor: "text-[#13daec]",
+    valueColor: "text-(--primary)",
     trend: "-0.1%",
     trendUp: false,
     color: "text-[#ef4444]",
@@ -102,7 +102,7 @@ export default function ApiMonitorPage() {
           <button
             key={r}
             onClick={() => setTimeRange(r)}
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${timeRange === r ? "bg-[#13daec] text-[#102022]" : "bg-[#1a2e31] text-(--text-muted) hover:text-(--text-base) border border-[rgba(19,218,236,0.1)]"}`}
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${timeRange === r ? "bg-(--primary) text-[#102022]" : "bg-(--bg-card) text-(--text-muted) hover:text-(--text-base) border border-[rgba(56,189,248,0.1)]"}`}
           >
             {r}
           </button>
@@ -114,7 +114,7 @@ export default function ApiMonitorPage() {
         {METRIC_CARDS.map((m) => (
           <div
             key={m.label}
-            className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-5 hover:border-[rgba(19,218,236,0.3)] transition-all"
+            className="bg-(--bg-card) border border-[rgba(56,189,248,0.1)] rounded-xl p-5 hover:border-[rgba(56,189,248,0.3)] transition-all"
           >
             <p className="text-(--text-muted) text-sm font-medium">{m.label}</p>
             <div className="flex items-end justify-between mt-2">
@@ -135,7 +135,7 @@ export default function ApiMonitorPage() {
       {/* Charts + Side panel */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chart */}
-        <div className="lg:col-span-2 bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-6">
+        <div className="lg:col-span-2 bg-(--bg-card) border border-[rgba(56,189,248,0.1)] rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h3 className="text-lg font-bold text-(--text-base)">API Requests per Hour</h3>
@@ -143,8 +143,8 @@ export default function ApiMonitorPage() {
             </div>
             <div className="flex gap-4">
               {[
-                { color: "bg-[#13daec]", label: "Classroom Sync" },
-                { color: "bg-slate-400", label: "Internal Auth" },
+                { color: "bg-(--primary)", label: "Classroom Sync" },
+                { color: "bg-(--text-faint)", label: "Internal Auth" },
                 { color: "bg-[#ef4444]", label: "Errors" },
               ].map((l) => (
                 <div key={l.label} className="flex items-center gap-2">
@@ -160,8 +160,8 @@ export default function ApiMonitorPage() {
             <svg className="w-full h-full" viewBox="0 0 1000 200" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#13daec" stopOpacity="0.2" />
-                  <stop offset="100%" stopColor="#13daec" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#2dd4bf" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="#2dd4bf" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="areaGrad2" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#64748b" stopOpacity="0.15" />
@@ -189,7 +189,7 @@ export default function ApiMonitorPage() {
               <path
                 d="M0,150 Q100,80 200,120 T400,60 T600,100 T800,40 T1000,90"
                 fill="none"
-                stroke="#13daec"
+                stroke="#2dd4bf"
                 strokeWidth="3"
               />
               {/* Secondary line */}
@@ -217,17 +217,17 @@ export default function ApiMonitorPage() {
         {/* Right Panel */}
         <div className="flex flex-col gap-5">
           {/* Rate Limit */}
-          <div className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl p-6">
+          <div className="bg-(--bg-card) border border-[rgba(56,189,248,0.1)] rounded-xl p-6">
             <h3 className="text-lg font-bold text-(--text-base) mb-5">Rate Limit Status</h3>
             <div className="space-y-5">
               {[
-                { label: "Throughput Capacity", value: "72%", pct: 72, color: "bg-[#13daec]" },
+                { label: "Throughput Capacity", value: "72%", pct: 72, color: "bg-(--primary)" },
                 { label: "Queue Depth", value: "12ms wait", pct: 24, color: "bg-emerald-400" },
                 {
                   label: "Active Connections",
                   value: "4.2k / 10k",
                   pct: 42,
-                  color: "bg-[#13daec]/50",
+                  color: "bg-(--primary)/50",
                 },
               ].map((row) => (
                 <div key={row.label}>
@@ -244,8 +244,8 @@ export default function ApiMonitorPage() {
                 </div>
               ))}
             </div>
-            <div className="mt-7 pt-5 border-t border-[rgba(19,218,236,0.1)]">
-              <button className="w-full py-3 bg-[#13daec] text-[#102022] font-bold rounded-lg text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+            <div className="mt-7 pt-5 border-t border-[rgba(56,189,248,0.1)]">
+              <button className="w-full py-3 bg-(--primary) text-[#102022] font-bold rounded-lg text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
                 <span className="material-symbols-outlined text-xl">settings_input_component</span>
                 Adjust Scale Thresholds
               </button>
@@ -262,10 +262,10 @@ export default function ApiMonitorPage() {
               <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-[#ef4444]">
                 <strong>12:42</strong> Google Auth latency spike detected in Region US-East.
               </li>
-              <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-[#13daec]">
+              <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-(--primary)">
                 <strong>11:15</strong> Webhook retry logic auto-resolved for 12 endpoints.
               </li>
-              <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-slate-500">
+              <li className="text-xs text-(--text-muted) bg-(--bg-page)/50 p-2 rounded border-l-2 border-(--border)">
                 <strong>09:30</strong> Scheduled maintenance window completed successfully.
               </li>
             </ul>
@@ -274,14 +274,14 @@ export default function ApiMonitorPage() {
       </div>
 
       {/* Usage by School Table */}
-      <div className="bg-[#1a2e31] border border-[rgba(19,218,236,0.1)] rounded-xl overflow-hidden">
-        <div className="p-5 border-b border-[rgba(19,218,236,0.1)] flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-(--bg-card) border border-[rgba(56,189,248,0.1)] rounded-xl overflow-hidden">
+        <div className="p-5 border-b border-[rgba(56,189,248,0.1)] flex flex-wrap items-center justify-between gap-4">
           <div>
             <h3 className="text-lg font-bold text-(--text-base)">Usage by School</h3>
             <p className="text-sm text-(--text-muted)">Top schools by API request volume (24h)</p>
           </div>
           <div className="flex gap-2">
-            <button className="bg-(--bg-page) border border-[rgba(19,218,236,0.2)] px-4 py-2 rounded-lg text-xs font-bold text-(--text-muted) flex items-center gap-2 hover:bg-[rgba(19,218,236,0.1)] transition-colors">
+            <button className="bg-(--bg-page) border border-[rgba(56,189,248,0.2)] px-4 py-2 rounded-lg text-xs font-bold text-(--text-muted) flex items-center gap-2 hover:bg-[rgba(56,189,248,0.1)] transition-colors">
               <span className="material-symbols-outlined text-sm">download</span>Export CSV
             </button>
           </div>
@@ -297,17 +297,17 @@ export default function ApiMonitorPage() {
                 <th className="px-6 py-4">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[rgba(19,218,236,0.05)]">
+            <tbody className="divide-y divide-[rgba(56,189,248,0.05)]">
               {USAGE_BY_SCHOOL.map((row) => (
-                <tr key={row.school} className="hover:bg-[rgba(19,218,236,0.04)] transition-colors">
-                  <td className="px-6 py-4 text-sm font-semibold text-slate-200">{row.school}</td>
+                <tr key={row.school} className="hover:bg-[rgba(56,189,248,0.04)] transition-colors">
+                  <td className="px-6 py-4 text-sm font-semibold text-(--text-base)">{row.school}</td>
                   <td className="px-6 py-4 text-sm text-(--text-muted)">{row.requests}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-1 flex-wrap">
                       {row.integrations.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-0.5 bg-[#1a2e31] border border-[rgba(19,218,236,0.2)] rounded text-[10px] text-(--text-muted)"
+                          className="px-2 py-0.5 bg-(--bg-card) border border-[rgba(56,189,248,0.2)] rounded text-[10px] text-(--text-muted)"
                         >
                           {tag}
                         </span>
@@ -337,7 +337,7 @@ export default function ApiMonitorPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm">
-                    <button className="text-[#13daec] hover:underline font-medium">
+                    <button className="text-(--primary) hover:underline font-medium">
                       View Logs
                     </button>
                   </td>

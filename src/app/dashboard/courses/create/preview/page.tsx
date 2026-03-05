@@ -37,8 +37,8 @@ function CourseCreatorPreview() {
     return (
       <div className="flex h-screen items-center justify-center bg-(--bg-page)">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-[rgba(19,236,164,0.2)] border-t-[#13eca4] rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading course preview...</p>
+          <div className="w-12 h-12 border-4 border-[rgba(45,212,191,0.2)] border-t-(--primary-green) rounded-full animate-spin" />
+          <p className="text-(--text-muted) text-sm">Loading course preview...</p>
         </div>
       </div>
     );
@@ -48,10 +48,10 @@ function CourseCreatorPreview() {
     return (
       <div className="flex h-screen items-center justify-center bg-(--bg-page) text-(--text-base)">
         <div className="text-center">
-          <p className="text-slate-400 mb-4">No course ID provided.</p>
+          <p className="text-(--text-muted) mb-4">No course ID provided.</p>
           <Link
             href="/dashboard/courses/create/step1"
-            className="text-[#13eca4] hover:underline font-bold"
+            className="text-(--primary-green) hover:underline font-bold"
           >
             Go back to Step 1
           </Link>
@@ -73,16 +73,16 @@ function CourseCreatorPreview() {
   return (
     <div className="relative flex h-screen w-full flex-col overflow-hidden bg-(--bg-page) text-(--text-base)">
       {/* Header */}
-      <header className="flex items-center justify-between border-b border-[rgba(19,236,164,0.1)] bg-[rgba(16,34,28,0.8)] backdrop-blur-md px-6 py-3 z-20 shrink-0">
+      <header className="flex items-center justify-between border-b border-[rgba(45,212,191,0.1)] bg-[rgba(16,34,28,0.8)] backdrop-blur-md px-6 py-3 z-20 shrink-0">
         <div className="flex items-center gap-4">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[rgba(19,236,164,0.1)] text-[#13eca4]">
+          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[rgba(45,212,191,0.1)] text-(--primary-green)">
             <span className="material-symbols-outlined">rocket_launch</span>
           </div>
           <div>
             <h2 className="text-(--text-base) text-lg font-bold tracking-tight leading-tight">
               Course Creator
             </h2>
-            <p className="text-[#13eca4] text-xs font-medium uppercase tracking-widest">
+            <p className="text-(--primary-green) text-xs font-medium uppercase tracking-widest">
               Student Preview Mode
             </p>
           </div>
@@ -95,7 +95,7 @@ function CourseCreatorPreview() {
             <a
               key={item.label}
               href={item.href}
-              className="text-slate-400 hover:text-[#13eca4] text-sm font-medium transition-colors"
+              className="text-(--text-muted) hover:text-(--primary-green) text-sm font-medium transition-colors"
             >
               {item.label}
             </a>
@@ -103,14 +103,14 @@ function CourseCreatorPreview() {
         </nav>
         <div className="flex items-center gap-4">
           <div className="flex flex-col items-end mr-2">
-            <span className="text-slate-500 text-[10px] uppercase font-bold tracking-tighter">
+            <span className="text-(--text-faint) text-[10px] uppercase font-bold tracking-tighter">
               Previewing as
             </span>
             <span className="text-(--text-base) text-xs font-semibold">Demo Student</span>
           </div>
           <Link
             href={`/dashboard/courses/create/step4?courseId=${courseId}`}
-            className="flex items-center gap-2 rounded-lg bg-[#13eca4] px-4 py-2 text-[#10221c] text-sm font-bold hover:opacity-90 transition-all"
+            className="flex items-center gap-2 rounded-lg bg-(--primary-green) px-4 py-2 text-[#10221c] text-sm font-bold hover:opacity-90 transition-all"
           >
             <span className="material-symbols-outlined text-sm">exit_to_app</span>
             Exit Preview
@@ -120,23 +120,23 @@ function CourseCreatorPreview() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-80 flex flex-col border-r border-[rgba(19,236,164,0.08)] bg-[rgba(16,34,28,0.5)] overflow-y-auto shrink-0">
+        <aside className="w-80 flex flex-col border-r border-[rgba(45,212,191,0.08)] bg-[rgba(16,34,28,0.5)] overflow-y-auto shrink-0">
           <div className="p-6">
             {/* Progress */}
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <span className="text-xs font-bold text-(--text-muted) uppercase tracking-widest">
                   Progress
                 </span>
-                <span className="text-xs font-bold text-[#13eca4]">{progressPct}%</span>
+                <span className="text-xs font-bold text-(--primary-green)">{progressPct}%</span>
               </div>
               <div className="h-2 w-full rounded-full bg-(--input-bg)">
                 <div
-                  className="h-full rounded-full bg-[#13eca4] shadow-[0_0_10px_rgba(19,236,164,0.4)]"
+                  className="h-full rounded-full bg-(--primary-green) shadow-[0_0_10px_rgba(45,212,191,0.4)]"
                   style={{ width: `${progressPct}%` }}
                 />
               </div>
-              <p className="mt-2 text-[10px] text-slate-500 font-medium">
+              <p className="mt-2 text-[10px] text-(--text-faint) font-medium">
                 {completedCount} of {totalCount} steps completed
               </p>
             </div>
@@ -144,7 +144,7 @@ function CourseCreatorPreview() {
             {/* Module 1 */}
             <div className="space-y-6">
               <div>
-                <h3 className="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-3">
+                <h3 className="text-(--text-faint) text-[11px] font-bold uppercase tracking-widest mb-3">
                   {module1Lessons.length > 0 ? "Module 1: Foundations" : "No Lessons Yet"}
                 </h3>
                 <div className="space-y-1">
@@ -159,10 +159,10 @@ function CourseCreatorPreview() {
                         disabled={isLocked}
                         className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                           isActive
-                            ? "bg-[rgba(19,236,164,0.1)] text-[#13eca4]"
+                            ? "bg-[rgba(45,212,191,0.1)] text-(--primary-green)"
                             : isLocked
-                              ? "text-slate-600 cursor-not-allowed opacity-50"
-                              : "text-slate-400 hover:bg-[rgba(19,236,164,0.05)]"
+                              ? "text-(--text-faint) cursor-not-allowed opacity-50"
+                              : "text-(--text-muted) hover:bg-[rgba(45,212,191,0.05)]"
                         }`}
                       >
                         <span className="material-symbols-outlined text-lg">
@@ -181,7 +181,7 @@ function CourseCreatorPreview() {
                     );
                   })}
                   {module1Lessons.length === 0 && (
-                    <p className="text-slate-600 text-xs italic px-3">
+                    <p className="text-(--text-faint) text-xs italic px-3">
                       No lessons have been added yet.
                     </p>
                   )}
@@ -191,7 +191,7 @@ function CourseCreatorPreview() {
               {/* Module 2 */}
               {module2Lessons.length > 0 && (
                 <div>
-                  <h3 className="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-3">
+                  <h3 className="text-(--text-faint) text-[11px] font-bold uppercase tracking-widest mb-3">
                     Module 2: Advanced
                   </h3>
                   <div className="space-y-1 opacity-50">
@@ -202,7 +202,7 @@ function CourseCreatorPreview() {
                           key={lesson.id}
                           disabled={globalIdx > activeLessonIdx + 1}
                           onClick={() => setActiveLessonIdx(globalIdx)}
-                          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 cursor-not-allowed text-sm"
+                          className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-(--text-faint) cursor-not-allowed text-sm"
                         >
                           <span className="material-symbols-outlined text-lg">lock</span>
                           <span className="font-medium">
@@ -218,13 +218,13 @@ function CourseCreatorPreview() {
           </div>
 
           {/* Support Card */}
-          <div className="mt-auto p-6 border-t border-[rgba(19,236,164,0.08)]">
-            <div className="bg-[rgba(19,236,164,0.05)] rounded-xl p-4 border border-[rgba(19,236,164,0.1)]">
-              <div className="flex items-center gap-2 text-[#13eca4] mb-2">
+          <div className="mt-auto p-6 border-t border-[rgba(45,212,191,0.08)]">
+            <div className="bg-[rgba(45,212,191,0.05)] rounded-xl p-4 border border-[rgba(45,212,191,0.1)]">
+              <div className="flex items-center gap-2 text-(--primary-green) mb-2">
                 <span className="material-symbols-outlined text-sm">help</span>
                 <span className="text-xs font-bold uppercase tracking-wider">Student Support</span>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <p className="text-xs text-(--text-muted) leading-relaxed">
                 Questions? Contact your facilitator or check the knowledge base.
               </p>
             </div>
@@ -235,12 +235,12 @@ function CourseCreatorPreview() {
         <main className="flex-1 overflow-y-auto bg-(--bg-page) p-8 md:p-12">
           <div className="max-w-4xl mx-auto">
             {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-[rgba(19,236,164,0.5)] mb-4">
+            <div className="flex items-center gap-2 text-[rgba(45,212,191,0.5)] mb-4">
               <span className="text-xs font-bold uppercase tracking-widest">
                 {course?.title || "Course"}
               </span>
               <span className="material-symbols-outlined text-xs">chevron_right</span>
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
+              <span className="text-xs font-bold uppercase tracking-widest text-(--text-faint)">
                 Module {activeLessonIdx < moduleSize ? "1" : "2"}
               </span>
             </div>
@@ -255,7 +255,7 @@ function CourseCreatorPreview() {
                 {activeLesson.blocks.map((block: LessonBlock, idx: number) => {
                   if (block.type === "text") {
                     return (
-                      <p key={idx} className="text-lg text-slate-400 leading-relaxed">
+                      <p key={idx} className="text-lg text-(--text-muted) leading-relaxed">
                         {block.content}
                       </p>
                     );
@@ -264,7 +264,7 @@ function CourseCreatorPreview() {
                     return (
                       <div
                         key={idx}
-                        className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)] h-75"
+                        className="relative rounded-2xl overflow-hidden border border-[rgba(45,212,191,0.15)] bg-[rgba(255,255,255,0.02)] h-75"
                       >
                         {block.url ? (
                           <Image
@@ -274,8 +274,8 @@ function CourseCreatorPreview() {
                             className="object-cover"
                           />
                         ) : (
-                          <div className="w-full h-75 bg-linear-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
-                            <span className="material-symbols-outlined text-slate-600 text-8xl">
+                          <div className="w-full h-75 bg-linear-to-br from-[rgba(45,212,191,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                            <span className="material-symbols-outlined text-(--text-faint) text-8xl">
                               image
                             </span>
                           </div>
@@ -292,10 +292,10 @@ function CourseCreatorPreview() {
                     return (
                       <div
                         key={idx}
-                        className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)]"
+                        className="relative rounded-2xl overflow-hidden border border-[rgba(45,212,191,0.15)] bg-[rgba(255,255,255,0.02)]"
                       >
-                        <div className="w-full h-75 bg-linear-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
-                          <span className="material-symbols-outlined text-slate-600 text-8xl">
+                        <div className="w-full h-75 bg-linear-to-br from-[rgba(45,212,191,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                          <span className="material-symbols-outlined text-(--text-faint) text-8xl">
                             play_circle
                           </span>
                         </div>
@@ -312,15 +312,15 @@ function CourseCreatorPreview() {
                     return (
                       <div
                         key={idx}
-                        className="bg-[rgba(19,236,164,0.04)] border border-[rgba(19,236,164,0.15)] rounded-2xl p-8"
+                        className="bg-[rgba(45,212,191,0.04)] border border-[rgba(45,212,191,0.15)] rounded-2xl p-8"
                       >
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="w-10 h-10 rounded-xl bg-[#13eca4] flex items-center justify-center text-[#10221c]">
+                          <div className="w-10 h-10 rounded-xl bg-(--primary-green) flex items-center justify-center text-[#10221c]">
                             <span className="material-symbols-outlined">task_alt</span>
                           </div>
                           <h3 className="text-xl font-bold text-(--text-base)">{taskData.title}</h3>
                         </div>
-                        <p className="text-sm text-slate-400 mb-4">{taskData.instructions}</p>
+                        <p className="text-sm text-(--text-muted) mb-4">{taskData.instructions}</p>
                       </div>
                     );
                   }
@@ -329,13 +329,13 @@ function CourseCreatorPreview() {
               </div>
             ) : (
               <>
-                <p className="text-lg text-slate-400 leading-relaxed mb-8">
+                <p className="text-lg text-(--text-muted) leading-relaxed mb-8">
                   {course?.description ||
                     "No content has been added to this lesson yet. Go back to the editor to add content blocks."}
                 </p>
 
                 {/* Placeholder Image */}
-                <div className="relative rounded-2xl overflow-hidden border border-[rgba(19,236,164,0.15)] bg-[rgba(255,255,255,0.02)] mb-10 group h-75">
+                <div className="relative rounded-2xl overflow-hidden border border-[rgba(45,212,191,0.15)] bg-[rgba(255,255,255,0.02)] mb-10 group h-75">
                   {course?.coverImageUrl ? (
                     <Image
                       src={course.coverImageUrl}
@@ -344,8 +344,8 @@ function CourseCreatorPreview() {
                       className="object-cover"
                     />
                   ) : (
-                    <div className="w-full h-75 bg-linear-to-br from-[rgba(19,236,164,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
-                      <span className="material-symbols-outlined text-slate-600 text-8xl">
+                    <div className="w-full h-75 bg-linear-to-br from-[rgba(45,212,191,0.08)] to-[rgba(59,130,246,0.06)] flex items-center justify-center">
+                      <span className="material-symbols-outlined text-(--text-faint) text-8xl">
                         precision_manufacturing
                       </span>
                     </div>
@@ -353,14 +353,14 @@ function CourseCreatorPreview() {
                   <div className="absolute inset-0 bg-linear-to-t from-[rgba(16,34,28,0.8)] to-transparent" />
                   <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                     <div>
-                      <span className="bg-[rgba(19,236,164,0.2)] text-[#13eca4] text-[10px] font-bold uppercase px-2 py-1 rounded mb-2 inline-block">
+                      <span className="bg-[rgba(45,212,191,0.2)] text-(--primary-green) text-[10px] font-bold uppercase px-2 py-1 rounded mb-2 inline-block">
                         {course?.category || "STEM"}
                       </span>
                       <h4 className="text-(--text-base) font-bold text-lg">
                         {course?.title || "Course Preview"}
                       </h4>
                     </div>
-                    <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.1)] backdrop-blur-md flex items-center justify-center text-(--text-base) hover:bg-[#13eca4] hover:text-[#10221c] transition-colors">
+                    <button className="w-10 h-10 rounded-full bg-[rgba(255,255,255,0.1)] backdrop-blur-md flex items-center justify-center text-(--text-base) hover:bg-(--primary-green) hover:text-[#10221c] transition-colors">
                       <span className="material-symbols-outlined">zoom_in</span>
                     </button>
                   </div>
@@ -369,45 +369,45 @@ function CourseCreatorPreview() {
             )}
 
             {/* Student Reflection */}
-            <div className="bg-[rgba(19,236,164,0.04)] border border-[rgba(19,236,164,0.15)] rounded-2xl p-8 mb-12">
+            <div className="bg-[rgba(45,212,191,0.04)] border border-[rgba(45,212,191,0.15)] rounded-2xl p-8 mb-12">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-[#13eca4] flex items-center justify-center text-[#10221c]">
+                <div className="w-10 h-10 rounded-xl bg-(--primary-green) flex items-center justify-center text-[#10221c]">
                   <span className="material-symbols-outlined">edit_note</span>
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-(--text-base)">Student Reflection</h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-(--text-muted)">
                     Share your thoughts to unlock the next step
                   </p>
                 </div>
               </div>
               <label className="block mb-4">
-                <span className="text-sm font-medium text-slate-300 block mb-2">
+                <span className="text-sm font-medium text-(--text-base) block mb-2">
                   What did you learn from this lesson? How would you apply this knowledge?
                 </span>
                 <textarea
                   value={reflection}
                   onChange={(e) => setReflection(e.target.value)}
                   placeholder="Type your answer here..."
-                  className="w-full rounded-xl bg-(--bg-page) border border-(--border-subtle) text-slate-200 placeholder:text-(--text-faint) focus:border-[#13eca4] focus:ring-1 focus:ring-[#13eca4] h-32 p-4 outline-none transition-all resize-none"
+                  className="w-full rounded-xl bg-(--bg-page) border border-(--border-subtle) text-(--text-base) placeholder:text-(--text-faint) focus:border-(--primary-green) focus:ring-1 focus:ring-(--primary-green) h-32 p-4 outline-none transition-all resize-none"
                 />
               </label>
               <div className="flex justify-between items-center">
-                <span className="text-[10px] text-slate-500 font-medium italic">
+                <span className="text-[10px] text-(--text-faint) font-medium italic">
                   Your response will be shared with your instructor.
                 </span>
-                <button className="bg-[rgba(19,236,164,0.1)] text-[#13eca4] hover:bg-[#13eca4] hover:text-[#10221c] px-6 py-2 rounded-lg font-bold text-sm transition-all border border-[rgba(19,236,164,0.3)]">
+                <button className="bg-[rgba(45,212,191,0.1)] text-(--primary-green) hover:bg-(--primary-green) hover:text-[#10221c] px-6 py-2 rounded-lg font-bold text-sm transition-all border border-[rgba(45,212,191,0.3)]">
                   Save Reflection
                 </button>
               </div>
             </div>
 
             {/* Navigation */}
-            <div className="flex items-center justify-between pt-8 border-t border-[rgba(19,236,164,0.08)] mb-20">
+            <div className="flex items-center justify-between pt-8 border-t border-[rgba(45,212,191,0.08)] mb-20">
               <button
                 onClick={() => setActiveLessonIdx((prev) => Math.max(0, prev - 1))}
                 disabled={activeLessonIdx === 0}
-                className="flex items-center gap-2 text-slate-400 hover:text-(--text-base) font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 text-(--text-muted) hover:text-(--text-base) font-bold transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <span className="material-symbols-outlined">arrow_back</span>
                 Previous Step
@@ -417,7 +417,7 @@ function CourseCreatorPreview() {
                   setActiveLessonIdx((prev) => Math.min((lessons?.length || 1) - 1, prev + 1))
                 }
                 disabled={activeLessonIdx >= (lessons?.length || 1) - 1}
-                className="flex items-center gap-2 bg-[#13eca4] px-8 py-3 rounded-xl text-[#10221c] font-black tracking-wide shadow-[0_0_20px_rgba(19,236,164,0.25)] hover:shadow-[0_0_30px_rgba(19,236,164,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 bg-(--primary-green) px-8 py-3 rounded-xl text-[#10221c] font-black tracking-wide shadow-[0_0_20px_rgba(45,212,191,0.25)] hover:shadow-[0_0_30px_rgba(45,212,191,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Complete &amp; Continue
                 <span className="material-symbols-outlined">arrow_forward</span>
@@ -434,7 +434,7 @@ function CourseCreatorPreview() {
             <span className="material-symbols-outlined text-sm">visibility_off</span>
             <span className="text-[10px] font-bold uppercase tracking-widest">Hidden Elements</span>
           </div>
-          <p className="text-[11px] text-slate-400 leading-relaxed italic">
+          <p className="text-[11px] text-(--text-muted) leading-relaxed italic">
             &quot;Facilitation Notes&quot; are hidden in preview mode to provide an authentic
             student experience.
           </p>

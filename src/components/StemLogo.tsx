@@ -26,7 +26,7 @@ export default function StemLogo({ size = "md", href = "/" }: StemLogoProps) {
 
   if (href) {
     return (
-      <Link href={href} className="outline-none focus:ring-2 focus:ring-[#13eca4] rounded-lg inline-flex">
+      <Link href={href} className="outline-none focus:ring-2 focus:ring-(--primary-green) rounded-lg inline-flex">
         {content}
       </Link>
     );

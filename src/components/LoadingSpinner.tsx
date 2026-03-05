@@ -20,7 +20,7 @@ export default function LoadingSpinner({
   const spinner = (
     <div className="flex flex-col items-center gap-4">
       <div
-        className={`${sizeMap[size]} border-(--border-medium) border-t-[#13eca4] rounded-full animate-spin`}
+        className={`${sizeMap[size]} border-(--border-medium) border-t-(--primary-green) rounded-full animate-spin`}
       />
       {message && <p className="text-(--text-muted) text-sm font-medium">{message}</p>}
     </div>

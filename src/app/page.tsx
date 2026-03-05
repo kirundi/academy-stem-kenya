@@ -33,7 +33,7 @@ function CtaSection() {
 
   return (
     <section id="about" className="py-24 px-6 relative overflow-hidden">
-      <div className="mx-auto max-w-5xl rounded-3xl bg-[#0d6b5e] px-8 py-16 lg:px-20 relative overflow-hidden">
+      <div className="mx-auto max-w-5xl rounded-3xl bg-(--primary-green) px-8 py-16 lg:px-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -77,7 +77,7 @@ function CtaSection() {
                     </label>
                     <input
                       required
-                      className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
+                      className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-(--primary-green)"
                       placeholder="Jane"
                       type="text"
                       value={form.firstName}
@@ -87,7 +87,7 @@ function CtaSection() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold uppercase text-gray-500">Last Name</label>
                     <input
-                      className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
+                      className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-(--primary-green)"
                       placeholder="Doe"
                       type="text"
                       value={form.lastName}
@@ -99,7 +99,7 @@ function CtaSection() {
                   <label className="text-xs font-bold uppercase text-gray-500">Work Email *</label>
                   <input
                     required
-                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
+                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-(--primary-green)"
                     placeholder="jane@school.edu"
                     type="email"
                     value={form.email}
@@ -112,7 +112,7 @@ function CtaSection() {
                   </label>
                   <input
                     required
-                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
+                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-(--primary-green)"
                     placeholder="West Valley Academy"
                     type="text"
                     value={form.schoolName}
@@ -122,7 +122,7 @@ function CtaSection() {
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase text-gray-500">Role</label>
                   <select
-                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
+                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-(--primary-green)"
                     value={form.role}
                     onChange={(e) => setForm((p) => ({ ...p, role: e.target.value }))}
                   >
@@ -134,7 +134,7 @@ function CtaSection() {
                 </div>
                 <button
                   type="submit"
-                  className="mt-4 w-full rounded-lg bg-white py-4 font-bold text-[#0d6b5e] shadow-lg hover:bg-gray-50 transition-all text-center block border border-white/20"
+                  className="mt-4 w-full rounded-lg bg-white py-4 font-bold text-(--primary-green) shadow-lg hover:bg-gray-50 transition-all text-center block border border-white/20"
                 >
                   Register Your School
                 </button>
@@ -165,15 +165,15 @@ export default function HomePage() {
                 {/* Left — Hero Text */}
                 <div className="flex flex-col gap-6">
                   {/* Tagline badge with dot */}
-                  <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#0d6b5e] w-fit">
-                    <span className="w-2 h-2 rounded-full bg-[#0d6b5e]" />
+                  <div className="inline-flex items-center gap-2 text-sm font-semibold text-(--primary-green) w-fit">
+                    <span className="w-2 h-2 rounded-full bg-(--primary-green)" />
                     E-Learning Platform
                   </div>
 
                   {/* Main headline */}
                   <h1 className="text-5xl font-black leading-[1.1] tracking-tight lg:text-6xl text-(--text-base)">
                     Master the Skills to{" "}
-                    <span className="text-[#e8542f] italic">Drive Your Future</span>
+                    <span className="text-(--accent) italic">Drive Your Future</span>
                   </h1>
 
                   {/* Description */}
@@ -187,14 +187,14 @@ export default function HomePage() {
                   <div className="flex flex-wrap items-center gap-5 mt-2">
                     <Link
                       href="/login"
-                      className="rounded-full bg-[#0d6b5e] px-8 py-4 text-base font-bold text-white shadow-lg shadow-[rgba(13,107,94,0.25)] hover:bg-[#0a5a4f] hover:scale-[1.02] transition-all"
+                      className="rounded-full bg-(--primary-green) px-8 py-4 text-base font-bold text-white shadow-lg shadow-[rgba(45,212,191,0.25)] hover:bg-(--primary-green-dark) hover:scale-[1.02] transition-all"
                     >
                       Get Started Free
                     </Link>
 
                     {/* Play button + label */}
                     <button className="flex items-center gap-3 group">
-                      <span className="w-14 h-14 rounded-full bg-[#e8542f] flex items-center justify-center text-white shadow-lg shadow-[rgba(232,84,47,0.3)] group-hover:scale-110 transition-transform">
+                      <span className="w-14 h-14 rounded-full bg-(--accent) flex items-center justify-center text-white shadow-lg shadow-[rgba(251,146,60,0.3)] group-hover:scale-110 transition-transform">
                         <span className="material-symbols-outlined text-2xl">play_arrow</span>
                       </span>
                       <span className="text-sm font-semibold text-(--text-muted) group-hover:text-(--text-base) transition-colors">
@@ -207,9 +207,9 @@ export default function HomePage() {
                 {/* Right — Hero Visual */}
                 <div className="relative flex items-center justify-center min-h-[400px]">
                   {/* Small floating teal dots */}
-                  <div className="absolute top-4 left-8 w-3 h-3 rounded-full bg-[#0d6b5e] opacity-40 animate-float" />
-                  <div className="absolute top-24 right-12 w-2 h-2 rounded-full bg-[#0d6b5e] opacity-30 animate-float-reverse" />
-                  <div className="absolute bottom-16 right-8 w-4 h-4 rounded-full bg-[#e8542f] opacity-30 animate-float-slow" />
+                  <div className="absolute top-4 left-8 w-3 h-3 rounded-full bg-(--primary-green) opacity-40 animate-float" />
+                  <div className="absolute top-24 right-12 w-2 h-2 rounded-full bg-(--primary-green) opacity-30 animate-float-reverse" />
+                  <div className="absolute bottom-16 right-8 w-4 h-4 rounded-full bg-(--accent) opacity-30 animate-float-slow" />
 
                   {/* Student hero image */}
                   <div className="relative z-10 w-full max-w-md">
@@ -228,26 +228,26 @@ export default function HomePage() {
                   {/* Floating badge card — top right */}
                   <div className="absolute -top-4 -right-4 z-20 rounded-2xl bg-(--bg-card) border border-(--border) p-4 shadow-lg animate-float-slow max-w-[180px]">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="w-8 h-8 rounded-full bg-[#0d6b5e] flex items-center justify-center">
+                      <span className="w-8 h-8 rounded-full bg-(--primary-green) flex items-center justify-center">
                         <span className="material-symbols-outlined text-white text-sm">workspace_premium</span>
                       </span>
                       <div className="text-xs font-bold text-(--text-base)">Top Rated</div>
                     </div>
                     <div className="flex gap-0.5">
                       {[1,2,3,4,5].map(i => (
-                        <span key={i} className="material-symbols-outlined text-sm text-[#e8542f]">star</span>
+                        <span key={i} className="material-symbols-outlined text-sm text-(--accent)">star</span>
                       ))}
                     </div>
                     <div className="text-[10px] text-(--text-muted) mt-1">by 500+ schools</div>
                   </div>
 
                   {/* Floating icon — bottom left */}
-                  <div className="absolute -bottom-6 -left-6 z-20 w-16 h-16 rounded-xl bg-[#e8542f] flex items-center justify-center shadow-lg animate-float-reverse">
+                  <div className="absolute -bottom-6 -left-6 z-20 w-16 h-16 rounded-xl bg-(--accent) flex items-center justify-center shadow-lg animate-float-reverse">
                     <span className="material-symbols-outlined text-2xl text-white">trending_up</span>
                   </div>
 
                   {/* Floating checkmark — mid left */}
-                  <div className="absolute top-1/3 -left-8 z-20 w-12 h-12 rounded-full bg-[#0d6b5e] flex items-center justify-center shadow-lg animate-float">
+                  <div className="absolute top-1/3 -left-8 z-20 w-12 h-12 rounded-full bg-(--primary-green) flex items-center justify-center shadow-lg animate-float">
                     <span className="material-symbols-outlined text-xl text-white">check</span>
                   </div>
                 </div>
@@ -270,21 +270,21 @@ export default function HomePage() {
               {[
                 {
                   icon: "school",
-                  borderColor: "#0d6b5e",
+                  borderColor: "var(--primary-green)",
                   num: "1",
                   title: "School Onboarding",
                   desc: "Administrators set up the academy dashboard, manage licenses, and define school-wide impact goals.",
                 },
                 {
                   icon: "co_present",
-                  borderColor: "#e8542f",
+                  borderColor: "var(--accent)",
                   num: "2",
                   title: "Teacher Setup",
                   desc: "Teachers organize classrooms, sync student rosters, and assign curriculum-aligned projects in minutes.",
                 },
                 {
                   icon: "rocket_launch",
-                  borderColor: "#0d6b5e",
+                  borderColor: "var(--primary-green)",
                   num: "3",
                   title: "Student Learning",
                   desc: "Students dive into hands-on project guides, building real-world solutions and earning verified badges.",
@@ -343,7 +343,7 @@ export default function HomePage() {
                 {/* Main content */}
                 <div className="flex-1 p-8 lg:p-12 border-r border-(--border)">
                   <div className="mb-8">
-                    <div className="inline-block px-3 py-1 bg-[rgba(232,84,47,0.15)] text-[#e8542f] text-[10px] font-black uppercase tracking-widest rounded mb-4">
+                    <div className="inline-block px-3 py-1 bg-[rgba(251,146,60,0.15)] text-(--accent) text-[10px] font-black uppercase tracking-widest rounded mb-4">
                       Step 03: Response Logic
                     </div>
                     <h4 className="text-3xl font-bold text-(--text-base) mb-6">
@@ -416,7 +416,7 @@ export default function HomePage() {
                   <p className="text-(--text-muted) leading-relaxed mb-6">
                     Create a function that reads the user&apos;s message and returns a matching
                     reply. Use{" "}
-                    <code className="text-[#0d6b5e] bg-[rgba(13,107,94,0.1)] px-1.5 py-0.5 rounded text-xs">
+                    <code className="text-(--primary-green) bg-[rgba(45,212,191,0.1)] px-1.5 py-0.5 rounded text-xs">
                       includes()
                     </code>{" "}
                     to check for keywords and build branching logic that gives your chatbot
@@ -426,7 +426,7 @@ export default function HomePage() {
                     <button className="px-6 py-2 bg-(--bg-elevated) text-(--text-base) font-bold rounded-lg text-sm hover:brightness-110 transition-all">
                       Previous Step
                     </button>
-                    <button className="px-6 py-2 bg-[#0d6b5e] text-white font-bold rounded-lg text-sm hover:bg-[#0a5a4f] transition-all">
+                    <button className="px-6 py-2 bg-(--primary-green) text-white font-bold rounded-lg text-sm hover:bg-(--primary-green-dark) transition-all">
                       Mark as Complete
                     </button>
                   </div>
@@ -442,7 +442,7 @@ export default function HomePage() {
                       { num: "02", label: "HTML Chat UI" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3 opacity-50">
-                        <span className="material-symbols-outlined text-[#0d6b5e] text-sm">
+                        <span className="material-symbols-outlined text-(--primary-green) text-sm">
                           check_circle
                         </span>
                         <div className="text-xs text-(--text-muted)">
@@ -451,7 +451,7 @@ export default function HomePage() {
                       </div>
                     ))}
                     <div className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full border border-[#e8542f] flex items-center justify-center text-[10px] text-[#e8542f] font-bold shrink-0">
+                      <span className="w-5 h-5 rounded-full border border-(--accent) flex items-center justify-center text-[10px] text-(--accent) font-bold shrink-0">
                         03
                       </span>
                       <div className="text-xs text-(--text-base) font-bold">Response Logic</div>
@@ -470,7 +470,7 @@ export default function HomePage() {
                     ))}
                     <div className="pt-6 border-t border-(--border) mt-6">
                       <div className="p-4 rounded-lg bg-(--bg-card) border border-(--border) text-center">
-                        <div className="text-[10px] font-black uppercase text-[#0d6b5e] mb-2">
+                        <div className="text-[10px] font-black uppercase text-(--primary-green) mb-2">
                           Next Badge
                         </div>
                         <div className="text-xs font-bold text-(--text-base)">JS Developer I</div>
@@ -490,7 +490,7 @@ export default function HomePage() {
               {/* Left — animated sync visual */}
               <div className="order-2 lg:order-1 relative">
                 <div className="relative bg-(--bg-page) rounded-3xl p-8 border border-(--border) shadow-2xl overflow-hidden">
-                  <div className="absolute inset-0 bg-[rgba(13,107,94,0.05)]" />
+                  <div className="absolute inset-0 bg-[rgba(45,212,191,0.05)]" />
                   <div className="relative z-10 flex flex-col items-center">
                     <div className="flex items-center gap-12 mb-12">
                       <div className="w-20 h-20 rounded-2xl bg-white p-3 shadow-xl flex items-center justify-center">
@@ -500,15 +500,15 @@ export default function HomePage() {
                       </div>
                       <div className="flex flex-col items-center">
                         <div className="w-12 h-0.5 bg-(--bg-elevated) relative">
-                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#0d6b5e] flex items-center justify-center shadow-lg shadow-[rgba(13,107,94,0.4)]">
+                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-(--primary-green) flex items-center justify-center shadow-lg shadow-[rgba(45,212,191,0.4)]">
                             <span className="material-symbols-outlined text-xs font-bold text-white">
                               sync
                             </span>
                           </div>
                         </div>
                       </div>
-                      <div className="w-20 h-20 rounded-2xl bg-(--bg-card) border border-[#0d6b5e] p-4 shadow-xl flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#0d6b5e] text-3xl">
+                      <div className="w-20 h-20 rounded-2xl bg-(--bg-card) border border-(--primary-green) p-4 shadow-xl flex items-center justify-center">
+                        <span className="material-symbols-outlined text-(--primary-green) text-3xl">
                           token
                         </span>
                       </div>
@@ -518,7 +518,7 @@ export default function HomePage() {
                       <div className="h-10 w-3/4 rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
                       <div className="h-10 w-full rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
                     </div>
-                    <button className="mt-8 px-8 py-3 bg-[#0d6b5e] text-white font-black rounded-xl shadow-lg shadow-[rgba(13,107,94,0.2)] hover:scale-105 transition-transform flex items-center gap-3">
+                    <button className="mt-8 px-8 py-3 bg-(--primary-green) text-white font-black rounded-xl shadow-lg shadow-[rgba(45,212,191,0.2)] hover:scale-105 transition-transform flex items-center gap-3">
                       <span className="material-symbols-outlined text-lg">touch_app</span>
                       One-click Sync
                     </button>
@@ -527,7 +527,7 @@ export default function HomePage() {
               </div>
               {/* Right — text */}
               <div className="order-1 lg:order-2 flex flex-col gap-6">
-                <div className="w-12 h-12 rounded-xl bg-[rgba(13,107,94,0.15)] flex items-center justify-center text-[#0d6b5e]">
+                <div className="w-12 h-12 rounded-xl bg-[rgba(45,212,191,0.15)] flex items-center justify-center text-(--primary-green)">
                   <span className="material-symbols-outlined">sync_alt</span>
                 </div>
                 <h2 className="text-4xl font-black text-(--text-base)">
@@ -544,7 +544,7 @@ export default function HomePage() {
                     "Direct Gradebook Export",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-3 text-(--text-base) font-bold">
-                      <span className="material-symbols-outlined text-[#0d6b5e]">
+                      <span className="material-symbols-outlined text-(--primary-green)">
                         verified_user
                       </span>
                       {item}
@@ -561,30 +561,30 @@ export default function HomePage() {
           <div className="mx-auto max-w-7xl">
             <div className="mb-12 flex flex-col items-center text-center">
               <h2 className="text-3xl font-bold text-(--text-base)">Recognized Achievement System</h2>
-              <div className="mt-4 h-1 w-20 bg-[#0d6b5e]" />
+              <div className="mt-4 h-1 w-20 bg-(--primary-green)" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
                   icon: "code_blocks",
-                  color: "#0d6b5e",
-                  hoverBorder: "hover:border-[rgba(13,107,94,0.5)]",
+                  color: "var(--primary-green)",
+                  hoverBorder: "hover:border-[rgba(45,212,191,0.5)]",
                   title: "Master Architect",
                   desc: "Advanced proficiency in computational thinking and structural logic.",
                   count: "12,403 Earned",
                 },
                 {
                   icon: "eco",
-                  color: "#e8542f",
-                  hoverBorder: "hover:border-[rgba(232,84,47,0.5)]",
+                  color: "var(--accent)",
+                  hoverBorder: "hover:border-[rgba(251,146,60,0.5)]",
                   title: "Green Innovator",
                   desc: "Demonstrated impact in sustainable engineering and environmental solutions.",
                   count: "8,912 Earned",
                 },
                 {
                   icon: "precision_manufacturing",
-                  color: "#0d6b5e",
-                  hoverBorder: "hover:border-[rgba(13,107,94,0.5)]",
+                  color: "var(--primary-green)",
+                  hoverBorder: "hover:border-[rgba(45,212,191,0.5)]",
                   title: "Robotics Lead",
                   desc: "Expertise in automated systems and mechanical design principles.",
                   count: "5,667 Earned",
@@ -667,7 +667,7 @@ export default function HomePage() {
                   <ul className="space-y-2 text-sm text-(--text-faint)">
                     {links.map((link) => (
                       <li key={link.label}>
-                        <Link href={link.href} className="hover:text-[#0d6b5e] transition-colors">
+                        <Link href={link.href} className="hover:text-(--primary-green) transition-colors">
                           {link.label}
                         </Link>
                       </li>
@@ -686,13 +686,13 @@ export default function HomePage() {
                 href="https://stemimpactcenterkenya.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-(--text-faint) hover:text-[#0d6b5e] transition-colors"
+                className="text-(--text-faint) hover:text-(--primary-green) transition-colors"
               >
                 <span className="material-symbols-outlined">public</span>
               </a>
               <Link
                 href="/contact"
-                className="text-(--text-faint) hover:text-[#0d6b5e] transition-colors"
+                className="text-(--text-faint) hover:text-(--primary-green) transition-colors"
               >
                 <span className="material-symbols-outlined">alternate_email</span>
               </Link>

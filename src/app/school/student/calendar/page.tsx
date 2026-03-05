@@ -78,7 +78,7 @@ export default function StudentCalendarPage() {
       <div className="flex h-screen bg-(--bg-page)">
         <StudentSidebar />
         <main className="ml-60 flex-1 overflow-y-auto flex items-center justify-center">
-          <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+          <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
             progress_activity
           </span>
         </main>
@@ -91,16 +91,16 @@ export default function StudentCalendarPage() {
       <StudentSidebar />
       <main className="ml-60 flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.1)] px-8 h-16 flex items-center justify-between">
+        <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(45,212,191,0.1)] px-8 h-16 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-(--text-base)">Calendar</h1>
-            <p className="text-slate-400 text-xs mt-0.5">Upcoming challenges and deadlines</p>
+            <p className="text-(--text-muted) text-xs mt-0.5">Upcoming challenges and deadlines</p>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(19,236,164,0.12)] border border-[rgba(19,236,164,0.2)]">
-            <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(45,212,191,0.12)] border border-[rgba(45,212,191,0.2)]">
+            <span className="material-symbols-outlined text-(--primary-green) text-[16px]">
               calendar_month
             </span>
-            <span className="text-[#13eca4] text-xs font-semibold">
+            <span className="text-(--primary-green) text-xs font-semibold">
               {upcoming.length + activeNow.length} events
             </span>
           </div>
@@ -143,8 +143,8 @@ export default function StudentCalendarPage() {
                             {c.scope}
                           </span>
                         </div>
-                        <p className="text-slate-400 text-xs mt-0.5">{c.theme}</p>
-                        <p className="text-slate-500 text-xs mt-1">
+                        <p className="text-(--text-muted) text-xs mt-0.5">{c.theme}</p>
+                        <p className="text-(--text-faint) text-xs mt-1">
                           {start ? formatDate(start) : "—"} → {end ? formatDate(end) : "—"}
                         </p>
                       </div>
@@ -167,11 +167,11 @@ export default function StudentCalendarPage() {
           {upcoming.length > 0 && (
             <section>
               <div className="flex items-center gap-3 mb-4">
-                <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+                <span className="material-symbols-outlined text-(--primary-green) text-[20px]">
                   event_upcoming
                 </span>
                 <h2 className="text-(--text-base) font-bold text-lg">Upcoming</h2>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(19,236,164,0.12)] text-[#13eca4] border border-[rgba(19,236,164,0.2)]">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[rgba(45,212,191,0.12)] text-(--primary-green) border border-[rgba(45,212,191,0.2)]">
                   {upcoming.length}
                 </span>
               </div>
@@ -185,10 +185,10 @@ export default function StudentCalendarPage() {
                   return (
                     <div
                       key={c.id}
-                      className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(19,236,164,0.2)] transition-colors"
+                      className="bg-(--bg-card) rounded-2xl border border-[rgba(45,212,191,0.08)] p-5 flex items-center gap-4 hover:border-[rgba(45,212,191,0.2)] transition-colors"
                     >
                       {/* Icon */}
-                      <div className="w-12 h-12 rounded-xl bg-[rgba(19,236,164,0.08)] flex items-center justify-center shrink-0 text-2xl">
+                      <div className="w-12 h-12 rounded-xl bg-[rgba(45,212,191,0.08)] flex items-center justify-center shrink-0 text-2xl">
                         {c.icon ?? "🏆"}
                       </div>
 
@@ -202,8 +202,8 @@ export default function StudentCalendarPage() {
                             {c.scope}
                           </span>
                         </div>
-                        <p className="text-slate-400 text-xs mt-0.5">{c.theme}</p>
-                        <p className="text-slate-500 text-xs mt-1">
+                        <p className="text-(--text-muted) text-xs mt-0.5">{c.theme}</p>
+                        <p className="text-(--text-faint) text-xs mt-1">
                           {start ? formatDate(start) : "—"} → {end ? formatDate(end) : "—"}
                         </p>
                       </div>
@@ -224,12 +224,12 @@ export default function StudentCalendarPage() {
 
           {/* Empty state */}
           {upcoming.length === 0 && activeNow.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)]">
-              <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">
+            <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(45,212,191,0.08)]">
+              <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-3">
                 calendar_month
               </span>
               <p className="text-(--text-base) font-semibold mb-1">No upcoming events</p>
-              <p className="text-slate-400 text-sm">
+              <p className="text-(--text-muted) text-sm">
                 New challenges and events will appear here when available.
               </p>
             </div>

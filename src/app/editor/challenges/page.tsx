@@ -72,7 +72,7 @@ export default function EditorChallengesPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(236,72,153,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Challenges</h1>
-          <p className="text-slate-400 text-xs mt-0.5">{challenges.length} total · {activeChallenges.length} active now</p>
+          <p className="text-(--text-muted) text-xs mt-0.5">{challenges.length} total · {activeChallenges.length} active now</p>
         </div>
         <a
           href="/editor/challenges/new"
@@ -98,7 +98,7 @@ export default function EditorChallengesPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -107,12 +107,12 @@ export default function EditorChallengesPage() {
         {/* Filter + search */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1 max-w-sm">
-            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[18px]">search</span>
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-faint) text-[18px]">search</span>
             <input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by title or theme…"
-              className="w-full bg-(--bg-card) border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
+              className="w-full bg-(--bg-card) border border-(--border-subtle) rounded-xl pl-9 pr-4 py-2.5 text-(--text-base) text-sm placeholder:text-(--text-faint) focus:outline-none focus:border-[rgba(236,72,153,0.4)]"
             />
           </div>
           <div className="flex gap-2">
@@ -137,9 +137,9 @@ export default function EditorChallengesPage() {
         <div className="space-y-3">
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 bg-(--bg-card) rounded-2xl border border-[rgba(236,72,153,0.08)]">
-              <span className="material-symbols-outlined text-[56px] text-slate-600 mb-3">emoji_events</span>
+              <span className="material-symbols-outlined text-[56px] text-(--text-faint) mb-3">emoji_events</span>
               <p className="text-(--text-base) font-semibold mb-1">No challenges found</p>
-              <p className="text-slate-400 text-sm">
+              <p className="text-(--text-muted) text-sm">
                 {searchQuery || filterScope !== "all" ? "Try adjusting your filters." : "No challenges have been created yet."}
               </p>
             </div>
@@ -167,8 +167,8 @@ export default function EditorChallengesPage() {
                         {challenge.scope}
                       </span>
                     </div>
-                    <p className="text-slate-400 text-xs mt-0.5 line-clamp-1">{challenge.description}</p>
-                    <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
+                    <p className="text-(--text-muted) text-xs mt-0.5 line-clamp-1">{challenge.description}</p>
+                    <div className="flex items-center gap-3 mt-1.5 text-xs text-(--text-faint)">
                       <span>{challenge.theme}</span>
                       <span>·</span>
                       <span>{formatDate(challenge.startsAt)} → {formatDate(challenge.endsAt)}</span>

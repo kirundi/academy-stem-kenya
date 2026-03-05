@@ -8,14 +8,16 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useDocument, useCollection, useCreateDoc } from "@/hooks/useFirestore";
 import { where, orderBy } from "firebase/firestore";
 import { logActivity } from "@/lib/activity-logger";
+import FileUploadButton from "@/components/FileUploadButton";
+import { formatFileSize, getFileIcon, FILE_TYPE_LABELS } from "@/lib/file-validation";
 import type { Course, Lesson } from "@/lib/types";
 
 const typeColors: Record<string, string> = {
   Video: "#3b82f6",
   Reading: "#8b5cf6",
-  "Hands-on": "#13eca4",
+  "Hands-on": "#2dd4bf",
   Project: "#f59e0b",
-  Quiz: "#ff4d4d",
+  Quiz: "var(--accent-red)",
   Reflection: "#ec4899",
   Submit: "#f59e0b",
 };
@@ -54,6 +56,7 @@ export default function LessonPage() {
   const [hoverStar, setHoverStar] = useState(0);
   const [submissionNotes, setSubmissionNotes] = useState("");
   const [submissionFileUrl, setSubmissionFileUrl] = useState("");
+  const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
   const [taskAnswer, setTaskAnswer] = useState("");
   const [reflectionAnswers, setReflectionAnswers] = useState<string[]>(["", "", ""]);
 
@@ -112,7 +115,7 @@ export default function LessonPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -126,7 +129,7 @@ export default function LessonPage() {
         <p className="text-(--text-muted) text-sm">No lessons found for this course.</p>
         <Link
           href="/school/student/dashboard"
-          className="text-[#13eca4] text-sm font-semibold hover:underline"
+          className="text-(--primary-green) text-sm font-semibold hover:underline"
         >
           Back to Courses
         </Link>
@@ -153,11 +156,11 @@ export default function LessonPage() {
         <div className="hidden md:flex items-center gap-2">
           <div className="h-2 w-32 bg-white/10 rounded-full overflow-hidden">
             <div
-              className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+              className="h-full bg-linear-to-r from-(--primary-green) to-(--primary-green-dark) rounded-full"
               style={{ width: `${(completedCount / steps.length) * 100}%` }}
             />
           </div>
-          <span className="text-[#13eca4] text-xs font-bold">
+          <span className="text-(--primary-green) text-xs font-bold">
             {completedCount}/{steps.length}
           </span>
         </div>
@@ -175,7 +178,7 @@ export default function LessonPage() {
             </p>
             <div className="h-1.5 bg-white/10 rounded-full overflow-hidden mt-2">
               <div
-                className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+                className="h-full bg-linear-to-r from-(--primary-green) to-(--primary-green-dark) rounded-full"
                 style={{ width: `${(completedCount / steps.length) * 100}%` }}
               />
             </div>
@@ -185,7 +188,7 @@ export default function LessonPage() {
           </div>
 
           {/* Pro Tip */}
-          <div className="mx-3 mt-3 p-3 bg-[rgba(19,236,164,0.05)] border border-(--border-subtle) rounded-xl">
+          <div className="mx-3 mt-3 p-3 bg-[rgba(45,212,191,0.05)] border border-(--border-subtle) rounded-xl">
             <div className="flex items-center gap-2 mb-1">
               <span className="material-symbols-outlined text-[16px] text-[#f59e0b]">
                 lightbulb
@@ -201,23 +204,23 @@ export default function LessonPage() {
           <nav className="flex-1 p-3 space-y-1 mt-1">
             {steps.map((step) => {
               const isCurrent = step.id === activeStep;
-              const color = typeColors[step.type] ?? "#13eca4";
+              const color = typeColors[step.type] ?? "#2dd4bf";
               return (
                 <div
                   key={step.id}
                   onClick={() => setActiveStep(step.id)}
                   className={`flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                     isCurrent
-                      ? "bg-[rgba(19,236,164,0.1)] border border-(--border-accent)"
+                      ? "bg-[rgba(45,212,191,0.1)] border border-(--border-accent)"
                       : "hover:bg-(--glass-bg)"
                   }`}
                 >
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
                       step.completed
-                        ? "bg-[#13eca4]"
+                        ? "bg-(--primary-green)"
                         : isCurrent
-                          ? "bg-[rgba(19,236,164,0.2)] border-2 border-[#13eca4]"
+                          ? "bg-[rgba(45,212,191,0.2)] border-2 border-(--primary-green)"
                           : "bg-white/10"
                     }`}
                   >
@@ -252,7 +255,7 @@ export default function LessonPage() {
 
           {/* Download Guide */}
           <div className="p-3">
-            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-(--border-accent) text-[#13eca4] text-xs font-semibold hover:bg-[rgba(19,236,164,0.06)] transition-colors">
+            <button className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border border-(--border-accent) text-(--primary-green) text-xs font-semibold hover:bg-[rgba(45,212,191,0.06)] transition-colors">
               <span className="material-symbols-outlined text-[16px]">download</span>
               Download Guide PDF
             </button>
@@ -267,7 +270,7 @@ export default function LessonPage() {
               <div className="flex items-start gap-3 mb-2 text-(--text-muted) text-sm">
                 <Link
                   href="/school/student/dashboard"
-                  className="hover:text-[#13eca4] transition-colors"
+                  className="hover:text-(--primary-green) transition-colors"
                 >
                   My Courses
                 </Link>
@@ -280,11 +283,11 @@ export default function LessonPage() {
               <div className="flex items-center gap-3 mb-6 mt-4">
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ background: `${typeColors[currentStep.type] ?? "#13eca4"}18` }}
+                  style={{ background: `${typeColors[currentStep.type] ?? "#2dd4bf"}18` }}
                 >
                   <span
                     className="material-symbols-outlined text-[22px]"
-                    style={{ color: typeColors[currentStep.type] ?? "#13eca4" }}
+                    style={{ color: typeColors[currentStep.type] ?? "#2dd4bf" }}
                   >
                     {typeIcons[currentStep.type] ?? "info"}
                   </span>
@@ -294,8 +297,8 @@ export default function LessonPage() {
                     <span
                       className="text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider"
                       style={{
-                        background: `${typeColors[currentStep.type] ?? "#13eca4"}18`,
-                        color: typeColors[currentStep.type] ?? "#13eca4",
+                        background: `${typeColors[currentStep.type] ?? "#2dd4bf"}18`,
+                        color: typeColors[currentStep.type] ?? "#2dd4bf",
                       }}
                     >
                       {currentStep.type}
@@ -341,9 +344,37 @@ export default function LessonPage() {
                                 <iframe src={block.url} className="w-full h-full" allowFullScreen />
                               </div>
                             )}
+                            {block.type === "document" && block.url && (
+                              <a
+                                href={block.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-4 p-4 bg-(--bg-card) border border-(--border-subtle) rounded-xl hover:border-(--primary-green) transition-colors group"
+                              >
+                                <div className="w-12 h-12 rounded-xl bg-[rgba(45,212,191,0.1)] flex items-center justify-center shrink-0">
+                                  <span className="material-symbols-outlined text-[24px] text-(--primary-green)">
+                                    {getFileIcon(block.fileType || "")}
+                                  </span>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-(--text-base) font-semibold text-sm truncate">
+                                    {block.content}
+                                  </p>
+                                  <p className="text-(--text-faint) text-xs mt-0.5">
+                                    {block.fileType
+                                      ? FILE_TYPE_LABELS[block.fileType] || "Document"
+                                      : "Document"}
+                                    {block.fileSize ? ` · ${formatFileSize(block.fileSize)}` : ""}
+                                  </p>
+                                </div>
+                                <span className="material-symbols-outlined text-(--text-faint) group-hover:text-(--primary-green) transition-colors">
+                                  download
+                                </span>
+                              </a>
+                            )}
                             {block.type === "task" && (
-                              <div className="bg-[rgba(19,236,164,0.06)] border border-(--border-medium) rounded-xl p-5">
-                                <h3 className="text-[#13eca4] font-bold flex items-center gap-2 mb-3">
+                              <div className="bg-[rgba(45,212,191,0.06)] border border-(--border-medium) rounded-xl p-5">
+                                <h3 className="text-(--primary-green) font-bold flex items-center gap-2 mb-3">
                                   <span className="material-symbols-outlined text-[20px]">
                                     task_alt
                                   </span>
@@ -359,10 +390,10 @@ export default function LessonPage() {
                       </div>
                     )}
                   </div>
-                  <div className="border-t border-(--border-subtle) p-6 bg-[rgba(19,236,164,0.03)]">
+                  <div className="border-t border-(--border-subtle) p-6 bg-[rgba(45,212,191,0.03)]">
                     <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-[22px] text-[#13eca4]">
+                      <div className="w-10 h-10 rounded-xl bg-[rgba(45,212,191,0.15)] flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-[22px] text-(--primary-green)">
                           task_alt
                         </span>
                       </div>
@@ -468,10 +499,10 @@ export default function LessonPage() {
               {/* ====== REVIEW & SUBMIT STEP ====== */}
               {currentStep.type === "Submit" && (
                 <div className="space-y-6 mb-8">
-                  <div className="bg-[rgba(19,236,164,0.04)] border border-(--border-medium) rounded-2xl p-6">
+                  <div className="bg-[rgba(45,212,191,0.04)] border border-(--border-medium) rounded-2xl p-6">
                     <div className="flex items-center gap-3 mb-4">
                       <span
-                        className="material-symbols-outlined text-[#13eca4] text-[24px]"
+                        className="material-symbols-outlined text-(--primary-green) text-[24px]"
                         style={{ fontVariationSettings: "'FILL' 1" }}
                       >
                         checklist
@@ -488,7 +519,7 @@ export default function LessonPage() {
                         <label key={i} className="flex items-center gap-3 cursor-pointer group">
                           <input
                             type="checkbox"
-                            className="w-5 h-5 rounded accent-[#13eca4] cursor-pointer"
+                            className="w-5 h-5 rounded accent-(--primary-green) cursor-pointer"
                           />
                           <span className="text-(--text-muted) text-sm group-hover:text-(--text-base) transition-colors">
                             {item}
@@ -520,18 +551,57 @@ export default function LessonPage() {
                       <label className="text-(--text-muted) text-xs font-semibold block mb-1.5 uppercase tracking-wide">
                         File / Link (optional)
                       </label>
-                      <input
-                        type="url"
-                        placeholder="https://drive.google.com/..."
-                        className="form-input"
-                        value={submissionFileUrl}
-                        onChange={(e) => setSubmissionFileUrl(e.target.value)}
-                      />
+                      {uploadedFileName ? (
+                        <div className="flex items-center gap-3 p-3 bg-(--input-bg) rounded-xl border border-(--border-subtle)">
+                          <span className="material-symbols-outlined text-[20px] text-(--primary-green)">
+                            check_circle
+                          </span>
+                          <span className="text-(--text-base) text-sm font-medium flex-1 truncate">
+                            {uploadedFileName}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSubmissionFileUrl("");
+                              setUploadedFileName(null);
+                            }}
+                            className="text-red-400 text-xs font-semibold hover:underline"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          <FileUploadButton
+                            storagePath={`submissions/${appUser?.uid}`}
+                            accept="all"
+                            label="Upload File"
+                            icon="upload_file"
+                            className="bg-[rgba(45,212,191,0.1)] text-(--primary-green) hover:bg-[rgba(45,212,191,0.2)] w-full justify-center"
+                            onUploadComplete={(url, file) => {
+                              setSubmissionFileUrl(url);
+                              setUploadedFileName(file.name);
+                            }}
+                          />
+                          <div className="flex items-center gap-3">
+                            <div className="flex-1 h-px bg-(--border-subtle)" />
+                            <span className="text-(--text-faint) text-xs">or paste a link</span>
+                            <div className="flex-1 h-px bg-(--border-subtle)" />
+                          </div>
+                          <input
+                            type="url"
+                            placeholder="https://drive.google.com/..."
+                            className="form-input"
+                            value={submissionFileUrl}
+                            onChange={(e) => setSubmissionFileUrl(e.target.value)}
+                          />
+                        </div>
+                      )}
                     </div>
                     <button
                       onClick={handleSubmit}
                       disabled={submitting}
-                      className="w-full flex items-center justify-center gap-2 py-4 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:shadow-[0_0_24px_rgba(19,236,164,0.4)] transition-all hover:scale-[1.01] text-base disabled:opacity-50"
+                      className="w-full flex items-center justify-center gap-2 py-4 bg-(--primary-green) text-[#10221c] font-bold rounded-xl hover:shadow-[0_0_24px_rgba(45,212,191,0.4)] transition-all hover:scale-[1.01] text-base disabled:opacity-50"
                     >
                       <span className="material-symbols-outlined text-[22px]">
                         {submitting ? "progress_activity" : "upload_file"}
@@ -558,9 +628,9 @@ export default function LessonPage() {
                       key={s.id}
                       className={`h-2 rounded-full transition-all cursor-pointer ${
                         s.id === activeStep
-                          ? "w-6 bg-[#13eca4]"
+                          ? "w-6 bg-(--primary-green)"
                           : s.completed
-                            ? "w-2 bg-[#13eca4]/50"
+                            ? "w-2 bg-(--primary-green)/50"
                             : "w-2 bg-white/15"
                       }`}
                       onClick={() => setActiveStep(s.id)}
@@ -570,7 +640,7 @@ export default function LessonPage() {
                 {activeStep < steps.length ? (
                   <button
                     onClick={() => setActiveStep(activeStep + 1)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)]"
+                    className="flex items-center gap-2 px-6 py-3 bg-(--primary-green) text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(45,212,191,0.2)]"
                   >
                     Next Step
                     <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
@@ -579,7 +649,7 @@ export default function LessonPage() {
                   <button
                     onClick={handleSubmit}
                     disabled={submitting}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
+                    className="flex items-center gap-2 px-6 py-3 bg-(--primary-green) text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(45,212,191,0.2)] disabled:opacity-50"
                   >
                     {submitting ? "Submitting..." : "Review & Submit"}
                     <span className="material-symbols-outlined text-[20px]">

@@ -36,7 +36,7 @@ function levelLabel(level: number): string {
 }
 
 function badgeColor(index: number): string {
-  const colors = ["#f59e0b", "#8b5cf6", "#13eca4", "#3b82f6", "#ec4899", "#10b981"];
+  const colors = ["#f59e0b", "#8b5cf6", "#2dd4bf", "#3b82f6", "#ec4899", "#10b981"];
   return colors[index % colors.length];
 }
 
@@ -45,7 +45,7 @@ function CourseProgressRow({ enrollment }: { enrollment: ChildEnrollment }) {
     enrollment.progress >= 100
       ? "#10b981"
       : enrollment.progress > 0
-      ? "#13eca4"
+      ? "#2dd4bf"
       : "#475569";
 
   const statusLabel =
@@ -56,7 +56,7 @@ function CourseProgressRow({ enrollment }: { enrollment: ChildEnrollment }) {
       : "Not Started";
 
   return (
-    <div className="flex items-center gap-4 p-4 bg-[rgba(255,255,255,0.02)] rounded-xl border border-[rgba(19,236,164,0.06)] hover:border-[rgba(19,236,164,0.12)] transition-all">
+    <div className="flex items-center gap-4 p-4 bg-[rgba(255,255,255,0.02)] rounded-xl border border-[rgba(45,212,191,0.06)] hover:border-[rgba(45,212,191,0.12)] transition-all">
       <div
         className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
         style={{ background: `${statusColor}18` }}
@@ -67,7 +67,7 @@ function CourseProgressRow({ enrollment }: { enrollment: ChildEnrollment }) {
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between mb-1.5">
-          <p className="text-slate-200 text-sm font-medium truncate mr-4">
+          <p className="text-(--text-base) text-sm font-medium truncate mr-4">
             {enrollment.courseTitle}
           </p>
           <span
@@ -86,13 +86,13 @@ function CourseProgressRow({ enrollment }: { enrollment: ChildEnrollment }) {
               className="h-full rounded-full"
               style={{
                 width: `${enrollment.progress}%`,
-                background: "linear-gradient(90deg, #13eca4, #0dd494)",
+                background: "linear-gradient(90deg, #2dd4bf, #14b8a6)",
               }}
             />
           </div>
-          <span className="text-[#13eca4] text-xs font-bold shrink-0">{enrollment.progress}%</span>
+          <span className="text-(--primary-green) text-xs font-bold shrink-0">{enrollment.progress}%</span>
         </div>
-        <p className="text-slate-500 text-[11px] mt-1">
+        <p className="text-(--text-faint) text-[11px] mt-1">
           {enrollment.completedLessons} lessons completed
         </p>
       </div>
@@ -106,7 +106,7 @@ function SubmissionRow({ submission }: { submission: ChildSubmission }) {
     submission.status !== "graded" ? "#64748b" : isPassed ? "#10b981" : "#ef4444";
 
   return (
-    <div className="flex items-start gap-4 p-4 bg-[rgba(255,255,255,0.02)] rounded-xl border border-[rgba(19,236,164,0.06)]">
+    <div className="flex items-start gap-4 p-4 bg-[rgba(255,255,255,0.02)] rounded-xl border border-[rgba(45,212,191,0.06)]">
       <div
         className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
         style={{ background: `${scoreColor}18` }}
@@ -134,18 +134,18 @@ function SubmissionRow({ submission }: { submission: ChildSubmission }) {
               ? "Awaiting Grade"
               : "Draft"}
           </span>
-          <span className="text-slate-500 text-[11px]">{timeAgo(submission.submittedAt)}</span>
+          <span className="text-(--text-faint) text-[11px]">{timeAgo(submission.submittedAt)}</span>
         </div>
         {submission.score !== null && (
           <p className="text-(--text-base) font-bold text-lg mt-1 leading-none">
             {submission.score}%{" "}
             {submission.grade && (
-              <span className="text-slate-400 text-sm font-normal">· {submission.grade}</span>
+              <span className="text-(--text-muted) text-sm font-normal">· {submission.grade}</span>
             )}
           </p>
         )}
         {submission.feedback && (
-          <p className="text-slate-400 text-xs mt-1.5 leading-relaxed line-clamp-2 italic">
+          <p className="text-(--text-muted) text-xs mt-1.5 leading-relaxed line-clamp-2 italic">
             &ldquo;{submission.feedback}&rdquo;
           </p>
         )}
@@ -166,7 +166,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -177,15 +177,15 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
     return (
       <div className="flex items-center justify-center h-64 px-8">
         <div className="text-center">
-          <span className="material-symbols-outlined text-[48px] text-slate-600 mb-3 block">
+          <span className="material-symbols-outlined text-[48px] text-(--text-faint) mb-3 block">
             person_off
           </span>
-          <p className="text-slate-400 text-sm">
+          <p className="text-(--text-muted) text-sm">
             {error ?? "Child not found or not linked to your account."}
           </p>
           <Link
             href="/parent/dashboard"
-            className="mt-4 inline-flex items-center gap-1 text-[#13eca4] text-sm font-medium hover:underline"
+            className="mt-4 inline-flex items-center gap-1 text-(--primary-green) text-sm font-medium hover:underline"
           >
             <span className="material-symbols-outlined text-[16px]">arrow_back</span>
             Back to Dashboard
@@ -216,16 +216,16 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="min-h-screen bg-(--bg-page)">
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center gap-4">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(45,212,191,0.08)] px-8 h-16 flex items-center gap-4">
         <Link
           href="/parent/dashboard"
-          className="p-2 rounded-xl bg-[rgba(255,255,255,0.05)] hover:bg-(--bg-elevated) text-slate-400 hover:text-(--text-base) transition-all"
+          className="p-2 rounded-xl bg-[rgba(255,255,255,0.05)] hover:bg-(--bg-elevated) text-(--text-muted) hover:text-(--text-base) transition-all"
         >
           <span className="material-symbols-outlined text-[20px]">arrow_back</span>
         </Link>
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">{student.displayName}</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             {student.grade ? `${student.grade} · ` : ""}Level {student.level}{" "}
             {levelLabel(student.level)}
           </p>
@@ -249,15 +249,15 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
 
               {/* XP bar */}
               <div className="max-w-xs">
-                <div className="flex justify-between text-xs text-slate-400 mb-1.5">
+                <div className="flex justify-between text-xs text-(--text-muted) mb-1.5">
                   <span>XP Progress to Level {student.level + 1}</span>
-                  <span className="text-[#13eca4] font-semibold">
+                  <span className="text-(--primary-green) font-semibold">
                     {student.xp} / {student.level * 1000}
                   </span>
                 </div>
                 <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-linear-to-r from-[#13eca4] to-[#0dd494] rounded-full"
+                    className="h-full bg-linear-to-r from-(--primary-green) to-(--primary-green-dark) rounded-full"
                     style={{
                       width: `${Math.min(100, Math.round((student.xp / (student.level * 1000)) * 100))}%`,
                     }}
@@ -271,7 +271,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
               {[
                 { label: "Badges", value: student.badges.length, icon: "military_tech", color: "#f59e0b" },
                 { label: "Avg Score", value: avgScore !== null ? `${avgScore}%` : "—", icon: "grading", color: "#10b981" },
-                { label: "Completed", value: completed.length, icon: "check_circle", color: "#13eca4" },
+                { label: "Completed", value: completed.length, icon: "check_circle", color: "var(--primary-green)" },
                 {
                   label: "Pending",
                   value: pendingSubmissions.length,
@@ -288,7 +288,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                   </span>
                   <div>
                     <p className="text-(--text-base) font-bold text-sm leading-none">{s.value}</p>
-                    <p className="text-slate-500 text-[10px]">{s.label}</p>
+                    <p className="text-(--text-faint) text-[10px]">{s.label}</p>
                   </div>
                 </div>
               ))}
@@ -302,9 +302,9 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
             {/* In-progress courses */}
             <section>
               <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#13eca4] text-[20px]">play_circle</span>
+                <span className="material-symbols-outlined text-(--primary-green) text-[20px]">play_circle</span>
                 In Progress
-                <span className="text-slate-500 text-sm font-normal">({inProgress.length})</span>
+                <span className="text-(--text-faint) text-sm font-normal">({inProgress.length})</span>
               </h2>
               {inProgress.length > 0 ? (
                 <div className="space-y-3">
@@ -313,7 +313,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-500 text-sm py-4 text-center">
+                <p className="text-(--text-faint) text-sm py-4 text-center">
                   No courses in progress right now.
                 </p>
               )}
@@ -325,7 +325,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                 <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
                   <span className="material-symbols-outlined text-[#10b981] text-[20px]">check_circle</span>
                   Completed
-                  <span className="text-slate-500 text-sm font-normal">({completed.length})</span>
+                  <span className="text-(--text-faint) text-sm font-normal">({completed.length})</span>
                 </h2>
                 <div className="space-y-3">
                   {completed.map((e) => (
@@ -339,9 +339,9 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
             {notStarted.length > 0 && (
               <section>
                 <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-slate-500 text-[20px]">radio_button_unchecked</span>
+                  <span className="material-symbols-outlined text-(--text-faint) text-[20px]">radio_button_unchecked</span>
                   Not Started
-                  <span className="text-slate-500 text-sm font-normal">({notStarted.length})</span>
+                  <span className="text-(--text-faint) text-sm font-normal">({notStarted.length})</span>
                 </h2>
                 <div className="space-y-3">
                   {notStarted.map((e) => (
@@ -356,7 +356,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
               <h2 className="text-(--text-base) font-bold text-base mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">assignment</span>
                 Recent Submissions
-                <span className="text-slate-500 text-sm font-normal">
+                <span className="text-(--text-faint) text-sm font-normal">
                   (last {submissions.length})
                 </span>
               </h2>
@@ -367,7 +367,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                   ))}
                 </div>
               ) : (
-                <p className="text-slate-500 text-sm py-4 text-center">
+                <p className="text-(--text-faint) text-sm py-4 text-center">
                   No submissions yet.
                 </p>
               )}
@@ -377,7 +377,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
           {/* Right: badges + summary */}
           <div className="space-y-6">
             {/* Badges */}
-            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(45,212,191,0.08)]">
               <h3 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
                 <span className="material-symbols-outlined text-[#f59e0b] text-[20px]">
                   military_tech
@@ -400,7 +400,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                       >
                         military_tech
                       </span>
-                      <p className="text-slate-500 text-[9px] text-center truncate w-full">
+                      <p className="text-(--text-faint) text-[9px] text-center truncate w-full">
                         {badgeId.split("_").slice(-1)[0] ?? "Badge"}
                       </p>
                     </div>
@@ -408,10 +408,10 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                 </div>
               ) : (
                 <div className="text-center py-4">
-                  <span className="material-symbols-outlined text-[36px] text-slate-600 mb-2 block">
+                  <span className="material-symbols-outlined text-[36px] text-(--text-faint) mb-2 block">
                     military_tech
                   </span>
-                  <p className="text-slate-500 text-xs">
+                  <p className="text-(--text-faint) text-xs">
                     {firstName} hasn&apos;t earned any badges yet.
                   </p>
                 </div>
@@ -419,9 +419,9 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
             </div>
 
             {/* Performance summary */}
-            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(19,236,164,0.08)]">
+            <div className="bg-(--bg-card) rounded-2xl p-5 border border-[rgba(45,212,191,0.08)]">
               <h3 className="text-(--text-base) font-bold mb-4 flex items-center gap-2">
-                <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+                <span className="material-symbols-outlined text-(--primary-green) text-[20px]">
                   insights
                 </span>
                 Performance
@@ -431,7 +431,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                   {
                     label: "Courses enrolled",
                     value: enrollments.length,
-                    color: "#13eca4",
+                    color: "var(--primary-green)",
                   },
                   {
                     label: "Courses completed",
@@ -455,7 +455,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                   },
                 ].map(({ label, value, color }) => (
                   <div key={label} className="flex items-center justify-between">
-                    <span className="text-slate-400 text-sm">{label}</span>
+                    <span className="text-(--text-muted) text-sm">{label}</span>
                     <span className="font-bold text-sm" style={{ color }}>
                       {value}
                     </span>
@@ -470,7 +470,7 @@ export default function ChildDetailPage({ params }: { params: Promise<{ id: stri
                 <span className="material-symbols-outlined text-[20px]">support_agent</span>
                 Need Help?
               </h3>
-              <p className="text-slate-400 text-xs leading-relaxed mb-3">
+              <p className="text-(--text-muted) text-xs leading-relaxed mb-3">
                 If you have concerns about {firstName}&apos;s progress, reach out to the school or
                 their teacher directly.
               </p>

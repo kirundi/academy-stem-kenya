@@ -9,7 +9,7 @@ function getInitials(name: string) {
 }
 
 const ROLE_COLORS: Record<string, string> = {
-  student: "#13eca4",
+  student: "#2dd4bf",
   teacher: "#3b82f6",
   school_admin: "#f59e0b",
   editor: "#ec4899",
@@ -125,7 +125,7 @@ export default function AnalyticsDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
             { label: "Total Schools", value: schools.length, icon: "domain", color: "#a855f7", sub: `${activeSchools} active` },
-            { label: "Total Students", value: totalStudents, icon: "school", color: "#13eca4", sub: `${totalTeachers} teachers` },
+            { label: "Total Students", value: totalStudents, icon: "school", color: "var(--primary-green)", sub: `${totalTeachers} teachers` },
             { label: "Published Courses", value: publishedCourses, icon: "menu_book", color: "#3b82f6", sub: `${pendingCourses} pending review` },
             { label: "All Users", value: allUsers.length, icon: "group", color: "#f59e0b", sub: `${draftCourses} draft courses` },
           ].map(({ label, value, icon, color, sub }) => (

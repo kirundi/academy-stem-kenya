@@ -15,8 +15,8 @@ export default function SchoolPendingPage() {
       {/* Header */}
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.9)] backdrop-blur-md border-b border-(--border-subtle) px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-[rgba(19,236,164,0.1)] rounded-lg flex items-center justify-center">
-            <span className="material-symbols-outlined text-[#13eca4] text-[20px]">
+          <div className="w-8 h-8 bg-[rgba(45,212,191,0.1)] rounded-lg flex items-center justify-center">
+            <span className="material-symbols-outlined text-(--primary-green) text-[20px]">
               rocket_launch
             </span>
           </div>
@@ -25,13 +25,13 @@ export default function SchoolPendingPage() {
         <nav className="hidden md:flex items-center gap-8">
           <a
             href="/contact"
-            className="text-(--text-muted) hover:text-[#13eca4] text-sm font-medium transition-colors"
+            className="text-(--text-muted) hover:text-(--primary-green) text-sm font-medium transition-colors"
           >
             Support
           </a>
           <a
             href="/help"
-            className="text-(--text-muted) hover:text-[#13eca4] text-sm font-medium transition-colors"
+            className="text-(--text-muted) hover:text-(--primary-green) text-sm font-medium transition-colors"
           >
             Documentation
           </a>
@@ -40,7 +40,7 @@ export default function SchoolPendingPage() {
           <button className="w-10 h-10 rounded-lg bg-(--input-bg) flex items-center justify-center text-(--text-muted) hover:text-(--text-base) transition-colors">
             <span className="material-symbols-outlined text-[20px]">notifications</span>
           </button>
-          <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.1)] border border-(--border-strong) flex items-center justify-center text-[#13eca4] font-bold text-sm">
+          <div className="w-10 h-10 rounded-full bg-[rgba(45,212,191,0.1)] border border-(--border-strong) flex items-center justify-center text-(--primary-green) font-bold text-sm">
             SA
           </div>
         </div>
@@ -52,14 +52,14 @@ export default function SchoolPendingPage() {
           <div
             className="absolute inset-0 opacity-10 pointer-events-none"
             style={{
-              backgroundImage: "radial-gradient(circle at 2px 2px, #13eca4 1px, transparent 0)",
+              backgroundImage: "radial-gradient(circle at 2px 2px, #2dd4bf 1px, transparent 0)",
               backgroundSize: "24px 24px",
             }}
           />
           <div className="relative p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
             <div className="flex-1 text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(19,236,164,0.1)] border border-(--border-accent) text-[#13eca4] text-xs font-bold uppercase tracking-wider mb-5">
-                <span className="w-2 h-2 rounded-full bg-[#13eca4] animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[rgba(45,212,191,0.1)] border border-(--border-accent) text-(--primary-green) text-xs font-bold uppercase tracking-wider mb-5">
+                <span className="w-2 h-2 rounded-full bg-(--primary-green) animate-pulse" />
                 Verification in Progress
               </div>
               <h1 className="text-(--text-base) text-4xl md:text-5xl font-black leading-tight tracking-tight mb-4">
@@ -71,7 +71,7 @@ export default function SchoolPendingPage() {
                 students.
               </p>
               <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-                <button className="flex items-center gap-2 px-6 py-3 bg-[#13eca4] text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity">
+                <button className="flex items-center gap-2 px-6 py-3 bg-(--primary-green) text-[#10221c] font-bold rounded-xl hover:opacity-90 transition-opacity">
                   <span className="material-symbols-outlined text-[20px]">help_center</span>
                   Contact Support
                 </button>
@@ -82,13 +82,13 @@ export default function SchoolPendingPage() {
             </div>
             {/* Spinning Icon */}
             <div className="relative w-48 h-48 md:w-64 md:h-64 shrink-0">
-              <div className="absolute inset-0 bg-[rgba(19,236,164,0.1)] rounded-full animate-ping opacity-20" />
+              <div className="absolute inset-0 bg-[rgba(45,212,191,0.1)] rounded-full animate-ping opacity-20" />
               <div
                 className="absolute inset-4 border-2 border-dashed border-(--border-strong) rounded-full"
                 style={{ animation: "spin 10s linear infinite" }}
               />
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="material-symbols-outlined text-[#13eca4] text-[80px] md:text-[96px]">
+                <span className="material-symbols-outlined text-(--primary-green) text-[80px] md:text-[96px]">
                   verified_user
                 </span>
               </div>
@@ -105,10 +105,10 @@ export default function SchoolPendingPage() {
                 {/* Step 1 — Done */}
                 <div className="grid grid-cols-[40px_1fr] gap-x-4">
                   <div className="flex flex-col items-center">
-                    <div className="w-8 h-8 rounded-full bg-[#13eca4] text-[#10221c] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-(--primary-green) text-[#10221c] flex items-center justify-center">
                       <span className="material-symbols-outlined text-[16px] font-bold">check</span>
                     </div>
-                    <div className="w-0.5 bg-[#13eca4] h-12" />
+                    <div className="w-0.5 bg-(--primary-green) h-12" />
                   </div>
                   <div className="pb-8">
                     <p className="text-(--text-base) font-bold">Application Submitted</p>
@@ -118,7 +118,7 @@ export default function SchoolPendingPage() {
                 {/* Step 2 — In Progress */}
                 <div className="grid grid-cols-[40px_1fr] gap-x-4">
                   <div className="flex flex-col items-center">
-                    <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] border border-(--border-strong) text-[#13eca4] flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-[rgba(45,212,191,0.1)] border border-(--border-strong) text-(--primary-green) flex items-center justify-center">
                       <span
                         className="material-symbols-outlined text-[16px]"
                         style={{ animation: "spin 1s linear infinite" }}
@@ -130,7 +130,7 @@ export default function SchoolPendingPage() {
                   </div>
                   <div className="pb-8">
                     <p className="text-(--text-base) font-bold">Initial Screening</p>
-                    <p className="text-[#13eca4] text-sm font-medium">In Progress</p>
+                    <p className="text-(--primary-green) text-sm font-medium">In Progress</p>
                   </div>
                 </div>
                 {/* Step 3 — Pending */}
@@ -172,8 +172,8 @@ export default function SchoolPendingPage() {
             </div>
             <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) overflow-hidden">
               <div className="px-6 py-5 border-b border-(--border-subtle) bg-[rgba(255,255,255,0.02)] flex items-center gap-4">
-                <div className="w-16 h-16 rounded-xl bg-[rgba(19,236,164,0.1)] border border-(--border-accent) flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[#13eca4] text-[32px]">
+                <div className="w-16 h-16 rounded-xl bg-[rgba(45,212,191,0.1)] border border-(--border-accent) flex items-center justify-center">
+                  <span className="material-symbols-outlined text-(--primary-green) text-[32px]">
                     corporate_fare
                   </span>
                 </div>
@@ -211,7 +211,7 @@ export default function SchoolPendingPage() {
                         key={doc}
                         className="flex items-center gap-2 px-3 py-2 bg-(--glass-bg) rounded-lg text-sm border border-(--border-subtle)"
                       >
-                        <span className="material-symbols-outlined text-[#13eca4] text-[16px]">
+                        <span className="material-symbols-outlined text-(--primary-green) text-[16px]">
                           description
                         </span>
                         <span className="text-(--text-muted)">{doc}</span>
@@ -229,7 +229,7 @@ export default function SchoolPendingPage() {
               </button>
               <Link
                 href="/onboarding"
-                className="flex items-center gap-2 px-5 py-2.5 border border-(--border-strong) text-[#13eca4] font-semibold rounded-xl hover:bg-[rgba(19,236,164,0.05)] transition-colors text-sm"
+                className="flex items-center gap-2 px-5 py-2.5 border border-(--border-strong) text-(--primary-green) font-semibold rounded-xl hover:bg-[rgba(45,212,191,0.05)] transition-colors text-sm"
               >
                 <span className="material-symbols-outlined text-[18px]">arrow_back</span>Back to
                 Form

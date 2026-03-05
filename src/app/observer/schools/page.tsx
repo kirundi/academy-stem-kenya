@@ -36,7 +36,7 @@ export default function ObserverSchoolsPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">My Schools</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Schools assigned to your observer account
           </p>
         </div>
@@ -45,21 +45,21 @@ export default function ObserverSchoolsPage() {
       <div className="px-8 py-8">
         {schoolIds.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-4">
               domain_disabled
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">No schools assigned</p>
-            <p className="text-slate-400 text-sm max-w-sm">
+            <p className="text-(--text-muted) text-sm max-w-sm">
               Contact a platform administrator to assign schools to your observer account.
             </p>
           </div>
         ) : schools.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-4">
               hourglass_empty
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">Loading schools…</p>
-            <p className="text-slate-400 text-sm max-w-sm">
+            <p className="text-(--text-muted) text-sm max-w-sm">
               Your assigned schools are being fetched. If this persists, contact support.
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function ObserverSchoolsPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-(--text-base) font-bold text-sm truncate">{school.name}</h3>
-                      <p className="text-slate-500 text-xs mt-0.5">{school.location}</p>
+                      <p className="text-(--text-faint) text-xs mt-0.5">{school.location}</p>
                     </div>
                     <span
                       className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0"
@@ -95,19 +95,19 @@ export default function ObserverSchoolsPage() {
                   {/* Details */}
                   <div className="grid grid-cols-2 gap-3 text-xs border-t border-[rgba(6,182,212,0.06)] pt-3">
                     <div>
-                      <span className="text-slate-500 block">Students</span>
+                      <span className="text-(--text-faint) block">Students</span>
                       <p className="text-(--text-base) font-semibold">{school.studentCount ?? "—"}</p>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Type</span>
+                      <span className="text-(--text-faint) block">Type</span>
                       <p className="text-(--text-base) font-semibold">{school.type ?? "—"}</p>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Plan</span>
+                      <span className="text-(--text-faint) block">Plan</span>
                       <p className="text-(--text-base) font-semibold capitalize">{school.plan ?? "—"}</p>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Health</span>
+                      <span className="text-(--text-faint) block">Health</span>
                       <p className="text-(--text-base) font-semibold">{school.healthScore ?? 0}%</p>
                     </div>
                   </div>

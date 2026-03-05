@@ -22,7 +22,7 @@ export default function BadgeCard({
   name,
   description,
   icon,
-  color = "#13eca4",
+  color = "#2dd4bf",
   earned = false,
   earnedDate,
   xpValue = 50,
@@ -74,7 +74,7 @@ export default function BadgeCard({
       <div className="flex items-center gap-3 w-full justify-center">
         <span
           className="text-xs font-bold px-2 py-0.5 rounded"
-          style={{ background: "rgba(19,236,164,0.1)", color: "#13eca4" }}
+          style={{ background: "rgba(45,212,191,0.1)", color: "var(--primary-green)" }}
         >
           +{xpValue} XP
         </span>

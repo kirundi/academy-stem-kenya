@@ -12,7 +12,7 @@ export default function AuditLogPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -39,21 +39,21 @@ export default function AuditLogPage() {
   };
 
   const typeColor: Record<string, string> = {
-    login: "#13eca4",
+    login: "#2dd4bf",
     logout: "#f59e0b",
     create: "#3b82f6",
     update: "#8b5cf6",
-    delete: "#ff4d4d",
-    enroll: "#13eca4",
+    delete: "var(--accent-red)",
+    enroll: "#2dd4bf",
     submit: "#3b82f6",
   };
 
   return (
     <div className="min-h-screen bg-(--bg-page)">
-      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(19,236,164,0.08)] px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(45,212,191,0.08)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Audit Log</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Platform-wide activity trail · {activities.length} events
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function AuditLogPage() {
               { key: "user", label: "User" }, { key: "type", label: "Type" },
               { key: "description", label: "Description" }, { key: "timestamp", label: "Timestamp" },
             ])}
-            className="flex items-center gap-1.5 border border-(--border-medium) text-slate-300 text-sm font-semibold px-4 py-2 rounded-lg hover:border-[#13eca4] hover:text-[#13eca4] transition-colors"
+            className="flex items-center gap-1.5 border border-(--border-medium) text-(--text-base) text-sm font-semibold px-4 py-2 rounded-lg hover:border-(--primary-green) hover:text-(--primary-green) transition-colors"
           >
             <span className="material-symbols-outlined text-[18px]">download</span>
             Export Logs
@@ -76,7 +76,7 @@ export default function AuditLogPage() {
       <div className="px-8 py-8 space-y-6">
         {/* Search */}
         <div className="relative max-w-md">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-[18px]">
             search
           </span>
           <input
@@ -88,20 +88,20 @@ export default function AuditLogPage() {
         </div>
 
         {/* Activity Timeline */}
-        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(19,236,164,0.08)] overflow-hidden">
-          <div className="px-6 py-4 border-b border-[rgba(19,236,164,0.06)]">
+        <div className="bg-(--bg-card) rounded-2xl border border-[rgba(45,212,191,0.08)] overflow-hidden">
+          <div className="px-6 py-4 border-b border-[rgba(45,212,191,0.06)]">
             <h2 className="text-(--text-base) font-bold">Activity Timeline</h2>
-            <p className="text-slate-500 text-xs mt-0.5">
+            <p className="text-(--text-faint) text-xs mt-0.5">
               Showing {filtered.length} of {activities.length} events
             </p>
           </div>
           <div className="divide-y divide-[rgba(255,255,255,0.04)]">
             {filtered.length === 0 ? (
-              <div className="px-6 py-12 text-center text-slate-500">No activity logs found</div>
+              <div className="px-6 py-12 text-center text-(--text-faint)">No activity logs found</div>
             ) : (
               filtered.map((a) => {
                 const icon = typeIcon[a.type] ?? "info";
-                const color = typeColor[a.type] ?? "#13eca4";
+                const color = typeColor[a.type] ?? "#2dd4bf";
                 const userName = userMap.get(a.userId) ?? "Unknown User";
                 const timestamp = formatTimestamp(a.timestamp);
 
@@ -119,7 +119,7 @@ export default function AuditLogPage() {
                       </span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-slate-300">
+                      <p className="text-sm text-(--text-base)">
                         <span className="font-bold text-(--text-base)">{userName}</span> {a.description}
                       </p>
                       <div className="flex items-center gap-3 mt-1">
@@ -129,7 +129,7 @@ export default function AuditLogPage() {
                         >
                           {a.type}
                         </span>
-                        <span className="text-xs text-slate-500">{timestamp}</span>
+                        <span className="text-xs text-(--text-faint)">{timestamp}</span>
                       </div>
                     </div>
                   </div>

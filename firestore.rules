@@ -165,6 +165,19 @@ service cloud.firestore {
       }
     }
 
+    // ─── media ──────────────────────────────────────────────────────────
+    // Media library for editors. Read-only for all authenticated users,
+    // create/delete by editors and admins.
+
+    match /media/{mediaId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated()
+        && hasAnyRole(['editor', 'admin', 'super_admin']);
+      allow delete: if isAuthenticated()
+        && hasAnyRole(['editor', 'admin', 'super_admin']);
+      allow update: if false;
+    }
+
     // ─── badges ──────────────────────────────────────────────────────────
     // Public catalogue — any authenticated user can browse badges.
     // Badge awards are written only by Admin SDK.

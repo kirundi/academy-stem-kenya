@@ -144,7 +144,7 @@ export default function WebhooksPage() {
   return (
     <div className="p-6 space-y-8 min-h-screen">
       {/* Page Header */}
-      <div className="flex flex-wrap justify-between items-end gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-wrap justify-between items-end gap-4 border-b border-(--border-subtle) pb-5">
         <div>
           <h2 className="text-3xl font-black text-(--text-base) tracking-tight">
             Webhooks Configuration
@@ -155,7 +155,7 @@ export default function WebhooksPage() {
         </div>
         <button
           onClick={() => setShowNewForm(!showNewForm)}
-          className="flex items-center gap-2 bg-[#13daec] hover:bg-[#13daec]/90 text-slate-900 px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-[rgba(19,218,236,0.2)]"
+          className="flex items-center gap-2 bg-(--primary) hover:bg-(--primary)/90 text-(--text-base) px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-[rgba(56,189,248,0.2)]"
         >
           <span className="material-symbols-outlined">{showNewForm ? "close" : "add"}</span>
           {showNewForm ? "Cancel" : "Create New Webhook"}
@@ -164,9 +164,9 @@ export default function WebhooksPage() {
 
       {/* New Webhook Form */}
       {showNewForm && (
-        <section className="bg-[#1a2e31] rounded-xl border border-slate-800 overflow-hidden shadow-sm">
-          <div className="p-5 border-b border-slate-800 bg-slate-800/30 flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#13daec]">edit_note</span>
+        <section className="bg-(--bg-card) rounded-xl border border-(--border-subtle) overflow-hidden shadow-sm">
+          <div className="p-5 border-b border-(--border-subtle) bg-(--bg-elevated)/30 flex items-center gap-2">
+            <span className="material-symbols-outlined text-(--primary)">edit_note</span>
             <h3 className="text-(--text-base) font-bold">New Webhook Details</h3>
           </div>
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-7">
@@ -180,7 +180,7 @@ export default function WebhooksPage() {
                   value={newUrl}
                   onChange={(e) => setNewUrl(e.target.value)}
                   placeholder="https://api.yourdomain.com/webhook"
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg text-sm px-4 py-2.5 text-(--text-base) focus:ring-[#13daec] focus:border-[#13daec] outline-none transition-all"
+                  className="w-full bg-(--bg-elevated) border border-(--border) rounded-lg text-sm px-4 py-2.5 text-(--text-base) focus:ring-(--primary) focus:border-(--primary) outline-none transition-all"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -191,7 +191,7 @@ export default function WebhooksPage() {
                   <select
                     value={newContentType}
                     onChange={(e) => setNewContentType(e.target.value)}
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg text-sm px-3 py-2.5 text-(--text-base) focus:ring-[#13daec] outline-none transition-all"
+                    className="w-full bg-(--bg-elevated) border border-(--border) rounded-lg text-sm px-3 py-2.5 text-(--text-base) focus:ring-(--primary) outline-none transition-all"
                   >
                     <option>application/json</option>
                     <option>application/xml</option>
@@ -206,7 +206,7 @@ export default function WebhooksPage() {
                     value={newSecret}
                     onChange={(e) => setNewSecret(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full bg-slate-800 border border-slate-700 rounded-lg text-sm px-4 py-2.5 text-(--text-base) focus:ring-[#13daec] focus:border-[#13daec] outline-none transition-all"
+                    className="w-full bg-(--bg-elevated) border border-(--border) rounded-lg text-sm px-4 py-2.5 text-(--text-base) focus:ring-(--primary) focus:border-(--primary) outline-none transition-all"
                   />
                 </div>
               </div>
@@ -223,9 +223,9 @@ export default function WebhooksPage() {
                       type="checkbox"
                       checked={selectedNewEvents.includes(ev)}
                       onChange={() => toggleNewEvent(ev)}
-                      className="rounded border-slate-700 bg-slate-800 text-[#13daec] focus:ring-[#13daec] w-4 h-4 accent-[#13daec]"
+                      className="rounded border-(--border) bg-(--bg-elevated) text-(--primary) focus:ring-(--primary) w-4 h-4 accent-(--primary)"
                     />
-                    <span className="text-sm text-(--text-muted) group-hover:text-[#13daec] transition-colors">
+                    <span className="text-sm text-(--text-muted) group-hover:text-(--primary) transition-colors">
                       {ev}
                     </span>
                   </label>
@@ -242,7 +242,7 @@ export default function WebhooksPage() {
             </button>
             <button
               onClick={handleCreate}
-              className="px-6 py-2.5 bg-[#13daec] text-[#102022] font-bold rounded-lg text-sm hover:opacity-90 transition-opacity"
+              className="px-6 py-2.5 bg-(--primary) text-[#102022] font-bold rounded-lg text-sm hover:opacity-90 transition-opacity"
             >
               Create Webhook
             </button>
@@ -253,17 +253,17 @@ export default function WebhooksPage() {
       {/* Active Webhooks Table */}
       <section className="space-y-4">
         <h3 className="text-(--text-base) text-xl font-bold flex items-center gap-2">
-          <span className="material-symbols-outlined text-[#13daec]">lan</span>
+          <span className="material-symbols-outlined text-(--primary)">lan</span>
           Active Webhooks
-          <span className="ml-2 px-2 py-0.5 bg-[rgba(19,218,236,0.1)] text-[#13daec] text-xs font-bold rounded-full">
+          <span className="ml-2 px-2 py-0.5 bg-[rgba(56,189,248,0.1)] text-(--primary) text-xs font-bold rounded-full">
             {webhooks.filter((w) => w.status === "Active").length}
           </span>
         </h3>
-        <div className="overflow-hidden rounded-xl border border-slate-800 bg-[#1a2e31] shadow-sm">
+        <div className="overflow-hidden rounded-xl border border-(--border-subtle) bg-(--bg-card) shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-800/50 border-b border-slate-700">
+                <tr className="bg-(--hover-subtle) border-b border-(--border)">
                   <th className="px-5 py-4 text-xs font-bold uppercase tracking-wider text-(--text-muted)">
                     Endpoint URL
                   </th>
@@ -284,9 +284,9 @@ export default function WebhooksPage() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-(--border)">
                 {webhooks.map((wh) => (
-                  <tr key={wh.id} className="hover:bg-slate-800/30 transition-colors">
+                  <tr key={wh.id} className="hover:bg-(--bg-elevated)/30 transition-colors">
                     <td className="px-5 py-4">
                       <span className="text-sm font-medium text-(--text-base) font-mono">{wh.url}</span>
                     </td>
@@ -295,7 +295,7 @@ export default function WebhooksPage() {
                         {wh.events.map((ev) => (
                           <span
                             key={ev}
-                            className="bg-[rgba(19,218,236,0.1)] text-[#13daec] text-[10px] font-bold px-2 py-0.5 rounded uppercase"
+                            className="bg-[rgba(56,189,248,0.1)] text-(--primary) text-[10px] font-bold px-2 py-0.5 rounded uppercase"
                           >
                             {ev}
                           </span>
@@ -312,10 +312,10 @@ export default function WebhooksPage() {
                     </td>
                     <td className="px-5 py-4 text-center">
                       <span
-                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${wh.status === "Active" ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-slate-500/10 text-(--text-faint) border border-slate-500/20"}`}
+                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${wh.status === "Active" ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-(--text-faint)/10 text-(--text-faint) border border-(--border)/20"}`}
                       >
                         <span
-                          className={`w-1.5 h-1.5 rounded-full mr-1.5 ${wh.status === "Active" ? "bg-emerald-500" : "bg-slate-500"}`}
+                          className={`w-1.5 h-1.5 rounded-full mr-1.5 ${wh.status === "Active" ? "bg-emerald-500" : "bg-(--text-faint)"}`}
                         />
                         {wh.status}
                       </span>
@@ -325,13 +325,13 @@ export default function WebhooksPage() {
                         <button
                           onClick={() => toggleWebhookStatus(wh.id)}
                           title={wh.status === "Active" ? "Disable" : "Enable"}
-                          className="text-(--text-muted) hover:text-[#13daec] transition-colors"
+                          className="text-(--text-muted) hover:text-(--primary) transition-colors"
                         >
                           <span className="material-symbols-outlined text-[20px]">
                             {wh.status === "Active" ? "toggle_on" : "toggle_off"}
                           </span>
                         </button>
-                        <button className="text-(--text-muted) hover:text-[#13daec] transition-colors">
+                        <button className="text-(--text-muted) hover:text-(--primary) transition-colors">
                           <span className="material-symbols-outlined text-[20px]">settings</span>
                         </button>
                         <button
@@ -355,17 +355,17 @@ export default function WebhooksPage() {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h3 className="text-(--text-base) text-xl font-bold flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#13daec]">history</span>
+            <span className="material-symbols-outlined text-(--primary)">history</span>
             Recent Deliveries
           </h3>
           <button
             onClick={() => setDeliveries([])}
-            className="text-xs font-bold text-[#13daec] hover:underline"
+            className="text-xs font-bold text-(--primary) hover:underline"
           >
             Clear Logs
           </button>
         </div>
-        <div className="bg-[#1a2e31] rounded-xl border border-slate-800 overflow-hidden shadow-sm">
+        <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) overflow-hidden shadow-sm">
           <div className="p-4 space-y-3">
             {deliveries.length === 0 ? (
               <p className="text-center text-(--text-faint) py-6 text-sm">No recent deliveries</p>
@@ -373,7 +373,7 @@ export default function WebhooksPage() {
               deliveries.map((d) => (
                 <div
                   key={d.id}
-                  className={`flex items-center justify-between p-3 rounded-lg bg-slate-800/50 border-l-4 ${d.status === "200 OK" ? "border-emerald-500" : d.status === "500 ERR" ? "border-[#ef4444]" : "border-amber-400"}`}
+                  className={`flex items-center justify-between p-3 rounded-lg bg-(--hover-subtle) border-l-4 ${d.status === "200 OK" ? "border-emerald-500" : d.status === "500 ERR" ? "border-[#ef4444]" : "border-amber-400"}`}
                 >
                   <div className="flex items-center gap-4">
                     <span
@@ -390,7 +390,7 @@ export default function WebhooksPage() {
                   </div>
                   <button
                     onClick={() => redeliverEvent(d.id)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-700 hover:bg-[#13daec] hover:text-slate-900 text-(--text-muted) rounded text-xs font-bold transition-all"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-(--bg-elevated) hover:bg-(--primary) hover:text-(--text-base) text-(--text-muted) rounded text-xs font-bold transition-all"
                   >
                     <span className="material-symbols-outlined text-sm">refresh</span>
                     Redeliver

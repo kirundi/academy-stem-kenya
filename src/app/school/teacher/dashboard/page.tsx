@@ -30,7 +30,7 @@ export default function TeacherDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -62,7 +62,7 @@ export default function TeacherDashboard() {
     .slice(0, 4);
 
   // Color palette for classroom cards
-  const classColors = ["#13eca4", "#3b82f6", "#10b981", "#8b5cf6", "#f59e0b"];
+  const classColors = ["#2dd4bf", "#3b82f6", "#10b981", "#8b5cf6", "#f59e0b"];
 
   return (
     <div className="min-h-screen bg-(--bg-page)">
@@ -83,7 +83,7 @@ export default function TeacherDashboard() {
           </button>
           <Link
             href="/school/teacher/classroom"
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
+            className="flex items-center gap-2 bg-(--primary-green) text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity"
           >
             <span className="material-symbols-outlined text-[18px]">add</span>
             New Classroom
@@ -128,7 +128,7 @@ export default function TeacherDashboard() {
             value={`${avgProgress}%`}
             change={classrooms.length > 0 ? `${classrooms.length} classrooms` : "No classrooms"}
             changeType="positive"
-            iconColor="#13eca4"
+            iconColor="#2dd4bf"
           />
         </div>
 
@@ -139,7 +139,7 @@ export default function TeacherDashboard() {
               <h3 className="text-(--text-base) font-bold text-xl">Active Classrooms</h3>
               <Link
                 href="/school/teacher/classroom"
-                className="text-[#13eca4] text-sm font-semibold hover:underline flex items-center gap-1"
+                className="text-(--primary-green) text-sm font-semibold hover:underline flex items-center gap-1"
               >
                 Manage all
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
@@ -186,12 +186,12 @@ export default function TeacherDashboard() {
               {/* Create New */}
               <Link
                 href="/school/teacher/classroom"
-                className="bg-transparent border-2 border-dashed border-[rgba(19,236,164,0.18)] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 hover:border-[rgba(19,236,164,0.4)] hover:bg-[rgba(19,236,164,0.03)] transition-all min-h-45 group"
+                className="bg-transparent border-2 border-dashed border-[rgba(45,212,191,0.18)] rounded-2xl p-5 flex flex-col items-center justify-center gap-3 hover:border-[rgba(45,212,191,0.4)] hover:bg-[rgba(45,212,191,0.03)] transition-all min-h-45 group"
               >
-                <div className="w-12 h-12 rounded-full bg-[rgba(19,236,164,0.08)] flex items-center justify-center group-hover:bg-[rgba(19,236,164,0.15)] transition-colors">
-                  <span className="material-symbols-outlined text-[#13eca4] text-[24px]">add</span>
+                <div className="w-12 h-12 rounded-full bg-[rgba(45,212,191,0.08)] flex items-center justify-center group-hover:bg-[rgba(45,212,191,0.15)] transition-colors">
+                  <span className="material-symbols-outlined text-(--primary-green) text-[24px]">add</span>
                 </div>
-                <p className="text-(--text-muted) text-sm font-semibold group-hover:text-[#13eca4] transition-colors">
+                <p className="text-(--text-muted) text-sm font-semibold group-hover:text-(--primary-green) transition-colors">
                   Create New Classroom
                 </p>
               </Link>
@@ -206,7 +206,7 @@ export default function TeacherDashboard() {
                 <h3 className="text-(--text-base) font-bold">Recent Submissions</h3>
                 <Link
                   href="/school/teacher/grading"
-                  className="text-[#13eca4] text-xs font-semibold hover:underline"
+                  className="text-(--primary-green) text-xs font-semibold hover:underline"
                 >
                   View all
                 </Link>
@@ -226,7 +226,7 @@ export default function TeacherDashboard() {
                       key={sub.id}
                       className="px-5 py-3.5 flex items-center gap-3 hover:bg-[rgba(255,255,255,0.03)] transition-colors"
                     >
-                      <div className="w-8 h-8 rounded-full bg-[rgba(19,236,164,0.1)] flex items-center justify-center text-xs font-bold text-[#13eca4]">
+                      <div className="w-8 h-8 rounded-full bg-[rgba(45,212,191,0.1)] flex items-center justify-center text-xs font-bold text-(--primary-green)">
                         {studentInitials}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -237,7 +237,7 @@ export default function TeacherDashboard() {
                       </div>
                       <div className="text-right">
                         {sub.grade ? (
-                          <span className="text-[#13eca4] text-sm font-bold">{sub.grade}</span>
+                          <span className="text-(--primary-green) text-sm font-bold">{sub.grade}</span>
                         ) : (
                           <span className="text-xs bg-[rgba(255,165,0,0.15)] text-orange-400 px-2 py-0.5 rounded font-medium">
                             Pending
@@ -260,7 +260,7 @@ export default function TeacherDashboard() {
                     icon: "add",
                     label: "Create New Classroom",
                     href: "/school/teacher/classroom",
-                    color: "#13eca4",
+                    color: "var(--primary-green)",
                   },
                   {
                     icon: "menu_book",
@@ -292,7 +292,7 @@ export default function TeacherDashboard() {
                     <span className="text-(--text-muted) text-sm font-medium group-hover:text-(--text-base) transition-colors">
                       {label}
                     </span>
-                    <span className="material-symbols-outlined text-(--text-faint) text-[16px] ml-auto group-hover:text-[#13eca4] transition-colors">
+                    <span className="material-symbols-outlined text-(--text-faint) text-[16px] ml-auto group-hover:text-(--primary-green) transition-colors">
                       chevron_right
                     </span>
                   </Link>
@@ -301,9 +301,9 @@ export default function TeacherDashboard() {
             </div>
 
             {/* Support */}
-            <div className="bg-linear-to-br from-[rgba(19,236,164,0.06)] to-transparent rounded-2xl border border-(--border-medium) p-5">
+            <div className="bg-linear-to-br from-[rgba(45,212,191,0.06)] to-transparent rounded-2xl border border-(--border-medium) p-5">
               <div className="flex items-start gap-3 mb-4">
-                <span className="material-symbols-outlined text-[#13eca4] text-[28px]">school</span>
+                <span className="material-symbols-outlined text-(--primary-green) text-[28px]">school</span>
                 <div>
                   <h3 className="text-(--text-base) font-bold">Need Support?</h3>
                   <p className="text-(--text-muted) text-xs mt-1">
@@ -313,7 +313,7 @@ export default function TeacherDashboard() {
               </div>
               <Link
                 href="/school/teacher/courses"
-                className="w-full flex items-center justify-center gap-2 border border-(--border-strong) text-[#13eca4] font-semibold py-2.5 rounded-xl text-sm hover:bg-[rgba(19,236,164,0.06)] transition-colors"
+                className="w-full flex items-center justify-center gap-2 border border-(--border-strong) text-(--primary-green) font-semibold py-2.5 rounded-xl text-sm hover:bg-[rgba(45,212,191,0.06)] transition-colors"
               >
                 Browse Resources
               </Link>

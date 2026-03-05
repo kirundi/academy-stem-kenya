@@ -128,7 +128,7 @@ export default function TeacherChallengesPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -148,7 +148,7 @@ export default function TeacherChallengesPage() {
               search
             </span>
             <input
-              className="pl-10 pr-4 py-2 bg-(--bg-card) border border-(--border-medium) rounded-lg text-sm w-56 text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-[#13eca4]/50"
+              className="pl-10 pr-4 py-2 bg-(--bg-card) border border-(--border-medium) rounded-lg text-sm w-56 text-(--text-base) placeholder:text-(--text-faint) focus:outline-none focus:border-(--primary-green)/50"
               placeholder="Find challenges..."
             />
           </div>
@@ -167,8 +167,8 @@ export default function TeacherChallengesPage() {
                   onClick={() => setActiveFilter(f)}
                   className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
                     activeFilter === f
-                      ? "bg-[#13eca4]/20 text-[#13eca4] border-[#13eca4]/30"
-                      : "bg-(--bg-card) text-(--text-muted) border-slate-700 hover:border-[#13eca4]/30"
+                      ? "bg-(--primary-green)/20 text-(--primary-green) border-(--primary-green)/30"
+                      : "bg-(--bg-card) text-(--text-muted) border-(--border) hover:border-(--primary-green)/30"
                   }`}
                 >
                   {f}
@@ -206,18 +206,18 @@ export default function TeacherChallengesPage() {
                     key={c.id}
                     className={`bg-(--bg-page) border rounded-xl overflow-hidden transition-all group ${
                       enrolled
-                        ? "border-[#13eca4]/40 shadow-lg shadow-[#13eca4]/5"
+                        ? "border-(--primary-green)/40 shadow-lg shadow-(--primary-green)/5"
                         : upcoming
-                          ? "border-slate-700/50 opacity-80"
-                          : "border-(--border-medium) hover:shadow-xl hover:shadow-[#13eca4]/5"
+                          ? "border-(--border)/50 opacity-80"
+                          : "border-(--border-medium) hover:shadow-xl hover:shadow-(--primary-green)/5"
                     }`}
                   >
                     {/* Card header banner */}
-                    <div className="h-28 bg-linear-to-br from-[#13eca4]/25 to-[#102022] relative">
+                    <div className="h-28 bg-linear-to-br from-(--primary-green)/25 to-[#102022] relative">
                       {upcoming && <div className="absolute inset-0 bg-(--bg-page)/60 grayscale" />}
                       <div className="absolute inset-0 flex items-center justify-center opacity-15">
                         <span
-                          className="material-symbols-outlined text-[#13eca4]"
+                          className="material-symbols-outlined text-(--primary-green)"
                           style={{ fontSize: "80px" }}
                         >
                           {c.icon || "emoji_events"}
@@ -235,15 +235,15 @@ export default function TeacherChallengesPage() {
                           </span>
                         )}
                         {!live && !upcoming && (
-                          <span className="bg-slate-700 text-(--text-base) text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                          <span className="bg-(--bg-elevated) text-(--text-base) text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
                             Ended
                           </span>
                         )}
                         <span
                           className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
                             c.scope === "school"
-                              ? "bg-[#13eca4] text-[#0d1f1a]"
-                              : "bg-slate-700/80 text-(--text-base)"
+                              ? "bg-(--primary-green) text-[#0d1f1a]"
+                              : "bg-(--bg-elevated)/80 text-(--text-base)"
                           }`}
                         >
                           {c.scope === "school" ? "School" : "Global"}
@@ -254,11 +254,11 @@ export default function TeacherChallengesPage() {
                     <div className="p-5">
                       <div className="flex justify-between items-start mb-2">
                         <h3
-                          className={`font-bold text-base ${!upcoming ? "group-hover:text-[#13eca4] transition-colors" : ""}`}
+                          className={`font-bold text-base ${!upcoming ? "group-hover:text-(--primary-green) transition-colors" : ""}`}
                         >
                           {c.title}
                         </h3>
-                        <span className="material-symbols-outlined text-[#13eca4] text-xl">
+                        <span className="material-symbols-outlined text-(--primary-green) text-xl">
                           {c.icon || "emoji_events"}
                         </span>
                       </div>
@@ -278,7 +278,7 @@ export default function TeacherChallengesPage() {
                                 <span className="text-[10px] text-(--text-faint)">Late</span>
                                 <button
                                   onClick={() => toggleLateAccess(enr.id, enr.lateAccess)}
-                                  className={`w-8 h-4 rounded-full relative transition-colors ${enr.lateAccess ? "bg-[#13eca4]" : "bg-slate-600"}`}
+                                  className={`w-8 h-4 rounded-full relative transition-colors ${enr.lateAccess ? "bg-(--primary-green)" : "bg-(--bg-elevated)"}`}
                                 >
                                   <div
                                     className={`absolute top-0.5 size-3 bg-white rounded-full transition-transform ${enr.lateAccess ? "right-0.5" : "left-0.5"}`}
@@ -316,7 +316,7 @@ export default function TeacherChallengesPage() {
                         <div className="flex gap-2">
                           {enrolled ? (
                             <>
-                              <button className="flex-1 bg-(--bg-card) text-(--text-base) py-2 rounded-lg text-sm font-bold hover:bg-slate-700 transition-colors">
+                              <button className="flex-1 bg-(--bg-card) text-(--text-base) py-2 rounded-lg text-sm font-bold hover:bg-(--bg-elevated) transition-colors">
                                 View Student Work
                               </button>
                               <button
@@ -341,11 +341,11 @@ export default function TeacherChallengesPage() {
                                     challengeTitle: c.title,
                                   })
                                 }
-                                className="flex-1 bg-[#13eca4] text-[#0d1f1a] py-2 rounded-lg text-sm font-bold hover:brightness-105 transition-all"
+                                className="flex-1 bg-(--primary-green) text-[#0d1f1a] py-2 rounded-lg text-sm font-bold hover:brightness-105 transition-all"
                               >
                                 Enroll a Class
                               </button>
-                              <button className="px-3 bg-(--bg-card) text-(--text-muted) rounded-lg hover:bg-slate-700">
+                              <button className="px-3 bg-(--bg-card) text-(--text-muted) rounded-lg hover:bg-(--bg-elevated)">
                                 <span className="material-symbols-outlined text-sm pt-1">
                                   visibility
                                 </span>
@@ -382,7 +382,7 @@ export default function TeacherChallengesPage() {
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[rgba(19,236,164,0.06)]">
+                  <tbody className="divide-y divide-[rgba(45,212,191,0.06)]">
                     {myEnrollments.map((e) => {
                       const challenge = challenges.find((c) => c.id === e.challengeId);
                       return (
@@ -396,7 +396,7 @@ export default function TeacherChallengesPage() {
                           <td className="px-6 py-4">
                             <button
                               onClick={() => toggleLateAccess(e.id, e.lateAccess)}
-                              className={`w-10 h-5 rounded-full relative transition-colors ${e.lateAccess ? "bg-[#13eca4]" : "bg-slate-600"}`}
+                              className={`w-10 h-5 rounded-full relative transition-colors ${e.lateAccess ? "bg-(--primary-green)" : "bg-(--bg-elevated)"}`}
                             >
                               <div
                                 className={`absolute top-0.5 size-4 bg-white rounded-full transition-transform ${e.lateAccess ? "right-0.5" : "left-0.5"}`}
@@ -473,7 +473,7 @@ export default function TeacherChallengesPage() {
                   <button
                     disabled={!selectedClassroomId || enrolling}
                     onClick={handleEnroll}
-                    className="flex-1 py-2.5 rounded-xl text-sm font-bold bg-[#13eca4] text-[#10221c] hover:opacity-90 transition-opacity disabled:opacity-50"
+                    className="flex-1 py-2.5 rounded-xl text-sm font-bold bg-(--primary-green) text-[#10221c] hover:opacity-90 transition-opacity disabled:opacity-50"
                   >
                     {enrolling ? "Enrolling…" : "Enroll"}
                   </button>

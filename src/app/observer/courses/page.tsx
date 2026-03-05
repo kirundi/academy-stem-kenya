@@ -72,7 +72,7 @@ export default function ObserverCoursesPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(6,182,212,0.1)] px-8 h-16 flex items-center">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Course Library</h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Platform courses available to your schools
           </p>
         </div>
@@ -104,7 +104,7 @@ export default function ObserverCoursesPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -121,7 +121,7 @@ export default function ObserverCoursesPage() {
             </div>
             <div className="flex flex-wrap gap-2 sm:ml-auto">
               <div className="relative">
-                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-500 text-[16px]">
+                <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-(--text-faint) text-[16px]">
                   search
                 </span>
                 <input
@@ -147,10 +147,10 @@ export default function ObserverCoursesPage() {
           <div className="divide-y divide-[rgba(255,255,255,0.03)]">
             {filtered.length === 0 ? (
               <div className="py-12 text-center">
-                <span className="material-symbols-outlined text-[40px] text-slate-600 mb-2 block">
+                <span className="material-symbols-outlined text-[40px] text-(--text-faint) mb-2 block">
                   library_books
                 </span>
-                <p className="text-slate-400 text-sm">No courses match your search.</p>
+                <p className="text-(--text-muted) text-sm">No courses match your search.</p>
               </div>
             ) : (
               filtered.map((course) => {
@@ -171,13 +171,13 @@ export default function ObserverCoursesPage() {
                     <div className="flex-1 min-w-0">
                       <p className="text-(--text-base) font-medium text-sm truncate">{course.title}</p>
                       <div className="flex items-center gap-2 mt-0.5">
-                        <span className="text-slate-500 text-xs">{course.category}</span>
-                        <span className="text-slate-600">·</span>
+                        <span className="text-(--text-faint) text-xs">{course.category}</span>
+                        <span className="text-(--text-faint)">·</span>
                         <span className="text-xs font-medium" style={{ color: diffColor }}>
                           {course.difficulty}
                         </span>
-                        <span className="text-slate-600">·</span>
-                        <span className="text-slate-500 text-xs">{course.totalLessons} lessons</span>
+                        <span className="text-(--text-faint)">·</span>
+                        <span className="text-(--text-faint) text-xs">{course.totalLessons} lessons</span>
                       </div>
                     </div>
                     <span

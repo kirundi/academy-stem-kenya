@@ -114,16 +114,16 @@ export default function ReviewerSettingsPage() {
 
           <section className="flex-1 flex flex-col gap-7">
             {activeTab === "account" && (
-              <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
+              <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                 <h3 className="text-xl font-bold text-(--text-base) mb-6">Account Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
                     <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider">Full Name</label>
-                    <input className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-base) px-4 py-2.5 text-sm outline-none" defaultValue={appUser?.displayName ?? ""} />
+                    <input className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-base) px-4 py-2.5 text-sm outline-none" defaultValue={appUser?.displayName ?? ""} />
                   </div>
                   <div className="space-y-1.5">
                     <label className="block text-xs font-bold text-(--text-muted) uppercase tracking-wider">Email</label>
-                    <input className="w-full bg-(--bg-page) border border-slate-700 rounded-lg text-(--text-muted) px-4 py-2.5 text-sm cursor-not-allowed" value={appUser?.email ?? ""} readOnly />
+                    <input className="w-full bg-(--bg-page) border border-(--border) rounded-lg text-(--text-muted) px-4 py-2.5 text-sm cursor-not-allowed" value={appUser?.email ?? ""} readOnly />
                   </div>
                 </div>
                 <div className="mt-5 p-4 rounded-xl border" style={{ background: `${ACCENT}10`, borderColor: `${ACCENT}30` }}>
@@ -143,11 +143,11 @@ export default function ReviewerSettingsPage() {
             )}
 
             {activeTab === "notifications" && (
-              <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
+              <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                 <h3 className="text-xl font-bold text-(--text-base) mb-6">Notification Preferences</h3>
                 <div className="space-y-4">
                   {NOTIFICATIONS.map((item, i) => (
-                    <div key={item.label} className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700">
+                    <div key={item.label} className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-(--border)">
                       <div>
                         <p className="font-bold text-(--text-base) text-sm">{item.label}</p>
                         <p className="text-xs text-(--text-muted)">{item.desc}</p>
@@ -167,19 +167,19 @@ export default function ReviewerSettingsPage() {
 
             {activeTab === "security" && (
               <div className="space-y-6">
-                <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
+                <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                   <h3 className="text-xl font-bold text-(--text-base) mb-6">Password</h3>
-                  <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-slate-700">
+                  <div className="flex items-center justify-between p-4 bg-(--bg-page)/50 rounded-xl border border-(--border)">
                     <div>
                       <p className="font-bold text-(--text-base)">Account Password</p>
                       <p className="text-sm text-(--text-muted)">Change your login password</p>
                     </div>
-                    <a href="/auth/change-password" className="px-4 py-2 bg-(--bg-card) border border-slate-700 text-slate-200 text-sm font-bold rounded-lg hover:border-[rgba(245,158,11,0.5)] transition-colors">
+                    <a href="/auth/change-password" className="px-4 py-2 bg-(--bg-card) border border-(--border) text-(--text-base) text-sm font-bold rounded-lg hover:border-[rgba(245,158,11,0.5)] transition-colors">
                       Change Password
                     </a>
                   </div>
                 </div>
-                <div className="bg-(--bg-card) rounded-xl border border-slate-800 p-7">
+                <div className="bg-(--bg-card) rounded-xl border border-(--border-subtle) p-7">
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <h3 className="text-xl font-bold text-(--text-base)">Active Sessions</h3>
@@ -189,7 +189,7 @@ export default function ReviewerSettingsPage() {
                       <button onClick={fetchSessions} className="p-2 text-(--text-muted) hover:text-(--text-base) transition-colors">
                         <span className="material-symbols-outlined text-[18px]">refresh</span>
                       </button>
-                      <button onClick={revokeAll} disabled={revoking === "all"} className="px-4 py-2 bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.3)] text-[#ff4d4d] text-sm font-bold rounded-lg hover:bg-[rgba(255,77,77,0.2)] transition-colors disabled:opacity-50">
+                      <button onClick={revokeAll} disabled={revoking === "all"} className="px-4 py-2 bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.3)] text-(--accent-red) text-sm font-bold rounded-lg hover:bg-[rgba(255,77,77,0.2)] transition-colors disabled:opacity-50">
                         {revoking === "all" ? "Signing out..." : "Log Out All Devices"}
                       </button>
                     </div>
@@ -205,11 +205,11 @@ export default function ReviewerSettingsPage() {
                       {sessions.map((s) => {
                         const isCurrent = s.id === currentSessionId;
                         return (
-                          <div key={s.id} className={`flex items-center justify-between p-4 rounded-xl border ${isCurrent ? "" : "bg-(--bg-page)/50 border-slate-700"}`} style={isCurrent ? { background: `${ACCENT}06`, borderColor: `${ACCENT}30` } : {}}>
+                          <div key={s.id} className={`flex items-center justify-between p-4 rounded-xl border ${isCurrent ? "" : "bg-(--bg-page)/50 border-(--border)"}`} style={isCurrent ? { background: `${ACCENT}06`, borderColor: `${ACCENT}30` } : {}}>
                             <div className="flex items-start gap-3 min-w-0">
                               <span className="material-symbols-outlined text-(--text-muted) text-xl mt-0.5 shrink-0">devices</span>
                               <div className="min-w-0">
-                                <p className="text-slate-200 text-sm font-medium truncate">{s.device.length > 60 ? s.device.slice(0, 60) + "…" : s.device}</p>
+                                <p className="text-(--text-base) text-sm font-medium truncate">{s.device.length > 60 ? s.device.slice(0, 60) + "…" : s.device}</p>
                                 <p className="text-(--text-faint) text-xs mt-0.5">
                                   IP {s.ip} · {s.createdAt ? new Date(s.createdAt).toLocaleDateString() : "unknown"}
                                   {isCurrent && <span className="ml-2 font-semibold" style={{ color: ACCENT }}>(this device)</span>}
@@ -217,7 +217,7 @@ export default function ReviewerSettingsPage() {
                               </div>
                             </div>
                             {!isCurrent && (
-                              <button onClick={() => revokeSession(s.id)} disabled={revoking === s.id} className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-slate-700 rounded-lg hover:text-[#ff4d4d] hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50">
+                              <button onClick={() => revokeSession(s.id)} disabled={revoking === s.id} className="ml-4 shrink-0 px-3 py-1.5 text-xs font-bold text-(--text-muted) border border-(--border) rounded-lg hover:text-(--accent-red) hover:border-[rgba(255,77,77,0.4)] transition-colors disabled:opacity-50">
                                 {revoking === s.id ? "..." : "Revoke"}
                               </button>
                             )}

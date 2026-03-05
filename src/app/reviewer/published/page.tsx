@@ -52,7 +52,7 @@ export default function ReviewerPublishedPage() {
       <header className="sticky top-0 z-10 bg-[rgba(16,34,28,0.8)] backdrop-blur-md border-b border-[rgba(245,158,11,0.1)] px-8 h-16 flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-(--text-base)">Published Courses</h1>
-          <p className="text-slate-400 text-xs mt-0.5">{published.length} live on the platform</p>
+          <p className="text-(--text-muted) text-xs mt-0.5">{published.length} live on the platform</p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[rgba(16,185,129,0.15)] border border-(--border-medium)">
           <span className="w-1.5 h-1.5 rounded-full bg-[#10b981]" />
@@ -63,9 +63,9 @@ export default function ReviewerPublishedPage() {
       <div className="px-8 py-8">
         {published.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-(--border-subtle)">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-3">library_books</span>
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-3">library_books</span>
             <p className="text-(--text-base) font-semibold mb-1">No published courses yet</p>
-            <p className="text-slate-400 text-sm">Approved courses will appear here once published.</p>
+            <p className="text-(--text-muted) text-sm">Approved courses will appear here once published.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4">
@@ -79,7 +79,7 @@ export default function ReviewerPublishedPage() {
                   <div className="flex items-start gap-4">
                     <div
                       className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-2xl"
-                      style={{ background: `${course.color ?? "#13eca4"}18` }}
+                      style={{ background: `${course.color ?? "#2dd4bf"}18` }}
                     >
                       {course.icon ?? "📚"}
                     </div>
@@ -96,8 +96,8 @@ export default function ReviewerPublishedPage() {
                           Published
                         </span>
                       </div>
-                      <p className="text-slate-400 text-sm mt-1 line-clamp-1">{course.description}</p>
-                      <div className="flex items-center gap-4 mt-2 text-xs text-slate-500">
+                      <p className="text-(--text-muted) text-sm mt-1 line-clamp-1">{course.description}</p>
+                      <div className="flex items-center gap-4 mt-2 text-xs text-(--text-faint)">
                         <span className="flex items-center gap-1">
                           <span className="material-symbols-outlined text-[14px]">category</span>
                           {course.category}
@@ -121,7 +121,7 @@ export default function ReviewerPublishedPage() {
                     <div className="shrink-0 flex items-center gap-2">
                       <button
                         onClick={() => setExpandedId(expandedId === course.id ? null : course.id)}
-                        className="p-2 rounded-lg text-slate-400 hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+                        className="p-2 rounded-lg text-(--text-muted) hover:text-(--text-base) hover:bg-[rgba(255,255,255,0.05)] transition-colors"
                         title="View details"
                       >
                         <span className="material-symbols-outlined text-[18px]">{expandedId === course.id ? "expand_less" : "expand_more"}</span>
@@ -140,8 +140,8 @@ export default function ReviewerPublishedPage() {
                   </div>
                   {expandedId === course.id && (
                     <div className="mt-3 pt-3 border-t border-(--border-subtle)">
-                      <p className="text-slate-300 text-sm">{course.description}</p>
-                      <div className="mt-2 flex items-center gap-4 text-xs text-slate-500">
+                      <p className="text-(--text-base) text-sm">{course.description}</p>
+                      <div className="mt-2 flex items-center gap-4 text-xs text-(--text-faint)">
                         {course.estimatedDuration && <span>Duration: {course.estimatedDuration}</span>}
                         {course.reviewedBy && <span>Reviewed by: {course.reviewedBy.slice(0, 12)}...</span>}
                       </div>

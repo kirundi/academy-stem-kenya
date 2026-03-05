@@ -70,7 +70,7 @@ export default function PlatformSettingsPage() {
   if (authLoading || !hasPermission("manage_settings")) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -80,7 +80,7 @@ export default function PlatformSettingsPage() {
   if (loading || !settings) {
     return (
       <div className="flex items-center justify-center h-64">
-        <span className="material-symbols-outlined animate-spin text-4xl text-[#13eca4]">
+        <span className="material-symbols-outlined animate-spin text-4xl text-(--primary-green)">
           progress_activity
         </span>
       </div>
@@ -122,7 +122,7 @@ export default function PlatformSettingsPage() {
         </div>
         <div className="flex items-center gap-3">
           {saved && (
-            <span className="text-[#13eca4] text-sm font-semibold flex items-center gap-1">
+            <span className="text-(--primary-green) text-sm font-semibold flex items-center gap-1">
               <span className="material-symbols-outlined text-[16px]">check_circle</span>
               Saved
             </span>
@@ -130,7 +130,7 @@ export default function PlatformSettingsPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 bg-[#13eca4] text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+            className="flex items-center gap-2 bg-(--primary-green) text-[#10221c] font-bold text-sm px-5 py-2.5 rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
           >
             {saving ? (
               <span className="material-symbols-outlined animate-spin text-[18px]">
@@ -148,7 +148,7 @@ export default function PlatformSettingsPage() {
         {/* General Settings */}
         <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
           <h2 className="text-(--text-base) font-bold mb-5 flex items-center gap-2">
-            <span className="material-symbols-outlined text-[20px] text-[#13eca4]">tune</span>
+            <span className="material-symbols-outlined text-[20px] text-(--primary-green)">tune</span>
             General
           </h2>
           <div className="space-y-4">
@@ -187,7 +187,7 @@ export default function PlatformSettingsPage() {
         {/* Feature Toggles */}
         <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
           <h2 className="text-(--text-base) font-bold mb-5 flex items-center gap-2">
-            <span className="material-symbols-outlined text-[20px] text-[#13eca4]">toggle_on</span>
+            <span className="material-symbols-outlined text-[20px] text-(--primary-green)">toggle_on</span>
             Features
           </h2>
           <div className="space-y-1">
@@ -197,8 +197,8 @@ export default function PlatformSettingsPage() {
                 className="flex items-center justify-between py-4 border-b border-(--border-subtle) last:border-0"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[rgba(19,236,164,0.06)] flex items-center justify-center">
-                    <span className="material-symbols-outlined text-[18px] text-[#13eca4]">
+                  <div className="w-9 h-9 rounded-xl bg-[rgba(45,212,191,0.06)] flex items-center justify-center">
+                    <span className="material-symbols-outlined text-[18px] text-(--primary-green)">
                       {ft.icon}
                     </span>
                   </div>
@@ -210,7 +210,7 @@ export default function PlatformSettingsPage() {
                 <button
                   onClick={() => toggleFeature(ft.key)}
                   className={`w-11 h-6 rounded-full relative transition-colors ${
-                    settings.features[ft.key] ? "bg-[#13eca4]" : "bg-[rgba(255,255,255,0.12)]"
+                    settings.features[ft.key] ? "bg-(--primary-green)" : "bg-[rgba(255,255,255,0.12)]"
                   }`}
                 >
                   <div
@@ -227,7 +227,7 @@ export default function PlatformSettingsPage() {
         {/* Platform Info */}
         <div className="bg-(--bg-card) rounded-2xl border border-(--border-subtle) p-6">
           <h2 className="text-(--text-base) font-bold mb-5 flex items-center gap-2">
-            <span className="material-symbols-outlined text-[20px] text-[#13eca4]">info</span>
+            <span className="material-symbols-outlined text-[20px] text-(--primary-green)">info</span>
             Platform Info
           </h2>
           <div className="grid grid-cols-2 gap-4">
@@ -237,7 +237,7 @@ export default function PlatformSettingsPage() {
             </div>
             <div className="bg-[rgba(255,255,255,0.03)] rounded-xl p-4">
               <p className="text-(--text-faint) text-xs">Domain</p>
-              <p className="text-[#13eca4] text-sm font-semibold mt-1">
+              <p className="text-(--primary-green) text-sm font-semibold mt-1">
                 academy.stemimpactcenterkenya.org
               </p>
             </div>

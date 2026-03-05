@@ -90,7 +90,7 @@ export default function MentorSubmissionsPage() {
             error
           </span>
           <p className="text-red-400 font-semibold mb-1">Something went wrong</p>
-          <p className="text-slate-500 text-sm">{error}</p>
+          <p className="text-(--text-faint) text-sm">{error}</p>
         </div>
       </div>
     );
@@ -128,7 +128,7 @@ export default function MentorSubmissionsPage() {
             </span>
             Submissions
           </h1>
-          <p className="text-slate-400 text-xs mt-0.5">
+          <p className="text-(--text-muted) text-xs mt-0.5">
             Grading queue for your assigned challenges
           </p>
         </div>
@@ -171,7 +171,7 @@ export default function MentorSubmissionsPage() {
               </div>
               <div>
                 <p className="text-(--text-base) font-bold text-2xl leading-none">{value}</p>
-                <p className="text-slate-400 text-xs mt-0.5">{label}</p>
+                <p className="text-(--text-muted) text-xs mt-0.5">{label}</p>
               </div>
             </div>
           ))}
@@ -206,13 +206,13 @@ export default function MentorSubmissionsPage() {
         {/* Submissions list */}
         {filteredSubmissions.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)]">
-            <span className="material-symbols-outlined text-[64px] text-slate-600 mb-4">
+            <span className="material-symbols-outlined text-[64px] text-(--text-faint) mb-4">
               task_alt
             </span>
             <p className="text-(--text-base) font-semibold text-lg mb-2">
               {activeTab === "pending" ? "All caught up!" : "No submissions yet"}
             </p>
-            <p className="text-slate-400 text-sm">
+            <p className="text-(--text-muted) text-sm">
               {activeTab === "pending"
                 ? "No submissions awaiting grades."
                 : "Submissions will appear here once students participate."}
@@ -221,7 +221,7 @@ export default function MentorSubmissionsPage() {
         ) : (
           <div className="bg-(--bg-card) rounded-2xl border border-[rgba(16,185,129,0.08)] overflow-hidden">
             {/* Table header */}
-            <div className="grid grid-cols-12 gap-4 px-6 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest border-b border-[rgba(16,185,129,0.06)]">
+            <div className="grid grid-cols-12 gap-4 px-6 py-3 text-[10px] font-bold text-(--text-faint) uppercase tracking-widest border-b border-[rgba(16,185,129,0.06)]">
               <div className="col-span-3">Submitter</div>
               <div className="col-span-4">Challenge</div>
               <div className="col-span-2">Submitted</div>
@@ -240,21 +240,21 @@ export default function MentorSubmissionsPage() {
                     <div className="w-8 h-8 rounded-full bg-[rgba(16,185,129,0.15)] flex items-center justify-center text-[#10b981] text-[11px] font-bold shrink-0">
                       {sub.studentId.slice(0, 2).toUpperCase()}
                     </div>
-                    <span className="text-slate-300 text-xs font-mono truncate">
+                    <span className="text-(--text-base) text-xs font-mono truncate">
                       {sub.studentId.slice(0, 14)}&hellip;
                     </span>
                   </div>
 
                   {/* Challenge */}
                   <div className="col-span-4 min-w-0">
-                    <p className="text-slate-200 text-sm font-medium truncate">
+                    <p className="text-(--text-base) text-sm font-medium truncate">
                       {challengeMap[sub.challengeId] ?? "Unknown Challenge"}
                     </p>
                   </div>
 
                   {/* Submitted date */}
                   <div className="col-span-2">
-                    <span className="text-slate-400 text-xs">{formatDate(sub.submittedAt)}</span>
+                    <span className="text-(--text-muted) text-xs">{formatDate(sub.submittedAt)}</span>
                   </div>
 
                   {/* Score */}
@@ -267,7 +267,7 @@ export default function MentorSubmissionsPage() {
                         {sub.score}%
                       </span>
                     ) : (
-                      <span className="text-slate-600 text-xs">—</span>
+                      <span className="text-(--text-faint) text-xs">—</span>
                     )}
                   </div>
 
@@ -287,7 +287,7 @@ export default function MentorSubmissionsPage() {
                         Grade
                       </Link>
                     ) : (
-                      <span className="flex items-center gap-1 text-slate-600 text-[11px]">
+                      <span className="flex items-center gap-1 text-(--text-faint) text-[11px]">
                         <span className="material-symbols-outlined text-[13px]">check_circle</span>
                         Done
                       </span>

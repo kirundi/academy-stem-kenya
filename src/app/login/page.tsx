@@ -235,7 +235,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-(--bg-page) text-(--text-base) flex flex-col relative overflow-hidden">
       {/* Background blobs */}
       <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[rgba(19,236,164,0.06)] rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-[rgba(45,212,191,0.06)] rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[40%] h-[40%] bg-[rgba(255,77,77,0.05)] rounded-full blur-[120px]" />
         <div
           className="absolute inset-0 opacity-[0.03]"
@@ -259,19 +259,19 @@ export default function LoginPage() {
         <div className="flex items-center gap-6">
           <Link
             href="/#curriculum"
-            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-(--primary-green) transition-colors"
           >
             Courses
           </Link>
           <Link
             href="/help"
-            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-[#13eca4] transition-colors"
+            className="hidden md:block text-(--text-muted) text-sm font-medium hover:text-(--primary-green) transition-colors"
           >
             Help Center
           </Link>
           <Link
             href="/register/teacher"
-            className="bg-[#13eca4] text-[#10221c] text-sm font-bold px-5 h-10 flex items-center rounded-lg hover:opacity-90 transition-opacity"
+            className="bg-(--primary-green) text-[#10221c] text-sm font-bold px-5 h-10 flex items-center rounded-lg hover:opacity-90 transition-opacity"
           >
             Sign Up
           </Link>
@@ -287,7 +287,7 @@ export default function LoginPage() {
               onClick={() => switchMode(false)}
               className={`flex-1 h-10 rounded-lg text-sm font-bold transition-all ${
                 !emailMode
-                  ? "bg-[#13eca4] text-[#10221c] shadow"
+                  ? "bg-(--primary-green) text-[#10221c] shadow"
                   : "text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
@@ -296,7 +296,7 @@ export default function LoginPage() {
             <button
               onClick={() => switchMode(true)}
               className={`flex-1 h-10 rounded-lg text-sm font-bold transition-all ${
-                emailMode ? "bg-[#13eca4] text-[#10221c] shadow" : "text-(--text-muted) hover:text-(--text-base)"
+                emailMode ? "bg-(--primary-green) text-[#10221c] shadow" : "text-(--text-muted) hover:text-(--text-base)"
               }`}
             >
               Email Login
@@ -318,8 +318,8 @@ export default function LoginPage() {
           {/* Error */}
           {error && (
             <div className="mb-6 p-4 rounded-xl bg-[rgba(255,77,77,0.1)] border border-[rgba(255,77,77,0.2)] flex items-center gap-3">
-              <span className="material-symbols-outlined text-[#ff4d4d] text-lg">error</span>
-              <p className="text-[#ff4d4d] text-sm font-medium">{error}</p>
+              <span className="material-symbols-outlined text-(--accent-red) text-lg">error</span>
+              <p className="text-(--accent-red) text-sm font-medium">{error}</p>
             </div>
           )}
 
@@ -328,7 +328,7 @@ export default function LoginPage() {
           {/* ------------------------------------------------------------------ */}
           {!emailMode && (
             <div className="mb-8">
-              <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-1 text-center">
+              <label className="block text-(--primary-green) text-xs font-bold uppercase tracking-widest mb-1 text-center">
                 Your Student Code
               </label>
               <p className="text-(--text-faint) text-xs text-center mb-5">
@@ -353,8 +353,8 @@ export default function LoginPage() {
                       placeholder="·"
                       className={`w-12 md:w-14 h-16 text-center bg-(--input-bg) border-2 text-2xl font-bold text-(--text-base) rounded-xl transition-all outline-none placeholder:text-(--text-faint) ${
                         val
-                          ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
-                          : "border-(--border-subtle) focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
+                          ? "border-(--primary-green) bg-[rgba(45,212,191,0.08)]"
+                          : "border-(--border-subtle) focus:border-(--primary-green) focus:bg-[rgba(45,212,191,0.04)]"
                       }`}
                     />
                   </span>
@@ -362,7 +362,7 @@ export default function LoginPage() {
               </div>
 
               <div className="mb-6">
-                <label className="block text-[#13eca4] text-xs font-bold uppercase tracking-widest mb-2 text-center">
+                <label className="block text-(--primary-green) text-xs font-bold uppercase tracking-widest mb-2 text-center">
                   Your First Name
                 </label>
                 <input
@@ -383,17 +383,17 @@ export default function LoginPage() {
                   autoComplete="given-name"
                   className={`w-full h-14 bg-(--input-bg) border-2 rounded-xl px-4 text-lg font-medium text-(--text-base) placeholder:text-(--text-faint) outline-none transition-all ${
                     firstName.trim()
-                      ? "border-[#13eca4] bg-[rgba(19,236,164,0.08)]"
-                      : "border-(--border-subtle) focus:border-[#13eca4] focus:bg-[rgba(19,236,164,0.04)]"
+                      ? "border-(--primary-green) bg-[rgba(45,212,191,0.08)]"
+                      : "border-(--border-subtle) focus:border-(--primary-green) focus:bg-[rgba(45,212,191,0.04)]"
                   }`}
                 />
               </div>
 
               {verifiedStudent && (
-                <div className="rounded-xl p-4 mb-6 border bg-[rgba(19,236,164,0.05)] border-(--border-accent)">
+                <div className="rounded-xl p-4 mb-6 border bg-[rgba(45,212,191,0.05)] border-(--border-accent)">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-[rgba(19,236,164,0.15)] flex items-center justify-center shrink-0">
-                      <span className="text-[#13eca4] text-sm font-bold">
+                    <div className="w-10 h-10 rounded-full bg-[rgba(45,212,191,0.15)] flex items-center justify-center shrink-0">
+                      <span className="text-(--primary-green) text-sm font-bold">
                         {verifiedStudent.displayName
                           .split(" ")
                           .map((n) => n[0])
@@ -403,7 +403,7 @@ export default function LoginPage() {
                       </span>
                     </div>
                     <div className="flex-1">
-                      <p className="text-[#13eca4] text-xs font-bold uppercase tracking-wide mb-1">
+                      <p className="text-(--primary-green) text-xs font-bold uppercase tracking-wide mb-1">
                         Welcome back!
                       </p>
                       <p className="text-(--text-base) font-bold text-lg">{verifiedStudent.displayName}</p>
@@ -425,7 +425,7 @@ export default function LoginPage() {
                 <button
                   onClick={handleStudentLogin}
                   disabled={loading}
-                  className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)] disabled:opacity-50"
+                  className="w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all bg-(--primary-green) text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(45,212,191,0.2)] disabled:opacity-50"
                 >
                   {loading ? (
                     <span className="material-symbols-outlined animate-spin text-[#10221c]">
@@ -444,8 +444,8 @@ export default function LoginPage() {
                   disabled={verifying || !formReady}
                   className={`w-full h-14 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all ${
                     formReady
-                      ? "bg-[#13eca4] text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(19,236,164,0.2)]"
-                      : "bg-[#13eca4]/30 text-[#10221c]/50 cursor-not-allowed"
+                      ? "bg-(--primary-green) text-[#10221c] hover:opacity-90 shadow-lg shadow-[rgba(45,212,191,0.2)]"
+                      : "bg-(--primary-green)/30 text-[#10221c]/50 cursor-not-allowed"
                   }`}
                 >
                   {verifying ? (
@@ -520,13 +520,13 @@ export default function LoginPage() {
                     type="checkbox"
                     checked={remember}
                     onChange={(e) => setRemember(e.target.checked)}
-                    className="w-4 h-4 rounded border border-(--border-accent) bg-(--input-bg) accent-[#13eca4] cursor-pointer"
+                    className="w-4 h-4 rounded border border-(--border-accent) bg-(--input-bg) accent-(--primary-green) cursor-pointer"
                   />
                   <span className="text-(--text-muted) text-sm group-hover:text-(--text-muted) transition-colors select-none">
                     Remember this device
                   </span>
                 </label>
-                <Link href="/forgot-password" className="text-[#13eca4] text-sm hover:underline">
+                <Link href="/forgot-password" className="text-(--primary-green) text-sm hover:underline">
                   Forgot password?
                 </Link>
               </div>
@@ -535,7 +535,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#13eca4] text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="w-full bg-(--primary-green) text-[#10221c] h-14 rounded-xl font-bold text-lg flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 {loading ? (
                   <span className="material-symbols-outlined animate-spin">progress_activity</span>
@@ -549,7 +549,7 @@ export default function LoginPage() {
                 New here?{" "}
                 <Link
                   href="/register/teacher"
-                  className="text-[#13eca4] font-semibold hover:underline"
+                  className="text-(--primary-green) font-semibold hover:underline"
                 >
                   Register as a teacher
                 </Link>

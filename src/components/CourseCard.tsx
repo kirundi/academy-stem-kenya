@@ -22,7 +22,7 @@ const categoryColors: Record<string, string> = {
   Circuitry: "#f59e0b",
   "Game Design": "#8b5cf6",
   "Web Literacy": "#3b82f6",
-  Coding: "#13eca4",
+  Coding: "#2dd4bf",
   "Green Tech": "#10b981",
   Robotics: "#06b6d4",
   "3D Design": "#f97316",
@@ -48,7 +48,7 @@ export default function CourseCard({
   locked = false,
   grade,
 }: CourseCardProps) {
-  const color = categoryColors[category] || "#13eca4";
+  const color = categoryColors[category] || "#2dd4bf";
   const linkHref = href || `/school/student/lesson/${id}`;
   const completedColor = "#00f5d4";
 
@@ -59,7 +59,7 @@ export default function CourseCard({
           ? "border-(--border-subtle) opacity-75 hover:opacity-100"
           : completed
             ? "border-[rgba(0,245,212,0.2)] hover:border-[rgba(0,245,212,0.4)] hover:shadow-xl hover:shadow-[rgba(0,245,212,0.06)]"
-            : "border-(--border-subtle) hover:border-[rgba(19,236,164,0.3)] hover:shadow-xl hover:shadow-[rgba(19,236,164,0.06)]"
+            : "border-(--border-subtle) hover:border-[rgba(45,212,191,0.3)] hover:shadow-xl hover:shadow-[rgba(45,212,191,0.06)]"
       }`}
     >
       {/* Completed / Locked overlay badge */}
@@ -123,7 +123,7 @@ export default function CourseCard({
         >
           {category}
         </span>
-        <span className="absolute top-3 right-3 text-xs font-semibold px-2 py-0.5 rounded bg-black/60 text-slate-300">
+        <span className="absolute top-3 right-3 text-xs font-semibold px-2 py-0.5 rounded bg-black/60 text-(--text-base)">
           {difficulty}
         </span>
         {completed && grade && (
@@ -139,7 +139,7 @@ export default function CourseCard({
       {/* Content */}
       <div className="p-5 flex-1 flex flex-col">
         <h3
-          className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-(--text-base) group-hover:text-[#13eca4]"}`}
+          className={`text-lg font-bold mb-2 leading-snug transition-colors ${completed ? "text-[#00f5d4]" : "text-(--text-base) group-hover:text-(--primary-green)"}`}
         >
           {title}
         </h3>
@@ -155,7 +155,7 @@ export default function CourseCard({
             </span>
             <span
               className="text-xs font-bold"
-              style={{ color: completed ? completedColor : progress > 0 ? "#13eca4" : "#64748b" }}
+              style={{ color: completed ? completedColor : progress > 0 ? "#2dd4bf" : "#64748b" }}
             >
               {progress}%
             </span>
@@ -166,8 +166,8 @@ export default function CourseCard({
               style={{
                 width: `${progress}%`,
                 background: completed
-                  ? `linear-gradient(90deg, ${completedColor}, #13eca4)`
-                  : `linear-gradient(90deg, #13eca4, #0dd494)`,
+                  ? `linear-gradient(90deg, ${completedColor}, #2dd4bf)`
+                  : `linear-gradient(90deg, #2dd4bf, #14b8a6)`,
               }}
             />
           </div>
@@ -202,7 +202,7 @@ export default function CourseCard({
         ) : (
           <Link
             href={linkHref}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-[#13eca4] text-[#10221c] font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(19,236,164,0.2)] group/btn"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-(--primary-green) text-[#10221c] font-bold rounded-xl text-sm hover:opacity-90 transition-opacity shadow-lg shadow-[rgba(45,212,191,0.2)] group/btn"
           >
             {progress > 0 ? (
               <>

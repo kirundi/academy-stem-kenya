@@ -18,7 +18,7 @@ const WINNER = {
 
 /* ─── Confetti particle data ─── */
 const PARTICLE_COUNT = 60;
-const COLORS = ["#FFD700", "#13eca4", "#FF6B6B", "#845EF7", "#FF922B", "#74C0FC"];
+const COLORS = ["#FFD700", "#2dd4bf", "#FF6B6B", "#845EF7", "#FF922B", "#74C0FC"];
 
 function generateParticles() {
   return Array.from({ length: PARTICLE_COUNT }, (_, i) => ({
@@ -158,7 +158,7 @@ export default function ChallengeWinnerPage() {
           className="pointer-events-none fixed inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse 70% 55% at 50% 20%, rgba(255,215,0,0.07) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 50% 90%, rgba(19,236,164,0.06) 0%, transparent 70%)",
+              "radial-gradient(ellipse 70% 55% at 50% 20%, rgba(255,215,0,0.07) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 50% 90%, rgba(45,212,191,0.06) 0%, transparent 70%)",
           }}
           aria-hidden
         />
@@ -167,7 +167,7 @@ export default function ChallengeWinnerPage() {
         <div className="no-print relative z-20 px-6 pt-6">
           <a
             href="/dashboard/challenges"
-            className="inline-flex items-center gap-1.5 text-sm text-(--text-muted) hover:text-[#13eca4] transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-(--text-muted) hover:text-(--primary-green) transition-colors"
           >
             <span className="material-symbols-outlined text-base">arrow_back</span>
             Back to Challenges
@@ -285,7 +285,7 @@ export default function ChallengeWinnerPage() {
             {/* STATS PANEL */}
             <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
               {[
-                { icon: "school", label: "Institution", value: WINNER.school, accent: "#13eca4" },
+                { icon: "school", label: "Institution", value: WINNER.school, accent: "#2dd4bf" },
                 {
                   icon: "leaderboard",
                   label: "Global Rank",
@@ -377,7 +377,7 @@ export default function ChallengeWinnerPage() {
                 >
                   <span
                     className="font-black text-[11rem] leading-none tracking-tighter opacity-[0.025]"
-                    style={{ color: "#13eca4" }}
+                    style={{ color: "var(--primary-green)" }}
                   >
                     SIC
                   </span>
@@ -421,7 +421,7 @@ export default function ChallengeWinnerPage() {
                           y="54"
                           textAnchor="middle"
                           fontSize="26"
-                          fill="#13eca4"
+                          fill="var(--primary-green)"
                           fontFamily="'Material Symbols Outlined', sans-serif"
                         >
                           &#xe3a5;
@@ -535,8 +535,8 @@ export default function ChallengeWinnerPage() {
 
                     <p className="text-(--text-muted) text-sm pt-3 leading-relaxed max-w-lg mx-auto">
                       has demonstrated{" "}
-                      <span className="text-[#13eca4] font-semibold">exceptional innovation</span>{" "}
-                      and <span className="text-[#13eca4] font-semibold">technical excellence</span>
+                      <span className="text-(--primary-green) font-semibold">exceptional innovation</span>{" "}
+                      and <span className="text-(--primary-green) font-semibold">technical excellence</span>
                       , earning
                       <span className="text-(--text-base) font-bold"> 1st Place</span> in the
                     </p>
@@ -637,12 +637,12 @@ export default function ChallengeWinnerPage() {
                         <path
                           d="M20,58 C55,52 100,56 140,58 C165,60 185,57 210,58"
                           fill="none"
-                          stroke="rgba(19,236,164,0.4)"
+                          stroke="rgba(45,212,191,0.4)"
                           strokeWidth="1"
                           strokeLinecap="round"
                         />
                       </svg>
-                      <div className="h-px w-48 bg-[rgba(19,236,164,0.3)] my-1" />
+                      <div className="h-px w-48 bg-[rgba(45,212,191,0.3)] my-1" />
                       <p className="text-sm font-bold text-(--text-base)">Ms. Priya Nkemdirim</p>
                       <p className="text-[10px] text-(--text-faint) text-center max-w-50 leading-tight">
                         Head of Competitions, SIC Kenya Academy
@@ -689,9 +689,9 @@ export default function ChallengeWinnerPage() {
                 style={
                   addedPortfolio
                     ? {
-                        background: "rgba(19,236,164,0.12)",
-                        borderColor: "rgba(19,236,164,0.5)",
-                        color: "#13eca4",
+                        background: "rgba(45,212,191,0.12)",
+                        borderColor: "rgba(45,212,191,0.5)",
+                        color: "var(--primary-green)",
                       }
                     : {
                         background: "rgba(255,255,255,0.04)",
