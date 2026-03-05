@@ -7,13 +7,10 @@ import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
-  { label: "Solutions", href: "/#solutions" },
-  { label: "Curriculum", href: "/#curriculum" },
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
   { label: "Educators", href: "/educators" },
   { label: "Challenges", href: "/challenges" },
-  { label: "About Us", href: "/about" },
-  { label: "Help", href: "/help" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export default function PublicNavbar() {

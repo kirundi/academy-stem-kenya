@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     "youth education",
   ],
   icons: {
-    icon: "/images/logo/STEM Favicon.png",
-    apple: "/images/logo/STEM Favicon.png",
+    icon: "/logo/logo-png/STEM Favicon.png",
+    apple: "/logo/logo-png/STEM Favicon.png",
   },
   openGraph: {
     title: "STEM Impact Academy | Comprehensive Learning Platform",
