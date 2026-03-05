@@ -33,12 +33,12 @@ function CtaSection() {
 
   return (
     <section id="about" className="py-24 px-6 relative overflow-hidden">
-      <div className="mx-auto max-w-5xl rounded-3xl bg-[#13daec] px-8 py-16 lg:px-20 relative overflow-hidden">
+      <div className="mx-auto max-w-5xl rounded-3xl bg-[#0d6b5e] px-8 py-16 lg:px-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern height="40" id="cta-grid" patternUnits="userSpaceOnUse" width="40">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="black" strokeWidth="1" />
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1" />
               </pattern>
             </defs>
             <rect fill="url(#cta-grid)" height="100%" width="100%" />
@@ -46,10 +46,10 @@ function CtaSection() {
         </div>
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-4xl font-black text-[#102022] leading-tight">
+            <h2 className="text-4xl font-black text-white leading-tight">
               Bring STEM Impact to Your School
             </h2>
-            <p className="mt-6 text-[#102022]/80 text-lg leading-relaxed font-medium">
+            <p className="mt-6 text-white/80 text-lg leading-relaxed font-medium">
               Join 500+ forward-thinking schools transforming their curriculum with our
               project-based learning framework.
             </p>
@@ -59,25 +59,25 @@ function CtaSection() {
                 "Standard-Aligned Curriculum",
                 "Teacher Training & Support",
               ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-[#102022] font-bold">
+                <li key={item} className="flex items-center gap-3 text-white font-bold">
                   <span className="material-symbols-outlined font-bold">check_circle</span>
                   {item}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-2xl bg-[rgba(16,32,34,0.1)] p-1 backdrop-blur-sm">
-            <div className="rounded-xl bg-slate-100 p-8 shadow-2xl text-slate-900">
+          <div className="rounded-2xl bg-[rgba(255,255,255,0.1)] p-1 backdrop-blur-sm">
+            <div className="rounded-xl bg-white p-8 shadow-2xl text-gray-900">
               <h3 className="text-xl font-bold mb-6">School Registration</h3>
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-(--text-faint)">
+                    <label className="text-xs font-bold uppercase text-gray-500">
                       First Name *
                     </label>
                     <input
                       required
-                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                      className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
                       placeholder="Jane"
                       type="text"
                       value={form.firstName}
@@ -85,9 +85,9 @@ function CtaSection() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-xs font-bold uppercase text-(--text-faint)">Last Name</label>
+                    <label className="text-xs font-bold uppercase text-gray-500">Last Name</label>
                     <input
-                      className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                      className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
                       placeholder="Doe"
                       type="text"
                       value={form.lastName}
@@ -96,10 +96,10 @@ function CtaSection() {
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase text-(--text-faint)">Work Email *</label>
+                  <label className="text-xs font-bold uppercase text-gray-500">Work Email *</label>
                   <input
                     required
-                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
                     placeholder="jane@school.edu"
                     type="email"
                     value={form.email}
@@ -107,12 +107,12 @@ function CtaSection() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase text-(--text-faint)">
+                  <label className="text-xs font-bold uppercase text-gray-500">
                     School Name *
                   </label>
                   <input
                     required
-                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
                     placeholder="West Valley Academy"
                     type="text"
                     value={form.schoolName}
@@ -120,9 +120,9 @@ function CtaSection() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold uppercase text-(--text-faint)">Role</label>
+                  <label className="text-xs font-bold uppercase text-gray-500">Role</label>
                   <select
-                    className="w-full rounded-lg border border-slate-200 bg-white p-3 text-sm focus:outline-none focus:border-[#13daec]"
+                    className="w-full rounded-lg border border-gray-200 bg-white p-3 text-sm focus:outline-none focus:border-[#0d6b5e]"
                     value={form.role}
                     onChange={(e) => setForm((p) => ({ ...p, role: e.target.value }))}
                   >
@@ -134,7 +134,7 @@ function CtaSection() {
                 </div>
                 <button
                   type="submit"
-                  className="mt-4 w-full rounded-lg bg-(--bg-page) py-4 font-bold text-(--text-base) shadow-lg hover:brightness-125 transition-all text-center block"
+                  className="mt-4 w-full rounded-lg bg-white py-4 font-bold text-[#0d6b5e] shadow-lg hover:bg-gray-50 transition-all text-center block border border-white/20"
                 >
                   Register Your School
                 </button>
@@ -155,102 +155,101 @@ export default function HomePage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative px-6 py-16 lg:py-24 overflow-hidden">
-          <div className="mx-auto max-w-7xl">
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
-              {/* Left */}
-              <div className="flex flex-col gap-8">
-                <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(19,218,236,0.1)] border border-[rgba(19,218,236,0.2)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#13daec] w-fit">
-                  <span className="material-symbols-outlined text-sm">verified</span>
-                  Impact-Driven Education
-                </div>
-                <h1 className="text-5xl font-black leading-tight tracking-tight lg:text-7xl text-(--text-base)">
-                  Build Projects.
-                  <br />
-                  <span className="text-[#13daec]">Earn Badges.</span>
-                  <br />
-                  Make an <span className="text-[#ff4d4d] italic">Impact.</span>
-                </h1>
-                <p className="max-w-xl text-lg text-(--text-muted)">
-                  Empowering the next generation of innovators through project-based STEM learning
-                  that delivers measurable real-world results.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Link
-                    href="/login"
-                    className="rounded-lg bg-[#13daec] px-8 py-4 text-lg font-bold text-[#102022] shadow-lg shadow-[rgba(19,218,236,0.2)] hover:scale-[1.02] transition-transform"
-                  >
-                    Join the Academy
-                  </Link>
-                  <Link
-                    href="#about"
-                    className="rounded-lg border border-[#283739] bg-(--bg-card) px-8 py-4 text-lg font-bold hover:bg-(--bg-elevated) transition-colors"
-                  >
-                    Register Your School
-                  </Link>
-                </div>
-              </div>
+          {/* Decorative background elements */}
+          <div className="absolute top-20 right-[10%] w-72 h-72 rounded-full bg-[#fde8e0] opacity-40 blur-2xl dark:opacity-5 pointer-events-none" />
+          <div className="absolute bottom-10 left-[5%] w-48 h-48 rounded-full bg-[#e0f5f0] opacity-50 dark:opacity-5 pointer-events-none" />
 
-              {/* Right — Skills Mastery Card */}
-              <div className="relative">
-                <div className="relative z-10 rounded-2xl border border-[#283739] bg-(--bg-card) p-6 shadow-2xl">
-                  <div className="flex items-center justify-between border-b border-[#283739] pb-4">
-                    <h3 className="font-bold text-(--text-base)">Student Skills Mastery</h3>
-                    <span className="text-[#13daec] font-bold">85% Global Avg</span>
+          <div className="mx-auto max-w-7xl">
+            <div className="rounded-3xl border border-(--border) bg-(--bg-card)/50 p-8 lg:p-12">
+              <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
+                {/* Left — Hero Text */}
+                <div className="flex flex-col gap-6">
+                  {/* Tagline badge with dot */}
+                  <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#0d6b5e] w-fit">
+                    <span className="w-2 h-2 rounded-full bg-[#0d6b5e]" />
+                    E-Learning Platform
                   </div>
-                  <div className="py-6">
-                    <svg className="mx-auto" height="300" viewBox="0 0 100 100" width="300">
-                      <circle
-                        cx="50"
-                        cy="50"
-                        fill="none"
-                        r="45"
-                        stroke="#283739"
-                        strokeWidth="0.5"
-                      />
-                      <circle
-                        cx="50"
-                        cy="50"
-                        fill="none"
-                        r="30"
-                        stroke="#283739"
-                        strokeWidth="0.5"
-                      />
-                      <circle
-                        cx="50"
-                        cy="50"
-                        fill="none"
-                        r="15"
-                        stroke="#283739"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M50 5 L50 95 M5 50 L95 50 M18 18 L82 82 M18 82 L82 18"
-                        stroke="#283739"
-                        strokeWidth="0.5"
-                      />
-                      <path
-                        d="M50 20 L75 35 L70 65 L40 75 L25 55 L30 30 Z"
-                        fill="rgba(19,218,236,0.3)"
-                        stroke="#13daec"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-center text-[10px] font-bold uppercase tracking-widest text-(--text-faint)">
-                    <span>Coding</span>
-                    <span>Robotics</span>
-                    <span>Design</span>
+
+                  {/* Main headline */}
+                  <h1 className="text-5xl font-black leading-[1.1] tracking-tight lg:text-6xl text-(--text-base)">
+                    Master the Skills to{" "}
+                    <span className="text-[#e8542f] italic">Drive Your Future</span>
+                  </h1>
+
+                  {/* Description */}
+                  <p className="max-w-lg text-lg leading-relaxed text-(--text-muted)">
+                    Empowering the next generation of innovators through project-based
+                    STEM learning that delivers measurable real-world results across
+                    Kenya and beyond.
+                  </p>
+
+                  {/* CTA buttons */}
+                  <div className="flex flex-wrap items-center gap-5 mt-2">
+                    <Link
+                      href="/login"
+                      className="rounded-full bg-[#0d6b5e] px-8 py-4 text-base font-bold text-white shadow-lg shadow-[rgba(13,107,94,0.25)] hover:bg-[#0a5a4f] hover:scale-[1.02] transition-all"
+                    >
+                      Get Started Free
+                    </Link>
+
+                    {/* Play button + label */}
+                    <button className="flex items-center gap-3 group">
+                      <span className="w-14 h-14 rounded-full bg-[#e8542f] flex items-center justify-center text-white shadow-lg shadow-[rgba(232,84,47,0.3)] group-hover:scale-110 transition-transform">
+                        <span className="material-symbols-outlined text-2xl">play_arrow</span>
+                      </span>
+                      <span className="text-sm font-semibold text-(--text-muted) group-hover:text-(--text-base) transition-colors">
+                        Watch Demo
+                      </span>
+                    </button>
                   </div>
                 </div>
-                {/* Floating badge — top right */}
-                <div className="absolute -right-6 -top-6 z-20 h-24 w-24 rounded-xl bg-linear-to-br from-yellow-400 to-orange-500 p-4 shadow-xl rotate-12 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-4xl text-(--text-base)">
-                    workspace_premium
-                  </span>
-                </div>
-                {/* Floating icon — bottom left */}
-                <div className="absolute -bottom-10 -left-10 z-20 h-32 w-32 rounded-xl bg-linear-to-br from-blue-400 to-[#13daec] p-4 shadow-xl -rotate-12 flex items-center justify-center">
-                  <span className="material-symbols-outlined text-5xl text-(--text-base)">science</span>
+
+                {/* Right — Hero Visual */}
+                <div className="relative flex items-center justify-center min-h-[400px]">
+                  {/* Small floating teal dots */}
+                  <div className="absolute top-4 left-8 w-3 h-3 rounded-full bg-[#0d6b5e] opacity-40 animate-float" />
+                  <div className="absolute top-24 right-12 w-2 h-2 rounded-full bg-[#0d6b5e] opacity-30 animate-float-reverse" />
+                  <div className="absolute bottom-16 right-8 w-4 h-4 rounded-full bg-[#e8542f] opacity-30 animate-float-slow" />
+
+                  {/* Student hero image */}
+                  <div className="relative z-10 w-full max-w-md">
+                    <div className="rounded-3xl overflow-hidden shadow-2xl">
+                      <Image
+                        src="/images/logo/hero/hero-student.png"
+                        alt="Student learning STEM"
+                        width={500}
+                        height={600}
+                        className="w-full h-auto object-cover"
+                        priority
+                      />
+                    </div>
+                  </div>
+
+                  {/* Floating badge card — top right */}
+                  <div className="absolute -top-4 -right-4 z-20 rounded-2xl bg-(--bg-card) border border-(--border) p-4 shadow-lg animate-float-slow max-w-[180px]">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="w-8 h-8 rounded-full bg-[#0d6b5e] flex items-center justify-center">
+                        <span className="material-symbols-outlined text-white text-sm">workspace_premium</span>
+                      </span>
+                      <div className="text-xs font-bold text-(--text-base)">Top Rated</div>
+                    </div>
+                    <div className="flex gap-0.5">
+                      {[1,2,3,4,5].map(i => (
+                        <span key={i} className="material-symbols-outlined text-sm text-[#e8542f]">star</span>
+                      ))}
+                    </div>
+                    <div className="text-[10px] text-(--text-muted) mt-1">by 500+ schools</div>
+                  </div>
+
+                  {/* Floating icon — bottom left */}
+                  <div className="absolute -bottom-6 -left-6 z-20 w-16 h-16 rounded-xl bg-[#e8542f] flex items-center justify-center shadow-lg animate-float-reverse">
+                    <span className="material-symbols-outlined text-2xl text-white">trending_up</span>
+                  </div>
+
+                  {/* Floating checkmark — mid left */}
+                  <div className="absolute top-1/3 -left-8 z-20 w-12 h-12 rounded-full bg-[#0d6b5e] flex items-center justify-center shadow-lg animate-float">
+                    <span className="material-symbols-outlined text-xl text-white">check</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -258,7 +257,7 @@ export default function HomePage() {
         </section>
 
         {/* Simple 3-Step Implementation */}
-        <section id="solutions" className="py-24 px-6 bg-[rgba(26,46,48,0.2)] relative">
+        <section id="solutions" className="py-24 px-6 bg-(--bg-surface) relative">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-black text-(--text-base)">Simple 3-Step Implementation</h2>
@@ -267,25 +266,25 @@ export default function HomePage() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-              <div className="hidden md:block absolute top-10 left-0 w-full h-px bg-linear-to-r from-transparent via-[#283739] to-transparent" />
+              <div className="hidden md:block absolute top-10 left-0 w-full h-px bg-linear-to-r from-transparent via-(--border) to-transparent" />
               {[
                 {
                   icon: "school",
-                  borderColor: "#13daec",
+                  borderColor: "#0d6b5e",
                   num: "1",
                   title: "School Onboarding",
                   desc: "Administrators set up the academy dashboard, manage licenses, and define school-wide impact goals.",
                 },
                 {
                   icon: "co_present",
-                  borderColor: "#ff4d4d",
+                  borderColor: "#e8542f",
                   num: "2",
                   title: "Teacher Setup",
                   desc: "Teachers organize classrooms, sync student rosters, and assign curriculum-aligned projects in minutes.",
                 },
                 {
                   icon: "rocket_launch",
-                  borderColor: "#13daec",
+                  borderColor: "#0d6b5e",
                   num: "3",
                   title: "Student Learning",
                   desc: "Students dive into hands-on project guides, building real-world solutions and earning verified badges.",
@@ -322,9 +321,9 @@ export default function HomePage() {
                 Step-by-step guidance for complex project-based learning.
               </p>
             </div>
-            <div className="relative max-w-5xl mx-auto rounded-2xl border border-[#283739] bg-(--bg-card) overflow-hidden shadow-2xl">
+            <div className="relative max-w-5xl mx-auto rounded-2xl border border-(--border) bg-(--bg-card) overflow-hidden shadow-2xl">
               {/* Window chrome */}
-              <div className="bg-[rgba(40,55,57,0.5)] px-6 py-3 flex items-center justify-between border-b border-[#283739]">
+              <div className="bg-(--bg-elevated)/50 px-6 py-3 flex items-center justify-between border-b border-(--border)">
                 <div className="flex items-center gap-4">
                   <div className="flex gap-1.5">
                     <div className="w-3 h-3 rounded-full bg-red-500/50" />
@@ -342,20 +341,20 @@ export default function HomePage() {
               </div>
               <div className="flex flex-col lg:flex-row">
                 {/* Main content */}
-                <div className="flex-1 p-8 lg:p-12 border-r border-[#283739]">
+                <div className="flex-1 p-8 lg:p-12 border-r border-(--border)">
                   <div className="mb-8">
-                    <div className="inline-block px-3 py-1 bg-[rgba(255,77,77,0.15)] text-[#ff4d4d] text-[10px] font-black uppercase tracking-widest rounded mb-4">
+                    <div className="inline-block px-3 py-1 bg-[rgba(232,84,47,0.15)] text-[#e8542f] text-[10px] font-black uppercase tracking-widest rounded mb-4">
                       Step 03: Response Logic
                     </div>
                     <h4 className="text-3xl font-bold text-(--text-base) mb-6">
                       Building the Reply Engine
                     </h4>
-                    <div className="w-full rounded-xl bg-[#0d1b1e] border border-[#283739] overflow-hidden font-mono text-sm">
-                      <div className="flex items-center gap-2 px-4 py-2 bg-(--bg-elevated)/50 border-b border-[#283739]">
+                    <div className="w-full rounded-xl bg-[#1e293b] border border-(--border) overflow-hidden font-mono text-sm">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-[#334155]/50 border-b border-[#334155]">
                         <span className="material-symbols-outlined text-yellow-400 text-sm">
                           javascript
                         </span>
-                        <span className="text-[10px] text-(--text-muted) uppercase tracking-widest">
+                        <span className="text-[10px] text-slate-400 uppercase tracking-widest">
                           chatbot.js
                         </span>
                       </div>
@@ -363,53 +362,53 @@ export default function HomePage() {
                         <div>
                           <span className="text-purple-400">function</span>{" "}
                           <span className="text-yellow-300">getReply</span>
-                          <span className="text-(--text-muted)">(message) {"{"}</span>
+                          <span className="text-slate-400">(message) {"{"}</span>
                         </div>
                         <div className="pl-4">
                           <span className="text-purple-400">const</span>{" "}
                           <span className="text-sky-300">msg</span>{" "}
-                          <span className="text-(--text-muted)">=</span>{" "}
-                          <span className="text-(--text-muted)">message.</span>
+                          <span className="text-slate-400">=</span>{" "}
+                          <span className="text-slate-400">message.</span>
                           <span className="text-yellow-300">toLowerCase</span>
-                          <span className="text-(--text-muted)">();</span>
+                          <span className="text-slate-400">();</span>
                         </div>
                         <div className="pl-4 mt-2">
                           <span className="text-purple-400">if</span>{" "}
-                          <span className="text-(--text-muted)">(msg.</span>
+                          <span className="text-slate-400">(msg.</span>
                           <span className="text-yellow-300">includes</span>
-                          <span className="text-(--text-muted)">(</span>
+                          <span className="text-slate-400">(</span>
                           <span className="text-green-400">&quot;hello&quot;</span>
-                          <span className="text-(--text-muted)">))</span>
+                          <span className="text-slate-400">))</span>
                         </div>
                         <div className="pl-8">
                           <span className="text-purple-400">return</span>{" "}
                           <span className="text-green-400">
                             &quot;Hi there! How can I help?&quot;
                           </span>
-                          <span className="text-(--text-muted)">;</span>
+                          <span className="text-slate-400">;</span>
                         </div>
                         <div className="pl-4">
                           <span className="text-purple-400">if</span>{" "}
-                          <span className="text-(--text-muted)">(msg.</span>
+                          <span className="text-slate-400">(msg.</span>
                           <span className="text-yellow-300">includes</span>
-                          <span className="text-(--text-muted)">(</span>
+                          <span className="text-slate-400">(</span>
                           <span className="text-green-400">&quot;weather&quot;</span>
-                          <span className="text-(--text-muted)">))</span>
+                          <span className="text-slate-400">))</span>
                         </div>
                         <div className="pl-8">
                           <span className="text-purple-400">return</span>{" "}
                           <span className="text-green-400">
                             &quot;Nairobi is sunny today!&quot;
                           </span>
-                          <span className="text-(--text-muted)">;</span>
+                          <span className="text-slate-400">;</span>
                         </div>
                         <div className="pl-4 mt-2">
                           <span className="text-purple-400">return</span>{" "}
                           <span className="text-green-400">&quot;Tell me more!&quot;</span>
-                          <span className="text-(--text-muted)">;</span>
+                          <span className="text-slate-400">;</span>
                         </div>
                         <div>
-                          <span className="text-(--text-muted)">{"}"}</span>
+                          <span className="text-slate-400">{"}"}</span>
                         </div>
                       </div>
                     </div>
@@ -417,23 +416,23 @@ export default function HomePage() {
                   <p className="text-(--text-muted) leading-relaxed mb-6">
                     Create a function that reads the user&apos;s message and returns a matching
                     reply. Use{" "}
-                    <code className="text-[#13daec] bg-[#13daec]/10 px-1.5 py-0.5 rounded text-xs">
+                    <code className="text-[#0d6b5e] bg-[rgba(13,107,94,0.1)] px-1.5 py-0.5 rounded text-xs">
                       includes()
                     </code>{" "}
                     to check for keywords and build branching logic that gives your chatbot
                     personality.
                   </p>
                   <div className="flex gap-4">
-                    <button className="px-6 py-2 bg-(--bg-elevated) text-(--text-base) font-bold rounded-lg text-sm hover:bg-slate-700 transition-colors">
+                    <button className="px-6 py-2 bg-(--bg-elevated) text-(--text-base) font-bold rounded-lg text-sm hover:brightness-110 transition-all">
                       Previous Step
                     </button>
-                    <button className="px-6 py-2 bg-[#13daec] text-[#102022] font-bold rounded-lg text-sm hover:brightness-110 transition-all">
+                    <button className="px-6 py-2 bg-[#0d6b5e] text-white font-bold rounded-lg text-sm hover:bg-[#0a5a4f] transition-all">
                       Mark as Complete
                     </button>
                   </div>
                 </div>
                 {/* Sidebar navigation */}
-                <div className="w-full lg:w-72 bg-[rgba(16,32,34,0.3)] p-6">
+                <div className="w-full lg:w-72 bg-(--bg-surface) p-6">
                   <h5 className="text-xs font-black uppercase text-(--text-faint) tracking-widest mb-6">
                     Course Navigation
                   </h5>
@@ -443,7 +442,7 @@ export default function HomePage() {
                       { num: "02", label: "HTML Chat UI" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3 opacity-50">
-                        <span className="material-symbols-outlined text-[#13daec] text-sm">
+                        <span className="material-symbols-outlined text-[#0d6b5e] text-sm">
                           check_circle
                         </span>
                         <div className="text-xs text-(--text-muted)">
@@ -452,7 +451,7 @@ export default function HomePage() {
                       </div>
                     ))}
                     <div className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full border border-[#ff4d4d] flex items-center justify-center text-[10px] text-[#ff4d4d] font-bold shrink-0">
+                      <span className="w-5 h-5 rounded-full border border-[#e8542f] flex items-center justify-center text-[10px] text-[#e8542f] font-bold shrink-0">
                         03
                       </span>
                       <div className="text-xs text-(--text-base) font-bold">Response Logic</div>
@@ -463,18 +462,18 @@ export default function HomePage() {
                       { num: "06", label: "Deploy & Share" },
                     ].map(({ num, label }) => (
                       <div key={num} className="flex items-start gap-3">
-                        <span className="w-5 h-5 rounded-full border border-[#283739] flex items-center justify-center text-[10px] text-(--text-faint) font-bold shrink-0">
+                        <span className="w-5 h-5 rounded-full border border-(--border) flex items-center justify-center text-[10px] text-(--text-faint) font-bold shrink-0">
                           {num}
                         </span>
                         <div className="text-xs text-(--text-faint)">{label}</div>
                       </div>
                     ))}
-                    <div className="pt-6 border-t border-[#283739] mt-6">
-                      <div className="p-4 rounded-lg bg-(--bg-card) border border-[#283739] text-center">
-                        <div className="text-[10px] font-black uppercase text-[#13daec] mb-2">
+                    <div className="pt-6 border-t border-(--border) mt-6">
+                      <div className="p-4 rounded-lg bg-(--bg-card) border border-(--border) text-center">
+                        <div className="text-[10px] font-black uppercase text-[#0d6b5e] mb-2">
                           Next Badge
                         </div>
-                        <div className="text-xs font-bold text-slate-200">JS Developer I</div>
+                        <div className="text-xs font-bold text-(--text-base)">JS Developer I</div>
                       </div>
                     </div>
                   </div>
@@ -485,41 +484,41 @@ export default function HomePage() {
         </section>
 
         {/* Google Classroom Integration */}
-        <section className="py-24 px-6 bg-[rgba(26,46,48,0.4)] border-y border-[#283739]">
+        <section className="py-24 px-6 bg-(--bg-surface) border-y border-(--border)">
           <div className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               {/* Left — animated sync visual */}
               <div className="order-2 lg:order-1 relative">
-                <div className="relative bg-(--bg-page) rounded-3xl p-8 border border-[#283739] shadow-2xl overflow-hidden">
-                  <div className="absolute inset-0 bg-[rgba(19,218,236,0.05)]" />
+                <div className="relative bg-(--bg-page) rounded-3xl p-8 border border-(--border) shadow-2xl overflow-hidden">
+                  <div className="absolute inset-0 bg-[rgba(13,107,94,0.05)]" />
                   <div className="relative z-10 flex flex-col items-center">
                     <div className="flex items-center gap-12 mb-12">
                       <div className="w-20 h-20 rounded-2xl bg-white p-3 shadow-xl flex items-center justify-center">
-                        <div className="w-full h-full bg-emerald-600 rounded flex items-center justify-center text-(--text-base) font-black text-2xl">
+                        <div className="w-full h-full bg-emerald-600 rounded flex items-center justify-center text-white font-black text-2xl">
                           G
                         </div>
                       </div>
                       <div className="flex flex-col items-center">
                         <div className="w-12 h-0.5 bg-(--bg-elevated) relative">
-                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#13daec] flex items-center justify-center shadow-lg shadow-[rgba(19,218,236,0.4)]">
-                            <span className="material-symbols-outlined text-xs font-bold text-[#102022]">
+                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-[#0d6b5e] flex items-center justify-center shadow-lg shadow-[rgba(13,107,94,0.4)]">
+                            <span className="material-symbols-outlined text-xs font-bold text-white">
                               sync
                             </span>
                           </div>
                         </div>
                       </div>
-                      <div className="w-20 h-20 rounded-2xl bg-(--bg-card) border border-[#13daec] p-4 shadow-xl flex items-center justify-center">
-                        <span className="material-symbols-outlined text-[#13daec] text-3xl">
+                      <div className="w-20 h-20 rounded-2xl bg-(--bg-card) border border-[#0d6b5e] p-4 shadow-xl flex items-center justify-center">
+                        <span className="material-symbols-outlined text-[#0d6b5e] text-3xl">
                           token
                         </span>
                       </div>
                     </div>
                     <div className="w-full space-y-4">
-                      <div className="h-10 w-full rounded-lg bg-[rgba(40,55,57,0.3)] animate-pulse" />
-                      <div className="h-10 w-3/4 rounded-lg bg-[rgba(40,55,57,0.3)] animate-pulse" />
-                      <div className="h-10 w-full rounded-lg bg-[rgba(40,55,57,0.3)] animate-pulse" />
+                      <div className="h-10 w-full rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
+                      <div className="h-10 w-3/4 rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
+                      <div className="h-10 w-full rounded-lg bg-(--bg-elevated)/30 animate-pulse" />
                     </div>
-                    <button className="mt-8 px-8 py-3 bg-[#13daec] text-[#102022] font-black rounded-xl shadow-lg shadow-[rgba(19,218,236,0.2)] hover:scale-105 transition-transform flex items-center gap-3">
+                    <button className="mt-8 px-8 py-3 bg-[#0d6b5e] text-white font-black rounded-xl shadow-lg shadow-[rgba(13,107,94,0.2)] hover:scale-105 transition-transform flex items-center gap-3">
                       <span className="material-symbols-outlined text-lg">touch_app</span>
                       One-click Sync
                     </button>
@@ -528,7 +527,7 @@ export default function HomePage() {
               </div>
               {/* Right — text */}
               <div className="order-1 lg:order-2 flex flex-col gap-6">
-                <div className="w-12 h-12 rounded-xl bg-[rgba(19,218,236,0.2)] flex items-center justify-center text-[#13daec]">
+                <div className="w-12 h-12 rounded-xl bg-[rgba(13,107,94,0.15)] flex items-center justify-center text-[#0d6b5e]">
                   <span className="material-symbols-outlined">sync_alt</span>
                 </div>
                 <h2 className="text-4xl font-black text-(--text-base)">
@@ -544,8 +543,8 @@ export default function HomePage() {
                     "Single Sign-On (SSO) Support",
                     "Direct Gradebook Export",
                   ].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-slate-200 font-bold">
-                      <span className="material-symbols-outlined text-[#13daec]">
+                    <li key={item} className="flex items-center gap-3 text-(--text-base) font-bold">
+                      <span className="material-symbols-outlined text-[#0d6b5e]">
                         verified_user
                       </span>
                       {item}
@@ -558,34 +557,34 @@ export default function HomePage() {
         </section>
 
         {/* Recognized Achievement System */}
-        <section className="bg-[rgba(26,46,48,0.3)] py-20 px-6">
+        <section className="bg-(--bg-page) py-20 px-6">
           <div className="mx-auto max-w-7xl">
             <div className="mb-12 flex flex-col items-center text-center">
               <h2 className="text-3xl font-bold text-(--text-base)">Recognized Achievement System</h2>
-              <div className="mt-4 h-1 w-20 bg-[#13daec]" />
+              <div className="mt-4 h-1 w-20 bg-[#0d6b5e]" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
                   icon: "code_blocks",
-                  color: "#13daec",
-                  hoverBorder: "hover:border-[rgba(19,218,236,0.5)]",
+                  color: "#0d6b5e",
+                  hoverBorder: "hover:border-[rgba(13,107,94,0.5)]",
                   title: "Master Architect",
                   desc: "Advanced proficiency in computational thinking and structural logic.",
                   count: "12,403 Earned",
                 },
                 {
                   icon: "eco",
-                  color: "#ff4d4d",
-                  hoverBorder: "hover:border-[rgba(255,77,77,0.5)]",
+                  color: "#e8542f",
+                  hoverBorder: "hover:border-[rgba(232,84,47,0.5)]",
                   title: "Green Innovator",
                   desc: "Demonstrated impact in sustainable engineering and environmental solutions.",
                   count: "8,912 Earned",
                 },
                 {
                   icon: "precision_manufacturing",
-                  color: "#13daec",
-                  hoverBorder: "hover:border-[rgba(19,218,236,0.5)]",
+                  color: "#0d6b5e",
+                  hoverBorder: "hover:border-[rgba(13,107,94,0.5)]",
                   title: "Robotics Lead",
                   desc: "Expertise in automated systems and mechanical design principles.",
                   count: "5,667 Earned",
@@ -593,7 +592,7 @@ export default function HomePage() {
               ].map(({ icon, color, hoverBorder, title, desc, count }) => (
                 <div
                   key={title}
-                  className={`flex flex-col items-center rounded-xl bg-(--bg-card) p-8 border border-[#283739] text-center transition-all group ${hoverBorder}`}
+                  className={`flex flex-col items-center rounded-xl bg-(--bg-card) p-8 border border-(--border) text-center transition-all group ${hoverBorder}`}
                 >
                   <div
                     className="mb-6 rounded-full p-4 group-hover:scale-110 transition-transform"
@@ -617,7 +616,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#283739] bg-(--bg-page) px-6 py-12">
+      <footer className="border-t border-(--border) bg-(--bg-page) px-6 py-12">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12">
             <div className="max-w-xs">
@@ -664,11 +663,11 @@ export default function HomePage() {
                 },
               ].map(({ heading, links }) => (
                 <div key={heading}>
-                  <h4 className="font-bold text-slate-200 mb-4">{heading}</h4>
+                  <h4 className="font-bold text-(--text-base) mb-4">{heading}</h4>
                   <ul className="space-y-2 text-sm text-(--text-faint)">
                     {links.map((link) => (
                       <li key={link.label}>
-                        <Link href={link.href} className="hover:text-[#13daec] transition-colors">
+                        <Link href={link.href} className="hover:text-[#0d6b5e] transition-colors">
                           {link.label}
                         </Link>
                       </li>
@@ -678,7 +677,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <div className="mt-12 border-t border-[#283739] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="mt-12 border-t border-(--border) pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-xs text-(--text-faint)">
               &copy; {new Date().getFullYear()} STEM Impact Academy. All rights reserved.
             </p>
@@ -687,13 +686,13 @@ export default function HomePage() {
                 href="https://stemimpactcenterkenya.org"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-(--text-faint) hover:text-[#13daec] transition-colors"
+                className="text-(--text-faint) hover:text-[#0d6b5e] transition-colors"
               >
                 <span className="material-symbols-outlined">public</span>
               </a>
               <Link
                 href="/contact"
-                className="text-(--text-faint) hover:text-[#13daec] transition-colors"
+                className="text-(--text-faint) hover:text-[#0d6b5e] transition-colors"
               >
                 <span className="material-symbols-outlined">alternate_email</span>
               </Link>
